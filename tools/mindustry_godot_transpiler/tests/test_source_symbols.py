@@ -151,6 +151,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumer_entry["canonical_reference_key"], "canonical_ledger")
         self.assertEqual(consumer_entry["canonical_reference_prefix"], "source_slice_ledger.")
         self.assertIn("java_method", consumer_entry["mirror_fields"])
+
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+        consumer_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")["slices"]
+        expected_slice_ids = {
+            slice_id
+            for slice_id, slice_entry in canonical_slices.items()
+            if "/world/consumers/" in slice_entry["java_source"]
+        }
+        self.assertEqual(set(consumer_slices), expected_slice_ids)
+        for slice_id in sorted(expected_slice_ids):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(consumer_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
+                for field in consumer_entry["mirror_fields"]:
+                    self.assertEqual(consumer_slices[slice_id][field], canonical_slices[slice_id][field])
+
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
         consumer_report = [entry for entry in report["modules"] if entry["name"] == "consumer_slices"][0]
         self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "slice_ledger")

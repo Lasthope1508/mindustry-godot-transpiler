@@ -2,9 +2,1903 @@
   "version": 1,
   "policy": {
     "canonicalOwner": "source_api_contracts",
-    "newConsumerApiContractRequiresCanonicalMirror": true
+    "newConsumerApiContractRequiresCanonicalMirror": true,
+    "source": "Derived from consumer_slices.godot_owner and canonical source_api_contracts."
   },
   "contracts": {
+    "PortGame.source_consume_power_requested_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_requested_power_state",
+      "status": "active",
+      "source_slice": "N889",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "requestedPower(Building entity)",
+      "params": [
+        {
+          "name": "buffered",
+          "schema": "source_consume_power_requested_power_input.buffered",
+          "type": "bool"
+        },
+        {
+          "name": "usage",
+          "schema": "source_consume_power_requested_power_input.usage",
+          "type": "float"
+        },
+        {
+          "name": "capacity",
+          "schema": "source_consume_power_requested_power_input.capacity",
+          "type": "float"
+        },
+        {
+          "name": "power_status",
+          "schema": "source_consume_power_requested_power_input.power_status",
+          "type": "float"
+        },
+        {
+          "name": "should_consume",
+          "schema": "source_consume_power_requested_power_input.should_consume",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "usage",
+        "capacity",
+        "power_status",
+        "should_consume",
+        "requested_power",
+        "buffered_expr",
+        "unbuffered_expr"
+      ],
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_requested_power_state",
+      "rule": "Public runtime contract for ConsumePower.requestedPower(Building) and PowerGraph.getPowerNeeded() aggregate state with explicit consumer inputs."
+    },
+    "PortGame.source_consume_power_ignore_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_ignore_state",
+      "status": "active",
+      "source_slice": "N1425",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "ignore()",
+      "params": [
+        {
+          "java_expr": "buffered",
+          "name": "buffered",
+          "schema": "source_consume_power_ignore_input.buffered",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "ignore",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_power_ignore_bridge_state",
+        "test_consume_power_ignore_matches_upstream_source",
+        "test_generated_consume_power_ignore_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_ignore_state",
+      "rule": "Public runtime contract for ConsumePower.ignore() with explicit buffered input."
+    },
+    "PortGame.source_consume_power_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_efficiency_state",
+      "status": "active",
+      "source_slice": "N1426",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "java_expr": "build.power.status",
+          "name": "power_status",
+          "schema": "source_consume_power_efficiency_input.power_status",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "power_status",
+        "efficiency",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_efficiency_state",
+      "rule": "Public runtime contract for ConsumePower.efficiency(Building) with explicit build.power.status input."
+    },
+    "PortGame.source_consume_power_condition_requested_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_condition_requested_power_state",
+      "status": "active",
+      "source_slice": "N1427",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "source_method": "requestedPower(Building entity)",
+      "params": [
+        {
+          "java_expr": "usage",
+          "name": "usage",
+          "schema": "source_consume_power_condition_requested_power_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "consume.get(entity)",
+          "name": "consume_get",
+          "schema": "source_consume_power_condition_requested_power_input.consume_get",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "usage",
+        "consume_get",
+        "requested_power",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_condition_requested_power_state",
+      "rule": "Public runtime contract for ConsumePowerCondition.requestedPower(Building) with explicit usage and consume.get(entity) inputs."
+    },
+    "PortGame.source_consume_power_dynamic_requested_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_dynamic_requested_power_state",
+      "status": "active",
+      "source_slice": "N1428",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "source_method": "requestedPower(Building entity)",
+      "params": [
+        {
+          "java_expr": "usage.get(entity)",
+          "name": "usage_get",
+          "schema": "source_consume_power_dynamic_requested_power_input.usage_get",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "usage_get",
+        "requested_power",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_requested_power_bridge_state",
+        "test_consume_power_dynamic_requested_power_matches_upstream_source",
+        "test_generated_consume_power_dynamic_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_requested_power_state",
+      "rule": "Public runtime contract for ConsumePowerDynamic.requestedPower(Building) with explicit usage.get(entity) input."
+    },
+    "PortGame.source_consume_power_dynamic_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_dynamic_display_state",
+      "status": "active",
+      "source_slice": "N1429",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "java_expr": "displayedPowerUsage",
+          "name": "displayed_power_usage",
+          "schema": "source_consume_power_dynamic_display_input.displayed_power_usage",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "displayed_power_usage",
+        "display_guard",
+        "stats_add_called",
+        "power_use_value",
+        "stats_add_call",
+        "guard_expr",
+        "stats_add_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_display_state",
+      "rule": "Public runtime contract for ConsumePowerDynamic.display(Stats) with explicit displayedPowerUsage input and source stat-add record."
+    },
+    "PortGame.source_consume_power_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_power_display_state",
+      "status": "active",
+      "source_slice": "N1430",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "java_expr": "buffered",
+          "name": "buffered",
+          "schema": "source_consume_power_display_input.buffered",
+          "type": "bool"
+        },
+        {
+          "java_expr": "usage",
+          "name": "usage",
+          "schema": "source_consume_power_display_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "capacity",
+          "name": "capacity",
+          "schema": "source_consume_power_display_input.capacity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "usage",
+        "capacity",
+        "buffered_guard",
+        "usage_guard",
+        "stats_add_called",
+        "power_use_value",
+        "stats_add_call",
+        "buffered_guard_expr",
+        "usage_guard_expr",
+        "capacity_stats_add_expr",
+        "usage_stats_add_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_display_bridge_state",
+        "test_consume_power_display_matches_upstream_source",
+        "test_generated_consume_power_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_display_state",
+      "rule": "Public runtime contract for ConsumePower.display(Stats) with explicit ConsumePower field inputs and source stat-add record."
+    },
+    "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1431",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "params": [
+        {
+          "java_expr": "item.flammability",
+          "name": "item_flammability",
+          "schema": "source_consume_item_flammable_item_efficiency_multiplier_input.item_flammability",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_flammability",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_flammability_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_flammable_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_flammable_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_item_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeItemFlammable.itemEfficiencyMultiplier(Item) with explicit item.flammability input."
+    },
+    "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1432",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "params": [
+        {
+          "java_expr": "item.explosiveness",
+          "name": "item_explosiveness",
+          "schema": "source_consume_item_explosive_item_efficiency_multiplier_input.item_explosiveness",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_explosiveness",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_explosiveness_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_explosive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeItemExplosive.itemEfficiencyMultiplier(Item) with explicit item.explosiveness input."
+    },
+    "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1433",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "params": [
+        {
+          "java_expr": "item.radioactivity",
+          "name": "item_radioactivity",
+          "schema": "source_consume_item_radioactive_item_efficiency_multiplier_input.item_radioactivity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_radioactivity",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_radioactivity_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeItemRadioactive.itemEfficiencyMultiplier(Item) with explicit item.radioactivity input."
+    },
+    "PortGame.source_consume_item_charged_item_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_charged_item_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1434",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "params": [
+        {
+          "java_expr": "item.charge",
+          "name": "item_charge",
+          "schema": "source_consume_item_charged_item_efficiency_multiplier_input.item_charge",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_charge",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_charge_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_charged_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_charged_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_charged_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_item_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeItemCharged.itemEfficiencyMultiplier(Item) with explicit item.charge input."
+    },
+    "PortGame.source_consume_item_filter_item_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1435",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "params": [],
+      "return_keys": [
+        "method",
+        "efficiency_multiplier",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_item_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeItemFilter.itemEfficiencyMultiplier(Item) constant return."
+    },
+    "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1436",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "source_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "params": [
+        {
+          "java_expr": "liquid.flammability",
+          "name": "liquid_flammability",
+          "schema": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "liquid_flammability",
+        "efficiency_multiplier",
+        "return_expr",
+        "liquid_flammability_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeLiquidFlammable.liquidEfficiencyMultiplier(Liquid) with explicit liquid.flammability input."
+    },
+    "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "status": "active",
+      "source_slice": "N1437",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "params": [],
+      "return_keys": [
+        "method",
+        "efficiency_multiplier",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "rule": "Public runtime contract for ConsumeLiquidFilter.liquidEfficiencyMultiplier(Liquid) constant return."
+    },
+    "PortGame.source_consume_liquid_base_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_base_apply_state",
+      "status": "active",
+      "source_slice": "N1438",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before apply(Block block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquid_base_apply_input.block_has_liquids_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "assignment_expr",
+        "block_has_liquids_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state",
+        "test_consume_liquid_base_apply_matches_upstream_source",
+        "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_apply_state",
+      "rule": "Public runtime contract for ConsumeLiquidBase.apply(Block) Block.hasLiquids assignment."
+    },
+    "PortGame.source_consume_liquid_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_apply_state",
+      "status": "active",
+      "source_slice": "N1439",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before super.apply(block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquid_apply_input.block_has_liquids_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "block.liquidFilter before apply(Block block)",
+          "name": "liquid_filter_before",
+          "schema": "source_consume_liquid_apply_input.liquid_filter_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "liquid.id",
+          "name": "liquid_id",
+          "schema": "source_consume_liquid_apply_input.liquid_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "super_apply_expr",
+        "liquid_filter_assignment_expr",
+        "block_liquid_filter_field",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "base_apply_state",
+        "liquid_filter_before",
+        "liquid_id",
+        "liquid_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_apply_bridge_state",
+        "test_consume_liquid_apply_matches_upstream_source",
+        "test_generated_consume_liquid_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_apply_state",
+      "rule": "Public runtime contract for ConsumeLiquid.apply(Block) super apply and liquidFilter assignment."
+    },
+    "PortGame.source_consume_liquid_consumes_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_consumes_state",
+      "status": "active",
+      "source_slice": "N1440",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "consumes(Liquid liquid)",
+      "params": [
+        {
+          "java_expr": "liquid == this.liquid",
+          "name": "liquid_matches_self_liquid",
+          "schema": "source_consume_liquid_consumes_input.liquid_matches_self_liquid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "liquid_field",
+        "liquid_matches_self_liquid",
+        "consumes_liquid",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_consumes_state",
+      "rule": "Public runtime contract for ConsumeLiquid.consumes(Liquid) identity comparison."
+    },
+    "PortGame.source_consume_liquid_filter_consumes_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_consumes_state",
+      "status": "active",
+      "source_slice": "N1441",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "consumes(Liquid liquid)",
+      "params": [
+        {
+          "java_expr": "filter.get(liquid)",
+          "name": "filter_get_liquid",
+          "schema": "source_consume_liquid_filter_consumes_input.filter_get_liquid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "filter_field",
+        "filter_get_liquid",
+        "consumes_liquid",
+        "return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_consumes_state",
+      "rule": "Public runtime contract for ConsumeLiquidFilter.consumes(Liquid) filter predicate return."
+    },
+    "PortGame.source_consume_liquids_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_apply_state",
+      "status": "active",
+      "source_slice": "N1442",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before apply(Block block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquids_apply_input.block_has_liquids_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "block.liquidFilter before apply(Block block)",
+          "name": "liquid_filter_before",
+          "schema": "source_consume_liquids_apply_input.liquid_filter_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_apply_input.liquid_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "has_liquids_assignment_expr",
+        "loop_expr",
+        "liquid_filter_assignment_expr",
+        "block_liquid_filter_field",
+        "liquids_field",
+        "liquid_stack_liquid_field",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "liquid_filter_before",
+        "liquid_ids",
+        "liquid_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "rule": "Public runtime contract for ConsumeLiquids.apply(Block) liquid filter setup."
+    },
+    "PortGame.source_consume_liquids_dynamic_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_apply_state",
+      "status": "active",
+      "source_slice": "N1443",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before apply(Block block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquids_dynamic_apply_input.block_has_liquids_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "assignment_expr",
+        "liquids_field",
+        "block_has_liquids_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_apply_bridge_state",
+        "test_consume_liquids_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_apply_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.apply(Block) Block.hasLiquids assignment."
+    },
+    "PortGame.source_consume_liquids_dynamic_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_update_state",
+      "status": "active",
+      "source_slice": "N1444",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "update(Building build)",
+      "params": [
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_dynamic_update_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "liquid_stack_amounts",
+          "schema": "source_consume_liquids_dynamic_update_input.liquid_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.edelta()",
+          "name": "build_edelta",
+          "schema": "source_consume_liquids_dynamic_update_input.build_edelta",
+          "type": "float"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_liquids_dynamic_update_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "multiplier_expr",
+        "loop_expr",
+        "remove_expr",
+        "liquids_field",
+        "multiplier_field",
+        "liquid_stack_liquid_field",
+        "liquid_stack_amount_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "liquid_ids",
+        "liquid_stack_amounts",
+        "build_edelta",
+        "multiplier_get_build",
+        "remove_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.update(Building) remove call formula."
+    },
+    "PortGame.source_consume_liquids_dynamic_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_efficiency_state",
+      "status": "active",
+      "source_slice": "N1445",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_dynamic_efficiency_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "liquid_stack_amounts",
+          "schema": "source_consume_liquids_dynamic_efficiency_input.liquid_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids.get(stack.liquid)",
+          "name": "liquid_amounts",
+          "schema": "source_consume_liquids_dynamic_efficiency_input.liquid_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.edelta()",
+          "name": "build_edelta",
+          "schema": "source_consume_liquids_dynamic_efficiency_input.build_edelta",
+          "type": "float"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_liquids_dynamic_efficiency_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "ed_expr",
+        "ed_guard_expr",
+        "liquids_field",
+        "multiplier_field",
+        "liquid_stack_liquid_field",
+        "liquid_stack_amount_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "liquid_ids",
+        "liquid_stack_amounts",
+        "liquid_amounts",
+        "build_edelta",
+        "multiplier_get_build",
+        "ed",
+        "min_initial_expr",
+        "loop_expr",
+        "efficiency_expr",
+        "return_expr",
+        "per_stack_efficiencies",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_efficiency_bridge_state",
+        "test_consume_liquids_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_efficiency_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.efficiency(Building) ed guard and per-stack minimum formula."
+    },
+    "PortGame.source_consume_liquids_dynamic_rebuild_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "status": "active",
+      "source_slice": "N1446",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "rebuild(Building build, Table table)",
+      "params": [
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids.get(stack.liquid)",
+          "name": "liquid_amounts",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.liquid_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids != null",
+          "name": "building_has_liquids",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.building_has_liquids",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "clear_expr",
+        "i_initial_expr",
+        "loop_expr",
+        "add_expr",
+        "row_expr",
+        "liquids_field",
+        "liquid_stack_liquid_field",
+        "liquid_ui_icon_field",
+        "building_liquids_field",
+        "liquid_module_get",
+        "req_image_constructor",
+        "req_image_valid",
+        "vars_icon_med",
+        "liquid_ids",
+        "liquid_amounts",
+        "building_has_liquids",
+        "req_images",
+        "row_calls",
+        "cleared"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.rebuild(Building, Table) ReqImage and row state."
+    },
+    "PortGame.source_consume_liquids_dynamic_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_build_state",
+      "status": "active",
+      "source_slice": "N1447",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "java_expr": "LiquidStack[][] current = {liquids.get(build)};",
+          "name": "current_liquid_ids",
+          "schema": "source_consume_liquids_dynamic_build_input.current_liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "liquids.get(build)",
+          "name": "next_liquid_ids",
+          "schema": "source_consume_liquids_dynamic_build_input.next_liquid_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "current_expr",
+        "table_expr",
+        "update_expr",
+        "changed_expr",
+        "rebuild_expr",
+        "assignment_expr",
+        "liquids_field",
+        "table_cons_method",
+        "table_cons_get",
+        "table_add",
+        "element_update",
+        "element_update_assignment",
+        "current_liquid_ids",
+        "next_liquid_ids",
+        "liquid_ids_changed",
+        "rebuild_calls",
+        "current_liquid_ids_after_update",
+        "table_cell_created",
+        "update_registered"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_build_bridge_state",
+        "test_consume_liquids_dynamic_build_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_build_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.build(Building, Table) table update and rebuild scheduling state."
+    },
+    "PortGame.source_consume_liquids_dynamic_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_dynamic_constructor_state",
+      "status": "active",
+      "source_slice": "N1448",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "source_method": "ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids)",
+      "params": [
+        {
+          "java_expr": "Func<T, LiquidStack[]> liquids",
+          "name": "liquids",
+          "schema": "source_consume_liquids_dynamic_constructor_input.liquids",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "suppress_warnings_expr",
+        "assignment_expr",
+        "cast_expr",
+        "func_interface",
+        "func_get_expr",
+        "liquids",
+        "liquids_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_constructor_state",
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids) unchecked Func cast assignment state."
+    },
+    "PortGame.source_consume_liquid_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_update_state",
+      "status": "active",
+      "source_slice": "N1449",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "update(Building build)",
+      "params": [
+        {
+          "java_expr": "liquid",
+          "name": "liquid_id",
+          "schema": "source_consume_liquid_update_input.liquid_id",
+          "type": "int"
+        },
+        {
+          "java_expr": "amount",
+          "name": "amount",
+          "schema": "source_consume_liquid_update_input.amount",
+          "type": "float"
+        },
+        {
+          "java_expr": "build.edelta()",
+          "name": "build_edelta",
+          "schema": "source_consume_liquid_update_input.build_edelta",
+          "type": "float"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_liquid_update_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "remove_expr",
+        "liquid_field",
+        "amount_field",
+        "multiplier_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "liquid_id",
+        "amount",
+        "build_edelta",
+        "multiplier_get_build",
+        "remove_amount"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "rule": "Public runtime contract for ConsumeLiquid.update(Building) liquid removal amount formula."
+    },
+    "PortGame.source_consume_item_dynamic_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_constructor_state",
+      "status": "active",
+      "source_slice": "N1450",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "params": [
+        {
+          "java_expr": "Func<T, ItemStack[]> items",
+          "name": "items",
+          "schema": "source_consume_item_dynamic_constructor_input.items",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "suppress_warnings_expr",
+        "assignment_expr",
+        "cast_expr",
+        "func_interface",
+        "func_get_expr",
+        "items",
+        "items_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic(Func<T, ItemStack[]> items) unchecked Func cast assignment state."
+    },
+    "PortGame.source_consume_item_dynamic_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_apply_state",
+      "status": "active",
+      "source_slice": "N1451",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "java_expr": "block.hasItems before apply(Block block)",
+          "name": "block_has_items_before",
+          "schema": "source_consume_item_dynamic_apply_input.block_has_items_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "block.acceptsItems before apply(Block block)",
+          "name": "block_accepts_items_before",
+          "schema": "source_consume_item_dynamic_apply_input.block_accepts_items_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "items_field",
+        "has_items_assignment_expr",
+        "accepts_items_assignment_expr",
+        "block_has_items_field",
+        "block_accepts_items_field",
+        "block_has_items_before",
+        "block_accepts_items_before",
+        "block_has_items_after",
+        "block_accepts_items_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic.apply(Block) Block item flag assignments."
+    },
+    "PortGame.source_consume_item_dynamic_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_build_state",
+      "status": "active",
+      "source_slice": "N1452",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "java_expr": "ItemStack[][] current = {items.get(build)};",
+          "name": "current_item_ids",
+          "schema": "source_consume_item_dynamic_build_input.current_item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "items.get(build)",
+          "name": "next_item_ids",
+          "schema": "source_consume_item_dynamic_build_input.next_item_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "current_expr",
+        "table_expr",
+        "update_expr",
+        "changed_expr",
+        "rebuild_expr",
+        "assignment_expr",
+        "items_field",
+        "table_cons_method",
+        "table_cons_get",
+        "table_add",
+        "element_update",
+        "element_update_assignment",
+        "current_item_ids",
+        "next_item_ids",
+        "item_ids_changed",
+        "rebuild_calls",
+        "current_item_ids_after_update",
+        "table_cell_created",
+        "update_registered"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic.build(Building, Table) table update and rebuild scheduling state."
+    },
+    "PortGame.source_consume_item_dynamic_trigger_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_trigger_state",
+      "status": "active",
+      "source_slice": "N1453",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "trigger(Building build)",
+      "params": [
+        {
+          "java_expr": "stack.item",
+          "name": "item_ids",
+          "schema": "source_consume_item_dynamic_trigger_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "item_stack_amounts",
+          "schema": "source_consume_item_dynamic_trigger_input.item_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_item_dynamic_trigger_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "loop_expr",
+        "remove_expr",
+        "round_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "building_items_field",
+        "item_module_remove_method",
+        "item_module_remove_clamp",
+        "item_ids",
+        "item_stack_amounts",
+        "multiplier_get_build",
+        "remove_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_trigger_bridge_state",
+        "test_consume_item_dynamic_trigger_matches_upstream_source",
+        "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_trigger_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic.trigger(Building) item removal call state."
+    },
+    "PortGame.source_consume_item_dynamic_rebuild_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_rebuild_state",
+      "status": "active",
+      "source_slice": "N1454",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "rebuild(Building build, Table table)",
+      "params": [
+        {
+          "java_expr": "stack.item",
+          "name": "item_ids",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "item_stack_amounts",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+          "name": "item_amounts",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.items != null",
+          "name": "building_has_items",
+          "schema": "source_consume_item_dynamic_rebuild_input.building_has_items",
+          "type": "bool"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_item_dynamic_rebuild_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "clear_expr",
+        "i_initial_expr",
+        "loop_expr",
+        "add_expr",
+        "row_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "building_items_field",
+        "item_module_has_expr",
+        "stat_values_stack_expr",
+        "req_image_constructor",
+        "req_image_valid_expr",
+        "cell_pad_right_expr",
+        "cell_left_expr",
+        "item_ids",
+        "item_stack_amounts",
+        "item_amounts",
+        "building_has_items",
+        "multiplier_get_build",
+        "req_images",
+        "row_calls",
+        "cleared"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic.rebuild(Building, Table) dynamic item ReqImage state."
+    },
+    "PortGame.source_consume_item_dynamic_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_dynamic_efficiency_state",
+      "status": "active",
+      "source_slice": "N1455",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "java_expr": "build.consumeTriggerValid()",
+          "name": "consume_trigger_valid",
+          "schema": "source_consume_item_dynamic_efficiency_input.consume_trigger_valid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "stack.item.id",
+          "name": "item_ids",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "item_stack_amounts",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "items[item.id]",
+          "name": "item_amounts",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_item_dynamic_efficiency_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "return_expr",
+        "consume_trigger_valid_expr",
+        "item_module_has_stacks_expr",
+        "item_module_has_stack_guard_expr",
+        "item_module_has_stacks_return_expr",
+        "item_module_has_item_amount_expr",
+        "item_module_has_item_amount_return_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "consume_trigger_valid",
+        "item_ids",
+        "item_stack_amounts",
+        "item_amounts",
+        "multiplier_get_build",
+        "item_module_has_stacks",
+        "stack_checks",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "rule": "Public runtime contract for ConsumeItemDynamic.efficiency(Building) source-backed item availability state."
+    },
+    "PortGame.source_consume_item_efficiency_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_efficiency_display_state",
+      "status": "source-backed",
+      "source_slice": "N1456",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_item_efficiency_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "stats_time_period",
+          "type": "float",
+          "schema": "source_consume_item_efficiency_display_input.stats_time_period",
+          "java_expr": "stats.timePeriod"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.filtered_item_ids",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())"
+        },
+        {
+          "name": "item_efficiency_multipliers",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.item_efficiency_multipliers",
+          "java_expr": "efficiency.get(item)"
+        },
+        {
+          "name": "item_duration_multipliers",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.item_duration_multipliers",
+          "java_expr": "itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f)"
+        },
+        {
+          "name": "table_has_cells",
+          "type": "bool",
+          "schema": "source_consume_item_efficiency_display_input.table_has_cells",
+          "java_expr": "table.getCells().size > 0"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "item_duration_multipliers_field",
+        "stats_add_expr",
+        "stats_add_call",
+        "selected_stat_expr",
+        "selected_stat",
+        "item_eff_multiplier_expr",
+        "item_eff_multiplier_method",
+        "table_cells_grow_expr",
+        "table_grow_previous_cell",
+        "content_filter_expr",
+        "time_multiplier_expr",
+        "time_expr",
+        "efficiency_expr",
+        "booster",
+        "stats_time_period",
+        "filtered_item_ids",
+        "item_efficiency_multipliers",
+        "item_duration_multipliers",
+        "table_has_cells",
+        "display_rows"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_display_bridge_state",
+        "test_consume_item_efficiency_display_matches_upstream_source",
+        "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_display_state",
+      "rule": "Public runtime contract for ConsumeItemEfficiency.display(Stats) source-backed Stats.add and itemEffMultiplier display row state."
+    },
+    "PortGame.source_consume_item_efficiency_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_efficiency_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1457",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "source_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_consume_item_efficiency_constructor_input.item",
+          "java_expr": "Boolf<Item> item"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "super_call_expr",
+        "parent_constructor_expr",
+        "filter_assignment_expr",
+        "filter_field",
+        "item",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemEfficiency(Boolf<Item>) constructor source-backed parent filter assignment state."
+    },
+    "PortGame.source_consume_item_efficiency_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_efficiency_default_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1458",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "source_method": "ConsumeItemEfficiency()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "parent_constructor_expr",
+        "filter_field",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_default_constructor_bridge_state",
+        "test_consume_item_efficiency_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_default_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemEfficiency() source-backed default filter state."
+    },
+    "PortGame.source_consume_item_filter_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1459",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_constructor_input.item",
+          "java_expr": "Boolf<Item> item"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "filter_assignment_expr",
+        "filter_field",
+        "item",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemFilter(Boolf<Item>) source-backed filter assignment state."
+    },
+    "PortGame.source_consume_item_filter_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_default_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1460",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "ConsumeItemFilter()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "filter_field",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_default_constructor_bridge_state",
+        "test_consume_item_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_default_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemFilter() source-backed default filter state."
+    },
+    "PortGame.source_consume_item_filter_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_apply_state",
+      "status": "source-backed",
+      "source_slice": "N1462",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "name": "block_has_items_before",
+          "type": "bool",
+          "schema": "source_consume_item_filter_apply_input.block_has_items_before",
+          "java_expr": "public @NoPatch boolean hasItems;"
+        },
+        {
+          "name": "block_accepts_items_before",
+          "type": "bool",
+          "schema": "source_consume_item_filter_apply_input.block_accepts_items_before",
+          "java_expr": "public boolean acceptsItems = false;"
+        },
+        {
+          "name": "item_filter_before",
+          "type": "Array",
+          "schema": "source_consume_item_filter_apply_input.item_filter_before",
+          "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_filter_apply_input.filtered_item_ids",
+          "java_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "has_items_assignment_expr",
+        "accepts_items_assignment_expr",
+        "each_expr",
+        "item_filter_assignment_expr",
+        "filter_field",
+        "block_has_items_before",
+        "block_accepts_items_before",
+        "item_filter_before",
+        "filtered_item_ids",
+        "block_has_items_after",
+        "block_accepts_items_after",
+        "item_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_apply_bridge_state",
+        "test_consume_item_filter_apply_matches_upstream_source",
+        "test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_apply_state",
+      "rule": "Public runtime contract for ConsumeItemFilter.apply source-backed block item acceptance state."
+    },
+    "PortGame.source_consume_item_filter_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_build_state",
+      "status": "source-backed",
+      "source_slice": "N1463",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_filter_build_input.filtered_item_ids",
+          "java_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(...))"
+        },
+        {
+          "name": "build_items_has_item_flags",
+          "type": "Array",
+          "schema": "source_consume_item_filter_build_input.build_items_has_item_flags",
+          "java_expr": "build.items.has(item)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "filter_field",
+        "image_expr",
+        "each_expr",
+        "table_add_expr",
+        "multi_req_image_class",
+        "multi_req_image_add_expr",
+        "req_image_constructor",
+        "req_image_valid_expr",
+        "stat_values_stack_expr",
+        "building_items_field",
+        "item_module_has_expr",
+        "cell_size_expr",
+        "filtered_item_ids",
+        "build_items_has_item_flags",
+        "multi_req_image_created",
+        "req_images",
+        "req_image_count",
+        "table_add_image",
+        "table_image_size"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_build_bridge_state",
+        "test_consume_item_filter_build_matches_upstream_source",
+        "test_generated_consume_item_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_build_state",
+      "rule": "Public runtime contract for ConsumeItemFilter.build source-backed ReqImage state."
+    },
+    "PortGame.source_consume_item_filter_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_update_state",
+      "status": "source-backed",
+      "source_slice": "N1464",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "update(Building build)",
+      "params": [
+        {
+          "name": "build_state",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_update_input.build_state",
+          "java_expr": "Building build"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "empty_body",
+        "build_state",
+        "no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state",
+      "rule": "Public source helper exposes only keys backed by ConsumeItemFilter.update(Building) empty body."
+    },
+    "PortGame.source_consume_item_filter_trigger_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_trigger_state",
+      "status": "source-backed",
+      "source_slice": "N1465",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "trigger(Building build)",
+      "params": [
+        {
+          "name": "build_state",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_trigger_input.build_state",
+          "java_expr": "Building build"
+        },
+        {
+          "name": "consumed_item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_trigger_input.consumed_item",
+          "java_expr": "Item item = getConsumed(build);"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "null_guard_expr",
+        "remove_expr",
+        "build_state",
+        "consumed_item",
+        "item_removed",
+        "remove_amount",
+        "remove_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state",
+      "rule": "Public source helper exposes trigger state keys backed by ConsumeItemFilter.trigger(Building)."
+    },
+    "PortGame.source_consume_item_filter_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_efficiency_state",
+      "status": "source-backed",
+      "source_slice": "N1467",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "name": "consume_trigger_valid",
+          "type": "bool",
+          "schema": "source_consume_item_filter_efficiency_input.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()"
+        },
+        {
+          "name": "consumed_item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_efficiency_input.consumed_item",
+          "java_expr": "getConsumed(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "consume_trigger_valid_expr",
+        "get_consumed_expr",
+        "consume_trigger_valid",
+        "consumed_item",
+        "has_consumed_item",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Public source helper exposes efficiency predicate keys backed by ConsumeItemFilter.efficiency(Building)."
+    },
+    "PortGame.source_consume_item_filter_get_consumed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_get_consumed_state",
+      "status": "source-backed",
+      "source_slice": "N1468",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "getConsumed(Building build)",
+      "params": [
+        {
+          "name": "content_items",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.content_items",
+          "java_expr": "content.items()"
+        },
+        {
+          "name": "build_items_has_item_flags",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.build_items_has_item_flags",
+          "java_expr": "build.items.has(item)"
+        },
+        {
+          "name": "filter_get_item_flags",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.filter_get_item_flags",
+          "java_expr": "this.filter.get(item)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "loop_expr",
+        "content_item_expr",
+        "guard_expr",
+        "return_item_expr",
+        "return_null_expr",
+        "content_items",
+        "build_items_has_item_flags",
+        "filter_get_item_flags",
+        "checked_items",
+        "consumed_item",
+        "consumed_index"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
+      "rule": "Public source helper exposes getConsumed scan state backed by ConsumeItemFilter.getConsumed(Building)."
+    },
+    "PortGame.source_consume_item_filter_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_display_state",
+      "status": "source-backed",
+      "source_slice": "N1469",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_item_filter_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "stats_time_period",
+          "type": "float",
+          "schema": "source_consume_item_filter_display_input.stats_time_period",
+          "java_expr": "stats.timePeriod"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_filter_display_input.filtered_item_ids",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stats_add_expr",
+        "stats_add_call_expr",
+        "selected_stat_expr",
+        "stat_values_items_expr",
+        "stat_values_items_method",
+        "content_filter_expr",
+        "display_item_expr",
+        "booster",
+        "selected_stat",
+        "stats_time_period",
+        "filtered_item_ids",
+        "stats_add_call",
+        "display_items"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Public source helper exposes ConsumeItemFilter.display stats.add state and display item rows."
+    },
+    "PortGame.source_consume_item_filter_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_filter_efficiency_multiplier_state",
+      "status": "source-backed",
+      "source_slice": "N1470",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "efficiencyMultiplier(Building build)",
+      "params": [
+        {
+          "name": "consumed_item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_efficiency_multiplier_input.consumed_item",
+          "java_expr": "var item = getConsumed(build);"
+        },
+        {
+          "name": "item_efficiency_multiplier",
+          "type": "float",
+          "schema": "source_consume_item_filter_efficiency_multiplier_input.item_efficiency_multiplier",
+          "java_expr": "itemEfficiencyMultiplier(item)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "return_expr",
+        "item_efficiency_multiplier_expr",
+        "consumed_item",
+        "item_efficiency_multiplier",
+        "has_consumed_item",
+        "efficiency_multiplier"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_multiplier_state",
+      "rule": "Public source helper exposes efficiencyMultiplier ternary state backed by ConsumeItemFilter.efficiencyMultiplier(Building)."
+    },
     "PortGame.source_consume_items_apply_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_consume_items_apply_state",
       "status": "source-backed",

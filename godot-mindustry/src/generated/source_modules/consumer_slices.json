@@ -1,16 +1,1115 @@
 {
   "policy": {
     "canonicalOwner": "source_slice_ledger",
-    "newConsumerSliceRequiresSourceBackedLedgerMirror": true
+    "newConsumerSliceRequiresSourceBackedLedgerMirror": true,
+    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/consumers/."
   },
   "slices": {
-    "N1472": {
+    "N1424": {
+      "canonical_ledger": "source_slice_ledger.N1424",
       "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "requestedPower(Building entity)",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "generated_owner": "ConsumePower.java_method_requestedPower_4",
+      "source_symbols": [
+        "consume_power_requested_power.buffered",
+        "consume_power_requested_power.unbuffered",
+        "consume_power_requested_power.buffered_input",
+        "consume_power_requested_power.usage_input",
+        "consume_power_requested_power.capacity_input",
+        "consume_power_requested_power.power_status_input",
+        "consume_power_requested_power.should_consume_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_requested_power_bridge_state",
+        "test_power_graph_power_needed_matches_upstream_source",
+        "test_generated_consume_power_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_requested_power_bridge_state"
+    },
+    "N1425": {
+      "canonical_ledger": "source_slice_ledger.N1425",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "ignore()",
+      "godot_owner": "PortGame.source_consume_power_ignore_state",
+      "generated_owner": "ConsumePower.java_method_ignore_1",
+      "source_symbols": [
+        "consume_power_ignore.return",
+        "consume_power_ignore.buffered_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_power_ignore_bridge_state",
+        "test_consume_power_ignore_matches_upstream_source",
+        "test_generated_consume_power_ignore_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_ignore_bridge_state"
+    },
+    "N1426": {
+      "canonical_ledger": "source_slice_ledger.N1426",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_power_efficiency_state",
+      "generated_owner": "ConsumePower.java_method_efficiency_2",
+      "source_symbols": [
+        "consume_power_efficiency.return",
+        "consume_power_efficiency.power_status_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_efficiency_bridge_state"
+    },
+    "N1427": {
+      "canonical_ledger": "source_slice_ledger.N1427",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "java_method": "requestedPower(Building entity)",
+      "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
+      "generated_owner": "ConsumePowerCondition.java_method_requestedPower_0",
+      "source_symbols": [
+        "consume_power_condition_requested_power.return",
+        "consume_power_condition_requested_power.consume_get_input",
+        "consume_power_condition_requested_power.usage_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_condition_requested_power_bridge_state"
+    },
+    "N1428": {
+      "canonical_ledger": "source_slice_ledger.N1428",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "java_method": "requestedPower(Building entity)",
+      "godot_owner": "PortGame.source_consume_power_dynamic_requested_power_state",
+      "generated_owner": "ConsumePowerDynamic.java_method_requestedPower_0",
+      "source_symbols": [
+        "consume_power_dynamic_requested_power.return",
+        "consume_power_dynamic_requested_power.usage_get_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_requested_power_bridge_state",
+        "test_consume_power_dynamic_requested_power_matches_upstream_source",
+        "test_generated_consume_power_dynamic_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_dynamic_requested_power_bridge_state"
+    },
+    "N1429": {
+      "canonical_ledger": "source_slice_ledger.N1429",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_power_dynamic_display_state",
+      "generated_owner": "ConsumePowerDynamic.java_method_display_1",
+      "source_symbols": [
+        "consume_power_dynamic_display.displayed_power_usage_input",
+        "consume_power_dynamic_display.guard",
+        "consume_power_dynamic_display.stats_add"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_dynamic_display_bridge_state"
+    },
+    "N1430": {
+      "canonical_ledger": "source_slice_ledger.N1430",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_power_display_state",
+      "generated_owner": "ConsumePower.java_method_display_3",
+      "source_symbols": [
+        "consume_power_display.capacity_stats_add",
+        "consume_power_display.usage_stats_add",
+        "consume_power_display.buffered_input",
+        "consume_power_display.usage_input",
+        "consume_power_display.capacity_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_display_bridge_state",
+        "test_consume_power_display_matches_upstream_source",
+        "test_generated_consume_power_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_power_display_bridge_state"
+    },
+    "N1431": {
+      "canonical_ledger": "source_slice_ledger.N1431",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "godot_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemFlammable.java_method_itemEfficiencyMultiplier_0",
+      "source_symbols": [
+        "consume_item_flammable_item_efficiency_multiplier.return",
+        "consume_item_flammable_item_efficiency_multiplier.item_flammability_input",
+        "consume_item_flammable_item_efficiency_multiplier.item_flammability_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_flammable_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_flammable_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_flammable_item_efficiency_multiplier_bridge_state"
+    },
+    "N1432": {
+      "canonical_ledger": "source_slice_ledger.N1432",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "godot_owner": "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemExplosive.java_method_itemEfficiencyMultiplier_0",
+      "source_symbols": [
+        "consume_item_explosive_item_efficiency_multiplier.return",
+        "consume_item_explosive_item_efficiency_multiplier.item_explosiveness_input",
+        "consume_item_explosive_item_efficiency_multiplier.item_explosiveness_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_explosive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_explosive_item_efficiency_multiplier_bridge_state"
+    },
+    "N1433": {
+      "canonical_ledger": "source_slice_ledger.N1433",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "godot_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemRadioactive.java_method_itemEfficiencyMultiplier_0",
+      "source_symbols": [
+        "consume_item_radioactive_item_efficiency_multiplier.return",
+        "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_input",
+        "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state"
+    },
+    "N1434": {
+      "canonical_ledger": "source_slice_ledger.N1434",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "godot_owner": "PortGame.source_consume_item_charged_item_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemCharged.java_method_itemEfficiencyMultiplier_0",
+      "source_symbols": [
+        "consume_item_charged_item_efficiency_multiplier.return",
+        "consume_item_charged_item_efficiency_multiplier.item_charge_input",
+        "consume_item_charged_item_efficiency_multiplier.item_charge_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_charged_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_charged_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_charged_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_charged_item_efficiency_multiplier_bridge_state"
+    },
+    "N1435": {
+      "canonical_ledger": "source_slice_ledger.N1435",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemFilter.java_method_itemEfficiencyMultiplier_8",
+      "source_symbols": [
+        "consume_item_filter_item_efficiency_multiplier.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_item_efficiency_multiplier_bridge_state"
+    },
+    "N1436": {
+      "canonical_ledger": "source_slice_ledger.N1436",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "generated_owner": "ConsumeLiquidFlammable.java_method_liquidEfficiencyMultiplier_1",
+      "source_symbols": [
+        "consume_liquid_flammable_liquid_efficiency_multiplier.return",
+        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_input",
+        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state"
+    },
+    "N1437": {
+      "canonical_ledger": "source_slice_ledger.N1437",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_liquidEfficiencyMultiplier_8",
+      "source_symbols": [
+        "consume_liquid_filter_liquid_efficiency_multiplier.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state"
+    },
+    "N1438": {
+      "canonical_ledger": "source_slice_ledger.N1438",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_liquid_base_apply_state",
+      "generated_owner": "ConsumeLiquidBase.java_method_apply_0",
+      "source_symbols": [
+        "consume_liquid_base_apply.assignment",
+        "consume_liquid_base_apply.block_has_liquids_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state",
+        "test_consume_liquid_base_apply_matches_upstream_source",
+        "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_base_apply_bridge_state"
+    },
+    "N1439": {
+      "canonical_ledger": "source_slice_ledger.N1439",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_liquid_apply_state",
+      "generated_owner": "ConsumeLiquid.java_method_apply_0",
+      "source_symbols": [
+        "consume_liquid_apply.super_apply",
+        "consume_liquid_apply.liquid_filter_assignment",
+        "consume_liquid_apply.block_liquid_filter_field",
+        "consume_liquid_apply.block_has_liquids_before",
+        "consume_liquid_apply.liquid_filter_before",
+        "consume_liquid_apply.liquid_id"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_apply_bridge_state",
+        "test_consume_liquid_apply_matches_upstream_source",
+        "test_generated_consume_liquid_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_apply_bridge_state"
+    },
+    "N1440": {
+      "canonical_ledger": "source_slice_ledger.N1440",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "consumes(Liquid liquid)",
+      "godot_owner": "PortGame.source_consume_liquid_consumes_state",
+      "generated_owner": "ConsumeLiquid.java_method_consumes_5",
+      "source_symbols": [
+        "consume_liquid_consumes.return",
+        "consume_liquid_consumes.liquid_field",
+        "consume_liquid_consumes.liquid_matches_self_liquid"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_consumes_bridge_state"
+    },
+    "N1441": {
+      "canonical_ledger": "source_slice_ledger.N1441",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "consumes(Liquid liquid)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_consumes_7",
+      "source_symbols": [
+        "consume_liquid_filter_consumes.return",
+        "consume_liquid_filter_consumes.filter_field",
+        "consume_liquid_filter_consumes.filter_get_liquid"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_consumes_bridge_state"
+    },
+    "N1442": {
+      "canonical_ledger": "source_slice_ledger.N1442",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "generated_owner": "ConsumeLiquids.java_method_apply_0",
+      "source_symbols": [
+        "consume_liquids_apply.block_has_liquids_before",
+        "consume_liquids_apply.has_liquids_assignment",
+        "consume_liquids_apply.liquid_filter_before",
+        "consume_liquids_apply.liquid_ids",
+        "consume_liquids_apply.loop",
+        "consume_liquids_apply.liquid_filter_assignment",
+        "consume_liquids_apply.liquids_field",
+        "consume_liquids_apply.block_liquid_filter_field",
+        "consume_liquids_apply.liquid_stack_liquid_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_apply_bridge_state"
+    },
+    "N1443": {
+      "canonical_ledger": "source_slice_ledger.N1443",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_apply_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_apply_0",
+      "source_symbols": [
+        "consume_liquids_dynamic_apply.assignment",
+        "consume_liquids_dynamic_apply.block_has_liquids_before",
+        "consume_liquids_dynamic_apply.block_has_liquids_field",
+        "consume_liquids_dynamic_apply.liquids_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_apply_bridge_state",
+        "test_consume_liquids_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_apply_bridge_state"
+    },
+    "N1444": {
+      "canonical_ledger": "source_slice_ledger.N1444",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_update_3",
+      "source_symbols": [
+        "consume_liquids_dynamic_update.build_edelta",
+        "consume_liquids_dynamic_update.building_edelta_method",
+        "consume_liquids_dynamic_update.building_liquids_field",
+        "consume_liquids_dynamic_update.liquid_ids",
+        "consume_liquids_dynamic_update.liquid_stack_amount_field",
+        "consume_liquids_dynamic_update.liquid_stack_amounts",
+        "consume_liquids_dynamic_update.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_update.liquids_field",
+        "consume_liquids_dynamic_update.loop",
+        "consume_liquids_dynamic_update.multiplier",
+        "consume_liquids_dynamic_update.multiplier_field",
+        "consume_liquids_dynamic_update.multiplier_get_build",
+        "consume_liquids_dynamic_update.remove"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_update_bridge_state"
+    },
+    "N1445": {
+      "canonical_ledger": "source_slice_ledger.N1445",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_efficiency_4",
+      "source_symbols": [
+        "consume_liquids_dynamic_efficiency.build_edelta",
+        "consume_liquids_dynamic_efficiency.building_edelta_method",
+        "consume_liquids_dynamic_efficiency.building_liquids_field",
+        "consume_liquids_dynamic_efficiency.ed",
+        "consume_liquids_dynamic_efficiency.ed_guard",
+        "consume_liquids_dynamic_efficiency.efficiency",
+        "consume_liquids_dynamic_efficiency.liquid_amounts",
+        "consume_liquids_dynamic_efficiency.liquid_ids",
+        "consume_liquids_dynamic_efficiency.liquid_stack_amount_field",
+        "consume_liquids_dynamic_efficiency.liquid_stack_amounts",
+        "consume_liquids_dynamic_efficiency.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_efficiency.liquids_field",
+        "consume_liquids_dynamic_efficiency.loop",
+        "consume_liquids_dynamic_efficiency.method",
+        "consume_liquids_dynamic_efficiency.min_initial",
+        "consume_liquids_dynamic_efficiency.multiplier_field",
+        "consume_liquids_dynamic_efficiency.multiplier_get_build",
+        "consume_liquids_dynamic_efficiency.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_efficiency_bridge_state",
+        "test_consume_liquids_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_efficiency_bridge_state"
+    },
+    "N1446": {
+      "canonical_ledger": "source_slice_ledger.N1446",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "rebuild(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_rebuild_2",
+      "source_symbols": [
+        "consume_liquids_dynamic_rebuild.building_has_liquids",
+        "consume_liquids_dynamic_rebuild.building_liquids_field",
+        "consume_liquids_dynamic_rebuild.clear",
+        "consume_liquids_dynamic_rebuild.i_initial",
+        "consume_liquids_dynamic_rebuild.liquid_amounts",
+        "consume_liquids_dynamic_rebuild.liquid_ids",
+        "consume_liquids_dynamic_rebuild.liquid_module_get",
+        "consume_liquids_dynamic_rebuild.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_rebuild.liquid_ui_icon_field",
+        "consume_liquids_dynamic_rebuild.liquids_field",
+        "consume_liquids_dynamic_rebuild.loop",
+        "consume_liquids_dynamic_rebuild.method",
+        "consume_liquids_dynamic_rebuild.req_image",
+        "consume_liquids_dynamic_rebuild.req_image_constructor",
+        "consume_liquids_dynamic_rebuild.req_image_valid",
+        "consume_liquids_dynamic_rebuild.row",
+        "consume_liquids_dynamic_rebuild.vars_icon_med"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_rebuild_bridge_state"
+    },
+    "N1447": {
+      "canonical_ledger": "source_slice_ledger.N1447",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_build_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_build_1",
+      "source_symbols": [
+        "consume_liquids_dynamic_build.assignment",
+        "consume_liquids_dynamic_build.changed",
+        "consume_liquids_dynamic_build.current",
+        "consume_liquids_dynamic_build.current_liquid_ids",
+        "consume_liquids_dynamic_build.element_update",
+        "consume_liquids_dynamic_build.element_update_assignment",
+        "consume_liquids_dynamic_build.liquids_field",
+        "consume_liquids_dynamic_build.method",
+        "consume_liquids_dynamic_build.next_liquid_ids",
+        "consume_liquids_dynamic_build.rebuild",
+        "consume_liquids_dynamic_build.table_add",
+        "consume_liquids_dynamic_build.table_cons_get",
+        "consume_liquids_dynamic_build.table_cons_method",
+        "consume_liquids_dynamic_build.table_expr",
+        "consume_liquids_dynamic_build.update"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_build_bridge_state",
+        "test_consume_liquids_dynamic_build_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_build_bridge_state"
+    },
+    "N1448": {
+      "canonical_ledger": "source_slice_ledger.N1448",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "java_method": "ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids)",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
+      "generated_owner": "ConsumeLiquidsDynamic.java_constructor_ConsumeLiquidsDynamic_0",
+      "source_symbols": [
+        "consume_liquids_dynamic_constructor.assignment",
+        "consume_liquids_dynamic_constructor.liquids",
+        "consume_liquids_dynamic_constructor.func_get"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_constructor_bridge_state"
+    },
+    "N1449": {
+      "canonical_ledger": "source_slice_ledger.N1449",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "generated_owner": "ConsumeLiquid.java_method_update_2",
+      "source_symbols": [
+        "consume_liquid_update.remove",
+        "consume_liquid_update.amount",
+        "consume_liquid_update.liquid_id",
+        "consume_liquid_update.build_edelta",
+        "consume_liquid_update.multiplier_get_build"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_update_bridge_state"
+    },
+    "N1450": {
+      "canonical_ledger": "source_slice_ledger.N1450",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+      "generated_owner": "ConsumeItemDynamic.java_constructor_ConsumeItemDynamic_0",
+      "source_symbols": [
+        "consume_item_dynamic_constructor.assignment",
+        "consume_item_dynamic_constructor.items",
+        "consume_item_dynamic_constructor.func_get"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_constructor_bridge_state"
+    },
+    "N1451": {
+      "canonical_ledger": "source_slice_ledger.N1451",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "generated_owner": "ConsumeItemDynamic.java_method_apply_0",
+      "source_symbols": [
+        "consume_item_dynamic_apply.has_items_assignment",
+        "consume_item_dynamic_apply.accepts_items_assignment",
+        "consume_item_dynamic_apply.items_field",
+        "consume_item_dynamic_apply.block_has_items_field",
+        "consume_item_dynamic_apply.block_accepts_items_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_apply_bridge_state"
+    },
+    "N1452": {
+      "canonical_ledger": "source_slice_ledger.N1452",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "generated_owner": "ConsumeItemDynamic.java_method_build_1",
+      "source_symbols": [
+        "consume_item_dynamic_build.assignment",
+        "consume_item_dynamic_build.changed",
+        "consume_item_dynamic_build.current",
+        "consume_item_dynamic_build.current_item_ids",
+        "consume_item_dynamic_build.element_update",
+        "consume_item_dynamic_build.element_update_assignment",
+        "consume_item_dynamic_build.items_field",
+        "consume_item_dynamic_build.method",
+        "consume_item_dynamic_build.next_item_ids",
+        "consume_item_dynamic_build.rebuild",
+        "consume_item_dynamic_build.table_add",
+        "consume_item_dynamic_build.table_cons_get",
+        "consume_item_dynamic_build.table_cons_method",
+        "consume_item_dynamic_build.table_expr",
+        "consume_item_dynamic_build.update"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_build_bridge_state"
+    },
+    "N1453": {
+      "canonical_ledger": "source_slice_ledger.N1453",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "trigger(Building build)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_trigger_state",
+      "generated_owner": "ConsumeItemDynamic.java_method_trigger_3",
+      "source_symbols": [
+        "consume_item_dynamic_trigger.items_field",
+        "consume_item_dynamic_trigger.loop",
+        "consume_item_dynamic_trigger.remove",
+        "consume_item_dynamic_trigger.round",
+        "consume_item_dynamic_trigger.item_ids",
+        "consume_item_dynamic_trigger.stack_amounts",
+        "consume_item_dynamic_trigger.multiplier_get_build",
+        "consume_item_dynamic_trigger.multiplier",
+        "consume_item_dynamic_trigger.item_stack_item_field",
+        "consume_item_dynamic_trigger.item_stack_amount_field",
+        "consume_item_dynamic_trigger.building_items_field",
+        "consume_item_dynamic_trigger.item_module_remove",
+        "consume_item_dynamic_trigger.item_module_remove_clamp"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_trigger_bridge_state",
+        "test_consume_item_dynamic_trigger_matches_upstream_source",
+        "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_trigger_bridge_state"
+    },
+    "N1454": {
+      "canonical_ledger": "source_slice_ledger.N1454",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "rebuild(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "generated_owner": "ConsumeItemDynamic.java_method_rebuild_2",
+      "source_symbols": [
+        "consume_item_dynamic_rebuild.items_field",
+        "consume_item_dynamic_rebuild.clear",
+        "consume_item_dynamic_rebuild.loop",
+        "consume_item_dynamic_rebuild.req_image",
+        "consume_item_dynamic_rebuild.row",
+        "consume_item_dynamic_rebuild.item_ids",
+        "consume_item_dynamic_rebuild.stack_amounts",
+        "consume_item_dynamic_rebuild.item_amounts",
+        "consume_item_dynamic_rebuild.building_has_items",
+        "consume_item_dynamic_rebuild.multiplier_get_build",
+        "consume_item_dynamic_rebuild.stat_values_stack",
+        "consume_item_dynamic_rebuild.req_image_constructor",
+        "consume_item_dynamic_rebuild.req_image_valid",
+        "consume_item_dynamic_rebuild.multiplier",
+        "consume_item_dynamic_rebuild.item_stack_item_field",
+        "consume_item_dynamic_rebuild.item_stack_amount_field",
+        "consume_item_dynamic_rebuild.building_items_field",
+        "consume_item_dynamic_rebuild.item_module_has",
+        "consume_item_dynamic_rebuild.cell_pad_right",
+        "consume_item_dynamic_rebuild.cell_left"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_rebuild_bridge_state"
+    },
+    "N1455": {
+      "canonical_ledger": "source_slice_ledger.N1455",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "generated_owner": "ConsumeItemDynamic.java_method_efficiency_4",
+      "source_symbols": [
+        "consume_item_dynamic_efficiency.items_field",
+        "consume_item_dynamic_efficiency.method",
+        "consume_item_dynamic_efficiency.return",
+        "consume_item_dynamic_efficiency.consume_trigger_valid",
+        "consume_item_dynamic_efficiency.item_ids",
+        "consume_item_dynamic_efficiency.stack_amounts",
+        "consume_item_dynamic_efficiency.item_amounts",
+        "consume_item_dynamic_efficiency.multiplier_get_build",
+        "consume_item_dynamic_efficiency.item_module_has_stacks",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_method",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_loop",
+        "consume_item_dynamic_efficiency.item_module_has_stack_guard",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_return",
+        "consume_item_dynamic_efficiency.item_module_has_item_amount",
+        "consume_item_dynamic_efficiency.item_module_has_item_amount_return",
+        "consume_item_dynamic_efficiency.multiplier",
+        "consume_item_dynamic_efficiency.item_stack_item_field",
+        "consume_item_dynamic_efficiency.item_stack_amount_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_efficiency_bridge_state"
+    },
+    "N1456": {
+      "canonical_ledger": "source_slice_ledger.N1456",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_item_efficiency_display_state",
+      "generated_owner": "ConsumeItemEfficiency.java_method_display_0",
+      "source_symbols": [
+        "consume_item_efficiency_display.booster",
+        "consume_item_efficiency_display.content_filter",
+        "consume_item_efficiency_display.efficiency_expr",
+        "consume_item_efficiency_display.efficiency_percent",
+        "consume_item_efficiency_display.filtered_item_ids",
+        "consume_item_efficiency_display.item_duration_multipliers",
+        "consume_item_efficiency_display.item_duration_multipliers_input",
+        "consume_item_efficiency_display.item_eff_multiplier_call",
+        "consume_item_efficiency_display.item_eff_multiplier_method",
+        "consume_item_efficiency_display.item_efficiency_multipliers",
+        "consume_item_efficiency_display.method",
+        "consume_item_efficiency_display.selected_stat",
+        "consume_item_efficiency_display.stats_add",
+        "consume_item_efficiency_display.stats_time_period",
+        "consume_item_efficiency_display.table_cells_grow",
+        "consume_item_efficiency_display.table_has_cells",
+        "consume_item_efficiency_display.time",
+        "consume_item_efficiency_display.time_multiplier"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_display_bridge_state",
+        "test_consume_item_efficiency_display_matches_upstream_source",
+        "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_display_bridge_state"
+    },
+    "N1457": {
+      "canonical_ledger": "source_slice_ledger.N1457",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "generated_owner": "ConsumeItemEfficiency.java_constructor_ConsumeItemEfficiency_0",
+      "source_symbols": [
+        "consume_item_efficiency_constructor.constructor",
+        "consume_item_efficiency_constructor.filter_assignment",
+        "consume_item_efficiency_constructor.filter_field",
+        "consume_item_efficiency_constructor.item",
+        "consume_item_efficiency_constructor.parent_constructor",
+        "consume_item_efficiency_constructor.super_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_constructor_bridge_state"
+    },
+    "N1458": {
+      "canonical_ledger": "source_slice_ledger.N1458",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "ConsumeItemEfficiency()",
+      "godot_owner": "PortGame.source_consume_item_efficiency_default_constructor_state",
+      "generated_owner": "ConsumeItemEfficiency.java_constructor_ConsumeItemEfficiency_1",
+      "source_symbols": [
+        "consume_item_efficiency_default_constructor.constructor",
+        "consume_item_efficiency_default_constructor.parent_constructor",
+        "consume_item_efficiency_default_constructor.filter_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_default_constructor_bridge_state",
+        "test_consume_item_efficiency_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_default_constructor_bridge_state"
+    },
+    "N1459": {
+      "canonical_ledger": "source_slice_ledger.N1459",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "generated_owner": "ConsumeItemFilter.java_constructor_ConsumeItemFilter_0",
+      "source_symbols": [
+        "consume_item_filter_constructor.constructor",
+        "consume_item_filter_constructor.item",
+        "consume_item_filter_constructor.filter_assignment",
+        "consume_item_filter_constructor.filter_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_constructor_bridge_state"
+    },
+    "N1460": {
+      "canonical_ledger": "source_slice_ledger.N1460",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "ConsumeItemFilter()",
+      "godot_owner": "PortGame.source_consume_item_filter_default_constructor_state",
+      "generated_owner": "ConsumeItemFilter.java_constructor_ConsumeItemFilter_1",
+      "source_symbols": [
+        "consume_item_filter_default_constructor.constructor",
+        "consume_item_filter_default_constructor.filter_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_default_constructor_bridge_state",
+        "test_consume_item_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_default_constructor_bridge_state"
+    },
+    "N1462": {
+      "canonical_ledger": "source_slice_ledger.N1462",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_item_filter_apply_state",
+      "generated_owner": "ConsumeItemFilter.java_method_apply_0",
+      "source_symbols": [
+        "consume_item_filter_apply.method",
+        "consume_item_filter_apply.has_items_assignment",
+        "consume_item_filter_apply.accepts_items_assignment",
+        "consume_item_filter_apply.each_expr",
+        "consume_item_filter_apply.item_filter_assignment",
+        "consume_item_filter_apply.filter_field",
+        "consume_item_filter_apply.block_has_items_field",
+        "consume_item_filter_apply.block_accepts_items_field",
+        "consume_item_filter_apply.block_item_filter_field",
+        "consume_item_filter_apply.block_has_items_before",
+        "consume_item_filter_apply.block_accepts_items_before",
+        "consume_item_filter_apply.item_filter_before",
+        "consume_item_filter_apply.filtered_item_ids"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_apply_bridge_state",
+        "test_consume_item_filter_apply_matches_upstream_source",
+        "test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_apply_bridge_state"
+    },
+    "N1463": {
+      "canonical_ledger": "source_slice_ledger.N1463",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_filter_build_state",
+      "generated_owner": "ConsumeItemFilter.java_method_build_1",
+      "source_symbols": [
+        "consume_item_filter_build.method",
+        "consume_item_filter_build.filter_field",
+        "consume_item_filter_build.image",
+        "consume_item_filter_build.each_expr",
+        "consume_item_filter_build.req_images",
+        "consume_item_filter_build.table_add",
+        "consume_item_filter_build.table_image_size",
+        "consume_item_filter_build.multi_req_image_class",
+        "consume_item_filter_build.multi_req_image_add",
+        "consume_item_filter_build.req_image_constructor",
+        "consume_item_filter_build.req_image_valid",
+        "consume_item_filter_build.stat_values_stack",
+        "consume_item_filter_build.building_items_field",
+        "consume_item_filter_build.item_module_has",
+        "consume_item_filter_build.cell_size",
+        "consume_item_filter_build.filtered_item_ids",
+        "consume_item_filter_build.build_items_has_item_flags"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_build_bridge_state",
+        "test_consume_item_filter_build_matches_upstream_source",
+        "test_generated_consume_item_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_build_bridge_state"
+    },
+    "N1464": {
+      "canonical_ledger": "source_slice_ledger.N1464",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "generated_owner": "ConsumeItemFilter.java_method_update_2",
+      "source_symbols": [
+        "consume_item_filter_update.method",
+        "consume_item_filter_update.build_state",
+        "consume_item_filter_update.no_op",
+        "consume_item_filter_update.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_update_bridge_state"
+    },
+    "N1465": {
+      "canonical_ledger": "source_slice_ledger.N1465",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "generated_owner": "ConsumeItemFilter.java_method_trigger_3",
+      "source_symbols": [
+        "consume_item_filter_trigger.method",
+        "consume_item_filter_trigger.build_state",
+        "consume_item_filter_trigger.consumed_item",
+        "consume_item_filter_trigger.null_guard",
+        "consume_item_filter_trigger.remove_call",
+        "consume_item_filter_trigger.remove_amount",
+        "consume_item_filter_trigger.item_module_remove",
+        "consume_item_filter_trigger.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_trigger_bridge_state"
+    },
+    "N1467": {
+      "canonical_ledger": "source_slice_ledger.N1467",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "generated_owner": "ConsumeItemFilter.java_method_efficiency_4",
+      "source_symbols": [
+        "consume_item_filter_efficiency.method",
+        "consume_item_filter_efficiency.consume_trigger_valid",
+        "consume_item_filter_efficiency.consumed_item",
+        "consume_item_filter_efficiency.has_consumed_item",
+        "consume_item_filter_efficiency.efficiency",
+        "consume_item_filter_efficiency.next_method",
+        "consume_item_filter_efficiency.consume_trigger_valid_default"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_efficiency_bridge_state"
+    },
+    "N1468": {
+      "canonical_ledger": "source_slice_ledger.N1468",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_item_filter_get_consumed_state",
+      "generated_owner": "ConsumeItemFilter.java_method_getConsumed_5",
+      "source_symbols": [
+        "consume_item_filter_get_consumed.method",
+        "consume_item_filter_get_consumed.content_items",
+        "consume_item_filter_get_consumed.build_items_has_item_flags",
+        "consume_item_filter_get_consumed.filter_get_item_flags",
+        "consume_item_filter_get_consumed.loop_expr",
+        "consume_item_filter_get_consumed.content_item_expr",
+        "consume_item_filter_get_consumed.guard_expr",
+        "consume_item_filter_get_consumed.consumed_item",
+        "consume_item_filter_get_consumed.consumed_index",
+        "consume_item_filter_get_consumed.checked_items",
+        "consume_item_filter_get_consumed.return_null",
+        "consume_item_filter_get_consumed.content_items_method",
+        "consume_item_filter_get_consumed.content_item_method",
+        "consume_item_filter_get_consumed.item_module_has",
+        "consume_item_filter_get_consumed.boolf_get",
+        "consume_item_filter_get_consumed.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_get_consumed_bridge_state"
+    },
+    "N1469": {
+      "canonical_ledger": "source_slice_ledger.N1469",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "generated_owner": "ConsumeItemFilter.java_method_display_6",
+      "source_symbols": [
+        "consume_item_filter_display.method",
+        "consume_item_filter_display.stats_add_expr",
+        "consume_item_filter_display.booster",
+        "consume_item_filter_display.selected_stat",
+        "consume_item_filter_display.stats_time_period",
+        "consume_item_filter_display.stat_values_items",
+        "consume_item_filter_display.filtered_item_ids",
+        "consume_item_filter_display.display_items",
+        "consume_item_filter_display.stats_add_method",
+        "consume_item_filter_display.stat_values_items_method",
+        "consume_item_filter_display.content_filter_expr",
+        "consume_item_filter_display.booster_field",
+        "consume_item_filter_display.stat_booster",
+        "consume_item_filter_display.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_display_bridge_state"
+    },
+    "N1470": {
+      "canonical_ledger": "source_slice_ledger.N1470",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
+      "generated_owner": "ConsumeItemFilter.java_method_efficiencyMultiplier_7",
+      "source_symbols": [
+        "consume_item_filter_efficiency_multiplier.method",
+        "consume_item_filter_efficiency_multiplier.consumed_item",
+        "consume_item_filter_efficiency_multiplier.item_efficiency_multiplier",
+        "consume_item_filter_efficiency_multiplier.has_consumed_item",
+        "consume_item_filter_efficiency_multiplier.efficiency_multiplier",
+        "consume_item_filter_efficiency_multiplier.get_consumed_method",
+        "consume_item_filter_efficiency_multiplier.item_efficiency_multiplier_method",
+        "consume_item_filter_efficiency_multiplier.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_filter_efficiency_multiplier_bridge_state"
+    },
+    "N1472": {
       "canonical_ledger": "source_slice_ledger.N1472",
-      "godot_owner": "PortGame.source_consume_items_apply_state",
-      "generated_owner": "ConsumeItems.java_method_apply_0",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "apply(Block block)",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "generated_owner": "ConsumeItems.java_method_apply_0",
       "source_symbols": [
         "consume_items_apply.items_field",
         "consume_items_apply.method",
@@ -34,16 +1133,15 @@
         "test_consume_items_apply_matches_upstream_source",
         "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_apply_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems.apply; canonical data remains source_slice_ledger.N1472."
+      "runtime_proof": "/root/Main.generated_consume_items_apply_bridge_state"
     },
     "N1473": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1473",
-      "godot_owner": "PortGame.source_consume_items_trigger_state",
-      "generated_owner": "ConsumeItems.java_method_trigger_2",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "trigger(Building build)",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "generated_owner": "ConsumeItems.java_method_trigger_2",
       "source_symbols": [
         "consume_items_trigger.items_field",
         "consume_items_trigger.method",
@@ -68,16 +1166,15 @@
         "test_consume_items_trigger_matches_upstream_source",
         "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_trigger_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems.trigger; canonical data remains source_slice_ledger.N1473."
+      "runtime_proof": "/root/Main.generated_consume_items_trigger_bridge_state"
     },
     "N1474": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1474",
-      "godot_owner": "PortGame.source_consume_items_efficiency_state",
-      "generated_owner": "ConsumeItems.java_method_efficiency_3",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "generated_owner": "ConsumeItems.java_method_efficiency_3",
       "source_symbols": [
         "consume_items_efficiency.items_field",
         "consume_items_efficiency.method",
@@ -106,16 +1203,15 @@
         "test_consume_items_efficiency_matches_upstream_source",
         "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_efficiency_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems.efficiency; canonical data remains source_slice_ledger.N1474."
+      "runtime_proof": "/root/Main.generated_consume_items_efficiency_bridge_state"
     },
     "N1475": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1475",
-      "godot_owner": "PortGame.source_consume_items_build_state",
-      "generated_owner": "ConsumeItems.java_method_build_1",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "generated_owner": "ConsumeItems.java_method_build_1",
       "source_symbols": [
         "consume_items_build.items_field",
         "consume_items_build.method",
@@ -151,16 +1247,15 @@
         "test_consume_items_build_matches_upstream_source",
         "test_generated_consume_items_build_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_build_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems.build; canonical data remains source_slice_ledger.N1475."
+      "runtime_proof": "/root/Main.generated_consume_items_build_bridge_state"
     },
     "N1477": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1477",
-      "godot_owner": "PortGame.source_consume_items_display_state",
-      "generated_owner": "ConsumeItems.java_method_display_4",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "generated_owner": "ConsumeItems.java_method_display_4",
       "source_symbols": [
         "consume_items_display.items_field",
         "consume_items_display.method",
@@ -189,16 +1284,15 @@
         "test_consume_items_display_matches_upstream_source",
         "test_generated_consume_items_display_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_display_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems.display; canonical data remains source_slice_ledger.N1477."
+      "runtime_proof": "/root/Main.generated_consume_items_display_bridge_state"
     },
     "N1478": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1478",
-      "godot_owner": "PortGame.source_consume_items_constructor_state",
-      "generated_owner": "ConsumeItems.java_constructor_ConsumeItems_0",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "ConsumeItems(ItemStack[] items)",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "generated_owner": "ConsumeItems.java_constructor_ConsumeItems_0",
       "source_symbols": [
         "consume_items_constructor.items_field",
         "consume_items_constructor.constructor",
@@ -213,16 +1307,15 @@
         "test_consume_items_constructor_matches_upstream_source",
         "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems constructor; canonical data remains source_slice_ledger.N1478."
+      "runtime_proof": "/root/Main.generated_consume_items_constructor_bridge_state"
     },
     "N1479": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1479",
-      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
-      "generated_owner": "ConsumeItems.java_constructor_ConsumeItems_1",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
       "java_method": "ConsumeItems()",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "generated_owner": "ConsumeItems.java_constructor_ConsumeItems_1",
       "source_symbols": [
         "consume_items_default_constructor.items_field",
         "consume_items_default_constructor.constructor",
@@ -235,16 +1328,15 @@
         "test_consume_items_default_constructor_matches_upstream_source",
         "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_items_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItems default constructor; canonical data remains source_slice_ledger.N1479."
+      "runtime_proof": "/root/Main.generated_consume_items_default_constructor_bridge_state"
     },
     "N1480": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1480",
-      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
-      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_0",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
       "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_0",
       "source_symbols": [
         "consume_item_flammable_constructor.min_flammability_field",
         "consume_item_flammable_constructor.constructor",
@@ -259,16 +1351,15 @@
         "test_consume_item_flammable_constructor_matches_upstream_source",
         "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_flammable_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemFlammable constructor; canonical data remains source_slice_ledger.N1480."
+      "runtime_proof": "/root/Main.generated_consume_item_flammable_constructor_bridge_state"
     },
     "N1481": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1481",
-      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
-      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_1",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
       "java_method": "ConsumeItemFlammable()",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_1",
       "source_symbols": [
         "consume_item_flammable_default_constructor.constructor",
         "consume_item_flammable_default_constructor.default_call",
@@ -282,12 +1373,11 @@
         "test_consume_item_flammable_default_constructor_matches_upstream_source",
         "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_flammable_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemFlammable default constructor; canonical data remains source_slice_ledger.N1481."
+      "runtime_proof": "/root/Main.generated_consume_item_flammable_default_constructor_bridge_state"
     },
     "N1483": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1483",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
       "java_method": "ConsumeItemExplosive(float minCharge)",
       "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
@@ -306,12 +1396,11 @@
         "test_consume_item_explosive_constructor_matches_upstream_source",
         "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_explosive_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemExplosive constructor; canonical data remains source_slice_ledger.N1483."
+      "runtime_proof": "/root/Main.generated_consume_item_explosive_constructor_bridge_state"
     },
     "N1484": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1484",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
       "java_method": "ConsumeItemExplosive()",
       "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
@@ -329,12 +1418,11 @@
         "test_consume_item_explosive_default_constructor_matches_upstream_source",
         "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_explosive_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemExplosive default constructor; canonical data remains source_slice_ledger.N1484."
+      "runtime_proof": "/root/Main.generated_consume_item_explosive_default_constructor_bridge_state"
     },
     "N1486": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1486",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
       "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
       "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
@@ -353,12 +1441,11 @@
         "test_consume_item_radioactive_constructor_matches_upstream_source",
         "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_radioactive_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemRadioactive constructor; canonical data remains source_slice_ledger.N1486."
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_constructor_bridge_state"
     },
     "N1487": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1487",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
       "java_method": "ConsumeItemRadioactive()",
       "godot_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
@@ -374,12 +1461,11 @@
         "test_consume_item_radioactive_default_constructor_matches_upstream_source",
         "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_radioactive_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemRadioactive default constructor; canonical data remains source_slice_ledger.N1487."
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_default_constructor_bridge_state"
     },
     "N1488": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1488",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
       "java_method": "ConsumeItemCharged(float minCharge)",
       "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
@@ -398,12 +1484,11 @@
         "test_consume_item_charged_constructor_matches_upstream_source",
         "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_charged_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemCharged constructor; canonical data remains source_slice_ledger.N1488."
+      "runtime_proof": "/root/Main.generated_consume_item_charged_constructor_bridge_state"
     },
     "N1489": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1489",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
       "java_method": "ConsumeItemCharged()",
       "godot_owner": "PortGame.source_consume_item_charged_default_constructor_state",
@@ -419,12 +1504,11 @@
         "test_consume_item_charged_default_constructor_matches_upstream_source",
         "test_generated_consume_item_charged_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_item_charged_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeItemCharged default constructor; canonical data remains source_slice_ledger.N1489."
+      "runtime_proof": "/root/Main.generated_consume_item_charged_default_constructor_bridge_state"
     },
     "N1490": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1490",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
       "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
       "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
@@ -446,12 +1530,11 @@
         "test_consume_liquid_flammable_constructor_matches_upstream_source",
         "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeLiquidFlammable constructor; canonical data remains source_slice_ledger.N1490."
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_constructor_bridge_state"
     },
     "N1492": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1492",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
       "java_method": "ConsumeLiquidFlammable(float amount)",
       "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
@@ -471,12 +1554,11 @@
         "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
         "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_amount_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeLiquidFlammable amount constructor; canonical data remains source_slice_ledger.N1492."
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_amount_constructor_bridge_state"
     },
     "N1493": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1493",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
       "java_method": "ConsumeLiquidFlammable()",
       "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
@@ -497,12 +1579,11 @@
         "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
         "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_default_constructor_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeLiquidFlammable default constructor; canonical data remains source_slice_ledger.N1493."
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_default_constructor_bridge_state"
     },
     "N1494": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1494",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
       "java_method": "display(Stats stats)",
       "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
@@ -527,12 +1608,11 @@
         "test_consume_liquid_flammable_display_matches_upstream_source",
         "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_display_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeLiquidFlammable display; canonical data remains source_slice_ledger.N1494."
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_display_bridge_state"
     },
     "N1495": {
-      "status": "done",
       "canonical_ledger": "source_slice_ledger.N1495",
+      "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
       "java_method": "display(Stats stats)",
       "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
@@ -557,8 +1637,7 @@
         "test_consume_liquid_filter_display_matches_upstream_source",
         "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
       ],
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_display_bridge_state",
-      "rule": "Consumer shard mirror for ConsumeLiquidFilter display; canonical data remains source_slice_ledger.N1495."
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_display_bridge_state"
     },
     "N1497": {
       "canonical_ledger": "source_slice_ledger.N1497",
@@ -657,14 +1736,11 @@
     },
     "N1501": {
       "canonical_ledger": "source_slice_ledger.N1501",
-      "title": "Generated ConsumeLiquidFilter update bridge state",
       "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "java_class": "ConsumeLiquidFilter",
       "java_method": "update(Building build)",
-      "generated_owner": "ConsumeLiquidFilter.java_method_update_2",
       "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_update_bridge_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_update_2",
       "source_symbols": [
         "consume_liquid_filter_update.method",
         "consume_liquid_filter_update.consumed_liquid",
@@ -680,18 +1756,16 @@
         "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
         "test_consume_liquid_filter_update_matches_upstream_source",
         "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_update_bridge_state"
     },
     "N1502": {
       "canonical_ledger": "source_slice_ledger.N1502",
-      "title": "Generated ConsumeLiquidFilter efficiency bridge state",
       "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "java_class": "ConsumeLiquidFilter",
       "java_method": "efficiency(Building build)",
-      "generated_owner": "ConsumeLiquidFilter.java_method_efficiency_3",
       "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_bridge_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_efficiency_3",
       "source_symbols": [
         "consume_liquid_filter_efficiency.method",
         "consume_liquid_filter_efficiency.consumed_liquid",
@@ -709,18 +1783,16 @@
         "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
         "test_consume_liquid_filter_efficiency_matches_upstream_source",
         "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_bridge_state"
     },
     "N1503": {
       "canonical_ledger": "source_slice_ledger.N1503",
-      "title": "Generated ConsumeLiquidFilter efficiencyMultiplier bridge state",
       "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "java_class": "ConsumeLiquidFilter",
       "java_method": "efficiencyMultiplier(Building build)",
-      "generated_owner": "ConsumeLiquidFilter.java_method_efficiencyMultiplier_4",
       "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_efficiencyMultiplier_4",
       "source_symbols": [
         "consume_liquid_filter_efficiency_multiplier.method",
         "consume_liquid_filter_efficiency_multiplier.consumed_liquid",
@@ -736,18 +1808,16 @@
         "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
         "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
         "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_multiplier_bridge_state"
     },
     "N1504": {
       "canonical_ledger": "source_slice_ledger.N1504",
-      "title": "Generated ConsumeLiquidFilter build bridge state",
       "status": "done",
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "java_class": "ConsumeLiquidFilter",
       "java_method": "build(Building build, Table table)",
-      "generated_owner": "ConsumeLiquidFilter.java_method_build_1",
       "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_build_bridge_state",
+      "generated_owner": "ConsumeLiquidFilter.java_method_build_1",
       "source_symbols": [
         "consume_liquid_filter_build.method",
         "consume_liquid_filter_build.filtered_liquid_ids",
@@ -761,7 +1831,8 @@
         "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
         "test_consume_liquid_filter_build_matches_upstream_source",
         "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
-      ]
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_build_bridge_state"
     },
     "N1506": {
       "canonical_ledger": "source_slice_ledger.N1506",
@@ -783,6 +1854,5 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_liquids_build_bridge_state"
     }
-  },
-  "version": 1
+  }
 }

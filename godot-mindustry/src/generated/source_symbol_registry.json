@@ -126877,6 +126877,193 @@
         "test_consume_liquids_build_matches_upstream_source",
         "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_dynamic_build.assignment": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.assignment_expr",
+      "java_expr": "current[0] = items.get(build);",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.build refreshes the captured current item array after rebuild scheduling.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.current_item_ids": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_input.current_item_ids",
+      "java_expr": "items.get(build)",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Explicit input for initial items.get(build) capture during ConsumeItemDynamic.build.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.element_update": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.element_update",
+      "java_expr": "public Element update(Runnable r){",
+      "java_method": "Element.update(Runnable r)",
+      "java_source": "arc-core/src/arc/scene/Element.java",
+      "rule": "Arc Element.update supplies the update callback boundary used by ConsumeItemDynamic.build.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.element_update_assignment": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.element_update_assignment",
+      "java_expr": "update = r;",
+      "java_method": "Element.update(Runnable r)",
+      "java_source": "arc-core/src/arc/scene/Element.java",
+      "rule": "Arc Element.update stores the runnable update callback used by ConsumeItemDynamic.build.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.items_field",
+      "java_expr": "public final Func<Building, ItemStack[]> items;",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.build reads the source items Func field.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.method": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.method",
+      "java_expr": "public void build(Building build, Table table){",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Canonical ConsumeItemDynamic.build method boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.table_add": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.table_add",
+      "java_expr": "return add(table);",
+      "java_method": "Table.table(Cons<Table> cons)",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Table.java",
+      "rule": "Arc Table.table adds the child table created by the consumer build UI.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.table_cons_get": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.table_cons_get",
+      "java_expr": "cons.get(table);",
+      "java_method": "Table.table(Cons<Table> cons)",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Table.java",
+      "rule": "Arc Table.table invokes the Cons callback for child table construction.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.table_cons_method": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.table_cons_method",
+      "java_expr": "public Cell<Table> table(Cons<Table> cons){",
+      "java_method": "Table.table(Cons<Table> cons)",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Table.java",
+      "rule": "Arc Table.table method boundary used by ConsumeItemDynamic.build.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.table_expr": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.table_expr",
+      "java_expr": "table.table(cont -> {",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.build creates a child table for dynamic item requirements.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_build.update": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "godot_symbol": "source_consume_item_dynamic_build_result.update_expr",
+      "java_expr": "table.update(() -> {",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.build registers a table update callback for item stack changes.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_slice": "N1452",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
