@@ -40442,6 +40442,56 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
       "rule": "Public source helper exposes efficiency predicate keys backed by ConsumeItemFilter.efficiency(Building)."
+    },
+    "PortGame.source_consume_item_filter_get_consumed_state": {
+      "status": "source-backed",
+      "source_slice": "N1468",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "getConsumed(Building build)",
+      "params": [
+        {
+          "name": "content_items",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.content_items",
+          "java_expr": "content.items()"
+        },
+        {
+          "name": "build_items_has_item_flags",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.build_items_has_item_flags",
+          "java_expr": "build.items.has(item)"
+        },
+        {
+          "name": "filter_get_item_flags",
+          "type": "Array",
+          "schema": "source_consume_item_filter_get_consumed_input.filter_get_item_flags",
+          "java_expr": "this.filter.get(item)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "loop_expr",
+        "content_item_expr",
+        "guard_expr",
+        "return_item_expr",
+        "return_null_expr",
+        "content_items",
+        "build_items_has_item_flags",
+        "filter_get_item_flags",
+        "checked_items",
+        "consumed_item",
+        "consumed_index"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
+      "rule": "Public source helper exposes getConsumed scan state backed by ConsumeItemFilter.getConsumed(Building)."
     }
   },
   "policy": {

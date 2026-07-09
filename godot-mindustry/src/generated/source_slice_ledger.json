@@ -36851,6 +36851,59 @@
         "Concrete Building.consumeTriggerValid() dispatch remains explicit until generated Building wiring is ported."
       ],
       "rule": "Generated bridge models only the exact efficiency predicate from ConsumeItemFilter.efficiency(Building)."
+    },
+    "N1468": {
+      "title": "Generated ConsumeItemFilter getConsumed bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "getConsumed(Building build)",
+      "generated_owner": "ConsumeItemFilter.java_method_getConsumed_5",
+      "godot_owner": "PortGame.source_consume_item_filter_get_consumed_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_get_consumed_bridge_state",
+      "exact_exprs": [
+        "public @Nullable Item getConsumed(Building build){",
+        "for(int i = 0; i < content.items().size; i++){",
+        "Item item = content.item(i);",
+        "if(build.items.has(item) && this.filter.get(item)){",
+        "return item;",
+        "return null;",
+        "public Seq<Item> items(){",
+        "public Item item(int id){",
+        "public boolean has(Item item){",
+        "boolean get(T t);",
+        "public void display(Stats stats){"
+      ],
+      "source_symbols": [
+        "consume_item_filter_get_consumed.method",
+        "consume_item_filter_get_consumed.content_items",
+        "consume_item_filter_get_consumed.build_items_has_item_flags",
+        "consume_item_filter_get_consumed.filter_get_item_flags",
+        "consume_item_filter_get_consumed.loop_expr",
+        "consume_item_filter_get_consumed.content_item_expr",
+        "consume_item_filter_get_consumed.guard_expr",
+        "consume_item_filter_get_consumed.consumed_item",
+        "consume_item_filter_get_consumed.consumed_index",
+        "consume_item_filter_get_consumed.checked_items",
+        "consume_item_filter_get_consumed.return_null",
+        "consume_item_filter_get_consumed.content_items_method",
+        "consume_item_filter_get_consumed.content_item_method",
+        "consume_item_filter_get_consumed.item_module_has",
+        "consume_item_filter_get_consumed.boolf_get",
+        "consume_item_filter_get_consumed.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete live ContentLoader item registry remains a later source-backed slice.",
+        "Concrete ItemModule storage lookup remains explicit through build_items_has_item_flags until Building inventory wiring is ported.",
+        "Concrete Boolf<Item> dispatch remains explicit through filter_get_item_flags until filter object execution is ported."
+      ],
+      "rule": "Generated bridge models only exact getConsumed(Building) scan order, guard, first return item, and return null fallback."
     }
   },
   "version": 1

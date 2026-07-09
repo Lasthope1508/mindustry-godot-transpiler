@@ -17754,6 +17754,61 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"has_consumed_item": has_consumed_item', source_text)
             self.assertIn('"efficiency": efficiency', source_text)
 
+    def test_emit_bridges_consume_item_filter_get_consumed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItemFilter extends Consume{
+    public Item getConsumed(Building build){
+        for(int i = 0; i < content.items().size; i++){
+            Item item = content.item(i);
+            if(build.items.has(item) && this.filter.get(item)){
+                return item;
+            }
+        }
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getConsumed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var content_items: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var build_items_has_item_flags: Array = _args[1] if _args.size() > 1 else []", source_text)
+            self.assertIn("var filter_get_item_flags: Array = _args[2] if _args.size() > 2 else []", source_text)
+            self.assertIn("var consumed_item: Variant = null", source_text)
+            self.assertIn("var consumed_index: int = -1", source_text)
+            self.assertIn("for i in range(content_items.size()):", source_text)
+            self.assertIn("var item: Variant = content_items[i]", source_text)
+            self.assertIn("var item_matches: bool = build_items_has_item and filter_get_item", source_text)
+            self.assertIn("if item_matches:", source_text)
+            self.assertIn("consumed_item = item", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_get_consumed_state"', source_text)
+            self.assertIn('"method": "public @Nullable Item getConsumed(Building build){"', source_text)
+            self.assertIn('"loop_expr": "for(int i = 0; i < content.items().size; i++){"', source_text)
+            self.assertIn('"content_item_expr": "Item item = content.item(i);"', source_text)
+            self.assertIn('"guard_expr": "if(build.items.has(item) && this.filter.get(item)){"', source_text)
+            self.assertIn('"return_item_expr": "return item;"', source_text)
+            self.assertIn('"return_null_expr": "return null;"', source_text)
+            self.assertIn('"consumed_item": consumed_item', source_text)
+            self.assertIn('"consumed_index": consumed_index', source_text)
+            self.assertIn('"checked_items": checked_items', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

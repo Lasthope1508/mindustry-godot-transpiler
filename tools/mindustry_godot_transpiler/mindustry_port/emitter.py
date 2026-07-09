@@ -1534,6 +1534,30 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_filter_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float efficiency(Building build){", "return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "get_consumed_expr": "getConsumed(build) != null", "consume_trigger_valid": consume_trigger_valid, "consumed_item": consumed_item, "has_consumed_item": has_consumed_item, "efficiency": efficiency}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
+        and type_entry.get("name") == "ConsumeItemFilter"
+        and method.get("name") == "getConsumed"
+    ):
+        return [
+            "\tvar content_items: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar build_items_has_item_flags: Array = _args[1] if _args.size() > 1 else []",
+            "\tvar filter_get_item_flags: Array = _args[2] if _args.size() > 2 else []",
+            "\tvar consumed_item: Variant = null",
+            "\tvar consumed_index: int = -1",
+            "\tvar checked_items: Array = []",
+            "\tfor i in range(content_items.size()):",
+            "\t\tvar item: Variant = content_items[i]",
+            "\t\tvar build_items_has_item: bool = bool(build_items_has_item_flags[i]) if i < build_items_has_item_flags.size() else false",
+            "\t\tvar filter_get_item: bool = bool(filter_get_item_flags[i]) if i < filter_get_item_flags.size() else false",
+            "\t\tvar item_matches: bool = build_items_has_item and filter_get_item",
+            '\t\tchecked_items.append({"index": i, "item": item, "build_items_has_item": build_items_has_item, "filter_get_item": filter_get_item, "item_matches": item_matches})',
+            "\t\tif item_matches:",
+            "\t\t\tconsumed_item = item",
+            "\t\t\tconsumed_index = i",
+            "\t\t\tbreak",
+            '\treturn {"source_owner": "PortGame.source_consume_item_filter_get_consumed_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public @Nullable Item getConsumed(Building build){", "loop_expr": "for(int i = 0; i < content.items().size; i++){", "content_item_expr": "Item item = content.item(i);", "guard_expr": "if(build.items.has(item) && this.filter.get(item)){", "return_item_expr": "return item;", "return_null_expr": "return null;", "content_items": content_items, "build_items_has_item_flags": build_items_has_item_flags, "filter_get_item_flags": filter_get_item_flags, "checked_items": checked_items, "consumed_item": consumed_item, "consumed_index": consumed_index}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
         and type_entry.get("name") == "ConsumeLiquidFlammable"
         and method.get("name") == "liquidEfficiencyMultiplier"

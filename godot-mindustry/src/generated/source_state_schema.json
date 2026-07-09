@@ -155252,6 +155252,149 @@
           "rule": "1.0 when source OR predicate passes, otherwise 0.0."
         }
       }
+    },
+    "source_consume_item_filter_get_consumed_input": {
+      "status": "source-backed",
+      "source_slice": "N1468",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "content_items": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "content.items()",
+          "rule": "Ordered content.items() input sequence."
+        },
+        "build_items_has_item_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "build.items.has(item)",
+          "rule": "Per-index build.items.has(item) values for matching content_items."
+        },
+        "filter_get_item_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "this.filter.get(item)",
+          "rule": "Per-index this.filter.get(item) values for matching content_items."
+        }
+      }
+    },
+    "source_consume_item_filter_get_consumed_result": {
+      "status": "source-backed",
+      "source_slice": "N1468",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state",
+        "test_consume_item_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_item_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_filter_get_consumed_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "public @Nullable Item getConsumed(Building build){",
+          "rule": "Exact getConsumed method boundary."
+        },
+        "loop_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "for(int i = 0; i < content.items().size; i++){",
+          "rule": "Exact source loop expression."
+        },
+        "content_item_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "Item item = content.item(i);",
+          "rule": "Exact source local item expression."
+        },
+        "guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "if(build.items.has(item) && this.filter.get(item)){",
+          "rule": "Exact source guard expression."
+        },
+        "return_item_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "return item;",
+          "rule": "Exact source return item expression."
+        },
+        "return_null_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "return null;",
+          "rule": "Exact source fallback return."
+        },
+        "content_items": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_get_consumed_input.content_items",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "build_items_has_item_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_get_consumed_input.build_items_has_item_flags",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "filter_get_item_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_get_consumed_input.filter_get_item_flags",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "checked_items": {
+          "type": "Array",
+          "status": "generated",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "for(int i = 0; i < content.items().size; i++){",
+          "rule": "Trace rows preserving source loop order and per-item predicate results."
+        },
+        "consumed_item": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "return item;",
+          "rule": "First item satisfying both source predicates, or null when none match."
+        },
+        "consumed_index": {
+          "type": "int",
+          "status": "generated",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "for(int i = 0; i < content.items().size; i++){",
+          "rule": "Index of consumed_item in content_items, or -1 for return null."
+        }
+      }
     }
   },
   "version": 1

@@ -604,6 +604,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_get_consumed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_get_consumed_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_get_consumed_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public @Nullable Item getConsumed(Building build){"', source)
+        self.assertIn('"loop_expr": "for(int i = 0; i < content.items().size; i++){"', source)
+        self.assertIn('"content_item_expr": "Item item = content.item(i);"', source)
+        self.assertIn('"guard_expr": "if(build.items.has(item) && this.filter.get(item)){"', source)
+        self.assertIn('"return_item_expr": "return item;"', source)
+        self.assertIn('"return_null_expr": "return null;"', source)
+        self.assertIn("var consumed_item: Variant = null", source)
+        self.assertIn("var consumed_index: int = -1", source)
+        self.assertIn("for i in range(content_items.size()):", source)
+        self.assertIn("var item_matches: bool = build_items_has_item and filter_get_item", source)
+        self.assertIn('"content_items": content_items', source)
+        self.assertIn('"build_items_has_item_flags": build_items_has_item_flags', source)
+        self.assertIn('"filter_get_item_flags": filter_get_item_flags', source)
+        self.assertIn('"consumed_item": consumed_item', source)
+        self.assertIn('"consumed_index": consumed_index', source)
+        self.assertIn('"checked_items": checked_items', source)
+        self.assertIn("func generated_consume_item_filter_get_consumed_bridge_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_getConsumed_5([content_items, build_items_has_item_flags, filter_get_item_flags])", source)
+        self.assertIn("var canonical = source_consume_item_filter_get_consumed_state(content_items, build_items_has_item_flags, filter_get_item_flags)", source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.getConsumed"', source)
+        self.assertIn('"matches": result.get("consumed_item", null) == canonical.get("consumed_item", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

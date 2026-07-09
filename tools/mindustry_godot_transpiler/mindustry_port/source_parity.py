@@ -4391,6 +4391,51 @@ def verify_consume_item_filter_efficiency_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_consume_item_filter_get_consumed_source(upstream_root: Path, arc_root: Path | None = None) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    content_loader_source = "core/src/mindustry/core/ContentLoader.java"
+    item_module_source = "core/src/mindustry/world/modules/ItemModule.java"
+    boolf_source = "arc-core/src/arc/func/Boolf.java"
+    upstream_root = Path(upstream_root)
+    arc_root = Path(arc_root) if arc_root is not None else upstream_root.parent / "arc-upstream"
+    source = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    content_loader = (upstream_root / content_loader_source).read_text(encoding="utf-8", errors="replace")
+    item_module = (upstream_root / item_module_source).read_text(encoding="utf-8", errors="replace")
+    boolf = (arc_root / boolf_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public @Nullable Item getConsumed(Building build){",
+        "loop_expr": "for(int i = 0; i < content.items().size; i++){",
+        "content_item_expr": "Item item = content.item(i);",
+        "guard_expr": "if(build.items.has(item) && this.filter.get(item)){",
+        "return_item_expr": "return item;",
+        "return_null_expr": "return null;",
+        "next_method": "public void display(Stats stats){",
+        "content_items_method": "public Seq<Item> items(){",
+        "content_item_method": "public Item item(int id){",
+        "item_module_has": "public boolean has(Item item){",
+        "boolf_get": "boolean get(T t);",
+    }
+    source_by_key = {
+        "method": source,
+        "loop_expr": source,
+        "content_item_expr": source,
+        "guard_expr": source,
+        "return_item_expr": source,
+        "return_null_expr": source,
+        "next_method": source,
+        "content_items_method": content_loader,
+        "content_item_method": content_loader,
+        "item_module_has": item_module,
+        "boolf_get": boolf,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_filter_source,
+        "sources": [content_loader_source, item_module_source, boolf_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

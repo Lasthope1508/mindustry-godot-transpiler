@@ -1039,6 +1039,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_filter_get_consumed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_get_consumed_source"))
+        report = source_parity.verify_consume_item_filter_get_consumed_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertIn("core/src/mindustry/core/ContentLoader.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/ItemModule.java", report["sources"])
+        self.assertIn("arc-core/src/arc/func/Boolf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public @Nullable Item getConsumed(Building build){",
+            "loop_expr": "for(int i = 0; i < content.items().size; i++){",
+            "content_item_expr": "Item item = content.item(i);",
+            "guard_expr": "if(build.items.has(item) && this.filter.get(item)){",
+            "return_item_expr": "return item;",
+            "return_null_expr": "return null;",
+            "next_method": "public void display(Stats stats){",
+            "content_items_method": "public Seq<Item> items(){",
+            "content_item_method": "public Item item(int id){",
+            "item_module_has": "public boolean has(Item item){",
+            "boolf_get": "boolean get(T t);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")

@@ -2625,6 +2625,50 @@ func generated_consume_item_filter_efficiency_bridge_state(consume_trigger_valid
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null),
 	}
 
+func source_consume_item_filter_get_consumed_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
+	var consumed_item: Variant = null
+	var consumed_index: int = -1
+	var checked_items: Array = []
+	for i in range(content_items.size()):
+		var item: Variant = content_items[i]
+		var build_items_has_item: bool = bool(build_items_has_item_flags[i]) if i < build_items_has_item_flags.size() else false
+		var filter_get_item: bool = bool(filter_get_item_flags[i]) if i < filter_get_item_flags.size() else false
+		var item_matches: bool = build_items_has_item and filter_get_item
+		checked_items.append({"index": i, "item": item, "build_items_has_item": build_items_has_item, "filter_get_item": filter_get_item, "item_matches": item_matches})
+		if item_matches:
+			consumed_item = item
+			consumed_index = i
+			break
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_get_consumed_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public @Nullable Item getConsumed(Building build){",
+		"loop_expr": "for(int i = 0; i < content.items().size; i++){",
+		"content_item_expr": "Item item = content.item(i);",
+		"guard_expr": "if(build.items.has(item) && this.filter.get(item)){",
+		"return_item_expr": "return item;",
+		"return_null_expr": "return null;",
+		"content_items": content_items,
+		"build_items_has_item_flags": build_items_has_item_flags,
+		"filter_get_item_flags": filter_get_item_flags,
+		"checked_items": checked_items,
+		"consumed_item": consumed_item,
+		"consumed_index": consumed_index,
+	}
+
+func generated_consume_item_filter_get_consumed_bridge_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_getConsumed_5([content_items, build_items_has_item_flags, filter_get_item_flags])
+	var canonical = source_consume_item_filter_get_consumed_state(content_items, build_items_has_item_flags, filter_get_item_flags)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_get_consumed_state",
+		"generated_owner": "ConsumeItemFilter.getConsumed",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("consumed_item", null) == canonical.get("consumed_item", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null) and result.get("checked_items", []) == canonical.get("checked_items", []),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
