@@ -36812,6 +36812,45 @@
         "ItemModule.remove(Item,int) clamping/mutation internals remain separate source-backed behavior."
       ],
       "rule": "Generated bridge models only trigger getConsumed result, null guard, and remove call from exact Java source."
+    },
+    "N1467": {
+      "title": "Generated ConsumeItemFilter efficiency bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "efficiency(Building build)",
+      "generated_owner": "ConsumeItemFilter.java_method_efficiency_4",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_efficiency_bridge_state",
+      "exact_exprs": [
+        "public float efficiency(Building build){",
+        "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;",
+        "build.consumeTriggerValid()",
+        "getConsumed(build) != null",
+        "public boolean consumeTriggerValid(){",
+        "return false;",
+        "public @Nullable Item getConsumed(Building build){"
+      ],
+      "source_symbols": [
+        "consume_item_filter_efficiency.method",
+        "consume_item_filter_efficiency.consume_trigger_valid",
+        "consume_item_filter_efficiency.consumed_item",
+        "consume_item_filter_efficiency.has_consumed_item",
+        "consume_item_filter_efficiency.efficiency",
+        "consume_item_filter_efficiency.next_method",
+        "consume_item_filter_efficiency.consume_trigger_valid_default"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete getConsumed(Building) item scanning/filtering remains a later source-backed slice.",
+        "Concrete Building.consumeTriggerValid() dispatch remains explicit until generated Building wiring is ported."
+      ],
+      "rule": "Generated bridge models only the exact efficiency predicate from ConsumeItemFilter.efficiency(Building)."
     }
   },
   "version": 1

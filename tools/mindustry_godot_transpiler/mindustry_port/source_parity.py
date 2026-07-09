@@ -4363,6 +4363,34 @@ def verify_consume_item_filter_trigger_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_consume_item_filter_efficiency_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    building_comp = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float efficiency(Building build){",
+        "return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;",
+        "consume_trigger_valid_method": "public boolean consumeTriggerValid(){",
+        "consume_trigger_valid_default": "return false;",
+        "next_method": "public @Nullable Item getConsumed(Building build){",
+    }
+    source_by_key = {
+        "method": source,
+        "return_expr": source,
+        "consume_trigger_valid_method": building_comp,
+        "consume_trigger_valid_default": building_comp,
+        "next_method": source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_filter_source,
+        "sources": [building_comp_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

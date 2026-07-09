@@ -2596,6 +2596,35 @@ func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, co
 		"matches": result.get("item_removed", null) == canonical.get("item_removed", null) and result.get("remove_amount", null) == canonical.get("remove_amount", null) and result.get("consumed_item", null) == canonical.get("consumed_item", null),
 	}
 
+func source_consume_item_filter_efficiency_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
+	var has_consumed_item: bool = consumed_item != null
+	var efficiency: float = 1.0 if consume_trigger_valid or has_consumed_item else 0.0
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_efficiency_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public float efficiency(Building build){",
+		"return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;",
+		"consume_trigger_valid_expr": "build.consumeTriggerValid()",
+		"get_consumed_expr": "getConsumed(build) != null",
+		"consume_trigger_valid": consume_trigger_valid,
+		"consumed_item": consumed_item,
+		"has_consumed_item": has_consumed_item,
+		"efficiency": efficiency,
+	}
+
+func generated_consume_item_filter_efficiency_bridge_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_4([consume_trigger_valid, consumed_item])
+	var canonical = source_consume_item_filter_efficiency_state(consume_trigger_valid, consumed_item)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_efficiency_state",
+		"generated_owner": "ConsumeItemFilter.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

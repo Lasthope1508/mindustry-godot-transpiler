@@ -50,7 +50,11 @@ func java_method_trigger_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_item_filter_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void trigger(Building build){", "get_consumed_expr": "Item item = getConsumed(build);", "null_guard_expr": "if(item != null){", "remove_expr": "build.items.remove(item, 1);", "build_state": build_state, "consumed_item": consumed_item, "item_removed": item_removed, "remove_amount": remove_amount, "remove_call": remove_call}
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
-	return null
+	var consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)
+	var consumed_item: Variant = _args[1] if _args.size() > 1 else null
+	var has_consumed_item: bool = consumed_item != null
+	var efficiency: float = 1.0 if consume_trigger_valid or has_consumed_item else 0.0
+	return {"source_owner": "PortGame.source_consume_item_filter_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float efficiency(Building build){", "return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "get_consumed_expr": "getConsumed(build) != null", "consume_trigger_valid": consume_trigger_valid, "consumed_item": consumed_item, "has_consumed_item": has_consumed_item, "efficiency": efficiency}
 
 func java_method_getConsumed_5(_args: Array = []) -> Variant:
 	return null

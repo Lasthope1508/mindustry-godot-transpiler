@@ -121791,6 +121791,118 @@
         "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_efficiency.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_item_filter_efficiency_result.method",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Exact ConsumeItemFilter.efficiency method boundary."
+    },
+    "consume_item_filter_efficiency.consume_trigger_valid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "build.consumeTriggerValid()",
+      "godot_symbol": "source_consume_item_filter_efficiency_input.consume_trigger_valid",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Explicit result of build.consumeTriggerValid() until concrete Building dispatch is wired."
+    },
+    "consume_item_filter_efficiency.consumed_item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "getConsumed(build)",
+      "godot_symbol": "source_consume_item_filter_efficiency_input.consumed_item",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Explicit result of getConsumed(build) until getConsumed scanning/filtering is ported."
+    },
+    "consume_item_filter_efficiency.has_consumed_item": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "getConsumed(build) != null",
+      "godot_symbol": "source_consume_item_filter_efficiency_result.has_consumed_item",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Boolean null test from the exact efficiency return expression."
+    },
+    "consume_item_filter_efficiency.efficiency": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;",
+      "godot_symbol": "source_consume_item_filter_efficiency_result.efficiency",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Returns 1f when trigger consumption is valid or getConsumed(build) is non-null, else 0f."
+    },
+    "consume_item_filter_efficiency.next_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public @Nullable Item getConsumed(Building build){",
+      "godot_symbol": "source_consume_item_filter_efficiency_result.next_method",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Next source method boundary after efficiency."
+    },
+    "consume_item_filter_efficiency.consume_trigger_valid_default": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "consumeTriggerValid()",
+      "java_expr": "return false;",
+      "godot_symbol": "source_consume_item_filter_efficiency_result.consume_trigger_valid_default",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "BuildingComp default anchor for build.consumeTriggerValid()."
     }
   },
   "version": 1

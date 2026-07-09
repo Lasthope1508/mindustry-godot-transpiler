@@ -1522,6 +1522,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float itemEfficiencyMultiplier(Item item){", "efficiency_multiplier": efficiency_multiplier, "return_expr": "return 1f;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
+        and type_entry.get("name") == "ConsumeItemFilter"
+        and method.get("name") == "efficiency"
+    ):
+        return [
+            "\tvar consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar consumed_item: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar has_consumed_item: bool = consumed_item != null",
+            "\tvar efficiency: float = 1.0 if consume_trigger_valid or has_consumed_item else 0.0",
+            '\treturn {"source_owner": "PortGame.source_consume_item_filter_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float efficiency(Building build){", "return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "get_consumed_expr": "getConsumed(build) != null", "consume_trigger_valid": consume_trigger_valid, "consumed_item": consumed_item, "has_consumed_item": has_consumed_item, "efficiency": efficiency}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
         and type_entry.get("name") == "ConsumeLiquidFlammable"
         and method.get("name") == "liquidEfficiencyMultiplier"

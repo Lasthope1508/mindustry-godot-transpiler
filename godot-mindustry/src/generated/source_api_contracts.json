@@ -40402,6 +40402,46 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state",
       "rule": "Public source helper exposes trigger state keys backed by ConsumeItemFilter.trigger(Building)."
+    },
+    "PortGame.source_consume_item_filter_efficiency_state": {
+      "status": "source-backed",
+      "source_slice": "N1467",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "name": "consume_trigger_valid",
+          "type": "bool",
+          "schema": "source_consume_item_filter_efficiency_input.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()"
+        },
+        {
+          "name": "consumed_item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_efficiency_input.consumed_item",
+          "java_expr": "getConsumed(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "consume_trigger_valid_expr",
+        "get_consumed_expr",
+        "consume_trigger_valid",
+        "consumed_item",
+        "has_consumed_item",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_bridge_state",
+        "test_consume_item_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_state",
+      "rule": "Public source helper exposes efficiency predicate keys backed by ConsumeItemFilter.efficiency(Building)."
     }
   },
   "policy": {

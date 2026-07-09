@@ -17712,6 +17712,48 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"remove_amount": remove_amount', source_text)
             self.assertIn('"remove_call": remove_call', source_text)
 
+    def test_emit_bridges_consume_item_filter_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItemFilter extends Consume{
+    public float efficiency(Building build){
+        return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var consumed_item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var has_consumed_item: bool = consumed_item != null", source_text)
+            self.assertIn("var efficiency: float = 1.0 if consume_trigger_valid or has_consumed_item else 0.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_efficiency_state"', source_text)
+            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
+            self.assertIn('"return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;"', source_text)
+            self.assertIn('"consume_trigger_valid_expr": "build.consumeTriggerValid()"', source_text)
+            self.assertIn('"get_consumed_expr": "getConsumed(build) != null"', source_text)
+            self.assertIn('"consume_trigger_valid": consume_trigger_valid', source_text)
+            self.assertIn('"consumed_item": consumed_item', source_text)
+            self.assertIn('"has_consumed_item": has_consumed_item', source_text)
+            self.assertIn('"efficiency": efficiency', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
