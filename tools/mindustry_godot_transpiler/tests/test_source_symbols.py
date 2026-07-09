@@ -10,6 +10,22 @@ from mindustry_port import source_symbols
 
 
 class SourceSymbolRegistryTests(unittest.TestCase):
+    def test_source_ssot_catalog_defines_canonical_json_modules(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema"])
+        self.assertEqual(source_ssot.relative_path("registry").as_posix(), "src/generated/source_symbol_registry.json")
+        self.assertEqual(source_ssot.relative_path("audit_report").as_posix(), "src/generated/source_symbol_audit_report.json")
+        self.assertEqual(source_ssot.relative_path("slice_ledger").as_posix(), "src/generated/source_slice_ledger.json")
+        self.assertEqual(source_ssot.relative_path("api_contracts").as_posix(), "src/generated/source_api_contracts.json")
+        self.assertEqual(source_ssot.relative_path("state_schema").as_posix(), "src/generated/source_state_schema.json")
+        self.assertEqual(source_ssot.root_key("registry"), "symbols")
+        self.assertEqual(source_ssot.root_key("slice_ledger"), "slices")
+        self.assertEqual(source_ssot.runtime_label("state_schema"), "schemaName")
+        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "registry")["version"], 1)
+
     def test_draw_parts_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)

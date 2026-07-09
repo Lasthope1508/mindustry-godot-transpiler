@@ -2,13 +2,9 @@ extends Node2D
 class_name PortGame
 
 const CONFIG_PATH := "res://src/generated/playable_content.json"
-const SOURCE_SYMBOL_REGISTRY_PATH := "res://src/generated/source_symbol_registry.json"
-const SOURCE_SYMBOL_AUDIT_REPORT_PATH := "res://src/generated/source_symbol_audit_report.json"
-const SOURCE_SLICE_LEDGER_PATH := "res://src/generated/source_slice_ledger.json"
-const SOURCE_API_CONTRACTS_PATH := "res://src/generated/source_api_contracts.json"
-const SOURCE_STATE_SCHEMA_PATH := "res://src/generated/source_state_schema.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const WORLD_W := 24
 const WORLD_H := 16
@@ -169,90 +165,19 @@ func load_config() -> void:
 		tile_size = int(config.get("tile_size", 32))
 
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
-	var text := FileAccess.get_file_as_string(SOURCE_SYMBOL_REGISTRY_PATH)
-	var parsed = JSON.parse_string(text)
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {"loaded": false, "count": 0, "symbol": symbol, "entry": {}}
-	var symbols: Dictionary = parsed.get("symbols", {})
-	var entry: Dictionary = {}
-	if symbol != "":
-		entry = symbols.get(symbol, {})
-	return {
-		"loaded": true,
-		"version": int(parsed.get("version", 0)),
-		"count": symbols.size(),
-		"symbol": symbol,
-		"entry": entry,
-	}
+	return SourceSsotCatalog.lookup_state("registry", symbol)
 
 func source_symbol_audit_state() -> Dictionary:
-	var text := FileAccess.get_file_as_string(SOURCE_SYMBOL_AUDIT_REPORT_PATH)
-	var parsed = JSON.parse_string(text)
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {"loaded": false, "totalSourceFunctions": 0, "legacyUnregisteredOwnerCount": 0}
-	return {
-		"loaded": true,
-		"version": int(parsed.get("version", 0)),
-		"totalSourceFunctions": int(parsed.get("totalSourceFunctions", 0)),
-		"registeredSourceOwnerCount": int(parsed.get("registeredSourceOwnerCount", 0)),
-		"exemptSourceOwnerCount": int(parsed.get("exemptSourceOwnerCount", 0)),
-		"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0)),
-		"policy": parsed.get("policy", {}),
-	}
+	return SourceSsotCatalog.audit_summary_state()
 
 func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	var text := FileAccess.get_file_as_string(SOURCE_SLICE_LEDGER_PATH)
-	var parsed = JSON.parse_string(text)
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {"loaded": false, "count": 0, "sliceId": slice_id, "entry": {}}
-	var slices: Dictionary = parsed.get("slices", {})
-	var entry: Dictionary = {}
-	if slice_id != "":
-		entry = slices.get(slice_id, {})
-	return {
-		"loaded": true,
-		"version": int(parsed.get("version", 0)),
-		"count": slices.size(),
-		"sliceId": slice_id,
-		"entry": entry,
-		"policy": parsed.get("policy", {}),
-	}
+	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
 
 func source_api_contract_state(contract_owner: String = "") -> Dictionary:
-	var text := FileAccess.get_file_as_string(SOURCE_API_CONTRACTS_PATH)
-	var parsed = JSON.parse_string(text)
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {"loaded": false, "count": 0, "owner": contract_owner, "entry": {}}
-	var contracts: Dictionary = parsed.get("contracts", {})
-	var entry: Dictionary = {}
-	if contract_owner != "":
-		entry = contracts.get(contract_owner, {})
-	return {
-		"loaded": true,
-		"version": int(parsed.get("version", 0)),
-		"count": contracts.size(),
-		"owner": contract_owner,
-		"entry": entry,
-		"policy": parsed.get("policy", {}),
-	}
+	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
 
 func source_state_schema_state(schema_name: String = "") -> Dictionary:
-	var text := FileAccess.get_file_as_string(SOURCE_STATE_SCHEMA_PATH)
-	var parsed = JSON.parse_string(text)
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {"loaded": false, "count": 0, "schemaName": schema_name, "entry": {}}
-	var schemas: Dictionary = parsed.get("schemas", {})
-	var entry: Dictionary = {}
-	if schema_name != "":
-		entry = schemas.get(schema_name, {})
-	return {
-		"loaded": true,
-		"version": int(parsed.get("version", 0)),
-		"count": schemas.size(),
-		"schemaName": schema_name,
-		"entry": entry,
-		"policy": parsed.get("policy", {}),
-	}
+	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()

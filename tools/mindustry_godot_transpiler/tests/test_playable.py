@@ -11834,34 +11834,45 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_symbol_registry_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
 
-        self.assertIn('const SOURCE_SYMBOL_REGISTRY_PATH := "res://src/generated/source_symbol_registry.json"', source)
+        self.assertTrue(catalog.exists())
+        catalog_source = catalog.read_text(encoding="utf-8")
+        self.assertIn('class_name SourceSsotCatalog', catalog_source)
+        self.assertIn('"registry": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/source_symbol_registry.json"', catalog_source)
+        self.assertIn('static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:', catalog_source)
+        self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source)
         self.assertIn('func source_symbol_registry_state(symbol: String = "") -> Dictionary:', source)
-        self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_REGISTRY_PATH)", source)
-        self.assertIn("symbols.get(symbol, {})", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("registry", symbol)', source)
+        self.assertNotIn("SOURCE_SYMBOL_REGISTRY_PATH", source)
 
     def test_port_game_exposes_source_symbol_audit_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_SYMBOL_AUDIT_REPORT_PATH := "res://src/generated/source_symbol_audit_report.json"', source)
         self.assertIn("func source_symbol_audit_state() -> Dictionary:", source)
-        self.assertIn("FileAccess.get_file_as_string(SOURCE_SYMBOL_AUDIT_REPORT_PATH)", source)
-        self.assertIn('"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0))', source)
+        self.assertIn('return SourceSsotCatalog.audit_summary_state()', source)
+        self.assertNotIn("SOURCE_SYMBOL_AUDIT_REPORT_PATH", source)
 
     def test_port_game_exposes_source_framework_lookups(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_SLICE_LEDGER_PATH := "res://src/generated/source_slice_ledger.json"', source)
-        self.assertIn('const SOURCE_API_CONTRACTS_PATH := "res://src/generated/source_api_contracts.json"', source)
-        self.assertIn('const SOURCE_STATE_SCHEMA_PATH := "res://src/generated/source_state_schema.json"', source)
+        self.assertIn('"slice_ledger": {', catalog_source)
+        self.assertIn('"api_contracts": {', catalog_source)
+        self.assertIn('"state_schema": {', catalog_source)
         self.assertIn('func source_slice_ledger_state(slice_id: String = "") -> Dictionary:', source)
         self.assertIn('func source_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
         self.assertIn('func source_state_schema_state(schema_name: String = "") -> Dictionary:', source)
-        self.assertIn('FileAccess.get_file_as_string(SOURCE_SLICE_LEDGER_PATH)', source)
-        self.assertIn('FileAccess.get_file_as_string(SOURCE_API_CONTRACTS_PATH)', source)
-        self.assertIn('FileAccess.get_file_as_string(SOURCE_STATE_SCHEMA_PATH)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("state_schema", schema_name)', source)
+        self.assertNotIn("SOURCE_SLICE_LEDGER_PATH", source)
+        self.assertNotIn("SOURCE_API_CONTRACTS_PATH", source)
+        self.assertNotIn("SOURCE_STATE_SCHEMA_PATH", source)
 
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

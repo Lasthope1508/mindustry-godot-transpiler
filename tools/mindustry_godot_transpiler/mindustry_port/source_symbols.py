@@ -2,45 +2,43 @@
 
 from __future__ import annotations
 
-import json
 import re
 from pathlib import Path
 from typing import Any
 
 
-REGISTRY_RELATIVE_PATH = Path("src/generated/source_symbol_registry.json")
-AUDIT_REPORT_RELATIVE_PATH = Path("src/generated/source_symbol_audit_report.json")
-SLICE_LEDGER_RELATIVE_PATH = Path("src/generated/source_slice_ledger.json")
-API_CONTRACTS_RELATIVE_PATH = Path("src/generated/source_api_contracts.json")
-STATE_SCHEMA_RELATIVE_PATH = Path("src/generated/source_state_schema.json")
+from . import source_ssot
+
+
+REGISTRY_RELATIVE_PATH = source_ssot.relative_path("registry")
+AUDIT_REPORT_RELATIVE_PATH = source_ssot.relative_path("audit_report")
+SLICE_LEDGER_RELATIVE_PATH = source_ssot.relative_path("slice_ledger")
+API_CONTRACTS_RELATIVE_PATH = source_ssot.relative_path("api_contracts")
+STATE_SCHEMA_RELATIVE_PATH = source_ssot.relative_path("state_schema")
 ALLOWED_STATUSES = {"source-backed", "explicit-input", "deferred", "generated"}
 REQUIRED_ENTRY_FIELDS = {"status", "godot_symbol", "godot_owner", "rule", "tests", "runtime_proof"}
 SOURCE_REQUIRED_STATUSES = {"source-backed", "explicit-input"}
 DEFAULT_EXEMPT_SOURCE_OWNERS = ["PortGame.source_symbol_registry_state", "PortGame.source_symbol_audit_state"]
 
 
-def _load_json(godot_root: Path, relative_path: Path) -> dict[str, Any]:
-    return json.loads((Path(godot_root) / relative_path).read_text(encoding="utf-8"))
-
-
 def load_source_symbol_registry(godot_root: Path) -> dict[str, Any]:
-    return _load_json(godot_root, REGISTRY_RELATIVE_PATH)
+    return source_ssot.load_json(godot_root, "registry")
 
 
 def load_source_symbol_audit_report(godot_root: Path) -> dict[str, Any]:
-    return _load_json(godot_root, AUDIT_REPORT_RELATIVE_PATH)
+    return source_ssot.load_json(godot_root, "audit_report")
 
 
 def load_source_slice_ledger(godot_root: Path) -> dict[str, Any]:
-    return _load_json(godot_root, SLICE_LEDGER_RELATIVE_PATH)
+    return source_ssot.load_json(godot_root, "slice_ledger")
 
 
 def load_source_api_contracts(godot_root: Path) -> dict[str, Any]:
-    return _load_json(godot_root, API_CONTRACTS_RELATIVE_PATH)
+    return source_ssot.load_json(godot_root, "api_contracts")
 
 
 def load_source_state_schema(godot_root: Path) -> dict[str, Any]:
-    return _load_json(godot_root, STATE_SCHEMA_RELATIVE_PATH)
+    return source_ssot.load_json(godot_root, "state_schema")
 
 
 def source_symbol(registry: dict[str, Any], symbol: str) -> dict[str, Any]:
