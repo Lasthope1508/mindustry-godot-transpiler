@@ -124157,6 +124157,108 @@
         "test_generated_consume_items_display_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public ConsumeItems(ItemStack[] items){",
+      "godot_symbol": "source_consume_items_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ConsumeItems ItemStack array constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stacks": {
+      "status": "explicit-input",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "ItemStack[] items",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Constructor ItemStack array supplied explicitly until live ItemStack objects are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "this.items = items;",
+      "godot_symbol": "source_consume_items_constructor_result.items_after",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Constructor assigns provided ItemStack array to ConsumeItems.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.items_field": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_constructor_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ConsumeItems items field.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stack_item_field": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks[].item",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ItemStack item field for constructor input rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stack_amount_field": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks[].amount",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ItemStack amount field for constructor input rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
     }
   },
   "version": 1

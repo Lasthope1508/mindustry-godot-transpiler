@@ -17533,6 +17533,44 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"filter_field": "public Boolf<Item> filter = i -> false;"', source_text)
             self.assertIn('"filter_after": filter_after', source_text)
 
+    def test_emit_bridges_consume_items_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItems.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+
+public class ConsumeItems extends Consume{
+    public final ItemStack[] items;
+
+    public ConsumeItems(ItemStack[] items){
+        this.items = items;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItems_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var items_after: Array = item_stacks.duplicate(true)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_items_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItems(ItemStack[] items){"', source_text)
+            self.assertIn('"assignment_expr": "this.items = items;"', source_text)
+            self.assertIn('"items_field": "public final ItemStack[] items;"', source_text)
+            self.assertIn('"items_after": items_after', source_text)
+
     def test_emit_bridges_consume_item_filter_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

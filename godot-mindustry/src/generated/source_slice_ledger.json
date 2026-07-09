@@ -37276,6 +37276,38 @@
         "test_consume_items_display_matches_upstream_source",
         "test_generated_consume_items_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1478": {
+      "title": "Generated ConsumeItems constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_class": "ConsumeItems",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "generated_owner": "ConsumeItems.java_constructor_ConsumeItems_0",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_items_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItems ItemStack[] constructor assignment without inventing default constructor behavior.",
+      "exact_exprs": [
+        "public final ItemStack[] items;",
+        "public ConsumeItems(ItemStack[] items){",
+        "this.items = items;",
+        "public Item item;",
+        "public int amount = 0;"
+      ],
+      "source_symbols": [
+        "consume_items_constructor.items_field",
+        "consume_items_constructor.constructor",
+        "consume_items_constructor.item_stacks",
+        "consume_items_constructor.assignment",
+        "consume_items_constructor.item_stack_item_field",
+        "consume_items_constructor.item_stack_amount_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

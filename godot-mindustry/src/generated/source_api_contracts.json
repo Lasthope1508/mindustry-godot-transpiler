@@ -40859,6 +40859,36 @@
       ],
       "runtime_proof": "/root/Main.source_consume_items_display_state",
       "rule": "Source state mirrors ConsumeItems.display branch outputs and defers live Stats mutation."
+    },
+    "PortGame.source_consume_items_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1478",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems(ItemStack[] items)",
+      "params": [
+        {
+          "name": "item_stacks",
+          "type": "Array[Dictionary]",
+          "schema": "source_consume_items_constructor_input.item_stacks"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "assignment_expr",
+        "items_field",
+        "item_stacks",
+        "items_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state",
+      "rule": "Source state mirrors ConsumeItems constructor assignment and defers live ItemStack instances."
     }
   },
   "policy": {

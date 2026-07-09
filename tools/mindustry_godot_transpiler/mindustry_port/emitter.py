@@ -5902,6 +5902,20 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(){", "filter_field": "public Boolf<Item> filter = i -> false;", "filter_after": filter_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItems_{index}(_args: Array = []) -> Variant:",
+                    "\tvar item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []",
+                    "\tvar items_after: Array = item_stacks.duplicate(true)",
+                    '\treturn {"source_owner": "PortGame.source_consume_items_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "public ConsumeItems(ItemStack[] items){", "assignment_expr": "this.items = items;", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
         and type_entry.get("name") == "ConsumeItemEfficiency"
     ):

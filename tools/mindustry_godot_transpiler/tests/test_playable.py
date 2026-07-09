@@ -494,6 +494,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.default_constructor"', source)
         self.assertIn('"matches": result.get("filter_after", null) == canonical.get("filter_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_items_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_items_constructor_state(item_stacks: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source)
+        self.assertIn('"constructor": "public ConsumeItems(ItemStack[] items){"', source)
+        self.assertIn('"assignment_expr": "this.items = items;"', source)
+        self.assertIn('"items_field": "public final ItemStack[] items;"', source)
+        self.assertIn('"items_after": items_after', source)
+        self.assertIn("func generated_consume_items_constructor_bridge_state(item_stacks: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItems_0([item_stacks])", source)
+        self.assertIn("var canonical = source_consume_items_constructor_state(item_stacks)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItems.constructor"', source)
+        self.assertIn('"matches": result.get("items_after", []) == canonical.get("items_after", [])', source)
+
     def test_port_game_exposes_generated_consume_item_filter_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
