@@ -507,6 +507,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemRadioactive.itemEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_radioactive_constructor_state(min_radioactivity: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_radioactive_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemRadioactive(float minRadioactivity){"', source)
+        self.assertIn('"min_radioactivity_field": "public float minRadioactivity;"', source)
+        self.assertIn('"assignment_expr": "this.minRadioactivity = minRadioactivity;"', source)
+        self.assertIn('"filter_expr": "item -> item.radioactivity >= this.minRadioactivity"', source)
+        self.assertIn('"item_radioactivity_field": "public float radioactivity;"', source)
+        self.assertIn("func generated_consume_item_radioactive_constructor_bridge_state(min_radioactivity: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemRadioactive.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemRadioactive_0([min_radioactivity])", source)
+        self.assertIn("var canonical = source_consume_item_radioactive_constructor_state(min_radioactivity)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_radioactive_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemRadioactive.constructor"', source)
+        self.assertIn('"matches": result.get("min_radioactivity_after", null) == canonical.get("min_radioactivity_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_charged_item_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

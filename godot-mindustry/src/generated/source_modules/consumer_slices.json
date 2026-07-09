@@ -331,6 +331,30 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_item_explosive_default_constructor_bridge_state",
       "rule": "Consumer shard mirror for ConsumeItemExplosive default constructor; canonical data remains source_slice_ledger.N1484."
+    },
+    "N1486": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "generated_owner": "ConsumeItemRadioactive.java_constructor_ConsumeItemRadioactive_0",
+      "source_symbols": [
+        "consume_item_radioactive_constructor.min_radioactivity_field",
+        "consume_item_radioactive_constructor.constructor",
+        "consume_item_radioactive_constructor.min_radioactivity",
+        "consume_item_radioactive_constructor.assignment",
+        "consume_item_radioactive_constructor.filter",
+        "consume_item_radioactive_constructor.item_radioactivity_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_constructor_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeItemRadioactive constructor; canonical data remains source_slice_ledger.N1486."
     }
   },
   "version": 1

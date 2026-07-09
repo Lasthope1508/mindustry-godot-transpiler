@@ -1638,6 +1638,84 @@
           "alias_of": "source_consume_items_trigger_input.multiplier_get_build"
         }
       }
+    },
+    "source_consume_item_radioactive_constructor_input": {
+      "canonical_schema": "source_state_schema.source_consume_item_radioactive_constructor_input",
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "keys": {
+        "min_radioactivity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "float minRadioactivity"
+        }
+      }
+    },
+    "source_consume_item_radioactive_constructor_result": {
+      "canonical_schema": "source_state_schema.source_consume_item_radioactive_constructor_result",
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_radioactive_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "public ConsumeItemRadioactive(float minRadioactivity){"
+        },
+        "min_radioactivity_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "public float minRadioactivity;"
+        },
+        "assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this.minRadioactivity = minRadioactivity;"
+        },
+        "filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;"
+        },
+        "filter_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;"
+        },
+        "item_radioactivity_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "java_expr": "public float radioactivity;"
+        },
+        "min_radioactivity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "float minRadioactivity"
+        },
+        "min_radioactivity_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this.minRadioactivity = minRadioactivity;"
+        }
+      }
     }
   },
   "version": 1

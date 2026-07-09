@@ -124701,6 +124701,108 @@
         "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_radioactive_constructor.min_radioactivity_field": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "public float minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.min_radioactivity_field",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source-backed ConsumeItemRadioactive minRadioactivity threshold field.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "public ConsumeItemRadioactive(float minRadioactivity){",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Canonical ConsumeItemRadioactive minRadioactivity constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.min_radioactivity": {
+      "status": "explicit-input",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "float minRadioactivity",
+      "godot_symbol": "source_consume_item_radioactive_constructor_input.min_radioactivity",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Explicit input for source constructor parameter minRadioactivity.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "this.minRadioactivity = minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.min_radioactivity_after",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source assignment of minRadioactivity field from constructor parameter.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.filter": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source filter predicate expression for minRadioactivity threshold.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.item_radioactivity_field": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "Item",
+      "java_expr": "public float radioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.item_radioactivity_field",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source-backed Item.radioactivity field proving constructor filter input field.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
     }
   },
   "version": 1

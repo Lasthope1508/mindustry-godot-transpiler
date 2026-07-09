@@ -41035,6 +41035,40 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state",
       "rule": "Source state mirrors no-arg constructor delegation to this(0.2f)."
+    },
+    "PortGame.source_consume_item_radioactive_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1486",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "source_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "params": [
+        {
+          "name": "min_radioactivity",
+          "type": "float",
+          "schema": "source_consume_item_radioactive_constructor_input.min_radioactivity",
+          "java_expr": "float minRadioactivity"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "min_radioactivity_field",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "item_radioactivity_field",
+        "min_radioactivity",
+        "min_radioactivity_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state",
+      "rule": "Source state mirrors constructor assignment and filter expression; live predicate execution deferred."
     }
   },
   "policy": {

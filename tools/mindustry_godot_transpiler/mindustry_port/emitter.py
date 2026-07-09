@@ -5950,6 +5950,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_explosiveness_after": min_explosiveness_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemRadioactive.java"
+        and type_entry.get("name") == "ConsumeItemRadioactive"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemRadioactive_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_radioactivity: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                    "\tvar min_radioactivity_after: float = min_radioactivity",
+                    '\tvar filter_expr: String = "item -> item.radioactivity >= this.minRadioactivity"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_radioactive_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(float minRadioactivity){", "min_radioactivity_field": "public float minRadioactivity;", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "item_radioactivity_field": "public float radioactivity;", "min_radioactivity": min_radioactivity, "min_radioactivity_after": min_radioactivity_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):

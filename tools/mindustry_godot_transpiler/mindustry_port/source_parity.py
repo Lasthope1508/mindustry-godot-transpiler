@@ -4245,6 +4245,35 @@ def verify_consume_item_radioactive_item_efficiency_multiplier_source(upstream_r
         "missing": missing,
     }
 
+def verify_consume_item_radioactive_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_radioactive_source = "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"
+    item_source = "core/src/mindustry/type/Item.java"
+    consume_item_radioactive_path = Path(upstream_root) / consume_item_radioactive_source
+    item_path = Path(upstream_root) / item_source
+    source = consume_item_radioactive_path.read_text(encoding="utf-8", errors="replace")
+    item_text = item_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "min_radioactivity_field": "public float minRadioactivity;",
+        "constructor": "public ConsumeItemRadioactive(float minRadioactivity){",
+        "assignment": "this.minRadioactivity = minRadioactivity;",
+        "filter_assignment": "filter = item -> item.radioactivity >= this.minRadioactivity;",
+        "item_radioactivity_field": "public float radioactivity;",
+    }
+    source_by_key = {
+        "min_radioactivity_field": source,
+        "constructor": source,
+        "assignment": source,
+        "filter_assignment": source,
+        "item_radioactivity_field": item_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_radioactive_source,
+        "sources": [item_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_charged_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_charged_source = "core/src/mindustry/world/consumers/ConsumeItemCharged.java"
     item_source = "core/src/mindustry/type/Item.java"
