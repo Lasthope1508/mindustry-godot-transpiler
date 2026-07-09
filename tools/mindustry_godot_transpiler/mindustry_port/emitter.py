@@ -1669,6 +1669,29 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public float efficiency(Building build){", "items_field": "public final Func<Building, ItemStack[]> items;", "return_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){", "item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;", "item_module_has_stacks_return_expr": "return true;", "item_module_has_item_amount_expr": "public boolean has(Item item, int amount){", "item_module_has_item_amount_return_expr": "return get(item) >= amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "consume_trigger_valid": consume_trigger_valid, "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "multiplier_get_build": multiplier_get_build, "item_module_has_stacks": item_module_has_stacks, "stack_checks": stack_checks, "efficiency": efficiency_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
+        and type_entry.get("name") == "ConsumeItemEfficiency"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)",
+            "\tvar filtered_item_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []",
+            "\tvar table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)",
+            '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar display_rows: Array = []",
+            "\tfor index in filtered_item_ids.size():",
+            "\t\tvar item_id: int = int(filtered_item_ids[index])",
+            "\t\tvar efficiency_multiplier: float = float(item_efficiency_multipliers[index] if index < item_efficiency_multipliers.size() else 1.0)",
+            "\t\tvar time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)",
+            "\t\tvar time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)",
+            "\t\tvar efficiency_percent: float = efficiency_multiplier * 100.0",
+            '\t\tdisplay_rows.append({"item_id": item_id, "efficiency_multiplier": efficiency_multiplier, "efficiency_percent": efficiency_percent, "time_multiplier": time_multiplier, "time": time_value, "time_period": stats_time_period})',
+            '\treturn {"source_owner": "PortGame.source_consume_item_efficiency_display_state", "source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java", "method": "public void display(Stats stats){", "item_duration_multipliers_field": "public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));", "stats_add_call": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "selected_stat": selected_stat, "item_eff_multiplier_expr": "StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers)", "item_eff_multiplier_method": "public static StatValue itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, @Nullable ObjectFloatMap<Item> itemDurationMultipliers){", "table_cells_grow_expr": "if(table.getCells().size > 0) table.getCells().peek().growX();", "table_grow_previous_cell": table_has_cells, "content_filter_expr": "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){", "time_multiplier_expr": "float timeMultiplier = itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f);", "time_expr": "float time = 1f / (timePeriod * timeMultiplier / 60f);", "efficiency_expr": "b.add(Core.bundle.format(\\"stat.efficiency\\", fixValue(efficiency.get(item) * 100f))).right().pad(10f).padRight(15f);", "booster": booster, "stats_time_period": stats_time_period, "filtered_item_ids": filtered_item_ids, "item_efficiency_multipliers": item_efficiency_multipliers, "item_duration_multipliers": item_duration_multipliers, "table_has_cells": table_has_cells, "display_rows": display_rows}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "rebuild"

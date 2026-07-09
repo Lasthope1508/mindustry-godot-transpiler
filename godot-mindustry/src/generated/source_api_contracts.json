@@ -40036,6 +40036,83 @@
         "test_consume_item_dynamic_efficiency_matches_upstream_source",
         "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_efficiency_display_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "source_method": "display(Stats stats)",
+      "source_slice": "N1456",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_display_state",
+      "rule": "Public runtime contract for ConsumeItemEfficiency.display(Stats) source-backed Stats.add and itemEffMultiplier display row state.",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_item_efficiency_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "stats_time_period",
+          "type": "float",
+          "schema": "source_consume_item_efficiency_display_input.stats_time_period",
+          "java_expr": "stats.timePeriod"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.filtered_item_ids",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())"
+        },
+        {
+          "name": "item_efficiency_multipliers",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.item_efficiency_multipliers",
+          "java_expr": "efficiency.get(item)"
+        },
+        {
+          "name": "item_duration_multipliers",
+          "type": "Array",
+          "schema": "source_consume_item_efficiency_display_input.item_duration_multipliers",
+          "java_expr": "itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f)"
+        },
+        {
+          "name": "table_has_cells",
+          "type": "bool",
+          "schema": "source_consume_item_efficiency_display_input.table_has_cells",
+          "java_expr": "table.getCells().size > 0"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "item_duration_multipliers_field",
+        "stats_add_expr",
+        "stats_add_call",
+        "selected_stat_expr",
+        "selected_stat",
+        "item_eff_multiplier_expr",
+        "item_eff_multiplier_method",
+        "table_cells_grow_expr",
+        "table_grow_previous_cell",
+        "content_filter_expr",
+        "time_multiplier_expr",
+        "time_expr",
+        "efficiency_expr",
+        "booster",
+        "stats_time_period",
+        "filtered_item_ids",
+        "item_efficiency_multipliers",
+        "item_duration_multipliers",
+        "table_has_cells",
+        "display_rows"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_display_bridge_state",
+        "test_consume_item_efficiency_display_matches_upstream_source",
+        "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

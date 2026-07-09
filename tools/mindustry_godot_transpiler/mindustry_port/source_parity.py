@@ -4694,6 +4694,64 @@ def verify_consume_item_dynamic_efficiency_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_consume_item_efficiency_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_efficiency_source = "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_efficiency_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    consume_item_filter_text = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    stats_text = (upstream_root / stats_source).read_text(encoding="utf-8", errors="replace")
+    stat_text = (upstream_root / stat_source).read_text(encoding="utf-8", errors="replace")
+    stat_values_text = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "item_duration_multipliers_field": "public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;",
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));",
+        "booster_field": "public boolean booster;",
+        "filter_field": "public Boolf<Item> filter = i -> false;",
+        "item_efficiency_multiplier_method": "public float itemEfficiencyMultiplier(Item item){",
+        "stats_time_period": "public float timePeriod = -1;",
+        "stats_add_method": "public void add(Stat stat, StatValue value){",
+        "stat_input": "input = new Stat(\"input\", StatCat.crafting)",
+        "stat_booster": "booster = new Stat(\"booster\", StatCat.optional)",
+        "item_eff_multiplier_method": "public static StatValue itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, @Nullable ObjectFloatMap<Item> itemDurationMultipliers){",
+        "table_cells_grow": "if(table.getCells().size > 0) table.getCells().peek().growX();",
+        "content_filter": "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){",
+        "time_multiplier": "float timeMultiplier = itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f);",
+        "time_expr": "float time = 1f / (timePeriod * timeMultiplier / 60f);",
+        "efficiency_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(item) * 100f))).right().pad(10f).padRight(15f);",
+    }
+    source_by_key = {
+        "item_duration_multipliers_field": source,
+        "method": source,
+        "stats_add_expr": source,
+        "booster_field": consume_text,
+        "filter_field": consume_item_filter_text,
+        "item_efficiency_multiplier_method": consume_item_filter_text,
+        "stats_time_period": stats_text,
+        "stats_add_method": stats_text,
+        "stat_input": stat_text,
+        "stat_booster": stat_text,
+        "item_eff_multiplier_method": stat_values_text,
+        "table_cells_grow": stat_values_text,
+        "content_filter": stat_values_text,
+        "time_multiplier": stat_values_text,
+        "time_expr": stat_values_text,
+        "efficiency_expr": stat_values_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_efficiency_source,
+        "sources": [consume_source, consume_item_filter_source, stats_source, stat_source, stat_values_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

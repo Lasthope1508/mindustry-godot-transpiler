@@ -15479,6 +15479,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["efficiency"]["java_expr"], "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;")
         self.assertEqual(result_schema["keys"]["item_module_has_stacks"]["java_expr"], "build.items.has(items.get(build), multiplier.get(build))")
 
+    def test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        stats_add_symbol = source_symbols.source_symbol(registry, "consume_item_efficiency_display.stats_add")
+        self.assertEqual(stats_add_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java")
+        self.assertEqual(stats_add_symbol["java_method"], "display(Stats stats)")
+        self.assertEqual(stats_add_symbol["java_expr"], "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));")
+        self.assertEqual(stats_add_symbol["godot_owner"], "PortGame.source_consume_item_efficiency_display_state")
+        self.assertEqual(stats_add_symbol["runtime_proof"], "/root/Main.source_consume_item_efficiency_display_state")
+        self.assertEqual(stats_add_symbol["godot_symbol"], "source_consume_item_efficiency_display_result.stats_add_call")
+
+        selected_stat = source_symbols.source_symbol(registry, "consume_item_efficiency_display.selected_stat")
+        self.assertEqual(selected_stat["java_expr"], "booster ? Stat.booster : Stat.input")
+        self.assertEqual(selected_stat["godot_symbol"], "source_consume_item_efficiency_display_result.selected_stat")
+
+        time_expr = source_symbols.source_symbol(registry, "consume_item_efficiency_display.time")
+        self.assertEqual(time_expr["java_expr"], "float time = 1f / (timePeriod * timeMultiplier / 60f);")
+        self.assertEqual(time_expr["status"], "source-backed")
+
+        display_slice = source_symbols.source_slice(ledger, "N1456")
+        self.assertEqual(display_slice["title"], "Generated ConsumeItemEfficiency display bridge state")
+        self.assertEqual(display_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java")
+        self.assertEqual(display_slice["java_method"], "display(Stats stats)")
+        self.assertEqual(display_slice["godot_owner"], "PortGame.source_consume_item_efficiency_display_state")
+        self.assertEqual(display_slice["generated_owner"], "ConsumeItemEfficiency.java_method_display_0")
+        self.assertEqual(display_slice["runtime_proof"], "/root/Main.generated_consume_item_efficiency_display_bridge_state")
+        for expr in [
+            "public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;",
+            "public void display(Stats stats){",
+            "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));",
+            "public boolean booster;",
+            "public Boolf<Item> filter = i -> false;",
+            "public float itemEfficiencyMultiplier(Item item){",
+            "public float timePeriod = -1;",
+            "public void add(Stat stat, StatValue value){",
+            "input = new Stat(\"input\", StatCat.crafting)",
+            "booster = new Stat(\"booster\", StatCat.optional)",
+            "public static StatValue itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, @Nullable ObjectFloatMap<Item> itemDurationMultipliers){",
+            "if(table.getCells().size > 0) table.getCells().peek().growX();",
+            "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){",
+            "float timeMultiplier = itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f);",
+            "float time = 1f / (timePeriod * timeMultiplier / 60f);",
+            "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(item) * 100f))).right().pad(10f).padRight(15f);",
+        ]:
+            self.assertIn(expr, display_slice["exact_exprs"])
+        self.assertIn("consume_item_efficiency_display.stats_add", display_slice["source_symbols"])
+        self.assertIn("consume_item_efficiency_display.selected_stat", display_slice["source_symbols"])
+        self.assertIn("consume_item_efficiency_display.time", display_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_efficiency_display_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["booster", "stats_time_period", "filtered_item_ids", "item_efficiency_multipliers", "item_duration_multipliers", "table_has_cells"])
+        self.assertIn("display_rows", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_efficiency_display_input")
+        self.assertEqual(input_schema["keys"]["stats_time_period"]["java_expr"], "stats.timePeriod")
+        self.assertEqual(input_schema["keys"]["filtered_item_ids"]["java_expr"], "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_efficiency_display_result")
+        self.assertEqual(result_schema["keys"]["selected_stat"]["java_expr"], "booster ? Stat.booster : Stat.input")
+        self.assertEqual(result_schema["keys"]["display_rows"]["java_expr"], "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){")
+
     def test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -22017,15 +22081,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 929)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 924)
+        self.assertEqual(audit["totalSourceFunctions"], 930)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 925)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 929)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 930)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_efficiency_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])

@@ -1297,6 +1297,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_efficiency_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_efficiency_display_source"))
+        report = source_parity.verify_consume_item_efficiency_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeItemFilter.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stats.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "item_duration_multipliers_field": "public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;",
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));",
+            "booster_field": "public boolean booster;",
+            "filter_field": "public Boolf<Item> filter = i -> false;",
+            "item_efficiency_multiplier_method": "public float itemEfficiencyMultiplier(Item item){",
+            "stats_time_period": "public float timePeriod = -1;",
+            "stats_add_method": "public void add(Stat stat, StatValue value){",
+            "stat_input": "input = new Stat(\"input\", StatCat.crafting)",
+            "stat_booster": "booster = new Stat(\"booster\", StatCat.optional)",
+            "item_eff_multiplier_method": "public static StatValue itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, @Nullable ObjectFloatMap<Item> itemDurationMultipliers){",
+            "table_cells_grow": "if(table.getCells().size > 0) table.getCells().peek().growX();",
+            "content_filter": "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){",
+            "time_multiplier": "float timeMultiplier = itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f);",
+            "time_expr": "float time = 1f / (timePeriod * timeMultiplier / 60f);",
+            "efficiency_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(item) * 100f))).right().pad(10f).padRight(15f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

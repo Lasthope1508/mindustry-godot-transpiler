@@ -154058,6 +154058,176 @@
           "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
         }
       }
+    },
+    "source_consume_item_efficiency_display_input": {
+      "status": "explicit-input",
+      "source_slice": "N1456",
+      "rule": "Input schema for ConsumeItemEfficiency.display bridge state.",
+      "keys": {
+        "booster": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "display(Stats stats)",
+          "java_expr": "booster",
+          "godot_symbol": "source_consume_item_efficiency_display_input.booster",
+          "rule": "Consume.booster selects Stat.booster or Stat.input.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "stats_time_period": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/Stats.java",
+          "java_method": "display(Stats stats)",
+          "java_expr": "stats.timePeriod",
+          "godot_symbol": "source_consume_item_efficiency_display_input.stats_time_period",
+          "rule": "Stats.timePeriod passed to itemEffMultiplier.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "filtered_item_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())",
+          "godot_symbol": "source_consume_item_efficiency_display_input.filtered_item_ids",
+          "rule": "Filtered content items represented by ids until live Item objects are wired.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "item_efficiency_multipliers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "efficiency.get(item)",
+          "godot_symbol": "source_consume_item_efficiency_display_input.item_efficiency_multipliers",
+          "rule": "Item efficiency values returned by this::itemEfficiencyMultiplier.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "item_duration_multipliers": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f)",
+          "godot_symbol": "source_consume_item_efficiency_display_input.item_duration_multipliers",
+          "rule": "Duration map values default to 1f when missing/null.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "table_has_cells": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "table.getCells().size > 0",
+          "godot_symbol": "source_consume_item_efficiency_display_input.table_has_cells",
+          "rule": "Table cell presence controls growX plan.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        }
+      }
+    },
+    "source_consume_item_efficiency_display_result": {
+      "status": "source-backed",
+      "source_slice": "N1456",
+      "rule": "Result schema for ConsumeItemEfficiency.display bridge state.",
+      "keys": {
+        "stats_add_call": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "display(Stats stats)",
+          "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));",
+          "godot_symbol": "source_consume_item_efficiency_display_result.stats_add_call",
+          "rule": "Stats.add display call.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "selected_stat": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "display(Stats stats)",
+          "java_expr": "booster ? Stat.booster : Stat.input",
+          "godot_symbol": "source_consume_item_efficiency_display_result.selected_stat",
+          "rule": "Runtime selected stat name.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "item_eff_multiplier_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "display(Stats stats)",
+          "java_expr": "StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers)",
+          "godot_symbol": "source_consume_item_efficiency_display_result.item_eff_multiplier_expr",
+          "rule": "StatValue factory call expression.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "table_grow_previous_cell": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "if(table.getCells().size > 0) table.getCells().peek().growX();",
+          "godot_symbol": "source_consume_item_efficiency_display_result.table_grow_previous_cell",
+          "rule": "Whether previous cell grow plan applies.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "display_rows": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){",
+          "godot_symbol": "source_consume_item_efficiency_display_result.display_rows",
+          "rule": "Per-item efficiency display row state.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "time": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "float time = 1f / (timePeriod * timeMultiplier / 60f);",
+          "godot_symbol": "source_consume_item_efficiency_display_result.display_rows.time",
+          "rule": "Per-row time value formula.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        },
+        "efficiency_percent": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_method": "itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, ObjectFloatMap<Item> itemDurationMultipliers)",
+          "java_expr": "efficiency.get(item) * 100f",
+          "godot_symbol": "source_consume_item_efficiency_display_result.display_rows.efficiency_percent",
+          "rule": "Per-row efficiency percent.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_display_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

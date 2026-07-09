@@ -18334,6 +18334,57 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn('"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;"', source_text)
             self.assertIn('"efficiency": efficiency_value', source_text)
 
+    def test_emit_bridges_consume_item_efficiency_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.type.*;
+import mindustry.world.meta.*;
+
+public class ConsumeItemEfficiency extends ConsumeItemFilter{
+    public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;
+
+    @Override
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
+            self.assertIn("var filtered_item_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn("var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []", source_text)
+            self.assertIn("var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source_text)
+            self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
+            self.assertIn("var efficiency_percent: float = efficiency_multiplier * 100.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_efficiency_display_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));"', source_text)
+            self.assertIn('"item_eff_multiplier_expr": "StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers)"', source_text)
+            self.assertIn('"time_expr": "float time = 1f / (timePeriod * timeMultiplier / 60f);"', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

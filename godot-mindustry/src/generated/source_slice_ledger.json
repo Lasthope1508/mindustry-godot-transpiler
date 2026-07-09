@@ -36459,6 +36459,64 @@
         "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic efficiency bridge state"
+    },
+    "N1456": {
+      "title": "Generated ConsumeItemEfficiency display bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemEfficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "display(Stats stats)",
+      "generated_owner": "ConsumeItemEfficiency.java_method_display_0",
+      "godot_owner": "PortGame.source_consume_item_efficiency_display_state",
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_display_bridge_state",
+      "rule": "Generated ConsumeItemEfficiency.display bridges Stats.add selected stat and StatValues.itemEffMultiplier display row state without inventing concrete Arc Table widgets.",
+      "exact_exprs": [
+        "public @Nullable ObjectFloatMap<Item> itemDurationMultipliers;",
+        "public void display(Stats stats){",
+        "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));",
+        "public boolean booster;",
+        "public Boolf<Item> filter = i -> false;",
+        "public float itemEfficiencyMultiplier(Item item){",
+        "public float timePeriod = -1;",
+        "public void add(Stat stat, StatValue value){",
+        "input = new Stat(\"input\", StatCat.crafting)",
+        "booster = new Stat(\"booster\", StatCat.optional)",
+        "public static StatValue itemEffMultiplier(Floatf<Item> efficiency, float timePeriod, Boolf<Item> filter, @Nullable ObjectFloatMap<Item> itemDurationMultipliers){",
+        "if(table.getCells().size > 0) table.getCells().peek().growX();",
+        "for(Item item : content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())){",
+        "float timeMultiplier = itemDurationMultipliers == null ? 1f : itemDurationMultipliers.get(item, 1f);",
+        "float time = 1f / (timePeriod * timeMultiplier / 60f);",
+        "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(item) * 100f))).right().pad(10f).padRight(15f);"
+      ],
+      "deferred_exprs": [
+        "Concrete Arc Table, Core.bundle, Strings.autoFixed, StatUnit.localized, and live content Item filtering remain represented as source-backed display state until generated UI/content object wiring is complete."
+      ],
+      "source_symbols": [
+        "consume_item_efficiency_display.booster",
+        "consume_item_efficiency_display.content_filter",
+        "consume_item_efficiency_display.efficiency_expr",
+        "consume_item_efficiency_display.efficiency_percent",
+        "consume_item_efficiency_display.filtered_item_ids",
+        "consume_item_efficiency_display.item_duration_multipliers",
+        "consume_item_efficiency_display.item_duration_multipliers_input",
+        "consume_item_efficiency_display.item_eff_multiplier_call",
+        "consume_item_efficiency_display.item_eff_multiplier_method",
+        "consume_item_efficiency_display.item_efficiency_multipliers",
+        "consume_item_efficiency_display.method",
+        "consume_item_efficiency_display.selected_stat",
+        "consume_item_efficiency_display.stats_add",
+        "consume_item_efficiency_display.stats_time_period",
+        "consume_item_efficiency_display.table_cells_grow",
+        "consume_item_efficiency_display.table_has_cells",
+        "consume_item_efficiency_display.time",
+        "consume_item_efficiency_display.time_multiplier"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_display_bridge_state",
+        "test_consume_item_efficiency_display_matches_upstream_source",
+        "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

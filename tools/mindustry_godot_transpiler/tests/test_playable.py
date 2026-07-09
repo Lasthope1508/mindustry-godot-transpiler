@@ -815,6 +815,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemDynamic.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_efficiency_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_efficiency_display_state(booster: bool, stats_time_period: float, filtered_item_ids: Array, item_efficiency_multipliers: Array, item_duration_multipliers: Array, table_has_cells: bool) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));"', source)
+        self.assertIn('"selected_stat": selected_stat', source)
+        self.assertIn('"item_eff_multiplier_expr": "StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers)"', source)
+        self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source)
+        self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source)
+        self.assertIn("var efficiency_percent: float = efficiency_multiplier * 100.0", source)
+        self.assertIn("func generated_consume_item_efficiency_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array, item_efficiency_multipliers: Array, item_duration_multipliers: Array, table_has_cells: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemEfficiency.gd")', source)
+        self.assertIn("var result = instance.java_method_display_0([booster, stats_time_period, filtered_item_ids, item_efficiency_multipliers, item_duration_multipliers, table_has_cells])", source)
+        self.assertIn("var canonical = source_consume_item_efficiency_display_state(booster, stats_time_period, filtered_item_ids, item_efficiency_multipliers, item_duration_multipliers, table_has_cells)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_efficiency_display_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemEfficiency.display"', source)
+        self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
