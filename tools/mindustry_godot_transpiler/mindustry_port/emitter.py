@@ -5998,6 +5998,23 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemCharged(float minCharge){", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_charge_after": min_charge_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
+        and type_entry.get("name") == "ConsumeLiquidFlammable"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 2:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquidFlammable_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                    "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                    "\tvar amount_after: float = amount",
+                    "\tvar min_flammability_after: float = min_flammability",
+                    '\tvar filter_expr: String = "liquid -> liquid.flammability >= this.minFlammability"',
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "min_flammability_field": "public float minFlammability;", "amount_field": "public float amount;", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "liquid_flammability_field": "public float flammability;", "min_flammability": min_flammability, "amount": amount, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):

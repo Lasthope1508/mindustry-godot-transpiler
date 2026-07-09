@@ -41157,6 +41157,50 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_charged_default_constructor_state",
       "rule": "Source state mirrors default constructor delegation to exact 0.2f typed constructor call; live predicate execution deferred."
+    },
+    "PortGame.source_consume_liquid_flammable_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1490",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "source_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "params": [
+        {
+          "name": "min_flammability",
+          "type": "float",
+          "schema": "source_consume_liquid_flammable_constructor_input.min_flammability",
+          "java_expr": "float minFlammability"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_flammable_constructor_input.amount",
+          "java_expr": "float amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "min_flammability_field",
+        "amount_field",
+        "amount_assignment_expr",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "liquid_flammability_field",
+        "min_flammability",
+        "amount",
+        "amount_after",
+        "min_flammability_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source state mirrors constructor assignments and filter expression; live predicate execution deferred."
     }
   },
   "policy": {

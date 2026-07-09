@@ -1389,6 +1389,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_flammable_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_constructor_source"))
+        report = source_parity.verify_consume_liquid_flammable_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java")
+        self.assertIn("core/src/mindustry/type/Liquid.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeLiquidBase.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "min_flammability_field": "public float minFlammability;",
+            "constructor": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+            "amount_assignment": "this.amount = amount;",
+            "assignment": "this.minFlammability = minFlammability;",
+            "filter_assignment": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+            "amount_field": "public float amount;",
+            "liquid_flammability_field": "public float flammability;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_filter_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")

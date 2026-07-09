@@ -997,6 +997,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFlammable.liquidEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_flammable_constructor_state(min_flammability: float, amount: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_flammable_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"', source)
+        self.assertIn('"constructor": "public ConsumeLiquidFlammable(float minFlammability, float amount){"', source)
+        self.assertIn('"min_flammability_field": "public float minFlammability;"', source)
+        self.assertIn('"amount_field": "public float amount;"', source)
+        self.assertIn('"amount_assignment_expr": "this.amount = amount;"', source)
+        self.assertIn('"assignment_expr": "this.minFlammability = minFlammability;"', source)
+        self.assertIn('"filter_expr": "liquid -> liquid.flammability >= this.minFlammability"', source)
+        self.assertIn('"liquid_flammability_field": "public float flammability;"', source)
+        self.assertIn("func generated_consume_liquid_flammable_constructor_bridge_state(min_flammability: float, amount: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFlammable.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeLiquidFlammable_0([min_flammability, amount])", source)
+        self.assertIn("var canonical = source_consume_liquid_flammable_constructor_state(min_flammability, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_flammable_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFlammable.constructor"', source)
+        self.assertIn('"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

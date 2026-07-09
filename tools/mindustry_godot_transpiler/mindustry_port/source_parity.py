@@ -5023,6 +5023,42 @@ def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream
         "missing": missing,
     }
 
+def verify_consume_liquid_flammable_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
+    liquid_source = "core/src/mindustry/type/Liquid.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    consume_liquid_flammable_path = Path(upstream_root) / consume_liquid_flammable_source
+    liquid_path = Path(upstream_root) / liquid_source
+    consume_liquid_base_path = Path(upstream_root) / consume_liquid_base_source
+    source = consume_liquid_flammable_path.read_text(encoding="utf-8", errors="replace")
+    liquid_text = liquid_path.read_text(encoding="utf-8", errors="replace")
+    base_text = consume_liquid_base_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "min_flammability_field": "public float minFlammability;",
+        "constructor": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+        "amount_assignment": "this.amount = amount;",
+        "assignment": "this.minFlammability = minFlammability;",
+        "filter_assignment": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+        "amount_field": "public float amount;",
+        "liquid_flammability_field": "public float flammability;",
+    }
+    source_by_key = {
+        "min_flammability_field": source,
+        "constructor": source,
+        "amount_assignment": source,
+        "assignment": source,
+        "filter_assignment": source,
+        "amount_field": base_text,
+        "liquid_flammability_field": liquid_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_flammable_source,
+        "sources": [liquid_source, consume_liquid_base_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

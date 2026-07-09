@@ -16243,6 +16243,92 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_liquid_flammable_liquid_efficiency_multiplier_result")
         self.assertEqual(result_schema["keys"]["efficiency_multiplier"]["java_expr"], "return liquid.flammability;")
 
+    def test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeLiquidFlammable(float minFlammability, float amount)")
+        self.assertEqual(constructor_symbol["java_expr"], "public ConsumeLiquidFlammable(float minFlammability, float amount){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_liquid_flammable_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_liquid_flammable_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_result.constructor")
+
+        min_flammability_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.min_flammability")
+        self.assertEqual(min_flammability_symbol["status"], "explicit-input")
+        self.assertEqual(min_flammability_symbol["java_expr"], "float minFlammability")
+        self.assertEqual(min_flammability_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_input.min_flammability")
+
+        amount_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.amount")
+        self.assertEqual(amount_symbol["status"], "explicit-input")
+        self.assertEqual(amount_symbol["java_expr"], "float amount")
+        self.assertEqual(amount_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_input.amount")
+
+        amount_assignment_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.amount_assignment")
+        self.assertEqual(amount_assignment_symbol["java_expr"], "this.amount = amount;")
+        self.assertEqual(amount_assignment_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_result.amount_after")
+
+        assignment_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.assignment")
+        self.assertEqual(assignment_symbol["java_expr"], "this.minFlammability = minFlammability;")
+        self.assertEqual(assignment_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_result.min_flammability_after")
+
+        filter_symbol = source_symbols.source_symbol(registry, "consume_liquid_flammable_constructor.filter")
+        self.assertEqual(filter_symbol["java_expr"], "this.filter = liquid -> liquid.flammability >= this.minFlammability;")
+        self.assertEqual(filter_symbol["godot_symbol"], "source_consume_liquid_flammable_constructor_result.filter_expr")
+
+        liquid_slice = source_symbols.source_slice(ledger, "N1490")
+        self.assertEqual(liquid_slice["title"], "Generated ConsumeLiquidFlammable constructor bridge state")
+        self.assertEqual(liquid_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java")
+        self.assertEqual(liquid_slice["java_method"], "ConsumeLiquidFlammable(float minFlammability, float amount)")
+        self.assertEqual(liquid_slice["godot_owner"], "PortGame.source_consume_liquid_flammable_constructor_state")
+        self.assertEqual(liquid_slice["generated_owner"], "ConsumeLiquidFlammable.java_constructor_ConsumeLiquidFlammable_0")
+        self.assertEqual(liquid_slice["runtime_proof"], "/root/Main.generated_consume_liquid_flammable_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1490"]["canonical_ledger"], "source_slice_ledger.N1490")
+        for expr in [
+            "public float minFlammability;",
+            "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+            "this.amount = amount;",
+            "this.minFlammability = minFlammability;",
+            "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+            "public float amount;",
+            "public float flammability;",
+        ]:
+            self.assertIn(expr, liquid_slice["exact_exprs"])
+        self.assertIn("consume_liquid_flammable_constructor.constructor", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_flammable_constructor.min_flammability", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_flammable_constructor.amount", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_flammable_constructor.amount_assignment", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_flammable_constructor.assignment", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_flammable_constructor.filter", liquid_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquid_flammable_constructor_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["min_flammability", "amount"])
+        self.assertIn("min_flammability_after", contract["return_keys"])
+        self.assertEqual(
+            consumer_contract_shard["contracts"]["PortGame.source_consume_liquid_flammable_constructor_state"]["canonical_contract"],
+            "source_api_contracts.PortGame.source_consume_liquid_flammable_constructor_state",
+        )
+        input_schema = source_symbols.state_schema(schema, "source_consume_liquid_flammable_constructor_input")
+        self.assertEqual(input_schema["keys"]["min_flammability"]["java_expr"], "float minFlammability")
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquid_flammable_constructor_result")
+        self.assertEqual(result_schema["keys"]["min_flammability_after"]["java_expr"], "this.minFlammability = minFlammability;")
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquid_flammable_constructor_input"]["canonical_schema"],
+            "source_state_schema.source_consume_liquid_flammable_constructor_input",
+        )
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquid_flammable_constructor_result"]["canonical_schema"],
+            "source_state_schema.source_consume_liquid_flammable_constructor_result",
+        )
+
     def test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23922,10 +24008,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 957)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 952)
+        self.assertEqual(audit["totalSourceFunctions"], 958)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 953)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 957)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 958)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23960,6 +24046,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_liquids_dynamic_apply_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_liquid_flammable_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_charged_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_charged_constructor_state", audit["registeredSourceOwners"])
