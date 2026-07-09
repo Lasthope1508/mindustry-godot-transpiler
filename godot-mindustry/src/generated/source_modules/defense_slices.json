@@ -1,0 +1,3261 @@
+{
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "newDefenseSliceRequiresSourceBackedLedgerMirror": true,
+    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/defense/."
+  },
+  "slices": {
+    "N1155": {
+      "canonical_ledger": "source_slice_ledger.N1155",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "outputsItems()",
+      "godot_owner": "PortGame.source_turret_outputs_items_state",
+      "source_symbols": [
+        "turret_outputs_items.method",
+        "turret_outputs_items.override",
+        "turret_outputs_items.return_false"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_outputs_items_to_source_state",
+        "test_port_game_exposes_source_turret_outputs_items_state",
+        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
+        "test_turret_outputs_items_matches_upstream_source",
+        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_outputs_items_bridge_state"
+    },
+    "N1156": {
+      "canonical_ledger": "source_slice_ledger.N1156",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_turret_init_state",
+      "source_symbols": [
+        "turret_init.method",
+        "turret_init.override",
+        "turret_init.shoot_y_default",
+        "turret_init.elevation_default",
+        "turret_init.recoil_time_default",
+        "turret_init.cooldown_time_default",
+        "turret_init.new_target_interval_default",
+        "turret_init.target_ground_guard",
+        "turret_init.disable_overlap_check",
+        "turret_init.super_init",
+        "turret_init.tracking_range",
+        "turret_init.shoot_y",
+        "turret_init.shoot_y_is_negative_infinity",
+        "turret_init.size",
+        "turret_init.tilesize",
+        "turret_init.elevation",
+        "turret_init.recoil_time",
+        "turret_init.reload",
+        "turret_init.cooldown_time",
+        "turret_init.new_target_interval",
+        "turret_init.target_interval",
+        "turret_init.target_ground",
+        "turret_init.disable_overlap_check_input",
+        "turret_init.range",
+        "turret_init.tracking_range_input"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_init_bridge_state"
+    },
+    "N1157": {
+      "canonical_ledger": "source_slice_ledger.N1157",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "load()",
+      "godot_owner": "PortGame.source_turret_load_state",
+      "source_symbols": [
+        "turret_load.method",
+        "turret_load.override",
+        "turret_load.super_load",
+        "turret_load.drawer_load"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_load_to_source_state",
+        "test_port_game_exposes_source_turret_load_state",
+        "test_port_game_exposes_generated_turret_load_bridge_state",
+        "test_turret_load_matches_upstream_source",
+        "test_generated_turret_load_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_load_bridge_state"
+    },
+    "N1158": {
+      "canonical_ledger": "source_slice_ledger.N1158",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_turret_draw_plan_region_state",
+      "source_symbols": [
+        "turret_draw_plan_region.method",
+        "turret_draw_plan_region.override",
+        "turret_draw_plan_region.plan",
+        "turret_draw_plan_region.list",
+        "turret_draw_plan_region.drawer_draw_plan"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_turret_draw_plan_region_state",
+        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
+        "test_turret_draw_plan_region_matches_upstream_source",
+        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_draw_plan_region_bridge_state"
+    },
+    "N1159": {
+      "canonical_ledger": "source_slice_ledger.N1159",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "icons()",
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "source_symbols": [
+        "turret_icons.method",
+        "turret_icons.override",
+        "turret_icons.drawer_final_icons",
+        "turret_icons.icons"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_icons_bridge_state"
+    },
+    "N1160": {
+      "canonical_ledger": "source_slice_ledger.N1160",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+      "godot_owner": "PortGame.source_turret_get_regions_to_outline_state",
+      "source_symbols": [
+        "turret_get_regions_to_outline.method",
+        "turret_get_regions_to_outline.override",
+        "turret_get_regions_to_outline.out",
+        "turret_get_regions_to_outline.drawer_get_regions_to_outline"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
+        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
+        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
+        "test_turret_get_regions_to_outline_matches_upstream_source",
+        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_get_regions_to_outline_bridge_state"
+    },
+    "N1161": {
+      "canonical_ledger": "source_slice_ledger.N1161",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "limitRange(BulletType bullet, float margin)",
+      "godot_owner": "PortGame.source_turret_limit_range_state",
+      "source_symbols": [
+        "turret_limit_range.method",
+        "turret_limit_range.bullet",
+        "turret_limit_range.margin",
+        "turret_limit_range.range",
+        "turret_limit_range.bullet_range_change",
+        "turret_limit_range.real_range",
+        "turret_limit_range.drag_comment",
+        "turret_limit_range.bullet_extra_range_margin",
+        "turret_limit_range.bullet_speed",
+        "turret_limit_range.lifetime",
+        "turret_limit_range.updated_bullet"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_turret_limit_range_state",
+        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
+        "test_turret_limit_range_matches_upstream_source",
+        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_limit_range_bridge_state"
+    },
+    "N1162": {
+      "canonical_ledger": "source_slice_ledger.N1162",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_turret_draw_place_state",
+      "source_symbols": [
+        "turret_draw_place.method",
+        "turret_draw_place.override",
+        "turret_draw_place.x",
+        "turret_draw_place.y",
+        "turret_draw_place.rotation",
+        "turret_draw_place.valid",
+        "turret_draw_place.draw_min_range",
+        "turret_draw_place.source_tilesize",
+        "turret_draw_place.block_offset",
+        "turret_draw_place.min_range",
+        "turret_draw_place.super_draw_place",
+        "turret_draw_place.draw_min_range_gate",
+        "turret_draw_place.dash_circle",
+        "turret_draw_place.pal_placing"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_turret_draw_place_state",
+        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
+        "test_turret_draw_place_matches_upstream_source",
+        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_draw_place_bridge_state"
+    },
+    "N1163": {
+      "canonical_ledger": "source_slice_ledger.N1163",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "rotatedOutput(int x, int y)",
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "source_symbols": [
+        "turret_rotated_output.method",
+        "turret_rotated_output.override",
+        "turret_rotated_output.x",
+        "turret_rotated_output.y",
+        "turret_rotated_output.return_false"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_rotated_output_bridge_state"
+    },
+    "N1164": {
+      "canonical_ledger": "source_slice_ledger.N1164",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+      "godot_owner": "PortGame.source_turret_place_ended_state",
+      "source_symbols": [
+        "turret_place_ended.method",
+        "turret_place_ended.override",
+        "turret_place_ended.tile",
+        "turret_place_ended.builder",
+        "turret_place_ended.rotation",
+        "turret_place_ended.config",
+        "turret_place_ended.rotate",
+        "turret_place_ended.tile_build_turret_build",
+        "turret_place_ended.turret_rotation",
+        "turret_place_ended.tile_build_rotdeg",
+        "turret_place_ended.super_place_ended",
+        "turret_place_ended.place_ended_gate",
+        "turret_place_ended.rotation_assign"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_place_ended_to_source_state",
+        "test_port_game_exposes_source_turret_place_ended_state",
+        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
+        "test_turret_place_ended_matches_upstream_source",
+        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_place_ended_bridge_state"
+    },
+    "N1165": {
+      "canonical_ledger": "source_slice_ledger.N1165",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "source_symbols": [
+        "reload_turret_set_stats.method",
+        "reload_turret_set_stats.override",
+        "reload_turret_set_stats.reload",
+        "reload_turret_set_stats.coolant",
+        "reload_turret_set_stats.coolant_amount",
+        "reload_turret_set_stats.coolant_multiplier",
+        "reload_turret_set_stats.super_set_stats",
+        "reload_turret_set_stats.coolant_gate",
+        "reload_turret_set_stats.booster_replace"
+      ],
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_reload_turret_set_stats_bridge_state"
+    },
+    "N1166": {
+      "canonical_ledger": "source_slice_ledger.N1166",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "source_symbols": [
+        "power_turret_set_stats.method",
+        "power_turret_set_stats.override",
+        "power_turret_set_stats.shoot_type",
+        "power_turret_set_stats.super_set_stats",
+        "power_turret_set_stats.object_map",
+        "power_turret_set_stats.ammo_values",
+        "power_turret_set_stats.stats_add"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_set_stats_bridge_state"
+    },
+    "N1167": {
+      "canonical_ledger": "source_slice_ledger.N1167",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "limitRange(float margin)",
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "source_symbols": [
+        "power_turret_limit_range.method",
+        "power_turret_limit_range.shoot_type",
+        "power_turret_limit_range.margin",
+        "power_turret_limit_range.dispatch"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_limit_range_bridge_state"
+    },
+    "N1168": {
+      "canonical_ledger": "source_slice_ledger.N1168",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "power_turret_build_get_ammo_fraction.method",
+        "power_turret_build_get_ammo_fraction.power_null",
+        "power_turret_build_get_ammo_fraction.power_status",
+        "power_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_get_ammo_fraction_bridge_state"
+    },
+    "N1169": {
+      "canonical_ledger": "source_slice_ledger.N1169",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "source_symbols": [
+        "power_turret_build_sense.method",
+        "power_turret_build_sense.sensor",
+        "power_turret_build_sense.power_null",
+        "power_turret_build_sense.power_status",
+        "power_turret_build_sense.super_sense",
+        "power_turret_build_sense.ammo_case",
+        "power_turret_build_sense.ammo_capacity_case",
+        "power_turret_build_sense.default_case"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_sense_bridge_state"
+    },
+    "N1170": {
+      "canonical_ledger": "source_slice_ledger.N1170",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "PowerTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_use_ammo_state",
+      "source_symbols": [
+        "power_turret_build_use_ammo.method",
+        "power_turret_build_use_ammo.comment",
+        "power_turret_build_use_ammo.shoot_type",
+        "power_turret_build_use_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
+        "test_power_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_use_ammo_bridge_state"
+    },
+    "N1171": {
+      "canonical_ledger": "source_slice_ledger.N1171",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "source_symbols": [
+        "power_turret_build_has_ammo.method",
+        "power_turret_build_has_ammo.comment",
+        "power_turret_build_has_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_has_ammo_bridge_state"
+    },
+    "N1172": {
+      "canonical_ledger": "source_slice_ledger.N1172",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_method": "PowerTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_peek_ammo_state",
+      "source_symbols": [
+        "power_turret_build_peek_ammo.method",
+        "power_turret_build_peek_ammo.shoot_type",
+        "power_turret_build_peek_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
+        "test_power_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_peek_ammo_bridge_state"
+    },
+    "N1173": {
+      "canonical_ledger": "source_slice_ledger.N1173",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.limitRange()",
+      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
+      "source_symbols": [
+        "item_turret_limit_range_default.method",
+        "item_turret_limit_range_default.comment",
+        "item_turret_limit_range_default.dispatch_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_limit_range_default_bridge_state"
+    },
+    "N1174": {
+      "canonical_ledger": "source_slice_ledger.N1174",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "source_symbols": [
+        "item_turret_limit_range_entries.method",
+        "item_turret_limit_range_entries.comment",
+        "item_turret_limit_range_entries.loop_expr",
+        "item_turret_limit_range_entries.dispatch_expr",
+        "item_turret_limit_range_entries.margin"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_limit_range_entries_bridge_state"
+    },
+    "N1175": {
+      "canonical_ledger": "source_slice_ledger.N1175",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.setStats()",
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "source_symbols": [
+        "item_turret_set_stats.method",
+        "item_turret_set_stats.override",
+        "item_turret_set_stats.super_set_stats",
+        "item_turret_set_stats.ammo_types",
+        "item_turret_set_stats.name",
+        "item_turret_set_stats.max_ammo",
+        "item_turret_set_stats.ammo_per_shot",
+        "item_turret_set_stats.stats_remove",
+        "item_turret_set_stats.stats_ammo_add",
+        "item_turret_set_stats.stats_ammo_capacity_add"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_set_stats_bridge_state"
+    },
+    "N1176": {
+      "canonical_ledger": "source_slice_ledger.N1176",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.setBars()",
+      "godot_owner": "PortGame.source_item_turret_set_bars_state",
+      "source_symbols": [
+        "item_turret_set_bars.method",
+        "item_turret_set_bars.override",
+        "item_turret_set_bars.super_set_bars",
+        "item_turret_set_bars.total_ammo",
+        "item_turret_set_bars.max_ammo",
+        "item_turret_set_bars.add_bar",
+        "item_turret_set_bars.bar_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_bars_state",
+        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
+        "test_item_turret_set_bars_matches_upstream_source",
+        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_set_bars_bridge_state"
+    },
+    "N1177": {
+      "canonical_ledger": "source_slice_ledger.N1177",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.init()",
+      "godot_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+      "source_symbols": [
+        "item_turret_init_ground_overlap.method",
+        "item_turret_init_ground_overlap.override",
+        "item_turret_init_ground_overlap.consume_filter",
+        "item_turret_init_ground_overlap.target_ground",
+        "item_turret_init_ground_overlap.place_overlap_range",
+        "item_turret_init_ground_overlap.range",
+        "item_turret_init_ground_overlap.place_overlap_margin",
+        "item_turret_init_ground_overlap.ammo_entries",
+        "item_turret_init_ground_overlap.range_change",
+        "item_turret_init_ground_overlap.target_ground_guard",
+        "item_turret_init_ground_overlap.overlap_update",
+        "item_turret_init_ground_overlap.overlap_formula",
+        "item_turret_init_ground_overlap.super_init"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
+        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
+        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
+        "test_item_turret_init_ground_overlap_matches_upstream_source",
+        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_init_ground_overlap_bridge_state"
+    },
+    "N1178": {
+      "canonical_ledger": "source_slice_ledger.N1178",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.onProximityAdded()",
+      "godot_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
+      "source_symbols": [
+        "item_turret_build_on_proximity_added.inner_class",
+        "item_turret_build_on_proximity_added.method",
+        "item_turret_build_on_proximity_added.override",
+        "item_turret_build_on_proximity_added.super_on_proximity_added",
+        "item_turret_build_on_proximity_added.comment",
+        "item_turret_build_on_proximity_added.has_ammo",
+        "item_turret_build_on_proximity_added.cheating",
+        "item_turret_build_on_proximity_added.ammo_types_size",
+        "item_turret_build_on_proximity_added.first_ammo_item",
+        "item_turret_build_on_proximity_added.guard",
+        "item_turret_build_on_proximity_added.handle_item"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
+        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
+        "test_item_turret_build_on_proximity_added_matches_upstream_source",
+        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_on_proximity_added_bridge_state"
+    },
+    "N1179": {
+      "canonical_ledger": "source_slice_ledger.N1179",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_item_turret_build_sense_object_state",
+      "source_symbols": [
+        "item_turret_build_sense_object.inner_class",
+        "item_turret_build_sense_object.method",
+        "item_turret_build_sense_object.override",
+        "item_turret_build_sense_object.switch_return",
+        "item_turret_build_sense_object.current_ammo_type_case",
+        "item_turret_build_sense_object.default_case",
+        "item_turret_build_sense_object.sensor",
+        "item_turret_build_sense_object.ammo_size",
+        "item_turret_build_sense_object.peek_item",
+        "item_turret_build_sense_object.super_sense_object_value",
+        "item_turret_build_sense_object.sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
+        "test_item_turret_build_sense_object_matches_upstream_source",
+        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_sense_object_bridge_state"
+    },
+    "N1180": {
+      "canonical_ledger": "source_slice_ledger.N1180",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.getAmmoContent()",
+      "godot_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
+      "source_symbols": [
+        "item_turret_build_get_ammo_content.inner_class",
+        "item_turret_build_get_ammo_content.method",
+        "item_turret_build_get_ammo_content.override",
+        "item_turret_build_get_ammo_content.return_expr",
+        "item_turret_build_get_ammo_content.ammo_size",
+        "item_turret_build_get_ammo_content.peek_item",
+        "item_turret_build_get_ammo_content.ammo_content"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
+        "test_item_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_content_bridge_state"
+    },
+    "N1181": {
+      "canonical_ledger": "source_slice_ledger.N1181",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "item_turret_build_get_ammo_fraction.inner_class",
+        "item_turret_build_get_ammo_fraction.method",
+        "item_turret_build_get_ammo_fraction.override",
+        "item_turret_build_get_ammo_fraction.return_expr",
+        "item_turret_build_get_ammo_fraction.total_ammo",
+        "item_turret_build_get_ammo_fraction.max_ammo",
+        "item_turret_build_get_ammo_fraction.ammo_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
+        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state"
+    },
+    "N1182": {
+      "canonical_ledger": "source_slice_ledger.N1182",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
+      "godot_owner": "PortGame.source_item_turret_build_accept_stack_state",
+      "source_symbols": [
+        "item_turret_build_accept_stack.inner_class",
+        "item_turret_build_accept_stack.method",
+        "item_turret_build_accept_stack.override",
+        "item_turret_build_accept_stack.type_lookup",
+        "item_turret_build_accept_stack.null_guard",
+        "item_turret_build_accept_stack.return_expr",
+        "item_turret_build_accept_stack.item",
+        "item_turret_build_accept_stack.amount",
+        "item_turret_build_accept_stack.max_ammo",
+        "item_turret_build_accept_stack.total_ammo",
+        "item_turret_build_accept_stack.ammo_multiplier",
+        "item_turret_build_accept_stack.ammo_type_null",
+        "item_turret_build_accept_stack.accept_stack"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
+        "test_item_turret_build_accept_stack_matches_upstream_source",
+        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_stack_bridge_state"
+    },
+    "N1183": {
+      "canonical_ledger": "source_slice_ledger.N1183",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+      "godot_owner": "PortGame.source_item_turret_build_handle_stack_state",
+      "source_symbols": [
+        "item_turret_build_handle_stack.inner_class",
+        "item_turret_build_handle_stack.method",
+        "item_turret_build_handle_stack.override",
+        "item_turret_build_handle_stack.loop_expr",
+        "item_turret_build_handle_stack.handle_item_expr",
+        "item_turret_build_handle_stack.item",
+        "item_turret_build_handle_stack.amount",
+        "item_turret_build_handle_stack.handle_item_calls",
+        "item_turret_build_handle_stack.handle_item_call_count"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
+        "test_item_turret_build_handle_stack_matches_upstream_source",
+        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_handle_stack_bridge_state"
+    },
+    "N1184": {
+      "canonical_ledger": "source_slice_ledger.N1184",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "source_symbols": [
+        "item_turret_build_remove_stack.inner_class",
+        "item_turret_build_remove_stack.comment",
+        "item_turret_build_remove_stack.method",
+        "item_turret_build_remove_stack.override",
+        "item_turret_build_remove_stack.return_expr",
+        "item_turret_build_remove_stack.item",
+        "item_turret_build_remove_stack.amount",
+        "item_turret_build_remove_stack.removed_stack"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_remove_stack_bridge_state"
+    },
+    "N1185": {
+      "canonical_ledger": "source_slice_ledger.N1185",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+      "godot_owner": "PortGame.source_item_turret_build_handle_item_state",
+      "source_symbols": [
+        "item_turret_build_handle_item.inner_class",
+        "item_turret_build_handle_item.override",
+        "item_turret_build_handle_item.method",
+        "item_turret_build_handle_item.todo_comment",
+        "item_turret_build_handle_item.pyratite_guard",
+        "item_turret_build_handle_item.flame_event",
+        "item_turret_build_handle_item.resupply_guard",
+        "item_turret_build_handle_item.resupply_event",
+        "item_turret_build_handle_item.type_lookup",
+        "item_turret_build_handle_item.type_null_guard",
+        "item_turret_build_handle_item.total_ammo_update",
+        "item_turret_build_handle_item.loop_expr",
+        "item_turret_build_handle_item.entry_cast",
+        "item_turret_build_handle_item.found_guard",
+        "item_turret_build_handle_item.entry_update",
+        "item_turret_build_handle_item.swap_expr",
+        "item_turret_build_handle_item.add_expr",
+        "item_turret_build_handle_item.item",
+        "item_turret_build_handle_item.item_is_pyratite",
+        "item_turret_build_handle_item.total_ammo",
+        "item_turret_build_handle_item.ammo_multiplier",
+        "item_turret_build_handle_item.ammo_type_null",
+        "item_turret_build_handle_item.ammo_entries",
+        "item_turret_build_handle_item.flame_ammo_event_fired",
+        "item_turret_build_handle_item.resupply_turret_event_fired",
+        "item_turret_build_handle_item.type_null_returned",
+        "item_turret_build_handle_item.total_ammo_after",
+        "item_turret_build_handle_item.ammo_entries_after",
+        "item_turret_build_handle_item.entry_found",
+        "item_turret_build_handle_item.entry_added",
+        "item_turret_build_handle_item.swapped"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_item_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state",
+        "test_item_turret_build_handle_item_matches_upstream_source",
+        "test_generated_item_turret_build_handle_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_handle_item_bridge_state"
+    },
+    "N1186": {
+      "canonical_ledger": "source_slice_ledger.N1186",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "source_symbols": [
+        "item_turret_build_accept_item.inner_class",
+        "item_turret_build_accept_item.override",
+        "item_turret_build_accept_item.method",
+        "item_turret_build_accept_item.return_expr",
+        "item_turret_build_accept_item.item",
+        "item_turret_build_accept_item.total_ammo",
+        "item_turret_build_accept_item.max_ammo",
+        "item_turret_build_accept_item.ammo_multiplier",
+        "item_turret_build_accept_item.ammo_type_null",
+        "item_turret_build_accept_item.accept_item"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_item_bridge_state"
+    },
+    "N1187": {
+      "canonical_ledger": "source_slice_ledger.N1187",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.version()",
+      "godot_owner": "PortGame.source_item_turret_build_version_state",
+      "source_symbols": [
+        "item_turret_build_version.inner_class",
+        "item_turret_build_version.override",
+        "item_turret_build_version.method",
+        "item_turret_build_version.return_expr",
+        "item_turret_build_version.version"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_version_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_version_state",
+        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
+        "test_item_turret_build_version_matches_upstream_source",
+        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_version_bridge_state"
+    },
+    "N1188": {
+      "canonical_ledger": "source_slice_ledger.N1188",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.write(Writes)",
+      "godot_owner": "PortGame.source_item_turret_build_write_state",
+      "source_symbols": [
+        "item_turret_build_write.inner_class",
+        "item_turret_build_write.override",
+        "item_turret_build_write.method",
+        "item_turret_build_write.super_write_expr",
+        "item_turret_build_write.write_size_expr",
+        "item_turret_build_write.loop_expr",
+        "item_turret_build_write.entry_cast",
+        "item_turret_build_write.write_item_id_expr",
+        "item_turret_build_write.write_amount_expr",
+        "item_turret_build_write.ammo_entries",
+        "item_turret_build_write.ammo_size",
+        "item_turret_build_write.entry_writes",
+        "item_turret_build_write.write_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_write_state",
+        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
+        "test_item_turret_build_write_matches_upstream_source",
+        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_write_bridge_state"
+    },
+    "N1189": {
+      "canonical_ledger": "source_slice_ledger.N1189",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "source_symbols": [
+        "item_turret_build_read.inner_class",
+        "item_turret_build_read.override",
+        "item_turret_build_read.method",
+        "item_turret_build_read.super_read_expr",
+        "item_turret_build_read.clear_expr",
+        "item_turret_build_read.total_reset_expr",
+        "item_turret_build_read.amount_expr",
+        "item_turret_build_read.loop_expr",
+        "item_turret_build_read.item_lookup_expr",
+        "item_turret_build_read.item_amount_expr",
+        "item_turret_build_read.valid_comment",
+        "item_turret_build_read.valid_ammo_guard",
+        "item_turret_build_read.total_add_expr",
+        "item_turret_build_read.ammo_add_expr",
+        "item_turret_build_read.revision",
+        "item_turret_build_read.max_ammo",
+        "item_turret_build_read.read_entries",
+        "item_turret_build_read.read_count",
+        "item_turret_build_read.total_ammo_after",
+        "item_turret_build_read.ammo_entries_after",
+        "item_turret_build_read.read_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_read_bridge_state"
+    },
+    "N1190": {
+      "canonical_ledger": "source_slice_ledger.N1190",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry(Item, int)",
+      "godot_owner": "PortGame.source_item_entry_constructor_state",
+      "source_symbols": [
+        "item_entry_constructor.inner_class",
+        "item_entry_constructor.field",
+        "item_entry_constructor.constructor",
+        "item_entry_constructor.item_assign_expr",
+        "item_entry_constructor.amount_assign_expr",
+        "item_entry_constructor.item",
+        "item_entry_constructor.amount",
+        "item_entry_constructor.item_after",
+        "item_entry_constructor.amount_after"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_constructor_to_source_state",
+        "test_port_game_exposes_source_item_entry_constructor_state",
+        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
+        "test_item_entry_constructor_matches_upstream_source",
+        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_constructor_bridge_state"
+    },
+    "N1191": {
+      "canonical_ledger": "source_slice_ledger.N1191",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "source_symbols": [
+        "item_entry_type.inner_class",
+        "item_entry_type.override_expr",
+        "item_entry_type.method",
+        "item_entry_type.return_expr",
+        "item_entry_type.item",
+        "item_entry_type.ammo_type",
+        "item_entry_type.type"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_type_bridge_state"
+    },
+    "N1192": {
+      "canonical_ledger": "source_slice_ledger.N1192",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.toString()",
+      "godot_owner": "PortGame.source_item_entry_to_string_state",
+      "source_symbols": [
+        "item_entry_to_string.inner_class",
+        "item_entry_to_string.override_expr",
+        "item_entry_to_string.method",
+        "item_entry_to_string.return_start_expr",
+        "item_entry_to_string.item_concat_expr",
+        "item_entry_to_string.amount_concat_expr",
+        "item_entry_to_string.return_end_expr",
+        "item_entry_to_string.item_string",
+        "item_entry_to_string.amount",
+        "item_entry_to_string.to_string"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_to_string_to_source_state",
+        "test_port_game_exposes_source_item_entry_to_string_state",
+        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
+        "test_item_entry_to_string_matches_upstream_source",
+        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_to_string_bridge_state"
+    },
+    "N1193": {
+      "canonical_ledger": "source_slice_ledger.N1193",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.ammo(Object...)",
+      "godot_owner": "PortGame.source_liquid_turret_ammo_state",
+      "source_symbols": [
+        "liquid_turret_ammo.field",
+        "liquid_turret_ammo.comment",
+        "liquid_turret_ammo.method",
+        "liquid_turret_ammo.assignment_expr",
+        "liquid_turret_ammo.objects",
+        "liquid_turret_ammo.ammo_types_after"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
+        "test_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_ammo_bridge_state"
+    },
+    "N1194": {
+      "canonical_ledger": "source_slice_ledger.N1194",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.setStats()",
+      "godot_owner": "PortGame.source_liquid_turret_set_stats_state",
+      "source_symbols": [
+        "liquid_turret_set_stats.override_expr",
+        "liquid_turret_set_stats.method",
+        "liquid_turret_set_stats.super_set_stats",
+        "liquid_turret_set_stats.stats_add",
+        "liquid_turret_set_stats.ammo_types",
+        "liquid_turret_set_stats.name",
+        "liquid_turret_set_stats.ammo_values_call"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
+        "test_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_set_stats_bridge_state"
+    },
+    "N1195": {
+      "canonical_ledger": "source_slice_ledger.N1195",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.init()",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "source_symbols": [
+        "liquid_turret_init.method",
+        "liquid_turret_init.ammo_entries",
+        "liquid_turret_init.overlap_each",
+        "liquid_turret_init.consume_filter"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_init_bridge_state"
+    },
+    "N1196": {
+      "canonical_ledger": "source_slice_ledger.N1196",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "source_symbols": [
+        "liquid_turret_build_should_active_sound.method",
+        "liquid_turret_build_should_active_sound.was_shooting",
+        "liquid_turret_build_should_active_sound.enabled",
+        "liquid_turret_build_should_active_sound.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state"
+    },
+    "N1197": {
+      "canonical_ledger": "source_slice_ledger.N1197",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.getAmmoContent()",
+      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
+      "source_symbols": [
+        "liquid_turret_build_get_ammo_content.method",
+        "liquid_turret_build_get_ammo_content.liquids_null",
+        "liquid_turret_build_get_ammo_content.current_amount",
+        "liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_content_bridge_state"
+    },
+    "N1198": {
+      "canonical_ledger": "source_slice_ledger.N1198",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "liquid_turret_build_get_ammo_fraction.method",
+        "liquid_turret_build_get_ammo_fraction.current_amount",
+        "liquid_turret_build_get_ammo_fraction.liquid_capacity",
+        "liquid_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_fraction_bridge_state"
+    },
+    "N1199": {
+      "canonical_ledger": "source_slice_ledger.N1199",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_liquid_turret_build_sense_object_state",
+      "source_symbols": [
+        "liquid_turret_build_sense_object.method",
+        "liquid_turret_build_sense_object.sensor",
+        "liquid_turret_build_sense_object.current_liquid",
+        "liquid_turret_build_sense_object.super_sense_object_value",
+        "liquid_turret_build_sense_object.current_ammo_type_case",
+        "liquid_turret_build_sense_object.default_case",
+        "liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
+        "test_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_sense_object_bridge_state"
+    },
+    "N1200": {
+      "canonical_ledger": "source_slice_ledger.N1200",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "source_symbols": [
+        "liquid_turret_build_find_target_extinguish.method",
+        "liquid_turret_build_find_target_extinguish.extinguish",
+        "liquid_turret_build_find_target_extinguish.current_liquid_can_extinguish",
+        "liquid_turret_build_find_target_extinguish.fire_result",
+        "liquid_turret_build_find_target_extinguish.guard_expr",
+        "liquid_turret_build_find_target_extinguish.assign_expr",
+        "liquid_turret_build_find_target_extinguish.super_find_target_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state"
+    },
+    "N1201": {
+      "canonical_ledger": "source_slice_ledger.N1201",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "source_symbols": [
+        "liquid_turret_build_use_ammo.method",
+        "liquid_turret_build_use_ammo.cheating",
+        "liquid_turret_build_use_ammo.current_liquid",
+        "liquid_turret_build_use_ammo.ammo_type",
+        "liquid_turret_build_use_ammo.ammo_multiplier",
+        "liquid_turret_build_use_ammo.cheating_return_expr",
+        "liquid_turret_build_use_ammo.remove_expr",
+        "liquid_turret_build_use_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state"
+    },
+    "N1202": {
+      "canonical_ledger": "source_slice_ledger.N1202",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "source_symbols": [
+        "liquid_turret_build_peek_ammo.method",
+        "liquid_turret_build_peek_ammo.current_liquid",
+        "liquid_turret_build_peek_ammo.ammo_type",
+        "liquid_turret_build_peek_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_peek_ammo_bridge_state"
+    },
+    "N1203": {
+      "canonical_ledger": "source_slice_ledger.N1203",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "source_symbols": [
+        "liquid_turret_build_has_ammo.method",
+        "liquid_turret_build_has_ammo.current_liquid",
+        "liquid_turret_build_has_ammo.ammo_type",
+        "liquid_turret_build_has_ammo.current_amount",
+        "liquid_turret_build_has_ammo.ammo_multiplier",
+        "liquid_turret_build_has_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_has_ammo_bridge_state"
+    },
+    "N1204": {
+      "canonical_ledger": "source_slice_ledger.N1204",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_item_state",
+      "source_symbols": [
+        "liquid_turret_build_accept_item.method",
+        "liquid_turret_build_accept_item.source_building",
+        "liquid_turret_build_accept_item.item",
+        "liquid_turret_build_accept_item.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
+        "test_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_item_bridge_state"
+    },
+    "N1205": {
+      "canonical_ledger": "source_slice_ledger.N1205",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "source_symbols": [
+        "liquid_turret_build_accept_liquid.method",
+        "liquid_turret_build_accept_liquid.source_building",
+        "liquid_turret_build_accept_liquid.liquid",
+        "liquid_turret_build_accept_liquid.ammo_type",
+        "liquid_turret_build_accept_liquid.current_liquid",
+        "liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
+        "liquid_turret_build_accept_liquid.current_liquid_amount",
+        "liquid_turret_build_accept_liquid.current_ammo_multiplier",
+        "liquid_turret_build_accept_liquid.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_liquid_bridge_state"
+    },
+    "N1206": {
+      "canonical_ledger": "source_slice_ledger.N1206",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "reinitializeConsumers()",
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "source_symbols": [
+        "base_turret_reinitialize_consumers.method",
+        "base_turret_reinitialize_consumers.check_init_coolant",
+        "base_turret_reinitialize_consumers.super_reinitialize_consumers"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_reinitialize_consumers_bridge_state"
+    },
+    "N1207": {
+      "canonical_ledger": "source_slice_ledger.N1207",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "checkInitCoolant()",
+      "godot_owner": "PortGame.source_base_turret_check_init_coolant_state",
+      "source_symbols": [
+        "base_turret_check_init_coolant.method",
+        "base_turret_check_init_coolant.coolant_guard",
+        "base_turret_check_init_coolant.has_consumer",
+        "base_turret_check_init_coolant.update_assign",
+        "base_turret_check_init_coolant.booster_assign",
+        "base_turret_check_init_coolant.optional_assign",
+        "base_turret_check_init_coolant.json_comment",
+        "base_turret_check_init_coolant.consume_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_check_init_coolant_to_source_state",
+        "test_port_game_exposes_source_base_turret_check_init_coolant_state",
+        "test_port_game_exposes_generated_base_turret_check_init_coolant_bridge_state",
+        "test_base_turret_check_init_coolant_matches_upstream_source",
+        "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_check_init_coolant_bridge_state"
+    },
+    "N1208": {
+      "canonical_ledger": "source_slice_ledger.N1208",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "source_symbols": [
+        "base_turret_init.method",
+        "base_turret_init.coolant_null_guard",
+        "base_turret_init.find_consumer",
+        "base_turret_init.check_init_coolant",
+        "base_turret_init.overlap_guard",
+        "base_turret_init.place_overlap_range",
+        "base_turret_init.fog_radius",
+        "base_turret_init.super_init"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_init_bridge_state"
+    },
+    "N1209": {
+      "canonical_ledger": "source_slice_ledger.N1209",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_base_turret_draw_place_state",
+      "source_symbols": [
+        "base_turret_draw_place.method",
+        "base_turret_draw_place.x",
+        "base_turret_draw_place.y",
+        "base_turret_draw_place.rotation",
+        "base_turret_draw_place.valid",
+        "base_turret_draw_place.tilesize",
+        "base_turret_draw_place.offset",
+        "base_turret_draw_place.range",
+        "base_turret_draw_place.fog_radius_multiplier",
+        "base_turret_draw_place.rules_fog",
+        "base_turret_draw_place.super_draw_place",
+        "base_turret_draw_place.dash_circle",
+        "base_turret_draw_place.fog_guard",
+        "base_turret_draw_place.fog_dash_circle"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_base_turret_draw_place_state",
+        "test_port_game_exposes_generated_base_turret_draw_place_bridge_state",
+        "test_base_turret_draw_place_matches_upstream_source",
+        "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_draw_place_bridge_state"
+    },
+    "N1210": {
+      "canonical_ledger": "source_slice_ledger.N1210",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "source_symbols": [
+        "base_turret_set_stats.method",
+        "base_turret_set_stats.range",
+        "base_turret_set_stats.tilesize",
+        "base_turret_set_stats.activation_time",
+        "base_turret_set_stats.super_set_stats",
+        "base_turret_set_stats.shoot_range_stat",
+        "base_turret_set_stats.activation_time_stat"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_set_stats_bridge_state"
+    },
+    "N1211": {
+      "canonical_ledger": "source_slice_ledger.N1211",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "setBars()",
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "source_symbols": [
+        "base_turret_set_bars.method",
+        "base_turret_set_bars.activation_time",
+        "base_turret_set_bars.entity_activation_timer",
+        "base_turret_set_bars.super_set_bars",
+        "base_turret_set_bars.activation_time_guard",
+        "base_turret_set_bars.add_bar",
+        "base_turret_set_bars.bar_text",
+        "base_turret_set_bars.bar_color",
+        "base_turret_set_bars.bar_progress"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_set_bars_bridge_state"
+    },
+    "N1212": {
+      "canonical_ledger": "source_slice_ledger.N1212",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "source_symbols": [
+        "turret_set_stats.method",
+        "turret_set_stats.override",
+        "turret_set_stats.super_set_stats",
+        "turret_set_stats.inaccuracy",
+        "turret_set_stats.reload_stat",
+        "turret_set_stats.targets_air",
+        "turret_set_stats.targets_ground",
+        "turret_set_stats.ammo_use_stat",
+        "turret_set_stats.input_heat_stat",
+        "turret_set_stats.max_efficiency_stat"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_set_stats_bridge_state"
+    },
+    "N1213": {
+      "canonical_ledger": "source_slice_ledger.N1213",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "setBars()",
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "source_symbols": [
+        "turret_set_bars.method",
+        "turret_set_bars.override",
+        "turret_set_bars.super_set_bars",
+        "turret_set_bars.heat_requirement",
+        "turret_set_bars.entity_heat_req",
+        "turret_set_bars.max_heat_efficiency",
+        "turret_set_bars.heat_requirement_guard",
+        "turret_set_bars.add_bar",
+        "turret_set_bars.bar_text",
+        "turret_set_bars.bar_color",
+        "turret_set_bars.bar_progress"
+      ],
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_turret_set_bars_bridge_state"
+    },
+    "N1214": {
+      "canonical_ledger": "source_slice_ledger.N1214",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "source_symbols": [
+        "item_turret_ammo.field",
+        "item_turret_ammo.comment",
+        "item_turret_ammo.method",
+        "item_turret_ammo.assignment_expr",
+        "item_turret_ammo.objects",
+        "item_turret_ammo.ammo_types_after"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_ammo_bridge_state"
+    },
+    "N1215": {
+      "canonical_ledger": "source_slice_ledger.N1215",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "java_method": "ContinuousTurret.setStats()",
+      "godot_owner": "PortGame.source_continuous_turret_set_stats_state",
+      "source_symbols": [
+        "continuous_turret_set_stats.method",
+        "continuous_turret_set_stats.override",
+        "continuous_turret_set_stats.super_set_stats",
+        "continuous_turret_set_stats.shoot_type",
+        "continuous_turret_set_stats.stats_add_ammo",
+        "continuous_turret_set_stats.remove_reload",
+        "continuous_turret_set_stats.remove_inaccuracy"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state",
+        "test_continuous_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_turret_set_stats_bridge_state"
+    },
+    "N1216": {
+      "canonical_ledger": "source_slice_ledger.N1216",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "source_symbols": [
+        "continuous_liquid_turret_ammo.field",
+        "continuous_liquid_turret_ammo.comment",
+        "continuous_liquid_turret_ammo.method",
+        "continuous_liquid_turret_ammo.assignment_expr",
+        "continuous_liquid_turret_ammo.objects",
+        "continuous_liquid_turret_ammo.ammo_types_after"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state"
+    },
+    "N1217": {
+      "canonical_ledger": "source_slice_ledger.N1217",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurret.setStats()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+      "source_symbols": [
+        "continuous_liquid_turret_set_stats.method",
+        "continuous_liquid_turret_set_stats.override",
+        "continuous_liquid_turret_set_stats.super_set_stats",
+        "continuous_liquid_turret_set_stats.mirror_comment",
+        "continuous_liquid_turret_set_stats.ammo_types",
+        "continuous_liquid_turret_set_stats.liquid_consumed",
+        "continuous_liquid_turret_set_stats.stat_liquid_consumed",
+        "continuous_liquid_turret_set_stats.stats_replace"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state",
+        "test_continuous_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_set_stats_bridge_state"
+    },
+    "N1218": {
+      "canonical_ledger": "source_slice_ledger.N1218",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurret.init()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_init_state",
+      "source_symbols": [
+        "continuous_liquid_turret_init.method",
+        "continuous_liquid_turret_init.override",
+        "continuous_liquid_turret_init.consume_filter",
+        "continuous_liquid_turret_init.filter_expr",
+        "continuous_liquid_turret_init.multiplier_assign",
+        "continuous_liquid_turret_init.ammo_lookup",
+        "continuous_liquid_turret_init.multiplier_return",
+        "continuous_liquid_turret_init.display_override",
+        "continuous_liquid_turret_init.target_ground",
+        "continuous_liquid_turret_init.ammo_entries",
+        "continuous_liquid_turret_init.place_overlap_range",
+        "continuous_liquid_turret_init.range_value",
+        "continuous_liquid_turret_init.place_overlap_margin",
+        "continuous_liquid_turret_init.liquid_consumed",
+        "continuous_liquid_turret_init.current_liquid",
+        "continuous_liquid_turret_init.current_ammo_multiplier",
+        "continuous_liquid_turret_init.overlap_each",
+        "continuous_liquid_turret_init.place_overlap_range_after",
+        "continuous_liquid_turret_init.super_init"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_init_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state",
+        "test_continuous_liquid_turret_init_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_init_bridge_state"
+    },
+    "N1219": {
+      "canonical_ledger": "source_slice_ledger.N1219",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_should_active_sound.method",
+        "continuous_liquid_turret_build_should_active_sound.was_shooting",
+        "continuous_liquid_turret_build_should_active_sound.enabled",
+        "continuous_liquid_turret_build_should_active_sound.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_active_sound_bridge_state"
+    },
+    "N1220": {
+      "canonical_ledger": "source_slice_ledger.N1220",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_content.method",
+        "continuous_liquid_turret_build_get_ammo_content.liquids_null",
+        "continuous_liquid_turret_build_get_ammo_content.current_amount",
+        "continuous_liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_content_bridge_state"
+    },
+    "N1221": {
+      "canonical_ledger": "source_slice_ledger.N1221",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_fraction.method",
+        "continuous_liquid_turret_build_get_ammo_fraction.current_amount",
+        "continuous_liquid_turret_build_get_ammo_fraction.liquid_capacity",
+        "continuous_liquid_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state"
+    },
+    "N1222": {
+      "canonical_ledger": "source_slice_ledger.N1222",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_update_tile.method",
+        "continuous_liquid_turret_build_update_tile.current_amount",
+        "continuous_liquid_turret_build_update_tile.liquid_consumed",
+        "continuous_liquid_turret_build_update_tile.activated",
+        "continuous_liquid_turret_build_update_tile.activate_guard",
+        "continuous_liquid_turret_build_update_tile.deactivate_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state",
+        "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_update_tile_bridge_state"
+    },
+    "N1223": {
+      "canonical_ledger": "source_slice_ledger.N1223",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_sense_object.method",
+        "continuous_liquid_turret_build_sense_object.sensor",
+        "continuous_liquid_turret_build_sense_object.current_liquid",
+        "continuous_liquid_turret_build_sense_object.super_sense_object_value",
+        "continuous_liquid_turret_build_sense_object.current_ammo_type_case",
+        "continuous_liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_sense_object_bridge_state",
+        "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_sense_object_bridge_state"
+    },
+    "N1224": {
+      "canonical_ledger": "source_slice_ledger.N1224",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_can_consume.method",
+        "continuous_liquid_turret_build_can_consume.has_correct_ammo",
+        "continuous_liquid_turret_build_can_consume.super_can_consume",
+        "continuous_liquid_turret_build_can_consume.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_can_consume_bridge_state",
+        "test_continuous_liquid_turret_build_can_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_can_consume_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_can_consume_bridge_state"
+    },
+    "N1225": {
+      "canonical_ledger": "source_slice_ledger.N1225",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_should_consume.method",
+        "continuous_liquid_turret_build_should_consume.super_should_consume",
+        "continuous_liquid_turret_build_should_consume.activated",
+        "continuous_liquid_turret_build_should_consume.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_consume_bridge_state",
+        "test_continuous_liquid_turret_build_should_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_consume_bridge_state"
+    },
+    "N1226": {
+      "canonical_ledger": "source_slice_ledger.N1226",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_use_ammo.method",
+        "continuous_liquid_turret_build_use_ammo.peek_ammo",
+        "continuous_liquid_turret_build_use_ammo.comment",
+        "continuous_liquid_turret_build_use_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_use_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_use_ammo_bridge_state"
+    },
+    "N1227": {
+      "canonical_ledger": "source_slice_ledger.N1227",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_peek_ammo.method",
+        "continuous_liquid_turret_build_peek_ammo.current_liquid",
+        "continuous_liquid_turret_build_peek_ammo.ammo_type",
+        "continuous_liquid_turret_build_peek_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_peek_ammo_bridge_state"
+    },
+    "N1228": {
+      "canonical_ledger": "source_slice_ledger.N1228",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.hasAmmo()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_has_ammo.method",
+        "continuous_liquid_turret_build_has_ammo.has_correct_ammo",
+        "continuous_liquid_turret_build_has_ammo.current_liquid",
+        "continuous_liquid_turret_build_has_ammo.ammo_type",
+        "continuous_liquid_turret_build_has_ammo.current_amount",
+        "continuous_liquid_turret_build_has_ammo.activated",
+        "continuous_liquid_turret_build_has_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_has_ammo_bridge_state"
+    },
+    "N1229": {
+      "canonical_ledger": "source_slice_ledger.N1229",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_has_correct_ammo.method",
+        "continuous_liquid_turret_build_has_correct_ammo.bullets_any",
+        "continuous_liquid_turret_build_has_correct_ammo.first_bullet_type",
+        "continuous_liquid_turret_build_has_correct_ammo.peek_ammo",
+        "continuous_liquid_turret_build_has_correct_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state"
+    },
+    "N1230": {
+      "canonical_ledger": "source_slice_ledger.N1230",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_accept_item.method",
+        "continuous_liquid_turret_build_accept_item.source_building",
+        "continuous_liquid_turret_build_accept_item.item",
+        "continuous_liquid_turret_build_accept_item.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_accept_item_bridge_state"
+    },
+    "N1231": {
+      "canonical_ledger": "source_slice_ledger.N1231",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "java_method": "ContinuousLiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_accept_liquid.method",
+        "continuous_liquid_turret_build_accept_liquid.source_building",
+        "continuous_liquid_turret_build_accept_liquid.liquid",
+        "continuous_liquid_turret_build_accept_liquid.ammo_type",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid_amount",
+        "continuous_liquid_turret_build_accept_liquid.current_ammo_multiplier",
+        "continuous_liquid_turret_build_accept_liquid.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
+        "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_accept_liquid_bridge_state"
+    },
+    "N1232": {
+      "canonical_ledger": "source_slice_ledger.N1232",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamTurret.icons()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "source_symbols": [
+        "tractor_beam_turret_icons.method",
+        "tractor_beam_turret_icons.base_region",
+        "tractor_beam_turret_icons.region",
+        "tractor_beam_turret_icons.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_icons_bridge_state"
+    },
+    "N1233": {
+      "canonical_ledger": "source_slice_ledger.N1233",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamTurret.setStats()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+      "source_symbols": [
+        "tractor_beam_turret_set_stats.method",
+        "tractor_beam_turret_set_stats.target_air",
+        "tractor_beam_turret_set_stats.target_ground",
+        "tractor_beam_turret_set_stats.damage",
+        "tractor_beam_turret_set_stats.damage_per_second"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_set_stats_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_set_stats_bridge_state",
+        "test_tractor_beam_turret_set_stats_matches_upstream_source",
+        "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_set_stats_bridge_state"
+    },
+    "N1234": {
+      "canonical_ledger": "source_slice_ledger.N1234",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamTurret.init()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "source_symbols": [
+        "tractor_beam_turret_init.method",
+        "tractor_beam_turret_init.range",
+        "tractor_beam_turret_init.tilesize",
+        "tractor_beam_turret_init.clip_radius"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_init_bridge_state"
+    },
+    "N1235": {
+      "canonical_ledger": "source_slice_ledger.N1235",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_should_consume.method",
+        "tractor_beam_turret_build_should_consume.super_should_consume",
+        "tractor_beam_turret_build_should_consume.target",
+        "tractor_beam_turret_build_should_consume.target_present",
+        "tractor_beam_turret_build_should_consume.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_should_consume_bridge_state"
+    },
+    "N1236": {
+      "canonical_ledger": "source_slice_ledger.N1236",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_estimate_dps.method",
+        "tractor_beam_turret_build_estimate_dps.any",
+        "tractor_beam_turret_build_estimate_dps.damage",
+        "tractor_beam_turret_build_estimate_dps.efficiency",
+        "tractor_beam_turret_build_estimate_dps.coolant_multiplier",
+        "tractor_beam_turret_build_estimate_dps.zero_guard",
+        "tractor_beam_turret_build_estimate_dps.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_estimate_dps_bridge_state"
+    },
+    "N1237": {
+      "canonical_ledger": "source_slice_ledger.N1237",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_write.method",
+        "tractor_beam_turret_build_write.rotation",
+        "tractor_beam_turret_build_write.super_write",
+        "tractor_beam_turret_build_write.write_rotation"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_write_bridge_state"
+    },
+    "N1238": {
+      "canonical_ledger": "source_slice_ledger.N1238",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_read.method",
+        "tractor_beam_turret_build_read.read_f_value",
+        "tractor_beam_turret_build_read.revision",
+        "tractor_beam_turret_build_read.super_read",
+        "tractor_beam_turret_build_read.read_rotation"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_read_bridge_state"
+    },
+    "N1239": {
+      "canonical_ledger": "source_slice_ledger.N1239",
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.draw()",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_draw_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_draw.method",
+        "tractor_beam_turret_build_draw.base_region",
+        "tractor_beam_turret_build_draw.region",
+        "tractor_beam_turret_build_draw.x",
+        "tractor_beam_turret_build_draw.y",
+        "tractor_beam_turret_build_draw.rotation",
+        "tractor_beam_turret_build_draw.size",
+        "tractor_beam_turret_build_draw.any",
+        "tractor_beam_turret_build_draw.is_payload",
+        "tractor_beam_turret_build_draw.last_x",
+        "tractor_beam_turret_build_draw.last_y",
+        "tractor_beam_turret_build_draw.laser_color",
+        "tractor_beam_turret_build_draw.mathf_absin",
+        "tractor_beam_turret_build_draw.laser_texture",
+        "tractor_beam_turret_build_draw.laser_start_texture",
+        "tractor_beam_turret_build_draw.laser_end_texture",
+        "tractor_beam_turret_build_draw.shoot_length",
+        "tractor_beam_turret_build_draw.strength",
+        "tractor_beam_turret_build_draw.efficiency",
+        "tractor_beam_turret_build_draw.laser_width",
+        "tractor_beam_turret_build_draw.base_rect",
+        "tractor_beam_turret_build_draw.shadow",
+        "tractor_beam_turret_build_draw.region_rect",
+        "tractor_beam_turret_build_draw.laser_guard",
+        "tractor_beam_turret_build_draw.angle",
+        "tractor_beam_turret_build_draw.mixcol",
+        "tractor_beam_turret_build_draw.laser"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_draw_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_draw_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state",
+        "test_tractor_beam_turret_build_draw_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_draw_bridge_state"
+    },
+    "N1240": {
+      "canonical_ledger": "source_slice_ledger.N1240",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_activation.method",
+        "tractor_beam_turret_build_update_tile_activation.inner_class",
+        "tractor_beam_turret_build_update_tile_activation.override",
+        "tractor_beam_turret_build_update_tile_activation.activation_timer",
+        "tractor_beam_turret_build_update_tile_activation.time_delta",
+        "tractor_beam_turret_build_update_tile_activation.guard",
+        "tractor_beam_turret_build_update_tile_activation.decrement",
+        "tractor_beam_turret_build_update_tile_activation.return",
+        "tractor_beam_turret_build_update_tile_activation.next_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_activation_bridge_state"
+    },
+    "N1241": {
+      "canonical_ledger": "source_slice_ledger.N1241",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_eff.method",
+        "tractor_beam_turret_build_update_tile_eff.inner_class",
+        "tractor_beam_turret_build_update_tile_eff.override",
+        "tractor_beam_turret_build_update_tile_eff.activation_returned_early",
+        "tractor_beam_turret_build_update_tile_eff.efficiency",
+        "tractor_beam_turret_build_update_tile_eff.coolant_multiplier",
+        "tractor_beam_turret_build_update_tile_eff.delta_value",
+        "tractor_beam_turret_build_update_tile_eff.eff_calculated",
+        "tractor_beam_turret_build_update_tile_eff.eff_expr",
+        "tractor_beam_turret_build_update_tile_eff.eff",
+        "tractor_beam_turret_build_update_tile_eff.edelta",
+        "tractor_beam_turret_build_update_tile_eff.retarget_comment",
+        "tractor_beam_turret_build_update_tile_eff.retarget_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state"
+    },
+    "N1242": {
+      "canonical_ledger": "source_slice_ledger.N1242",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_retarget.method",
+        "tractor_beam_turret_build_update_tile_retarget.inner_class",
+        "tractor_beam_turret_build_update_tile_retarget.override",
+        "tractor_beam_turret_build_update_tile_retarget.eff_expr",
+        "tractor_beam_turret_build_update_tile_retarget.comment",
+        "tractor_beam_turret_build_update_tile_retarget.guard",
+        "tractor_beam_turret_build_update_tile_retarget.existing_target",
+        "tractor_beam_turret_build_update_tile_retarget.closest_enemy",
+        "tractor_beam_turret_build_update_tile_retarget.team",
+        "tractor_beam_turret_build_update_tile_retarget.x",
+        "tractor_beam_turret_build_update_tile_retarget.y",
+        "tractor_beam_turret_build_update_tile_retarget.range",
+        "tractor_beam_turret_build_update_tile_retarget.target_air",
+        "tractor_beam_turret_build_update_tile_retarget.target_ground",
+        "tractor_beam_turret_build_update_tile_retarget.filter",
+        "tractor_beam_turret_build_update_tile_retarget.assign",
+        "tractor_beam_turret_build_update_tile_retarget.retarget_called",
+        "tractor_beam_turret_build_update_tile_retarget.target_after"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_retarget_bridge_state"
+    },
+    "N1243": {
+      "canonical_ledger": "source_slice_ledger.N1243",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_guard.method",
+        "tractor_beam_turret_build_update_tile_coolant_guard.inner_class",
+        "tractor_beam_turret_build_update_tile_coolant_guard.override",
+        "tractor_beam_turret_build_update_tile_coolant_guard.retarget_assign",
+        "tractor_beam_turret_build_update_tile_coolant_guard.comment",
+        "tractor_beam_turret_build_update_tile_coolant_guard.guard",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_present",
+        "tractor_beam_turret_build_update_tile_coolant_guard.target_after",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_amount",
+        "tractor_beam_turret_build_update_tile_coolant_guard.max_used",
+        "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid",
+        "tractor_beam_turret_build_update_tile_coolant_guard.used_next"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state"
+    },
+    "N1244": {
+      "canonical_ledger": "source_slice_ledger.N1244",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant used",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_used.method",
+        "tractor_beam_turret_build_update_tile_coolant_used.guard",
+        "tractor_beam_turret_build_update_tile_coolant_used.liquids_get",
+        "tractor_beam_turret_build_update_tile_coolant_used.max_used",
+        "tractor_beam_turret_build_update_tile_coolant_used.time_delta",
+        "tractor_beam_turret_build_update_tile_coolant_used.coolant_multiplier",
+        "tractor_beam_turret_build_update_tile_coolant_used.liquid_heat_capacity",
+        "tractor_beam_turret_build_update_tile_coolant_used.max_used_time_delta",
+        "tractor_beam_turret_build_update_tile_coolant_used.heat_capacity_limit",
+        "tractor_beam_turret_build_update_tile_coolant_used.used",
+        "tractor_beam_turret_build_update_tile_coolant_used.remove_next"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_used_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_used_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_used_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_used_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state"
+    },
+    "N1245": {
+      "canonical_ledger": "source_slice_ledger.N1245",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant remove",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_remove.method",
+        "tractor_beam_turret_build_update_tile_coolant_remove.remove"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state"
+    },
+    "N1246": {
+      "canonical_ledger": "source_slice_ledger.N1246",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_effect.method",
+        "tractor_beam_turret_build_update_tile_coolant_effect.chance",
+        "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state"
+    },
+    "N1247": {
+      "canonical_ledger": "source_slice_ledger.N1247",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_multiplier.method",
+        "tractor_beam_turret_build_update_tile_coolant_multiplier.assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_multiplier_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_multiplier_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state"
+    },
+    "N1248": {
+      "canonical_ledger": "source_slice_ledger.N1248",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() any reset",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_any_reset.method",
+        "tractor_beam_turret_build_update_tile_any_reset.assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state"
+    },
+    "N1249": {
+      "canonical_ledger": "source_slice_ledger.N1249",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() look target guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_look_target_guard.method",
+        "tractor_beam_turret_build_update_tile_look_target_guard.guard"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state"
+    },
+    "N1250": {
+      "canonical_ledger": "source_slice_ledger.N1250",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() sound loop",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_sound_loop.method",
+        "tractor_beam_turret_build_update_tile_sound_loop.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state"
+    },
+    "N1251": {
+      "canonical_ledger": "source_slice_ledger.N1251",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() angle to target",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_angle_to_target.method",
+        "tractor_beam_turret_build_update_tile_angle_to_target.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state"
+    },
+    "N1252": {
+      "canonical_ledger": "source_slice_ledger.N1252",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() rotation move",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_rotation_move.method",
+        "tractor_beam_turret_build_update_tile_rotation_move.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state"
+    },
+    "N1253": {
+      "canonical_ledger": "source_slice_ledger.N1253",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_last_target_position.method",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_x",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_y"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state"
+    },
+    "N1254": {
+      "canonical_ledger": "source_slice_ledger.N1254",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() active strength",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_active_strength.method",
+        "tractor_beam_turret_build_update_tile_active_strength.assignment",
+        "tractor_beam_turret_build_update_tile_active_strength.mathf_lerp_delta"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state"
+    },
+    "N1255": {
+      "canonical_ledger": "source_slice_ledger.N1255",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state"
+    },
+    "N1256": {
+      "canonical_ledger": "source_slice_ledger.N1256",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() damage pierce",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_damage_pierce.method",
+        "tractor_beam_turret_build_update_tile_damage_pierce.call",
+        "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state"
+    },
+    "N1257": {
+      "canonical_ledger": "source_slice_ledger.N1257",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_status_apply.method",
+        "tractor_beam_turret_build_update_tile_status_apply.gate",
+        "tractor_beam_turret_build_update_tile_status_apply.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state"
+    },
+    "N1258": {
+      "canonical_ledger": "source_slice_ledger.N1258",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() any true",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_any_true.method",
+        "tractor_beam_turret_build_update_tile_any_true.assignment",
+        "tractor_beam_turret_build_update_tile_any_true.impulse_boundary"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_true_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_true_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_true_bridge_state"
+    },
+    "N1259": {
+      "canonical_ledger": "source_slice_ledger.N1259",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_impulse_net.method",
+        "tractor_beam_turret_build_update_tile_impulse_net.force",
+        "tractor_beam_turret_build_update_tile_impulse_net.scaled_force",
+        "tractor_beam_turret_build_update_tile_impulse_net.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state"
+    },
+    "N1260": {
+      "canonical_ledger": "source_slice_ledger.N1260",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() inactive strength",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_inactive_strength.method",
+        "tractor_beam_turret_build_update_tile_inactive_strength.assignment",
+        "tractor_beam_turret_build_update_tile_inactive_strength.mathf_lerp_delta"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state"
+    },
+    "N713": {
+      "canonical_ledger": "source_slice_ledger.N713",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "draw()",
+      "godot_owner": "PortGame.source_mend_projector_draw_state",
+      "source_symbols": [
+        "mend_projector_draw_state.method",
+        "mend_projector_draw_state.f_expr",
+        "mend_projector_draw_state.lod_l2_gate",
+        "mend_projector_draw_state.color_blend",
+        "mend_projector_draw_state.top_alpha",
+        "mend_projector_draw_state.top_rect",
+        "mend_projector_draw_state.square_alpha",
+        "mend_projector_draw_state.square_stroke",
+        "mend_projector_draw_state.square_radius",
+        "mend_projector_draw_state.reset",
+        "mend_projector_draw_state.heat_input",
+        "mend_projector_draw_state.phase_heat_input",
+        "mend_projector_draw_state.time_input",
+        "mend_projector_draw_state.lod_alpha2_input"
+      ],
+      "tests": [
+        "test_mend_projector_draw_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_draw_state"
+    },
+    "N714": {
+      "canonical_ledger": "source_slice_ledger.N714",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "drawLight()",
+      "godot_owner": "PortGame.source_mend_projector_light_state",
+      "source_symbols": [
+        "mend_projector_light_state.method",
+        "mend_projector_light_state.light_call",
+        "mend_projector_light_state.radius_expr",
+        "mend_projector_light_state.color_expr",
+        "mend_projector_light_state.alpha_expr",
+        "mend_projector_light_state.smooth_efficiency_input",
+        "mend_projector_light_state.emit_light_field",
+        "mend_projector_light_state.light_radius_field"
+      ],
+      "tests": [
+        "test_mend_projector_light_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_light_state"
+    },
+    "N715": {
+      "canonical_ledger": "source_slice_ledger.N715",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_mend_projector_place_state",
+      "source_symbols": [
+        "mend_projector_place_state.method",
+        "mend_projector_place_state.super_draw_place",
+        "mend_projector_place_state.dash_circle",
+        "mend_projector_place_state.dash_circle_x",
+        "mend_projector_place_state.dash_circle_y",
+        "mend_projector_place_state.range_expr",
+        "mend_projector_place_state.color_expr",
+        "mend_projector_place_state.each_block",
+        "mend_projector_place_state.selected_call",
+        "mend_projector_place_state.tile_x_input",
+        "mend_projector_place_state.tile_y_input",
+        "mend_projector_place_state.rotation_input",
+        "mend_projector_place_state.valid_input"
+      ],
+      "tests": [
+        "test_mend_projector_place_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_place_state"
+    },
+    "N716": {
+      "canonical_ledger": "source_slice_ledger.N716",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_mend_projector_progress",
+      "source_symbols": [
+        "mend_projector_progress.method",
+        "mend_projector_progress.progress_sensor_gate",
+        "mend_projector_progress.clamp_expr",
+        "mend_projector_progress.charge_reload_ratio",
+        "mend_projector_progress.charge_input",
+        "mend_projector_progress.reload_field",
+        "mend_projector_progress.super_sense"
+      ],
+      "tests": [
+        "test_mend_projector_progress_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_progress"
+    },
+    "N717": {
+      "canonical_ledger": "source_slice_ledger.N717",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "range()/drawSelect()",
+      "godot_owner": "PortGame.source_mend_projector_range",
+      "source_symbols": [
+        "mend_projector_range.method",
+        "mend_projector_range.range_return",
+        "mend_projector_range.range_field",
+        "mend_projector_range.phase_range_boost_field",
+        "mend_projector_range.real_range_expr",
+        "mend_projector_range.phase_heat_input"
+      ],
+      "tests": [
+        "test_mend_projector_range_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_range"
+    },
+    "N718": {
+      "canonical_ledger": "source_slice_ledger.N718",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_mend_projector_repair_amount",
+      "source_symbols": [
+        "mend_projector_repair_amount.heal_call",
+        "mend_projector_repair_amount.formula",
+        "mend_projector_repair_amount.max_health_expr",
+        "mend_projector_repair_amount.heal_percent_field",
+        "mend_projector_repair_amount.phase_boost_field",
+        "mend_projector_repair_amount.phase_heat_input",
+        "mend_projector_repair_amount.efficiency_input"
+      ],
+      "tests": [
+        "test_mend_projector_repair_amount_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_repair_amount"
+    },
+    "N719": {
+      "canonical_ledger": "source_slice_ledger.N719",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/MendProjector.java",
+      "java_method": "drawSelect()",
+      "godot_owner": "PortGame.source_mend_projector_select_state",
+      "source_symbols": [
+        "mend_projector_select_state.method",
+        "mend_projector_select_state.real_range_expr",
+        "mend_projector_select_state.each_block",
+        "mend_projector_select_state.selected_call",
+        "mend_projector_select_state.dash_circle",
+        "mend_projector_select_state.x_field",
+        "mend_projector_select_state.y_field",
+        "mend_projector_select_state.range_field",
+        "mend_projector_select_state.phase_range_boost_field",
+        "mend_projector_select_state.phase_heat_input",
+        "mend_projector_select_state.base_color_field"
+      ],
+      "tests": [
+        "test_mend_projector_select_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_mend_projector_select_state"
+    },
+    "N725": {
+      "canonical_ledger": "source_slice_ledger.N725",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "setBars()",
+      "godot_owner": "PortGame.source_overdrive_projector_boost_bar_fraction",
+      "source_symbols": [
+        "overdrive_projector_boost_bar.method",
+        "overdrive_projector_boost_bar.add_bar",
+        "overdrive_projector_boost_bar.real_boost_call",
+        "overdrive_projector_boost_bar.denominator",
+        "overdrive_projector_boost_bar.speed_boost",
+        "overdrive_projector_boost_bar.speed_boost_phase",
+        "overdrive_projector_boost_bar.has_boost",
+        "overdrive_projector_boost_bar.phase_heat",
+        "overdrive_projector_boost_bar.efficiency",
+        "overdrive_projector_boost_bar.fraction"
+      ],
+      "tests": [
+        "test_overdrive_projector_boost_bar_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_boost_bar_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_boost_bar_fraction"
+    },
+    "N726": {
+      "canonical_ledger": "source_slice_ledger.N726",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "draw()",
+      "godot_owner": "PortGame.source_overdrive_projector_draw_state",
+      "source_symbols": [
+        "overdrive_projector_draw_state.method",
+        "overdrive_projector_draw_state.lod_guard",
+        "overdrive_projector_draw_state.fraction",
+        "overdrive_projector_draw_state.color",
+        "overdrive_projector_draw_state.top_alpha",
+        "overdrive_projector_draw_state.top_rect",
+        "overdrive_projector_draw_state.alpha_reset",
+        "overdrive_projector_draw_state.stroke",
+        "overdrive_projector_draw_state.line_dimensions",
+        "overdrive_projector_draw_state.line_loop_deferred",
+        "overdrive_projector_draw_state.heat",
+        "overdrive_projector_draw_state.phase_heat",
+        "overdrive_projector_draw_state.time",
+        "overdrive_projector_draw_state.lod_l2",
+        "overdrive_projector_draw_state.lod_alpha2",
+        "overdrive_projector_draw_state.base_color",
+        "overdrive_projector_draw_state.phase_color",
+        "overdrive_projector_draw_state.size",
+        "overdrive_projector_draw_state.tilesize"
+      ],
+      "tests": [
+        "test_overdrive_projector_draw_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_state_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_draw_state"
+    },
+    "N727": {
+      "canonical_ledger": "source_slice_ledger.N727",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "drawLight()",
+      "godot_owner": "PortGame.source_overdrive_projector_light_state",
+      "source_symbols": [
+        "overdrive_projector_light_state.method",
+        "overdrive_projector_light_state.light_call",
+        "overdrive_projector_light_state.emit_light",
+        "overdrive_projector_light_state.light_radius",
+        "overdrive_projector_light_state.base_color",
+        "overdrive_projector_light_state.smooth_efficiency",
+        "overdrive_projector_light_state.smooth_efficiency_field",
+        "overdrive_projector_light_state.radius",
+        "overdrive_projector_light_state.alpha"
+      ],
+      "tests": [
+        "test_overdrive_projector_light_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_draw_light_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_light_state"
+    },
+    "N728": {
+      "canonical_ledger": "source_slice_ledger.N728",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_overdrive_projector_place_state",
+      "source_symbols": [
+        "overdrive_projector_place_state.method",
+        "overdrive_projector_place_state.super_draw_place",
+        "overdrive_projector_place_state.dash_circle",
+        "overdrive_projector_place_state.each_block",
+        "overdrive_projector_place_state.can_overdrive_predicate",
+        "overdrive_projector_place_state.selected_call",
+        "overdrive_projector_place_state.range_expr",
+        "overdrive_projector_place_state.color_expr"
+      ],
+      "tests": [
+        "test_overdrive_projector_place_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_place_state"
+    },
+    "N729": {
+      "canonical_ledger": "source_slice_ledger.N729",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "range()/drawSelect()",
+      "godot_owner": "PortGame.source_overdrive_projector_range",
+      "source_symbols": [
+        "overdrive_projector_range.method",
+        "overdrive_projector_range.range_return",
+        "overdrive_projector_range.range_field",
+        "overdrive_projector_range.phase_range_boost_field",
+        "overdrive_projector_range.real_range_expr",
+        "overdrive_projector_range.phase_heat_input"
+      ],
+      "tests": [
+        "test_overdrive_projector_range_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_range"
+    },
+    "N730": {
+      "canonical_ledger": "source_slice_ledger.N730",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "realBoost()",
+      "godot_owner": "PortGame.source_overdrive_projector_real_boost",
+      "source_symbols": [
+        "overdrive_projector_real_boost.method",
+        "overdrive_projector_real_boost.return_expr",
+        "overdrive_projector_real_boost.speed_boost",
+        "overdrive_projector_real_boost.speed_boost_phase",
+        "overdrive_projector_real_boost.phase_heat",
+        "overdrive_projector_real_boost.efficiency",
+        "overdrive_projector_real_boost.phase_heat_field"
+      ],
+      "tests": [
+        "test_overdrive_projector_real_boost_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_real_boost_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_real_boost"
+    },
+    "N731": {
+      "canonical_ledger": "source_slice_ledger.N731",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "drawSelect()",
+      "godot_owner": "PortGame.source_overdrive_projector_select_state",
+      "source_symbols": [
+        "overdrive_projector_select_state.method",
+        "overdrive_projector_select_state.real_range",
+        "overdrive_projector_select_state.each_block",
+        "overdrive_projector_select_state.dash_circle",
+        "overdrive_projector_select_state.selected_call",
+        "overdrive_projector_select_state.color_expr"
+      ],
+      "tests": [
+        "test_overdrive_projector_select_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_range_state_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_select_state"
+    },
+    "N732": {
+      "canonical_ledger": "source_slice_ledger.N732",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/OverdriveProjector.java",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_overdrive_projector_target_filter_state",
+      "source_symbols": [
+        "overdrive_projector_target_filter_state.boost_branch",
+        "overdrive_projector_target_filter_state.real_range",
+        "overdrive_projector_target_filter_state.each_block",
+        "overdrive_projector_target_filter_state.can_overdrive_predicate",
+        "overdrive_projector_target_filter_state.apply_boost_call",
+        "overdrive_projector_target_filter_state.reload_duration",
+        "overdrive_projector_target_filter_state.distance_input",
+        "overdrive_projector_target_filter_state.phase_heat_input",
+        "overdrive_projector_target_filter_state.target_block_input"
+      ],
+      "tests": [
+        "test_overdrive_projector_target_filter_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_overdrive_projector_target_filter_like_source"
+      ],
+      "runtime_proof": "/root/Main.source_overdrive_projector_target_filter_state"
+    },
+    "N736": {
+      "canonical_ledger": "source_slice_ledger.N736",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ammo(Object... objects)",
+      "godot_owner": "PortGame.source_turret_ammo_data",
+      "source_symbols": [
+        "turret_ammo_data.ammo_types_field",
+        "turret_ammo_data.method",
+        "turret_ammo_data.ordered_map",
+        "turret_ammo_data.item_id",
+        "turret_ammo_data.duo_ammo_call",
+        "turret_ammo_data.duo_copper_entry",
+        "turret_ammo_data.duo_copper_speed",
+        "turret_ammo_data.duo_copper_damage",
+        "turret_ammo_data.duo_copper_ammo_multiplier"
+      ],
+      "tests": [
+        "test_turret_ammo_data_symbols_are_registered_with_source_backing",
+        "test_port_game_ports_source_item_turret_ammo_stack_logic"
+      ],
+      "runtime_proof": "/root/Main.source_turret_ammo_data"
+    },
+    "N737": {
+      "canonical_ledger": "source_slice_ledger.N737",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "godot_owner": "PortGame.source_turret_bullet_origin",
+      "source_symbols": [
+        "turret_bullet_origin.shoot_point_field",
+        "turret_bullet_origin.shoot_y_default",
+        "turret_bullet_origin.origin_x",
+        "turret_bullet_origin.origin_y",
+        "turret_bullet_origin.rotation",
+        "turret_bullet_origin.x_offset",
+        "turret_bullet_origin.y_offset",
+        "turret_bullet_origin.x_spread",
+        "turret_bullet_origin.rotation_minus_90",
+        "turret_bullet_origin.trnsx",
+        "turret_bullet_origin.trnsy",
+        "turret_bullet_origin.bullet_x",
+        "turret_bullet_origin.bullet_y"
+      ],
+      "tests": [
+        "test_turret_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "runtime_proof": "/root/Main.source_turret_bullet_origin"
+    },
+    "N738": {
+      "canonical_ledger": "source_slice_ledger.N738",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover)",
+      "godot_owner": "PortGame.source_turret_inaccuracy",
+      "source_symbols": [
+        "turret_inaccuracy.comment",
+        "turret_inaccuracy.field",
+        "turret_inaccuracy.turret",
+        "turret_inaccuracy.key",
+        "turret_inaccuracy.default",
+        "turret_inaccuracy.result",
+        "turret_inaccuracy.duo_value",
+        "turret_inaccuracy.shoot_angle"
+      ],
+      "tests": [
+        "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ],
+      "runtime_proof": "/root/Main.source_turret_inaccuracy"
+    },
+    "N739": {
+      "canonical_ledger": "source_slice_ledger.N739",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "range()",
+      "godot_owner": "PortGame.source_turret_range",
+      "source_symbols": [
+        "turret_range.field",
+        "turret_range.method",
+        "turret_range.turret",
+        "turret_range.key",
+        "turret_range.default",
+        "turret_range.result",
+        "turret_range.duo_value"
+      ],
+      "tests": [
+        "test_turret_range_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ],
+      "runtime_proof": "/root/Main.source_turret_range"
+    },
+    "N740": {
+      "canonical_ledger": "source_slice_ledger.N740",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "range()",
+      "godot_owner": "PortGame.source_turret_range_for_ammo",
+      "source_symbols": [
+        "turret_range_for_ammo.method",
+        "turret_range_for_ammo.gate",
+        "turret_range_for_ammo.ammo_result",
+        "turret_range_for_ammo.fallback_result",
+        "turret_range_for_ammo.turret",
+        "turret_range_for_ammo.data"
+      ],
+      "tests": [
+        "test_turret_range_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ],
+      "runtime_proof": "/root/Main.source_turret_range_for_ammo"
+    },
+    "N741": {
+      "canonical_ledger": "source_slice_ledger.N741",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_turret_recoil",
+      "source_symbols": [
+        "turret_recoil.comment",
+        "turret_recoil.field",
+        "turret_recoil.turret",
+        "turret_recoil.key",
+        "turret_recoil.default",
+        "turret_recoil.result",
+        "turret_recoil.duo_value"
+      ],
+      "tests": [
+        "test_turret_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "runtime_proof": "/root/Main.source_turret_recoil"
+    },
+    "N742": {
+      "canonical_ledger": "source_slice_ledger.N742",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateTile()",
+      "godot_owner": "PortGame.source_turret_recoil_offset",
+      "source_symbols": [
+        "turret_recoil_offset.comment",
+        "turret_recoil_offset.field",
+        "turret_recoil_offset.recoil_pow_field",
+        "turret_recoil_offset.cur_recoil_field",
+        "turret_recoil_offset.formula",
+        "turret_recoil_offset.rotation_input",
+        "turret_recoil_offset.cur_recoil_input",
+        "turret_recoil_offset.turret",
+        "turret_recoil_offset.recoil"
+      ],
+      "tests": [
+        "test_turret_recoil_offset_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "runtime_proof": "/root/Main.source_turret_recoil_offset"
+    },
+    "N743": {
+      "canonical_ledger": "source_slice_ledger.N743",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration/init()/TurretBuild.updateTile()",
+      "godot_owner": "PortGame.source_turret_recoil_time",
+      "source_symbols": [
+        "turret_recoil_time.comment",
+        "turret_recoil_time.field",
+        "turret_recoil_time.key",
+        "turret_recoil_time.default",
+        "turret_recoil_time.init_fallback",
+        "turret_recoil_time.decay_use",
+        "turret_recoil_time.reload_input",
+        "turret_recoil_time.turret",
+        "turret_recoil_time.result",
+        "turret_recoil_time.duo_reload"
+      ],
+      "tests": [
+        "test_turret_recoil_time_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "runtime_proof": "/root/Main.source_turret_recoil_time"
+    },
+    "N744": {
+      "canonical_ledger": "source_slice_ledger.N744",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration/TurretBuild.updateTile()/bullet(...)",
+      "godot_owner": "PortGame.source_turret_recoils",
+      "source_symbols": [
+        "turret_recoils.comment",
+        "turret_recoils.field",
+        "turret_recoils.key",
+        "turret_recoils.default",
+        "turret_recoils.duo_value",
+        "turret_recoils.update_gate",
+        "turret_recoils.result"
+      ],
+      "tests": [
+        "test_turret_recoils_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_recoil"
+      ],
+      "runtime_proof": "/root/Main.source_turret_recoils"
+    },
+    "N745": {
+      "canonical_ledger": "source_slice_ledger.N745",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "java_method": "field declaration/Time.toSeconds conversion",
+      "godot_owner": "PortGame.source_turret_reload_seconds",
+      "source_symbols": [
+        "turret_reload_seconds.field",
+        "turret_reload_seconds.key",
+        "turret_reload_seconds.default",
+        "turret_reload_seconds.duo_value",
+        "turret_reload_seconds.to_seconds",
+        "turret_reload_seconds.reload",
+        "turret_reload_seconds.formula"
+      ],
+      "tests": [
+        "test_turret_reload_seconds_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_reload"
+      ],
+      "runtime_proof": "/root/Main.source_turret_reload_seconds"
+    },
+    "N746": {
+      "canonical_ledger": "source_slice_ledger.N746",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.updateReload()/ammoReloadMultiplier()",
+      "godot_owner": "PortGame.source_turret_reload_seconds_for_ammo",
+      "source_symbols": [
+        "turret_reload_seconds_for_ammo.update_reload",
+        "turret_reload_seconds_for_ammo.method",
+        "turret_reload_seconds_for_ammo.return_line",
+        "turret_reload_seconds_for_ammo.formula",
+        "turret_reload_seconds_for_ammo.reload_multiplier"
+      ],
+      "tests": [
+        "test_turret_reload_seconds_for_ammo_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "runtime_proof": "/root/Main.source_turret_reload_seconds_for_ammo"
+    },
+    "N747": {
+      "canonical_ledger": "source_slice_ledger.N747",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "field declaration/TurretBuild.turnToTarget()",
+      "godot_owner": "PortGame.source_turret_rotate_speed",
+      "source_symbols": [
+        "turret_rotate_speed.field",
+        "turret_rotate_speed.key",
+        "turret_rotate_speed.default",
+        "turret_rotate_speed.duo_value",
+        "turret_rotate_speed.turn_to_target",
+        "turret_rotate_speed.result"
+      ],
+      "tests": [
+        "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_turret_rotate_speed"
+    },
+    "N748": {
+      "canonical_ledger": "source_slice_ledger.N748",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration/TurretBuild.updateTile()",
+      "godot_owner": "PortGame.source_turret_shoot_cone",
+      "source_symbols": [
+        "turret_shoot_cone.comment",
+        "turret_shoot_cone.field",
+        "turret_shoot_cone.key",
+        "turret_shoot_cone.default",
+        "turret_shoot_cone.duo_value",
+        "turret_shoot_cone.can_shoot_gate",
+        "turret_shoot_cone.result"
+      ],
+      "tests": [
+        "test_turret_shoot_cone_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_turret_shoot_cone"
+    },
+    "N749": {
+      "canonical_ledger": "source_slice_ledger.N749",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration/TurretBuild.bullet()",
+      "godot_owner": "PortGame.source_turret_shoot_pattern",
+      "source_symbols": [
+        "turret_shoot_pattern.field",
+        "turret_shoot_pattern.key",
+        "turret_shoot_pattern.duo_assignment",
+        "turret_shoot_pattern.bullet_override_field",
+        "turret_shoot_pattern.selection",
+        "turret_shoot_pattern.dispatch",
+        "shoot_alternate.index_formula",
+        "shoot_alternate.handler_call",
+        "shoot_alternate.barrel_incrementer"
+      ],
+      "tests": [
+        "test_turret_shoot_pattern_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_shoot_alternate_pattern"
+      ],
+      "runtime_proof": "/root/Main.source_turret_shoot_pattern"
+    },
+    "N750": {
+      "canonical_ledger": "source_slice_ledger.N750",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "field declaration/init()",
+      "godot_owner": "PortGame.source_turret_shoot_y",
+      "source_symbols": [
+        "turret_shoot_y.comment",
+        "turret_shoot_y.field",
+        "turret_shoot_y.key",
+        "turret_shoot_y.default_sentinel",
+        "turret_shoot_y.init_default",
+        "turret_shoot_y.duo_value",
+        "turret_shoot_y.result"
+      ],
+      "tests": [
+        "test_turret_shoot_y_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_shoot_y"
+      ],
+      "runtime_proof": "/root/Main.source_turret_shoot_y"
+    },
+    "N751": {
+      "canonical_ledger": "source_slice_ledger.N751",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "java_method": "TurretBuild.bullet()",
+      "godot_owner": "PortGame.source_turret_total_inaccuracy",
+      "source_symbols": [
+        "turret_total_inaccuracy.turret_inaccuracy",
+        "turret_total_inaccuracy.bullet_inaccuracy",
+        "turret_total_inaccuracy.sum_expr",
+        "turret_total_inaccuracy.shoot_angle",
+        "turret_total_inaccuracy.result"
+      ],
+      "tests": [
+        "test_turret_total_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ],
+      "runtime_proof": "/root/Main.source_turret_total_inaccuracy"
+    }
+  }
+}
