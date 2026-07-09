@@ -40,6 +40,19 @@
       "root_key": "contracts",
       "rule": "Extension shard for consumer source API contracts; canonical owners and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active"
+    },
+    "consumer_state_schema": {
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "label": "schemaName",
+      "mirror_fields": [
+        "keys"
+      ],
+      "path": "src/generated/source_modules/consumer_state_schema.json",
+      "root_key": "schemas",
+      "rule": "Extension shard for consumer source state schemas; canonical schema names and fields remain mirrored through source_state_schema before use.",
+      "status": "active"
     }
   },
   "policy": {
