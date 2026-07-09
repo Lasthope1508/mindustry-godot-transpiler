@@ -40,3 +40,8 @@ func java_method_efficiencyMultiplier_7(_args: Array = []) -> Variant:
 func java_method_itemEfficiencyMultiplier_8(_args: Array = []) -> Variant:
 	var efficiency_multiplier: float = 1.0
 	return {"source_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float itemEfficiencyMultiplier(Item item){", "efficiency_multiplier": efficiency_multiplier, "return_expr": "return 1f;"}
+
+func java_constructor_ConsumeItemFilter_0(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var filter_after: Variant = item
+	return {"source_owner": "PortGame.source_consume_item_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(Boolf<Item> item){", "filter_assignment_expr": "this.filter = item;", "filter_field": "public Boolf<Item> filter = i -> false;", "item": item, "filter_after": filter_after}

@@ -36582,6 +36582,37 @@
         "test_consume_item_efficiency_default_constructor_matches_upstream_source",
         "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1459": {
+      "title": "Generated ConsumeItemFilter constructor bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemFilter",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "generated_owner": "ConsumeItemFilter.java_constructor_ConsumeItemFilter_0",
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_constructor_bridge_state",
+      "rule": "Generated ConsumeItemFilter(Boolf<Item>) bridges this.filter = item without inventing predicate execution.",
+      "exact_exprs": [
+        "public Boolf<Item> filter = i -> false;",
+        "public ConsumeItemFilter(Boolf<Item> item){",
+        "this.filter = item;"
+      ],
+      "deferred_exprs": [
+        "Concrete Boolf<Item>.get(Item) predicate execution remains deferred to getConsumed/apply/build/efficiency slices; this slice records constructor filter assignment only."
+      ],
+      "source_symbols": [
+        "consume_item_filter_constructor.constructor",
+        "consume_item_filter_constructor.item",
+        "consume_item_filter_constructor.filter_assignment",
+        "consume_item_filter_constructor.filter_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

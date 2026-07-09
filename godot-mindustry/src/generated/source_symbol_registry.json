@@ -120987,6 +120987,74 @@
         "test_consume_item_efficiency_default_constructor_matches_upstream_source",
         "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_filter_constructor.constructor": {
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "godot_symbol": "source_consume_item_filter_constructor_result.constructor",
+      "java_expr": "public ConsumeItemFilter(Boolf<Item> item){",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "ConsumeItemFilter Boolf<Item> constructor boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "source_slice": "N1459",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_filter_constructor.item": {
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "godot_symbol": "source_consume_item_filter_constructor_input.item",
+      "java_expr": "Boolf<Item> item",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Constructor Boolf<Item> item argument assigned to filter.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "source_slice": "N1459",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_filter_constructor.filter_assignment": {
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "godot_symbol": "source_consume_item_filter_constructor_result.filter_after",
+      "java_expr": "this.filter = item;",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Filter field after constructor assignment.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "source_slice": "N1459",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_filter_constructor.filter_field": {
+      "godot_owner": "PortGame.source_consume_item_filter_constructor_state",
+      "godot_symbol": "source_consume_item_filter_constructor_result.filter_field",
+      "java_expr": "public Boolf<Item> filter = i -> false;",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Filter field declaration before constructor override.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "source_slice": "N1459",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

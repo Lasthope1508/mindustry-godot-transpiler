@@ -154345,6 +154345,80 @@
           ]
         }
       }
+    },
+    "source_consume_item_filter_constructor_input": {
+      "status": "explicit-input",
+      "source_slice": "N1459",
+      "rule": "Input schema for ConsumeItemFilter constructor bridge.",
+      "keys": {
+        "item": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "Boolf<Item> item",
+          "godot_symbol": "source_consume_item_filter_constructor_input.item",
+          "rule": "Constructor Boolf<Item> item argument.",
+          "used_by": [
+            "PortGame.source_consume_item_filter_constructor_state"
+          ]
+        }
+      }
+    },
+    "source_consume_item_filter_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1459",
+      "rule": "Result schema for ConsumeItemFilter constructor bridge.",
+      "keys": {
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "public ConsumeItemFilter(Boolf<Item> item){",
+          "godot_symbol": "source_consume_item_filter_constructor_result.constructor",
+          "rule": "Constructor boundary.",
+          "used_by": [
+            "PortGame.source_consume_item_filter_constructor_state"
+          ]
+        },
+        "filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "this.filter = item;",
+          "godot_symbol": "source_consume_item_filter_constructor_result.filter_assignment_expr",
+          "rule": "Constructor assignment expression.",
+          "used_by": [
+            "PortGame.source_consume_item_filter_constructor_state"
+          ]
+        },
+        "filter_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "public Boolf<Item> filter = i -> false;",
+          "godot_symbol": "source_consume_item_filter_constructor_result.filter_field",
+          "rule": "Filter field declaration.",
+          "used_by": [
+            "PortGame.source_consume_item_filter_constructor_state"
+          ]
+        },
+        "filter_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "this.filter = item;",
+          "godot_symbol": "source_consume_item_filter_constructor_result.filter_after",
+          "rule": "Filter value after constructor assignment.",
+          "used_by": [
+            "PortGame.source_consume_item_filter_constructor_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

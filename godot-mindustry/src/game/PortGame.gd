@@ -2487,6 +2487,30 @@ func generated_consume_item_filter_item_efficiency_multiplier_bridge_state() -> 
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_item_filter_constructor_state(item: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"constructor": "public ConsumeItemFilter(Boolf<Item> item){",
+		"filter_assignment_expr": "this.filter = item;",
+		"filter_field": "public Boolf<Item> filter = i -> false;",
+		"item": item,
+		"filter_after": item,
+	}
+
+func generated_consume_item_filter_constructor_bridge_state(item: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemFilter_0([item])
+	var canonical = source_consume_item_filter_constructor_state(item)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_constructor_state",
+		"generated_owner": "ConsumeItemFilter.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("filter_after", null) == canonical.get("filter_after", null),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

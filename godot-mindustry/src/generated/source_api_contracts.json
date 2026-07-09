@@ -40169,6 +40169,37 @@
         "test_consume_item_efficiency_default_constructor_matches_upstream_source",
         "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_filter_constructor_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "source_slice": "N1459",
+      "runtime_proof": "/root/Main.source_consume_item_filter_constructor_state",
+      "rule": "Public runtime contract for ConsumeItemFilter(Boolf<Item>) source-backed filter assignment state.",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_constructor_input.item",
+          "java_expr": "Boolf<Item> item"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "filter_assignment_expr",
+        "filter_field",
+        "item",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_constructor_bridge_state",
+        "test_consume_item_filter_constructor_matches_upstream_source",
+        "test_generated_consume_item_filter_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
