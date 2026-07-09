@@ -1563,6 +1563,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_filter_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_build_source"))
+        report = source_parity.verify_consume_liquid_filter_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java")
+        self.assertIn("core/src/mindustry/ui/MultiReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/ui/ReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/core/ContentLoader.java", report["sources"])
+        self.assertIn("arc-core/src/arc/scene/ui/layout/Cell.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "filter_field": "public Boolf<Liquid> filter = l -> false;",
+            "method": "public void build(Building build, Table table){",
+            "list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));",
+            "image_expr": "MultiReqImage image = new MultiReqImage();",
+            "each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));",
+            "table_add_expr": "table.add(image).size(8 * 4);",
+            "multi_req_image_class": "public class MultiReqImage extends Stack{",
+            "multi_req_image_add": "public void add(ReqImage display){",
+            "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "content_liquids_method": "public Seq<Liquid> liquids(){",
+            "cell_size": "public Cell<T> size(float size){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_update_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_update_source"))
         report = source_parity.verify_consume_liquid_filter_update_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

@@ -18294,6 +18294,57 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));"', source_text)
             self.assertIn('"table_add_expr": "table.add(image).size(8 * 4);"', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    public Boolf<Liquid> filter = l -> false;
+
+    @Override
+    public void build(Building build, Table table){
+        Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));
+        MultiReqImage image = new MultiReqImage();
+        list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));
+
+        table.add(image).size(8 * 4);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var filtered_liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var consumed_liquid: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var valid: bool = liquid_id == consumed_liquid", source_text)
+            self.assertIn('req_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})', source_text)
+            self.assertIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));"', source_text)
+            self.assertIn('"image_expr": "MultiReqImage image = new MultiReqImage();"', source_text)
+            self.assertIn('"each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));"', source_text)
+            self.assertIn('"table_add_expr": "table.add(image).size(8 * 4);"', source_text)
+
     def test_emit_bridges_consume_item_filter_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

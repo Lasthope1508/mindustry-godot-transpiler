@@ -4818,6 +4818,54 @@ def verify_consume_item_filter_build_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    multi_req_image_source = "core/src/mindustry/ui/MultiReqImage.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    content_loader_source = "core/src/mindustry/core/ContentLoader.java"
+    cell_source = "arc-core/src/arc/scene/ui/layout/Cell.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    multi_req_image_text = (upstream_root / multi_req_image_source).read_text(encoding="utf-8", errors="replace")
+    req_image_text = (upstream_root / req_image_source).read_text(encoding="utf-8", errors="replace")
+    content_loader_text = (upstream_root / content_loader_source).read_text(encoding="utf-8", errors="replace")
+    cell_text = (upstream_root.parent / "arc-upstream" / cell_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Liquid> filter = l -> false;",
+        "method": "public void build(Building build, Table table){",
+        "list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));",
+        "image_expr": "MultiReqImage image = new MultiReqImage();",
+        "each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));",
+        "table_add_expr": "table.add(image).size(8 * 4);",
+        "multi_req_image_class": "public class MultiReqImage extends Stack{",
+        "multi_req_image_add": "public void add(ReqImage display){",
+        "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "content_liquids_method": "public Seq<Liquid> liquids(){",
+        "cell_size": "public Cell<T> size(float size){",
+    }
+    source_by_key = {
+        "filter_field": source,
+        "method": source,
+        "list_expr": source,
+        "image_expr": source,
+        "each_expr": source,
+        "table_add_expr": source,
+        "multi_req_image_class": multi_req_image_text,
+        "multi_req_image_add": multi_req_image_text,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "content_liquids_method": content_loader_text,
+        "cell_size": cell_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_filter_source,
+        "sources": [multi_req_image_source, req_image_source, content_loader_source, cell_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     source = (Path(upstream_root) / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")

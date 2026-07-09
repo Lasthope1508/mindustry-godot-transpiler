@@ -1181,6 +1181,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.getConsumed"', source)
         self.assertIn('"matches": result.get("consumed_liquid", null) == canonical.get("consumed_liquid", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_build_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_build_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){"', source)
+        self.assertIn('"list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));"', source)
+        self.assertIn('"image_expr": "MultiReqImage image = new MultiReqImage();"', source)
+        self.assertIn('"each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));"', source)
+        self.assertIn('"table_add_expr": "table.add(image).size(8 * 4);"', source)
+        self.assertIn("var table_image_size: float = 8.0 * 4.0", source)
+        self.assertIn("func generated_consume_liquid_filter_build_bridge_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_build_1([filtered_liquid_ids, consumed_liquid])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_build_state(filtered_liquid_ids, consumed_liquid)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_build_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.build"', source)
+        self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("table_image_size", null) == canonical.get("table_image_size", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

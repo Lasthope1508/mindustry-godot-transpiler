@@ -1753,6 +1753,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "build"
+    ):
+        return [
+            "\tvar filtered_liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar consumed_liquid: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar req_images: Array = []",
+            "\tfor liquid_id in filtered_liquid_ids:",
+            "\t\tvar valid: bool = liquid_id == consumed_liquid",
+            '\t\treq_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})',
+            "\tvar table_image_size: float = 8.0 * 4.0",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void build(Building build, Table table){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));", "image_expr": "MultiReqImage image = new MultiReqImage();", "each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));", "table_add_expr": "table.add(image).size(8 * 4);", "multi_req_image_class": "public class MultiReqImage extends Stack{", "multi_req_image_add_expr": "public void add(ReqImage display){", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "content_liquids_expr": "public Seq<Liquid> liquids(){", "cell_size_expr": "public Cell<T> size(float size){", "filtered_liquid_ids": filtered_liquid_ids, "consumed_liquid": consumed_liquid, "multi_req_image_created": true, "req_images": req_images, "req_image_count": req_images.size(), "table_add_image": true, "table_image_size": table_image_size}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "update"
     ):
         return [

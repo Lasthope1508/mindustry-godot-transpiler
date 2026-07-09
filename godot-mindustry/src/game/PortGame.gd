@@ -3508,6 +3508,49 @@ func generated_consume_liquid_filter_apply_bridge_state(block_has_liquids_before
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquid_filter_build_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:
+	var req_images: Array = []
+	for liquid_id in filtered_liquid_ids:
+		var valid: bool = liquid_id == consumed_liquid
+		req_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})
+	var table_image_size: float = 8.0 * 4.0
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"method": "public void build(Building build, Table table){",
+		"filter_field": "public Boolf<Liquid> filter = l -> false;",
+		"list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));",
+		"image_expr": "MultiReqImage image = new MultiReqImage();",
+		"each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));",
+		"table_add_expr": "table.add(image).size(8 * 4);",
+		"multi_req_image_class": "public class MultiReqImage extends Stack{",
+		"multi_req_image_add_expr": "public void add(ReqImage display){",
+		"req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+		"req_image_valid_expr": "public boolean valid(){",
+		"content_liquids_expr": "public Seq<Liquid> liquids(){",
+		"cell_size_expr": "public Cell<T> size(float size){",
+		"filtered_liquid_ids": filtered_liquid_ids,
+		"consumed_liquid": consumed_liquid,
+		"multi_req_image_created": true,
+		"req_images": req_images,
+		"req_image_count": req_images.size(),
+		"table_add_image": true,
+		"table_image_size": table_image_size,
+	}
+
+func generated_consume_liquid_filter_build_bridge_state(filtered_liquid_ids: Array, consumed_liquid: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([filtered_liquid_ids, consumed_liquid])
+	var canonical = source_consume_liquid_filter_build_state(filtered_liquid_ids, consumed_liquid)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_build_state",
+		"generated_owner": "ConsumeLiquidFilter.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("table_image_size", null) == canonical.get("table_image_size", null),
+	}
+
 func source_consume_liquid_filter_get_consumed_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:
 	var current_branch_matched: bool = current_filter_get_liquid and current_amount > 0.0
 	var consumed_liquid: Variant = current_liquid if current_branch_matched else null

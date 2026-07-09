@@ -158984,6 +158984,120 @@
           "java_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);"
         }
       }
+    },
+    "source_consume_liquid_filter_build_input": {
+      "status": "source-backed",
+      "source_slice": "N1504",
+      "keys": {
+        "filtered_liquid_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "content.liquids().select(l -> !l.isHidden() && filter.get(l))"
+        },
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "getConsumed(build)"
+        }
+      }
+    },
+    "source_consume_liquid_filter_build_result": {
+      "status": "source-backed",
+      "source_slice": "N1504",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "canonical-owner",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build(Building build, Table table)"
+        },
+        "source": {
+          "type": "String",
+          "status": "source-path",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "public void build(Building build, Table table){"
+        },
+        "filter_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "public Boolf<Liquid> filter = l -> false;"
+        },
+        "list_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));"
+        },
+        "image_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "MultiReqImage image = new MultiReqImage();"
+        },
+        "each_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));"
+        },
+        "table_add_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "table.add(image).size(8 * 4);"
+        },
+        "filtered_liquid_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "content.liquids().select(l -> !l.isHidden() && filter.get(l))"
+        },
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "getConsumed(build)"
+        },
+        "multi_req_image_created": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "MultiReqImage image = new MultiReqImage();"
+        },
+        "req_images": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid))"
+        },
+        "req_image_count": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "list.each(liquid -> image.add(...))"
+        },
+        "table_add_image": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "table.add(image).size(8 * 4);"
+        },
+        "table_image_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "table.add(image).size(8 * 4);"
+        }
+      }
     }
   },
   "version": 1

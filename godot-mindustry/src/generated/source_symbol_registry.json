@@ -126724,6 +126724,108 @@
       "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
       "rule": "Next upstream method boundary after efficiencyMultiplier.",
       "source_slice": "N1503"
+    },
+    "consume_liquid_filter_build.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "public void build(Building build, Table table){",
+      "godot_symbol": "source_consume_liquid_filter_build_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Exact ConsumeLiquidFilter.build method boundary.",
+      "source_slice": "N1504"
+    },
+    "consume_liquid_filter_build.filtered_liquid_ids": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "content.liquids().select(l -> !l.isHidden() && filter.get(l))",
+      "godot_symbol": "source_consume_liquid_filter_build_input.filtered_liquid_ids",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Explicit filtered liquid order from content.liquids().select(...) until live content and Boolf filter execution are ported.",
+      "source_slice": "N1504"
+    },
+    "consume_liquid_filter_build.consumed_liquid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "getConsumed(build)",
+      "godot_symbol": "source_consume_liquid_filter_build_input.consumed_liquid",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Explicit current consumed liquid result used by ReqImage valid predicate.",
+      "source_slice": "N1504"
+    },
+    "consume_liquid_filter_build.image": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "MultiReqImage image = new MultiReqImage();",
+      "godot_symbol": "source_consume_liquid_filter_build_result.multi_req_image_created",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Source creates one MultiReqImage container before adding liquid requirement images.",
+      "source_slice": "N1504"
+    },
+    "consume_liquid_filter_build.req_images": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid))",
+      "godot_symbol": "source_consume_liquid_filter_build_result.req_images",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Source adds one ReqImage per filtered liquid with valid predicate getConsumed(build) == liquid.",
+      "source_slice": "N1504"
+    },
+    "consume_liquid_filter_build.table_image_size": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "table.add(image).size(8 * 4);",
+      "godot_symbol": "source_consume_liquid_filter_build_result.table_image_size",
+      "godot_owner": "PortGame.source_consume_liquid_filter_build_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_build_bridge_state",
+        "test_consume_liquid_filter_build_matches_upstream_source",
+        "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
+      "rule": "Source table cell size from exact 8 * 4 expression.",
+      "source_slice": "N1504"
     }
   },
   "version": 1
