@@ -4642,6 +4642,58 @@ def verify_consume_item_dynamic_rebuild_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_consume_item_dynamic_efficiency_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    item_stack_source = "core/src/mindustry/type/ItemStack.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    item_module_source = "core/src/mindustry/world/modules/ItemModule.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_dynamic_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    item_stack_text = (upstream_root / item_stack_source).read_text(encoding="utf-8", errors="replace")
+    building_comp_text = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    item_module_text = (upstream_root / item_module_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final Func<Building, ItemStack[]> items;",
+        "method": "public float efficiency(Building build){",
+        "return_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+        "consume_trigger_valid_method": "public boolean consumeTriggerValid(){",
+        "consume_trigger_valid_return": "return false;",
+        "item_module_has_stacks_method": "public boolean has(ItemStack[] stacks, float multiplier){",
+        "item_module_has_stacks_loop": "for(ItemStack stack : stacks){",
+        "item_module_has_stack_guard": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+        "item_module_has_stacks_return": "return true;",
+        "item_module_has_item_amount": "public boolean has(Item item, int amount){",
+        "item_module_has_item_amount_return": "return get(item) >= amount;",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "item_stack_item_field": "public Item item;",
+        "item_stack_amount_field": "public int amount = 0;",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "return_expr": source,
+        "consume_trigger_valid_method": building_comp_text,
+        "consume_trigger_valid_return": building_comp_text,
+        "item_module_has_stacks_method": item_module_text,
+        "item_module_has_stacks_loop": item_module_text,
+        "item_module_has_stack_guard": item_module_text,
+        "item_module_has_stacks_return": item_module_text,
+        "item_module_has_item_amount": item_module_text,
+        "item_module_has_item_amount_return": item_module_text,
+        "multiplier_field": consume_text,
+        "item_stack_item_field": item_stack_text,
+        "item_stack_amount_field": item_stack_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_dynamic_source,
+        "sources": [consume_source, item_stack_source, building_comp_source, item_module_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

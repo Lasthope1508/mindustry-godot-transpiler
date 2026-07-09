@@ -15417,6 +15417,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_rebuild_result")
         self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();")
 
+    def test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        return_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_efficiency.return")
+        self.assertEqual(return_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(return_symbol["java_method"], "efficiency(Building build)")
+        self.assertEqual(return_symbol["java_expr"], "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;")
+        self.assertEqual(return_symbol["godot_owner"], "PortGame.source_consume_item_dynamic_efficiency_state")
+        self.assertEqual(return_symbol["runtime_proof"], "/root/Main.source_consume_item_dynamic_efficiency_state")
+        self.assertEqual(return_symbol["godot_symbol"], "source_consume_item_dynamic_efficiency_result.efficiency")
+
+        consume_trigger_valid = source_symbols.source_symbol(registry, "consume_item_dynamic_efficiency.consume_trigger_valid")
+        self.assertEqual(consume_trigger_valid["java_expr"], "build.consumeTriggerValid()")
+        self.assertEqual(consume_trigger_valid["status"], "explicit-input")
+
+        item_module_guard = source_symbols.source_symbol(registry, "consume_item_dynamic_efficiency.item_module_has_stack_guard")
+        self.assertEqual(item_module_guard["java_expr"], "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;")
+        self.assertEqual(item_module_guard["status"], "source-backed")
+
+        dynamic_slice = source_symbols.source_slice(ledger, "N1455")
+        self.assertEqual(dynamic_slice["title"], "Generated ConsumeItemDynamic efficiency bridge state")
+        self.assertEqual(dynamic_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(dynamic_slice["java_method"], "efficiency(Building build)")
+        self.assertEqual(dynamic_slice["godot_owner"], "PortGame.source_consume_item_dynamic_efficiency_state")
+        self.assertEqual(dynamic_slice["generated_owner"], "ConsumeItemDynamic.java_method_efficiency_4")
+        self.assertEqual(dynamic_slice["runtime_proof"], "/root/Main.generated_consume_item_dynamic_efficiency_bridge_state")
+        for expr in [
+            "public final Func<Building, ItemStack[]> items;",
+            "public float efficiency(Building build){",
+            "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+            "public boolean consumeTriggerValid(){",
+            "return false;",
+            "public boolean has(ItemStack[] stacks, float multiplier){",
+            "for(ItemStack stack : stacks){",
+            "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+            "return true;",
+            "public boolean has(Item item, int amount){",
+            "return get(item) >= amount;",
+            "public Floatf<Building> multiplier = b -> 1f;",
+            "public Item item;",
+            "public int amount = 0;",
+        ]:
+            self.assertIn(expr, dynamic_slice["exact_exprs"])
+        self.assertIn("consume_item_dynamic_efficiency.return", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_efficiency.consume_trigger_valid", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_efficiency.item_module_has_stack_guard", dynamic_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_dynamic_efficiency_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consume_trigger_valid", "item_ids", "item_stack_amounts", "item_amounts", "multiplier_get_build"])
+        self.assertIn("efficiency", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_efficiency_input")
+        self.assertEqual(input_schema["keys"]["consume_trigger_valid"]["java_expr"], "build.consumeTriggerValid()")
+        self.assertEqual(input_schema["keys"]["item_amounts"]["java_expr"], "items[item.id]")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_efficiency_result")
+        self.assertEqual(result_schema["keys"]["efficiency"]["java_expr"], "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;")
+        self.assertEqual(result_schema["keys"]["item_module_has_stacks"]["java_expr"], "build.items.has(items.get(build), multiplier.get(build))")
+
     def test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -21955,15 +22017,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 928)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 923)
+        self.assertEqual(audit["totalSourceFunctions"], 929)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 924)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 928)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 929)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_update_state", audit["registeredSourceOwners"])

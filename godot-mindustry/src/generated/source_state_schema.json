@@ -153726,6 +153726,338 @@
           "alias_of": "source_consume_item_dynamic_rebuild_input.multiplier_get_build"
         }
       }
+    },
+    "source_consume_item_dynamic_efficiency_input": {
+      "keys": {
+        "consume_trigger_valid": {
+          "rule": "source_consume_item_dynamic_efficiency_input.consume_trigger_valid.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_input.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_ids": {
+          "rule": "source_consume_item_dynamic_efficiency_input.item_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_ids",
+          "java_expr": "stack.item.id",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_stack_amounts": {
+          "rule": "source_consume_item_dynamic_efficiency_input.item_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_stack_amounts",
+          "java_expr": "stack.amount",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_amounts": {
+          "rule": "source_consume_item_dynamic_efficiency_input.item_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_amounts",
+          "java_expr": "items[item.id]",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "multiplier_get_build": {
+          "rule": "source_consume_item_dynamic_efficiency_input.multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        }
+      }
+    },
+    "source_consume_item_dynamic_efficiency_result": {
+      "keys": {
+        "source_owner": {
+          "rule": "source_consume_item_dynamic_efficiency_result.source_owner.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.source_owner",
+          "java_expr": "PortGame.source_consume_item_dynamic_efficiency_state",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "source": {
+          "rule": "source_consume_item_dynamic_efficiency_result.source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.source",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "method": {
+          "rule": "source_consume_item_dynamic_efficiency_result.method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.method",
+          "java_expr": "public float efficiency(Building build){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "items_field": {
+          "rule": "source_consume_item_dynamic_efficiency_result.items_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.items_field",
+          "java_expr": "public final Func<Building, ItemStack[]> items;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "return_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.return_expr",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "consume_trigger_valid_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.consume_trigger_valid_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.consume_trigger_valid_expr",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_stacks_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_expr",
+          "java_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_stack_guard_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_stack_guard_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stack_guard_expr",
+          "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_stacks_return_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_return_expr",
+          "java_expr": "return true;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_item_amount_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_expr",
+          "java_expr": "public boolean has(Item item, int amount){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_item_amount_return_expr": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_return_expr",
+          "java_expr": "return get(item) >= amount;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "multiplier_field": {
+          "rule": "source_consume_item_dynamic_efficiency_result.multiplier_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.multiplier_field",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_stack_item_field": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_stack_item_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_stack_item_field",
+          "java_expr": "public Item item;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_stack_amount_field": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_stack_amount_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_stack_amount_field",
+          "java_expr": "public int amount = 0;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "consume_trigger_valid": {
+          "rule": "source_consume_item_dynamic_efficiency_result.consume_trigger_valid.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_ids": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_ids",
+          "java_expr": "stack.item.id",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_stack_amounts": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_stack_amounts",
+          "java_expr": "stack.amount",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_amounts": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_amounts",
+          "java_expr": "items[item.id]",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "multiplier_get_build": {
+          "rule": "source_consume_item_dynamic_efficiency_result.multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_module_has_stacks": {
+          "rule": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks",
+          "java_expr": "build.items.has(items.get(build), multiplier.get(build))",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "stack_checks": {
+          "rule": "source_consume_item_dynamic_efficiency_result.stack_checks.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.stack_checks",
+          "java_expr": "for(ItemStack stack : stacks){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "efficiency": {
+          "rule": "source_consume_item_dynamic_efficiency_result.efficiency.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_efficiency_result.efficiency",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        }
+      }
     }
   },
   "version": 1

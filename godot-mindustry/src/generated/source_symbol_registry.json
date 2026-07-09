@@ -120222,6 +120222,312 @@
         "test_consume_item_dynamic_rebuild_matches_upstream_source",
         "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_dynamic_efficiency.items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.items_field",
+      "java_expr": "public final Func<Building, ItemStack[]> items;",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.efficiency uses dynamic item provider field.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.method": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.method",
+      "java_expr": "public float efficiency(Building build){",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.efficiency method boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.return": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.efficiency",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Efficiency returns 1f when trigger consumption is valid or item module has all dynamic stacks, otherwise 0f.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.consume_trigger_valid": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_input.consume_trigger_valid",
+      "java_expr": "build.consumeTriggerValid()",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Runtime consumeTriggerValid() result supplied as explicit input until generated Building state dispatch is wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_ids": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_ids",
+      "java_expr": "stack.item.id",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Dynamic ItemStack item ids supplied as explicit input until Func<ItemStack[]> dispatch is wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.stack_amounts": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_stack_amounts",
+      "java_expr": "stack.amount",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Dynamic ItemStack amounts supplied as explicit input until ItemStack objects are wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_amounts": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_input.item_amounts",
+      "java_expr": "items[item.id]",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ItemModule backing amount array supplied as explicit input indexed by stack.item.id.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.multiplier_get_build": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_input.multiplier_get_build",
+      "java_expr": "multiplier.get(build)",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Runtime multiplier.get(build) result supplied as explicit input.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_stacks": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks",
+      "java_expr": "build.items.has(items.get(build), multiplier.get(build))",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.efficiency delegates item availability to ItemModule.has(ItemStack[], float).",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_stacks_method": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_expr",
+      "java_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(ItemStack[], float) method boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_stacks_loop": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_loop_expr",
+      "java_expr": "for(ItemStack stack : stacks){",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(ItemStack[], float) iterates every stack.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_stack_guard": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stack_guard_expr",
+      "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(ItemStack[], float) fails on item id outside amount array or missing rounded stack amount.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_stacks_return": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_stacks_return_expr",
+      "java_expr": "return true;",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(ItemStack[], float) returns true after every stack passes.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_item_amount": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_expr",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(Item, int) method boundary used by stack guard.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_module_has_item_amount_return": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_module_has_item_amount_return_expr",
+      "java_expr": "return get(item) >= amount;",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has(Item, int) compares stored item amount against rounded requirement.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.multiplier": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.multiplier_field",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "java_method": "Consume.multiplier",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "rule": "Consume multiplier field backs rounded item stack requirement.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_stack_item_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_stack_item_field",
+      "java_expr": "public Item item;",
+      "java_method": "ItemStack.item",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "rule": "ItemStack item field used by dynamic stack iteration.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_efficiency.item_stack_amount_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "godot_symbol": "source_consume_item_dynamic_efficiency_result.item_stack_amount_field",
+      "java_expr": "public int amount = 0;",
+      "java_method": "ItemStack.amount",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "rule": "ItemStack amount field used by rounded requirement.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_slice": "N1455",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

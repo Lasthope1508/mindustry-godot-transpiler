@@ -39966,6 +39966,76 @@
         "test_consume_item_dynamic_rebuild_matches_upstream_source",
         "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_dynamic_efficiency_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "params": [
+        {
+          "java_expr": "build.consumeTriggerValid()",
+          "name": "consume_trigger_valid",
+          "schema": "source_consume_item_dynamic_efficiency_input.consume_trigger_valid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "stack.item.id",
+          "name": "item_ids",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "item_stack_amounts",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "items[item.id]",
+          "name": "item_amounts",
+          "schema": "source_consume_item_dynamic_efficiency_input.item_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_item_dynamic_efficiency_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "return_expr",
+        "consume_trigger_valid_expr",
+        "item_module_has_stacks_expr",
+        "item_module_has_stack_guard_expr",
+        "item_module_has_stacks_return_expr",
+        "item_module_has_item_amount_expr",
+        "item_module_has_item_amount_return_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "consume_trigger_valid",
+        "item_ids",
+        "item_stack_amounts",
+        "item_amounts",
+        "multiplier_get_build",
+        "item_module_has_stacks",
+        "stack_checks",
+        "efficiency"
+      ],
+      "rule": "Public runtime contract for ConsumeItemDynamic.efficiency(Building) source-backed item availability state.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_efficiency_state",
+      "source_method": "efficiency(Building build)",
+      "source_slice": "N1455",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -62,7 +62,27 @@ func java_method_trigger_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_item_dynamic_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void trigger(Building build){", "items_field": "public final Func<Building, ItemStack[]> items;", "loop_expr": "for(ItemStack stack : items.get(build)){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
-	return null
+	var consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)
+	var item_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var item_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
+	var item_amounts: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []
+	var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var item_module_has_stacks: bool = true
+	var stack_checks: Array = []
+	for index in item_ids.size():
+		var item_id: int = int(item_ids[index])
+		var stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)
+		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		var item_amount: float = 0.0
+		if item_id < item_amounts.size():
+			item_amount = float(item_amounts[item_id])
+		var has_stack: bool = item_id < item_amounts.size() and item_amount >= required_amount
+		stack_checks.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "has_stack": has_stack})
+		if item_id >= item_amounts.size() or float(item_amounts[item_id]) < required_amount:
+			item_module_has_stacks = false
+			break
+	var efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0
+	return {"source_owner": "PortGame.source_consume_item_dynamic_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public float efficiency(Building build){", "items_field": "public final Func<Building, ItemStack[]> items;", "return_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){", "item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;", "item_module_has_stacks_return_expr": "return true;", "item_module_has_item_amount_expr": "public boolean has(Item item, int amount){", "item_module_has_item_amount_return_expr": "return get(item) >= amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "consume_trigger_valid": consume_trigger_valid, "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "multiplier_get_build": multiplier_get_build, "item_module_has_stacks": item_module_has_stacks, "stack_checks": stack_checks, "efficiency": efficiency_value}
 
 func java_constructor_ConsumeItemDynamic_0(_args: Array = []) -> Variant:
 	var items: Variant = _args[0] if _args.size() > 0 else null

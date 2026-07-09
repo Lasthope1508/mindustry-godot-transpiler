@@ -18285,6 +18285,55 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn('"add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();"', source_text)
             self.assertIn('"row_expr": "if(++i % 4 == 0) table.row();"', source_text)
 
+    def test_emit_bridges_consume_item_dynamic_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItemDynamic extends Consume{
+    public final Func<Building, ItemStack[]> items;
+
+    @Override
+    public float efficiency(Building build){
+        return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var item_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var item_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var item_amounts: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
+            self.assertIn("var item_module_has_stacks: bool = true", source_text)
+            self.assertIn("if item_id >= item_amounts.size() or float(item_amounts[item_id]) < required_amount:", source_text)
+            self.assertIn("var efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_efficiency_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source_text)
+            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
+            self.assertIn('"return_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;"', source_text)
+            self.assertIn('"item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){"', source_text)
+            self.assertIn('"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;"', source_text)
+            self.assertIn('"efficiency": efficiency_value', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

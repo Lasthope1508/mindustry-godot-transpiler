@@ -1270,6 +1270,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_dynamic_efficiency_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_dynamic_efficiency_source"))
+        report = source_parity.verify_consume_item_dynamic_efficiency_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/ItemStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/ItemModule.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "items_field": "public final Func<Building, ItemStack[]> items;",
+            "method": "public float efficiency(Building build){",
+            "return_expr": "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+            "consume_trigger_valid_method": "public boolean consumeTriggerValid(){",
+            "consume_trigger_valid_return": "return false;",
+            "item_module_has_stacks_method": "public boolean has(ItemStack[] stacks, float multiplier){",
+            "item_module_has_stacks_loop": "for(ItemStack stack : stacks){",
+            "item_module_has_stack_guard": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+            "item_module_has_stacks_return": "return true;",
+            "item_module_has_item_amount": "public boolean has(Item item, int amount){",
+            "item_module_has_item_amount_return": "return get(item) >= amount;",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "item_stack_item_field": "public Item item;",
+            "item_stack_amount_field": "public int amount = 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

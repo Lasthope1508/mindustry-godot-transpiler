@@ -36402,6 +36402,63 @@
         "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic rebuild bridge state"
+    },
+    "N1455": {
+      "deferred_exprs": [
+        "Concrete Func<Building, ItemStack[]> invocation remains represented as explicit item id and amount arrays until generated functional interface dispatch is wired.",
+        "Concrete Building.consumeTriggerValid() and ItemModule item array state are represented as explicit inputs until live generated Building and ItemModule object wiring is complete."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "public float efficiency(Building build){",
+        "return build.consumeTriggerValid() || build.items.has(items.get(build), multiplier.get(build)) ? 1f : 0f;",
+        "public boolean consumeTriggerValid(){",
+        "return false;",
+        "public boolean has(ItemStack[] stacks, float multiplier){",
+        "for(ItemStack stack : stacks){",
+        "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+        "return true;",
+        "public boolean has(Item item, int amount){",
+        "return get(item) >= amount;",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Item item;",
+        "public int amount = 0;"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_method_efficiency_4",
+      "godot_owner": "PortGame.source_consume_item_dynamic_efficiency_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic.efficiency bridges consumeTriggerValid short-circuit, ItemModule.has(ItemStack[], float) rounded stack availability, and 1f/0f efficiency result.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_efficiency_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_efficiency.items_field",
+        "consume_item_dynamic_efficiency.method",
+        "consume_item_dynamic_efficiency.return",
+        "consume_item_dynamic_efficiency.consume_trigger_valid",
+        "consume_item_dynamic_efficiency.item_ids",
+        "consume_item_dynamic_efficiency.stack_amounts",
+        "consume_item_dynamic_efficiency.item_amounts",
+        "consume_item_dynamic_efficiency.multiplier_get_build",
+        "consume_item_dynamic_efficiency.item_module_has_stacks",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_method",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_loop",
+        "consume_item_dynamic_efficiency.item_module_has_stack_guard",
+        "consume_item_dynamic_efficiency.item_module_has_stacks_return",
+        "consume_item_dynamic_efficiency.item_module_has_item_amount",
+        "consume_item_dynamic_efficiency.item_module_has_item_amount_return",
+        "consume_item_dynamic_efficiency.multiplier",
+        "consume_item_dynamic_efficiency.item_stack_item_field",
+        "consume_item_dynamic_efficiency.item_stack_amount_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_efficiency_bridge_state",
+        "test_consume_item_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_item_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic efficiency bridge state"
     }
   },
   "version": 1
