@@ -7,7 +7,9 @@
       "godot-mindustry/src/generated/source_symbol_audit_report.json",
       "godot-mindustry/src/generated/source_slice_ledger.json",
       "godot-mindustry/src/generated/source_api_contracts.json",
-      "godot-mindustry/src/generated/source_state_schema.json"
+      "godot-mindustry/src/generated/source_state_schema.json",
+      "godot-mindustry/src/generated/source_ssot_modules.json",
+      "godot-mindustry/src/generated/source_modules/consumer_slices.json"
     ]
   },
   "slices": {

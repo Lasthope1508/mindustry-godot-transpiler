@@ -10,11 +10,13 @@ Before each slice:
   - `source_slice_ledger.json`
   - `source_api_contracts.json`
   - `source_state_schema.json`
+- Read SSOT extension manifest `godot-mindustry/src/generated/source_ssot_modules.json` and any shard JSON it registers under `godot-mindustry/src/generated/source_modules/`.
 - Read exact upstream Java source for the slice from `mindustry-upstream`.
 
 Hard rules:
 - Do not invent variable names, parameters, defaults, behavior, or formulas.
 - New runtime state, API shape, source symbol, or variable name must be source-backed and registered in SSOT in the same slice.
+- New SSOT JSON shard must be registered in `source_ssot_modules.json`, must live under `src/generated/source_modules/`, and must expose one canonical `root_key`.
 - Prefer existing names from SSOT and upstream Java. If two names mean the same thing, normalize to SSOT instead of adding another synonym.
 - Defer behavior that needs another Java line into a later slice instead of guessing.
 - Keep each slice small and source-backed. Maximum 1-3 slices per turn.

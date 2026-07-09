@@ -17,6 +17,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema"])
+        self.assertEqual(source_ssot.extension_manifest_relative_path().as_posix(), "src/generated/source_ssot_modules.json")
         self.assertEqual(source_ssot.relative_path("registry").as_posix(), "src/generated/source_symbol_registry.json")
         self.assertEqual(source_ssot.relative_path("audit_report").as_posix(), "src/generated/source_symbol_audit_report.json")
         self.assertEqual(source_ssot.relative_path("slice_ledger").as_posix(), "src/generated/source_slice_ledger.json")
@@ -26,6 +27,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.root_key("slice_ledger"), "slices")
         self.assertEqual(source_ssot.runtime_label("state_schema"), "schemaName")
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "registry")["version"], 1)
+        self.assertIn("consumer_slices", source_ssot.registered_module_names(ROOT / "godot-mindustry"))
 
     def test_source_ssot_catalog_loads_and_writes_modules_by_name(self):
         import importlib
@@ -46,19 +48,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             source_ssot.write_json(godot_root, "state_schema", {"version": 2, "module": "state_schema"})
             self.assertEqual(source_ssot.load_json(godot_root, "state_schema")["version"], 2)
 
+    def test_source_ssot_catalog_loads_extension_modules_from_manifest(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"consumer_slices": {"path": "src/generated/source_modules/consumer_slices.json", "root_key": "slices", "label": "sliceId"}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/consumer_slices.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text('{"version": 1, "slices": {"NTEST": {"status": "reserved"}}}\n', encoding="utf-8")
+
+            self.assertEqual(source_ssot.registered_module_names(godot_root)[-2:], ["module_manifest", "consumer_slices"])
+            self.assertEqual(source_ssot.registered_relative_path(godot_root, "consumer_slices").as_posix(), "src/generated/source_modules/consumer_slices.json")
+            self.assertEqual(source_ssot.load_registered_json(godot_root, "consumer_slices")["slices"]["NTEST"]["status"], "reserved")
+            report = source_ssot.validate_json_modules(godot_root)
+            self.assertEqual(report["errors"], [])
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        self.assertEqual(report["module_count"], len(source_ssot.module_names()))
+        self.assertEqual(report["module_count"], len(source_ssot.registered_module_names(ROOT / "godot-mindustry")))
         self.assertEqual(report["errors"], [])
-        self.assertEqual([entry["name"] for entry in report["modules"]], source_ssot.module_names())
+        self.assertEqual([entry["name"] for entry in report["modules"]], source_ssot.registered_module_names(ROOT / "godot-mindustry"))
         for entry in report["modules"]:
             self.assertTrue(entry["loaded"])
-            self.assertEqual(entry["path"], source_ssot.relative_path(entry["name"]).as_posix())
-            if source_ssot.root_key(entry["name"]):
+            self.assertEqual(entry["path"], source_ssot.registered_relative_path(ROOT / "godot-mindustry", entry["name"]).as_posix())
+            if source_ssot.registered_root_key(ROOT / "godot-mindustry", entry["name"]):
                 self.assertTrue(entry["root_key_present"])
 
     def test_source_ssot_catalog_reports_missing_json_module(self):
@@ -78,6 +109,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
                 if root_key:
                     payload[root_key] = {}
                 source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text('{"version": 1, "modules": {}}\n', encoding="utf-8")
 
             report = source_ssot.validate_json_modules(godot_root)
             self.assertIn("state_schema: missing src/generated/source_state_schema.json", report["errors"])
@@ -96,12 +130,38 @@ class SourceSymbolRegistryTests(unittest.TestCase):
                 if module_name != "registry" and source_ssot.root_key(module_name):
                     payload[source_ssot.root_key(module_name)] = {}
                 source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text('{"version": 1, "modules": {}}\n', encoding="utf-8")
 
             report = source_ssot.validate_json_modules(godot_root)
             self.assertIn("registry: missing root key symbols", report["errors"])
             registry = [entry for entry in report["modules"] if entry["name"] == "registry"][0]
             self.assertTrue(registry["loaded"])
             self.assertFalse(registry["root_key_present"])
+
+    def test_source_ssot_catalog_rejects_extension_modules_outside_source_modules(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"bad": {"path": "src/generated/bad.json", "root_key": "items", "label": "id"}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+            self.assertIn("bad: extension path must stay under src/generated/source_modules", report["errors"])
 
     def test_source_symbol_loaders_use_canonical_ssot_modules(self):
         import importlib

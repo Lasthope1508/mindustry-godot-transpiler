@@ -12061,6 +12061,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("SOURCE_API_CONTRACTS_PATH", source)
         self.assertNotIn("SOURCE_STATE_SCHEMA_PATH", source)
 
+    def test_port_game_exposes_ssot_extension_module_manifest_lookup(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").exists())
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "consumer_slices.json").exists())
+        self.assertIn('const EXTENSION_MANIFEST_PATH := "res://src/generated/source_ssot_modules.json"', catalog_source)
+        self.assertIn('static func registered_module_names() -> Array:', catalog_source)
+        self.assertIn('static func ssot_modules_state(module_name: String = "") -> Dictionary:', catalog_source)
+        self.assertIn('"consumer_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn('func ssot_modules_state(module_name: String = "") -> Dictionary:', source)
+        self.assertIn('return SourceSsotCatalog.ssot_modules_state(module_name)', source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

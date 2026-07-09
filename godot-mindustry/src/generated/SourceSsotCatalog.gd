@@ -29,12 +29,56 @@ const MODULES := {
 		"label": "schemaName",
 	},
 }
+const EXTENSION_MANIFEST_PATH := "res://src/generated/source_ssot_modules.json"
 
 static func module_names() -> Array:
 	return MODULE_NAMES.duplicate()
 
+static func load_extension_manifest() -> Dictionary:
+	var text := FileAccess.get_file_as_string(EXTENSION_MANIFEST_PATH)
+	var parsed = JSON.parse_string(text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {"version": 0, "modules": {}}
+	return parsed
+
+static func extension_modules() -> Dictionary:
+	var manifest := load_extension_manifest()
+	var modules_value = manifest.get("modules", {})
+	var modules: Dictionary = modules_value if typeof(modules_value) == TYPE_DICTIONARY else {}
+	var result: Dictionary = {}
+	for module_name in modules.keys():
+		var entry_value = modules.get(module_name, {})
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_value
+		var relative_path := str(entry.get("path", ""))
+		var resource_path := relative_path
+		if not resource_path.begins_with("res://"):
+			resource_path = "res://" + resource_path
+		result[str(module_name)] = {
+			"path": resource_path,
+			"root_key": str(entry.get("root_key", "")),
+			"label": str(entry.get("label", "")),
+			"status": str(entry.get("status", "")),
+			"rule": str(entry.get("rule", "")),
+		}
+	return result
+
+static func extension_module_names() -> Array:
+	return extension_modules().keys()
+
+static func registered_module_names() -> Array:
+	var names := module_names()
+	names.append("module_manifest")
+	names.append_array(extension_module_names())
+	return names
+
 static func module_metadata(module_name: String) -> Dictionary:
-	return MODULES.get(module_name, {})
+	if module_name == "module_manifest":
+		return {"path": EXTENSION_MANIFEST_PATH, "root_key": "modules", "label": "module"}
+	if MODULES.has(module_name):
+		return MODULES.get(module_name, {})
+	return extension_modules().get(module_name, {})
 
 static func load_document(module_name: String) -> Dictionary:
 	var metadata := module_metadata(module_name)
@@ -81,4 +125,22 @@ static func audit_summary_state() -> Dictionary:
 		"exemptSourceOwnerCount": int(parsed.get("exemptSourceOwnerCount", 0)),
 		"legacyUnregisteredOwnerCount": int(parsed.get("legacyUnregisteredOwnerCount", 0)),
 		"policy": parsed.get("policy", {}),
+	}
+
+static func ssot_modules_state(module_name: String = "") -> Dictionary:
+	var manifest := load_extension_manifest()
+	var modules := extension_modules()
+	var entry: Dictionary = {}
+	if module_name != "":
+		entry = modules.get(module_name, {})
+	return {
+		"loaded": int(manifest.get("version", 0)) > 0,
+		"version": int(manifest.get("version", 0)),
+		"module": module_name,
+		"core_modules": module_names(),
+		"extension_modules": modules.keys(),
+		"registered_modules": registered_module_names(),
+		"count": modules.size(),
+		"entry": entry,
+		"policy": manifest.get("policy", {}),
 	}

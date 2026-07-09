@@ -1,0 +1,17 @@
+{
+  "modules": {
+    "consumer_slices": {
+      "label": "sliceId",
+      "path": "src/generated/source_modules/consumer_slices.json",
+      "root_key": "slices",
+      "rule": "Extension shard for new consumer-related slice metadata; canonical slice IDs and keys must remain mirrored through the SSOT gate before use.",
+      "status": "active"
+    }
+  },
+  "policy": {
+    "extensionModuleRequiresRootKey": true,
+    "extensionModuleRoot": "src/generated/source_modules",
+    "newJsonShardRequiresManifestEntry": true
+  },
+  "version": 1
+}

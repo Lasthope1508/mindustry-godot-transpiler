@@ -1,0 +1,8 @@
+{
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "newConsumerSliceRequiresSourceBackedLedgerMirror": true
+  },
+  "slices": {},
+  "version": 1
+}
