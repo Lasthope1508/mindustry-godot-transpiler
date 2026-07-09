@@ -1,0 +1,1627 @@
+{
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "newPayloadSliceRequiresSourceBackedLedgerMirror": true,
+    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/payloads/."
+  },
+  "slices": {
+    "N1366": {
+      "canonical_ledger": "source_slice_ledger.N1366",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.block()",
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "source_symbols": [
+        "build_payload_block.class_expr",
+        "build_payload_block.field_expr",
+        "build_payload_block.method",
+        "build_payload_block.return_expr",
+        "build_payload_block.build_block"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_block_bridge_state"
+    },
+    "N1368": {
+      "canonical_ledger": "source_slice_ledger.N1368",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.content()",
+      "godot_owner": "PortGame.source_build_payload_content_state",
+      "source_symbols": [
+        "build_payload_content.method",
+        "build_payload_content.return_expr",
+        "build_payload_content.class_expr",
+        "build_payload_content.field_expr",
+        "build_payload_content.override_expr",
+        "build_payload_content.build_block"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_content_to_source_state",
+        "test_port_game_exposes_source_build_payload_content_state",
+        "test_port_game_exposes_generated_build_payload_content_bridge_state",
+        "test_build_payload_content_matches_upstream_source",
+        "test_generated_build_payload_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_content_bridge_state"
+    },
+    "N1369": {
+      "canonical_ledger": "source_slice_ledger.N1369",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.buildTime()",
+      "godot_owner": "PortGame.source_build_payload_build_time_state",
+      "source_symbols": [
+        "build_payload_build_time.method",
+        "build_payload_build_time.return_expr",
+        "build_payload_build_time.class_expr",
+        "build_payload_build_time.field_expr",
+        "build_payload_build_time.override_expr",
+        "build_payload_build_time.build_time"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_build_payload_build_time_state",
+        "test_port_game_exposes_generated_build_payload_build_time_bridge_state",
+        "test_build_payload_build_time_matches_upstream_source",
+        "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_build_time_bridge_state"
+    },
+    "N1370": {
+      "canonical_ledger": "source_slice_ledger.N1370",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.requirements()",
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "source_symbols": [
+        "build_payload_requirements.requirements",
+        "build_payload_requirements.class_expr",
+        "build_payload_requirements.field_expr",
+        "build_payload_requirements.method",
+        "build_payload_requirements.override_expr",
+        "build_payload_requirements.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_requirements_bridge_state"
+    },
+    "N1371": {
+      "canonical_ledger": "source_slice_ledger.N1371",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.x()",
+      "godot_owner": "PortGame.source_build_payload_x_state",
+      "source_symbols": [
+        "build_payload_x.build_x",
+        "build_payload_x.class_expr",
+        "build_payload_x.field_expr",
+        "build_payload_x.method",
+        "build_payload_x.override_expr",
+        "build_payload_x.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_x_to_source_state",
+        "test_port_game_exposes_source_build_payload_x_state",
+        "test_port_game_exposes_generated_build_payload_x_bridge_state",
+        "test_build_payload_x_matches_upstream_source",
+        "test_generated_build_payload_x_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_x_bridge_state"
+    },
+    "N1372": {
+      "canonical_ledger": "source_slice_ledger.N1372",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.y()",
+      "godot_owner": "PortGame.source_build_payload_y_state",
+      "source_symbols": [
+        "build_payload_y.build_y",
+        "build_payload_y.class_expr",
+        "build_payload_y.field_expr",
+        "build_payload_y.method",
+        "build_payload_y.override_expr",
+        "build_payload_y.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_y_to_source_state",
+        "test_port_game_exposes_source_build_payload_y_state",
+        "test_port_game_exposes_generated_build_payload_y_bridge_state",
+        "test_build_payload_y_matches_upstream_source",
+        "test_generated_build_payload_y_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_y_bridge_state"
+    },
+    "N1373": {
+      "canonical_ledger": "source_slice_ledger.N1373",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "source_symbols": [
+        "build_payload_size.build_block_size",
+        "build_payload_size.source_tilesize",
+        "build_payload_size.class_expr",
+        "build_payload_size.field_expr",
+        "build_payload_size.import_expr",
+        "build_payload_size.method",
+        "build_payload_size.override_expr",
+        "build_payload_size.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_size_bridge_state"
+    },
+    "N1374": {
+      "canonical_ledger": "source_slice_ledger.N1374",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "source_symbols": [
+        "build_payload_remove.class_expr",
+        "build_payload_remove.field_expr",
+        "build_payload_remove.method",
+        "build_payload_remove.override_expr",
+        "build_payload_remove.remove_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_remove_bridge_state"
+    },
+    "N1375": {
+      "canonical_ledger": "source_slice_ledger.N1375",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "source_symbols": [
+        "build_payload_write.class_expr",
+        "build_payload_write.field_expr",
+        "build_payload_write.override_expr",
+        "build_payload_write.method",
+        "build_payload_write.payload_block",
+        "build_payload_write.build_block_id",
+        "build_payload_write.build_version",
+        "build_payload_write.payload_block_write_expr",
+        "build_payload_write.block_id_write_expr",
+        "build_payload_write.version_write_expr",
+        "build_payload_write.write_all_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_write_bridge_state"
+    },
+    "N1376": {
+      "canonical_ledger": "source_slice_ledger.N1376",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "source_symbols": [
+        "build_payload_set.class_expr",
+        "build_payload_set.field_expr",
+        "build_payload_set.override_expr",
+        "build_payload_set.method",
+        "build_payload_set.x",
+        "build_payload_set.y",
+        "build_payload_set.rotation",
+        "build_payload_set.set_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_set_bridge_state"
+    },
+    "N1377": {
+      "canonical_ledger": "source_slice_ledger.N1377",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "source_symbols": [
+        "build_payload_draw_shadow.class_expr",
+        "build_payload_draw_shadow.field_expr",
+        "build_payload_draw_shadow.import_expr",
+        "build_payload_draw_shadow.override_expr",
+        "build_payload_draw_shadow.method",
+        "build_payload_draw_shadow.build_x",
+        "build_payload_draw_shadow.build_y",
+        "build_payload_draw_shadow.build_block_size",
+        "build_payload_draw_shadow.source_tilesize",
+        "build_payload_draw_shadow.alpha",
+        "build_payload_draw_shadow.shadow_expr",
+        "build_payload_draw_shadow.shadow_size"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_draw_shadow_bridge_state"
+    },
+    "N1378": {
+      "canonical_ledger": "source_slice_ledger.N1378",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "source_symbols": [
+        "build_payload_draw.class_expr",
+        "build_payload_draw.field_expr",
+        "build_payload_draw.import_expr",
+        "build_payload_draw.override_expr",
+        "build_payload_draw.method",
+        "build_payload_draw.prev_z",
+        "build_payload_draw.layer_flying_unit_low",
+        "build_payload_draw.transform_z",
+        "build_payload_draw.shadow_z_expr",
+        "build_payload_draw.draw_shadow_expr",
+        "build_payload_draw.z_restore_expr",
+        "build_payload_draw.z_transform_expr",
+        "build_payload_draw.z_transform_return_expr",
+        "build_payload_draw.tile_assign_expr",
+        "build_payload_draw.payload_draw_expr",
+        "build_payload_draw.z_transform_reset_expr",
+        "build_payload_draw.final_z_restore_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_draw_bridge_state"
+    },
+    "N1379": {
+      "canonical_ledger": "source_slice_ledger.N1379",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "source_symbols": [
+        "build_payload_icon.class_expr",
+        "build_payload_icon.field_expr",
+        "build_payload_icon.override_expr",
+        "build_payload_icon.method",
+        "build_payload_icon.full_icon",
+        "build_payload_icon.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_icon_bridge_state"
+    },
+    "N1380": {
+      "canonical_ledger": "source_slice_ledger.N1380",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_build_payload_content_equals_state",
+      "source_symbols": [
+        "build_payload_content_equals.class_expr",
+        "build_payload_content_equals.field_expr",
+        "build_payload_content_equals.override_expr",
+        "build_payload_content_equals.method",
+        "build_payload_content_equals.other_is_build_payload",
+        "build_payload_content_equals.other_block",
+        "build_payload_content_equals.build_block",
+        "build_payload_content_equals.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_build_payload_content_equals_state",
+        "test_port_game_exposes_generated_build_payload_content_equals_bridge_state",
+        "test_build_payload_content_equals_matches_upstream_source",
+        "test_generated_build_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_content_equals_bridge_state"
+    },
+    "N1381": {
+      "canonical_ledger": "source_slice_ledger.N1381",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile) and BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "source_symbols": [
+        "build_payload_place_default.class_expr",
+        "build_payload_place_default.field_expr",
+        "build_payload_place_default.method",
+        "build_payload_place_default.tile",
+        "build_payload_place_default.build_block",
+        "build_payload_place_default.build_team",
+        "build_payload_place_default.delegate_expr",
+        "build_payload_place.class_expr",
+        "build_payload_place.field_expr",
+        "build_payload_place.method",
+        "build_payload_place.tile",
+        "build_payload_place.build_block",
+        "build_payload_place.build_team",
+        "build_payload_place.rotation",
+        "build_payload_place.set_block_expr",
+        "build_payload_place.dropped_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_place_bridge_state"
+    },
+    "N1382": {
+      "canonical_ledger": "source_slice_ledger.N1382",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "source_symbols": [
+        "build_payload_update.class_expr",
+        "build_payload_update.field_expr",
+        "build_payload_update.import_expr",
+        "build_payload_update.override_expr",
+        "build_payload_update.method",
+        "build_payload_update.unit_holder_present",
+        "build_payload_update.build_block_update_in_units",
+        "build_payload_update.unit_payload_update",
+        "build_payload_update.build_block_always_update_in_units",
+        "build_payload_update.unitHolder",
+        "build_payload_update.buildingHolder",
+        "build_payload_update.guard_expr",
+        "build_payload_update.tile_assign_expr",
+        "build_payload_update.update_payload_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_update_bridge_state"
+    },
+    "N1383": {
+      "canonical_ledger": "source_slice_ledger.N1383",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "source_symbols": [
+        "build_payload_destroyed.class_expr",
+        "build_payload_destroyed.field_expr",
+        "build_payload_destroyed.override_expr",
+        "build_payload_destroyed.method",
+        "build_payload_destroyed.dead_assign_expr",
+        "build_payload_destroyed.on_destroyed_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_destroyed_bridge_state"
+    },
+    "N1384": {
+      "canonical_ledger": "source_slice_ledger.N1384",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload(Block block, Team team) and BuildPayload(Building build)",
+      "godot_owner": "PortGame.source_build_payload_constructor_block_team_state",
+      "source_symbols": [
+        "build_payload_constructor_block_team.class_expr",
+        "build_payload_constructor_block_team.field_expr",
+        "build_payload_constructor_block_team.import_expr",
+        "build_payload_constructor_block_team.constructor",
+        "build_payload_constructor_block_team.block",
+        "build_payload_constructor_block_team.team",
+        "build_payload_constructor_block_team.new_building_expr",
+        "build_payload_constructor_block_team.tile_assign_expr",
+        "build_payload_constructor_build.class_expr",
+        "build_payload_constructor_build.field_expr",
+        "build_payload_constructor_build.constructor",
+        "build_payload_constructor_build.build",
+        "build_payload_constructor_build.build_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_constructors_to_source_state",
+        "test_port_game_exposes_source_build_payload_constructor_state",
+        "test_port_game_exposes_generated_build_payload_constructor_bridge_state",
+        "test_build_payload_constructors_match_upstream_source",
+        "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_build_payload_constructor_block_team_bridge_state"
+    },
+    "N1385": {
+      "canonical_ledger": "source_slice_ledger.N1385",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "source_symbols": [
+        "unit_payload_constructor.class_expr",
+        "unit_payload_constructor.field_expr",
+        "unit_payload_constructor.constructor",
+        "unit_payload_constructor.unit",
+        "unit_payload_constructor.unit_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_constructor_bridge_state"
+    },
+    "N1386": {
+      "canonical_ledger": "source_slice_ledger.N1386",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "source_symbols": [
+        "unit_payload_show_overlay_texture_region.class_expr",
+        "unit_payload_show_overlay_texture_region.overlay_time_field_expr",
+        "unit_payload_show_overlay_texture_region.overlay_region_field_expr",
+        "unit_payload_show_overlay_texture_region.method",
+        "unit_payload_show_overlay_texture_region.icon",
+        "unit_payload_show_overlay_texture_region.overlay_region_assign_expr",
+        "unit_payload_show_overlay_texture_region.overlay_time_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_show_overlay_texture_region_bridge_state"
+    },
+    "N1387": {
+      "canonical_ledger": "source_slice_ledger.N1387",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
+      "source_symbols": [
+        "unit_payload_show_overlay_drawable.class_expr",
+        "unit_payload_show_overlay_drawable.import_expr",
+        "unit_payload_show_overlay_drawable.method",
+        "unit_payload_show_overlay_drawable.icon_null",
+        "unit_payload_show_overlay_drawable.headless",
+        "unit_payload_show_overlay_drawable.region",
+        "unit_payload_show_overlay_drawable.guard_expr",
+        "unit_payload_show_overlay_drawable.delegate_expr",
+        "unit_payload_show_overlay_drawable.get_region_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_drawable_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_drawable_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_drawable_bridge_state",
+        "test_unit_payload_show_overlay_drawable_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_show_overlay_drawable_bridge_state"
+    },
+    "N1388": {
+      "canonical_ledger": "source_slice_ledger.N1388",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "source_symbols": [
+        "unit_payload_content_equals.class_expr",
+        "unit_payload_content_equals.field_expr",
+        "unit_payload_content_equals.override_expr",
+        "unit_payload_content_equals.method",
+        "unit_payload_content_equals.other_is_unit_payload",
+        "unit_payload_content_equals.other_unit_type",
+        "unit_payload_content_equals.unit_type",
+        "unit_payload_content_equals.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_content_equals_bridge_state"
+    },
+    "N1389": {
+      "canonical_ledger": "source_slice_ledger.N1389",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_unit_payload_update_state",
+      "source_symbols": [
+        "unit_payload_update.class_expr",
+        "unit_payload_update.field_expr",
+        "unit_payload_update.override_expr",
+        "unit_payload_update.method",
+        "unit_payload_update.unit_type",
+        "unit_payload_update.unit",
+        "unit_payload_update.unitHolder",
+        "unit_payload_update.buildingHolder",
+        "unit_payload_update.update_payload_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_update_to_source_state",
+        "test_port_game_exposes_source_unit_payload_update_state",
+        "test_port_game_exposes_generated_unit_payload_update_bridge_state",
+        "test_unit_payload_update_matches_upstream_source",
+        "test_generated_unit_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_update_bridge_state"
+    },
+    "N1390": {
+      "canonical_ledger": "source_slice_ledger.N1390",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.content()",
+      "godot_owner": "PortGame.source_unit_payload_content_state",
+      "source_symbols": [
+        "unit_payload_content.class_expr",
+        "unit_payload_content.field_expr",
+        "unit_payload_content.override_expr",
+        "unit_payload_content.method",
+        "unit_payload_content.unit_type",
+        "unit_payload_content.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_content_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_state",
+        "test_port_game_exposes_generated_unit_payload_content_bridge_state",
+        "test_unit_payload_content_matches_upstream_source",
+        "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_content_bridge_state"
+    },
+    "N1391": {
+      "canonical_ledger": "source_slice_ledger.N1391",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "source_symbols": [
+        "unit_payload_requirements.class_expr",
+        "unit_payload_requirements.field_expr",
+        "unit_payload_requirements.override_expr",
+        "unit_payload_requirements.method",
+        "unit_payload_requirements.unit_type",
+        "unit_payload_requirements.total_requirements",
+        "unit_payload_requirements.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_requirements_bridge_state"
+    },
+    "N1392": {
+      "canonical_ledger": "source_slice_ledger.N1392",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "source_symbols": [
+        "unit_payload_build_time.class_expr",
+        "unit_payload_build_time.field_expr",
+        "unit_payload_build_time.override_expr",
+        "unit_payload_build_time.method",
+        "unit_payload_build_time.unit_type",
+        "unit_payload_build_time.build_time",
+        "unit_payload_build_time.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_build_time_bridge_state"
+    },
+    "N1393": {
+      "canonical_ledger": "source_slice_ledger.N1393",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "source_symbols": [
+        "unit_payload_write.class_expr",
+        "unit_payload_write.field_expr",
+        "unit_payload_write.override_expr",
+        "unit_payload_write.method",
+        "unit_payload_write.payload_unit",
+        "unit_payload_write.unit_class_id",
+        "unit_payload_write.payload_unit_write_expr",
+        "unit_payload_write.unit_class_id_write_expr",
+        "unit_payload_write.unit_write_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_write_bridge_state"
+    },
+    "N1394": {
+      "canonical_ledger": "source_slice_ledger.N1394",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_unit_payload_set_state",
+      "source_symbols": [
+        "unit_payload_set.class_expr",
+        "unit_payload_set.field_expr",
+        "unit_payload_set.override_expr",
+        "unit_payload_set.method",
+        "unit_payload_set.x",
+        "unit_payload_set.y",
+        "unit_payload_set.rotation",
+        "unit_payload_set.set_expr",
+        "unit_payload_set.rotation_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_set_to_source_state",
+        "test_port_game_exposes_source_unit_payload_set_state",
+        "test_port_game_exposes_generated_unit_payload_set_bridge_state",
+        "test_unit_payload_set_matches_upstream_source",
+        "test_generated_unit_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_set_bridge_state"
+    },
+    "N1395": {
+      "canonical_ledger": "source_slice_ledger.N1395",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.x()",
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "source_symbols": [
+        "unit_payload_x.class_expr",
+        "unit_payload_x.field_expr",
+        "unit_payload_x.override_expr",
+        "unit_payload_x.method",
+        "unit_payload_x.unit_x",
+        "unit_payload_x.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_x_bridge_state"
+    },
+    "N1396": {
+      "canonical_ledger": "source_slice_ledger.N1396",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.y()",
+      "godot_owner": "PortGame.source_unit_payload_y_state",
+      "source_symbols": [
+        "unit_payload_y.class_expr",
+        "unit_payload_y.field_expr",
+        "unit_payload_y.override_expr",
+        "unit_payload_y.method",
+        "unit_payload_y.unit_y",
+        "unit_payload_y.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_y_to_source_state",
+        "test_port_game_exposes_source_unit_payload_y_state",
+        "test_port_game_exposes_generated_unit_payload_y_bridge_state",
+        "test_unit_payload_y_matches_upstream_source",
+        "test_generated_unit_payload_y_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_y_bridge_state"
+    },
+    "N1397": {
+      "canonical_ledger": "source_slice_ledger.N1397",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.rotation()",
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "source_symbols": [
+        "unit_payload_rotation.class_expr",
+        "unit_payload_rotation.field_expr",
+        "unit_payload_rotation.override_expr",
+        "unit_payload_rotation.method",
+        "unit_payload_rotation.unit_rotation",
+        "unit_payload_rotation.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_rotation_bridge_state"
+    },
+    "N1398": {
+      "canonical_ledger": "source_slice_ledger.N1398",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.size()",
+      "godot_owner": "PortGame.source_unit_payload_size_state",
+      "source_symbols": [
+        "unit_payload_size.class_expr",
+        "unit_payload_size.field_expr",
+        "unit_payload_size.override_expr",
+        "unit_payload_size.method",
+        "unit_payload_size.unit_hit_size",
+        "unit_payload_size.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_size_to_source_state",
+        "test_port_game_exposes_source_unit_payload_size_state",
+        "test_port_game_exposes_generated_unit_payload_size_bridge_state",
+        "test_unit_payload_size_matches_upstream_source",
+        "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_size_bridge_state"
+    },
+    "N1399": {
+      "canonical_ledger": "source_slice_ledger.N1399",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "source_symbols": [
+        "unit_payload_dump_type_null_guard.class_expr",
+        "unit_payload_dump_type_null_guard.field_expr",
+        "unit_payload_dump_type_null_guard.override_expr",
+        "unit_payload_dump_type_null_guard.method",
+        "unit_payload_dump_type_null_guard.todo_comment",
+        "unit_payload_dump_type_null_guard.unit_type_null",
+        "unit_payload_dump_type_null_guard.guard_expr",
+        "unit_payload_dump_type_null_guard.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_type_null_guard_bridge_state"
+    },
+    "N1400": {
+      "canonical_ledger": "source_slice_ledger.N1400",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
+      "source_symbols": [
+        "unit_payload_dump_can_create_guard.class_expr",
+        "unit_payload_dump_can_create_guard.field_expr",
+        "unit_payload_dump_can_create_guard.field_overlay_time_expr",
+        "unit_payload_dump_can_create_guard.field_overlay_region_expr",
+        "unit_payload_dump_can_create_guard.override_expr",
+        "unit_payload_dump_can_create_guard.method",
+        "unit_payload_dump_can_create_guard.todo_comment",
+        "unit_payload_dump_can_create_guard.unit_type_null",
+        "unit_payload_dump_can_create_guard.type_null_guard_expr",
+        "unit_payload_dump_can_create_guard.units_can_create",
+        "unit_payload_dump_can_create_guard.can_create_guard_expr",
+        "unit_payload_dump_can_create_guard.overlay_time_assign_expr",
+        "unit_payload_dump_can_create_guard.overlay_region_assign_expr",
+        "unit_payload_dump_can_create_guard.return_false_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_can_create_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_can_create_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_can_create_guard_bridge_state",
+        "test_unit_payload_dump_can_create_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_can_create_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_can_create_guard_bridge_state"
+    },
+    "N1401": {
+      "canonical_ledger": "source_slice_ledger.N1401",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
+      "source_symbols": [
+        "unit_payload_dump_solidity_guard.class_expr",
+        "unit_payload_dump_solidity_guard.field_expr",
+        "unit_payload_dump_solidity_guard.field_overlay_time_expr",
+        "unit_payload_dump_solidity_guard.field_overlay_region_expr",
+        "unit_payload_dump_solidity_guard.override_expr",
+        "unit_payload_dump_solidity_guard.method",
+        "unit_payload_dump_solidity_guard.type_null_guard_expr",
+        "unit_payload_dump_solidity_guard.unit_type_null",
+        "unit_payload_dump_solidity_guard.can_create_guard_expr",
+        "unit_payload_dump_solidity_guard.units_can_create",
+        "unit_payload_dump_solidity_guard.solidity_comment_expr",
+        "unit_payload_dump_solidity_guard.solid_assign_expr",
+        "unit_payload_dump_solidity_guard.solid_present",
+        "unit_payload_dump_solidity_guard.solid_guard_expr",
+        "unit_payload_dump_solidity_guard.unit_rotation",
+        "unit_payload_dump_solidity_guard.unit_x",
+        "unit_payload_dump_solidity_guard.unit_y",
+        "unit_payload_dump_solidity_guard.trns_expr",
+        "unit_payload_dump_solidity_guard.vec2_trns_amount_expr",
+        "unit_payload_dump_solidity_guard.vec2_trns_amount_return_expr",
+        "unit_payload_dump_solidity_guard.tile_assign_expr",
+        "unit_payload_dump_solidity_guard.tx",
+        "unit_payload_dump_solidity_guard.ty",
+        "unit_payload_dump_solidity_guard.world_to_tile_method",
+        "unit_payload_dump_solidity_guard.world_to_tile_return",
+        "unit_payload_dump_solidity_guard.vars_tilesize_field",
+        "unit_payload_dump_solidity_guard.solid_block_comment_expr",
+        "unit_payload_dump_solidity_guard.solid_solid",
+        "unit_payload_dump_solidity_guard.solid_solid_guard_expr",
+        "unit_payload_dump_solidity_guard.return_false_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_solidity_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_solidity_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_solidity_guard_bridge_state",
+        "test_unit_payload_dump_solidity_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_solidity_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_solidity_guard_bridge_state"
+    },
+    "N1402": {
+      "canonical_ledger": "source_slice_ledger.N1402",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "source_symbols": [
+        "unit_payload_dump_overlap_guard.can_create_guard_expr",
+        "unit_payload_dump_overlap_guard.class_expr",
+        "unit_payload_dump_overlap_guard.field_expr",
+        "unit_payload_dump_overlap_guard.field_overlay_region_expr",
+        "unit_payload_dump_overlap_guard.field_overlay_time_expr",
+        "unit_payload_dump_overlap_guard.method",
+        "unit_payload_dump_overlap_guard.override_expr",
+        "unit_payload_dump_overlap_guard.return_false_expr",
+        "unit_payload_dump_overlap_guard.solid_assign_expr",
+        "unit_payload_dump_overlap_guard.solid_block_comment_expr",
+        "unit_payload_dump_overlap_guard.solid_guard_expr",
+        "unit_payload_dump_overlap_guard.solid_present",
+        "unit_payload_dump_overlap_guard.solid_solid",
+        "unit_payload_dump_overlap_guard.solid_solid_guard_expr",
+        "unit_payload_dump_overlap_guard.solidity_comment_expr",
+        "unit_payload_dump_overlap_guard.tile_assign_expr",
+        "unit_payload_dump_overlap_guard.trns_expr",
+        "unit_payload_dump_overlap_guard.tx",
+        "unit_payload_dump_overlap_guard.ty",
+        "unit_payload_dump_overlap_guard.type_null_guard_expr",
+        "unit_payload_dump_overlap_guard.unit_rotation",
+        "unit_payload_dump_overlap_guard.unit_type_null",
+        "unit_payload_dump_overlap_guard.unit_x",
+        "unit_payload_dump_overlap_guard.unit_y",
+        "unit_payload_dump_overlap_guard.units_can_create",
+        "unit_payload_dump_overlap_guard.vars_tilesize_field",
+        "unit_payload_dump_overlap_guard.vec2_trns_amount_expr",
+        "unit_payload_dump_overlap_guard.vec2_trns_amount_return_expr",
+        "unit_payload_dump_overlap_guard.world_to_tile_method",
+        "unit_payload_dump_overlap_guard.world_to_tile_return",
+        "unit_payload_dump_overlap_guard.overlap_comment_expr",
+        "unit_payload_dump_overlap_guard.overlap_guard_expr",
+        "unit_payload_dump_overlap_guard.unit_type_flying",
+        "unit_payload_dump_overlap_guard.unit_physic_size",
+        "unit_payload_dump_overlap_guard.units_count",
+        "unit_payload_dump_overlap_guard.overlap_radius",
+        "unit_payload_dump_overlap_guard.physic_size_expr",
+        "unit_payload_dump_overlap_guard.radius_multiplier_expr",
+        "unit_payload_dump_overlap_guard.predicate_is_grounded_expr",
+        "unit_payload_dump_overlap_guard.predicate_allow_leg_step_expr",
+        "unit_payload_dump_overlap_guard.client_dumping_comment_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_overlap_guard_bridge_state"
+    },
+    "N1403": {
+      "canonical_ledger": "source_slice_ledger.N1403",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
+      "source_symbols": [
+        "unit_payload_dump_no_client_guard.can_create_guard_expr",
+        "unit_payload_dump_no_client_guard.class_expr",
+        "unit_payload_dump_no_client_guard.field_expr",
+        "unit_payload_dump_no_client_guard.field_overlay_region_expr",
+        "unit_payload_dump_no_client_guard.field_overlay_time_expr",
+        "unit_payload_dump_no_client_guard.method",
+        "unit_payload_dump_no_client_guard.override_expr",
+        "unit_payload_dump_no_client_guard.return_false_expr",
+        "unit_payload_dump_no_client_guard.solid_assign_expr",
+        "unit_payload_dump_no_client_guard.solid_block_comment_expr",
+        "unit_payload_dump_no_client_guard.solid_guard_expr",
+        "unit_payload_dump_no_client_guard.solid_present",
+        "unit_payload_dump_no_client_guard.solid_solid",
+        "unit_payload_dump_no_client_guard.solid_solid_guard_expr",
+        "unit_payload_dump_no_client_guard.solidity_comment_expr",
+        "unit_payload_dump_no_client_guard.tile_assign_expr",
+        "unit_payload_dump_no_client_guard.trns_expr",
+        "unit_payload_dump_no_client_guard.tx",
+        "unit_payload_dump_no_client_guard.ty",
+        "unit_payload_dump_no_client_guard.type_null_guard_expr",
+        "unit_payload_dump_no_client_guard.unit_rotation",
+        "unit_payload_dump_no_client_guard.unit_type_null",
+        "unit_payload_dump_no_client_guard.unit_x",
+        "unit_payload_dump_no_client_guard.unit_y",
+        "unit_payload_dump_no_client_guard.units_can_create",
+        "unit_payload_dump_no_client_guard.vars_tilesize_field",
+        "unit_payload_dump_no_client_guard.vec2_trns_amount_expr",
+        "unit_payload_dump_no_client_guard.vec2_trns_amount_return_expr",
+        "unit_payload_dump_no_client_guard.world_to_tile_method",
+        "unit_payload_dump_no_client_guard.world_to_tile_return",
+        "unit_payload_dump_no_client_guard.overlap_comment_expr",
+        "unit_payload_dump_no_client_guard.overlap_guard_expr",
+        "unit_payload_dump_no_client_guard.unit_type_flying",
+        "unit_payload_dump_no_client_guard.unit_physic_size",
+        "unit_payload_dump_no_client_guard.units_count",
+        "unit_payload_dump_no_client_guard.overlap_radius",
+        "unit_payload_dump_no_client_guard.physic_size_expr",
+        "unit_payload_dump_no_client_guard.radius_multiplier_expr",
+        "unit_payload_dump_no_client_guard.predicate_is_grounded_expr",
+        "unit_payload_dump_no_client_guard.predicate_allow_leg_step_expr",
+        "unit_payload_dump_no_client_guard.client_dumping_comment_expr",
+        "unit_payload_dump_no_client_guard.net_client_guard_expr",
+        "unit_payload_dump_no_client_guard.vars_net_field",
+        "unit_payload_dump_no_client_guard.return_true_expr",
+        "unit_payload_dump_no_client_guard.prevents_stacking_comment_expr",
+        "unit_payload_dump_no_client_guard.net_client",
+        "unit_payload_dump_no_client_guard.before_client_returned",
+        "unit_payload_dump_no_client_guard.net_client_evaluated",
+        "unit_payload_dump_no_client_guard.client_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_no_client_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_no_client_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state",
+        "test_unit_payload_dump_no_client_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_no_client_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_no_client_guard_bridge_state"
+    },
+    "N1404": {
+      "canonical_ledger": "source_slice_ledger.N1404",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "source_symbols": [
+        "unit_payload_dump_spawn_side_effects.can_create_guard_expr",
+        "unit_payload_dump_spawn_side_effects.class_expr",
+        "unit_payload_dump_spawn_side_effects.field_expr",
+        "unit_payload_dump_spawn_side_effects.field_overlay_region_expr",
+        "unit_payload_dump_spawn_side_effects.field_overlay_time_expr",
+        "unit_payload_dump_spawn_side_effects.method",
+        "unit_payload_dump_spawn_side_effects.override_expr",
+        "unit_payload_dump_spawn_side_effects.return_false_expr",
+        "unit_payload_dump_spawn_side_effects.solid_assign_expr",
+        "unit_payload_dump_spawn_side_effects.solid_block_comment_expr",
+        "unit_payload_dump_spawn_side_effects.solid_guard_expr",
+        "unit_payload_dump_spawn_side_effects.solid_present",
+        "unit_payload_dump_spawn_side_effects.solid_solid",
+        "unit_payload_dump_spawn_side_effects.solid_solid_guard_expr",
+        "unit_payload_dump_spawn_side_effects.solidity_comment_expr",
+        "unit_payload_dump_spawn_side_effects.tile_assign_expr",
+        "unit_payload_dump_spawn_side_effects.trns_expr",
+        "unit_payload_dump_spawn_side_effects.tx",
+        "unit_payload_dump_spawn_side_effects.ty",
+        "unit_payload_dump_spawn_side_effects.type_null_guard_expr",
+        "unit_payload_dump_spawn_side_effects.unit_rotation",
+        "unit_payload_dump_spawn_side_effects.unit_type_null",
+        "unit_payload_dump_spawn_side_effects.unit_x",
+        "unit_payload_dump_spawn_side_effects.unit_y",
+        "unit_payload_dump_spawn_side_effects.units_can_create",
+        "unit_payload_dump_spawn_side_effects.vars_tilesize_field",
+        "unit_payload_dump_spawn_side_effects.vec2_trns_amount_expr",
+        "unit_payload_dump_spawn_side_effects.vec2_trns_amount_return_expr",
+        "unit_payload_dump_spawn_side_effects.world_to_tile_method",
+        "unit_payload_dump_spawn_side_effects.world_to_tile_return",
+        "unit_payload_dump_spawn_side_effects.overlap_comment_expr",
+        "unit_payload_dump_spawn_side_effects.overlap_guard_expr",
+        "unit_payload_dump_spawn_side_effects.unit_type_flying",
+        "unit_payload_dump_spawn_side_effects.unit_physic_size",
+        "unit_payload_dump_spawn_side_effects.units_count",
+        "unit_payload_dump_spawn_side_effects.overlap_radius",
+        "unit_payload_dump_spawn_side_effects.physic_size_expr",
+        "unit_payload_dump_spawn_side_effects.radius_multiplier_expr",
+        "unit_payload_dump_spawn_side_effects.predicate_is_grounded_expr",
+        "unit_payload_dump_spawn_side_effects.predicate_allow_leg_step_expr",
+        "unit_payload_dump_spawn_side_effects.client_dumping_comment_expr",
+        "unit_payload_dump_spawn_side_effects.net_client_guard_expr",
+        "unit_payload_dump_spawn_side_effects.vars_net_field",
+        "unit_payload_dump_spawn_side_effects.return_true_expr",
+        "unit_payload_dump_spawn_side_effects.prevents_stacking_comment_expr",
+        "unit_payload_dump_spawn_side_effects.net_client",
+        "unit_payload_dump_spawn_side_effects.before_client_returned",
+        "unit_payload_dump_spawn_side_effects.net_client_evaluated",
+        "unit_payload_dump_spawn_side_effects.client_guard",
+        "unit_payload_dump_spawn_side_effects.velocity_add_expr",
+        "unit_payload_dump_spawn_side_effects.mathf_range_float_method",
+        "unit_payload_dump_spawn_side_effects.mathf_range_float_return",
+        "unit_payload_dump_spawn_side_effects.unit_add_expr",
+        "unit_payload_dump_spawn_side_effects.unit_unloaded_expr",
+        "unit_payload_dump_spawn_side_effects.event_fire_expr",
+        "unit_payload_dump_spawn_side_effects.unit_unload_event_comment",
+        "unit_payload_dump_spawn_side_effects.unit_unload_event_class",
+        "unit_payload_dump_spawn_side_effects.unit_unload_event_constructor",
+        "unit_payload_dump_spawn_side_effects.notify_unit_spawn_expr",
+        "unit_payload_dump_spawn_side_effects.notify_unit_spawn_method",
+        "unit_payload_dump_spawn_side_effects.notify_unit_spawn_guard",
+        "unit_payload_dump_spawn_side_effects.final_return_true_expr",
+        "unit_payload_dump_spawn_side_effects.range_x",
+        "unit_payload_dump_spawn_side_effects.range_y",
+        "unit_payload_dump_spawn_side_effects.unit_id",
+        "unit_payload_dump_spawn_side_effects.before_spawn_returned",
+        "unit_payload_dump_spawn_side_effects.spawn_evaluated"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_spawn_side_effects_bridge_state"
+    },
+    "N1405": {
+      "canonical_ledger": "source_slice_ledger.N1405",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+      "source_symbols": [
+        "unit_payload_draw_shadow_type_null.class_expr",
+        "unit_payload_draw_shadow_type_null.field_expr",
+        "unit_payload_draw_shadow_type_null.override_expr",
+        "unit_payload_draw_shadow_type_null.method",
+        "unit_payload_draw_shadow_type_null.todo_comment_expr",
+        "unit_payload_draw_shadow_type_null.type_null_guard_expr",
+        "unit_payload_draw_shadow_type_null.draw_soft_shadow_expr",
+        "unit_payload_draw_shadow_type_null.unit_type_null",
+        "unit_payload_draw_shadow_type_null.alpha",
+        "unit_payload_draw_shadow_type_null.unit_id"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state",
+        "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_shadow_type_null_bridge_state"
+    },
+    "N1406": {
+      "canonical_ledger": "source_slice_ledger.N1406",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.draw()",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "source_symbols": [
+        "unit_payload_draw_type_null.class_expr",
+        "unit_payload_draw_type_null.field_expr",
+        "unit_payload_draw_type_null.override_expr",
+        "unit_payload_draw_type_null.method",
+        "unit_payload_draw_type_null.todo_comment_expr",
+        "unit_payload_draw_type_null.type_null_guard_expr",
+        "unit_payload_draw_type_null.next_expr",
+        "unit_payload_draw_type_null.unit_type_null"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_type_null_bridge_state"
+    },
+    "N1407": {
+      "canonical_ledger": "source_slice_ledger.N1407",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.draw()",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "source_symbols": [
+        "unit_payload_draw_elevation_setup.class_expr",
+        "unit_payload_draw_elevation_setup.field_expr",
+        "unit_payload_draw_elevation_setup.override_expr",
+        "unit_payload_draw_elevation_setup.method",
+        "unit_payload_draw_elevation_setup.type_null_guard_expr",
+        "unit_payload_draw_elevation_setup.elevation_snapshot_expr",
+        "unit_payload_draw_elevation_setup.elevation_zero_expr",
+        "unit_payload_draw_elevation_setup.draw_scl_expr",
+        "unit_payload_draw_elevation_setup.unit_type_draw_expr",
+        "unit_payload_draw_elevation_setup.elevation_restore_expr",
+        "unit_payload_draw_elevation_setup.next_expr",
+        "unit_payload_draw_elevation_setup.unit_type_null",
+        "unit_payload_draw_elevation_setup.unit_elevation",
+        "unit_payload_draw_elevation_setup.unit_id"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_elevation_setup_bridge_state"
+    },
+    "N1408": {
+      "canonical_ledger": "source_slice_ledger.N1408",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.draw()",
+      "godot_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
+      "source_symbols": [
+        "unit_payload_draw_overlay_warning.class_expr",
+        "unit_payload_draw_overlay_warning.overlay_duration_field_expr",
+        "unit_payload_draw_overlay_warning.overlay_time_field_expr",
+        "unit_payload_draw_overlay_warning.overlay_region_field_expr",
+        "unit_payload_draw_overlay_warning.method",
+        "unit_payload_draw_overlay_warning.draw_warning_comment_expr",
+        "unit_payload_draw_overlay_warning.overlay_guard_expr",
+        "unit_payload_draw_overlay_warning.draw_z_snapshot_expr",
+        "unit_payload_draw_overlay_warning.draw_z_warning_expr",
+        "unit_payload_draw_overlay_warning.region_expr",
+        "unit_payload_draw_overlay_warning.draw_color_expr",
+        "unit_payload_draw_overlay_warning.draw_alpha_expr",
+        "unit_payload_draw_overlay_warning.size_expr",
+        "unit_payload_draw_overlay_warning.draw_rect_expr",
+        "unit_payload_draw_overlay_warning.draw_reset_expr",
+        "unit_payload_draw_overlay_warning.overlay_time_update_expr",
+        "unit_payload_draw_overlay_warning.draw_z_restore_expr",
+        "unit_payload_draw_overlay_warning.unit_type_null",
+        "unit_payload_draw_overlay_warning.unit_elevation",
+        "unit_payload_draw_overlay_warning.unit_id",
+        "unit_payload_draw_overlay_warning.overlay_time",
+        "unit_payload_draw_overlay_warning.overlay_region",
+        "unit_payload_draw_overlay_warning.unit_x",
+        "unit_payload_draw_overlay_warning.unit_y",
+        "unit_payload_draw_overlay_warning.time_delta",
+        "unit_payload_draw_overlay_warning.draw_z_before",
+        "unit_payload_draw_overlay_warning.interp_exp5_out_overlay_time"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_overlay_warning_state",
+        "test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state",
+        "test_unit_payload_draw_overlay_warning_matches_upstream_source",
+        "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_overlay_warning_bridge_state"
+    },
+    "N1409": {
+      "canonical_ledger": "source_slice_ledger.N1409",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.icon()",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "source_symbols": [
+        "unit_payload_icon.class_expr",
+        "unit_payload_icon.field_expr",
+        "unit_payload_icon.override_expr",
+        "unit_payload_icon.method",
+        "unit_payload_icon.return_expr",
+        "unit_payload_icon.unit_type_full_icon"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_payload_icon_bridge_state"
+    },
+    "N1410": {
+      "canonical_ledger": "source_slice_ledger.N1410",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducer.icons()",
+      "godot_owner": "PortGame.source_block_producer_icons_state",
+      "source_symbols": [
+        "block_producer_icons.class_expr",
+        "block_producer_icons.override_expr",
+        "block_producer_icons.method",
+        "block_producer_icons.return_expr",
+        "block_producer_icons.region",
+        "block_producer_icons.out_region",
+        "block_producer_icons.top_region"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_icons_to_source_state",
+        "test_port_game_exposes_source_block_producer_icons_state",
+        "test_port_game_exposes_generated_block_producer_icons_bridge_state",
+        "test_block_producer_icons_matches_upstream_source",
+        "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_icons_bridge_state"
+    },
+    "N1411": {
+      "canonical_ledger": "source_slice_ledger.N1411",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "source_symbols": [
+        "block_producer_draw_plan_region.class_expr",
+        "block_producer_draw_plan_region.override_expr",
+        "block_producer_draw_plan_region.method",
+        "block_producer_draw_plan_region.draw_region_expr",
+        "block_producer_draw_plan_region.draw_out_region_expr",
+        "block_producer_draw_plan_region.draw_top_region_expr",
+        "block_producer_draw_plan_region.region",
+        "block_producer_draw_plan_region.out_region",
+        "block_producer_draw_plan_region.top_region",
+        "block_producer_draw_plan_region.plan_drawx",
+        "block_producer_draw_plan_region.plan_drawy",
+        "block_producer_draw_plan_region.plan_rotation",
+        "block_producer_draw_plan_region.out_region_rotation",
+        "block_producer_draw_plan_region.draw_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_draw_plan_region_bridge_state"
+    },
+    "N1412": {
+      "canonical_ledger": "source_slice_ledger.N1412",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "source_symbols": [
+        "block_producer_set_bars.class_expr",
+        "block_producer_set_bars.override_expr",
+        "block_producer_set_bars.method",
+        "block_producer_set_bars.super_set_bars_expr",
+        "block_producer_set_bars.add_bar_expr",
+        "block_producer_set_bars.bar_text",
+        "block_producer_set_bars.bar_color",
+        "block_producer_set_bars.recipe_null",
+        "block_producer_set_bars.entity_progress",
+        "block_producer_set_bars.recipe_build_time",
+        "block_producer_set_bars.progress_bar_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_set_bars_bridge_state"
+    },
+    "N1413": {
+      "canonical_ledger": "source_slice_ledger.N1413",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "source_symbols": [
+        "block_producer_build_accept_item.method",
+        "block_producer_build_accept_item.return_expr",
+        "block_producer_build_accept_item.item_count",
+        "block_producer_build_accept_item.maximum_accepted"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_accept_item_bridge_state"
+    },
+    "N1414": {
+      "canonical_ledger": "source_slice_ledger.N1414",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+      "source_symbols": [
+        "block_producer_build_get_maximum_accepted.method",
+        "block_producer_build_get_maximum_accepted.null_guard",
+        "block_producer_build_get_maximum_accepted.recipe_requirements",
+        "block_producer_build_get_maximum_accepted.stack_item",
+        "block_producer_build_get_maximum_accepted.stack_amount",
+        "block_producer_build_get_maximum_accepted.final_return"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
+        "test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state",
+        "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
+        "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_get_maximum_accepted_bridge_state"
+    },
+    "N1415": {
+      "canonical_ledger": "source_slice_ledger.N1415",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_payload_state",
+      "source_symbols": [
+        "block_producer_build_accept_payload.method",
+        "block_producer_build_accept_payload.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_accept_payload_bridge_state"
+    },
+    "N1416": {
+      "canonical_ledger": "source_slice_ledger.N1416",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "source_symbols": [
+        "block_producer_build_should_consume.method",
+        "block_producer_build_should_consume.super_should_consume",
+        "block_producer_build_should_consume.recipe_not_null",
+        "block_producer_build_should_consume.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_should_consume_bridge_state"
+    },
+    "N1417": {
+      "canonical_ledger": "source_slice_ledger.N1417",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_produce_gate.method",
+        "block_producer_build_update_tile_produce_gate.super_update_tile",
+        "block_producer_build_update_tile_produce_gate.recipe_not_null",
+        "block_producer_build_update_tile_produce_gate.efficiency_positive",
+        "block_producer_build_update_tile_produce_gate.payload_null",
+        "block_producer_build_update_tile_produce_gate.produce_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_produce_gate_bridge_state"
+    },
+    "N1418": {
+      "canonical_ledger": "source_slice_ledger.N1418",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_progress_accumulation.method",
+        "block_producer_build_update_tile_progress_accumulation.if_produce",
+        "block_producer_build_update_tile_progress_accumulation.progress_before",
+        "block_producer_build_update_tile_progress_accumulation.build_speed",
+        "block_producer_build_update_tile_progress_accumulation.edelta",
+        "block_producer_build_update_tile_progress_accumulation.progress_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_progress_accumulation_bridge_state"
+    },
+    "N1419": {
+      "canonical_ledger": "source_slice_ledger.N1419",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_completion_guard.method",
+        "block_producer_build_update_tile_completion_guard.progress",
+        "block_producer_build_update_tile_completion_guard.recipe_build_time",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_completion_guard.consume_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_completion_guard_bridge_state"
+    },
+    "N1420": {
+      "canonical_ledger": "source_slice_ledger.N1420",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_payload_creation.method",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_payload_creation.payload_expr",
+        "block_producer_build_update_tile_payload_creation.place_effect_expr",
+        "block_producer_build_update_tile_payload_creation.recipe",
+        "block_producer_build_update_tile_payload_creation.team",
+        "block_producer_build_update_tile_payload_creation.x",
+        "block_producer_build_update_tile_payload_creation.y",
+        "block_producer_build_update_tile_payload_creation.payload_size",
+        "block_producer_build_update_tile_payload_creation.tilesize",
+        "block_producer_build_update_tile_payload_creation.effect_radius"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_payload_creation_bridge_state"
+    },
+    "N1421": {
+      "canonical_ledger": "source_slice_ledger.N1421",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_pay_vector_progress_reset.method",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_field",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_field",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_before",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_set_zero_expr",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_modulo_expr",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_after",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_after"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state"
+    },
+    "N1422": {
+      "canonical_ledger": "source_slice_ledger.N1422",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() heat/time",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_heat_time.method",
+        "block_producer_build_update_tile_heat_time.field",
+        "block_producer_build_update_tile_produce_gate.produce",
+        "block_producer_build_update_tile_heat_time.produce",
+        "block_producer_build_update_tile_heat_time.heat_before",
+        "block_producer_build_update_tile_heat_time.time_before",
+        "block_producer_build_update_tile_heat_time.time_delta",
+        "block_producer_build_update_tile_heat_time.heat_expr",
+        "block_producer_build_update_tile_heat_time.time_expr",
+        "block_producer_build_update_tile_heat_time.produce_num",
+        "block_producer_build_update_tile_heat_time.heat_after",
+        "block_producer_build_update_tile_heat_time.time_after",
+        "mathf_lerp_delta.method",
+        "arc_mathf_num.method",
+        "building_delta.method"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state",
+        "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_heat_time_bridge_state"
+    },
+    "N1423": {
+      "canonical_ledger": "source_slice_ledger.N1423",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_symbols": [
+        "block_producer_build_update_tile_move_out_payload.method",
+        "payload_block_build_move_out_payload.method",
+        "payload_block_build_move_out_payload.payload_null_guard",
+        "payload_block_build_move_out_payload.dest_expr",
+        "payload_block_build_move_out_payload.pay_rotation_expr",
+        "payload_block_build_move_out_payload.pay_vector_expr",
+        "payload_block_build_move_out_payload.can_dump_expr",
+        "payload_block_build_move_out_payload.can_move_expr",
+        "payload_block_build_move_out_payload.push_output_expr",
+        "payload_block_build_move_out_payload.arrived_guard",
+        "payload_block_build_move_out_payload.payload_after_present",
+        "angles_move_toward.method",
+        "vec2_trns.method",
+        "vec2_approach.method"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_move_out_payload_bridge_state"
+    }
+  }
+}
