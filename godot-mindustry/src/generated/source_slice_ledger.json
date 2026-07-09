@@ -37811,6 +37811,40 @@
         "test_consume_liquid_filter_constructor_matches_upstream_source",
         "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1498": {
+      "title": "Generated ConsumeLiquidFilter apply bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "apply(Block block)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_apply_bridge_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "exact_exprs": [
+        "public void apply(Block block){",
+        "block.hasLiquids = true;",
+        "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);",
+        "block.liquidFilter[item.id] = true",
+        "public @NoPatch boolean hasLiquids;",
+        "public boolean[] itemFilter = {}, liquidFilter = {};"
+      ],
+      "source_symbols": [
+        "consume_liquid_filter_apply.method",
+        "consume_liquid_filter_apply.block_has_liquids_before",
+        "consume_liquid_filter_apply.liquid_filter_before",
+        "consume_liquid_filter_apply.filtered_liquid_ids",
+        "consume_liquid_filter_apply.has_liquids_assignment",
+        "consume_liquid_filter_apply.each",
+        "consume_liquid_filter_apply.liquid_filter_assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

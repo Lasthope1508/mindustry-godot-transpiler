@@ -5200,6 +5200,36 @@ def verify_consume_liquid_filter_display_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    block_text = (upstream_root / block_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void apply(Block block){",
+        "has_liquids_assignment": "block.hasLiquids = true;",
+        "each_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);",
+        "liquid_filter_assignment": "block.liquidFilter[item.id] = true",
+        "block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+        "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+    }
+    source_by_key = {
+        "method": source,
+        "has_liquids_assignment": source,
+        "each_expr": source,
+        "liquid_filter_assignment": source,
+        "block_has_liquids_field": block_text,
+        "block_liquid_filter_field": block_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_filter_source,
+        "sources": [block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     block_source = "core/src/mindustry/world/Block.java"

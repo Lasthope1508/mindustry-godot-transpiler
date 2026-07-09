@@ -3456,6 +3456,125 @@
         "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_apply.method": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public void apply(Block block){",
+      "godot_symbol": "source_consume_liquid_filter_apply_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.block_has_liquids_before": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.block_has_liquids_before",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public @NoPatch boolean hasLiquids;",
+      "godot_symbol": "source_consume_liquid_filter_apply_input.block_has_liquids_before",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.liquid_filter_before": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.liquid_filter_before",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};",
+      "godot_symbol": "source_consume_liquid_filter_apply_input.liquid_filter_before",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.filtered_liquid_ids": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.filtered_liquid_ids",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true)",
+      "godot_symbol": "source_consume_liquid_filter_apply_input.filtered_liquid_ids",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.has_liquids_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.has_liquids_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasLiquids = true;",
+      "godot_symbol": "source_consume_liquid_filter_apply_result.block_has_liquids_after",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.each": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.each",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);",
+      "godot_symbol": "source_consume_liquid_filter_apply_result.filtered_liquid_ids",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
+    },
+    "consume_liquid_filter_apply.liquid_filter_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_apply.liquid_filter_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.liquidFilter[item.id] = true",
+      "godot_symbol": "source_consume_liquid_filter_apply_result.liquid_filter_after",
+      "godot_owner": "PortGame.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state"
     }
   }
 }

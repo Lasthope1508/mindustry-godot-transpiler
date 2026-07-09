@@ -14,7 +14,14 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_apply_0(_args: Array = []) -> Variant:
-	return null
+	var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)
+	var liquid_filter_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
+	var liquid_filter_after: Array = liquid_filter_before.duplicate()
+	for liquid_id in filtered_liquid_ids:
+		liquid_filter_after[int(liquid_id)] = true
+	var block_has_liquids_after: bool = true
+	return {"source_owner": "PortGame.source_consume_liquid_filter_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void apply(Block block){", "has_liquids_assignment_expr": "block.hasLiquids = true;", "each_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);", "liquid_filter_assignment_expr": "block.liquidFilter[item.id] = true", "block_has_liquids_field": "public @NoPatch boolean hasLiquids;", "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "liquid_filter_before": liquid_filter_before, "filtered_liquid_ids": filtered_liquid_ids, "liquid_filter_after": liquid_filter_after}
 
 func java_method_build_1(_args: Array = []) -> Variant:
 	return null

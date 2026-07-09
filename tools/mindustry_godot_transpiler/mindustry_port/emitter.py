@@ -1738,6 +1738,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "apply"
+    ):
+        return [
+            "\tvar block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid_filter_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar liquid_filter_after: Array = liquid_filter_before.duplicate()",
+            "\tfor liquid_id in filtered_liquid_ids:",
+            "\t\tliquid_filter_after[int(liquid_id)] = true",
+            "\tvar block_has_liquids_after: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void apply(Block block){", "has_liquids_assignment_expr": "block.hasLiquids = true;", "each_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true);", "liquid_filter_assignment_expr": "block.liquidFilter[item.id] = true", "block_has_liquids_field": "public @NoPatch boolean hasLiquids;", "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "liquid_filter_before": liquid_filter_before, "filtered_liquid_ids": filtered_liquid_ids, "liquid_filter_after": liquid_filter_after}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "display"
     ):
         return [

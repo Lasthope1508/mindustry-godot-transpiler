@@ -880,6 +880,56 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state",
       "rule": "Source state mirrors typed ConsumeLiquidFilter constructor fields and assignments while treating Boolf<Liquid> as an explicit handle until concrete Liquid predicates are ported."
+    },
+    "PortGame.source_consume_liquid_filter_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_apply_state",
+      "status": "source-backed",
+      "source_slice": "N1498",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "name": "block_has_liquids_before",
+          "type": "bool",
+          "schema": "source_consume_liquid_filter_apply_input.block_has_liquids_before",
+          "java_expr": "public @NoPatch boolean hasLiquids;"
+        },
+        {
+          "name": "liquid_filter_before",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_apply_input.liquid_filter_before",
+          "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};"
+        },
+        {
+          "name": "filtered_liquid_ids",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_apply_input.filtered_liquid_ids",
+          "java_expr": "content.liquids().each(filter, item -> block.liquidFilter[item.id] = true)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "has_liquids_assignment_expr",
+        "each_expr",
+        "liquid_filter_assignment_expr",
+        "block_has_liquids_field",
+        "block_liquid_filter_field",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "liquid_filter_before",
+        "filtered_liquid_ids",
+        "liquid_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state",
+        "test_consume_liquid_filter_apply_matches_upstream_source",
+        "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_apply_state",
+      "rule": "Source apply sets block.hasLiquids true and marks liquidFilter for each explicitly filtered liquid id selected by content.liquids().each(filter, ...), without executing Boolf<Liquid> yet."
     }
   }
 }
