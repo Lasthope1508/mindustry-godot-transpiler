@@ -124327,6 +124327,108 @@
         "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_item_flammable_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public ConsumeItemFlammable(float minFlammability){",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical ConsumeItemFlammable minFlammability constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.min_flammability": {
+      "status": "explicit-input",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "float minFlammability",
+      "godot_symbol": "source_consume_item_flammable_constructor_input.min_flammability",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor minFlammability argument supplied explicitly.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.min_flammability_field": {
+      "status": "source-backed",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public float minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.min_flammability_field",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical minimum flammability field.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor assigns minFlammability argument to field.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.filter": {
+      "status": "source-backed",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "filter = item -> item.flammability >= this.minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor installs flammability threshold filter expression.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.item_flammability_field": {
+      "status": "source-backed",
+      "source_slice": "N1480",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public float flammability = 0f;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.item_flammability_field",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical Item.flammability field used by constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
     }
   },
   "version": 1

@@ -37337,6 +37337,38 @@
         "test_consume_items_default_constructor_matches_upstream_source",
         "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1480": {
+      "title": "Generated ConsumeItemFlammable constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_class": "ConsumeItemFlammable",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_0",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_flammable_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItemFlammable constructor field assignment and filter expression without executing live Boolf<Item>.",
+      "exact_exprs": [
+        "public float minFlammability;",
+        "public ConsumeItemFlammable(float minFlammability){",
+        "this.minFlammability = minFlammability;",
+        "filter = item -> item.flammability >= this.minFlammability;",
+        "public float flammability = 0f;"
+      ],
+      "source_symbols": [
+        "consume_item_flammable_constructor.min_flammability_field",
+        "consume_item_flammable_constructor.constructor",
+        "consume_item_flammable_constructor.min_flammability",
+        "consume_item_flammable_constructor.assignment",
+        "consume_item_flammable_constructor.filter",
+        "consume_item_flammable_constructor.item_flammability_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -2329,6 +2329,33 @@ func generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(it
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_item_flammable_constructor_state(min_flammability: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_flammable_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+		"constructor": "public ConsumeItemFlammable(float minFlammability){",
+		"min_flammability_field": "public float minFlammability;",
+		"assignment_expr": "this.minFlammability = minFlammability;",
+		"filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;",
+		"filter_expr": "item -> item.flammability >= this.minFlammability",
+		"item_flammability_field": "public float flammability = 0f;",
+		"min_flammability": min_flammability,
+		"min_flammability_after": min_flammability,
+	}
+
+func generated_consume_item_flammable_constructor_bridge_state(min_flammability: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemFlammable_0([min_flammability])
+	var canonical = source_consume_item_flammable_constructor_state(min_flammability)
+	return {
+		"source_owner": "PortGame.source_consume_item_flammable_constructor_state",
+		"generated_owner": "ConsumeItemFlammable.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
+	}
+
 func source_consume_item_explosive_item_efficiency_multiplier_state(item_explosiveness: float) -> Dictionary:
 	return {
 		"method": "public float itemEfficiencyMultiplier(Item item){",

@@ -399,6 +399,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFlammable.itemEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_flammable_constructor_state(min_flammability: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_flammable_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemFlammable(float minFlammability){"', source)
+        self.assertIn('"assignment_expr": "this.minFlammability = minFlammability;"', source)
+        self.assertIn('"filter_expr": "item -> item.flammability >= this.minFlammability"', source)
+        self.assertIn('"item_flammability_field": "public float flammability = 0f;"', source)
+        self.assertIn("func generated_consume_item_flammable_constructor_bridge_state(min_flammability: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemFlammable_0([min_flammability])", source)
+        self.assertIn("var canonical = source_consume_item_flammable_constructor_state(min_flammability)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_flammable_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemFlammable.constructor"', source)
+        self.assertIn('"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -5902,6 +5902,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(){", "filter_field": "public Boolf<Item> filter = i -> false;", "filter_after": filter_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFlammable.java"
+        and type_entry.get("name") == "ConsumeItemFlammable"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemFlammable_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                    "\tvar min_flammability_after: float = min_flammability",
+                    '\tvar filter_expr: String = "item -> item.flammability >= this.minFlammability"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_flammable_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(float minFlammability){", "min_flammability_field": "public float minFlammability;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "item_flammability_field": "public float flammability = 0f;", "min_flammability": min_flammability, "min_flammability_after": min_flammability_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):
