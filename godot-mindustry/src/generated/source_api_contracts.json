@@ -40222,6 +40222,63 @@
         "test_consume_item_filter_default_constructor_matches_upstream_source",
         "test_generated_consume_item_filter_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_filter_apply_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "apply(Block block)",
+      "source_slice": "N1462",
+      "runtime_proof": "/root/Main.source_consume_item_filter_apply_state",
+      "rule": "Public runtime contract for ConsumeItemFilter.apply source-backed block item acceptance state.",
+      "params": [
+        {
+          "name": "block_has_items_before",
+          "type": "bool",
+          "schema": "source_consume_item_filter_apply_input.block_has_items_before",
+          "java_expr": "public @NoPatch boolean hasItems;"
+        },
+        {
+          "name": "block_accepts_items_before",
+          "type": "bool",
+          "schema": "source_consume_item_filter_apply_input.block_accepts_items_before",
+          "java_expr": "public boolean acceptsItems = false;"
+        },
+        {
+          "name": "item_filter_before",
+          "type": "Array",
+          "schema": "source_consume_item_filter_apply_input.item_filter_before",
+          "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_filter_apply_input.filtered_item_ids",
+          "java_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "has_items_assignment_expr",
+        "accepts_items_assignment_expr",
+        "each_expr",
+        "item_filter_assignment_expr",
+        "filter_field",
+        "block_has_items_before",
+        "block_accepts_items_before",
+        "item_filter_before",
+        "filtered_item_ids",
+        "block_has_items_after",
+        "block_accepts_items_after",
+        "item_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_apply_bridge_state",
+        "test_consume_item_filter_apply_matches_upstream_source",
+        "test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

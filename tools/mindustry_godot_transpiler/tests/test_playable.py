@@ -494,6 +494,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.default_constructor"', source)
         self.assertIn('"matches": result.get("filter_after", null) == canonical.get("filter_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_apply_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_apply_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public void apply(Block block){"', source)
+        self.assertIn('"has_items_assignment_expr": "block.hasItems = true;"', source)
+        self.assertIn('"accepts_items_assignment_expr": "block.acceptsItems = true;"', source)
+        self.assertIn('"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);"', source)
+        self.assertIn('"item_filter_assignment_expr": "block.itemFilter[item.id] = true;"', source)
+        self.assertIn("func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_apply_0([block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids])", source)
+        self.assertIn("var canonical = source_consume_item_filter_apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_apply_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.apply"', source)
+        self.assertIn('"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", [])', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

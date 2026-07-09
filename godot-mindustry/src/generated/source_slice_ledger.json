@@ -36641,6 +36641,51 @@
         "test_consume_item_filter_default_constructor_matches_upstream_source",
         "test_generated_consume_item_filter_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1462": {
+      "title": "Generated ConsumeItemFilter apply bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemFilter",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "apply(Block block)",
+      "generated_owner": "ConsumeItemFilter.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_item_filter_apply_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_apply_bridge_state",
+      "rule": "Generated ConsumeItemFilter.apply bridges block item acceptance assignments and filtered itemFilter mutation without inventing live Boolf execution.",
+      "exact_exprs": [
+        "public Boolf<Item> filter = i -> false;",
+        "public void apply(Block block){",
+        "block.hasItems = true;",
+        "block.acceptsItems = true;",
+        "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
+        "public @NoPatch boolean hasItems;",
+        "public boolean acceptsItems = false;",
+        "public boolean[] itemFilter = {}, liquidFilter = {};"
+      ],
+      "deferred_exprs": [
+        "Concrete Boolf<Item>.get(Item) predicate execution and live content.items() iteration remain deferred; this slice accepts filtered_item_ids as explicit source-backed runtime input."
+      ],
+      "source_symbols": [
+        "consume_item_filter_apply.method",
+        "consume_item_filter_apply.has_items_assignment",
+        "consume_item_filter_apply.accepts_items_assignment",
+        "consume_item_filter_apply.each_expr",
+        "consume_item_filter_apply.item_filter_assignment",
+        "consume_item_filter_apply.filter_field",
+        "consume_item_filter_apply.block_has_items_field",
+        "consume_item_filter_apply.block_accepts_items_field",
+        "consume_item_filter_apply.block_item_filter_field",
+        "consume_item_filter_apply.block_has_items_before",
+        "consume_item_filter_apply.block_accepts_items_before",
+        "consume_item_filter_apply.item_filter_before",
+        "consume_item_filter_apply.filtered_item_ids"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_apply_bridge_state",
+        "test_consume_item_filter_apply_matches_upstream_source",
+        "test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

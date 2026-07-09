@@ -948,6 +948,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_filter_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_apply_source"))
+        report = source_parity.verify_consume_item_filter_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "filter_field": "public Boolf<Item> filter = i -> false;",
+            "method": "public void apply(Block block){",
+            "has_items_assignment": "block.hasItems = true;",
+            "accepts_items_assignment": "block.acceptsItems = true;",
+            "each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
+            "item_filter_assignment": "block.itemFilter[item.id] = true",
+            "block_has_items_field": "public @NoPatch boolean hasItems;",
+            "block_accepts_items_field": "public boolean acceptsItems = false;",
+            "block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")

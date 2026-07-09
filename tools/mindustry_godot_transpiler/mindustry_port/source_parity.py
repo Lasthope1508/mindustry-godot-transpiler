@@ -4222,6 +4222,44 @@ def verify_consume_item_filter_default_constructor_source(upstream_root: Path) -
         "missing": missing,
     }
 
+def verify_consume_item_filter_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    source = (Path(upstream_root) / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    block = (Path(upstream_root) / block_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Item> filter = i -> false;",
+        "method": "public void apply(Block block){",
+        "has_items_assignment": "block.hasItems = true;",
+        "accepts_items_assignment": "block.acceptsItems = true;",
+        "each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
+        "item_filter_assignment": "block.itemFilter[item.id] = true",
+        "block_has_items_field": "public @NoPatch boolean hasItems;",
+        "block_accepts_items_field": "public boolean acceptsItems = false;",
+        "block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+    }
+    source_checks = [
+        checked["filter_field"],
+        checked["method"],
+        checked["has_items_assignment"],
+        checked["accepts_items_assignment"],
+        checked["each_expr"],
+        checked["item_filter_assignment"],
+    ]
+    block_checks = [
+        checked["block_has_items_field"],
+        checked["block_accepts_items_field"],
+        checked["block_item_filter_field"],
+    ]
+    missing = [snippet for snippet in source_checks if snippet not in source]
+    missing.extend(snippet for snippet in block_checks if snippet not in block)
+    return {
+        "source": consume_item_filter_source,
+        "sources": [consume_item_filter_source, block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

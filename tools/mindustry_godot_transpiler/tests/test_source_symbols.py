@@ -14555,6 +14555,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_filter_default_constructor_result")
         self.assertEqual(result_schema["keys"]["filter_after"]["java_expr"], "public Boolf<Item> filter = i -> false;")
 
+    def test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        has_items_assignment = source_symbols.source_symbol(registry, "consume_item_filter_apply.has_items_assignment")
+        self.assertEqual(has_items_assignment["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(has_items_assignment["java_method"], "apply(Block block)")
+        self.assertEqual(has_items_assignment["java_expr"], "block.hasItems = true;")
+        self.assertEqual(has_items_assignment["godot_owner"], "PortGame.source_consume_item_filter_apply_state")
+        self.assertEqual(has_items_assignment["runtime_proof"], "/root/Main.source_consume_item_filter_apply_state")
+        self.assertEqual(has_items_assignment["godot_symbol"], "source_consume_item_filter_apply_result.block_has_items_after")
+
+        item_filter_assignment = source_symbols.source_symbol(registry, "consume_item_filter_apply.item_filter_assignment")
+        self.assertEqual(item_filter_assignment["java_expr"], "block.itemFilter[item.id] = true")
+        self.assertEqual(item_filter_assignment["godot_symbol"], "source_consume_item_filter_apply_result.item_filter_after")
+
+        filtered_item_ids = source_symbols.source_symbol(registry, "consume_item_filter_apply.filtered_item_ids")
+        self.assertEqual(filtered_item_ids["status"], "explicit-input")
+        self.assertEqual(filtered_item_ids["java_expr"], "content.items().each(filter, item -> block.itemFilter[item.id] = true)")
+        self.assertEqual(filtered_item_ids["godot_symbol"], "source_consume_item_filter_apply_input.filtered_item_ids")
+
+        filter_slice = source_symbols.source_slice(ledger, "N1462")
+        self.assertEqual(filter_slice["title"], "Generated ConsumeItemFilter apply bridge state")
+        self.assertEqual(filter_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(filter_slice["java_method"], "apply(Block block)")
+        self.assertEqual(filter_slice["godot_owner"], "PortGame.source_consume_item_filter_apply_state")
+        self.assertEqual(filter_slice["generated_owner"], "ConsumeItemFilter.java_method_apply_0")
+        self.assertEqual(filter_slice["runtime_proof"], "/root/Main.generated_consume_item_filter_apply_bridge_state")
+        for expr in [
+            "public void apply(Block block){",
+            "block.hasItems = true;",
+            "block.acceptsItems = true;",
+            "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
+            "public @NoPatch boolean hasItems;",
+            "public boolean acceptsItems = false;",
+            "public boolean[] itemFilter = {}, liquidFilter = {};",
+        ]:
+            self.assertIn(expr, filter_slice["exact_exprs"])
+        self.assertIn("consume_item_filter_apply.has_items_assignment", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_apply.accepts_items_assignment", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_apply.item_filter_assignment", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_apply.filtered_item_ids", filter_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_filter_apply_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["block_has_items_before", "block_accepts_items_before", "item_filter_before", "filtered_item_ids"])
+        self.assertIn("item_filter_after", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_filter_apply_input")
+        self.assertEqual(input_schema["keys"]["filtered_item_ids"]["java_expr"], "content.items().each(filter, item -> block.itemFilter[item.id] = true)")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_filter_apply_result")
+        self.assertEqual(result_schema["keys"]["item_filter_after"]["java_expr"], "block.itemFilter[item.id] = true")
+
     def test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -22285,10 +22340,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 934)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 929)
+        self.assertEqual(audit["totalSourceFunctions"], 935)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 930)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 934)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 935)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22299,6 +22354,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_efficiency_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_default_constructor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_filter_apply_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])

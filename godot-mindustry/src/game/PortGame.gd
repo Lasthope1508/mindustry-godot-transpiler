@@ -2458,6 +2458,44 @@ func generated_consume_item_filter_default_constructor_bridge_state() -> Diction
 		"matches": result.get("filter_after", null) == canonical.get("filter_after", null),
 	}
 
+func source_consume_item_filter_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
+	var item_filter_after := item_filter_before.duplicate()
+	for item_id in filtered_item_ids:
+		item_filter_after[int(item_id)] = true
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_apply_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public void apply(Block block){",
+		"filter_field": "public Boolf<Item> filter = i -> false;",
+		"has_items_assignment_expr": "block.hasItems = true;",
+		"accepts_items_assignment_expr": "block.acceptsItems = true;",
+		"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
+		"item_filter_assignment_expr": "block.itemFilter[item.id] = true;",
+		"block_has_items_field": "public @NoPatch boolean hasItems;",
+		"block_accepts_items_field": "public boolean acceptsItems = false;",
+		"block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+		"block_has_items_before": block_has_items_before,
+		"block_accepts_items_before": block_accepts_items_before,
+		"item_filter_before": item_filter_before,
+		"filtered_item_ids": filtered_item_ids,
+		"block_has_items_after": true,
+		"block_accepts_items_after": true,
+		"item_filter_after": item_filter_after,
+	}
+
+func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids])
+	var canonical = source_consume_item_filter_apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_apply_state",
+		"generated_owner": "ConsumeItemFilter.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", []),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

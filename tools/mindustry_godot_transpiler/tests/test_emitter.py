@@ -17533,6 +17533,53 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"filter_field": "public Boolf<Item> filter = i -> false;"', source_text)
             self.assertIn('"filter_after": filter_after', source_text)
 
+    def test_emit_bridges_consume_item_filter_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import mindustry.type.*;
+import mindustry.world.*;
+
+public class ConsumeItemFilter extends Consume{
+    public Boolf<Item> filter = i -> false;
+
+    public void apply(Block block){
+        block.hasItems = true;
+        block.acceptsItems = true;
+        content.items().each(filter, item -> block.itemFilter[item.id] = true);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var item_filter_before: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var filtered_item_ids: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn("for item_id in filtered_item_ids:", source_text)
+            self.assertIn("item_filter_after[int(item_id)] = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"has_items_assignment_expr": "block.hasItems = true;"', source_text)
+            self.assertIn('"accepts_items_assignment_expr": "block.acceptsItems = true;"', source_text)
+            self.assertIn('"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);"', source_text)
+            self.assertIn('"item_filter_assignment_expr": "block.itemFilter[item.id] = true;"', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
