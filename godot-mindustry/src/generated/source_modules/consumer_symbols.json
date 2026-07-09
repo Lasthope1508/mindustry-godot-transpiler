@@ -1,0 +1,2679 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_symbol_registry",
+    "newConsumerSymbolRequiresCanonicalMirror": true,
+    "source": "Derived from consumer_slices.source_symbols and canonical source_symbol_registry.symbols; no symbol metadata is authored here."
+  },
+  "symbols": {
+    "consume_item_charged_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "this.minCharge = minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.min_charge_after",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed constructor field assignment for minCharge.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "public ConsumeItemCharged(float minCharge){",
+      "godot_symbol": "source_consume_item_charged_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Canonical ConsumeItemCharged minCharge constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "filter = item -> item.charge >= this.minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed constructor filter expression for charge threshold.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.item_charge_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.item_charge_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "Item",
+      "java_expr": "public float charge = 0f;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.item_charge_field",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed Item.charge field used by ConsumeItemCharged constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.min_charge": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.min_charge",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "float minCharge",
+      "godot_symbol": "source_consume_item_charged_constructor_input.min_charge",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Explicit input for ConsumeItemCharged constructor parameter minCharge.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.min_charge_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_constructor.min_charge_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "public float minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.min_charge_field",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed ConsumeItemCharged minCharge field used by the constructor assignment.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged()",
+      "java_expr": "public ConsumeItemCharged(){",
+      "godot_symbol": "source_consume_item_charged_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+      "rule": "Canonical ConsumeItemCharged default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_default_constructor_bridge_state",
+        "test_consume_item_charged_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_default_constructor_state"
+    },
+    "consume_item_charged_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_charged_default_constructor_result.min_charge_after",
+      "godot_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+      "rule": "Source default constructor delegates to typed constructor with exact 0.2f literal.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_default_constructor_bridge_state",
+        "test_consume_item_charged_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_default_constructor_state"
+    },
+    "consume_item_charged_default_constructor.typed_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_charged_default_constructor.typed_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged()",
+      "java_expr": "public ConsumeItemCharged(float minCharge){",
+      "godot_symbol": "source_consume_item_charged_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+      "rule": "Typed constructor target for ConsumeItemCharged default delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_default_constructor_bridge_state",
+        "test_consume_item_charged_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_default_constructor_state"
+    },
+    "consume_item_explosive_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "this.minExplosiveness = minCharge;",
+      "godot_symbol": "source_consume_item_explosive_constructor_result.min_explosiveness_after",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Constructor assigns minCharge argument to minExplosiveness field.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "public ConsumeItemExplosive(float minCharge){",
+      "godot_symbol": "source_consume_item_explosive_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Canonical ConsumeItemExplosive minCharge constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;",
+      "godot_symbol": "source_consume_item_explosive_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Constructor installs explosiveness threshold filter expression.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_constructor.item_explosiveness_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.item_explosiveness_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "public float explosiveness = 0f;",
+      "godot_symbol": "source_consume_item_explosive_constructor_result.item_explosiveness_field",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Canonical Item.explosiveness field used by constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_constructor.min_charge": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.min_charge",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "float minCharge",
+      "godot_symbol": "source_consume_item_explosive_constructor_input.min_charge",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Constructor minCharge argument supplied explicitly.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_constructor.min_explosiveness_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_constructor.min_explosiveness_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive(float minCharge)",
+      "java_expr": "public float minExplosiveness;",
+      "godot_symbol": "source_consume_item_explosive_constructor_result.min_explosiveness_field",
+      "godot_owner": "PortGame.source_consume_item_explosive_constructor_state",
+      "rule": "Canonical minimum explosiveness field.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_default_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this.minExplosiveness = minCharge;",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.min_explosiveness_after",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Delegated constructor assigns default minCharge to minExplosiveness field.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "public ConsumeItemExplosive(){",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Canonical ConsumeItemExplosive default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.min_explosiveness_after",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Default constructor delegates to this(0.2f).",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.default_min_charge": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_default_constructor.default_min_charge",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.default_min_charge",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Canonical default minCharge literal from constructor delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.typed_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_explosive_default_constructor.typed_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "public ConsumeItemExplosive(float minCharge){",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Typed constructor target for default delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_flammable_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor assigns minFlammability argument to field.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public ConsumeItemFlammable(float minFlammability){",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical ConsumeItemFlammable minFlammability constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "filter = item -> item.flammability >= this.minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor installs flammability threshold filter expression.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.item_flammability_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.item_flammability_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public float flammability = 0f;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.item_flammability_field",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical Item.flammability field used by constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.min_flammability": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.min_flammability",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "float minFlammability",
+      "godot_symbol": "source_consume_item_flammable_constructor_input.min_flammability",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Constructor minFlammability argument supplied explicitly.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_constructor.min_flammability_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_constructor.min_flammability_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable(float minFlammability)",
+      "java_expr": "public float minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_constructor_result.min_flammability_field",
+      "godot_owner": "PortGame.source_consume_item_flammable_constructor_state",
+      "rule": "Canonical minimum flammability field.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_constructor_bridge_state",
+        "test_consume_item_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state"
+    },
+    "consume_item_flammable_default_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_default_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable()",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_item_flammable_default_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "rule": "Delegated constructor assignment reached by default constructor.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state"
+    },
+    "consume_item_flammable_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable()",
+      "java_expr": "public ConsumeItemFlammable(){",
+      "godot_symbol": "source_consume_item_flammable_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "rule": "Canonical ConsumeItemFlammable no-arg constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state"
+    },
+    "consume_item_flammable_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_flammable_default_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "rule": "Default constructor delegates to typed constructor with 0.2f.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state"
+    },
+    "consume_item_flammable_default_constructor.default_min_flammability": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_default_constructor.default_min_flammability",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable()",
+      "java_expr": "0.2f",
+      "godot_symbol": "source_consume_item_flammable_default_constructor_result.default_min_flammability",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "rule": "Canonical default minFlammability value from this(0.2f).",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state"
+    },
+    "consume_item_flammable_default_constructor.typed_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_flammable_default_constructor.typed_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_method": "ConsumeItemFlammable()",
+      "java_expr": "public ConsumeItemFlammable(float minFlammability){",
+      "godot_symbol": "source_consume_item_flammable_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "rule": "Delegated typed constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state"
+    },
+    "consume_item_radioactive_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "this.minRadioactivity = minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.min_radioactivity_after",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source assignment of minRadioactivity field from constructor parameter.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "public ConsumeItemRadioactive(float minRadioactivity){",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Canonical ConsumeItemRadioactive minRadioactivity constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source filter predicate expression for minRadioactivity threshold.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.item_radioactivity_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.item_radioactivity_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "Item",
+      "java_expr": "public float radioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.item_radioactivity_field",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source-backed Item.radioactivity field proving constructor filter input field.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.min_radioactivity": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.min_radioactivity",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "float minRadioactivity",
+      "godot_symbol": "source_consume_item_radioactive_constructor_input.min_radioactivity",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Explicit input for source constructor parameter minRadioactivity.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_constructor.min_radioactivity_field": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_constructor.min_radioactivity_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive(float minRadioactivity)",
+      "java_expr": "public float minRadioactivity;",
+      "godot_symbol": "source_consume_item_radioactive_constructor_result.min_radioactivity_field",
+      "godot_owner": "PortGame.source_consume_item_radioactive_constructor_state",
+      "rule": "Source-backed ConsumeItemRadioactive minRadioactivity threshold field.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_constructor_bridge_state",
+        "test_consume_item_radioactive_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state"
+    },
+    "consume_item_radioactive_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive()",
+      "java_expr": "public ConsumeItemRadioactive(){",
+      "godot_symbol": "source_consume_item_radioactive_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+      "rule": "Canonical ConsumeItemRadioactive default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_default_constructor_bridge_state",
+        "test_consume_item_radioactive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state"
+    },
+    "consume_item_radioactive_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_radioactive_default_constructor_result.min_radioactivity_after",
+      "godot_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+      "rule": "Source default constructor delegates to typed constructor with exact 0.2f literal.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_default_constructor_bridge_state",
+        "test_consume_item_radioactive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state"
+    },
+    "consume_item_radioactive_default_constructor.typed_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_item_radioactive_default_constructor.typed_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_method": "ConsumeItemRadioactive()",
+      "java_expr": "public ConsumeItemRadioactive(float minRadioactivity){",
+      "godot_symbol": "source_consume_item_radioactive_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+      "rule": "Typed constructor target for ConsumeItemRadioactive default delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_default_constructor_bridge_state",
+        "test_consume_item_radioactive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state"
+    },
+    "consume_items_apply.accepts_items_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.accepts_items_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.acceptsItems = true;",
+      "godot_symbol": "source_consume_items_apply_result.block_accepts_items_after",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "ConsumeItems.apply always marks the block as accepting items.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.block_accepts_items_before": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.block_accepts_items_before",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.acceptsItems",
+      "godot_symbol": "source_consume_items_apply_input.block_accepts_items_before",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Explicit pre-apply Block.acceptsItems value for trace comparison.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.block_accepts_items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.block_accepts_items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block",
+      "java_expr": "public boolean acceptsItems = false;",
+      "godot_symbol": "source_consume_items_apply_result.block_accepts_items_field",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Block.acceptsItems field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.block_has_items_before": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.block_has_items_before",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasItems",
+      "godot_symbol": "source_consume_items_apply_input.block_has_items_before",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Explicit pre-apply Block.hasItems value for trace comparison.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.block_has_items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.block_has_items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block",
+      "java_expr": "public @NoPatch boolean hasItems;",
+      "godot_symbol": "source_consume_items_apply_result.block_has_items_field",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Block.hasItems field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.block_item_filter_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.block_item_filter_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block",
+      "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};",
+      "godot_symbol": "source_consume_items_apply_result.block_item_filter_field",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Block.itemFilter field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.has_items_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.has_items_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasItems = true;",
+      "godot_symbol": "source_consume_items_apply_result.block_has_items_after",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "ConsumeItems.apply always marks the block as having item consumers.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.item_filter_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.item_filter_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.itemFilter[stack.item.id] = true;",
+      "godot_symbol": "source_consume_items_apply_result.item_filter_after",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Each stack item id sets block.itemFilter[id] true.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.item_filter_before": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.item_filter_before",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.itemFilter",
+      "godot_symbol": "source_consume_items_apply_input.item_filter_before",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Explicit pre-apply block.itemFilter array; source assumes it is sized for content items.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "for(var stack : items){",
+      "godot_symbol": "source_consume_items_apply_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Explicit ordered ItemStack rows until live ConsumeItems instance fields are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_apply_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "ConsumeItems stores the exact ItemStack[] items consumed by apply.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.items_loop": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.items_loop",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "for(var stack : items){",
+      "godot_symbol": "source_consume_items_apply_result.items_loop_expr",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Apply iterates exact ConsumeItems.items order.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public void apply(Block block){",
+      "godot_symbol": "source_consume_items_apply_result.method",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Exact ConsumeItems.apply method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.next_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.next_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public void build(Building build, Table table){",
+      "godot_symbol": "source_consume_items_apply_result.next_method",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Next method boundary after apply.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_apply.stack_item_id": {
+      "canonical_symbol": "source_symbol_registry.consume_items_apply.stack_item_id",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "stack.item.id",
+      "godot_symbol": "source_consume_items_apply_input.item_stacks.item_id",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "rule": "Explicit stack.item.id value for each ItemStack row.",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_apply_state"
+    },
+    "consume_items_build.add_expr": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.add_expr",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+      "godot_symbol": "source_consume_items_build_result.req_images",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ReqImage add call for each ConsumeItems.build stack.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.building_items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.building_items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.items",
+      "java_expr": "@Nullable ItemModule items;",
+      "godot_symbol": "source_consume_items_build_result.building_items_field",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "BuildingComp.items source field anchor for build.items.has.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.cell_left": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.cell_left",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "java_method": "Cell.left()",
+      "java_expr": "public Cell<T> left(){",
+      "godot_symbol": "source_consume_items_build_result.cell_left_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Cell.left source anchor for outer left alignment.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.cell_pad_right": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.cell_pad_right",
+      "status": "source-backed",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "java_method": "Cell.padRight(float padRight)",
+      "java_expr": "public Cell<T> padRight(float padRight){",
+      "godot_symbol": "source_consume_items_build_result.cell_pad_right_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Cell.padRight source anchor for padRight(8).",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.i_initial_expr": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.i_initial_expr",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "int i = 0;",
+      "godot_symbol": "source_consume_items_build_result.i_initial_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ConsumeItems.build initializes row counter i to 0.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_amounts": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_amounts",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "get(item)",
+      "godot_symbol": "source_consume_items_build_input.item_amounts",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Explicit indexed ItemModule stock counts used by the ReqImage validity predicate.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_module_has": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_module_has",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "godot_symbol": "source_consume_items_build_result.item_module_has_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ItemModule.has(Item, int) is used by ReqImage validity.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_module_has_return": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_module_has_return",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "return get(item) >= amount;",
+      "godot_symbol": "source_consume_items_build_result.item_module_has_return_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ItemModule.has compares get(item) with required amount.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_stack_amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_stack_amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_build_result.item_stack_amount_field",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ItemStack.amount source field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_stack_item_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_stack_item_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_build_result.item_stack_item_field",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ItemStack.item source field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "items",
+      "godot_symbol": "source_consume_items_build_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Explicit ordered ItemStack rows from ConsumeItems.items until live ItemStack objects are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_build_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ConsumeItems.build iterates the fixed ItemStack[] items field.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.items_loop": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.items_loop",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "for(var stack : items){",
+      "godot_symbol": "source_consume_items_build_result.loop_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ConsumeItems.build loops over each ItemStack in items.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "public void build(Building build, Table table){",
+      "godot_symbol": "source_consume_items_build_result.method",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Canonical ConsumeItems.build method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.multiplier": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.multiplier",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "godot_symbol": "source_consume_items_build_result.multiplier_field",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Consume multiplier default source anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.multiplier_get_build": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.multiplier_get_build",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "multiplier.get(build)",
+      "godot_symbol": "source_consume_items_build_input.multiplier_get_build",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Explicit multiplier.get(build) result used in Math.round amount checks.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.next_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.next_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public void trigger(Building build){",
+      "godot_symbol": "source_consume_items_build_result.next_method",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Next method boundary after ConsumeItems.build.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.req_image_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.req_image_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "java_method": "ReqImage(Element image, Boolp valid)",
+      "java_expr": "public ReqImage(Element image, Boolp valid){",
+      "godot_symbol": "source_consume_items_build_result.req_image_constructor",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ReqImage constructor source anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.req_image_valid": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.req_image_valid",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "java_method": "ReqImage.valid()",
+      "java_expr": "public boolean valid(){",
+      "godot_symbol": "source_consume_items_build_result.req_image_valid_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ReqImage valid method delegates to Boolp valid.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.req_images": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.req_images",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);",
+      "godot_symbol": "source_consume_items_build_result.req_images",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ReqImage validity uses build.items.has with the same rounded amount and padRight(8).",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.row_calls": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.row_calls",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "if(++i % 4 == 0) c.row();",
+      "godot_symbol": "source_consume_items_build_result.row_calls",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ConsumeItems.build inserts a row after every fourth item.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.stack_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.stack_amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.amount",
+      "godot_symbol": "source_consume_items_build_result.req_images.stack_amount",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Explicit amount from each source ItemStack row.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.stack_item_id": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.stack_item_id",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.item.id",
+      "godot_symbol": "source_consume_items_build_result.req_images.item_id",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Explicit Item id from each source ItemStack row.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.stat_values_stack": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.stat_values_stack",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+      "godot_symbol": "source_consume_items_build_result.req_images.stat_values_stack_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "StatValues.stack call uses stack item and rounded stack amount times multiplier.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.stat_values_stack_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.stat_values_stack_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "StatValues.stack(UnlockableContent item, int amount)",
+      "java_expr": "public static Stack stack(UnlockableContent item, int amount){",
+      "godot_symbol": "source_consume_items_build_result.stat_values_stack_method",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "StatValues.stack overload source anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.table_expr": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.table_expr",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "table.table(c -> {",
+      "godot_symbol": "source_consume_items_build_result.table_expr",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "ConsumeItems.build creates a nested table through table.table(c -> {.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_build.table_left": {
+      "canonical_symbol": "source_symbol_registry.consume_items_build.table_left",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "}).left();",
+      "godot_symbol": "source_consume_items_build_result.table_cell_left",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "rule": "Outer table cell is left-aligned.",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_build_state"
+    },
+    "consume_items_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "this.items = items;",
+      "godot_symbol": "source_consume_items_constructor_result.items_after",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Constructor assigns provided ItemStack array to ConsumeItems.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public ConsumeItems(ItemStack[] items){",
+      "godot_symbol": "source_consume_items_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ConsumeItems ItemStack array constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stack_amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.item_stack_amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks[].amount",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ItemStack amount field for constructor input rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stack_item_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.item_stack_item_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks[].item",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ItemStack item field for constructor input rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "ItemStack[] items",
+      "godot_symbol": "source_consume_items_constructor_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Constructor ItemStack array supplied explicitly until live ItemStack objects are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_constructor.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_constructor.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems(ItemStack[] items)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_constructor_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_constructor_state",
+      "rule": "Canonical ConsumeItems items field.",
+      "tests": [
+        "test_emit_bridges_consume_items_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_constructor_bridge_state",
+        "test_consume_items_constructor_matches_upstream_source",
+        "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_items_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "protected ConsumeItems(){",
+      "godot_symbol": "source_consume_items_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical protected ConsumeItems no-arg constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_items_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "this(ItemStack.empty);",
+      "godot_symbol": "source_consume_items_default_constructor_result.items_after",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Default constructor delegates to ItemStack.empty constructor argument.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.item_stack_empty": {
+      "canonical_symbol": "source_symbol_registry.consume_items_default_constructor.item_stack_empty",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "public static final ItemStack[] empty = {};",
+      "godot_symbol": "source_consume_items_default_constructor_result.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical empty ItemStack array used by ConsumeItems default constructor.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_default_constructor.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_default_constructor_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical ConsumeItems items field after default construction.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_display.booster": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.booster",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public boolean booster;",
+      "godot_symbol": "source_consume_items_display_input.booster",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Consume.booster selects Stat.booster versus Stat.input.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.display_item_timed": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.display_item_timed",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, ItemStack... stacks)",
+      "java_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Displayed ItemStack rows for timed StatValues.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.display_item_untimed": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.display_item_untimed",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(boolean displayName, ItemStack... stacks)",
+      "java_expr": "displayItem(stack.item, stack.amount, displayName)",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Displayed ItemStack rows for untimed StatValues.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.display_items": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.display_items",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, ItemStack... stacks)",
+      "java_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Displayed ItemStack rows for timed StatValues.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.item_stack_amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.item_stack_amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Canonical ItemStack amount field.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.item_stack_item_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.item_stack_item_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Canonical ItemStack item field.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "items",
+      "godot_symbol": "source_consume_items_display_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "ItemStack array supplied explicitly until live ItemStack objects are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_display_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Canonical ConsumeItems items field displayed through Stats.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_items_display_result.method",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Canonical ConsumeItems.display method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.selected_stat": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.selected_stat",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster ? Stat.booster : Stat.input",
+      "godot_symbol": "source_consume_items_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Stat selection follows Consume.booster.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stack_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stack_amount",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "ItemStack.amount used for display rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stack_item_id": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stack_item_id",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "ItemStack.item identity used for display rows.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stat_booster": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stat_booster",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+      "godot_symbol": "source_consume_items_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Stat.booster branch for booster consumers.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stat_input": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stat_input",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "input = new Stat(\"input\", StatCat.crafting),",
+      "godot_symbol": "source_consume_items_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Stat.input branch for non-booster consumers.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stat_values_items": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stat_values_items",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(ItemStack... stacks)",
+      "java_expr": "public static StatValue items(ItemStack... stacks){",
+      "godot_symbol": "source_consume_items_display_result.stat_values_items_expr",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Untimed ItemStack StatValue overload.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stat_values_items_timed": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stat_values_items_timed",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, ItemStack... stacks)",
+      "java_expr": "public static StatValue items(float timePeriod, ItemStack... stacks){",
+      "godot_symbol": "source_consume_items_display_result.stat_values_items_expr",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Timed ItemStack StatValue overload.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stats_add": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stats_add",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
+      "godot_symbol": "source_consume_items_display_result.stats_add_call",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Canonical Stats.add dispatch for ConsumeItems.display.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stats_add_call": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stats_add_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stats.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void add(Stat stat, StatValue value){",
+      "godot_symbol": "source_consume_items_display_result.stats_add_call",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Stats.add API accepting StatValue.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.stats_time_period": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.stats_time_period",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stats.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public float timePeriod = -1;",
+      "godot_symbol": "source_consume_items_display_input.stats_time_period",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Stats.timePeriod controls timed item display.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_display.time_period_branch": {
+      "canonical_symbol": "source_symbol_registry.consume_items_display.time_period_branch",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)",
+      "godot_symbol": "source_consume_items_display_result.stat_values_items_expr",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "rule": "Time period branch selects untimed or timed StatValues.items.",
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state"
+    },
+    "consume_items_efficiency.consume_trigger_valid": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.consume_trigger_valid",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.consumeTriggerValid()",
+      "java_expr": "build.consumeTriggerValid()",
+      "godot_symbol": "source_consume_items_efficiency_input.consume_trigger_valid",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit input for the Building.consumeTriggerValid predicate in the source ternary.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.consume_trigger_valid_default": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.consume_trigger_valid_default",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.consumeTriggerValid()",
+      "java_expr": "return false;",
+      "godot_symbol": "source_consume_items_efficiency_result.consume_trigger_valid_default",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Default consumeTriggerValid implementation returns false.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.consume_trigger_valid_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.consume_trigger_valid_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.consumeTriggerValid()",
+      "java_expr": "public boolean consumeTriggerValid(){",
+      "godot_symbol": "source_consume_items_efficiency_result.consume_trigger_valid_expr",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "BuildingComp provides the consumeTriggerValid anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_amounts": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_amounts",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "get(item)",
+      "godot_symbol": "source_consume_items_efficiency_input.item_amounts",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit indexed ItemModule stock counts used by has(Item, int).",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_module_has_item_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_module_has_item_amount",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "godot_symbol": "source_consume_items_efficiency_result.item_module_has_item_amount_expr",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Nested ItemModule.has(Item, int) anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_module_has_item_amount_return": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_module_has_item_amount_return",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "return get(item) >= amount;",
+      "godot_symbol": "source_consume_items_efficiency_result.item_module_has_item_amount_return_expr",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Nested ItemModule.has compares get(item) against required amount.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_module_has_stack_guard": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_module_has_stack_guard",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+      "godot_symbol": "source_consume_items_efficiency_result.stack_checks",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ItemModule.has rejects out-of-range ids or stacks below Math.round(amount * multiplier).",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_module_has_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_module_has_stacks",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+      "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stacks_expr",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ItemModule.has(ItemStack[], float) is the source predicate used by ConsumeItems.efficiency.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_module_has_stacks_return": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_module_has_stacks_return",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+      "java_expr": "return true;",
+      "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stacks_return_expr",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ItemModule.has returns true after all stacks pass.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_stack_amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_stack_amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_efficiency_result.item_stack_amount_field",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ItemStack.amount source field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_stack_item_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_stack_item_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_efficiency_result.item_stack_item_field",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ItemStack.item source field anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "items",
+      "godot_symbol": "source_consume_items_efficiency_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit ordered ItemStack rows from ConsumeItems.items until live ItemStack instances are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_efficiency_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ConsumeItems.efficiency reads fixed ItemStack[] items from the consumer instance.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_items_efficiency_result.method",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Canonical ConsumeItems.efficiency method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.multiplier": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.multiplier",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "godot_symbol": "source_consume_items_efficiency_result.multiplier_field",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Consume multiplier default source anchor.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.multiplier_get_build": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.multiplier_get_build",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "multiplier.get(build)",
+      "godot_symbol": "source_consume_items_efficiency_input.multiplier_get_build",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit multiplier.get(build) result used in Math.round amount checks.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.next_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.next_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_items_efficiency_result.next_method",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Next method boundary after ConsumeItems.efficiency.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.return": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.return",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+      "godot_symbol": "source_consume_items_efficiency_result.efficiency",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "ConsumeItems.efficiency returns 1f when trigger is valid or ItemModule.has accepts all stacks, otherwise 0f.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.stack_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.stack_amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.amount",
+      "godot_symbol": "source_consume_items_efficiency_result.stack_checks.stack_amount",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit amount from each source ItemStack row.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_efficiency.stack_item_id": {
+      "canonical_symbol": "source_symbol_registry.consume_items_efficiency.stack_item_id",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.item.id",
+      "godot_symbol": "source_consume_items_efficiency_result.stack_checks.item_id",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "rule": "Explicit Item id from each source ItemStack row.",
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state"
+    },
+    "consume_items_trigger.building_items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.building_items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp",
+      "java_expr": "@Nullable ItemModule items;",
+      "godot_symbol": "source_consume_items_trigger_result.building_items_field",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "BuildingComp owns the nullable ItemModule mutated by trigger.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.item_module_remove": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.item_module_remove",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.remove(Item item, int amount)",
+      "java_expr": "public void remove(Item item, int amount){",
+      "godot_symbol": "source_consume_items_trigger_result.item_module_remove_method",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ItemModule.remove is the mutation target invoked by trigger.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.item_module_remove_clamp": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.item_module_remove_clamp",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.remove(Item item, int amount)",
+      "java_expr": "amount = Math.min(amount, items[item.id]);",
+      "godot_symbol": "source_consume_items_trigger_result.item_module_remove_clamp",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ItemModule.remove clamps removal amount to available item stock.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.item_stack_amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.item_stack_amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public int amount = 0;",
+      "godot_symbol": "source_consume_items_trigger_result.item_stack_amount_field",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ItemStack stores the base amount rounded after multiplier application.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.item_stack_item_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.item_stack_item_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public Item item;",
+      "godot_symbol": "source_consume_items_trigger_result.item_stack_item_field",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ItemStack stores the item reference removed by trigger.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.item_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.item_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "for(var stack : items){",
+      "godot_symbol": "source_consume_items_trigger_input.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Explicit ordered ItemStack rows represent ConsumeItems.items until live ItemStack references are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.items_field": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.items_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_trigger_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ConsumeItems.trigger iterates the exact ItemStack[] items field.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.items_loop": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.items_loop",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "for(var stack : items){",
+      "godot_symbol": "source_consume_items_trigger_result.items_loop_expr",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ConsumeItems.trigger loops over each ItemStack in items.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public void trigger(Building build){",
+      "godot_symbol": "source_consume_items_trigger_result.method",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Exact ConsumeItems.trigger method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.multiplier": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.multiplier",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "godot_symbol": "source_consume_items_trigger_input.multiplier_get_build",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Consume defines the Building multiplier function used by ConsumeItems.trigger.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.multiplier_get_build": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.multiplier_get_build",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "multiplier.get(build)",
+      "godot_symbol": "source_consume_items_trigger_input.multiplier_get_build",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Consume multiplier function result is explicit input until generated Floatf dispatch is wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.next_method": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.next_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_items_trigger_result.next_method",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Next method boundary after ConsumeItems.trigger.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.remove": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.remove",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+      "godot_symbol": "source_consume_items_trigger_result.remove_calls",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ConsumeItems.trigger removes the rounded multiplied stack amount from build.items for each stack.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.round": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.round",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "Math.round(stack.amount * multiplier.get(build))",
+      "godot_symbol": "source_consume_items_trigger_result.amount",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ConsumeItems.trigger uses Java Math.round on stack.amount multiplied by multiplier.get(build).",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.stack_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.stack_amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "stack.amount",
+      "godot_symbol": "source_consume_items_trigger_input.item_stacks.amount",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "ItemStack.amount is represented by explicit amount rows until concrete generated ItemStack objects are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_items_trigger.stack_item_id": {
+      "canonical_symbol": "source_symbol_registry.consume_items_trigger.stack_item_id",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "stack.item",
+      "godot_symbol": "source_consume_items_trigger_input.item_stacks.item_id",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "rule": "Item object identity is represented by explicit item_id until concrete generated Item references are wired.",
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_trigger_state"
+    },
+    "consume_liquid_flammable_constructor.amount": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "float amount",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_input.amount",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Explicit input for ConsumeLiquidFlammable constructor parameter amount.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.amount_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.amount_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed constructor assignment for inherited amount field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.amount_field": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.amount_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase",
+      "java_expr": "public float amount;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.amount_field",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed inherited ConsumeLiquidBase.amount field assigned by constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed constructor assignment for minFlammability.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Canonical ConsumeLiquidFlammable two-argument constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed constructor filter expression for flammability threshold.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.liquid_flammability_field": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.liquid_flammability_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/Liquid.java",
+      "java_method": "Liquid",
+      "java_expr": "public float flammability;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.liquid_flammability_field",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed Liquid.flammability field used by constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.min_flammability": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.min_flammability",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "float minFlammability",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_input.min_flammability",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Explicit input for ConsumeLiquidFlammable constructor parameter minFlammability.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_constructor.min_flammability_field": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_constructor.min_flammability_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float minFlammability, float amount)",
+      "java_expr": "public float minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_constructor_result.min_flammability_field",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_constructor_state",
+      "rule": "Source-backed ConsumeLiquidFlammable minFlammability field used by constructor assignment.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_constructor_bridge_state",
+        "test_consume_liquid_flammable_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    }
+  }
+}

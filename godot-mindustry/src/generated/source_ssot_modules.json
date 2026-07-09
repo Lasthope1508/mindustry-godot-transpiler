@@ -53,6 +53,27 @@
       "root_key": "schemas",
       "rule": "Extension shard for consumer source state schemas; canonical schema names and fields remain mirrored through source_state_schema before use.",
       "status": "active"
+    },
+    "consumer_symbols": {
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "label": "symbol",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ],
+      "path": "src/generated/source_modules/consumer_symbols.json",
+      "root_key": "symbols",
+      "rule": "Extension shard for consumer source symbols; canonical symbol entries and mirrored fields remain sourced from source_symbol_registry before use.",
+      "status": "active"
     }
   },
   "policy": {

@@ -226,6 +226,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "state_schema")
         self.assertEqual(consumer_report["canonical_mirror"]["checked"], len(consumer_schema))
 
+    def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        consumer_entry = manifest["modules"]["consumer_symbols"]
+
+        self.assertEqual(consumer_entry["canonical_module"], "registry")
+        self.assertEqual(consumer_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(consumer_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(consumer_entry["root_key"], "symbols")
+        self.assertIn("java_expr", consumer_entry["mirror_fields"])
+
+        consumer_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")["slices"]
+        consumer_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+
+        expected_symbol_names = {
+            symbol_name
+            for slice_entry in consumer_slices.values()
+            for symbol_name in slice_entry["source_symbols"]
+        }
+
+        self.assertEqual(set(consumer_symbols), expected_symbol_names)
+        for symbol_name in sorted(expected_symbol_names):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(consumer_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                for field in consumer_entry["mirror_fields"]:
+                    self.assertEqual(consumer_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        consumer_report = [entry for entry in report["modules"] if entry["name"] == "consumer_symbols"][0]
+        self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "registry")
+        self.assertEqual(consumer_report["canonical_mirror"]["checked"], len(consumer_symbols))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 
