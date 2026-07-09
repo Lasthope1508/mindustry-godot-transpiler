@@ -125160,6 +125160,125 @@
         "test_generated_consume_liquid_flammable_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state"
+    },
+    "consume_liquid_flammable_amount_constructor.constructor": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "public ConsumeLiquidFlammable(float amount){",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.constructor",
+      "rule": "Canonical ConsumeLiquidFlammable amount constructor boundary."
+    },
+    "consume_liquid_flammable_amount_constructor.amount": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "explicit-input",
+      "java_expr": "float amount",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_input.amount",
+      "rule": "Explicit input for ConsumeLiquidFlammable amount constructor parameter amount."
+    },
+    "consume_liquid_flammable_amount_constructor.default_call": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "this(0.2f, amount);",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.min_flammability_after",
+      "rule": "Source amount constructor delegates to two-argument constructor with exact 0.2f minFlammability literal and amount parameter."
+    },
+    "consume_liquid_flammable_amount_constructor.typed_constructor": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.typed_constructor_expr",
+      "rule": "Typed constructor target for ConsumeLiquidFlammable amount constructor delegation."
+    },
+    "consume_liquid_flammable_amount_constructor.amount_assignment": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.amount_after",
+      "rule": "Delegated two-argument constructor assigns inherited amount field from amount parameter."
+    },
+    "consume_liquid_flammable_amount_constructor.assignment": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.min_flammability_after",
+      "rule": "Delegated two-argument constructor assigns minFlammability from the exact 0.2f delegate literal."
+    },
+    "consume_liquid_flammable_amount_constructor.filter": {
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable(float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "java_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_amount_constructor_result.filter_expr",
+      "rule": "Delegated two-argument constructor installs the flammability threshold filter."
     }
   },
   "version": 1

@@ -3313,6 +3313,36 @@ func generated_consume_liquid_flammable_constructor_bridge_state(min_flammabilit
 		"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null) and result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
 	}
 
+func source_consume_liquid_flammable_amount_constructor_state(amount: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+		"constructor": "public ConsumeLiquidFlammable(float amount){",
+		"default_call_expr": "this(0.2f, amount);",
+		"typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+		"amount_assignment_expr": "this.amount = amount;",
+		"assignment_expr": "this.minFlammability = minFlammability;",
+		"filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+		"filter_expr": "liquid -> liquid.flammability >= this.minFlammability",
+		"default_min_flammability": 0.2,
+		"amount": amount,
+		"amount_after": amount,
+		"min_flammability_after": 0.2,
+	}
+
+func generated_consume_liquid_flammable_amount_constructor_bridge_state(amount: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFlammable.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquidFlammable_1([amount])
+	var canonical = source_consume_liquid_flammable_amount_constructor_state(amount)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state",
+		"generated_owner": "ConsumeLiquidFlammable.amount_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null) and result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
+	}
+
 func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

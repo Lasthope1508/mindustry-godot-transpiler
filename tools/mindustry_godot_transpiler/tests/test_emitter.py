@@ -18640,6 +18640,53 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             self.assertIn('"amount": amount', source_text)
             self.assertIn('"min_flammability_after": min_flammability_after', source_text)
 
+    def test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
+    public float minFlammability;
+
+    public ConsumeLiquidFlammable(float minFlammability, float amount){
+        this.amount = amount;
+        this.minFlammability = minFlammability;
+        this.filter = liquid -> liquid.flammability >= this.minFlammability;
+    }
+
+    public ConsumeLiquidFlammable(float amount){
+        this(0.2f, amount);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquidFlammable_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var min_flammability: float = 0.2", source_text)
+            self.assertIn("var amount_after: float = amount", source_text)
+            self.assertIn("var min_flammability_after: float = min_flammability", source_text)
+            self.assertIn('var filter_expr: String = "liquid -> liquid.flammability >= this.minFlammability"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state"', source_text)
+            self.assertIn('"constructor": "public ConsumeLiquidFlammable(float amount){"', source_text)
+            self.assertIn('"default_call_expr": "this(0.2f, amount);"', source_text)
+            self.assertIn('"typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){"', source_text)
+            self.assertIn('"default_min_flammability": 0.2', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"amount_after": amount_after', source_text)
+            self.assertIn('"min_flammability_after": min_flammability_after', source_text)
+
     def test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

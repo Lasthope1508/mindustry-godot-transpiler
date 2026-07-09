@@ -637,6 +637,44 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_constructor_state",
       "rule": "Source state mirrors constructor assignments and filter expression; live predicate execution deferred."
+    },
+    "PortGame.source_consume_liquid_flammable_amount_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_flammable_amount_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1492",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "source_method": "ConsumeLiquidFlammable(float amount)",
+      "params": [
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_flammable_amount_constructor_input.amount",
+          "java_expr": "float amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "typed_constructor_expr",
+        "amount_assignment_expr",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "default_min_flammability",
+        "amount",
+        "amount_after",
+        "min_flammability_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_amount_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_amount_constructor_bridge_state",
+        "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state",
+      "rule": "Source state mirrors amount constructor delegation to this(0.2f, amount) and delegated assignment results; live predicate execution deferred."
     }
   }
 }
