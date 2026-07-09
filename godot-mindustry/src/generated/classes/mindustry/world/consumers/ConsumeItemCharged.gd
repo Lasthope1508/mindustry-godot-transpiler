@@ -23,3 +23,9 @@ func java_constructor_ConsumeItemCharged_0(_args: Array = []) -> Variant:
 	var min_charge_after: float = min_charge
 	var filter_expr: String = "item -> item.charge >= this.minCharge"
 	return {"source_owner": "PortGame.source_consume_item_charged_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(float minCharge){", "min_charge_field": "public float minCharge;", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "item_charge_field": "public float charge = 0f;", "min_charge": min_charge, "min_charge_after": min_charge_after}
+
+func java_constructor_ConsumeItemCharged_1(_args: Array = []) -> Variant:
+	var min_charge: float = 0.2
+	var min_charge_after: float = min_charge
+	var filter_expr: String = "item -> item.charge >= this.minCharge"
+	return {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemCharged(float minCharge){", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_charge_after": min_charge_after}

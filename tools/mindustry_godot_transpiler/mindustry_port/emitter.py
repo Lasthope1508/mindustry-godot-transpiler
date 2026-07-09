@@ -5988,6 +5988,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\tvar filter_expr: String = "item -> item.charge >= this.minCharge"',
                     '\treturn {"source_owner": "PortGame.source_consume_item_charged_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(float minCharge){", "min_charge_field": "public float minCharge;", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "item_charge_field": "public float charge = 0f;", "min_charge": min_charge, "min_charge_after": min_charge_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemCharged_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_charge: float = 0.2",
+                    "\tvar min_charge_after: float = min_charge",
+                    '\tvar filter_expr: String = "item -> item.charge >= this.minCharge"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemCharged(float minCharge){", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_charge_after": min_charge_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"

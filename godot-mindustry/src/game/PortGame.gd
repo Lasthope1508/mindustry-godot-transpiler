@@ -2584,6 +2584,33 @@ func generated_consume_item_charged_constructor_bridge_state(min_charge: float) 
 		"matches": result.get("min_charge_after", null) == canonical.get("min_charge_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
 	}
 
+func source_consume_item_charged_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+		"constructor": "public ConsumeItemCharged(){",
+		"default_call_expr": "this(0.2f);",
+		"typed_constructor_expr": "public ConsumeItemCharged(float minCharge){",
+		"assignment_expr": "this.minCharge = minCharge;",
+		"filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;",
+		"filter_expr": "item -> item.charge >= this.minCharge",
+		"default_min_charge": 0.2,
+		"min_charge_after": 0.2,
+	}
+
+func generated_consume_item_charged_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemCharged_1([])
+	var canonical = source_consume_item_charged_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+		"generated_owner": "ConsumeItemCharged.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("min_charge_after", null) == canonical.get("min_charge_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
+	}
+
 func source_consume_item_filter_item_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float itemEfficiencyMultiplier(Item item){",

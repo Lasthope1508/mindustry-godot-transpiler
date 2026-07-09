@@ -582,6 +582,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemCharged.constructor"', source)
         self.assertIn('"matches": result.get("min_charge_after", null) == canonical.get("min_charge_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_charged_default_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_charged_default_constructor_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_charged_default_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemCharged(){"', source)
+        self.assertIn('"default_call_expr": "this(0.2f);"', source)
+        self.assertIn('"typed_constructor_expr": "public ConsumeItemCharged(float minCharge){"', source)
+        self.assertIn('"default_min_charge": 0.2', source)
+        self.assertIn('"min_charge_after": 0.2', source)
+        self.assertIn("func generated_consume_item_charged_default_constructor_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemCharged_1([])", source)
+        self.assertIn("var canonical = source_consume_item_charged_default_constructor_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_charged_default_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemCharged.default_constructor"', source)
+        self.assertIn('"matches": result.get("min_charge_after", null) == canonical.get("min_charge_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -37553,6 +37553,34 @@
         "test_consume_item_charged_constructor_matches_upstream_source",
         "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1489": {
+      "title": "Generated ConsumeItemCharged default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_class": "ConsumeItemCharged",
+      "java_method": "ConsumeItemCharged()",
+      "generated_owner": "ConsumeItemCharged.java_constructor_ConsumeItemCharged_1",
+      "godot_owner": "PortGame.source_consume_item_charged_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_charged_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItemCharged default constructor delegation without executing live Boolf<Item>.",
+      "exact_exprs": [
+        "public ConsumeItemCharged(){",
+        "this(0.2f);",
+        "public ConsumeItemCharged(float minCharge){",
+        "this.minCharge = minCharge;"
+      ],
+      "source_symbols": [
+        "consume_item_charged_default_constructor.constructor",
+        "consume_item_charged_default_constructor.default_call",
+        "consume_item_charged_default_constructor.typed_constructor"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_charged_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_default_constructor_bridge_state",
+        "test_consume_item_charged_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

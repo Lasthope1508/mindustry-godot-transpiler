@@ -4345,6 +4345,23 @@ def verify_consume_item_charged_constructor_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_consume_item_charged_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_charged_source = "core/src/mindustry/world/consumers/ConsumeItemCharged.java"
+    consume_item_charged_path = Path(upstream_root) / consume_item_charged_source
+    source = consume_item_charged_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "constructor": "public ConsumeItemCharged(){",
+        "default_call": "this(0.2f);",
+        "typed_constructor": "public ConsumeItemCharged(float minCharge){",
+        "assignment": "this.minCharge = minCharge;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_charged_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     consume_item_filter_path = Path(upstream_root) / consume_item_filter_source
