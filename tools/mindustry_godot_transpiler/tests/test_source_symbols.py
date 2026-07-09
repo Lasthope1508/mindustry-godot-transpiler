@@ -15086,6 +15086,73 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_items_build_result")
         self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);")
 
+    def test_generated_consume_items_display_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        stats_add = source_symbols.source_symbol(registry, "consume_items_display.stats_add")
+        self.assertEqual(stats_add["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(stats_add["java_method"], "display(Stats stats)")
+        self.assertEqual(stats_add["java_expr"], "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));")
+        self.assertEqual(stats_add["godot_owner"], "PortGame.source_consume_items_display_state")
+        self.assertEqual(stats_add["runtime_proof"], "/root/Main.source_consume_items_display_state")
+        self.assertEqual(stats_add["godot_symbol"], "source_consume_items_display_result.stats_add_call")
+
+        selected_stat = source_symbols.source_symbol(registry, "consume_items_display.selected_stat")
+        self.assertEqual(selected_stat["java_expr"], "booster ? Stat.booster : Stat.input")
+        self.assertEqual(selected_stat["godot_symbol"], "source_consume_items_display_result.selected_stat")
+
+        time_period_branch = source_symbols.source_symbol(registry, "consume_items_display.time_period_branch")
+        self.assertEqual(time_period_branch["java_expr"], "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)")
+        self.assertEqual(time_period_branch["godot_symbol"], "source_consume_items_display_result.stat_values_items_expr")
+
+        display_items = source_symbols.source_symbol(registry, "consume_items_display.display_items")
+        self.assertEqual(display_items["java_expr"], "displayItem(stack.item, stack.amount, timePeriod, true)")
+        self.assertEqual(display_items["godot_symbol"], "source_consume_items_display_result.display_items")
+
+        display_slice = source_symbols.source_slice(ledger, "N1477")
+        self.assertEqual(display_slice["title"], "Generated ConsumeItems display bridge state")
+        self.assertEqual(display_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(display_slice["java_method"], "display(Stats stats)")
+        self.assertEqual(display_slice["godot_owner"], "PortGame.source_consume_items_display_state")
+        self.assertEqual(display_slice["generated_owner"], "ConsumeItems.java_method_display_4")
+        self.assertEqual(display_slice["runtime_proof"], "/root/Main.generated_consume_items_display_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1477"]["canonical_ledger"], "source_slice_ledger.N1477")
+        for expr in [
+            "public final ItemStack[] items;",
+            "public void display(Stats stats){",
+            "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
+            "public void add(Stat stat, StatValue value){",
+            "public float timePeriod = -1;",
+            "public static StatValue items(ItemStack... stacks){",
+            "public static StatValue items(float timePeriod, ItemStack... stacks){",
+            "displayItem(stack.item, stack.amount, displayName)",
+            "displayItem(stack.item, stack.amount, timePeriod, true)",
+            "public boolean booster;",
+            "input = new Stat(\"input\", StatCat.crafting),",
+            "booster = new Stat(\"booster\", StatCat.optional),",
+            "public Item item;",
+            "public int amount = 0;",
+        ]:
+            self.assertIn(expr, display_slice["exact_exprs"])
+        self.assertIn("consume_items_display.stats_add", display_slice["source_symbols"])
+        self.assertIn("consume_items_display.selected_stat", display_slice["source_symbols"])
+        self.assertIn("consume_items_display.time_period_branch", display_slice["source_symbols"])
+        self.assertIn("consume_items_display.display_items", display_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_items_display_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["booster", "stats_time_period", "item_stacks"])
+        self.assertIn("stats_add_call", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_items_display_input")
+        self.assertEqual(input_schema["keys"]["item_stacks"]["java_expr"], "items")
+        result_schema = source_symbols.state_schema(schema, "source_consume_items_display_result")
+        self.assertEqual(result_schema["keys"]["stat_values_items_expr"]["java_expr"], "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)")
+
     def test_generated_consume_item_filter_build_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23205,10 +23272,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 946)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 941)
+        self.assertEqual(audit["totalSourceFunctions"], 947)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 942)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 946)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 947)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23224,6 +23291,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_items_trigger_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_items_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_trigger_state", audit["registeredSourceOwners"])

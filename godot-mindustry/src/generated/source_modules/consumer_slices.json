@@ -153,6 +153,44 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_items_build_bridge_state",
       "rule": "Consumer shard mirror for ConsumeItems.build; canonical data remains source_slice_ledger.N1475."
+    },
+    "N1477": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1477",
+      "godot_owner": "PortGame.source_consume_items_display_state",
+      "generated_owner": "ConsumeItems.java_method_display_4",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "display(Stats stats)",
+      "source_symbols": [
+        "consume_items_display.items_field",
+        "consume_items_display.method",
+        "consume_items_display.stats_add",
+        "consume_items_display.stats_add_call",
+        "consume_items_display.selected_stat",
+        "consume_items_display.time_period_branch",
+        "consume_items_display.stat_values_items",
+        "consume_items_display.stat_values_items_timed",
+        "consume_items_display.display_items",
+        "consume_items_display.display_item_untimed",
+        "consume_items_display.display_item_timed",
+        "consume_items_display.booster",
+        "consume_items_display.stats_time_period",
+        "consume_items_display.item_stacks",
+        "consume_items_display.stack_item_id",
+        "consume_items_display.stack_amount",
+        "consume_items_display.item_stack_item_field",
+        "consume_items_display.item_stack_amount_field",
+        "consume_items_display.stat_input",
+        "consume_items_display.stat_booster"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_items_display_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeItems.display; canonical data remains source_slice_ledger.N1477."
     }
   },
   "version": 1

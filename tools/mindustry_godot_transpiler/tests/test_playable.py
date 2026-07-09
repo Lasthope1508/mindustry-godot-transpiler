@@ -596,6 +596,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItems.build"', source)
         self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", [])', source)
 
+    def test_port_game_exposes_generated_consume_items_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_items_display_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_display_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));"', source)
+        self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source)
+        self.assertIn('"time_period_branch_expr": "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)"', source)
+        self.assertIn('"display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)"', source)
+        self.assertIn('"display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)"', source)
+        self.assertIn('var selected_stat: String = "booster" if booster else "input"', source)
+        self.assertIn('var stat_values_items_expr: String = "StatValues.items(items)" if stats_time_period < 0.0 else "StatValues.items(stats.timePeriod, items)"', source)
+        self.assertIn("func generated_consume_items_display_bridge_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")', source)
+        self.assertIn("var result = instance.java_method_display_4([booster, stats_time_period, item_stacks])", source)
+        self.assertIn("var canonical = source_consume_items_display_state(booster, stats_time_period, item_stacks)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_display_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItems.display"', source)
+        self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})', source)
+
     def test_port_game_exposes_generated_consume_item_filter_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -40818,6 +40818,47 @@
         "test_consume_items_build_matches_upstream_source",
         "test_generated_consume_items_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_items_display_state": {
+      "status": "source-backed",
+      "source_slice": "N1477",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_items_display_input.booster"
+        },
+        {
+          "name": "stats_time_period",
+          "type": "float",
+          "schema": "source_consume_items_display_input.stats_time_period"
+        },
+        {
+          "name": "item_stacks",
+          "type": "Array[Dictionary]",
+          "schema": "source_consume_items_display_input.item_stacks"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stats_add_expr",
+        "selected_stat",
+        "stat_values_items_expr",
+        "display_items",
+        "stats_add_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_display_to_source_state",
+        "test_port_game_exposes_generated_consume_items_display_bridge_state",
+        "test_consume_items_display_matches_upstream_source",
+        "test_generated_consume_items_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_display_state",
+      "rule": "Source state mirrors ConsumeItems.display branch outputs and defers live Stats mutation."
     }
   },
   "policy": {

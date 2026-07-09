@@ -1075,6 +1075,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_items_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_items_display_source"))
+        report = source_parity.verify_consume_items_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertIn("core/src/mindustry/world/meta/Stats.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/ItemStack.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "items_field": "public final ItemStack[] items;",
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
+            "stats_add_method": "public void add(Stat stat, StatValue value){",
+            "stats_time_period_field": "public float timePeriod = -1;",
+            "stat_values_items_method": "public static StatValue items(ItemStack... stacks){",
+            "stat_values_timed_items_method": "public static StatValue items(float timePeriod, ItemStack... stacks){",
+            "display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)",
+            "display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
+            "booster_field": "public boolean booster;",
+            "stat_input": "input = new Stat(\"input\", StatCat.crafting),",
+            "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+            "item_stack_item_field": "public Item item;",
+            "item_stack_amount_field": "public int amount = 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_item_filter_build_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_build_source"))
         report = source_parity.verify_consume_item_filter_build_source(ROOT / "mindustry-upstream")

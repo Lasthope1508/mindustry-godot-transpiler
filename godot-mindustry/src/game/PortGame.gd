@@ -2699,6 +2699,60 @@ func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("item_module_has_stacks", null) == canonical.get("item_module_has_stacks", null),
 	}
 
+func source_consume_items_display_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
+	var selected_stat: String = "booster" if booster else "input"
+	var stat_values_items_expr: String = "StatValues.items(items)" if stats_time_period < 0.0 else "StatValues.items(stats.timePeriod, items)"
+	var display_items: Array = []
+	for stack in item_stacks:
+		if not stack is Dictionary:
+			continue
+		var item_id: int = int(stack.get("item_id", -1))
+		var amount: int = int(stack.get("amount", 0))
+		var display_expr: String = "displayItem(stack.item, stack.amount, displayName)" if stats_time_period < 0.0 else "displayItem(stack.item, stack.amount, timePeriod, true)"
+		display_items.append({"item_id": item_id, "amount": amount, "time_period": stats_time_period, "display_expr": display_expr})
+	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": stat_values_items_expr, "time_period": stats_time_period, "item_stacks": item_stacks}
+	return {
+		"source_owner": "PortGame.source_consume_items_display_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+		"method": "public void display(Stats stats){",
+		"items_field": "public final ItemStack[] items;",
+		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
+		"stats_add_call_expr": "stats.add",
+		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
+		"time_period_branch_expr": "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)",
+		"stat_values_items_expr": stat_values_items_expr,
+		"stat_values_items_method": "public static StatValue items(ItemStack... stacks){",
+		"stat_values_timed_items_method": "public static StatValue items(float timePeriod, ItemStack... stacks){",
+		"display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)",
+		"display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
+		"stats_add_method": "public void add(Stat stat, StatValue value){",
+		"stats_time_period_field": "public float timePeriod = -1;",
+		"booster_field": "public boolean booster;",
+		"stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+		"stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+		"item_stack_item_field": "public Item item;",
+		"item_stack_amount_field": "public int amount = 0;",
+		"booster": booster,
+		"selected_stat": selected_stat,
+		"stats_time_period": stats_time_period,
+		"item_stacks": item_stacks,
+		"display_items": display_items,
+		"stats_add_call": stats_add_call,
+	}
+
+func generated_consume_items_display_bridge_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_4([booster, stats_time_period, item_stacks])
+	var canonical = source_consume_items_display_state(booster, stats_time_period, item_stacks)
+	return {
+		"source_owner": "PortGame.source_consume_items_display_state",
+		"generated_owner": "ConsumeItems.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),
+	}
+
 func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
 	var req_images: Array = []
 	for index in filtered_item_ids.size():

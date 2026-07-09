@@ -4470,6 +4470,60 @@ def verify_consume_items_build_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_items_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_items_source = "core/src/mindustry/world/consumers/ConsumeItems.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    item_stack_source = "core/src/mindustry/type/ItemStack.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_items_source).read_text(encoding="utf-8", errors="replace")
+    stats = (upstream_root / stats_source).read_text(encoding="utf-8", errors="replace")
+    stat_values = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    consume = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    stat = (upstream_root / stat_source).read_text(encoding="utf-8", errors="replace")
+    item_stack = (upstream_root / item_stack_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final ItemStack[] items;",
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
+        "stats_add_method": "public void add(Stat stat, StatValue value){",
+        "stats_time_period_field": "public float timePeriod = -1;",
+        "stat_values_items_method": "public static StatValue items(ItemStack... stacks){",
+        "stat_values_timed_items_method": "public static StatValue items(float timePeriod, ItemStack... stacks){",
+        "display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)",
+        "display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
+        "booster_field": "public boolean booster;",
+        "stat_input": "input = new Stat(\"input\", StatCat.crafting),",
+        "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+        "item_stack_item_field": "public Item item;",
+        "item_stack_amount_field": "public int amount = 0;",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "stats_add_expr": source,
+        "stats_add_method": stats,
+        "stats_time_period_field": stats,
+        "stat_values_items_method": stat_values,
+        "stat_values_timed_items_method": stat_values,
+        "display_item_untimed_expr": stat_values,
+        "display_item_timed_expr": stat_values,
+        "booster_field": consume,
+        "stat_input": stat,
+        "stat_booster": stat,
+        "item_stack_item_field": item_stack,
+        "item_stack_amount_field": item_stack,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_items_source,
+        "sources": [stats_source, stat_values_source, consume_source, stat_source, item_stack_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_build_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     multi_req_image_source = "core/src/mindustry/ui/MultiReqImage.java"

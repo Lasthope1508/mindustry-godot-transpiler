@@ -1569,6 +1569,28 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_items_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public float efficiency(Building build){", "items_field": "public final ItemStack[] items;", "return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){", "item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;", "item_module_has_stacks_return_expr": "return true;", "item_module_has_item_amount_expr": "public boolean has(Item item, int amount){", "item_module_has_item_amount_return_expr": "return get(item) >= amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "consume_trigger_valid": consume_trigger_valid, "item_stacks": item_stacks, "item_amounts": item_amounts, "multiplier_get_build": multiplier_get_build, "item_module_has_stacks": item_module_has_stacks, "stack_checks": stack_checks, "efficiency": efficiency_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)",
+            "\tvar item_stacks: Array = (_args[2] as Array).duplicate(true) if _args.size() > 2 and _args[2] is Array else []",
+            '\tvar selected_stat: String = "booster" if booster else "input"',
+            '\tvar stat_values_items_expr: String = "StatValues.items(items)" if stats_time_period < 0.0 else "StatValues.items(stats.timePeriod, items)"',
+            "\tvar display_items: Array = []",
+            "\tfor stack in item_stacks:",
+            "\t\tif not stack is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar item_id: int = int(stack.get("item_id", -1))',
+            '\t\tvar amount: int = int(stack.get("amount", 0))',
+            '\t\tvar display_expr: String = "displayItem(stack.item, stack.amount, displayName)" if stats_time_period < 0.0 else "displayItem(stack.item, stack.amount, timePeriod, true)"',
+            '\t\tdisplay_items.append({"item_id": item_id, "amount": amount, "time_period": stats_time_period, "display_expr": display_expr})',
+            '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": stat_values_items_expr, "time_period": stats_time_period, "item_stacks": item_stacks}',
+            '\treturn {"source_owner": "PortGame.source_consume_items_display_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void display(Stats stats){", "items_field": "public final ItemStack[] items;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "time_period_branch_expr": "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)", "stat_values_items_expr": stat_values_items_expr, "stat_values_items_method": "public static StatValue items(ItemStack... stacks){", "stat_values_timed_items_method": "public static StatValue items(float timePeriod, ItemStack... stacks){", "display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)", "display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)", "stats_add_method": "public void add(Stat stat, StatValue value){", "stats_time_period_field": "public float timePeriod = -1;", "booster_field": "public boolean booster;", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "booster": booster, "selected_stat": selected_stat, "stats_time_period": stats_time_period, "item_stacks": item_stacks, "display_items": display_items, "stats_add_call": stats_add_call}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "build"
