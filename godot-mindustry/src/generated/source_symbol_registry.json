@@ -120834,6 +120834,108 @@
         "test_consume_item_efficiency_display_matches_upstream_source",
         "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_efficiency_constructor.constructor": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_result.constructor",
+      "java_expr": "public ConsumeItemEfficiency(Boolf<Item> item){",
+      "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "rule": "ConsumeItemEfficiency Boolf<Item> constructor boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_efficiency_constructor.super_call": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_result.super_call_expr",
+      "java_expr": "super(item);",
+      "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "rule": "ConsumeItemEfficiency constructor delegates to parent ConsumeItemFilter constructor.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_efficiency_constructor.item": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_input.item",
+      "java_expr": "Boolf<Item> item",
+      "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "rule": "Explicit constructor Boolf<Item> item argument.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_efficiency_constructor.parent_constructor": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_result.parent_constructor_expr",
+      "java_expr": "public ConsumeItemFilter(Boolf<Item> item){",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Parent ConsumeItemFilter constructor boundary.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_efficiency_constructor.filter_assignment": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_result.filter_after",
+      "java_expr": "this.filter = item;",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Parent constructor assigns the Boolf<Item> item predicate to filter.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_efficiency_constructor.filter_field": {
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "godot_symbol": "source_consume_item_efficiency_constructor_result.filter_field",
+      "java_expr": "public Boolf<Item> filter = i -> false;",
+      "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "ConsumeItemFilter filter field default.",
+      "runtime_proof": "/root/Main.source_consume_item_efficiency_constructor_state",
+      "source_slice": "N1457",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

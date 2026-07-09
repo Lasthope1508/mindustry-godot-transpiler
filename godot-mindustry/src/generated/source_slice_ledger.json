@@ -36517,6 +36517,41 @@
         "test_consume_item_efficiency_display_matches_upstream_source",
         "test_generated_consume_item_efficiency_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1457": {
+      "title": "Generated ConsumeItemEfficiency constructor bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemEfficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+      "generated_owner": "ConsumeItemEfficiency.java_constructor_ConsumeItemEfficiency_0",
+      "godot_owner": "PortGame.source_consume_item_efficiency_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_constructor_bridge_state",
+      "rule": "Generated ConsumeItemEfficiency(Boolf<Item>) bridges super(item) into the parent ConsumeItemFilter filter assignment without inventing predicate behavior.",
+      "exact_exprs": [
+        "public ConsumeItemEfficiency(Boolf<Item> item){",
+        "super(item);",
+        "public ConsumeItemFilter(Boolf<Item> item){",
+        "this.filter = item;",
+        "public Boolf<Item> filter = i -> false;"
+      ],
+      "deferred_exprs": [
+        "Concrete Boolf<Item>.get(Item) predicate execution remains deferred to item-filter consumption slices; this slice records constructor filter assignment only."
+      ],
+      "source_symbols": [
+        "consume_item_efficiency_constructor.constructor",
+        "consume_item_efficiency_constructor.filter_assignment",
+        "consume_item_efficiency_constructor.filter_field",
+        "consume_item_efficiency_constructor.item",
+        "consume_item_efficiency_constructor.parent_constructor",
+        "consume_item_efficiency_constructor.super_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state",
+        "test_consume_item_efficiency_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

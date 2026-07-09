@@ -712,6 +712,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemDynamic.constructor"', source)
         self.assertIn('"matches": result.get("items_after", null) == canonical.get("items_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_efficiency_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_efficiency_constructor_state(item: Variant) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemEfficiency(Boolf<Item> item){"', source)
+        self.assertIn('"super_call_expr": "super(item);"', source)
+        self.assertIn('"parent_constructor_expr": "public ConsumeItemFilter(Boolf<Item> item){"', source)
+        self.assertIn('"filter_assignment_expr": "this.filter = item;"', source)
+        self.assertIn('"filter_after": item', source)
+        self.assertIn("func generated_consume_item_efficiency_constructor_bridge_state(item: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemEfficiency.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemEfficiency_0([item])", source)
+        self.assertIn("var canonical = source_consume_item_efficiency_constructor_state(item)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_efficiency_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemEfficiency.constructor"', source)
+        self.assertIn('"matches": result.get("filter_after", null) == canonical.get("filter_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

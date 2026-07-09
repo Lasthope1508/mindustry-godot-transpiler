@@ -5643,6 +5643,20 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "constructor": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){", "suppress_warnings_expr": "@SuppressWarnings(\\"unchecked\\")", "assignment_expr": "this.items = (Func<Building, ItemStack[]>)items;", "cast_expr": "(Func<Building, ItemStack[]>)items", "items": items, "items_after": items_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
+        and type_entry.get("name") == "ConsumeItemEfficiency"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemEfficiency_{index}(_args: Array = []) -> Variant:",
+                    "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                    "\tvar filter_after: Variant = item",
+                    '\treturn {"source_owner": "PortGame.source_consume_item_efficiency_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java", "constructor": "public ConsumeItemEfficiency(Boolf<Item> item){", "super_call_expr": "super(item);", "parent_constructor_expr": "public ConsumeItemFilter(Boolf<Item> item){", "filter_assignment_expr": "this.filter = item;", "filter_field": "public Boolf<Item> filter = i -> false;", "item": item, "filter_after": filter_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
         and type_entry.get("name") == "BlockProducer"
     ):

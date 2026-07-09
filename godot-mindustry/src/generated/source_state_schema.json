@@ -154228,6 +154228,80 @@
           ]
         }
       }
+    },
+    "source_consume_item_efficiency_constructor_input": {
+      "status": "explicit-input",
+      "source_slice": "N1457",
+      "rule": "Input schema for ConsumeItemEfficiency constructor bridge.",
+      "keys": {
+        "item": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+          "java_expr": "Boolf<Item> item",
+          "godot_symbol": "source_consume_item_efficiency_constructor_input.item",
+          "rule": "Constructor Boolf<Item> item argument passed through to super(item).",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_constructor_state"
+          ]
+        }
+      }
+    },
+    "source_consume_item_efficiency_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1457",
+      "rule": "Result schema for ConsumeItemEfficiency constructor bridge.",
+      "keys": {
+        "super_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "ConsumeItemEfficiency(Boolf<Item> item)",
+          "java_expr": "super(item);",
+          "godot_symbol": "source_consume_item_efficiency_constructor_result.super_call_expr",
+          "rule": "Subclass constructor super call.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_constructor_state"
+          ]
+        },
+        "parent_constructor_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "public ConsumeItemFilter(Boolf<Item> item){",
+          "godot_symbol": "source_consume_item_efficiency_constructor_result.parent_constructor_expr",
+          "rule": "Parent constructor boundary.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_constructor_state"
+          ]
+        },
+        "filter_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "this.filter = item;",
+          "godot_symbol": "source_consume_item_efficiency_constructor_result.filter_after",
+          "rule": "Filter field after parent assignment.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_constructor_state"
+          ]
+        },
+        "filter_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter(Boolf<Item> item)",
+          "java_expr": "public Boolf<Item> filter = i -> false;",
+          "godot_symbol": "source_consume_item_efficiency_constructor_result.filter_field",
+          "rule": "Parent filter field declaration.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_constructor_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

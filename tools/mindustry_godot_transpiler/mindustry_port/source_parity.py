@@ -4452,6 +4452,34 @@ def verify_consume_item_dynamic_constructor_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_consume_item_efficiency_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_efficiency_source = "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_efficiency_source).read_text(encoding="utf-8", errors="replace")
+    parent_text = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "constructor": "public ConsumeItemEfficiency(Boolf<Item> item){",
+        "super_call": "super(item);",
+        "parent_constructor": "public ConsumeItemFilter(Boolf<Item> item){",
+        "filter_assignment": "this.filter = item;",
+        "filter_field": "public Boolf<Item> filter = i -> false;",
+    }
+    source_by_key = {
+        "constructor": source,
+        "super_call": source,
+        "parent_constructor": parent_text,
+        "filter_assignment": parent_text,
+        "filter_field": parent_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_efficiency_source,
+        "sources": [consume_item_filter_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_dynamic_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
     block_source = "core/src/mindustry/world/Block.java"
