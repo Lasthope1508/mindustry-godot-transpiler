@@ -1,0 +1,2041 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "selector": "java_source contains /entities/bullet/"
+  },
+  "slices": {
+    "N399": {
+      "canonical_ledger": "source_slice_ledger.N399",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawParts(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_parts_state",
+      "source_symbols": [
+        "bullet.fin",
+        "bullet.rotation",
+        "bullet.x",
+        "bullet.y",
+        "bullet_type.parts",
+        "draw_part.params.charge",
+        "draw_part.params.heat",
+        "draw_part.params.life",
+        "draw_part.params.recoil",
+        "draw_part.params.reload",
+        "draw_part.params.rotation",
+        "draw_part.params.smoothReload",
+        "draw_part.params.warmup",
+        "draw_part.params.x",
+        "draw_part.params.y"
+      ],
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state"
+    },
+    "N401": {
+      "canonical_ledger": "source_slice_ledger.N401",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "testCollision(Bullet bullet, Building tile)",
+      "godot_owner": "PortGame.source_bullet_type_test_collision_state",
+      "source_symbols": [
+        "test_collision.bullet.team",
+        "test_collision.heals",
+        "test_collision.tile.healthf",
+        "test_collision.tile.team"
+      ],
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state"
+    },
+    "N405": {
+      "canonical_ledger": "source_slice_ledger.N405",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_heal_state",
+      "source_symbols": [
+        "hit_tile.heals",
+        "hit_tile.heal_gate",
+        "hit_tile.bullet.team",
+        "hit_tile.build.team",
+        "hit_tile.build.block.construct",
+        "hit_tile.build.x",
+        "hit_tile.build.y",
+        "hit_tile.build.block",
+        "hit_tile.build.maxHealth",
+        "hit_tile.heal_percent",
+        "hit_tile.heal_amount",
+        "hit_tile.heal_amount_formula",
+        "hit_tile.heal_color",
+        "hit_tile.heal_sound_volume"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state"
+    },
+    "N406": {
+      "canonical_ledger": "source_slice_ledger.N406",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_fire_state",
+      "source_symbols": [
+        "hit_tile.make_fire",
+        "hit_tile.fire_gate",
+        "hit_tile.fire.bullet.team",
+        "hit_tile.fire.build.team",
+        "hit_tile.build.tile",
+        "hit_tile.fires_create_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state"
+    },
+    "N407": {
+      "canonical_ledger": "source_slice_ledger.N407",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+      "source_symbols": [
+        "hit_tile.direct",
+        "hit_tile.enemy_direct_gate",
+        "hit_tile.enemy.bullet.team",
+        "hit_tile.enemy.build.team",
+        "hit_tile.enemy.hit_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_enemy_direct_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_enemy_direct_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_enemy_direct_state"
+    },
+    "N408": {
+      "canonical_ledger": "source_slice_ledger.N408",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "godot_owner": "PortGame.source_bullet_type_hit_tile_lifesteal_state",
+      "source_symbols": [
+        "hit_tile.enemy_direct_gate",
+        "hit_tile.direct",
+        "hit_tile.lifesteal",
+        "hit_tile.lifesteal_damage",
+        "hit_tile.lifesteal_build.health",
+        "hit_tile.owner.is_healthc",
+        "hit_tile.lifesteal_gate",
+        "hit_tile.lifesteal_result",
+        "hit_tile.owner.heal_amount",
+        "hit_tile.owner.heal_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_lifesteal_state"
+    },
+    "N409": {
+      "canonical_ledger": "source_slice_ledger.N409",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_handle_pierce_state",
+      "source_symbols": [
+        "handle_pierce.pierce_damage_factor",
+        "handle_pierce.remove_after_pierce",
+        "handle_pierce.initial_health",
+        "handle_pierce.x",
+        "handle_pierce.y",
+        "handle_pierce.bullet.damage",
+        "handle_pierce.sub",
+        "handle_pierce.damage_subtract",
+        "handle_pierce.remove_gate",
+        "handle_pierce.hit_assignment",
+        "handle_pierce.remove_call"
+      ],
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state"
+    },
+    "N410": {
+      "canonical_ledger": "source_slice_ledger.N410",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "source_symbols": [
+        "hit_entity.entity.is_unit",
+        "hit_entity.entity.unit_dead",
+        "hit_entity.was_dead",
+        "hit_entity.entity.is_healthc",
+        "hit_entity.damage",
+        "hit_entity.entity.is_shieldc",
+        "hit_entity.entity.shield",
+        "hit_entity.shield",
+        "hit_entity.max_damage_fraction",
+        "hit_entity.entity.max_health",
+        "hit_entity.health",
+        "hit_entity.max_damage_fraction_gate",
+        "hit_entity.cap",
+        "hit_entity.damage_cap",
+        "hit_entity.health_cap",
+        "hit_entity.health_shield"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "N411": {
+      "canonical_ledger": "source_slice_ledger.N411",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "source_symbols": [
+        "hit_entity.lifesteal",
+        "hit_entity.owner.is_healthc",
+        "hit_entity.entity.health",
+        "hit_entity.damage_after_cap",
+        "hit_entity.lifesteal_gate",
+        "hit_entity.lifesteal_result",
+        "hit_entity.owner_heal_amount",
+        "hit_entity.owner_heal"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "N412": {
+      "canonical_ledger": "source_slice_ledger.N412",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "source_symbols": [
+        "hit_entity.entity.is_healthc",
+        "hit_entity.damage_after_cap",
+        "hit_entity.pierce_armor",
+        "hit_entity.armor_multiplier",
+        "hit_entity.damage_pierce_call",
+        "hit_entity.damage_armor_mult_call",
+        "hit_entity.damage_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "N413": {
+      "canonical_ledger": "source_slice_ledger.N413",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "source_symbols": [
+        "hit_entity.unit_gate",
+        "hit_entity.unit.x",
+        "hit_entity.unit.y",
+        "hit_entity.bullet.x",
+        "hit_entity.bullet.y",
+        "hit_entity.knockback",
+        "hit_entity.impact",
+        "hit_entity.bullet.rotation",
+        "hit_entity.status",
+        "hit_entity.status_duration",
+        "hit_entity.unit_impulse_vector",
+        "hit_entity.impact_angle",
+        "hit_entity.unit_impulse_call",
+        "hit_entity.unit_apply_status",
+        "hit_entity.bullet_damage_event"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "N414": {
+      "canonical_ledger": "source_slice_ledger.N414",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
+      "source_symbols": [
+        "hit_entity.was_dead",
+        "hit_entity.entity.unit_dead",
+        "hit_entity.unit_destroy_gate",
+        "hit_entity.unit_destroy_event"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_destroy_event_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state"
+    },
+    "N415": {
+      "canonical_ledger": "source_slice_ledger.N415",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "godot_owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state",
+      "source_symbols": [
+        "hit_entity.handle_pierce_call",
+        "hit_entity.handle_pierce_initial_health"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    "N416": {
+      "canonical_ledger": "source_slice_ledger.N416",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "damageMultiplier(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_damage_multiplier_state",
+      "source_symbols": [
+        "damage_multiplier.unit_branch",
+        "damage_multiplier.unit_damage_multiplier",
+        "damage_multiplier.rules_unit_damage",
+        "damage_multiplier.unit_result",
+        "damage_multiplier.building_branch",
+        "damage_multiplier.building_result",
+        "damage_multiplier.fallback"
+      ],
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state"
+    },
+    "N417": {
+      "canonical_ledger": "source_slice_ledger.N417",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_hit_default_state",
+      "source_symbols": [
+        "hit.default_call",
+        "hit.default_create_frags"
+      ],
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state"
+    },
+    "N418": {
+      "canonical_ledger": "source_slice_ledger.N418",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_hit_xy_default_state",
+      "source_symbols": [
+        "hit.xy_default_call",
+        "hit.xy_default_x",
+        "hit.xy_default_y",
+        "hit.xy_default_create_frags"
+      ],
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state"
+    },
+    "N419": {
+      "canonical_ledger": "source_slice_ledger.N419",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_effects_state",
+      "source_symbols": [
+        "hit.effects.hit_effect",
+        "hit.effects.hit_sound",
+        "hit.effects.hit_sound_pitch",
+        "hit.effects.hit_sound_pitch_range",
+        "hit.effects.hit_sound_volume",
+        "hit.effects.hit_shake",
+        "hit.effects.hit_color",
+        "hit.effects.hit_effect_call",
+        "hit.effects.hit_sound_call",
+        "hit.effects.shake_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state"
+    },
+    "N420": {
+      "canonical_ledger": "source_slice_ledger.N420",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "source_symbols": [
+        "hit.frag_dispatch.create_frags",
+        "hit.frag_dispatch.frag_on_hit",
+        "hit.frag_dispatch.delay_frags",
+        "hit.frag_dispatch.frag_bullet",
+        "hit.frag_dispatch.frag_bullet_delay_frags",
+        "hit.frag_dispatch.frag_gate",
+        "hit.frag_dispatch.delay_gate",
+        "hit.frag_dispatch.time_run_call",
+        "hit.frag_dispatch.create_frags_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "N421": {
+      "canonical_ledger": "source_slice_ledger.N421",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "source_symbols": [
+        "hit.post_frag_dispatch.create_puddles_call",
+        "hit.post_frag_dispatch.create_incend_call",
+        "hit.post_frag_dispatch.create_units_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    "N422": {
+      "canonical_ledger": "source_slice_ledger.N422",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_suppression_state",
+      "source_symbols": [
+        "hit.suppression.range",
+        "hit.suppression.duration",
+        "hit.suppression.effect_chance",
+        "hit.suppression.suppress_color",
+        "hit.suppression.bullet_team",
+        "hit.suppression.bullet_x",
+        "hit.suppression.bullet_y",
+        "hit.suppression.gate",
+        "hit.suppression.pooled_vec2",
+        "hit.suppression.apply_call"
+      ],
+      "tests": [
+        "test_bullet_type_hit_suppression_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_suppression_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state"
+    },
+    "N423": {
+      "canonical_ledger": "source_slice_ledger.N423",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "godot_owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
+      "source_symbols": [
+        "hit.splash_damage_dispatch.create_splash_damage_call",
+        "hit.splash_damage_dispatch.lightning_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state"
+    },
+    "N424": {
+      "canonical_ledger": "source_slice_ledger.N424",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "source_symbols": [
+        "create_splash_damage.damage_dispatch.radius",
+        "create_splash_damage.damage_dispatch.absorbed",
+        "create_splash_damage.damage_dispatch.gate",
+        "create_splash_damage.damage_dispatch.splash_damage",
+        "create_splash_damage.damage_dispatch.damage_multiplier",
+        "create_splash_damage.damage_dispatch.pierce",
+        "create_splash_damage.damage_dispatch.collides_air",
+        "create_splash_damage.damage_dispatch.collides_ground",
+        "create_splash_damage.damage_dispatch.scaled",
+        "create_splash_damage.damage_dispatch.armor_multiplier",
+        "create_splash_damage.damage_dispatch.damage_call",
+        "create_splash_damage.damage_dispatch.status_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "N425": {
+      "canonical_ledger": "source_slice_ledger.N425",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "source_symbols": [
+        "create_splash_damage.status_dispatch.status",
+        "create_splash_damage.status_dispatch.status_duration",
+        "create_splash_damage.status_dispatch.gate",
+        "create_splash_damage.status_dispatch.status_call",
+        "create_splash_damage.status_dispatch.heals_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "N426": {
+      "canonical_ledger": "source_slice_ledger.N426",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "source_symbols": [
+        "create_splash_damage.heal_dispatch.heals",
+        "create_splash_damage.heal_dispatch.gate",
+        "create_splash_damage.heal_dispatch.each_block_call",
+        "create_splash_damage.heal_dispatch.heal_effect_call",
+        "create_splash_damage.heal_dispatch.heal_amount",
+        "create_splash_damage.heal_dispatch.other_heal_call",
+        "create_splash_damage.heal_dispatch.make_fire_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "N427": {
+      "canonical_ledger": "source_slice_ledger.N427",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createSplashDamage(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
+      "source_symbols": [
+        "create_splash_damage.make_fire_dispatch.make_fire",
+        "create_splash_damage.make_fire_dispatch.gate",
+        "create_splash_damage.make_fire_dispatch.each_block_call",
+        "create_splash_damage.make_fire_dispatch.enemy_team_predicate",
+        "create_splash_damage.make_fire_dispatch.fires_create_call",
+        "create_splash_damage.make_fire_dispatch.create_frags_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_make_fire_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+    },
+    "N428": {
+      "canonical_ledger": "source_slice_ledger.N428",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_initial_state",
+      "source_symbols": [
+        "create_frags.initial.frag_bullet",
+        "create_frags.initial.frag_on_absorb",
+        "create_frags.initial.bullet_absorbed",
+        "create_frags.initial.pierce_frag_cap",
+        "create_frags.initial.bullet_frags",
+        "create_frags.initial.frag_bullets",
+        "create_frags.initial.gate",
+        "create_frags.initial.loop_boundary",
+        "create_frags.initial.random_len_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state"
+    },
+    "N429": {
+      "canonical_ledger": "source_slice_ledger.N429",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_random_geometry_state",
+      "source_symbols": [
+        "create_frags.random_geometry.frag_offset_min",
+        "create_frags.random_geometry.frag_offset_max",
+        "create_frags.random_geometry.frag_random_spread",
+        "create_frags.random_geometry.frag_angle",
+        "create_frags.random_geometry.frag_spread",
+        "create_frags.random_geometry.bullet_rotation",
+        "create_frags.random_geometry.len_samples",
+        "create_frags.random_geometry.range_samples",
+        "create_frags.random_geometry.random_len",
+        "create_frags.random_geometry.angle_formula",
+        "create_frags.random_geometry.create_call_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_random_geometry_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state"
+    },
+    "N430": {
+      "canonical_ledger": "source_slice_ledger.N430",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_create_call_state",
+      "source_symbols": [
+        "create_frags.create_call.frag_velocity_min",
+        "create_frags.create_call.frag_velocity_max",
+        "create_frags.create_call.frag_life_min",
+        "create_frags.create_call.frag_life_max",
+        "create_frags.create_call.velocity_samples",
+        "create_frags.create_call.life_samples",
+        "create_frags.create_call.trnsx",
+        "create_frags.create_call.trnsy",
+        "create_frags.create_call.frag_bullet_create",
+        "create_frags.create_call.frags_increment_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state"
+    },
+    "N431": {
+      "canonical_ledger": "source_slice_ledger.N431",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createFrags(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_frags_increment_state",
+      "source_symbols": [
+        "create_frags.increment.gate",
+        "create_frags.increment.bullet_frags_before",
+        "create_frags.increment.frags_increment"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state"
+    },
+    "N432": {
+      "canonical_ledger": "source_slice_ledger.N432",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_initial_state",
+      "source_symbols": [
+        "create_puddles.initial.puddles",
+        "create_puddles.initial.puddle_range",
+        "create_puddles.initial.puddle_amount",
+        "create_puddles.initial.puddle_liquid",
+        "create_puddles.initial.gate",
+        "create_puddles.initial.loop_boundary",
+        "create_puddles.initial.tile_boundary",
+        "create_puddles.initial.deposit_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_initial_state"
+    },
+    "N433": {
+      "canonical_ledger": "source_slice_ledger.N433",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "source_symbols": [
+        "create_puddles.tile_world.puddle_range",
+        "create_puddles.tile_world.x_range_samples",
+        "create_puddles.tile_world.y_range_samples",
+        "create_puddles.tile_world.tile_world_call",
+        "create_puddles.tile_world.deposit_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state"
+    },
+    "N434": {
+      "canonical_ledger": "source_slice_ledger.N434",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createPuddles(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_puddles_deposit_state",
+      "source_symbols": [
+        "create_puddles.deposit.tile",
+        "create_puddles.deposit.puddle_liquid",
+        "create_puddles.deposit.puddle_amount",
+        "create_puddles.deposit.deposit_call"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state"
+    },
+    "N435": {
+      "canonical_ledger": "source_slice_ledger.N435",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createIncend(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_incend_state",
+      "source_symbols": [
+        "create_incend.amount",
+        "create_incend.spread",
+        "create_incend.chance",
+        "create_incend.chance_passed",
+        "create_incend.gate",
+        "create_incend.create_incend_call"
+      ],
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state"
+    },
+    "N436": {
+      "canonical_ledger": "source_slice_ledger.N436",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_initial_state",
+      "source_symbols": [
+        "create_units.initial.net_client",
+        "create_units.initial.despawn_unit",
+        "create_units.initial.despawn_unit_chance",
+        "create_units.initial.chance_passed",
+        "create_units.initial.despawn_unit_count",
+        "create_units.initial.despawn_unit_radius",
+        "create_units.initial.face_outwards",
+        "create_units.initial.gate",
+        "create_units.initial.loop_boundary",
+        "create_units.initial.random_offset_boundary",
+        "create_units.initial.spawn_boundary",
+        "create_units.initial.rotation_boundary",
+        "create_units.initial.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state"
+    },
+    "N437": {
+      "canonical_ledger": "source_slice_ledger.N437",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_random_offset_state",
+      "source_symbols": [
+        "create_units.random_offset.length_samples",
+        "create_units.random_offset.theta_samples",
+        "create_units.random_offset.unit_offset_plans",
+        "create_units.random_offset.random_length",
+        "create_units.random_offset.random_direction",
+        "create_units.random_offset.spawn_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_random_offset_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_random_offset_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_random_offset_state"
+    },
+    "N438": {
+      "canonical_ledger": "source_slice_ledger.N438",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_spawn_state",
+      "source_symbols": [
+        "create_units.spawn.despawn_unit",
+        "create_units.spawn.team",
+        "create_units.spawn.unit_offset_plans",
+        "create_units.spawn.spawn_calls",
+        "create_units.spawn.rotation_boundary",
+        "create_units.spawn.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_spawn_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_spawn_state",
+        "test_bullet_type_create_units_spawn_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_spawn_state"
+    },
+    "N439": {
+      "canonical_ledger": "source_slice_ledger.N439",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_rotation_state",
+      "source_symbols": [
+        "create_units.rotation.face_outwards",
+        "create_units.rotation.bullet_rotation",
+        "create_units.rotation.tmp_v1_angle",
+        "create_units.rotation.rotation_assignments",
+        "create_units.rotation.notify_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state"
+    },
+    "N440": {
+      "canonical_ledger": "source_slice_ledger.N440",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "createUnits(Bullet b, float x, float y)",
+      "godot_owner": "PortGame.source_bullet_type_create_units_notify_state",
+      "source_symbols": [
+        "create_units.notify.rotation_assignments",
+        "create_units.notify.notify_calls"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_notify_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_notify_state",
+        "test_bullet_type_create_units_notify_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_notify_state"
+    },
+    "N441": {
+      "canonical_ledger": "source_slice_ledger.N441",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_dispatch_state",
+      "source_symbols": [
+        "despawned.dispatch.despawn_hit",
+        "despawned.dispatch.bullet_x",
+        "despawned.dispatch.bullet_y",
+        "despawned.dispatch.hit_call",
+        "despawned.dispatch.create_units_call",
+        "despawned.dispatch.effect_boundary",
+        "despawned.dispatch.sound_boundary",
+        "despawned.dispatch.shake_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_dispatch_state",
+        "test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_dispatch_state"
+    },
+    "N442": {
+      "canonical_ledger": "source_slice_ledger.N442",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_effect_state",
+      "source_symbols": [
+        "despawned.effect.despawn_effect",
+        "despawned.effect.hit_color",
+        "despawned.effect.effect_call",
+        "despawned.effect.sound_boundary",
+        "despawned.effect.shake_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state"
+    },
+    "N443": {
+      "canonical_ledger": "source_slice_ledger.N443",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_sound_state",
+      "source_symbols": [
+        "despawned.sound.despawn_sound",
+        "despawned.sound.hit_sound_pitch_range",
+        "despawned.sound.range_sample",
+        "despawned.sound.sound_call",
+        "despawned.sound.shake_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state"
+    },
+    "N444": {
+      "canonical_ledger": "source_slice_ledger.N444",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "despawned(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_despawned_shake_state",
+      "source_symbols": [
+        "despawned.shake.despawn_shake",
+        "despawned.shake.shake_call",
+        "despawned.shake.effect_shake_position",
+        "despawned.shake.removed_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state"
+    },
+    "N445": {
+      "canonical_ledger": "source_slice_ledger.N445",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "removed(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_removed_trail_fade_state",
+      "source_symbols": [
+        "removed.trail_fade.trail_length",
+        "removed.trail_fade.trail_width",
+        "removed.trail_fade.trail_color",
+        "removed.trail_fade.trail_size",
+        "removed.trail_fade.trail_gate",
+        "removed.trail_fade.trail_fade_call",
+        "removed.trail_fade.trail_copy",
+        "removed.trail_fade.frag_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_removed_trail_fade_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_trail_fade_state",
+        "test_bullet_type_removed_trail_fade_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_trail_fade_state"
+    },
+    "N446": {
+      "canonical_ledger": "source_slice_ledger.N446",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "removed(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_removed_frag_dispatch_state",
+      "source_symbols": [
+        "removed.frag_dispatch.frag_on_despawn",
+        "removed.frag_dispatch.frag_bullet",
+        "removed.frag_dispatch.bullet_frags",
+        "removed.frag_dispatch.frag_gate",
+        "removed.frag_dispatch.create_frags_call",
+        "removed.frag_dispatch.building_damage_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_removed_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state",
+        "test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state"
+    },
+    "N447": {
+      "canonical_ledger": "source_slice_ledger.N447",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "buildingDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_building_damage_state",
+      "source_symbols": [
+        "building_damage.damage",
+        "building_damage.building_damage_multiplier",
+        "building_damage.return_value",
+        "building_damage.shield_damage_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_building_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_building_damage_state",
+        "test_bullet_type_building_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_building_damage_state"
+    },
+    "N448": {
+      "canonical_ledger": "source_slice_ledger.N448",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "shieldDamage(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_shield_damage_state",
+      "source_symbols": [
+        "shield_damage.damage",
+        "shield_damage.shield_damage_multiplier",
+        "shield_damage.return_value",
+        "shield_damage.draw_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state"
+    },
+    "N449": {
+      "canonical_ledger": "source_slice_ledger.N449",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "draw(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_state",
+      "source_symbols": [
+        "draw.draw_trail_call",
+        "draw.draw_parts_call",
+        "draw.return_source",
+        "draw.draw_trail_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_draw_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_state",
+        "test_bullet_type_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_state"
+    },
+    "N450": {
+      "canonical_ledger": "source_slice_ledger.N450",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_trail_state",
+      "source_symbols": [
+        "draw_trail.gate",
+        "draw_trail.draw_z_below",
+        "draw_trail.trail_draw_call",
+        "draw_trail.draw_parts_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state"
+    },
+    "N451": {
+      "canonical_ledger": "source_slice_ledger.N451",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "drawLight(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_draw_light_state",
+      "source_symbols": [
+        "draw_light.early_return",
+        "draw_light.drawf_light_call",
+        "draw_light.light_color",
+        "draw_light.init_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state"
+    },
+    "N452": {
+      "canonical_ledger": "source_slice_ledger.N452",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_init_initial_state",
+      "source_symbols": [
+        "init_initial.kill_shooter_gate",
+        "init_initial.kill_call",
+        "init_initial.health_kill_side_effects",
+        "init_initial.instant_disappear_assignment",
+        "init_initial.spawn_bullets_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state"
+    },
+    "N453": {
+      "canonical_ledger": "source_slice_ledger.N453",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_init_spawn_bullets_state",
+      "source_symbols": [
+        "init_spawn_bullets.gate",
+        "init_spawn_bullets.loop",
+        "init_spawn_bullets.create_call",
+        "init_spawn_bullets.random_offset",
+        "init_spawn_bullets.mathf_range",
+        "init_spawn_bullets.update_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state"
+    },
+    "N454": {
+      "canonical_ledger": "source_slice_ledger.N454",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "update(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_dispatch_state",
+      "source_symbols": [
+        "update_dispatch.update_trail_call",
+        "update_dispatch.update_homing_call",
+        "update_dispatch.update_weaving_call",
+        "update_dispatch.update_trail_effects_call",
+        "update_dispatch.update_bullet_interval_call",
+        "update_dispatch.update_method",
+        "update_dispatch.update_bullet_interval_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state"
+    },
+    "N455": {
+      "canonical_ledger": "source_slice_ledger.N455",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateBulletInterval(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_bullet_interval_state",
+      "source_symbols": [
+        "update_bullet_interval.gate",
+        "update_bullet_interval.timer_get",
+        "update_bullet_interval.timer_index",
+        "update_bullet_interval.timer_time",
+        "update_bullet_interval.angle",
+        "update_bullet_interval.loop",
+        "update_bullet_interval.create_call",
+        "update_bullet_interval.random_offset",
+        "update_bullet_interval.update_homing_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state"
+    },
+    "N456": {
+      "canonical_ledger": "source_slice_ledger.N456",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrail(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_state",
+      "source_symbols": [
+        "update_trail.gate",
+        "update_trail.headless",
+        "update_trail.trail_null_guard",
+        "update_trail.new_trail",
+        "update_trail.length_assignment",
+        "update_trail.update_call",
+        "update_trail.trail_interp_value",
+        "update_trail.bullet_fin",
+        "update_trail.absin_value",
+        "update_trail.time_delta",
+        "update_trail.init_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state"
+    },
+    "N457": {
+      "canonical_ledger": "source_slice_ledger.N457",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_initial_state",
+      "source_symbols": [
+        "update_homing_initial.gate",
+        "update_homing_initial.homing_power",
+        "update_homing_initial.homing_delay",
+        "update_homing_initial.homing_range",
+        "update_homing_initial.follow_aim_speed",
+        "update_homing_initial.aim_x",
+        "update_homing_initial.aim_y",
+        "update_homing_initial.real_aim_x",
+        "update_homing_initial.real_aim_y",
+        "update_homing_initial.target_reserved",
+        "update_homing_initial.follow_aim_reserved"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state"
+    },
+    "N458": {
+      "canonical_ledger": "source_slice_ledger.N458",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "source_symbols": [
+        "update_homing_target_velocity.target_gate",
+        "update_homing_target_velocity.set_angle",
+        "update_homing_target_velocity.current_rotation",
+        "update_homing_target_velocity.target_angle",
+        "update_homing_target_velocity.max_turn",
+        "update_homing_target_velocity.move_toward",
+        "update_homing_target_velocity.target_state",
+        "update_homing_target_velocity.velocity",
+        "update_homing_target_velocity.position_angle_to",
+        "update_homing_target_velocity.vec2_set_angle"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "N459": {
+      "canonical_ledger": "source_slice_ledger.N459",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateHoming(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "source_symbols": [
+        "update_homing_follow_aim.gate",
+        "update_homing_follow_aim.angle",
+        "update_homing_follow_aim.set_angle",
+        "update_homing_follow_aim.velocity_angle",
+        "update_homing_follow_aim.max_turn",
+        "update_homing_follow_aim.move_toward",
+        "update_homing_follow_aim.shooter_state"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "N460": {
+      "canonical_ledger": "source_slice_ledger.N460",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_state",
+      "source_symbols": [
+        "update_weaving.gate",
+        "update_weaving.rotate_rad_exact",
+        "update_weaving.rotation_radians",
+        "update_weaving.random_seed_result",
+        "update_weaving.velocity",
+        "update_weaving.vec2_rotate_rad_exact"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state"
+    },
+    "N461": {
+      "canonical_ledger": "source_slice_ledger.N461",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "source_symbols": [
+        "update_weaving_rotate_speed.gate",
+        "update_weaving_rotate_speed.rotate_call",
+        "update_weaving_rotate_speed.rotation_radians",
+        "update_weaving_rotate_speed.vec2_rotate"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "N462": {
+      "canonical_ledger": "source_slice_ledger.N462",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateWeaving(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "source_symbols": [
+        "update_weaving_circle_shooter.gate",
+        "update_weaving_circle_shooter.tmp_set_sub",
+        "update_weaving_circle_shooter.tmp_rotate",
+        "update_weaving_circle_shooter.velocity_add_limit",
+        "update_weaving_circle_shooter.mathf_lerp",
+        "update_weaving_circle_shooter.mathf_clamp",
+        "update_weaving_circle_shooter.vec2_rotate",
+        "update_weaving_circle_shooter.vec2_limit"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "N463": {
+      "canonical_ledger": "source_slice_ledger.N463",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "source_symbols": [
+        "update_trail_effects_chance.can_spawn",
+        "update_trail_effects_chance.chance_gate",
+        "update_trail_effects_chance.chance_delta",
+        "update_trail_effects_chance.spread_random",
+        "update_trail_effects_chance.spread_zero",
+        "update_trail_effects_chance.effect_at",
+        "update_trail_effects_chance.mathf_random_float",
+        "update_trail_effects_chance.vec2_len2",
+        "update_trail_effects_chance.vec2_rnd",
+        "update_trail_effects_chance.vec2_set_zero",
+        "update_trail_effects_chance.effect_at_color"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "N464": {
+      "canonical_ledger": "source_slice_ledger.N464",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "updateTrailEffects(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "source_symbols": [
+        "update_trail_effects_interval.interval_gate",
+        "update_trail_effects_interval.timer_call",
+        "update_trail_effects_interval.timer_comp",
+        "update_trail_effects_interval.interval_get",
+        "update_trail_effects_interval.interval_check",
+        "update_trail_effects_interval.spread_random",
+        "update_trail_effects_interval.spread_zero",
+        "update_trail_effects_interval.effect_at",
+        "update_trail_effects_interval.mathf_random_float",
+        "update_trail_effects_interval.vec2_rnd",
+        "update_trail_effects_interval.vec2_set_zero",
+        "update_trail_effects_interval.effect_at_color"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "N465": {
+      "canonical_ledger": "source_slice_ledger.N465",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_type_defaults_state",
+      "source_symbols": [
+        "init_type_defaults.pierce_gate",
+        "init_type_defaults.pierce_assign",
+        "init_type_defaults.set_defaults_gate",
+        "init_type_defaults.lightning_gate",
+        "init_type_defaults.status_none_gate",
+        "init_type_defaults.status_shocked_assign",
+        "init_type_defaults.despawn_hit_gate",
+        "init_type_defaults.despawn_hit_assign",
+        "init_type_defaults.status_effects_none",
+        "init_type_defaults.status_effects_shocked"
+      ],
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state"
+    },
+    "N466": {
+      "canonical_ledger": "source_slice_ledger.N466",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_frag_velocity_state",
+      "source_symbols": [
+        "init_frag_velocity.frag_gate",
+        "init_frag_velocity.frag_keep_velocity_assign",
+        "init_frag_velocity.frag_scale_keep_velocity_assign",
+        "init_frag_velocity.keep_velocity_field",
+        "init_frag_velocity.scale_keep_velocity_field"
+      ],
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state"
+    },
+    "N467": {
+      "canonical_ledger": "source_slice_ledger.N467",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_lightning_type_state",
+      "source_symbols": [
+        "init_lightning_type.gate",
+        "init_lightning_type.assign",
+        "init_lightning_type.choice",
+        "init_lightning_type.collides_air_ground_field",
+        "init_lightning_type.lightning_type_field",
+        "init_lightning_type.bullets_fields",
+        "init_lightning_type.damage_lightning_init",
+        "init_lightning_type.damage_lightning_ground_copy",
+        "init_lightning_type.damage_lightning_ground_collides_air",
+        "init_lightning_type.damage_lightning_air_copy",
+        "init_lightning_type.damage_lightning_air_collides_ground",
+        "init_lightning_type.damage_lightning_air_collides_tiles"
+      ],
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state"
+    },
+    "N468": {
+      "canonical_ledger": "source_slice_ledger.N468",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",
+      "source_symbols": [
+        "init_light_radius.gate",
+        "init_light_radius.assign",
+        "init_light_radius.hit_size_field",
+        "init_light_radius.light_radius_field"
+      ],
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state"
+    },
+    "N469": {
+      "canonical_ledger": "source_slice_ledger.N469",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_draw_size_state",
+      "source_symbols": [
+        "init_draw_size.assign",
+        "init_draw_size.draw_size_field",
+        "init_draw_size.trail_length_field",
+        "init_draw_size.speed_field"
+      ],
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state"
+    },
+    "N470": {
+      "canonical_ledger": "source_slice_ledger.N470",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",
+      "source_symbols": [
+        "init_range_assignment.assign",
+        "init_range_assignment.range_field",
+        "init_range_assignment.calculate_range_method"
+      ],
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state"
+    },
+    "N471": {
+      "canonical_ledger": "source_slice_ledger.N471",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_override_state",
+      "source_symbols": [
+        "calculate_range_override.gate_return",
+        "calculate_range_override.range_override_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_override_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_override_state",
+        "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state"
+    },
+    "N472": {
+      "canonical_ledger": "source_slice_ledger.N472",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "source_symbols": [
+        "calculate_range_spawn_unit.gate_return",
+        "calculate_range_spawn_unit.spawn_unit_field",
+        "calculate_range_spawn_unit.unit_type_lifetime_field",
+        "calculate_range_spawn_unit.unit_type_speed_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "N473": {
+      "canonical_ledger": "source_slice_ledger.N473",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state",
+      "source_symbols": [
+        "calculate_range_despawn_unit.gate_return",
+        "calculate_range_despawn_unit.despawn_unit_field"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state"
+    },
+    "N474": {
+      "canonical_ledger": "source_slice_ledger.N474",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "calculateRange()",
+      "godot_owner": "PortGame.source_bullet_type_calculate_range_fallback_state",
+      "source_symbols": [
+        "calculate_range_fallback.return_expr",
+        "calculate_range_fallback.drag_field",
+        "calculate_range_fallback.max_range_field",
+        "calculate_range_fallback.lifetime_field",
+        "init_draw_size.speed_field",
+        "calculate_range_fallback.mathf_zero",
+        "calculate_range_fallback.mathf_pow"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state"
+    },
+    "N475": {
+      "canonical_ledger": "source_slice_ledger.N475",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "continuousDamage()",
+      "godot_owner": "PortGame.source_bullet_type_continuous_damage_default_state",
+      "source_symbols": [
+        "continuous_damage_default.doc",
+        "continuous_damage_default.return_expr"
+      ],
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state"
+    },
+    "N476": {
+      "canonical_ledger": "source_slice_ledger.N476",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "heals()",
+      "godot_owner": "PortGame.source_bullet_type_heals_state",
+      "source_symbols": [
+        "heals.heal_percent_field",
+        "heals.heal_amount_field",
+        "heals.return_expr"
+      ],
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state"
+    },
+    "N477": {
+      "canonical_ledger": "source_slice_ledger.N477",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_initial_gate_state",
+      "source_symbols": [
+        "create_initial_gate.angle_offset_assignment",
+        "create_initial_gate.create_chance_gate",
+        "create_initial_gate.ignore_spawn_angle",
+        "create_initial_gate.spawn_unit_boundary",
+        "create_initial_gate.angle_offset_field",
+        "create_initial_gate.random_angle_offset_field",
+        "create_initial_gate.create_chance_field",
+        "create_initial_gate.ignore_spawn_angle_field",
+        "create_initial_gate.random_angle_offset_sample",
+        "create_initial_gate.create_chance_roll",
+        "create_initial_gate.mathf_range",
+        "create_initial_gate.mathf_chance"
+      ],
+      "tests": [
+        "test_bullet_type_create_initial_gate_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_initial_gate_state",
+        "test_bullet_type_create_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_initial_gate_state"
+    },
+    "N478": {
+      "canonical_ledger": "source_slice_ledger.N478",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",
+      "source_symbols": [
+        "create_spawn_unit.spawn_unit_gate",
+        "create_spawn_unit.client_guard",
+        "create_spawn_unit.spawn_create",
+        "create_spawn_unit.spawn_set",
+        "create_spawn_unit.spawn_rotation",
+        "create_spawn_unit.missile_speed_guard",
+        "create_spawn_unit.spawned_velocity",
+        "create_spawn_unit.missile_ai_guard",
+        "create_spawn_unit.missile_ai_shooter_assignment",
+        "create_spawn_unit.spawn_add",
+        "create_spawn_unit.notify_spawn",
+        "create_spawn_unit.kill_shooter",
+        "create_spawn_unit.return_null",
+        "create_spawn_unit.spawn_unit_field",
+        "create_spawn_unit.kill_shooter_field",
+        "create_spawn_unit.net_client",
+        "create_spawn_unit.owner_is_healthc",
+        "create_spawn_unit.owner_dead",
+        "create_spawn_unit.shooter_kind",
+        "create_spawn_unit.shooter_id",
+        "create_spawn_unit.control_unit",
+        "create_spawn_unit.bullet_create_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state"
+    },
+    "N479": {
+      "canonical_ledger": "source_slice_ledger.N479",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_bullet_identity_state",
+      "source_symbols": [
+        "create_bullet_identity.bullet_create",
+        "create_bullet_identity.type_assignment",
+        "create_bullet_identity.owner_assignment",
+        "create_bullet_identity.shooter_assignment",
+        "create_bullet_identity.team_assignment",
+        "create_bullet_identity.time_assignment",
+        "create_bullet_identity.origin_x_assignment",
+        "create_bullet_identity.origin_y_assignment",
+        "create_bullet_identity.aim_tile_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state"
+    },
+    "N480": {
+      "canonical_ledger": "source_slice_ledger.N480",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_aim_state",
+      "source_symbols": [
+        "create_aim.aim_gate",
+        "create_aim.aim_tile_assignment",
+        "create_aim.aim_x_assignment",
+        "create_aim.aim_y_assignment",
+        "create_aim.world_tile_world",
+        "create_aim.bullet_comp_aim_tile",
+        "create_aim.bullet_comp_aim_xy",
+        "create_aim.building_tile",
+        "create_aim.init_vel_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state"
+    },
+    "N481": {
+      "canonical_ledger": "source_slice_ledger.N481",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_velocity_position_state",
+      "source_symbols": [
+        "create_velocity_position.init_vel_call",
+        "create_velocity_position.velocity_amount_formula",
+        "create_velocity_position.velocity_random_multiplier",
+        "create_velocity_position.velocity_scale_random_factor",
+        "create_velocity_position.speed_field",
+        "create_velocity_position.velocity_scale_rand_fields",
+        "create_velocity_position.velocity_scale_rand_max_field",
+        "create_velocity_position.bullet_comp_init_vel",
+        "create_velocity_position.set_call",
+        "create_velocity_position.last_x_assignment",
+        "create_velocity_position.last_y_assignment",
+        "create_velocity_position.bullet_comp_last_xy_imports",
+        "create_velocity_position.lifetime_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state"
+    },
+    "N482": {
+      "canonical_ledger": "source_slice_ledger.N482",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_lifetime_payload_damage_state",
+      "source_symbols": [
+        "create_lifetime_payload_damage.lifetime_assignment",
+        "create_lifetime_payload_damage.lifetime_amount_formula",
+        "create_lifetime_payload_damage.life_random_multiplier",
+        "create_lifetime_payload_damage.life_scale_random_factor",
+        "create_lifetime_payload_damage.lifetime_field",
+        "create_lifetime_payload_damage.life_scale_rand_fields",
+        "create_lifetime_payload_damage.life_scale_rand_max_field",
+        "create_lifetime_payload_damage.data_assignment",
+        "create_lifetime_payload_damage.hit_size_assignment",
+        "create_lifetime_payload_damage.mover_assignment",
+        "create_lifetime_payload_damage.damage_assignment",
+        "create_lifetime_payload_damage.base_damage_selection",
+        "create_lifetime_payload_damage.damage_multiplier_factor",
+        "create_lifetime_payload_damage.bullet_comp_damage_multiplier",
+        "create_lifetime_payload_damage.bullet_type_damage_multiplier",
+        "create_lifetime_payload_damage.building_damage_multiplier_assignment",
+        "create_lifetime_payload_damage.building_damage_multiplier_field",
+        "create_lifetime_payload_damage.bullet_comp_payload_fields",
+        "create_lifetime_payload_damage.trail_clear_boundary",
+        "create_lifetime_payload_damage.add_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_lifetime_payload_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_lifetime_payload_damage_state",
+        "test_bullet_type_create_lifetime_payload_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state"
+    },
+    "N483": {
+      "canonical_ledger": "source_slice_ledger.N483",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_trail_add_state",
+      "source_symbols": [
+        "create_trail_add.trail_null_guard",
+        "create_trail_add.trail_clear_call",
+        "create_trail_add.trail_clear_impl",
+        "create_trail_add.bullet_add_call",
+        "create_trail_add.bullet_comp_add",
+        "create_trail_add.bullet_comp_trail_field",
+        "create_trail_add.keep_velocity_boundary"
+      ],
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state"
+    },
+    "N484": {
+      "canonical_ledger": "source_slice_ledger.N484",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_type_create_keep_velocity_state",
+      "source_symbols": [
+        "create_keep_velocity.keep_velocity_field",
+        "create_keep_velocity.scale_keep_velocity_field",
+        "create_keep_velocity.keep_velocity_gate",
+        "create_keep_velocity.len_before",
+        "create_keep_velocity.add_owner_velocity",
+        "create_keep_velocity.scale_gate",
+        "create_keep_velocity.len_after",
+        "create_keep_velocity.lifetime_scale",
+        "create_keep_velocity.return_bullet",
+        "create_keep_velocity.vel_comp_vel",
+        "create_keep_velocity.vec2_len",
+        "create_keep_velocity.vec2_add"
+      ],
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state"
+    },
+    "N671": {
+      "canonical_ledger": "source_slice_ledger.N671",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_ammo_multiplier",
+      "source_symbols": [
+        "bullet_ammo_multiplier.comment",
+        "bullet_ammo_multiplier.field",
+        "bullet_ammo_multiplier.data",
+        "bullet_ammo_multiplier.key",
+        "bullet_ammo_multiplier.default",
+        "bullet_ammo_multiplier.result"
+      ],
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_ammo_multiplier"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier"
+    },
+    "N672": {
+      "canonical_ledger": "source_slice_ledger.N672",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_damage",
+      "source_symbols": [
+        "bullet_damage.field",
+        "bullet_damage.data",
+        "bullet_damage.key",
+        "bullet_damage.default",
+        "bullet_damage.result"
+      ],
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_damage"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_damage"
+    },
+    "N673": {
+      "canonical_ledger": "source_slice_ledger.N673",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_hit_size",
+      "source_symbols": [
+        "bullet_hit_size.field",
+        "bullet_hit_size.data",
+        "bullet_hit_size.key",
+        "bullet_hit_size.default",
+        "bullet_hit_size.result"
+      ],
+      "tests": [
+        "test_bullet_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_hit_size"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_hit_size"
+    },
+    "N674": {
+      "canonical_ledger": "source_slice_ledger.N674",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_inaccuracy",
+      "source_symbols": [
+        "bullet_inaccuracy.comment",
+        "bullet_inaccuracy.field",
+        "bullet_inaccuracy.data",
+        "bullet_inaccuracy.key",
+        "bullet_inaccuracy.default",
+        "bullet_inaccuracy.result"
+      ],
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_inaccuracy"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy"
+    },
+    "N675": {
+      "canonical_ledger": "source_slice_ledger.N675",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_lifetime_seconds",
+      "source_symbols": [
+        "bullet_lifetime.comment",
+        "bullet_lifetime.data",
+        "bullet_lifetime.default",
+        "bullet_lifetime.field",
+        "bullet_lifetime.key",
+        "bullet_lifetime.result",
+        "bullet_lifetime.ticks_per_second"
+      ],
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_lifetime"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds"
+    },
+    "N676": {
+      "canonical_ledger": "source_slice_ledger.N676",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_range_change",
+      "source_symbols": [
+        "bullet_range_change.comment",
+        "bullet_range_change.data",
+        "bullet_range_change.default",
+        "bullet_range_change.field",
+        "bullet_range_change.key",
+        "bullet_range_change.result"
+      ],
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_range"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_range_change"
+    },
+    "N677": {
+      "canonical_ledger": "source_slice_ledger.N677",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_reload_multiplier",
+      "source_symbols": [
+        "bullet_reload_multiplier.comment",
+        "bullet_reload_multiplier.data",
+        "bullet_reload_multiplier.default",
+        "bullet_reload_multiplier.field",
+        "bullet_reload_multiplier.key",
+        "bullet_reload_multiplier.result"
+      ],
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_reload_multiplier"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier"
+    },
+    "N679": {
+      "canonical_ledger": "source_slice_ledger.N679",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "java_method": "draw(Bullet b)",
+      "godot_owner": "PortGame.source_bullet_scale",
+      "source_symbols": [
+        "bullet_scale.data",
+        "bullet_scale.draw_height",
+        "bullet_scale.draw_rect",
+        "bullet_scale.draw_width",
+        "bullet_scale.field",
+        "bullet_scale.height_default",
+        "bullet_scale.height_key",
+        "bullet_scale.result",
+        "bullet_scale.texture_size",
+        "bullet_scale.width_default",
+        "bullet_scale.width_key"
+      ],
+      "tests": [
+        "test_bullet_scale_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_dimensions"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_scale"
+    },
+    "N680": {
+      "canonical_ledger": "source_slice_ledger.N680",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "java_method": "load()",
+      "godot_owner": "PortGame.source_bullet_texture",
+      "source_symbols": [
+        "bullet_texture.asset_bridge",
+        "bullet_texture.back_sprite_field",
+        "bullet_texture.default",
+        "bullet_texture.default_sprite_ctor",
+        "bullet_texture.front_region_load",
+        "bullet_texture.load_method",
+        "bullet_texture.sprite_field",
+        "bullet_texture.sprite_id"
+      ],
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_sprite_assets"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_texture"
+    },
+    "N681": {
+      "canonical_ledger": "source_slice_ledger.N681",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "godot_owner": "PortGame.source_bullet_velocity",
+      "source_symbols": [
+        "bullet_velocity.angle",
+        "bullet_velocity.comp_init_vel_method",
+        "bullet_velocity.comp_rotation",
+        "bullet_velocity.comp_trns",
+        "bullet_velocity.data",
+        "bullet_velocity.init_vel_call",
+        "bullet_velocity.result",
+        "bullet_velocity.speed_field"
+      ],
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_speed"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_velocity"
+    },
+    "N683": {
+      "canonical_ledger": "source_slice_ledger.N683",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_bullet_world_speed",
+      "source_symbols": [
+        "bullet_world_speed.comment",
+        "bullet_world_speed.data",
+        "bullet_world_speed.default",
+        "bullet_world_speed.field",
+        "bullet_world_speed.key",
+        "bullet_world_speed.result",
+        "bullet_world_speed.stat_case",
+        "bullet_world_speed.ticks_per_second"
+      ],
+      "tests": [
+        "test_bullet_world_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_bullet_speed"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_world_speed"
+    }
+  }
+}

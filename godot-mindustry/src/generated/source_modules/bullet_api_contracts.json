@@ -1,0 +1,4036 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_api_contracts",
+    "ownerSource": "source_modules/bullet_slices.json"
+  },
+  "contracts": {
+    "PortGame.source_bullet_ammo_multiplier": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_ammo_multiplier",
+      "status": "active",
+      "source_slice": "N671",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_ammo_multiplier_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "ammo_multiplier"
+      ],
+      "tests": [
+        "test_bullet_ammo_multiplier_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_ammo_multiplier",
+      "rule": "Public runtime contract for BulletType ammoMultiplier field helper."
+    },
+    "PortGame.source_bullet_damage": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_damage",
+      "status": "active",
+      "source_slice": "N672",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_damage_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "damage"
+      ],
+      "tests": [
+        "test_bullet_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_damage",
+      "rule": "Public runtime contract for BulletType damage field helper."
+    },
+    "PortGame.source_bullet_hit_size": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_hit_size",
+      "status": "active",
+      "source_slice": "N673",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_hit_size_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "hit_size"
+      ],
+      "tests": [
+        "test_bullet_hit_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_hit_size",
+      "rule": "Public runtime contract for BulletType hitSize field helper."
+    },
+    "PortGame.source_bullet_inaccuracy": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_inaccuracy",
+      "status": "active",
+      "source_slice": "N674",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_inaccuracy_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "inaccuracy"
+      ],
+      "tests": [
+        "test_bullet_inaccuracy_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_inaccuracy",
+      "rule": "Public runtime contract for BulletType inaccuracy field helper."
+    },
+    "PortGame.source_bullet_lifetime_seconds": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_lifetime_seconds",
+      "status": "active",
+      "source_slice": "N675",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_lifetime_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "lifetime_seconds"
+      ],
+      "tests": [
+        "test_bullet_lifetime_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_lifetime_seconds",
+      "rule": "Public runtime contract for BulletType lifetime field helper."
+    },
+    "PortGame.source_bullet_range_change": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_range_change",
+      "status": "active",
+      "source_slice": "N676",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_range_change_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "range_change"
+      ],
+      "tests": [
+        "test_bullet_range_change_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_range_change",
+      "rule": "Public runtime contract for BulletType rangeChange field helper."
+    },
+    "PortGame.source_bullet_reload_multiplier": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_reload_multiplier",
+      "status": "active",
+      "source_slice": "N677",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_reload_multiplier_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "reload_multiplier"
+      ],
+      "tests": [
+        "test_bullet_reload_multiplier_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_reload_multiplier",
+      "rule": "Public runtime contract for BulletType reloadMultiplier field helper."
+    },
+    "PortGame.source_bullet_scale": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_scale",
+      "status": "active",
+      "source_slice": "N679",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "source_method": "draw(Bullet b)",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_scale_input.data",
+          "type": "Dictionary"
+        },
+        {
+          "name": "texture_size",
+          "schema": "source_bullet_scale_input.texture_size",
+          "type": "Vector2"
+        }
+      ],
+      "return_keys": [
+        "scale"
+      ],
+      "tests": [
+        "test_bullet_scale_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_scale",
+      "rule": "Public runtime contract for BasicBulletType draw dimension to Godot scale helper."
+    },
+    "PortGame.source_bullet_texture": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_texture",
+      "status": "active",
+      "source_slice": "N680",
+      "java_source": "core/src/mindustry/entities/bullet/BasicBulletType.java",
+      "source_method": "load()",
+      "params": [
+        {
+          "name": "sprite_id",
+          "schema": "source_bullet_texture_input.sprite_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "texture"
+      ],
+      "tests": [
+        "test_bullet_texture_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_texture",
+      "rule": "Public runtime contract for BasicBulletType frontRegion sprite atlas lookup through Godot asset bridge."
+    },
+    "PortGame.source_bullet_type_building_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_building_damage_state",
+      "status": "active",
+      "source_slice": "N447",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "buildingDamage(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "damage",
+        "buildingDamageMultiplier",
+        "buildingDamage",
+        "buildingDamageReturnSource",
+        "shieldDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_building_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_building_damage_state",
+        "test_bullet_type_building_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_building_damage_state",
+      "rule": "Public runtime contract for BulletType.buildingDamage return record."
+    },
+    "PortGame.source_bullet_type_calculate_range_despawn_unit_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_calculate_range_despawn_unit_state",
+      "status": "active",
+      "source_slice": "N473",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "spawn_unit_state",
+          "schema": "calculate_range_spawn_unit_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "despawnUnitRangeGatePassed",
+        "returnEarly",
+        "range",
+        "despawnUnit",
+        "despawnUnitReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_despawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state",
+        "test_bullet_type_calculate_range_despawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_despawn_unit_state",
+      "rule": "Public runtime contract for BulletType.calculateRange despawnUnit early return after spawnUnit state."
+    },
+    "PortGame.source_bullet_type_calculate_range_fallback_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_calculate_range_fallback_state",
+      "status": "active",
+      "source_slice": "N474",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "despawn_unit_state",
+          "schema": "calculate_range_despawn_unit_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "fallbackRangeGatePassed",
+        "returnEarly",
+        "range",
+        "fallbackRange",
+        "zeroDrag",
+        "drag",
+        "maxRange",
+        "fallbackReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_fallback_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_fallback_state",
+        "test_bullet_type_calculate_range_fallback_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_fallback_state",
+      "rule": "Public runtime contract for BulletType.calculateRange fallback formula after all early returns miss."
+    },
+    "PortGame.source_bullet_type_calculate_range_override_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_calculate_range_override_state",
+      "status": "active",
+      "source_slice": "N471",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "rangeOverride",
+        "rangeOverrideGatePassed",
+        "returnEarly",
+        "range",
+        "rangeOverrideReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_override_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_override_state",
+        "test_bullet_type_calculate_range_override_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_override_state",
+      "rule": "Public runtime contract for BulletType.calculateRange rangeOverride positive early return."
+    },
+    "PortGame.source_bullet_type_calculate_range_spawn_unit_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_calculate_range_spawn_unit_state",
+      "status": "active",
+      "source_slice": "N472",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "calculateRange()",
+      "params": [
+        {
+          "name": "override_state",
+          "schema": "calculate_range_override_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "spawnUnitRangeGatePassed",
+        "returnEarly",
+        "range",
+        "spawnUnit",
+        "spawnUnitReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
+        "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_calculate_range_spawn_unit_state",
+      "rule": "Public runtime contract for BulletType.calculateRange spawnUnit early return after rangeOverride state."
+    },
+    "PortGame.source_bullet_type_continuous_damage_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_continuous_damage_default_state",
+      "status": "active",
+      "source_slice": "N475",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "continuousDamage()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "continuousDamage",
+        "continuousDamageReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_continuous_damage_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_continuous_damage_default_state",
+        "test_bullet_type_continuous_damage_default_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_continuous_damage_default_state",
+      "rule": "Public runtime contract for BulletType.continuousDamage default -1 sentinel."
+    },
+    "PortGame.source_bullet_type_create_aim_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_aim_state",
+      "status": "active",
+      "source_slice": "N480",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "identity_state",
+          "schema": "create_bullet_identity_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_call_state",
+          "schema": "create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "target_state",
+          "schema": "target_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "world_tile_from_aim",
+          "schema": "world.tileWorld(aimX, aimY)",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletAimApplied",
+        "hasAimTile",
+        "bullet",
+        "aimTileSource",
+        "aimXSource",
+        "aimYSource",
+        "worldTileWorldSource",
+        "initVelReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_aim_state",
+        "test_bullet_type_create_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_aim_state",
+      "rule": "Public runtime contract for BulletType.create aim target assignment before initVel."
+    },
+    "PortGame.source_bullet_type_create_bullet_identity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_bullet_identity_state",
+      "status": "active",
+      "source_slice": "N479",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "initial_gate_state",
+          "schema": "create_initial_gate_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "spawn_unit_state",
+          "schema": "create_spawn_unit_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletAllocated",
+        "bulletCreateReturnsNull",
+        "bullet",
+        "bulletCreateSource",
+        "typeSource",
+        "ownerSource",
+        "shooterSource",
+        "teamSource",
+        "timeSource",
+        "originXSource",
+        "originYSource",
+        "aimTileReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_bullet_identity_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_bullet_identity_state",
+        "test_bullet_type_create_bullet_identity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_bullet_identity_state",
+      "rule": "Public runtime contract for BulletType.create normal bullet identity allocation, before aim target handling."
+    },
+    "PortGame.source_bullet_type_create_frags_create_call_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_frags_create_call_state",
+      "status": "active",
+      "source_slice": "N430",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_frags_random_geometry_state",
+          "schema": "create_frags_random_geometry_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "frag_random_state",
+          "schema": "frag_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFragsRandomGeometry",
+        "fragRandom",
+        "fragGatePassed",
+        "fragBullet",
+        "fragVelocityMin",
+        "fragVelocityMax",
+        "fragLifeMin",
+        "fragLifeMax",
+        "fragmentCreateCalls",
+        "trnsxSource",
+        "trnsySource",
+        "velocityRandomSource",
+        "lifeRandomSource",
+        "createCallSource",
+        "fragsIncrementBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_create_call_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_create_call_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_create_call_state",
+      "rule": "Public runtime contract for createFrags fragBullet.create call arguments only; Bullet.frags increment remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_increment_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_frags_increment_state",
+      "status": "active",
+      "source_slice": "N431",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_frags_create_call_state",
+          "schema": "create_frags_create_call_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "createFragsCreateCall",
+        "fragGatePassed",
+        "bulletFragsBefore",
+        "bulletFragsAfter",
+        "fragsIncremented",
+        "fragsIncrementSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_increment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_increment_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_increment_state",
+      "rule": "Public runtime contract for final BulletType.createFrags b.frags++ side effect only."
+    },
+    "PortGame.source_bullet_type_create_frags_initial_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_frags_initial_state",
+      "status": "active",
+      "source_slice": "N428",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_frags_state",
+          "schema": "create_frags_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFrags",
+        "x",
+        "y",
+        "fragBullet",
+        "fragBulletExists",
+        "fragOnAbsorb",
+        "bulletAbsorbed",
+        "pierceFragCap",
+        "bulletFrags",
+        "fragBullets",
+        "fragGatePassed",
+        "loopIterations",
+        "fragGateSource",
+        "loopBoundarySource",
+        "randomLenBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_initial_state",
+      "rule": "Public runtime contract for BulletType.createFrags initial guard and loop boundary only; loop body remains deferred."
+    },
+    "PortGame.source_bullet_type_create_frags_random_geometry_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_frags_random_geometry_state",
+      "status": "active",
+      "source_slice": "N429",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createFrags(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_frags_initial_state",
+          "schema": "create_frags_initial_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "frag_random_state",
+          "schema": "frag_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createFragsInitial",
+        "fragRandom",
+        "fragGatePassed",
+        "loopIterations",
+        "fragOffsetMin",
+        "fragOffsetMax",
+        "fragRandomSpread",
+        "fragAngle",
+        "fragSpread",
+        "rotation",
+        "fragmentPlans",
+        "randomLenSource",
+        "angleFormulaSource",
+        "createCallBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_frags_random_geometry_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_frags_random_geometry_state",
+      "rule": "Public runtime contract for createFrags random len and angle geometry only; actual fragBullet.create remains deferred."
+    },
+    "PortGame.source_bullet_type_create_incend_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_incend_state",
+      "status": "active",
+      "source_slice": "N435",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createIncend(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_incend_state",
+          "schema": "create_incend_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "incend_random_state",
+          "schema": "incend_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createIncend",
+        "incendRandom",
+        "x",
+        "y",
+        "incendChance",
+        "incendSpread",
+        "incendAmount",
+        "chancePassed",
+        "chancePassedProvided",
+        "incendGatePassed",
+        "createIncendCall",
+        "chanceSource",
+        "createIncendSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_incend_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_incend_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_incend_state",
+      "rule": "Public runtime contract for createIncend chance gate and Damage.createIncend call arguments only; fire-world mutation remains deferred."
+    },
+    "PortGame.source_bullet_type_create_initial_gate_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_initial_gate_state",
+      "status": "active",
+      "source_slice": "N477",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "random_angle_offset",
+          "schema": "create_initial_gate_input.randomAngleOffsetSample",
+          "type": "float"
+        },
+        {
+          "name": "create_chance_roll",
+          "schema": "create_initial_gate_input.createChanceRoll",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletCreateCalled",
+        "bulletCreateReturnsNull",
+        "createChance",
+        "createChanceRoll",
+        "createChancePassed",
+        "angle",
+        "angleOffset",
+        "randomAngleOffset",
+        "ignoreSpawnAngleApplied",
+        "angleOffsetSource",
+        "mathfRangeSource",
+        "createChanceSource",
+        "mathfChanceSource",
+        "ignoreSpawnAngleSource",
+        "spawnUnitReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_initial_gate_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_initial_gate_state",
+        "test_bullet_type_create_initial_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_initial_gate_state",
+      "rule": "Public runtime contract for BulletType.create initial angle/chance/ignoreSpawnAngle gate."
+    },
+    "PortGame.source_bullet_type_create_keep_velocity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_keep_velocity_state",
+      "status": "active",
+      "source_slice": "N484",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "trail_add_state",
+          "schema": "create_trail_add_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "owner_state",
+          "schema": "create_keep_velocity_owner_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "keepVelocityApplied",
+        "scaleKeepVelocityApplied",
+        "keepVelocity",
+        "scaleKeepVelocity",
+        "ownerIsVelc",
+        "ownerVel",
+        "lenBefore",
+        "lenAfter",
+        "bulletVelBefore",
+        "bulletVelAfter",
+        "returnedBullet",
+        "bullet",
+        "keepVelocitySource",
+        "vec2LenSource",
+        "vec2AddSource",
+        "lifetimeScaleSource",
+        "returnSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_keep_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_keep_velocity_state",
+        "test_bullet_type_create_keep_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_keep_velocity_state",
+      "rule": "Public runtime contract for BulletType.create keepVelocity owner velocity merge, scaleKeepVelocity lifetime clamp, and return bullet."
+    },
+    "PortGame.source_bullet_type_create_lifetime_payload_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_lifetime_payload_damage_state",
+      "status": "active",
+      "source_slice": "N482",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "velocity_position_state",
+          "schema": "create_velocity_position_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_call_state",
+          "schema": "create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "life_scale_random_factor",
+          "schema": "Mathf.random(lifeScaleRandMin, lifeScaleRandMax)",
+          "type": "float"
+        },
+        {
+          "name": "damage_multiplier_factor",
+          "schema": "bullet.damageMultiplier()",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletLifetimePayloadDamageApplied",
+        "lifeScaleRandMin",
+        "lifeScaleRandMax",
+        "lifeScaleRandomFactor",
+        "lifeRandomMultiplier",
+        "lifetimeAmount",
+        "baseDamage",
+        "damageMultiplierFactor",
+        "damageAmount",
+        "bullet",
+        "lifetimeSource",
+        "dataSource",
+        "hitSizeSource",
+        "moverSource",
+        "damageSource",
+        "damageMultiplierSource",
+        "buildingDamageMultiplierSource",
+        "trailClearReservedSource",
+        "addReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_lifetime_payload_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_lifetime_payload_damage_state",
+        "test_bullet_type_create_lifetime_payload_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_lifetime_payload_damage_state",
+      "rule": "Public runtime contract for BulletType.create lifetime, payload, hit size, mover, damage, and building damage multiplier before trail reset/add."
+    },
+    "PortGame.source_bullet_type_create_puddles_deposit_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_puddles_deposit_state",
+      "status": "active",
+      "source_slice": "N434",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createPuddles(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_puddles_tile_world_state",
+          "schema": "create_puddles_tile_world_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createPuddlesTileWorld",
+        "puddleGatePassed",
+        "puddleLiquid",
+        "puddleAmount",
+        "tileWorldCalls",
+        "depositCalls",
+        "depositSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_deposit_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_deposit_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_deposit_state",
+      "rule": "Public runtime contract for createPuddles Puddles.deposit call arguments only; puddle world mutation remains deferred."
+    },
+    "PortGame.source_bullet_type_create_puddles_initial_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_puddles_initial_state",
+      "status": "active",
+      "source_slice": "N432",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createPuddles(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_puddles_state",
+          "schema": "create_puddles_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createPuddles",
+        "x",
+        "y",
+        "puddleLiquid",
+        "puddles",
+        "puddleRange",
+        "puddleAmount",
+        "puddleGatePassed",
+        "loopIterations",
+        "puddleGateSource",
+        "loopBoundarySource",
+        "tileBoundarySource",
+        "depositBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_initial_state",
+      "rule": "Public runtime contract for createPuddles initial gate and loop boundary only; tile lookup and Puddles.deposit remain deferred."
+    },
+    "PortGame.source_bullet_type_create_puddles_tile_world_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_puddles_tile_world_state",
+      "status": "active",
+      "source_slice": "N433",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createPuddles(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_puddles_initial_state",
+          "schema": "create_puddles_initial_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "puddle_random_state",
+          "schema": "puddle_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createPuddlesInitial",
+        "puddleRandom",
+        "puddleGatePassed",
+        "loopIterations",
+        "puddleRange",
+        "x",
+        "y",
+        "tileWorldCalls",
+        "xRangeSource",
+        "yRangeSource",
+        "tileWorldSource",
+        "depositBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_puddles_tile_world_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_puddles_tile_world_state",
+      "rule": "Public runtime contract for createPuddles world.tileWorld call arguments only; Puddles.deposit remains deferred."
+    },
+    "PortGame.source_bullet_type_create_spawn_unit_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_spawn_unit_state",
+      "status": "active",
+      "source_slice": "N478",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "initial_gate_state",
+          "schema": "create_initial_gate_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "net_client",
+          "schema": "net_state.client",
+          "type": "bool"
+        },
+        {
+          "name": "owner_health_state",
+          "schema": "owner_health_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shooter_state",
+          "schema": "shooter_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "spawnUnitBranchEntered",
+        "spawnSkippedClient",
+        "bulletCreateReturnsNull",
+        "spawnedUnit",
+        "ownerKilled",
+        "spawnUnitSource",
+        "clientGuardSource",
+        "spawnedUnitCreateSource",
+        "spawnedSetSource",
+        "spawnedRotationSource",
+        "spawnedVelocitySource",
+        "shooterAssignSource",
+        "controlShooterAssignSource",
+        "spawnedAddSource",
+        "notifySpawnSource",
+        "killShooterSource",
+        "returnNullSource",
+        "bulletCreationReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_spawn_unit_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
+        "test_bullet_type_create_spawn_unit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_spawn_unit_state",
+      "rule": "Public runtime contract for BulletType.create spawnUnit branch through return null, without normal Bullet allocation."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "status": "active",
+      "source_slice": "N424",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_splash_damage_dispatch_state",
+          "schema": "hit_splash_damage_dispatch_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "damage_multiplier_state",
+          "schema": "damage_multiplier_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitSplashDamageDispatch",
+        "damageMultiplierState",
+        "x",
+        "y",
+        "bulletTeam",
+        "bulletAbsorbed",
+        "splashDamageRadius",
+        "splashDamage",
+        "damageMultiplier",
+        "damageAmount",
+        "splashDamagePierce",
+        "collidesAir",
+        "collidesGround",
+        "scaledSplashDamage",
+        "armorMultiplier",
+        "splashDamageGatePassed",
+        "damageCall",
+        "splashDamageGateSource",
+        "damageCallSource",
+        "statusBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_damage_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage damage dispatch only; status, heal, and makeFire branches remain deferred."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "status": "active",
+      "source_slice": "N426",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_splash_damage_status_dispatch_state",
+          "schema": "create_splash_damage_status_dispatch_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "nearby_blocks_state",
+          "schema": "nearby_blocks_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createSplashDamageStatusDispatch",
+        "nearbyBlocks",
+        "x",
+        "y",
+        "bulletTeam",
+        "splashDamageRadius",
+        "splashDamageGatePassed",
+        "healPercent",
+        "healAmount",
+        "healColor",
+        "healEffect",
+        "heals",
+        "healGatePassed",
+        "eachBlockCall",
+        "healApplications",
+        "healsGateSource",
+        "eachBlockCallSource",
+        "healEffectCallSource",
+        "otherHealCallSource",
+        "makeFireBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_heal_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_heal_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage heal dispatch only; makeFire branch remains deferred."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
+      "status": "active",
+      "source_slice": "N427",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_splash_damage_heal_dispatch_state",
+          "schema": "create_splash_damage_heal_dispatch_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "nearby_blocks_state",
+          "schema": "nearby_blocks_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createSplashDamageHealDispatch",
+        "nearbyBlocks",
+        "x",
+        "y",
+        "bulletTeam",
+        "splashDamageRadius",
+        "splashDamageGatePassed",
+        "makeFire",
+        "makeFireGatePassed",
+        "eachBlockCall",
+        "fireApplications",
+        "makeFireGateSource",
+        "eachBlockCallSource",
+        "firesCreateCallSource",
+        "createFragsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_make_fire_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_make_fire_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage makeFire dispatch only; createFrags body remains deferred."
+    },
+    "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "status": "active",
+      "source_slice": "N425",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createSplashDamage(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_splash_damage_damage_dispatch_state",
+          "schema": "create_splash_damage_damage_dispatch_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createSplashDamageDamageDispatch",
+        "x",
+        "y",
+        "bulletTeam",
+        "splashDamageRadius",
+        "status",
+        "statusDuration",
+        "collidesAir",
+        "collidesGround",
+        "splashDamageGatePassed",
+        "statusGatePassed",
+        "statusCall",
+        "statusGateSource",
+        "statusCallSource",
+        "healsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_splash_damage_status_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_splash_damage_status_dispatch_state",
+      "rule": "Public runtime contract for BulletType.createSplashDamage status dispatch only; heal and makeFire branches remain deferred."
+    },
+    "PortGame.source_bullet_type_create_trail_add_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_trail_add_state",
+      "status": "active",
+      "source_slice": "N483",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "lifetime_payload_damage_state",
+          "schema": "create_lifetime_payload_damage_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletTrailAddApplied",
+        "trailCleared",
+        "bulletAdded",
+        "typeInitCalled",
+        "typeInitCall",
+        "bullet",
+        "trailNullGuardSource",
+        "trailClearSource",
+        "trailClearImplSource",
+        "bulletAddSource",
+        "bulletCompAddSource",
+        "keepVelocityReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_trail_add_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_trail_add_state",
+        "test_bullet_type_create_trail_add_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_trail_add_state",
+      "rule": "Public runtime contract for BulletType.create trail reset and Bullet.add before keepVelocity owner velocity merge."
+    },
+    "PortGame.source_bullet_type_create_units_initial_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_units_initial_state",
+      "status": "active",
+      "source_slice": "N436",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_state",
+          "schema": "create_units_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_random_state",
+          "schema": "create_units_random_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "net_state",
+          "schema": "net_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnits",
+        "createUnitsRandom",
+        "net",
+        "x",
+        "y",
+        "netClient",
+        "despawnUnit",
+        "despawnUnitChance",
+        "despawnUnitCount",
+        "despawnUnitRadius",
+        "faceOutwards",
+        "bulletTeam",
+        "chancePassed",
+        "chancePassedProvided",
+        "createUnitsGatePassed",
+        "loopIterations",
+        "gateSource",
+        "loopBoundarySource",
+        "randomOffsetBoundarySource",
+        "spawnBoundarySource",
+        "rotationBoundarySource",
+        "notifyBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_initial_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_initial_state",
+      "rule": "Public runtime contract for createUnits initial gate and despawnUnitCount loop boundary only; random offset, spawn, rotation, and notify side effects remain deferred."
+    },
+    "PortGame.source_bullet_type_create_units_notify_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_units_notify_state",
+      "status": "active",
+      "source_slice": "N440",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_rotation_state",
+          "schema": "create_units_rotation_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsRotation",
+        "rotationAssignments",
+        "notifyCalls",
+        "notifySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_notify_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_notify_state",
+        "test_bullet_type_create_units_notify_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_notify_state",
+      "rule": "Public runtime contract for createUnits Units.notifyUnitSpawn call records."
+    },
+    "PortGame.source_bullet_type_create_units_random_offset_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_units_random_offset_state",
+      "status": "active",
+      "source_slice": "N437",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_initial_state",
+          "schema": "create_units_initial_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_random_state",
+          "schema": "create_units_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsInitial",
+        "createUnitsRandom",
+        "createUnitsGatePassed",
+        "loopIterations",
+        "despawnUnitRadius",
+        "x",
+        "y",
+        "unitOffsetPlans",
+        "randomLengthSource",
+        "vec2RndSource",
+        "randomDirectionSource",
+        "spawnBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_random_offset_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_random_offset_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_random_offset_state",
+      "rule": "Public runtime contract for createUnits Tmp.v1 random offset plan only; despawnUnit.spawn, rotation, and notify side effects remain deferred."
+    },
+    "PortGame.source_bullet_type_create_units_rotation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_units_rotation_state",
+      "status": "active",
+      "source_slice": "N439",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_spawn_state",
+          "schema": "create_units_spawn_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsSpawn",
+        "faceOutwards",
+        "bulletRotation",
+        "spawnCalls",
+        "rotationAssignments",
+        "rotationSource",
+        "vec2AngleSource",
+        "bulletRotationSource",
+        "notifyBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_rotation_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_rotation_state",
+        "test_bullet_type_create_units_rotation_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_rotation_state",
+      "rule": "Public runtime contract for createUnits unit rotation assignment only; Units.notifyUnitSpawn remains deferred."
+    },
+    "PortGame.source_bullet_type_create_units_spawn_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_units_spawn_state",
+      "status": "active",
+      "source_slice": "N438",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "createUnits(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_units_random_offset_state",
+          "schema": "create_units_random_offset_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "createUnitsRandomOffset",
+        "createUnitsGatePassed",
+        "despawnUnit",
+        "bulletTeam",
+        "unitOffsetPlans",
+        "spawnCalls",
+        "spawnSource",
+        "rotationBoundarySource",
+        "notifyBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_create_units_spawn_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_units_spawn_state",
+        "test_bullet_type_create_units_spawn_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_units_spawn_state",
+      "rule": "Public runtime contract for createUnits despawnUnit.spawn call arguments only; UnitType.spawn side effect, rotation, and notify remain deferred."
+    },
+    "PortGame.source_bullet_type_create_velocity_position_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_create_velocity_position_state",
+      "status": "active",
+      "source_slice": "N481",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "aim_state",
+          "schema": "create_aim_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "initial_gate_state",
+          "schema": "create_initial_gate_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_call_state",
+          "schema": "create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "velocity_scale_random_factor",
+          "schema": "Mathf.random(velocityScaleRandMin, velocityScaleRandMax)",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "bulletVelocityPositionApplied",
+        "velocityScaleRandMin",
+        "velocityScaleRandMax",
+        "velocityScaleRandomFactor",
+        "velocityRandomMultiplier",
+        "velocityAmount",
+        "bullet",
+        "initVelSource",
+        "bulletCompInitVelSource",
+        "setSource",
+        "lastXSource",
+        "lastYSource",
+        "lifetimeReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_create_velocity_position_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_create_velocity_position_state",
+        "test_bullet_type_create_velocity_position_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_create_velocity_position_state",
+      "rule": "Public runtime contract for BulletType.create initVel, position, and last position assignment before lifetime/payload/damage."
+    },
+    "PortGame.source_bullet_type_damage_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_damage_multiplier_state",
+      "status": "active",
+      "source_slice": "N416",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "damageMultiplier(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_owner_state",
+          "schema": "bullet_owner_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "rules_state",
+          "schema": "rules_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "owner",
+        "rules",
+        "team",
+        "ownerIsUnit",
+        "ownerUnitDamageMultiplier",
+        "ownerIsBuilding",
+        "rulesUnitDamage",
+        "rulesBlockDamage",
+        "damageMultiplier",
+        "branch",
+        "unitBranchSource",
+        "buildingBranchSource",
+        "fallbackSource"
+      ],
+      "tests": [
+        "test_bullet_type_damage_multiplier_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_damage_multiplier_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_damage_multiplier_state",
+      "rule": "Public runtime contract for BulletType.damageMultiplier owner/rules branch selection."
+    },
+    "PortGame.source_bullet_type_despawned_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_despawned_dispatch_state",
+      "status": "active",
+      "source_slice": "N441",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnHit",
+        "bulletX",
+        "bulletY",
+        "hitCall",
+        "createUnitsCall",
+        "despawnEffectBoundarySource",
+        "despawnSoundBoundarySource",
+        "shakeBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_dispatch_state",
+        "test_bullet_type_despawned_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_dispatch_state",
+      "rule": "Public runtime contract for BulletType.despawned hit/createUnits dispatch records."
+    },
+    "PortGame.source_bullet_type_despawned_effect_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_despawned_effect_state",
+      "status": "active",
+      "source_slice": "N442",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "despawned_dispatch_state",
+          "schema": "despawned_dispatch_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnedDispatch",
+        "bulletX",
+        "bulletY",
+        "despawnEffectCall",
+        "despawnEffectCallSource",
+        "despawnSoundBoundarySource",
+        "shakeBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_effect_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_effect_state",
+        "test_bullet_type_despawned_effect_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_effect_state",
+      "rule": "Public runtime contract for BulletType.despawned despawnEffect call record."
+    },
+    "PortGame.source_bullet_type_despawned_shake_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_despawned_shake_state",
+      "status": "active",
+      "source_slice": "N444",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "despawned_sound_state",
+          "schema": "despawned_sound_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnedSound",
+        "despawnShake",
+        "shakeCall",
+        "shakeCallSource",
+        "effectShakePositionSource",
+        "removedBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_shake_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_shake_state",
+        "test_bullet_type_despawned_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_shake_state",
+      "rule": "Public runtime contract for BulletType.despawned Effect.shake call record."
+    },
+    "PortGame.source_bullet_type_despawned_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_despawned_sound_state",
+      "status": "active",
+      "source_slice": "N443",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "despawned(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "despawned_effect_state",
+          "schema": "despawned_effect_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "despawn_sound_random_state",
+          "schema": "despawn_sound_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "despawnedEffect",
+        "despawnSoundRandom",
+        "despawnSoundCall",
+        "despawnSoundCallSource",
+        "mathfRangeSource",
+        "shakeBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_despawned_sound_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_despawned_sound_state",
+        "test_bullet_type_despawned_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_despawned_sound_state",
+      "rule": "Public runtime contract for BulletType.despawned despawnSound call record."
+    },
+    "PortGame.source_bullet_type_draw_light_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_draw_light_state",
+      "status": "active",
+      "source_slice": "N451",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawLight(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "lightDrawn",
+        "lightOpacity",
+        "lightRadius",
+        "lightColor",
+        "drawfLightCall",
+        "earlyReturnSource",
+        "drawfLightSource",
+        "initBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_light_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_light_state",
+        "test_bullet_type_draw_light_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_light_state",
+      "rule": "Public runtime contract for BulletType.drawLight light draw record."
+    },
+    "PortGame.source_bullet_type_draw_parts_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_draw_parts_state",
+      "status": "active",
+      "source_slice": "N399",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawParts(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "partParams",
+        "partDrawCalls",
+        "partsDrawn",
+        "paramsSetSource",
+        "paramsLifeSource",
+        "partDrawSource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_parts_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_parts_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_parts_state",
+      "rule": "Public runtime contract for BulletType.drawParts slice; do not add params or return keys without updating this contract first."
+    },
+    "PortGame.source_bullet_type_draw_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_draw_state",
+      "status": "active",
+      "source_slice": "N449",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "draw(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "drawCalls",
+        "drawTrailCalled",
+        "drawPartsCalled",
+        "drawReturnSource",
+        "drawTrailBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_state",
+        "test_bullet_type_draw_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_state",
+      "rule": "Public runtime contract for BulletType.draw dispatch record."
+    },
+    "PortGame.source_bullet_type_draw_trail_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_draw_trail_state",
+      "status": "active",
+      "source_slice": "N450",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "drawTrail(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "current_draw_z",
+          "schema": "current_draw_z_state",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "gatePassed",
+        "trailDrawn",
+        "drawZBefore",
+        "drawZBelow",
+        "drawZRestored",
+        "trailColor",
+        "trailWidth",
+        "trailDrawCall",
+        "gateSource",
+        "drawZCaptureSource",
+        "drawZBelowSource",
+        "drawZRestoreSource",
+        "drawPartsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_draw_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_draw_trail_state",
+        "test_bullet_type_draw_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_draw_trail_state",
+      "rule": "Public runtime contract for BulletType.drawTrail trail draw record."
+    },
+    "PortGame.source_bullet_type_handle_pierce_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_handle_pierce_state",
+      "status": "active",
+      "source_slice": "N409",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "handlePierce(Bullet b, float initialHealth, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "pierce_state",
+          "schema": "pierce_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "pierce",
+        "pierceDamageFactor",
+        "removeAfterPierce",
+        "initialHealth",
+        "x",
+        "y",
+        "zeroPierceDamageFactor",
+        "sub",
+        "damageBefore",
+        "damageSubtract",
+        "damage",
+        "removeGatePassed",
+        "hit",
+        "removeCalled",
+        "subSource",
+        "damageSubtractSource",
+        "removeAfterPierceSource",
+        "hitAssignmentSource",
+        "removeCallSource"
+      ],
+      "tests": [
+        "test_bullet_type_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_handle_pierce_state",
+      "rule": "Public runtime contract for BulletType.handlePierce damage reduction and removal side effects."
+    },
+    "PortGame.source_bullet_type_heals_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_heals_state",
+      "status": "active",
+      "source_slice": "N476",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "heals()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "healPercent",
+        "healAmount",
+        "heals",
+        "healsReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_heals_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_heals_state",
+        "test_bullet_type_heals_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_heals_state",
+      "rule": "Public runtime contract for BulletType.heals predicate."
+    },
+    "PortGame.source_bullet_type_hit_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_default_state",
+      "status": "active",
+      "source_slice": "N417",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "x",
+        "y",
+        "createFrags",
+        "hitCall",
+        "hitDefaultCallSource",
+        "hitOverloadBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_default_state",
+      "rule": "Public runtime contract for BulletType.hit(Bullet b) default overload delegate only; hit body remains deferred."
+    },
+    "PortGame.source_bullet_type_hit_effects_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_effects_state",
+      "status": "active",
+      "source_slice": "N419",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "x",
+        "y",
+        "hitEffectCall",
+        "hitSoundCall",
+        "shakeCall",
+        "hitEffectCallSource",
+        "hitSoundCallSource",
+        "shakeCallSource",
+        "fragBranchBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_effects_state",
+      "rule": "Public runtime contract for the initial side effects in BulletType.hit(Bullet b, float x, float y, boolean createFrags); frag branch body remains deferred."
+    },
+    "PortGame.source_bullet_type_hit_entity_armor_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_armor_damage_state",
+      "status": "active",
+      "source_slice": "N412",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_entity_state",
+          "schema": "hit_entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "damage_cap_state",
+          "schema": "hit_entity_damage_cap_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "lifesteal_state",
+          "schema": "hit_entity_lifesteal_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "hitEntity",
+        "damageCap",
+        "lifesteal",
+        "healthcGatePassed",
+        "damage",
+        "pierceArmor",
+        "armorMultiplier",
+        "pierceArmorGatePassed",
+        "armorMultiplierGatePassed",
+        "damageGatePassed",
+        "damagePierceCalled",
+        "damageArmorMultCalled",
+        "damageCalled",
+        "healthDamageCall",
+        "unitImpulseDeferred",
+        "pierceDeferred",
+        "healthcGateSource",
+        "damageLocalSource",
+        "pierceArmorSource",
+        "damagePierceSource",
+        "armorMultiplierSource",
+        "damageArmorMultSource",
+        "damageSource",
+        "unitBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_armor_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_armor_damage_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_armor_damage_state",
+      "rule": "Public runtime contract for BulletType.hitEntity Healthc armor damage branch; unit effects, events, and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_entity_damage_cap_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_damage_cap_state",
+      "status": "active",
+      "source_slice": "N410",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_entity_state",
+          "schema": "hit_entity_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "hitEntity",
+        "wasDead",
+        "healthcGatePassed",
+        "damage",
+        "shield",
+        "maxDamageFraction",
+        "maxDamageFractionGatePassed",
+        "cap",
+        "effectiveHealth",
+        "lifestealDeferred",
+        "armorDamageDeferred",
+        "unitImpulseDeferred",
+        "pierceDeferred",
+        "wasDeadSource",
+        "healthcGateSource",
+        "damageSource",
+        "shieldSource",
+        "maxDamageFractionGateSource",
+        "capSource",
+        "damageCapSource",
+        "healthCapCommentSource",
+        "healthCapSource",
+        "healthShieldSource",
+        "lifestealBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_damage_cap_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_damage_cap_state",
+      "rule": "Public runtime contract for BulletType.hitEntity Healthc damage, shield, maxDamageFraction cap, and effective health slice only."
+    },
+    "PortGame.source_bullet_type_hit_entity_handle_pierce_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_handle_pierce_state",
+      "status": "active",
+      "source_slice": "N415",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "damage_cap_state",
+          "schema": "hit_entity_damage_cap_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_destroy_event_state",
+          "schema": "hit_entity_unit_destroy_event_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "damageCap",
+        "unitDestroyEvent",
+        "pierce",
+        "handlePierce",
+        "bulletAfterPierce",
+        "effectiveHealth",
+        "entityX",
+        "entityY",
+        "handlePierceCalled",
+        "handlePierceCall",
+        "damage",
+        "removeCalled",
+        "handlePierceCallSource",
+        "handlePierceMethodSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_handle_pierce_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_handle_pierce_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_handle_pierce_state",
+      "rule": "Public runtime contract for BulletType.hitEntity final handlePierce dispatch, reusing the N409 handlePierce source helper."
+    },
+    "PortGame.source_bullet_type_hit_entity_lifesteal_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_lifesteal_state",
+      "status": "active",
+      "source_slice": "N411",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_entity_state",
+          "schema": "hit_entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "damage_cap_state",
+          "schema": "hit_entity_damage_cap_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "owner_health_state",
+          "schema": "owner_health_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "hitEntity",
+        "damageCap",
+        "ownerHealth",
+        "healthcGatePassed",
+        "lifesteal",
+        "ownerIsHealthc",
+        "lifestealGatePassed",
+        "entityHealth",
+        "damage",
+        "lifestealResult",
+        "ownerHealCalled",
+        "ownerHealAmount",
+        "ownerHealCall",
+        "armorDamageDeferred",
+        "unitImpulseDeferred",
+        "pierceDeferred",
+        "healthcGateSource",
+        "lifestealBoundarySource",
+        "lifestealResultSource",
+        "ownerHealSource",
+        "pierceArmorBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_lifesteal_state",
+      "rule": "Public runtime contract for BulletType.hitEntity lifesteal branch only; armor damage, unit effects, events, and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_unit_destroy_event_state",
+      "status": "active",
+      "source_slice": "N414",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "damage_cap_state",
+          "schema": "hit_entity_damage_cap_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_effects_state",
+          "schema": "hit_entity_unit_effects_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "entity",
+        "damageCap",
+        "unitEffects",
+        "wasDead",
+        "unitGatePassed",
+        "unitDead",
+        "destroyEventGatePassed",
+        "unitDestroyEventFired",
+        "unitDestroyEventCall",
+        "pierceDeferred",
+        "wasDeadSource",
+        "destroyEventGateSource",
+        "unitDestroyEventSource",
+        "handlePierceBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_destroy_event_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_destroy_event_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_destroy_event_state",
+      "rule": "Public runtime contract for BulletType.hitEntity UnitBulletDestroyEvent branch; final handlePierce remains later slice."
+    },
+    "PortGame.source_bullet_type_hit_entity_unit_effects_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_entity_unit_effects_state",
+      "status": "active",
+      "source_slice": "N413",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitEntity(Bullet b, Hitboxc entity, float health)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "entity_state",
+          "schema": "entity_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "armor_damage_state",
+          "schema": "hit_entity_armor_damage_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "entity",
+        "armorDamage",
+        "unitGatePassed",
+        "knockback",
+        "impact",
+        "status",
+        "statusDuration",
+        "entityX",
+        "entityY",
+        "bulletX",
+        "bulletY",
+        "bulletRotation",
+        "impulseVector",
+        "impulseCalled",
+        "impulseCall",
+        "statusApplyCalled",
+        "statusApplyCall",
+        "bulletDamageEventFired",
+        "bulletDamageEventCall",
+        "destroyEventDeferred",
+        "pierceDeferred",
+        "unitGateSource",
+        "impulseVectorSource",
+        "impactAngleSource",
+        "unitImpulseSource",
+        "unitApplySource",
+        "bulletDamageEventSource",
+        "destroyEventBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_entity_unit_effects_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_entity_unit_effects_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_entity_unit_effects_state",
+      "rule": "Public runtime contract for BulletType.hitEntity Unit impulse, status apply, and bullet damage event slice; destroy event and handlePierce remain later slices."
+    },
+    "PortGame.source_bullet_type_hit_frag_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_frag_dispatch_state",
+      "status": "active",
+      "source_slice": "N420",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_frag_state",
+          "schema": "hit_frag_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitFrag",
+        "x",
+        "y",
+        "createFrags",
+        "fragOnHit",
+        "delayFrags",
+        "fragBullet",
+        "fragBulletExists",
+        "fragBulletDelayFrags",
+        "fragGatePassed",
+        "delayFragGatePassed",
+        "timeRunCall",
+        "createFragsCall",
+        "fragGateSource",
+        "delayGateSource",
+        "timeRunCallSource",
+        "createFragsCallSource",
+        "postFragBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_frag_dispatch_state",
+      "rule": "Public runtime contract for BulletType.hit frag dispatch only; createFrags body and post-frag side effects remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_post_frag_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_post_frag_dispatch_state",
+      "status": "active",
+      "source_slice": "N421",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_frag_dispatch_state",
+          "schema": "hit_frag_dispatch_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitFragDispatch",
+        "x",
+        "y",
+        "createPuddlesCall",
+        "createIncendCall",
+        "createUnitsCall",
+        "createPuddlesCallSource",
+        "createIncendCallSource",
+        "createUnitsCallSource",
+        "suppressionBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_post_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_post_frag_dispatch_state",
+      "rule": "Public runtime contract for BulletType.hit post-frag dispatch calls only; createPuddles/createIncend/createUnits bodies and suppression/splash/lightning remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_splash_damage_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_splash_damage_dispatch_state",
+      "status": "active",
+      "source_slice": "N423",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_suppression_state",
+          "schema": "hit_suppression_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitSuppression",
+        "x",
+        "y",
+        "createSplashDamageCall",
+        "createSplashDamageCallSource",
+        "createSplashDamageMethodBoundarySource",
+        "lightningBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_splash_damage_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_splash_damage_dispatch_state",
+      "rule": "Public runtime contract for BulletType.hit createSplashDamage dispatch only; createSplashDamage body and lightning loop remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_suppression_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_suppression_state",
+      "status": "active",
+      "source_slice": "N422",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y, boolean createFrags)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_post_frag_dispatch_state",
+          "schema": "hit_post_frag_dispatch_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "hitXY",
+        "hitPostFragDispatch",
+        "x",
+        "y",
+        "bulletX",
+        "bulletY",
+        "bulletTeam",
+        "suppressionRange",
+        "suppressionDuration",
+        "suppressionEffectChance",
+        "suppressColor",
+        "suppressionGatePassed",
+        "suppressionVector",
+        "applySuppressionCall",
+        "suppressionGateSource",
+        "pooledVec2CommentSource",
+        "applySuppressionCallSource",
+        "splashDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_suppression_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_suppression_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_suppression_state",
+      "rule": "Public runtime contract for BulletType.hit suppression branch only; createSplashDamage and lightning remain deferred."
+    },
+    "PortGame.source_bullet_type_hit_tile_enemy_direct_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_tile_enemy_direct_state",
+      "status": "active",
+      "source_slice": "N407",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "build_state",
+          "schema": "build_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_tile_state",
+          "schema": "hit_tile_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "hitTile",
+        "direct",
+        "buildTeam",
+        "bulletTeam",
+        "enemyDirectGatePassed",
+        "hitCalled",
+        "lifestealDeferred",
+        "pierceDeferred",
+        "hitTileEnemyDirectGateSource",
+        "enemyHitCallSource",
+        "lifestealBoundarySource",
+        "pierceSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_enemy_direct_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_enemy_direct_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_enemy_direct_state",
+      "rule": "Public runtime contract for BulletType.hitTile enemy direct hit(b) branch only; lifesteal and pierce remain later source slices."
+    },
+    "PortGame.source_bullet_type_hit_tile_fire_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_tile_fire_state",
+      "status": "active",
+      "source_slice": "N406",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "build_state",
+          "schema": "build_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "makeFire",
+        "buildTeam",
+        "bulletTeam",
+        "fireGatePassed",
+        "fireCreated",
+        "firesCreateCall",
+        "hitTileFireGateSource",
+        "firesCreateSource",
+        "healBranchBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_fire_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_fire_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_fire_state",
+      "rule": "Public runtime contract for BulletType.hitTile makeFire branch only; heal/enemy/direct/lifesteal/pierce branches remain separate source slices."
+    },
+    "PortGame.source_bullet_type_hit_tile_heal_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_tile_heal_state",
+      "status": "active",
+      "source_slice": "N405",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "build_state",
+          "schema": "build_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "heals",
+        "buildTeam",
+        "bulletTeam",
+        "blockIsConstructBlock",
+        "healGatePassed",
+        "healAppliedAmount",
+        "healed",
+        "hitCalled",
+        "healEffectCall",
+        "buildHealCall",
+        "healSoundCall",
+        "enemyDirectBranchDeferred",
+        "pierceDeferred",
+        "hitTileHealGateSource",
+        "healEffectSource",
+        "healAmountSource",
+        "healSoundSource",
+        "hitCallSource",
+        "deferredBranchSource",
+        "pierceSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_heal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_heal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_heal_state",
+      "rule": "Public runtime contract for BulletType.hitTile healing branch only; enemy/direct/lifesteal/pierce branches remain deferred slices."
+    },
+    "PortGame.source_bullet_type_hit_tile_lifesteal_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_tile_lifesteal_state",
+      "status": "active",
+      "source_slice": "N408",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "build_state",
+          "schema": "build_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_tile_state",
+          "schema": "hit_tile_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "owner_health_state",
+          "schema": "owner_health_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "build",
+        "hitTile",
+        "ownerHealth",
+        "direct",
+        "buildTeam",
+        "bulletTeam",
+        "enemyDirectGatePassed",
+        "lifesteal",
+        "damage",
+        "buildHealth",
+        "ownerIsHealthc",
+        "lifestealGatePassed",
+        "lifestealResult",
+        "ownerHealCalled",
+        "ownerHealAmount",
+        "ownerHealCall",
+        "pierceDeferred",
+        "lifestealBoundarySource",
+        "lifestealResultSource",
+        "ownerHealSource",
+        "pierceSource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_tile_lifesteal_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_tile_lifesteal_state",
+      "rule": "Public runtime contract for BulletType.hitTile lifesteal branch only; handlePierce remains later source slice."
+    },
+    "PortGame.source_bullet_type_hit_xy_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_hit_xy_default_state",
+      "status": "active",
+      "source_slice": "N418",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "hit(Bullet b, float x, float y)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "hit_xy_state",
+          "schema": "hit_xy_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "hitXY",
+        "x",
+        "y",
+        "createFrags",
+        "hitCall",
+        "hitXYDefaultCallSource",
+        "hitCreateFragsBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_hit_xy_default_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_hit_xy_default_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_hit_xy_default_state",
+      "rule": "Public runtime contract for BulletType.hit(Bullet b, float x, float y) overload delegate only; createFrags overload body remains deferred."
+    },
+    "PortGame.source_bullet_type_init_draw_size_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_draw_size_state",
+      "status": "active",
+      "source_slice": "N469",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "light_radius_state",
+          "schema": "init_light_radius_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "drawSize",
+        "drawSizeBefore",
+        "computedDrawSize",
+        "trailLength",
+        "speed",
+        "drawSizeAssignSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_draw_size_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_draw_size_state",
+        "test_bullet_type_init_draw_size_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_draw_size_state",
+      "rule": "Public runtime contract for BulletType.init drawSize Math.max assignment."
+    },
+    "PortGame.source_bullet_type_init_frag_velocity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_frag_velocity_state",
+      "status": "active",
+      "source_slice": "N466",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "type_defaults_state",
+          "schema": "init_type_defaults_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "fragBulletVelocityApplied",
+        "fragGatePassed",
+        "fragBullet",
+        "fragGateSource",
+        "fragKeepVelocitySource",
+        "fragScaleKeepVelocitySource"
+      ],
+      "tests": [
+        "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",
+        "test_bullet_type_init_frag_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_frag_velocity_state",
+      "rule": "Public runtime contract for BulletType.init fragBullet keepVelocity and scaleKeepVelocity assignments."
+    },
+    "PortGame.source_bullet_type_init_initial_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_initial_state",
+      "status": "active",
+      "source_slice": "N452",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "owner_health_state",
+          "schema": "owner_health_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "owner",
+        "killShooter",
+        "ownerIsHealthc",
+        "ownerDeadBefore",
+        "killShooterApplied",
+        "instantDisappear",
+        "instantDisappearApplied",
+        "spawnBulletsDeferred",
+        "killShooterSource",
+        "healthKillSource",
+        "instantDisappearSource",
+        "spawnBulletsReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_initial_state",
+        "test_bullet_type_init_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_initial_state",
+      "rule": "Public runtime contract for BulletType.init killShooter and instantDisappear state; spawnBullets body remains a separate source-backed slice."
+    },
+    "PortGame.source_bullet_type_init_light_radius_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_light_radius_state",
+      "status": "active",
+      "source_slice": "N468",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "lightning_type_state",
+          "schema": "init_lightning_type_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "lightRadiusApplied",
+        "lightRadiusGatePassed",
+        "lightRadius",
+        "hitSize",
+        "lightRadiusGateSource",
+        "lightRadiusAssignSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_light_radius_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_light_radius_state",
+        "test_bullet_type_init_light_radius_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_light_radius_state",
+      "rule": "Public runtime contract for BulletType.init lightRadius default gate and Math.max assignment."
+    },
+    "PortGame.source_bullet_type_init_lightning_type_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_lightning_type_state",
+      "status": "active",
+      "source_slice": "N467",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "frag_velocity_state",
+          "schema": "init_frag_velocity_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "lightningTypeApplied",
+        "lightningTypeGatePassed",
+        "lightningType",
+        "collidesAir",
+        "collidesGround",
+        "lightningTypeGateSource",
+        "lightningTypeChoiceSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_lightning_type_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
+        "test_bullet_type_init_lightning_type_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_lightning_type_state",
+      "rule": "Public runtime contract for BulletType.init lightningType null gate and internal Bullets choice."
+    },
+    "PortGame.source_bullet_type_init_range_assignment_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_range_assignment_state",
+      "status": "active",
+      "source_slice": "N470",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "draw_size_state",
+          "schema": "init_draw_size_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "calculate_range_result",
+          "schema": "calculate_range_result",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "range",
+        "rangeBefore",
+        "rangeAssignSource",
+        "calculateRangeDeferred"
+      ],
+      "tests": [
+        "test_bullet_type_init_range_assignment_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
+        "test_bullet_type_init_range_assignment_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_range_assignment_state",
+      "rule": "Public runtime contract for BulletType.init range assignment from explicit calculateRange result."
+    },
+    "PortGame.source_bullet_type_init_spawn_bullets_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_spawn_bullets_state",
+      "status": "active",
+      "source_slice": "N453",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init(Bullet b)",
+      "params": [
+        {
+          "name": "init_initial_state",
+          "schema": "init_initial_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "spawn_bullet_random_state",
+          "schema": "spawn_bullet_random_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "spawnBulletCount",
+        "spawnBulletCalls",
+        "spawnBulletsApplied",
+        "spawnBulletRandomSpread",
+        "spawnBulletRandomOffsets",
+        "spawnBulletsSource",
+        "spawnBulletCreateSource",
+        "mathfRangeSource",
+        "updateBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_init_spawn_bullets_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_spawn_bullets_state",
+        "test_bullet_type_init_spawn_bullets_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_spawn_bullets_state",
+      "rule": "Public runtime contract for BulletType.init spawnBullets loop and create call; Arc random offsets must be explicit input."
+    },
+    "PortGame.source_bullet_type_init_type_defaults_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_init_type_defaults_state",
+      "status": "active",
+      "source_slice": "N465",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "init()",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "pierceApplied",
+        "setDefaults",
+        "lightning",
+        "statusBefore",
+        "statusShockedApplied",
+        "despawnHitApplied",
+        "pierceGateSource",
+        "pierceAssignSource",
+        "setDefaultsGateSource",
+        "lightningGateSource",
+        "statusGateSource",
+        "statusAssignSource",
+        "despawnHitGateSource",
+        "despawnHitAssignSource"
+      ],
+      "tests": [
+        "test_bullet_type_init_type_defaults_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_init_type_defaults_state",
+        "test_bullet_type_init_type_defaults_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_init_type_defaults_state",
+      "rule": "Public runtime contract for BulletType.init pierce, default status, and despawnHit assignments."
+    },
+    "PortGame.source_bullet_type_removed_frag_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_removed_frag_dispatch_state",
+      "status": "active",
+      "source_slice": "N446",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "removed(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "removed_trail_fade_state",
+          "schema": "removed_trail_fade_result",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "removedTrailFade",
+        "bulletFrags",
+        "fragOnDespawn",
+        "fragBullet",
+        "fragBulletExists",
+        "fragGatePassed",
+        "createFragsCall",
+        "fragGateSource",
+        "createFragsCallSource",
+        "buildingDamageBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_removed_frag_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state",
+        "test_bullet_type_removed_frag_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_frag_dispatch_state",
+      "rule": "Public runtime contract for BulletType.removed createFrags dispatch record."
+    },
+    "PortGame.source_bullet_type_removed_trail_fade_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_removed_trail_fade_state",
+      "status": "active",
+      "source_slice": "N445",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "removed(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "trailLength",
+        "trailWidth",
+        "trailColor",
+        "trailExists",
+        "trailSize",
+        "gatePassed",
+        "trailFadeCall",
+        "gateSource",
+        "trailFadeCallSource",
+        "trailCopySource",
+        "trailSizeSource",
+        "fragBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_removed_trail_fade_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_removed_trail_fade_state",
+        "test_bullet_type_removed_trail_fade_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_removed_trail_fade_state",
+      "rule": "Public runtime contract for BulletType.removed trail fade call record."
+    },
+    "PortGame.source_bullet_type_shield_damage_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_shield_damage_state",
+      "status": "active",
+      "source_slice": "N448",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "shieldDamage(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "damage",
+        "shieldDamageMultiplier",
+        "shieldDamage",
+        "shieldDamageReturnSource",
+        "drawBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_shield_damage_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_shield_damage_state",
+        "test_bullet_type_shield_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_shield_damage_state",
+      "rule": "Public runtime contract for BulletType.shieldDamage return record."
+    },
+    "PortGame.source_bullet_type_test_collision_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_test_collision_state",
+      "status": "active",
+      "source_slice": "N401",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "testCollision(Bullet bullet, Building tile)",
+      "params": [
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "tile_state",
+          "schema": "tile_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletType",
+        "bullet",
+        "tile",
+        "heals",
+        "tileTeam",
+        "bulletTeam",
+        "tileHealthf",
+        "collides",
+        "testCollisionReturnSource"
+      ],
+      "tests": [
+        "test_bullet_type_test_collision_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_test_collision_state"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_test_collision_state",
+      "rule": "Public runtime contract for BulletType.testCollision slice; do not add params or return keys without updating this contract first."
+    },
+    "PortGame.source_bullet_type_update_bullet_interval_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_bullet_interval_state",
+      "status": "active",
+      "source_slice": "N455",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateBulletInterval(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "timer_get_result",
+          "schema": "interval_timer_state",
+          "type": "bool"
+        },
+        {
+          "name": "interval_random_offsets",
+          "schema": "interval_random_state",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "gatePassed",
+        "timerGetResult",
+        "timerIndex",
+        "timerTime",
+        "baseAngle",
+        "intervalBulletCount",
+        "intervalBulletCalls",
+        "intervalRandomOffsets",
+        "gateSource",
+        "createSource",
+        "updateHomingBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_bullet_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_bullet_interval_state",
+        "test_bullet_type_update_bullet_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_bullet_interval_state",
+      "rule": "Public runtime contract for BulletType.updateBulletInterval gate, timer input, loop geometry, create calls, and next method boundary."
+    },
+    "PortGame.source_bullet_type_update_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_dispatch_state",
+      "status": "active",
+      "source_slice": "N454",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "update(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "callOrder",
+        "updateMethodSource",
+        "nextMethodReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_dispatch_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_dispatch_state",
+        "test_bullet_type_update_dispatch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_dispatch_state",
+      "rule": "Public runtime contract for BulletType.update dispatch order; callee bodies remain separate source-backed slices."
+    },
+    "PortGame.source_bullet_type_update_homing_follow_aim_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_homing_follow_aim_state",
+      "status": "active",
+      "source_slice": "N459",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateHoming(Bullet b)",
+      "params": [
+        {
+          "name": "homing_target_velocity_state",
+          "schema": "update_homing_target_velocity_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shooter_state",
+          "schema": "shooter_state",
+          "type": "Variant"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state.delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "followAimApplied",
+        "followAimGatePassed",
+        "currentVelocityAngle",
+        "targetAngle",
+        "maxTurn",
+        "nextAngle",
+        "speed",
+        "velocity",
+        "followAimGateSource",
+        "followAimAngleSource",
+        "followAimSetAngleSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_follow_aim_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state",
+        "test_bullet_type_update_homing_follow_aim_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_follow_aim_state",
+      "rule": "Public runtime contract for BulletType.updateHoming follow-aim gate, angle assignment, and velocity setAngle application."
+    },
+    "PortGame.source_bullet_type_update_homing_initial_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_homing_initial_state",
+      "status": "active",
+      "source_slice": "N457",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateHoming(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "gatePassed",
+        "realAimComputed",
+        "realAimX",
+        "realAimY",
+        "aimX",
+        "aimY",
+        "homingPower",
+        "homingDelay",
+        "homingRange",
+        "targetSelectionDeferred",
+        "followAimDeferred",
+        "gateSource",
+        "realAimXSource",
+        "realAimYSource",
+        "targetReservedSource",
+        "followAimReservedSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_initial_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_initial_state",
+        "test_bullet_type_update_homing_initial_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_initial_state",
+      "rule": "Public runtime contract for BulletType.updateHoming initial gate, realAim fallback computation, and deferred target/followAim boundaries."
+    },
+    "PortGame.source_bullet_type_update_homing_target_velocity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_homing_target_velocity_state",
+      "status": "active",
+      "source_slice": "N458",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateHoming(Bullet b)",
+      "params": [
+        {
+          "name": "homing_initial_state",
+          "schema": "update_homing_initial_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "target_state",
+          "schema": "target_state",
+          "type": "Variant"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state.delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "homingVelocityApplied",
+        "targetGatePassed",
+        "currentRotation",
+        "targetAngle",
+        "maxTurn",
+        "nextAngle",
+        "speed",
+        "velocity",
+        "targetGateSource",
+        "setAngleSource",
+        "angleToSource",
+        "vec2SetAngleSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_homing_target_velocity_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state",
+        "test_bullet_type_update_homing_target_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_homing_target_velocity_state",
+      "rule": "Public runtime contract for BulletType.updateHoming target non-null gate and homing velocity setAngle application."
+    },
+    "PortGame.source_bullet_type_update_trail_effects_chance_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_trail_effects_chance_state",
+      "status": "active",
+      "source_slice": "N463",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrailEffects(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "chance_delta_result",
+          "schema": "chance_delta_state.chanceDeltaResult",
+          "type": "bool"
+        },
+        {
+          "name": "random_offset_state",
+          "schema": "random_offset_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trailChanceEffectApplied",
+        "canSpawn",
+        "chanceGatePassed",
+        "chanceDeltaResult",
+        "trailSpread",
+        "tmpOffset",
+        "effectCalls",
+        "canSpawnSource",
+        "chanceGateSource",
+        "chanceDeltaSource",
+        "spreadRandomSource",
+        "spreadZeroSource",
+        "effectAtSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_chance_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state",
+        "test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_chance_state",
+      "rule": "Public runtime contract for BulletType.updateTrailEffects chance gate, random/zero offset, and effect call."
+    },
+    "PortGame.source_bullet_type_update_trail_effects_interval_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_trail_effects_interval_state",
+      "status": "active",
+      "source_slice": "N464",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrailEffects(Bullet b)",
+      "params": [
+        {
+          "name": "chance_state",
+          "schema": "update_trail_effects_chance_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "timer_get_result",
+          "schema": "trail_effects_timer_state.timerGetResult",
+          "type": "bool"
+        },
+        {
+          "name": "random_offset_state",
+          "schema": "random_offset_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trailIntervalEffectApplied",
+        "canSpawn",
+        "intervalGatePassed",
+        "timerGetResult",
+        "trailSpread",
+        "tmpOffset",
+        "effectCalls",
+        "intervalGateSource",
+        "timerSource",
+        "spreadRandomSource",
+        "spreadZeroSource",
+        "effectAtSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
+        "test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_effects_interval_state",
+      "rule": "Public runtime contract for BulletType.updateTrailEffects interval gate, Bullet.timer result, random/zero offset, and effect call."
+    },
+    "PortGame.source_bullet_type_update_trail_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_trail_state",
+      "status": "active",
+      "source_slice": "N456",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateTrail(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "headless_value",
+          "schema": "headless_state",
+          "type": "bool"
+        },
+        {
+          "name": "trail_interp_value",
+          "schema": "trail_interp_state",
+          "type": "float"
+        },
+        {
+          "name": "absin_value",
+          "schema": "trail_absin_state",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "trail",
+        "trailCreated",
+        "trailUpdated",
+        "gatePassed",
+        "width",
+        "sinScale",
+        "trailInterpValue",
+        "absinValue",
+        "gateSource",
+        "updateSource",
+        "initBoundarySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_trail_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_trail_state",
+        "test_bullet_type_update_trail_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_trail_state",
+      "rule": "Public runtime contract for BulletType.updateTrail gate, trail allocation, length assignment, update width formula, and next method boundary."
+    },
+    "PortGame.source_bullet_type_update_weaving_circle_shooter_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_weaving_circle_shooter_state",
+      "status": "active",
+      "source_slice": "N462",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateWeaving(Bullet b)",
+      "params": [
+        {
+          "name": "rotate_speed_state",
+          "schema": "update_weaving_rotate_speed_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "owner_health_state",
+          "schema": "owner_health_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state.delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "circleShooterApplied",
+        "circleShooterGatePassed",
+        "tmpBeforeRotate",
+        "rotationDegrees",
+        "rotationRadians",
+        "tmpLimit",
+        "limitedTmp",
+        "velocity",
+        "circleShooterGateSource",
+        "circleShooterTmpSource",
+        "circleShooterRotateSource",
+        "circleShooterVelocitySource"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_circle_shooter_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state",
+        "test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_circle_shooter_state",
+      "rule": "Public runtime contract for BulletType.updateWeaving circleShooter gate, temporary vector rotation, and velocity limiting."
+    },
+    "PortGame.source_bullet_type_update_weaving_rotate_speed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_weaving_rotate_speed_state",
+      "status": "active",
+      "source_slice": "N461",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateWeaving(Bullet b)",
+      "params": [
+        {
+          "name": "weaving_state",
+          "schema": "update_weaving_result",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state.delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "rotateSpeedApplied",
+        "rotateSpeedGatePassed",
+        "rotationRadians",
+        "velocity",
+        "rotateSpeedGateSource",
+        "rotateSpeedSource",
+        "vec2RotateSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_rotate_speed_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state",
+        "test_bullet_type_update_weaving_rotate_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_rotate_speed_state",
+      "rule": "Public runtime contract for BulletType.updateWeaving rotateSpeed gate and Vec2.rotate velocity mutation."
+    },
+    "PortGame.source_bullet_type_update_weaving_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_type_update_weaving_state",
+      "status": "active",
+      "source_slice": "N460",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "updateWeaving(Bullet b)",
+      "params": [
+        {
+          "name": "bullet_state",
+          "schema": "bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_type_state",
+          "schema": "bullet_type_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "random_seed_result",
+          "schema": "random_seed_state.randomSeedResult",
+          "type": "int"
+        },
+        {
+          "name": "source_delta",
+          "schema": "time_state.delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bullet",
+        "weaveApplied",
+        "weaveGatePassed",
+        "rotationRadians",
+        "randomSign",
+        "randomSeedResult",
+        "velocity",
+        "weaveGateSource",
+        "rotateRadExactSource",
+        "vec2RotateRadExactSource"
+      ],
+      "tests": [
+        "test_bullet_type_update_weaving_state_matches_upstream_source",
+        "test_port_game_exposes_source_bullet_type_update_weaving_state",
+        "test_bullet_type_update_weaving_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_type_update_weaving_state",
+      "rule": "Public runtime contract for BulletType.updateWeaving weaveMag gate and rotateRadExact velocity mutation."
+    },
+    "PortGame.source_bullet_velocity": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_velocity",
+      "status": "active",
+      "source_slice": "N681",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_velocity_input.data",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shoot_angle_degrees",
+          "schema": "source_bullet_velocity_input.shoot_angle_degrees",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "velocity"
+      ],
+      "tests": [
+        "test_bullet_velocity_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_velocity",
+      "rule": "Public runtime contract for BulletType.create initVel angle and speed to Godot velocity helper."
+    },
+    "PortGame.source_bullet_world_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_bullet_world_speed",
+      "status": "active",
+      "source_slice": "N683",
+      "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "data",
+          "schema": "source_bullet_world_speed_input.data",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "world_speed"
+      ],
+      "tests": [
+        "test_bullet_world_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_bullet_world_speed",
+      "rule": "Public runtime contract for converting BulletType.speed units per tick into Godot world units per second."
+    }
+  }
+}
