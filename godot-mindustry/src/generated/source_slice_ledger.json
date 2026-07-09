@@ -37652,6 +37652,43 @@
         "test_consume_liquid_flammable_amount_constructor_matches_upstream_source",
         "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1493": {
+      "title": "Generated ConsumeLiquidFlammable default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_class": "ConsumeLiquidFlammable",
+      "java_method": "ConsumeLiquidFlammable()",
+      "generated_owner": "ConsumeLiquidFlammable.java_constructor_ConsumeLiquidFlammable_2",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeLiquidFlammable default constructor delegation chain this(0.2f) -> this(0.2f, amount) without executing live Boolf<Liquid>.",
+      "exact_exprs": [
+        "public ConsumeLiquidFlammable(){",
+        "this(0.2f);",
+        "public ConsumeLiquidFlammable(float amount){",
+        "this(0.2f, amount);",
+        "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+        "this.amount = amount;",
+        "this.minFlammability = minFlammability;",
+        "this.filter = liquid -> liquid.flammability >= this.minFlammability;"
+      ],
+      "source_symbols": [
+        "consume_liquid_flammable_default_constructor.constructor",
+        "consume_liquid_flammable_default_constructor.default_call",
+        "consume_liquid_flammable_default_constructor.amount_constructor",
+        "consume_liquid_flammable_default_constructor.amount_constructor_default_call",
+        "consume_liquid_flammable_default_constructor.typed_constructor",
+        "consume_liquid_flammable_default_constructor.amount_assignment",
+        "consume_liquid_flammable_default_constructor.assignment",
+        "consume_liquid_flammable_default_constructor.filter"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

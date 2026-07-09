@@ -2793,6 +2793,142 @@
         "test_generated_consume_liquid_flammable_amount_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_amount_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "public ConsumeLiquidFlammable(){",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Canonical ConsumeLiquidFlammable default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Source default constructor delegates to amount constructor with exact 0.2f amount literal.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.amount_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.amount_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "public ConsumeLiquidFlammable(float amount){",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.amount_constructor_expr",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Amount constructor target for ConsumeLiquidFlammable default constructor delegation.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.amount_constructor_default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.amount_constructor_default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "this(0.2f, amount);",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Delegated amount constructor delegates to two-argument constructor with exact 0.2f minFlammability literal.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.typed_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.typed_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Typed constructor target for ConsumeLiquidFlammable default constructor delegation chain.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.amount_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.amount_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Delegated two-argument constructor assigns inherited amount field from delegated default amount literal.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "this.minFlammability = minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.min_flammability_after",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Delegated two-argument constructor assigns minFlammability from exact 0.2f delegate literal.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_default_constructor.filter": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_default_constructor.filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "java_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+      "godot_symbol": "source_consume_liquid_flammable_default_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "rule": "Delegated two-argument constructor installs the flammability threshold filter.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
     }
   }
 }

@@ -5077,6 +5077,26 @@ def verify_consume_liquid_flammable_amount_constructor_source(upstream_root: Pat
         "missing": missing,
     }
 
+def verify_consume_liquid_flammable_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
+    source = (Path(upstream_root) / consume_liquid_flammable_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "constructor": "public ConsumeLiquidFlammable(){",
+        "default_call": "this(0.2f);",
+        "amount_constructor": "public ConsumeLiquidFlammable(float amount){",
+        "amount_constructor_default_call": "this(0.2f, amount);",
+        "typed_constructor": "public ConsumeLiquidFlammable(float minFlammability, float amount){",
+        "amount_assignment": "this.amount = amount;",
+        "assignment": "this.minFlammability = minFlammability;",
+        "filter_assignment": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_flammable_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

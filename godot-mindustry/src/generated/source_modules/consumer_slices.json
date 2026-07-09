@@ -473,6 +473,32 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_flammable_amount_constructor_bridge_state",
       "rule": "Consumer shard mirror for ConsumeLiquidFlammable amount constructor; canonical data remains source_slice_ledger.N1492."
+    },
+    "N1493": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1493",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "ConsumeLiquidFlammable()",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state",
+      "generated_owner": "ConsumeLiquidFlammable.java_constructor_ConsumeLiquidFlammable_2",
+      "source_symbols": [
+        "consume_liquid_flammable_default_constructor.constructor",
+        "consume_liquid_flammable_default_constructor.default_call",
+        "consume_liquid_flammable_default_constructor.amount_constructor",
+        "consume_liquid_flammable_default_constructor.amount_constructor_default_call",
+        "consume_liquid_flammable_default_constructor.typed_constructor",
+        "consume_liquid_flammable_default_constructor.amount_assignment",
+        "consume_liquid_flammable_default_constructor.assignment",
+        "consume_liquid_flammable_default_constructor.filter"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_default_constructor_bridge_state",
+        "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_default_constructor_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeLiquidFlammable default constructor; canonical data remains source_slice_ledger.N1493."
     }
   },
   "version": 1

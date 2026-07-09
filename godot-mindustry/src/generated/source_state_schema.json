@@ -157756,6 +157756,100 @@
           "java_expr": "this(0.2f, amount);"
         }
       }
+    },
+    "source_consume_liquid_flammable_default_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1493",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_liquid_flammable_default_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "public ConsumeLiquidFlammable(){"
+        },
+        "default_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f);"
+        },
+        "amount_constructor_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "public ConsumeLiquidFlammable(float amount){"
+        },
+        "amount_constructor_default_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f, amount);"
+        },
+        "typed_constructor_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){"
+        },
+        "amount_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this.amount = amount;"
+        },
+        "assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this.minFlammability = minFlammability;"
+        },
+        "filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;"
+        },
+        "filter_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;"
+        },
+        "default_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f);"
+        },
+        "default_min_flammability": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f, amount);"
+        },
+        "amount_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f);"
+        },
+        "min_flammability_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "java_expr": "this(0.2f, amount);"
+        }
+      }
     }
   },
   "version": 1
