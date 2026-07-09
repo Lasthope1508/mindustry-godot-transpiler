@@ -40947,6 +40947,33 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_flammable_constructor_state",
       "rule": "Source state mirrors constructor assignment and filter expression; live predicate execution deferred."
+    },
+    "PortGame.source_consume_item_flammable_default_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1481",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "source_method": "ConsumeItemFlammable()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "typed_constructor_expr",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "default_min_flammability",
+        "min_flammability_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state",
+      "rule": "Source state mirrors no-arg constructor delegation to this(0.2f)."
     }
   },
   "policy": {

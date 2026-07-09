@@ -4132,6 +4132,23 @@ def verify_consume_item_flammable_constructor_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_consume_item_flammable_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_flammable_source = "core/src/mindustry/world/consumers/ConsumeItemFlammable.java"
+    consume_item_flammable_path = Path(upstream_root) / consume_item_flammable_source
+    source = consume_item_flammable_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "constructor": "public ConsumeItemFlammable(){",
+        "default_call": "this(0.2f);",
+        "typed_constructor": "public ConsumeItemFlammable(float minFlammability){",
+        "assignment": "this.minFlammability = minFlammability;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_flammable_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_explosive_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_explosive_source = "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"
     item_source = "core/src/mindustry/type/Item.java"

@@ -5916,6 +5916,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\tvar filter_expr: String = "item -> item.flammability >= this.minFlammability"',
                     '\treturn {"source_owner": "PortGame.source_consume_item_flammable_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(float minFlammability){", "min_flammability_field": "public float minFlammability;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "item_flammability_field": "public float flammability = 0f;", "min_flammability": min_flammability, "min_flammability_after": min_flammability_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemFlammable_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_flammability: float = 0.2",
+                    "\tvar min_flammability_after: float = min_flammability",
+                    '\tvar filter_expr: String = "item -> item.flammability >= this.minFlammability"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": 0.2, "min_flammability_after": min_flammability_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"

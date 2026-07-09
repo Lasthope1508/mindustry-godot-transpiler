@@ -37369,6 +37369,36 @@
         "test_consume_item_flammable_constructor_matches_upstream_source",
         "test_generated_consume_item_flammable_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1481": {
+      "title": "Generated ConsumeItemFlammable default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "java_class": "ConsumeItemFlammable",
+      "java_method": "ConsumeItemFlammable()",
+      "generated_owner": "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_1",
+      "godot_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_flammable_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItemFlammable default constructor delegation to this(0.2f) without inventing live Boolf<Item> behavior.",
+      "exact_exprs": [
+        "public ConsumeItemFlammable(){",
+        "this(0.2f);",
+        "public ConsumeItemFlammable(float minFlammability){",
+        "this.minFlammability = minFlammability;"
+      ],
+      "source_symbols": [
+        "consume_item_flammable_default_constructor.constructor",
+        "consume_item_flammable_default_constructor.default_call",
+        "consume_item_flammable_default_constructor.default_min_flammability",
+        "consume_item_flammable_default_constructor.typed_constructor",
+        "consume_item_flammable_default_constructor.assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_default_constructor_bridge_state",
+        "test_consume_item_flammable_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

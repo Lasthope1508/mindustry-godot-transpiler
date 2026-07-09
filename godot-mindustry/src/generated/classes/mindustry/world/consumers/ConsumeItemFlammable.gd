@@ -23,3 +23,9 @@ func java_constructor_ConsumeItemFlammable_0(_args: Array = []) -> Variant:
 	var min_flammability_after: float = min_flammability
 	var filter_expr: String = "item -> item.flammability >= this.minFlammability"
 	return {"source_owner": "PortGame.source_consume_item_flammable_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(float minFlammability){", "min_flammability_field": "public float minFlammability;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "item_flammability_field": "public float flammability = 0f;", "min_flammability": min_flammability, "min_flammability_after": min_flammability_after}
+
+func java_constructor_ConsumeItemFlammable_1(_args: Array = []) -> Variant:
+	var min_flammability: float = 0.2
+	var min_flammability_after: float = min_flammability
+	var filter_expr: String = "item -> item.flammability >= this.minFlammability"
+	return {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": 0.2, "min_flammability_after": min_flammability_after}

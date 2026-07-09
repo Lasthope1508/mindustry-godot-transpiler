@@ -14556,6 +14556,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_flammable_constructor_result")
         self.assertEqual(result_schema["keys"]["min_flammability_after"]["java_expr"], "this.minFlammability = minFlammability;")
 
+    def test_generated_consume_item_flammable_default_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_item_flammable_default_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFlammable.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeItemFlammable()")
+        self.assertEqual(constructor_symbol["java_expr"], "public ConsumeItemFlammable(){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_item_flammable_default_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_item_flammable_default_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_item_flammable_default_constructor_result.constructor")
+
+        default_call_symbol = source_symbols.source_symbol(registry, "consume_item_flammable_default_constructor.default_call")
+        self.assertEqual(default_call_symbol["java_expr"], "this(0.2f);")
+        self.assertEqual(default_call_symbol["godot_symbol"], "source_consume_item_flammable_default_constructor_result.min_flammability_after")
+
+        default_slice = source_symbols.source_slice(ledger, "N1481")
+        self.assertEqual(default_slice["title"], "Generated ConsumeItemFlammable default constructor bridge state")
+        self.assertEqual(default_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFlammable.java")
+        self.assertEqual(default_slice["java_method"], "ConsumeItemFlammable()")
+        self.assertEqual(default_slice["godot_owner"], "PortGame.source_consume_item_flammable_default_constructor_state")
+        self.assertEqual(default_slice["generated_owner"], "ConsumeItemFlammable.java_constructor_ConsumeItemFlammable_1")
+        self.assertEqual(default_slice["runtime_proof"], "/root/Main.generated_consume_item_flammable_default_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1481"]["canonical_ledger"], "source_slice_ledger.N1481")
+        for expr in [
+            "public ConsumeItemFlammable(){",
+            "this(0.2f);",
+            "public ConsumeItemFlammable(float minFlammability){",
+            "this.minFlammability = minFlammability;",
+        ]:
+            self.assertIn(expr, default_slice["exact_exprs"])
+        self.assertIn("consume_item_flammable_default_constructor.constructor", default_slice["source_symbols"])
+        self.assertIn("consume_item_flammable_default_constructor.default_call", default_slice["source_symbols"])
+        self.assertIn("consume_item_flammable_default_constructor.typed_constructor", default_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_flammable_default_constructor_state")
+        self.assertEqual(contract["params"], [])
+        self.assertIn("min_flammability_after", contract["return_keys"])
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_flammable_default_constructor_result")
+        self.assertEqual(result_schema["keys"]["min_flammability_after"]["java_expr"], "this(0.2f);")
+
     def test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23428,16 +23474,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 950)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 945)
+        self.assertEqual(audit["totalSourceFunctions"], 951)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 946)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 950)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 951)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_consume_item_flammable_constructor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_flammable_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_efficiency_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_efficiency_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_efficiency_display_state", audit["registeredSourceOwners"])
