@@ -2669,6 +2669,45 @@ func generated_consume_item_filter_get_consumed_bridge_state(content_items: Arra
 		"matches": result.get("consumed_item", null) == canonical.get("consumed_item", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null) and result.get("checked_items", []) == canonical.get("checked_items", []),
 	}
 
+func source_consume_item_filter_display_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
+	var selected_stat: String = "booster" if booster else "input"
+	var display_items: Array = []
+	for item_id in filtered_item_ids:
+		var display_expr: String = "displayItem(item)" if stats_time_period <= 0.0 else "displayItem(item, 1, timePeriod, true)"
+		display_items.append({"item_id": int(item_id), "time_period": stats_time_period, "display_expr": display_expr})
+	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.items(stats.timePeriod, filter)", "time_period": stats_time_period, "filtered_item_ids": filtered_item_ids}
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_display_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public void display(Stats stats){",
+		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+		"stats_add_call_expr": "stats.add",
+		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
+		"stat_values_items_expr": "StatValues.items(stats.timePeriod, filter)",
+		"stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
+		"content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+		"display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+		"booster": booster,
+		"selected_stat": selected_stat,
+		"stats_time_period": stats_time_period,
+		"filtered_item_ids": filtered_item_ids,
+		"stats_add_call": stats_add_call,
+		"display_items": display_items,
+	}
+
+func generated_consume_item_filter_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_6([booster, stats_time_period, filtered_item_ids])
+	var canonical = source_consume_item_filter_display_state(booster, stats_time_period, filtered_item_ids)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_display_state",
+		"generated_owner": "ConsumeItemFilter.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

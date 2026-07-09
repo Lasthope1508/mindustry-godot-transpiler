@@ -155395,6 +155395,163 @@
           "rule": "Index of consumed_item in content_items, or -1 for return null."
         }
       }
+    },
+    "source_consume_item_filter_display_input": {
+      "status": "source-backed",
+      "source_slice": "N1469",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "booster": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "booster",
+          "rule": "Explicit Consume.booster value."
+        },
+        "stats_time_period": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "stats.timePeriod",
+          "rule": "Explicit Stats.timePeriod value."
+        },
+        "filtered_item_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())",
+          "rule": "Explicit IDs selected by StatValues.items filter."
+        }
+      }
+    },
+    "source_consume_item_filter_display_result": {
+      "status": "source-backed",
+      "source_slice": "N1469",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_filter_display_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "public void display(Stats stats){",
+          "rule": "Exact display method boundary."
+        },
+        "stats_add_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+          "rule": "Exact stats.add expression."
+        },
+        "stats_add_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "stats.add",
+          "rule": "Stats.add call marker."
+        },
+        "selected_stat_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "booster ? Stat.booster : Stat.input",
+          "rule": "Exact stat selection ternary."
+        },
+        "stat_values_items_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "StatValues.items(stats.timePeriod, filter)",
+          "rule": "Exact StatValues.items call expression."
+        },
+        "stat_values_items_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_expr": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
+          "rule": "StatValues.items overload anchor."
+        },
+        "content_filter_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+          "rule": "Exact item filtering expression."
+        },
+        "display_item_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+          "rule": "Exact display row expression."
+        },
+        "booster": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_display_input.booster",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "selected_stat": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "booster ? Stat.booster : Stat.input",
+          "rule": "booster maps to booster, false maps to input."
+        },
+        "stats_time_period": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_display_input.stats_time_period",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "filtered_item_ids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_display_input.filtered_item_ids",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "stats_add_call": {
+          "type": "Dictionary",
+          "status": "generated",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+          "rule": "Trace record for the source stats.add call."
+        },
+        "display_items": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java",
+          "java_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+          "rule": "Display item rows for the selected items."
+        }
+      }
     }
   },
   "version": 1

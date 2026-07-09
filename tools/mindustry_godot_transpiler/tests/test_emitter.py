@@ -17809,6 +17809,53 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"consumed_index": consumed_index', source_text)
             self.assertIn('"checked_items": checked_items', source_text)
 
+    def test_emit_bridges_consume_item_filter_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.meta.*;
+
+public class ConsumeItemFilter extends Consume{
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
+            self.assertIn("var filtered_item_ids: Array = _args[2] if _args.size() > 2 else []", source_text)
+            self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var display_items: Array = []", source_text)
+            self.assertIn("for item_id in filtered_item_ids:", source_text)
+            self.assertIn('var display_expr: String = "displayItem(item)" if stats_time_period <= 0.0 else "displayItem(item, 1, timePeriod, true)"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_display_state"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));"', source_text)
+            self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source_text)
+            self.assertIn('"stat_values_items_expr": "StatValues.items(stats.timePeriod, filter)"', source_text)
+            self.assertIn('"stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){"', source_text)
+            self.assertIn('"content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());"', source_text)
+            self.assertIn('"display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);"', source_text)
+            self.assertIn('"selected_stat": selected_stat', source_text)
+            self.assertIn('"stats_time_period": stats_time_period', source_text)
+            self.assertIn('"filtered_item_ids": filtered_item_ids', source_text)
+            self.assertIn('"display_items": display_items', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -122159,6 +122159,230 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
       "rule": "Next method boundary after getConsumed."
+    },
+    "consume_item_filter_display.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_item_filter_display_result.method",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Exact ConsumeItemFilter.display method boundary."
+    },
+    "consume_item_filter_display.stats_add_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+      "godot_symbol": "source_consume_item_filter_display_result.stats_add_expr",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Exact stats.add expression from ConsumeItemFilter.display."
+    },
+    "consume_item_filter_display.booster": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster",
+      "godot_symbol": "source_consume_item_filter_display_input.booster",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Explicit Consume.booster field value until concrete Consume instance state is wired."
+    },
+    "consume_item_filter_display.selected_stat": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster ? Stat.booster : Stat.input",
+      "godot_symbol": "source_consume_item_filter_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Selects Stat.booster when booster is true, else Stat.input, from exact ternary."
+    },
+    "consume_item_filter_display.stats_time_period": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.timePeriod",
+      "godot_symbol": "source_consume_item_filter_display_input.stats_time_period",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Explicit Stats.timePeriod value passed into StatValues.items."
+    },
+    "consume_item_filter_display.stat_values_items": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "StatValues.items(stats.timePeriod, filter)",
+      "godot_symbol": "source_consume_item_filter_display_result.stat_values_items_expr",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Exact StatValues.items call in stats.add."
+    },
+    "consume_item_filter_display.filtered_item_ids": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, Boolf<Item> filter)",
+      "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())",
+      "godot_symbol": "source_consume_item_filter_display_input.filtered_item_ids",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Explicit selected content item ids until live content/filter/unlock/hidden checks are ported."
+    },
+    "consume_item_filter_display.display_items": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, Boolf<Item> filter)",
+      "java_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+      "godot_symbol": "source_consume_item_filter_display_result.display_items",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Source-backed display item rows from StatValues.items."
+    },
+    "consume_item_filter_display.stats_add_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stats.java",
+      "java_method": "add(Stat stat, StatValue value)",
+      "java_expr": "public void add(Stat stat, StatValue value){",
+      "godot_symbol": "source_consume_item_filter_display_result.stats_add_method",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Stats.add overload anchor for StatValue."
+    },
+    "consume_item_filter_display.stat_values_items_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, Boolf<Item> filter)",
+      "java_expr": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
+      "godot_symbol": "source_consume_item_filter_display_result.stat_values_items_method",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "StatValues.items overload anchor."
+    },
+    "consume_item_filter_display.content_filter_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "items(float timePeriod, Boolf<Item> filter)",
+      "java_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+      "godot_symbol": "source_consume_item_filter_display_result.content_filter_expr",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Exact StatValues.items content filter expression."
+    },
+    "consume_item_filter_display.booster_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean booster;",
+      "godot_symbol": "source_consume_item_filter_display_result.booster_field",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Consume.booster field anchor."
+    },
+    "consume_item_filter_display.stat_booster": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "Stat",
+      "java_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+      "godot_symbol": "source_consume_item_filter_display_result.stat_booster",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Stat.booster enum-style field anchor."
+    },
+    "consume_item_filter_display.next_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public float itemEfficiencyMultiplier(Item item){",
+      "godot_symbol": "source_consume_item_filter_display_result.next_method",
+      "godot_owner": "PortGame.source_consume_item_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Next method boundary after display."
     }
   },
   "version": 1

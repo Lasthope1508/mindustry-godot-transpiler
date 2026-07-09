@@ -40492,6 +40492,58 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_get_consumed_state",
       "rule": "Public source helper exposes getConsumed scan state backed by ConsumeItemFilter.getConsumed(Building)."
+    },
+    "PortGame.source_consume_item_filter_display_state": {
+      "status": "source-backed",
+      "source_slice": "N1469",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_item_filter_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "stats_time_period",
+          "type": "float",
+          "schema": "source_consume_item_filter_display_input.stats_time_period",
+          "java_expr": "stats.timePeriod"
+        },
+        {
+          "name": "filtered_item_ids",
+          "type": "Array",
+          "schema": "source_consume_item_filter_display_input.filtered_item_ids",
+          "java_expr": "content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stats_add_expr",
+        "stats_add_call_expr",
+        "selected_stat_expr",
+        "stat_values_items_expr",
+        "stat_values_items_method",
+        "content_filter_expr",
+        "display_item_expr",
+        "booster",
+        "selected_stat",
+        "stats_time_period",
+        "filtered_item_ids",
+        "stats_add_call",
+        "display_items"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_display_bridge_state",
+        "test_consume_item_filter_display_matches_upstream_source",
+        "test_generated_consume_item_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_display_state",
+      "rule": "Public source helper exposes ConsumeItemFilter.display stats.add state and display item rows."
     }
   },
   "policy": {

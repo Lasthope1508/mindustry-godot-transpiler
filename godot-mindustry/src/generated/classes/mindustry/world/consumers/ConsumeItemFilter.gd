@@ -76,7 +76,16 @@ func java_method_getConsumed_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_item_filter_get_consumed_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public @Nullable Item getConsumed(Building build){", "loop_expr": "for(int i = 0; i < content.items().size; i++){", "content_item_expr": "Item item = content.item(i);", "guard_expr": "if(build.items.has(item) && this.filter.get(item)){", "return_item_expr": "return item;", "return_null_expr": "return null;", "content_items": content_items, "build_items_has_item_flags": build_items_has_item_flags, "filter_get_item_flags": filter_get_item_flags, "checked_items": checked_items, "consumed_item": consumed_item, "consumed_index": consumed_index}
 
 func java_method_display_6(_args: Array = []) -> Variant:
-	return null
+	var booster: bool = bool(_args[0] if _args.size() > 0 else false)
+	var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)
+	var filtered_item_ids: Array = _args[2] if _args.size() > 2 else []
+	var selected_stat: String = "booster" if booster else "input"
+	var display_items: Array = []
+	for item_id in filtered_item_ids:
+		var display_expr: String = "displayItem(item)" if stats_time_period <= 0.0 else "displayItem(item, 1, timePeriod, true)"
+		display_items.append({"item_id": int(item_id), "time_period": stats_time_period, "display_expr": display_expr})
+	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.items(stats.timePeriod, filter)", "time_period": stats_time_period, "filtered_item_ids": filtered_item_ids}
+	return {"source_owner": "PortGame.source_consume_item_filter_display_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void display(Stats stats){", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_values_items_expr": "StatValues.items(stats.timePeriod, filter)", "stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){", "content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());", "display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);", "booster": booster, "selected_stat": selected_stat, "stats_time_period": stats_time_period, "filtered_item_ids": filtered_item_ids, "stats_add_call": stats_add_call, "display_items": display_items}
 
 func java_method_efficiencyMultiplier_7(_args: Array = []) -> Variant:
 	return null

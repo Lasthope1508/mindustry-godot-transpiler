@@ -1062,6 +1062,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_filter_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_display_source"))
+        report = source_parity.verify_consume_item_filter_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertIn("core/src/mindustry/world/meta/Stats.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+            "stats_add_method": "public void add(Stat stat, StatValue value){",
+            "stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
+            "content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+            "display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+            "booster_field": "public boolean booster;",
+            "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+            "next_method": "public float itemEfficiencyMultiplier(Item item){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")

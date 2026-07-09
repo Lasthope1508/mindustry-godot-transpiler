@@ -633,6 +633,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.getConsumed"', source)
         self.assertIn('"matches": result.get("consumed_item", null) == canonical.get("consumed_item", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_display_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_display_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));"', source)
+        self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source)
+        self.assertIn('"stat_values_items_expr": "StatValues.items(stats.timePeriod, filter)"', source)
+        self.assertIn('"stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){"', source)
+        self.assertIn('"content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());"', source)
+        self.assertIn('"display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);"', source)
+        self.assertIn('var selected_stat: String = "booster" if booster else "input"', source)
+        self.assertIn("var display_items: Array = []", source)
+        self.assertIn('"stats_time_period": stats_time_period', source)
+        self.assertIn('"filtered_item_ids": filtered_item_ids', source)
+        self.assertIn('"display_items": display_items', source)
+        self.assertIn("func generated_consume_item_filter_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_display_6([booster, stats_time_period, filtered_item_ids])", source)
+        self.assertIn("var canonical = source_consume_item_filter_display_state(booster, stats_time_period, filtered_item_ids)", source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.display"', source)
+        self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", [])', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

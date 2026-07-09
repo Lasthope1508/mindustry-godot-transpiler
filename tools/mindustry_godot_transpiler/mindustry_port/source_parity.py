@@ -4436,6 +4436,48 @@ def verify_consume_item_filter_get_consumed_source(upstream_root: Path, arc_root
         "missing": missing,
     }
 
+def verify_consume_item_filter_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    stats = (upstream_root / stats_source).read_text(encoding="utf-8", errors="replace")
+    stat_values = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    consume = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    stat = (upstream_root / stat_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
+        "stats_add_method": "public void add(Stat stat, StatValue value){",
+        "stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
+        "content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+        "display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
+        "booster_field": "public boolean booster;",
+        "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+        "next_method": "public float itemEfficiencyMultiplier(Item item){",
+    }
+    source_by_key = {
+        "method": source,
+        "stats_add_expr": source,
+        "stats_add_method": stats,
+        "stat_values_items_method": stat_values,
+        "content_filter_expr": stat_values,
+        "display_item_expr": stat_values,
+        "booster_field": consume,
+        "stat_booster": stat,
+        "next_method": source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_filter_source,
+        "sources": [stats_source, stat_values_source, consume_source, stat_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"
