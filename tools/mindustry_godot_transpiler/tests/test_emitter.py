@@ -18112,6 +18112,45 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
             self.assertIn('"filter_assignment_expr": "this.filter = item;"', source_text)
             self.assertIn('"filter_after": filter_after', source_text)
 
+    def test_emit_bridges_consume_item_efficiency_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import mindustry.type.*;
+
+public class ConsumeItemEfficiency extends ConsumeItemFilter{
+    public ConsumeItemEfficiency(Boolf<Item> item){
+        super(item);
+    }
+
+    public ConsumeItemEfficiency(){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItemEfficiency_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var filter_after: String = "i -> false"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_efficiency_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItemEfficiency(){"', source_text)
+            self.assertIn('"parent_constructor_expr": "public ConsumeItemFilter(){"', source_text)
+            self.assertIn('"filter_field": "public Boolf<Item> filter = i -> false;"', source_text)
+            self.assertIn('"filter_after": filter_after', source_text)
+
     def test_emit_bridges_consume_item_dynamic_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

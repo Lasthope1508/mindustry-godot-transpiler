@@ -36552,6 +36552,36 @@
         "test_consume_item_efficiency_constructor_matches_upstream_source",
         "test_generated_consume_item_efficiency_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1458": {
+      "title": "Generated ConsumeItemEfficiency default constructor bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemEfficiency",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+      "java_method": "ConsumeItemEfficiency()",
+      "generated_owner": "ConsumeItemEfficiency.java_constructor_ConsumeItemEfficiency_1",
+      "godot_owner": "PortGame.source_consume_item_efficiency_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_efficiency_default_constructor_bridge_state",
+      "rule": "Generated ConsumeItemEfficiency() preserves the parent ConsumeItemFilter default filter field without inventing predicate execution.",
+      "exact_exprs": [
+        "public ConsumeItemEfficiency(){",
+        "public ConsumeItemFilter(){",
+        "public Boolf<Item> filter = i -> false;"
+      ],
+      "deferred_exprs": [
+        "Concrete Boolf<Item>.get(Item) predicate execution remains deferred to item-filter consumption slices; this slice records no-arg constructor default filter state only."
+      ],
+      "source_symbols": [
+        "consume_item_efficiency_default_constructor.constructor",
+        "consume_item_efficiency_default_constructor.parent_constructor",
+        "consume_item_efficiency_default_constructor.filter_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_efficiency_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_efficiency_default_constructor_bridge_state",
+        "test_consume_item_efficiency_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_efficiency_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

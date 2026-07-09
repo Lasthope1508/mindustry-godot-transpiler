@@ -2747,6 +2747,29 @@ func generated_consume_item_efficiency_constructor_bridge_state(item: Variant) -
 		"matches": result.get("filter_after", null) == canonical.get("filter_after", null),
 	}
 
+func source_consume_item_efficiency_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_efficiency_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+		"constructor": "public ConsumeItemEfficiency(){",
+		"parent_constructor_expr": "public ConsumeItemFilter(){",
+		"filter_field": "public Boolf<Item> filter = i -> false;",
+		"filter_after": "i -> false",
+	}
+
+func generated_consume_item_efficiency_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemEfficiency.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemEfficiency_1([])
+	var canonical = source_consume_item_efficiency_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_item_efficiency_default_constructor_state",
+		"generated_owner": "ConsumeItemEfficiency.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("filter_after", null) == canonical.get("filter_after", null),
+	}
+
 func source_consume_item_dynamic_apply_state(block_has_items_before: bool, block_accepts_items_before: bool) -> Dictionary:
 	return {
 		"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",

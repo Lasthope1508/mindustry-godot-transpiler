@@ -1188,6 +1188,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_efficiency_default_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_efficiency_default_constructor_source"))
+        report = source_parity.verify_consume_item_efficiency_default_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java")
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeItemFilter.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "constructor": "public ConsumeItemEfficiency(){",
+            "parent_constructor": "public ConsumeItemFilter(){",
+            "filter_field": "public Boolf<Item> filter = i -> false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_item_dynamic_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_item_dynamic_apply_source"))
         report = source_parity.verify_consume_item_dynamic_apply_source(ROOT / "mindustry-upstream")

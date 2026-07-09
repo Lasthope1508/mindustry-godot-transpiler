@@ -154302,6 +154302,49 @@
           ]
         }
       }
+    },
+    "source_consume_item_efficiency_default_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1458",
+      "rule": "Result schema for ConsumeItemEfficiency default constructor bridge.",
+      "keys": {
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java",
+          "java_method": "ConsumeItemEfficiency()",
+          "java_expr": "public ConsumeItemEfficiency(){",
+          "godot_symbol": "source_consume_item_efficiency_default_constructor_result.constructor",
+          "rule": "Subclass no-arg constructor boundary.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_default_constructor_state"
+          ]
+        },
+        "parent_constructor_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter()",
+          "java_expr": "public ConsumeItemFilter(){",
+          "godot_symbol": "source_consume_item_efficiency_default_constructor_result.parent_constructor_expr",
+          "rule": "Parent no-arg constructor boundary.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_default_constructor_state"
+          ]
+        },
+        "filter_after": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_method": "ConsumeItemFilter()",
+          "java_expr": "public Boolf<Item> filter = i -> false;",
+          "godot_symbol": "source_consume_item_efficiency_default_constructor_result.filter_after",
+          "rule": "Filter field default after no-arg construction.",
+          "used_by": [
+            "PortGame.source_consume_item_efficiency_default_constructor_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
