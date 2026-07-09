@@ -514,6 +514,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.apply"', source)
         self.assertIn('"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", [])', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_build_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){"', source)
+        self.assertIn('"image_expr": "MultiReqImage image = new MultiReqImage();"', source)
+        self.assertIn('"each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));"', source)
+        self.assertIn('"table_add_expr": "table.add(image).size(8 * 4);"', source)
+        self.assertIn("var table_image_size: float = 8.0 * 4.0", source)
+        self.assertIn("func generated_consume_item_filter_build_bridge_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_build_1([filtered_item_ids, build_items_has_item_flags])", source)
+        self.assertIn("var canonical = source_consume_item_filter_build_state(filtered_item_ids, build_items_has_item_flags)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_build_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.build"', source)
+        self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("table_image_size", null) == canonical.get("table_image_size", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

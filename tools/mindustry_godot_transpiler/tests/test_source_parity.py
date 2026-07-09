@@ -967,6 +967,35 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_filter_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_build_source"))
+        report = source_parity.verify_consume_item_filter_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertIn("core/src/mindustry/ui/MultiReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/ui/ReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/ItemModule.java", report["sources"])
+        self.assertIn("arc-core/src/arc/scene/ui/layout/Cell.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "filter_field": "public Boolf<Item> filter = i -> false;",
+            "method": "public void build(Building build, Table table){",
+            "image_expr": "MultiReqImage image = new MultiReqImage();",
+            "each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),",
+            "valid_expr": "() -> build.items.has(item))));",
+            "table_add_expr": "table.add(image).size(8 * 4);",
+            "multi_req_image_class": "public class MultiReqImage extends Stack{",
+            "multi_req_image_add": "public void add(ReqImage display){",
+            "req_image_constructor": "public ReqImage(Element image, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "stat_values_stack": "public static Stack stack(UnlockableContent item, int amount){",
+            "building_items_field": "@Nullable ItemModule items;",
+            "item_module_has": "public boolean has(Item item){",
+            "cell_size": "public Cell<T> size(float size){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")

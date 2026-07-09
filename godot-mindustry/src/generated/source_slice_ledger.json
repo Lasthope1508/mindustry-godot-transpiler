@@ -36686,6 +36686,61 @@
         "test_consume_item_filter_apply_matches_upstream_source",
         "test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1463": {
+      "title": "Generated ConsumeItemFilter build bridge state",
+      "status": "done",
+      "java_class": "ConsumeItemFilter",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "build(Building build, Table table)",
+      "generated_owner": "ConsumeItemFilter.java_method_build_1",
+      "godot_owner": "PortGame.source_consume_item_filter_build_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_build_bridge_state",
+      "rule": "Generated ConsumeItemFilter.build bridges MultiReqImage/ReqImage display state without inventing live Boolf/content iteration or Arc UI objects.",
+      "exact_exprs": [
+        "public Boolf<Item> filter = i -> false;",
+        "public void build(Building build, Table table){",
+        "MultiReqImage image = new MultiReqImage();",
+        "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),",
+        "() -> build.items.has(item))));",
+        "table.add(image).size(8 * 4);",
+        "public class MultiReqImage extends Stack{",
+        "public void add(ReqImage display){",
+        "public ReqImage(Element image, Boolp valid){",
+        "public boolean valid(){",
+        "public static Stack stack(UnlockableContent item, int amount){",
+        "@Nullable ItemModule items;",
+        "public boolean has(Item item){",
+        "public Cell<T> size(float size){"
+      ],
+      "deferred_exprs": [
+        "Concrete Boolf<Item>.get(Item), Item.unlockedNow(), hidden filtering, content.items() iteration, Arc Element/Stack/Cell object mutation, and ReqImage drawing remain deferred; this slice accepts filtered_item_ids and build_items_has_item_flags as explicit source-backed runtime inputs."
+      ],
+      "source_symbols": [
+        "consume_item_filter_build.method",
+        "consume_item_filter_build.filter_field",
+        "consume_item_filter_build.image",
+        "consume_item_filter_build.each_expr",
+        "consume_item_filter_build.req_images",
+        "consume_item_filter_build.table_add",
+        "consume_item_filter_build.table_image_size",
+        "consume_item_filter_build.multi_req_image_class",
+        "consume_item_filter_build.multi_req_image_add",
+        "consume_item_filter_build.req_image_constructor",
+        "consume_item_filter_build.req_image_valid",
+        "consume_item_filter_build.stat_values_stack",
+        "consume_item_filter_build.building_items_field",
+        "consume_item_filter_build.item_module_has",
+        "consume_item_filter_build.cell_size",
+        "consume_item_filter_build.filtered_item_ids",
+        "consume_item_filter_build.build_items_has_item_flags"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_build_bridge_state",
+        "test_consume_item_filter_build_matches_upstream_source",
+        "test_generated_consume_item_filter_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -4260,6 +4260,62 @@ def verify_consume_item_filter_apply_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_consume_item_filter_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    multi_req_image_source = "core/src/mindustry/ui/MultiReqImage.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    item_module_source = "core/src/mindustry/world/modules/ItemModule.java"
+    cell_source = "arc-core/src/arc/scene/ui/layout/Cell.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    multi_req_image_text = (upstream_root / multi_req_image_source).read_text(encoding="utf-8", errors="replace")
+    req_image_text = (upstream_root / req_image_source).read_text(encoding="utf-8", errors="replace")
+    stat_values_text = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    building_comp_text = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    item_module_text = (upstream_root / item_module_source).read_text(encoding="utf-8", errors="replace")
+    cell_text = (upstream_root.parent / "arc-upstream" / cell_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Item> filter = i -> false;",
+        "method": "public void build(Building build, Table table){",
+        "image_expr": "MultiReqImage image = new MultiReqImage();",
+        "each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),",
+        "valid_expr": "() -> build.items.has(item))));",
+        "table_add_expr": "table.add(image).size(8 * 4);",
+        "multi_req_image_class": "public class MultiReqImage extends Stack{",
+        "multi_req_image_add": "public void add(ReqImage display){",
+        "req_image_constructor": "public ReqImage(Element image, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "stat_values_stack": "public static Stack stack(UnlockableContent item, int amount){",
+        "building_items_field": "@Nullable ItemModule items;",
+        "item_module_has": "public boolean has(Item item){",
+        "cell_size": "public Cell<T> size(float size){",
+    }
+    source_by_key = {
+        "filter_field": source,
+        "method": source,
+        "image_expr": source,
+        "each_expr": source,
+        "valid_expr": source,
+        "table_add_expr": source,
+        "multi_req_image_class": multi_req_image_text,
+        "multi_req_image_add": multi_req_image_text,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "stat_values_stack": stat_values_text,
+        "building_items_field": building_comp_text,
+        "item_module_has": item_module_text,
+        "cell_size": cell_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_filter_source,
+        "sources": [multi_req_image_source, req_image_source, stat_values_source, building_comp_source, item_module_source, cell_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

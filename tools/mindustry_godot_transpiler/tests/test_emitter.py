@@ -17580,6 +17580,56 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);"', source_text)
             self.assertIn('"item_filter_assignment_expr": "block.itemFilter[item.id] = true;"', source_text)
 
+    def test_emit_bridges_consume_item_filter_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.meta.*;
+
+public class ConsumeItemFilter extends Consume{
+    public Boolf<Item> filter = i -> false;
+
+    public void build(Building build, Table table){
+        MultiReqImage image = new MultiReqImage();
+        content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),
+            () -> build.items.has(item))));
+
+        table.add(image).size(8 * 4);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var filtered_item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var build_items_has_item_flags: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var valid: bool = bool(build_items_has_item_flags[index]) if index < build_items_has_item_flags.size() else false", source_text)
+            self.assertIn('req_images.append({"item_id": int(filtered_item_ids[index]), "stack_amount": 1, "valid": valid, "stat_values_stack_expr": "StatValues.stack(item, 1)", "valid_expr": "build.items.has(item)"})', source_text)
+            self.assertIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"image_expr": "MultiReqImage image = new MultiReqImage();"', source_text)
+            self.assertIn('"each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));"', source_text)
+            self.assertIn('"table_add_expr": "table.add(image).size(8 * 4);"', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

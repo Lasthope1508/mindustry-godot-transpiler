@@ -14610,6 +14610,74 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_filter_apply_result")
         self.assertEqual(result_schema["keys"]["item_filter_after"]["java_expr"], "block.itemFilter[item.id] = true")
 
+    def test_generated_consume_item_filter_build_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        image_symbol = source_symbols.source_symbol(registry, "consume_item_filter_build.image")
+        self.assertEqual(image_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(image_symbol["java_method"], "build(Building build, Table table)")
+        self.assertEqual(image_symbol["java_expr"], "MultiReqImage image = new MultiReqImage();")
+        self.assertEqual(image_symbol["godot_owner"], "PortGame.source_consume_item_filter_build_state")
+        self.assertEqual(image_symbol["runtime_proof"], "/root/Main.source_consume_item_filter_build_state")
+        self.assertEqual(image_symbol["godot_symbol"], "source_consume_item_filter_build_result.multi_req_image_created")
+
+        req_images = source_symbols.source_symbol(registry, "consume_item_filter_build.req_images")
+        self.assertEqual(req_images["java_expr"], "image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item)))")
+        self.assertEqual(req_images["godot_symbol"], "source_consume_item_filter_build_result.req_images")
+
+        filtered_item_ids = source_symbols.source_symbol(registry, "consume_item_filter_build.filtered_item_ids")
+        self.assertEqual(filtered_item_ids["status"], "explicit-input")
+        self.assertEqual(filtered_item_ids["java_expr"], "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(...))")
+        self.assertEqual(filtered_item_ids["godot_symbol"], "source_consume_item_filter_build_input.filtered_item_ids")
+
+        has_flags = source_symbols.source_symbol(registry, "consume_item_filter_build.build_items_has_item_flags")
+        self.assertEqual(has_flags["status"], "explicit-input")
+        self.assertEqual(has_flags["java_expr"], "build.items.has(item)")
+        self.assertEqual(has_flags["godot_symbol"], "source_consume_item_filter_build_input.build_items_has_item_flags")
+
+        filter_slice = source_symbols.source_slice(ledger, "N1463")
+        self.assertEqual(filter_slice["title"], "Generated ConsumeItemFilter build bridge state")
+        self.assertEqual(filter_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(filter_slice["java_method"], "build(Building build, Table table)")
+        self.assertEqual(filter_slice["godot_owner"], "PortGame.source_consume_item_filter_build_state")
+        self.assertEqual(filter_slice["generated_owner"], "ConsumeItemFilter.java_method_build_1")
+        self.assertEqual(filter_slice["runtime_proof"], "/root/Main.generated_consume_item_filter_build_bridge_state")
+        for expr in [
+            "public void build(Building build, Table table){",
+            "MultiReqImage image = new MultiReqImage();",
+            "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1),",
+            "() -> build.items.has(item))));",
+            "table.add(image).size(8 * 4);",
+            "public class MultiReqImage extends Stack{",
+            "public void add(ReqImage display){",
+            "public ReqImage(Element image, Boolp valid){",
+            "public boolean valid(){",
+            "public static Stack stack(UnlockableContent item, int amount){",
+            "@Nullable ItemModule items;",
+            "public boolean has(Item item){",
+            "public Cell<T> size(float size){",
+        ]:
+            self.assertIn(expr, filter_slice["exact_exprs"])
+        self.assertIn("consume_item_filter_build.image", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_build.req_images", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_build.filtered_item_ids", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_build.build_items_has_item_flags", filter_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_filter_build_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["filtered_item_ids", "build_items_has_item_flags"])
+        self.assertIn("req_images", contract["return_keys"])
+        self.assertIn("table_image_size", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_filter_build_input")
+        self.assertEqual(input_schema["keys"]["filtered_item_ids"]["java_expr"], "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(...))")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_filter_build_result")
+        self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item)))")
+        self.assertEqual(result_schema["keys"]["table_image_size"]["java_expr"], "table.add(image).size(8 * 4);")
+
     def test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -22340,10 +22408,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 935)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 930)
+        self.assertEqual(audit["totalSourceFunctions"], 936)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 931)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 935)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 936)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22355,6 +22423,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_filter_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_apply_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])
