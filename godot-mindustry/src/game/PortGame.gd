@@ -2405,6 +2405,33 @@ func generated_consume_item_explosive_item_efficiency_multiplier_bridge_state(it
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_item_explosive_constructor_state(min_charge: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_explosive_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+		"constructor": "public ConsumeItemExplosive(float minCharge){",
+		"min_explosiveness_field": "public float minExplosiveness;",
+		"assignment_expr": "this.minExplosiveness = minCharge;",
+		"filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;",
+		"filter_expr": "item -> item.explosiveness >= this.minExplosiveness",
+		"item_explosiveness_field": "public float explosiveness = 0f;",
+		"min_charge": min_charge,
+		"min_explosiveness_after": min_charge,
+	}
+
+func generated_consume_item_explosive_constructor_bridge_state(min_charge: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplosive.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemExplosive_0([min_charge])
+	var canonical = source_consume_item_explosive_constructor_state(min_charge)
+	return {
+		"source_owner": "PortGame.source_consume_item_explosive_constructor_state",
+		"generated_owner": "ConsumeItemExplosive.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("min_explosiveness_after", null) == canonical.get("min_explosiveness_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
+	}
+
 func source_consume_item_radioactive_item_efficiency_multiplier_state(item_radioactivity: float) -> Dictionary:
 	return {
 		"method": "public float itemEfficiencyMultiplier(Item item){",

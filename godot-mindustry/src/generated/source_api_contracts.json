@@ -40974,6 +40974,40 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_flammable_default_constructor_state",
       "rule": "Source state mirrors no-arg constructor delegation to this(0.2f)."
+    },
+    "PortGame.source_consume_item_explosive_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1483",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "source_method": "ConsumeItemExplosive(float minCharge)",
+      "params": [
+        {
+          "name": "min_charge",
+          "type": "float",
+          "schema": "source_consume_item_explosive_constructor_input.min_charge",
+          "java_expr": "float minCharge"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "min_explosiveness_field",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "item_explosiveness_field",
+        "min_charge",
+        "min_explosiveness_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state",
+        "test_consume_item_explosive_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state",
+      "rule": "Source state mirrors constructor assignment and filter expression; live predicate execution deferred."
     }
   },
   "policy": {

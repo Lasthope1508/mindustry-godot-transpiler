@@ -5926,6 +5926,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": 0.2, "min_flammability_after": min_flammability_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemExplosive.java"
+        and type_entry.get("name") == "ConsumeItemExplosive"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemExplosive_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_charge: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                    "\tvar min_explosiveness_after: float = min_charge",
+                    '\tvar filter_expr: String = "item -> item.explosiveness >= this.minExplosiveness"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_explosive_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(float minCharge){", "min_explosiveness_field": "public float minExplosiveness;", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "item_explosiveness_field": "public float explosiveness = 0f;", "min_charge": min_charge, "min_explosiveness_after": min_explosiveness_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):

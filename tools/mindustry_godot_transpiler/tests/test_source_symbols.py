@@ -14683,6 +14683,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_explosive_item_efficiency_multiplier_result")
         self.assertEqual(result_schema["keys"]["efficiency_multiplier"]["java_expr"], "return item.explosiveness;")
 
+    def test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_item_explosive_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemExplosive.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeItemExplosive(float minCharge)")
+        self.assertEqual(constructor_symbol["java_expr"], "public ConsumeItemExplosive(float minCharge){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_item_explosive_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_item_explosive_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_item_explosive_constructor_result.constructor")
+
+        min_charge_symbol = source_symbols.source_symbol(registry, "consume_item_explosive_constructor.min_charge")
+        self.assertEqual(min_charge_symbol["status"], "explicit-input")
+        self.assertEqual(min_charge_symbol["java_expr"], "float minCharge")
+        self.assertEqual(min_charge_symbol["godot_symbol"], "source_consume_item_explosive_constructor_input.min_charge")
+
+        assignment_symbol = source_symbols.source_symbol(registry, "consume_item_explosive_constructor.assignment")
+        self.assertEqual(assignment_symbol["java_expr"], "this.minExplosiveness = minCharge;")
+        self.assertEqual(assignment_symbol["godot_symbol"], "source_consume_item_explosive_constructor_result.min_explosiveness_after")
+
+        filter_symbol = source_symbols.source_symbol(registry, "consume_item_explosive_constructor.filter")
+        self.assertEqual(filter_symbol["java_expr"], "filter = item -> item.explosiveness >= this.minExplosiveness;")
+        self.assertEqual(filter_symbol["godot_symbol"], "source_consume_item_explosive_constructor_result.filter_expr")
+
+        explosive_slice = source_symbols.source_slice(ledger, "N1483")
+        self.assertEqual(explosive_slice["title"], "Generated ConsumeItemExplosive constructor bridge state")
+        self.assertEqual(explosive_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemExplosive.java")
+        self.assertEqual(explosive_slice["java_method"], "ConsumeItemExplosive(float minCharge)")
+        self.assertEqual(explosive_slice["godot_owner"], "PortGame.source_consume_item_explosive_constructor_state")
+        self.assertEqual(explosive_slice["generated_owner"], "ConsumeItemExplosive.java_constructor_ConsumeItemExplosive_0")
+        self.assertEqual(explosive_slice["runtime_proof"], "/root/Main.generated_consume_item_explosive_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1483"]["canonical_ledger"], "source_slice_ledger.N1483")
+        for expr in [
+            "public float minExplosiveness;",
+            "public ConsumeItemExplosive(float minCharge){",
+            "this.minExplosiveness = minCharge;",
+            "filter = item -> item.explosiveness >= this.minExplosiveness;",
+            "public float explosiveness = 0f;",
+        ]:
+            self.assertIn(expr, explosive_slice["exact_exprs"])
+        self.assertIn("consume_item_explosive_constructor.constructor", explosive_slice["source_symbols"])
+        self.assertIn("consume_item_explosive_constructor.min_charge", explosive_slice["source_symbols"])
+        self.assertIn("consume_item_explosive_constructor.assignment", explosive_slice["source_symbols"])
+        self.assertIn("consume_item_explosive_constructor.filter", explosive_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_explosive_constructor_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["min_charge"])
+        self.assertIn("min_explosiveness_after", contract["return_keys"])
+        self.assertEqual(
+            consumer_contract_shard["contracts"]["PortGame.source_consume_item_explosive_constructor_state"]["canonical_contract"],
+            "source_api_contracts.PortGame.source_consume_item_explosive_constructor_state",
+        )
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_explosive_constructor_input")
+        self.assertEqual(input_schema["keys"]["min_charge"]["java_expr"], "float minCharge")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_explosive_constructor_result")
+        self.assertEqual(result_schema["keys"]["min_explosiveness_after"]["java_expr"], "this.minExplosiveness = minCharge;")
+
     def test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23504,10 +23568,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 951)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 946)
+        self.assertEqual(audit["totalSourceFunctions"], 952)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 947)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 951)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 952)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23546,6 +23610,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_charged_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_explosive_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_explosive_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_condition_requested_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_dynamic_display_state", audit["registeredSourceOwners"])

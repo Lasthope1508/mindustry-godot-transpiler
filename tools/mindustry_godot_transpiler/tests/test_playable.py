@@ -452,6 +452,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemExplosive.itemEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_explosive_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_explosive_constructor_state(min_charge: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_explosive_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemExplosive(float minCharge){"', source)
+        self.assertIn('"min_explosiveness_field": "public float minExplosiveness;"', source)
+        self.assertIn('"assignment_expr": "this.minExplosiveness = minCharge;"', source)
+        self.assertIn('"filter_expr": "item -> item.explosiveness >= this.minExplosiveness"', source)
+        self.assertIn('"item_explosiveness_field": "public float explosiveness = 0f;"', source)
+        self.assertIn("func generated_consume_item_explosive_constructor_bridge_state(min_charge: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplosive.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemExplosive_0([min_charge])", source)
+        self.assertIn("var canonical = source_consume_item_explosive_constructor_state(min_charge)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_explosive_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemExplosive.constructor"', source)
+        self.assertIn('"matches": result.get("min_explosiveness_after", null) == canonical.get("min_explosiveness_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -17437,6 +17437,47 @@ public class ConsumeItemExplosive extends ConsumeItemEfficiency{
             self.assertIn('"item_explosiveness": item_explosiveness', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_item_explosive_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemExplosive.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+
+public class ConsumeItemExplosive extends ConsumeItemEfficiency{
+    public float minExplosiveness;
+
+    public ConsumeItemExplosive(float minCharge){
+        this.minExplosiveness = minCharge;
+        filter = item -> item.explosiveness >= this.minExplosiveness;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemExplosive.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItemExplosive_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var min_charge: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var min_explosiveness_after: float = min_charge", source_text)
+            self.assertIn('var filter_expr: String = "item -> item.explosiveness >= this.minExplosiveness"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_explosive_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItemExplosive(float minCharge){"', source_text)
+            self.assertIn('"assignment_expr": "this.minExplosiveness = minCharge;"', source_text)
+            self.assertIn('"filter_expr": filter_expr', source_text)
+            self.assertIn('"min_charge": min_charge', source_text)
+            self.assertIn('"min_explosiveness_after": min_explosiveness_after', source_text)
+
     def test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
