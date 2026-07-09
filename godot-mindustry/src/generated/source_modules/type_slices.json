@@ -1,0 +1,1177 @@
+{
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "newTypeSliceRequiresSourceBackedLedgerMirror": true,
+    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /type/."
+  },
+  "slices": {
+    "N779": {
+      "canonical_ledger": "source_slice_ledger.N779",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.health field",
+      "godot_owner": "PortGame.source_unit_health",
+      "source_symbols": [
+        "unit_health.default",
+        "unit_health.dagger_assignment",
+        "unit_health.unit_type",
+        "unit_health.result"
+      ],
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ],
+      "runtime_proof": "/root/Main.source_unit_health"
+    },
+    "N780": {
+      "canonical_ledger": "source_slice_ledger.N780",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.hitSize field",
+      "godot_owner": "PortGame.source_unit_hit_size",
+      "source_symbols": [
+        "unit_hit_size.default",
+        "unit_hit_size.dagger_assignment",
+        "unit_hit_size.unit_type",
+        "unit_hit_size.result"
+      ],
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ],
+      "runtime_proof": "/root/Main.source_unit_hit_size"
+    },
+    "N834": {
+      "canonical_ledger": "source_slice_ledger.N834",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "godot_owner": "PortGame.source_unit_weapon_damage",
+      "source_symbols": [
+        "unit_weapon_damage.weapons_field",
+        "unit_weapon_damage.weapon_bullet_field",
+        "unit_weapon_damage.bullet_damage_field",
+        "unit_weapon_damage.bullet_constructor_damage",
+        "unit_weapon_damage.dagger_weapon",
+        "unit_weapon_damage.dagger_bullet_damage",
+        "unit_weapon_damage.unit_type"
+      ],
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "runtime_proof": "/root/Main.source_unit_weapon_damage"
+    },
+    "N836": {
+      "canonical_ledger": "source_slice_ledger.N836",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "java_method": "UnitType.speed world-speed stat",
+      "godot_owner": "PortGame.source_unit_world_speed",
+      "source_symbols": [
+        "unit_world_speed.default_speed",
+        "unit_world_speed.speed_field",
+        "unit_world_speed.stat_formula",
+        "unit_world_speed.dagger_speed",
+        "unit_world_speed.tilesize",
+        "unit_world_speed.unit_type"
+      ],
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "runtime_proof": "/root/Main.source_unit_world_speed"
+    },
+    "N838": {
+      "canonical_ledger": "source_slice_ledger.N838",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+      "godot_owner": "PortGame.source_weapon_bullet_angle_life_state",
+      "source_symbols": [
+        "weapon_bullet_angle_life.angle",
+        "weapon_bullet_angle_life.angle_offset",
+        "weapon_bullet_angle_life.angle_spread",
+        "weapon_bullet_angle_life.bullet_inaccuracy",
+        "weapon_bullet_angle_life.bullet_range",
+        "weapon_bullet_angle_life.bullet_rotation_method",
+        "weapon_bullet_angle_life.bullet_rotation_return",
+        "weapon_bullet_angle_life.bullet_scale_life",
+        "weapon_bullet_angle_life.bullet_state",
+        "weapon_bullet_angle_life.life_scl",
+        "weapon_bullet_angle_life.mathf_clamp_unit",
+        "weapon_bullet_angle_life.mathf_dst",
+        "weapon_bullet_angle_life.mathf_range",
+        "weapon_bullet_angle_life.method",
+        "weapon_bullet_angle_life.mount_state",
+        "weapon_bullet_angle_life.shoot_angle",
+        "weapon_bullet_angle_life.unit_state",
+        "weapon_bullet_angle_life.weapon_inaccuracy",
+        "weapon_bullet_angle_life.weapon_state",
+        "weapon_bullet_angle_life.x_offset",
+        "weapon_bullet_angle_life.x_spread",
+        "weapon_bullet_angle_life.y_offset",
+        "weapon_bullet_angle_life.y_spread",
+        "weapon_bullet_angle_life.inaccuracy_range"
+      ],
+      "tests": [
+        "test_weapon_bullet_angle_life_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_angle_life_state",
+        "test_weapon_bullet_angle_life_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_angle_life_state"
+    },
+    "N839": {
+      "canonical_ledger": "source_slice_ledger.N839",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "godot_owner": "PortGame.source_weapon_bullet_create_call_state",
+      "source_symbols": [
+        "weapon_bullet_create_call.aim_x",
+        "weapon_bullet_create_call.aim_y",
+        "weapon_bullet_create_call.angle",
+        "weapon_bullet_create_call.angle_life_state",
+        "weapon_bullet_create_call.bullet_type_create_overload",
+        "weapon_bullet_create_call.bullet_state",
+        "weapon_bullet_create_call.call",
+        "weapon_bullet_create_call.controller_state",
+        "weapon_bullet_create_call.damage_arg",
+        "weapon_bullet_create_call.data_arg",
+        "weapon_bullet_create_call.extra_velocity",
+        "weapon_bullet_create_call.lifetime_scl",
+        "weapon_bullet_create_call.mathf_random",
+        "weapon_bullet_create_call.mount_state",
+        "weapon_bullet_create_call.mover",
+        "weapon_bullet_create_call.owner",
+        "weapon_bullet_create_call.shooter",
+        "weapon_bullet_create_call.shooter_state",
+        "weapon_bullet_create_call.target",
+        "weapon_bullet_create_call.team",
+        "weapon_bullet_create_call.unit_state",
+        "weapon_bullet_create_call.velocity_random",
+        "weapon_bullet_create_call.velocity_rnd",
+        "weapon_bullet_create_call.velocity_scl",
+        "weapon_bullet_create_call.weapon_state",
+        "weapon_bullet_create_call.x_arg",
+        "weapon_bullet_create_call.y_arg"
+      ],
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_create_call_state",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state"
+    },
+    "N840": {
+      "canonical_ledger": "source_slice_ledger.N840",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "godot_owner": "PortGame.source_weapon_bullet_effects_state",
+      "source_symbols": [
+        "weapon_bullet_effects.bullet_hit_color",
+        "weapon_bullet_effects.bullet_shoot_effect_default",
+        "weapon_bullet_effects.bullet_smoke_effect_default",
+        "weapon_bullet_effects.bullet_state",
+        "weapon_bullet_effects.create_call_state",
+        "weapon_bullet_effects.eject_effect_call",
+        "weapon_bullet_effects.eject_effect_default",
+        "weapon_bullet_effects.gate",
+        "weapon_bullet_effects.mathf_sign",
+        "weapon_bullet_effects.mount_allow_shoot_effects",
+        "weapon_bullet_effects.mount_state",
+        "weapon_bullet_effects.recoil_reserved",
+        "weapon_bullet_effects.shoot_effect_call",
+        "weapon_bullet_effects.smoke_effect_call",
+        "weapon_bullet_effects.unit_state",
+        "weapon_bullet_effects.weapon_state",
+        "weapon_bullet_effects.weapon_x_default"
+      ],
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state"
+    },
+    "N841": {
+      "canonical_ledger": "source_slice_ledger.N841",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "godot_owner": "PortGame.source_weapon_bullet_geometry_state",
+      "source_symbols": [
+        "weapon_bullet_geometry.angles_trnsx",
+        "weapon_bullet_geometry.angles_trnsy",
+        "weapon_bullet_geometry.bullet_x",
+        "weapon_bullet_geometry.bullet_y",
+        "weapon_bullet_geometry.mathf_range",
+        "weapon_bullet_geometry.mount_state",
+        "weapon_bullet_geometry.mount_x",
+        "weapon_bullet_geometry.mount_y",
+        "weapon_bullet_geometry.shoot_angle_reserved",
+        "weapon_bullet_geometry.unit_state",
+        "weapon_bullet_geometry.weapon_base_rotation",
+        "weapon_bullet_geometry.weapon_rand_offsets",
+        "weapon_bullet_geometry.weapon_rotate",
+        "weapon_bullet_geometry.weapon_rotation",
+        "weapon_bullet_geometry.weapon_shoot_offsets",
+        "weapon_bullet_geometry.weapon_state",
+        "weapon_bullet_geometry.x_offset",
+        "weapon_bullet_geometry.x_spread",
+        "weapon_bullet_geometry.y_offset",
+        "weapon_bullet_geometry.y_spread"
+      ],
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state"
+    },
+    "N842": {
+      "canonical_ledger": "source_slice_ledger.N842",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "godot_owner": "PortGame.source_weapon_bullet_handle_call_state",
+      "source_symbols": [
+        "weapon_bullet_handle_call.call",
+        "weapon_bullet_handle_call.comment",
+        "weapon_bullet_handle_call.continuous_reserved",
+        "weapon_bullet_handle_call.create_call_state",
+        "weapon_bullet_handle_call.created_bullet",
+        "weapon_bullet_handle_call.method",
+        "weapon_bullet_handle_call.mount_bullet_field",
+        "weapon_bullet_handle_call.mount_state",
+        "weapon_bullet_handle_call.sound_reserved",
+        "weapon_bullet_handle_call.unit_state"
+      ],
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state"
+    },
+    "N843": {
+      "canonical_ledger": "source_slice_ledger.N843",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "godot_owner": "PortGame.source_weapon_bullet_heat_state",
+      "source_symbols": [
+        "weapon_bullet_heat.assignment",
+        "weapon_bullet_heat.create_call_state",
+        "weapon_bullet_heat.mount_state",
+        "weapon_bullet_heat.mount_heat_field",
+        "weapon_bullet_heat.mount_heat_before",
+        "weapon_bullet_heat.mount_heat_applied",
+        "weapon_bullet_heat.method_complete",
+        "weapon_bullet_heat.method_close"
+      ],
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state"
+    },
+    "N844": {
+      "canonical_ledger": "source_slice_ledger.N844",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "godot_owner": "PortGame.source_weapon_bullet_initial_guard_state",
+      "source_symbols": [
+        "weapon_bullet_initial_guard.method",
+        "weapon_bullet_initial_guard.unit_state",
+        "weapon_bullet_initial_guard.mount_state",
+        "weapon_bullet_initial_guard.unit_added_guard",
+        "weapon_bullet_initial_guard.charging_reset",
+        "weapon_bullet_initial_guard.geometry_reserved",
+        "weapon_bullet_initial_guard.mount_charging_field",
+        "weapon_bullet_initial_guard.entity_added_field",
+        "weapon_bullet_initial_guard.entity_is_added",
+        "weapon_bullet_initial_guard.entity_add",
+        "weapon_bullet_initial_guard.entity_remove"
+      ],
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state"
+    },
+    "N845": {
+      "canonical_ledger": "source_slice_ledger.N845",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "godot_owner": "PortGame.source_weapon_bullet_mount_recoil_state",
+      "source_symbols": [
+        "weapon_bullet_mount_recoil.assignment",
+        "weapon_bullet_mount_recoil.create_call_state",
+        "weapon_bullet_mount_recoil.mount_state",
+        "weapon_bullet_mount_recoil.mount_recoil_field",
+        "weapon_bullet_mount_recoil.mount_recoil_before",
+        "weapon_bullet_mount_recoil.mount_recoil_applied",
+        "weapon_bullet_mount_recoil.recoil_slots_reserved",
+        "weapon_bullet_mount_recoil.recoil_slot_assignment_reserved",
+        "weapon_bullet_mount_recoil.heat_reserved",
+        "weapon_bullet_mount_recoil.mount_recoils_field",
+        "weapon_bullet_mount_recoil.weapon_recoils_default"
+      ],
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state"
+    },
+    "N846": {
+      "canonical_ledger": "source_slice_ledger.N846",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil slots",
+      "godot_owner": "PortGame.source_weapon_bullet_recoil_slots_state",
+      "source_symbols": [
+        "weapon_bullet_recoil_slots.branch",
+        "weapon_bullet_recoil_slots.assignment",
+        "weapon_bullet_recoil_slots.create_call_state",
+        "weapon_bullet_recoil_slots.mount_state",
+        "weapon_bullet_recoil_slots.weapon_state",
+        "weapon_bullet_recoil_slots.mount_recoils_field",
+        "weapon_bullet_recoil_slots.mount_barrel_counter_field",
+        "weapon_bullet_recoil_slots.weapon_recoils_default",
+        "weapon_bullet_recoil_slots.recoil_index",
+        "weapon_bullet_recoil_slots.recoil_slots_applied",
+        "weapon_bullet_recoil_slots.recoil_slots_before",
+        "weapon_bullet_recoil_slots.recoil_slots",
+        "weapon_bullet_recoil_slots.update_initializer",
+        "weapon_bullet_recoil_slots.heat_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_slots_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_slots_state",
+        "test_weapon_bullet_recoil_slots_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_slots_state"
+    },
+    "N847": {
+      "canonical_ledger": "source_slice_ledger.N847",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+      "godot_owner": "PortGame.source_weapon_bullet_recoil_velocity_state",
+      "source_symbols": [
+        "weapon_bullet_recoil_velocity.assignment",
+        "weapon_bullet_recoil_velocity.create_call_state",
+        "weapon_bullet_recoil_velocity.unit_state",
+        "weapon_bullet_recoil_velocity.bullet_state",
+        "weapon_bullet_recoil_velocity.angle_life_state",
+        "weapon_bullet_recoil_velocity.unit_vel_import",
+        "weapon_bullet_recoil_velocity.bullet_recoil_field",
+        "weapon_bullet_recoil_velocity.shoot_angle",
+        "weapon_bullet_recoil_velocity.recoil_vector",
+        "weapon_bullet_recoil_velocity.unit_vel_before",
+        "weapon_bullet_recoil_velocity.unit_vel_after",
+        "weapon_bullet_recoil_velocity.vec2_trns",
+        "weapon_bullet_recoil_velocity.vec2_add",
+        "weapon_bullet_recoil_velocity.shake_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_velocity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_velocity_state",
+        "test_weapon_bullet_recoil_velocity_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_velocity_state"
+    },
+    "N848": {
+      "canonical_ledger": "source_slice_ledger.N848",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+      "godot_owner": "PortGame.source_weapon_bullet_shake_state",
+      "source_symbols": [
+        "weapon_bullet_shake.call",
+        "weapon_bullet_shake.create_call_state",
+        "weapon_bullet_shake.weapon_state",
+        "weapon_bullet_shake.bullet_create_call",
+        "weapon_bullet_shake.weapon_shake_field",
+        "weapon_bullet_shake.shake_effect_called",
+        "weapon_bullet_shake.effect_shake_xy",
+        "weapon_bullet_shake.effect_camera_guard",
+        "weapon_bullet_shake.effect_distance",
+        "weapon_bullet_shake.effect_distance_floor",
+        "weapon_bullet_shake.effect_falloff",
+        "weapon_bullet_shake.effect_private_shake",
+        "weapon_bullet_shake.renderer_shake",
+        "weapon_bullet_shake.mount_recoil_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_shake_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shake_state",
+        "test_weapon_bullet_shake_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shake_state"
+    },
+    "N849": {
+      "canonical_ledger": "source_slice_ledger.N849",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+      "godot_owner": "PortGame.source_weapon_bullet_shooter_state",
+      "source_symbols": [
+        "weapon_bullet_shooter.selection",
+        "weapon_bullet_shooter.unit_state",
+        "weapon_bullet_shooter.controller_state",
+        "weapon_bullet_shooter.unit_id",
+        "weapon_bullet_shooter.controller_type",
+        "weapon_bullet_shooter.controller_shooter",
+        "weapon_bullet_shooter.controller_is_missile_ai",
+        "weapon_bullet_shooter.missile_shooter_result",
+        "weapon_bullet_shooter.unit_controller_field",
+        "weapon_bullet_shooter.unit_controller_getter",
+        "weapon_bullet_shooter.missile_ai_class",
+        "weapon_bullet_shooter.missile_ai_shooter",
+        "weapon_bullet_shooter.bullet_create_reserved",
+        "weapon_bullet_shooter.bullet_create_shooter_param",
+        "weapon_bullet_shooter.bullet_shooter_assignment"
+      ],
+      "tests": [
+        "test_weapon_bullet_shooter_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shooter_state",
+        "test_weapon_bullet_shooter_selection_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shooter_state"
+    },
+    "N850": {
+      "canonical_ledger": "source_slice_ledger.N850",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+      "godot_owner": "PortGame.source_weapon_bullet_sound_state",
+      "source_symbols": [
+        "weapon_bullet_sound.create_call_state",
+        "weapon_bullet_sound.weapon_state",
+        "weapon_bullet_sound.sound_pitch",
+        "weapon_bullet_sound.bullet_create_call",
+        "weapon_bullet_sound.continuous_field",
+        "weapon_bullet_sound.shoot_sound_field",
+        "weapon_bullet_sound.initial_shoot_sound_field",
+        "weapon_bullet_sound.sound_pitch_range",
+        "weapon_bullet_sound.shoot_sound_volume",
+        "weapon_bullet_sound.shoot_sound_call",
+        "weapon_bullet_sound.initial_shoot_sound_call",
+        "weapon_bullet_sound.branch",
+        "weapon_bullet_sound.mathf_random_range",
+        "weapon_bullet_sound.effects_reserved"
+      ],
+      "tests": [
+        "test_weapon_bullet_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_sound_state",
+        "test_weapon_bullet_sound_branch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_sound_state"
+    },
+    "N851": {
+      "canonical_ledger": "source_slice_ledger.N851",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "godot_owner": "PortGame.source_weapon_handle_bullet_aim_update_state",
+      "source_symbols": [
+        "weapon_handle_bullet_aim_update.trns_add",
+        "weapon_handle_bullet_aim_update.aim_x_assignment",
+        "weapon_handle_bullet_aim_update.aim_y_assignment",
+        "weapon_handle_bullet_aim_update.bullet_rotation",
+        "weapon_handle_bullet_aim_update.vec2_trns",
+        "weapon_handle_bullet_aim_update.vec2_add"
+      ],
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state"
+    },
+    "N852": {
+      "canonical_ledger": "source_slice_ledger.N852",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "godot_owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "source_symbols": [
+        "weapon_handle_bullet_continuous_geometry.gate",
+        "weapon_handle_bullet_continuous_geometry.weapon_rotation",
+        "weapon_handle_bullet_continuous_geometry.mount_x",
+        "weapon_handle_bullet_continuous_geometry.mount_y",
+        "weapon_handle_bullet_continuous_geometry.bullet_x",
+        "weapon_handle_bullet_continuous_geometry.bullet_y",
+        "weapon_handle_bullet_continuous_geometry.angles_trnsx",
+        "weapon_handle_bullet_continuous_geometry.angles_trnsy",
+        "weapon_handle_bullet_continuous_geometry.aim_update_reserved"
+      ],
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state"
+    },
+    "N853": {
+      "canonical_ledger": "source_slice_ledger.N853",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+      "godot_owner": "PortGame.source_weapon_shoot_charge_start_state",
+      "source_symbols": [
+        "weapon_shoot_charge_start.status_apply",
+        "weapon_shoot_charge_start.charge_gate",
+        "weapon_shoot_charge_start.mount_charging",
+        "weapon_shoot_charge_start.charge_sound",
+        "weapon_shoot_charge_start.charge_effect",
+        "weapon_shoot_charge_start.first_shot_delay",
+        "weapon_shoot_charge_start.keep_velocity",
+        "weapon_shoot_charge_start.shoot_loop_reserved"
+      ],
+      "tests": [
+        "test_weapon_shoot_charge_start_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state",
+        "test_weapon_shoot_charge_start_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_shoot_charge_start_state"
+    },
+    "N854": {
+      "canonical_ledger": "source_slice_ledger.N854",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+      "godot_owner": "PortGame.source_weapon_shoot_default_pattern_dispatch_state",
+      "source_symbols": [
+        "weapon_shoot_default_pattern_dispatch.dispatch",
+        "weapon_shoot_default_pattern_dispatch.total_shots_increment",
+        "weapon_shoot_default_pattern_dispatch.barrel_capture",
+        "weapon_shoot_default_pattern_dispatch.delay_gate",
+        "weapon_shoot_default_pattern_dispatch.time_run",
+        "weapon_shoot_default_pattern_dispatch.direct_bullet_call",
+        "weapon_shoot_default_pattern_dispatch.barrel_incrementer"
+      ],
+      "tests": [
+        "test_weapon_shoot_default_pattern_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
+        "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_shoot_default_pattern_dispatch_state"
+    },
+    "N855": {
+      "canonical_ledger": "source_slice_ledger.N855",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "godot_owner": "PortGame.source_weapon_update_active_sound_loop_state",
+      "source_symbols": [
+        "weapon_update_active_sound_loop.guard",
+        "weapon_update_active_sound_loop.loop_call",
+        "weapon_update_active_sound_loop.active_sound",
+        "weapon_update_active_sound_loop.active_sound_volume",
+        "weapon_update_active_sound_loop.min_warmup",
+        "weapon_update_active_sound_loop.mount_shoot",
+        "weapon_update_active_sound_loop.mount_warmup",
+        "weapon_update_active_sound_loop.vars_headless",
+        "weapon_update_active_sound_loop.vars_control",
+        "weapon_update_active_sound_loop.sound_control_loop_unit",
+        "weapon_update_active_sound_loop.sound_control_loop_pitch",
+        "weapon_update_active_sound_loop.sound_control_guard",
+        "weapon_update_active_sound_loop.vel_len_reserved"
+      ],
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state"
+    },
+    "N856": {
+      "canonical_ledger": "source_slice_ledger.N856",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "godot_owner": "PortGame.source_weapon_update_alternating_side_flip_state",
+      "source_symbols": [
+        "weapon_update_alternating_side_flip.was_flipped",
+        "weapon_update_alternating_side_flip.guard",
+        "weapon_update_alternating_side_flip.other_side_flip",
+        "weapon_update_alternating_side_flip.mount_side_flip",
+        "weapon_update_alternating_side_flip.other_side",
+        "weapon_update_alternating_side_flip.alternate",
+        "weapon_update_alternating_side_flip.flip_sprite",
+        "weapon_update_alternating_side_flip.reload",
+        "weapon_update_alternating_side_flip.mount_side",
+        "weapon_update_alternating_side_flip.mount_reload",
+        "weapon_update_alternating_side_flip.unit_mounts",
+        "weapon_update_alternating_side_flip.shoot_gate_uses_was_flipped"
+      ],
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state"
+    },
+    "N857": {
+      "canonical_ledger": "source_slice_ledger.N857",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "godot_owner": "PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "source_symbols": [
+        "weapon_update_always_continuous_keepalive.guard",
+        "weapon_update_always_continuous_keepalive.bullet_time_assignment",
+        "weapon_update_always_continuous_keepalive.bullet_keep_alive",
+        "weapon_update_always_continuous_keepalive.unit_apply",
+        "weapon_update_always_continuous_keepalive.always_continuous",
+        "weapon_update_always_continuous_keepalive.optimal_life_fract",
+        "weapon_update_always_continuous_keepalive.status_apply_guard"
+      ],
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state"
+    },
+    "N858": {
+      "canonical_ledger": "source_slice_ledger.N858",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+      "godot_owner": "PortGame.source_weapon_update_always_shooting_state",
+      "source_symbols": [
+        "weapon_update_always_shooting.assignment",
+        "weapon_update_always_shooting.always_shooting",
+        "weapon_update_always_shooting.mount_shoot",
+        "weapon_update_always_shooting.continuous_guard_reserved"
+      ],
+      "tests": [
+        "test_weapon_update_always_shooting_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_shooting_state",
+        "test_weapon_update_always_shooting_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_always_shooting_state"
+    },
+    "N859": {
+      "canonical_ledger": "source_slice_ledger.N859",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "godot_owner": "PortGame.source_weapon_update_auto_target_invalidation_state",
+      "source_symbols": [
+        "weapon_update_auto_target_invalidation.gate",
+        "weapon_update_auto_target_invalidation.check_target_guard",
+        "weapon_update_auto_target_invalidation.target_clear",
+        "weapon_update_auto_target_invalidation.check_target_return",
+        "weapon_update_auto_target_invalidation.auto_target",
+        "weapon_update_auto_target_invalidation.mount_target"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state"
+    },
+    "N860": {
+      "canonical_ledger": "source_slice_ledger.N860",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "godot_owner": "PortGame.source_weapon_update_auto_target_retarget_state",
+      "source_symbols": [
+        "weapon_update_auto_target_retarget.gate",
+        "weapon_update_auto_target_retarget.decrement_gate",
+        "weapon_update_auto_target_retarget.find_target_call",
+        "weapon_update_auto_target_retarget.interval_assignment",
+        "weapon_update_auto_target_retarget.target_intervals",
+        "weapon_update_auto_target_retarget.mount_retarget"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state"
+    },
+    "N861": {
+      "canonical_ledger": "source_slice_ledger.N861",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "godot_owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "source_symbols": [
+        "weapon_update_auto_target_shoot_aim.shoot_init",
+        "weapon_update_auto_target_shoot_aim.target_guard",
+        "weapon_update_auto_target_shoot_aim.shoot_assignment",
+        "weapon_update_auto_target_shoot_aim.predict_guard",
+        "weapon_update_auto_target_shoot_aim.predict_call",
+        "weapon_update_auto_target_shoot_aim.predict_aim_x",
+        "weapon_update_auto_target_shoot_aim.predict_aim_y",
+        "weapon_update_auto_target_shoot_aim.direct_aim_x",
+        "weapon_update_auto_target_shoot_aim.direct_aim_y",
+        "weapon_update_auto_target_shoot_aim.shoot_rotate_assignment",
+        "weapon_update_auto_target_shoot_aim.logic_note",
+        "weapon_update_auto_target_shoot_aim.weapon_predict_target",
+        "weapon_update_auto_target_shoot_aim.weapon_shoot_y",
+        "weapon_update_auto_target_shoot_aim.mount_target",
+        "weapon_update_auto_target_shoot_aim.mount_aim",
+        "weapon_update_auto_target_shoot_aim.mount_shoot",
+        "weapon_update_auto_target_shoot_aim.mount_rotate",
+        "weapon_update_auto_target_shoot_aim.predict_intercept_bullet",
+        "weapon_update_auto_target_shoot_aim.predict_intercept_bullet_return",
+        "weapon_update_auto_target_shoot_aim.bullet_speed",
+        "weapon_update_auto_target_shoot_aim.bullet_keep_velocity",
+        "weapon_update_auto_target_shoot_aim.bullet_range"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state"
+    },
+    "N862": {
+      "canonical_ledger": "source_slice_ledger.N862",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "godot_owner": "PortGame.source_weapon_update_bullet_origin_state",
+      "source_symbols": [
+        "weapon_update_bullet_origin.weapon_rotation",
+        "weapon_update_bullet_origin.bullet_x",
+        "weapon_update_bullet_origin.bullet_y",
+        "weapon_update_bullet_origin.shoot_angle",
+        "weapon_update_bullet_origin.bullet_rotation_method",
+        "weapon_update_bullet_origin.bullet_rotation_return",
+        "weapon_update_bullet_origin.weapon_rotate",
+        "weapon_update_bullet_origin.weapon_base_rotation",
+        "weapon_update_bullet_origin.weapon_shoot_offsets",
+        "weapon_update_bullet_origin.weapon_mount_rotation",
+        "weapon_update_bullet_origin.weapon_mount_aim",
+        "weapon_update_bullet_origin.angles_trnsx_vec",
+        "weapon_update_bullet_origin.angles_trnsy_vec",
+        "weapon_update_bullet_origin.angles_angle",
+        "weapon_update_bullet_origin.position_angle_to_float"
+      ],
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state"
+    },
+    "N863": {
+      "canonical_ledger": "source_slice_ledger.N863",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) cone gate",
+      "godot_owner": "PortGame.source_weapon_update_cone_gate_state",
+      "source_symbols": [
+        "weapon_update_cone_gate.cone_gate",
+        "weapon_update_cone_gate.shoot_call_reserved",
+        "weapon_update_cone_gate.weapon_always_shooting",
+        "weapon_update_cone_gate.weapon_rotate",
+        "weapon_update_cone_gate.weapon_base_rotation",
+        "weapon_update_cone_gate.weapon_shoot_cone",
+        "weapon_update_cone_gate.mount_rotation",
+        "weapon_update_cone_gate.mount_target_rotation",
+        "weapon_update_cone_gate.unit_rotation",
+        "weapon_update_cone_gate.angles_within",
+        "weapon_update_cone_gate.angles_angle_dist"
+      ],
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state"
+    },
+    "N864": {
+      "canonical_ledger": "source_slice_ledger.N864",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "godot_owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "source_symbols": [
+        "weapon_update_continuous_idle_heat_sound.continuous_guard",
+        "weapon_update_continuous_idle_heat_sound.continuous_else",
+        "weapon_update_continuous_idle_heat_sound.heat_comment",
+        "weapon_update_continuous_idle_heat_sound.heat_decay",
+        "weapon_update_continuous_idle_heat_sound.sound_guard",
+        "weapon_update_continuous_idle_heat_sound.sound_update_false",
+        "weapon_update_continuous_idle_heat_sound.weapon_continuous",
+        "weapon_update_continuous_idle_heat_sound.weapon_cooldown_time",
+        "weapon_update_continuous_idle_heat_sound.weapon_mount_bullet",
+        "weapon_update_continuous_idle_heat_sound.weapon_mount_heat",
+        "weapon_update_continuous_idle_heat_sound.weapon_mount_sound",
+        "weapon_update_continuous_idle_heat_sound.status_reload_multiplier",
+        "weapon_update_continuous_idle_heat_sound.time_delta",
+        "weapon_update_continuous_idle_heat_sound.sound_loop_update"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state"
+    },
+    "N865": {
+      "canonical_ledger": "source_slice_ledger.N865",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+      "godot_owner": "PortGame.source_weapon_update_continuous_invalidation_state",
+      "source_symbols": [
+        "weapon_update_continuous_invalidation.guard",
+        "weapon_update_continuous_invalidation.invalid_condition",
+        "weapon_update_continuous_invalidation.clear_bullet",
+        "weapon_update_continuous_invalidation.weapon_continuous",
+        "weapon_update_continuous_invalidation.weapon_bullet",
+        "weapon_update_continuous_invalidation.weapon_mount_bullet",
+        "weapon_update_continuous_invalidation.bullet_comp_type",
+        "weapon_update_continuous_invalidation.timed_comp_time_lifetime",
+        "weapon_update_continuous_invalidation.entity_comp_is_added"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_invalidation_state",
+        "test_weapon_update_continuous_invalidation_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_invalidation_state"
+    },
+    "N866": {
+      "canonical_ledger": "source_slice_ledger.N866",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "godot_owner": "PortGame.source_weapon_update_continuous_laser_aim_state",
+      "source_symbols": [
+        "weapon_update_continuous_laser_aim.target_length_comment",
+        "weapon_update_continuous_laser_aim.shoot_length",
+        "weapon_update_continuous_laser_aim.current_length_comment",
+        "weapon_update_continuous_laser_aim.cur_length",
+        "weapon_update_continuous_laser_aim.result_length_comment",
+        "weapon_update_continuous_laser_aim.result_length",
+        "weapon_update_continuous_laser_aim.aim_endpoint_comment",
+        "weapon_update_continuous_laser_aim.tmp_trns_add",
+        "weapon_update_continuous_laser_aim.bullet_aim_x",
+        "weapon_update_continuous_laser_aim.bullet_aim_y",
+        "weapon_update_continuous_laser_aim.always_continuous_reserved",
+        "weapon_update_continuous_laser_aim.weapon_aim_change_speed",
+        "weapon_update_continuous_laser_aim.weapon_range_method",
+        "weapon_update_continuous_laser_aim.weapon_range_return",
+        "weapon_update_continuous_laser_aim.weapon_mount_aim",
+        "weapon_update_continuous_laser_aim.weapon_mount_last_length",
+        "weapon_update_continuous_laser_aim.bullet_comp_aim",
+        "weapon_update_continuous_laser_aim.bullet_type_range",
+        "weapon_update_continuous_laser_aim.mathf_dst",
+        "weapon_update_continuous_laser_aim.mathf_approach_delta",
+        "weapon_update_continuous_laser_aim.vec2_trns_amount",
+        "weapon_update_continuous_laser_aim.vec2_add_xy"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state"
+    },
+    "N867": {
+      "canonical_ledger": "source_slice_ledger.N867",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "godot_owner": "PortGame.source_weapon_update_continuous_live_state",
+      "source_symbols": [
+        "weapon_update_continuous_live.continuous_else",
+        "weapon_update_continuous_live.bullet_rotation_set",
+        "weapon_update_continuous_live.bullet_position_set",
+        "weapon_update_continuous_live.mount_reload_set",
+        "weapon_update_continuous_live.mount_recoil_set",
+        "weapon_update_continuous_live.unit_vel_recoil_add",
+        "weapon_update_continuous_live.sound_guard_reserved",
+        "weapon_update_continuous_live.weapon_reload",
+        "weapon_update_continuous_live.weapon_mount_reload",
+        "weapon_update_continuous_live.weapon_mount_recoil",
+        "weapon_update_continuous_live.bullet_type_recoil",
+        "weapon_update_continuous_live.unit_vel",
+        "weapon_update_continuous_live.vec2_trns_amount",
+        "weapon_update_continuous_live.vec2_trns_amount_body",
+        "weapon_update_continuous_live.vec2_add",
+        "weapon_update_continuous_live.time_delta"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state"
+    },
+    "N868": {
+      "canonical_ledger": "source_slice_ledger.N868",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+      "godot_owner": "PortGame.source_weapon_update_continuous_sound_state",
+      "source_symbols": [
+        "weapon_update_continuous_sound.sound_guard",
+        "weapon_update_continuous_sound.sound_create_guard",
+        "weapon_update_continuous_sound.sound_update_call",
+        "weapon_update_continuous_sound.laser_length_reserved",
+        "weapon_update_continuous_sound.weapon_shoot_sound",
+        "weapon_update_continuous_sound.weapon_mount_sound_comment",
+        "weapon_update_continuous_sound.weapon_mount_sound",
+        "weapon_update_continuous_sound.sound_loop_constructor",
+        "weapon_update_continuous_sound.sound_loop_update",
+        "weapon_update_continuous_sound.sound_loop_update_delegate",
+        "weapon_update_continuous_sound.vars_headless"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_sound_state",
+        "test_weapon_update_continuous_sound_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_sound_state"
+    },
+    "N869": {
+      "canonical_ledger": "source_slice_ledger.N869",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+      "godot_owner": "PortGame.source_weapon_update_mount_origin_state",
+      "source_symbols": [
+        "weapon_update_mount_origin.weapon_update_method",
+        "weapon_update_mount_origin.mount_origin_block",
+        "weapon_update_mount_origin.weapon_mount_offsets",
+        "weapon_update_mount_origin.unit_imports",
+        "weapon_update_mount_origin.angles_trnsx_vec",
+        "weapon_update_mount_origin.angles_trnsx_return",
+        "weapon_update_mount_origin.angles_trnsy_vec",
+        "weapon_update_mount_origin.angles_trnsy_return",
+        "weapon_update_mount_origin.vec2_rotate_degrees",
+        "weapon_update_mount_origin.vec2_rotate_rad_call",
+        "weapon_update_mount_origin.vec2_rotate_rad",
+        "weapon_update_mount_origin.vec2_rotate_new_x",
+        "weapon_update_mount_origin.vec2_rotate_new_y"
+      ],
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state"
+    },
+    "N870": {
+      "canonical_ledger": "source_slice_ledger.N870",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "godot_owner": "PortGame.source_weapon_update_passive_timers_state",
+      "source_symbols": [
+        "weapon_update_passive_timers.weapon_update_method",
+        "weapon_update_passive_timers.can_shoot_call",
+        "weapon_update_passive_timers.last_reload",
+        "weapon_update_passive_timers.reload_decay",
+        "weapon_update_passive_timers.recoil_approach",
+        "weapon_update_passive_timers.recoils_guard",
+        "weapon_update_passive_timers.recoils_init",
+        "weapon_update_passive_timers.recoils_loop",
+        "weapon_update_passive_timers.recoils_approach",
+        "weapon_update_passive_timers.smooth_reload",
+        "weapon_update_passive_timers.charge_update",
+        "weapon_update_passive_timers.warmup_target",
+        "weapon_update_passive_timers.linear_warmup_guard",
+        "weapon_update_passive_timers.warmup_approach",
+        "weapon_update_passive_timers.warmup_lerp",
+        "weapon_update_passive_timers.weapon_reload_field",
+        "weapon_update_passive_timers.weapon_recoils_field",
+        "weapon_update_passive_timers.weapon_recoil_time_field",
+        "weapon_update_passive_timers.weapon_warmup_fields",
+        "weapon_update_passive_timers.weapon_linear_warmup",
+        "weapon_update_passive_timers.weapon_mount_reload",
+        "weapon_update_passive_timers.weapon_mount_recoils",
+        "weapon_update_passive_timers.weapon_mount_warmup",
+        "weapon_update_passive_timers.unit_can_shoot",
+        "weapon_update_passive_timers.status_reload_multiplier",
+        "weapon_update_passive_timers.shoot_first_delay",
+        "weapon_update_passive_timers.time_delta",
+        "weapon_update_passive_timers.mathf_approach_delta",
+        "weapon_update_passive_timers.mathf_approach_delta_return",
+        "weapon_update_passive_timers.mathf_lerp_delta",
+        "weapon_update_passive_timers.mathf_lerp_delta_return"
+      ],
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state"
+    },
+    "N871": {
+      "canonical_ledger": "source_slice_ledger.N871",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "godot_owner": "PortGame.source_weapon_update_reload_gate_state",
+      "source_symbols": [
+        "weapon_update_reload_gate.reload_gate",
+        "weapon_update_reload_gate.cone_gate_reserved",
+        "weapon_update_reload_gate.weapon_always_continuous",
+        "weapon_update_reload_gate.weapon_reload",
+        "weapon_update_reload_gate.mount_reload",
+        "weapon_update_reload_gate.mount_bullet"
+      ],
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state"
+    },
+    "N872": {
+      "canonical_ledger": "source_slice_ledger.N872",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "godot_owner": "PortGame.source_weapon_update_rotate_toward_state",
+      "source_symbols": [
+        "weapon_update_rotate_toward.rotate_comment",
+        "weapon_update_rotate_toward.rotate_gate",
+        "weapon_update_rotate_toward.axis_x",
+        "weapon_update_rotate_toward.axis_y",
+        "weapon_update_rotate_toward.target_rotation",
+        "weapon_update_rotate_toward.rotation_move_toward",
+        "weapon_update_rotate_toward.rotation_limit_guard",
+        "weapon_update_rotate_toward.limit_dst",
+        "weapon_update_rotate_toward.limit_guard",
+        "weapon_update_rotate_toward.limit_move_toward",
+        "weapon_update_rotate_toward.non_rotate_guard",
+        "weapon_update_rotate_toward.base_rotation_assignment",
+        "weapon_update_rotate_toward.angle_to_assignment",
+        "weapon_update_rotate_toward.weapon_rotate",
+        "weapon_update_rotate_toward.weapon_offsets",
+        "weapon_update_rotate_toward.weapon_rotate_speed",
+        "weapon_update_rotate_toward.weapon_rotation_limit",
+        "weapon_update_rotate_toward.weapon_base_rotation",
+        "weapon_update_rotate_toward.weapon_mount_rotation",
+        "weapon_update_rotate_toward.weapon_mount_target_rotation",
+        "weapon_update_rotate_toward.weapon_mount_aim",
+        "weapon_update_rotate_toward.weapon_mount_shoot",
+        "weapon_update_rotate_toward.weapon_mount_rotate",
+        "weapon_update_rotate_toward.angles_angle",
+        "weapon_update_rotate_toward.angles_angle_body",
+        "weapon_update_rotate_toward.angles_move_toward",
+        "weapon_update_rotate_toward.angles_move_toward_snap",
+        "weapon_update_rotate_toward.angles_move_toward_mod_angle",
+        "weapon_update_rotate_toward.angles_move_toward_mod_to",
+        "weapon_update_rotate_toward.angles_angle_dist",
+        "weapon_update_rotate_toward.mathf_mod",
+        "weapon_update_rotate_toward.time_delta"
+      ],
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state"
+    },
+    "N873": {
+      "canonical_ledger": "source_slice_ledger.N873",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+      "godot_owner": "PortGame.source_weapon_update_shoot_call_reload_state",
+      "source_symbols": [
+        "weapon_update_shoot_call_reload.shoot_call",
+        "weapon_update_shoot_call_reload.reload_reset",
+        "weapon_update_shoot_call_reload.shoot_method_reserved",
+        "weapon_update_shoot_call_reload.shoot_status_apply_reserved",
+        "weapon_update_shoot_call_reload.weapon_reload",
+        "weapon_update_shoot_call_reload.mount_reload",
+        "weapon_update_shoot_call_reload.unit",
+        "weapon_update_shoot_call_reload.bullet_x",
+        "weapon_update_shoot_call_reload.bullet_y",
+        "weapon_update_shoot_call_reload.shoot_angle",
+        "weapon_update_shoot_call_reload.shoot_gate"
+      ],
+      "tests": [
+        "test_weapon_update_shoot_call_reload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_call_reload_state",
+        "test_weapon_update_shoot_call_reload_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state"
+    },
+    "N874": {
+      "canonical_ledger": "source_slice_ledger.N874",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "godot_owner": "PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "source_symbols": [
+        "weapon_update_shoot_gate_prefix.shoot_comment",
+        "weapon_update_shoot_gate_prefix.mount_shoot_gate",
+        "weapon_update_shoot_gate_prefix.can_gate",
+        "weapon_update_shoot_gate_prefix.kill_shooter_gate",
+        "weapon_update_shoot_gate_prefix.alternate_gate",
+        "weapon_update_shoot_gate_prefix.warmup_gate",
+        "weapon_update_shoot_gate_prefix.velocity_gate",
+        "weapon_update_shoot_gate_prefix.reload_gate_reserved",
+        "weapon_update_shoot_gate_prefix.weapon_alternate",
+        "weapon_update_shoot_gate_prefix.weapon_flip_sprite",
+        "weapon_update_shoot_gate_prefix.weapon_min_warmup",
+        "weapon_update_shoot_gate_prefix.weapon_min_shoot_velocity",
+        "weapon_update_shoot_gate_prefix.mount_shoot",
+        "weapon_update_shoot_gate_prefix.mount_warmup",
+        "weapon_update_shoot_gate_prefix.mount_total_shots",
+        "weapon_update_shoot_gate_prefix.bullet_kill_shooter",
+        "weapon_update_shoot_gate_prefix.can_shoot",
+        "weapon_update_shoot_gate_prefix.was_flipped",
+        "weapon_update_shoot_gate_prefix.vel_len"
+      ],
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state"
+    },
+    "N875": {
+      "canonical_ledger": "source_slice_ledger.N875",
+      "status": "done",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "java_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+      "godot_owner": "PortGame.source_weapon_update_velocity_length_state",
+      "source_symbols": [
+        "weapon_update_velocity_length.vel_len",
+        "weapon_update_velocity_length.shoot_gate_uses_vel_len",
+        "weapon_update_velocity_length.entity_is_remote",
+        "weapon_update_velocity_length.hitbox_delta_len",
+        "weapon_update_velocity_length.vec2_len",
+        "weapon_update_velocity_length.time_delta",
+        "weapon_update_velocity_length.unit_state",
+        "weapon_update_velocity_length.unit_vel",
+        "weapon_update_velocity_length.unit_delta"
+      ],
+      "tests": [
+        "test_weapon_update_velocity_length_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_velocity_length_state",
+        "test_weapon_update_velocity_length_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state"
+    }
+  }
+}

@@ -1,0 +1,2178 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_api_contracts",
+    "newTypeApiContractRequiresCanonicalMirror": true,
+    "source": "Derived from type_slices.godot_owner and canonical source_api_contracts."
+  },
+  "contracts": {
+    "PortGame.source_unit_health": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_health",
+      "status": "active",
+      "source_slice": "N779",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.health field",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_health_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "health"
+      ],
+      "tests": [
+        "test_unit_health_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_health_for_spawned_units"
+      ],
+      "runtime_proof": "/root/Main.source_unit_health",
+      "rule": "Public scalar runtime contract for source UnitType.health lookup used by spawned enemy units."
+    },
+    "PortGame.source_unit_hit_size": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_hit_size",
+      "status": "active",
+      "source_slice": "N780",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.hitSize field",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_hit_size_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "hitSize"
+      ],
+      "tests": [
+        "test_unit_hit_size_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_unit_hit_size_for_sprite_scale"
+      ],
+      "runtime_proof": "/root/Main.source_unit_hit_size",
+      "rule": "Public scalar runtime contract for source UnitType.hitSize lookup used by spawned enemy sprite scale."
+    },
+    "PortGame.source_unit_weapon_damage": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_weapon_damage",
+      "status": "active",
+      "source_slice": "N834",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.weapons -> Weapon.bullet -> BulletType.damage",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_weapon_damage_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "damage"
+      ],
+      "tests": [
+        "test_unit_weapon_damage_symbols_are_registered_with_source_backing",
+        "test_unit_weapon_damage_matches_upstream_source",
+        "test_port_game_uses_source_unit_weapon_damage_against_core"
+      ],
+      "runtime_proof": "/root/Main.source_unit_weapon_damage",
+      "rule": "Public scalar runtime contract for first UnitType weapon BulletType.damage lookup used by core enemy contact damage."
+    },
+    "PortGame.source_unit_world_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_unit_world_speed",
+      "status": "active",
+      "source_slice": "N836",
+      "java_source": "core/src/mindustry/type/UnitType.java",
+      "source_method": "UnitType.speed world-speed stat",
+      "params": [
+        {
+          "name": "unit_type",
+          "schema": "source_unit_world_speed_input.unit_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "worldSpeed",
+        "speed"
+      ],
+      "tests": [
+        "test_unit_world_speed_symbols_are_registered_with_source_backing",
+        "test_unit_world_speed_matches_upstream_source",
+        "test_port_game_uses_source_unit_speed"
+      ],
+      "runtime_proof": "/root/Main.source_unit_world_speed",
+      "rule": "Public scalar runtime contract for UnitType.speed converted into existing Godot playable world pixels per second."
+    },
+    "PortGame.source_weapon_bullet_angle_life_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_angle_life_state",
+      "status": "active",
+      "source_slice": "N838",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) angle/life block",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_angle_life_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_angle_life_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_angle_life_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_angle_life_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "x_offset",
+          "schema": "source_weapon_bullet_angle_life_input.x_offset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_weapon_bullet_angle_life_input.y_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_weapon_bullet_angle_life_input.x_spread",
+          "type": "float"
+        },
+        {
+          "name": "y_spread",
+          "schema": "source_weapon_bullet_angle_life_input.y_spread",
+          "type": "float"
+        },
+        {
+          "name": "angle_offset",
+          "schema": "source_weapon_bullet_angle_life_input.angle_offset",
+          "type": "float"
+        },
+        {
+          "name": "angle_spread",
+          "schema": "source_weapon_bullet_angle_life_input.angle_spread",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountCharging",
+        "shootAngle",
+        "bulletRotation",
+        "lifeScl",
+        "angle",
+        "angleSpread",
+        "inaccuracyRange",
+        "bulletScaleLife",
+        "bulletRange",
+        "targetDistance",
+        "bulletX",
+        "bulletY",
+        "mountX",
+        "mountY"
+      ],
+      "tests": [
+        "test_weapon_bullet_angle_life_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_angle_life_state",
+        "test_weapon_bullet_angle_life_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_angle_life_state",
+      "rule": "Public runtime contract for Weapon.bullet shootAngle/lifeScl/angle block."
+    },
+    "PortGame.source_weapon_bullet_create_call_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_create_call_state",
+      "status": "active",
+      "source_slice": "N839",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) create call",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_create_call_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_create_call_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_create_call_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_create_call_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "controller_state",
+          "schema": "source_weapon_bullet_create_call_input.controller_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "x_offset",
+          "schema": "source_weapon_bullet_create_call_input.x_offset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_weapon_bullet_create_call_input.y_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_weapon_bullet_create_call_input.x_spread",
+          "type": "float"
+        },
+        {
+          "name": "y_spread",
+          "schema": "source_weapon_bullet_create_call_input.y_spread",
+          "type": "float"
+        },
+        {
+          "name": "angle_offset",
+          "schema": "source_weapon_bullet_create_call_input.angle_offset",
+          "type": "float"
+        },
+        {
+          "name": "angle_spread",
+          "schema": "source_weapon_bullet_create_call_input.angle_spread",
+          "type": "float"
+        },
+        {
+          "name": "velocity_random",
+          "schema": "source_weapon_bullet_create_call_input.velocity_random",
+          "type": "float"
+        },
+        {
+          "name": "mover",
+          "schema": "source_weapon_bullet_create_call_input.mover",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountCharging",
+        "bulletCreateCall",
+        "mountBulletSetFromCreateCall",
+        "velocityRnd",
+        "velocityRandom",
+        "extraVelocity",
+        "velocityScl",
+        "angleLifeState",
+        "shooterState"
+      ],
+      "tests": [
+        "test_weapon_bullet_create_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_create_call_state",
+        "test_weapon_bullet_create_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_create_call_state",
+      "rule": "Public runtime contract for Weapon.bullet BulletType.create call arguments."
+    },
+    "PortGame.source_weapon_bullet_effects_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_effects_state",
+      "status": "active",
+      "source_slice": "N840",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) effects branch",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_effects_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_effects_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_effects_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_effects_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_effects_input.unit_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "effectsGate",
+        "effectCalls",
+        "weaponX",
+        "xSign",
+        "effectsGateSource",
+        "ejectEffectSource",
+        "shootEffectSource",
+        "smokeEffectSource",
+        "mathfSignSource",
+        "recoilReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_effects_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_effects_state",
+        "test_weapon_bullet_effects_branch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_effects_state",
+      "rule": "Public runtime contract for Weapon.bullet shoot effects branch."
+    },
+    "PortGame.source_weapon_bullet_geometry_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_geometry_state",
+      "status": "active",
+      "source_slice": "N841",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) geometry block",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_geometry_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_geometry_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_geometry_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "x_offset",
+          "schema": "source_weapon_bullet_geometry_input.x_offset",
+          "type": "float"
+        },
+        {
+          "name": "y_offset",
+          "schema": "source_weapon_bullet_geometry_input.y_offset",
+          "type": "float"
+        },
+        {
+          "name": "x_spread",
+          "schema": "source_weapon_bullet_geometry_input.x_spread",
+          "type": "float"
+        },
+        {
+          "name": "y_spread",
+          "schema": "source_weapon_bullet_geometry_input.y_spread",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountCharging",
+        "xSpread",
+        "ySpread",
+        "weaponRotation",
+        "mountX",
+        "mountY",
+        "bulletOffsetX",
+        "bulletOffsetY",
+        "bulletX",
+        "bulletY",
+        "xSpreadSource",
+        "ySpreadSource",
+        "mathfRangeSource",
+        "weaponRotationSource",
+        "mountXSource",
+        "mountYSource",
+        "bulletXSource",
+        "bulletYSource",
+        "anglesSource",
+        "shootAngleReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_geometry_state",
+        "test_weapon_bullet_geometry_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_geometry_state",
+      "rule": "Public runtime contract for Weapon.bullet geometry block."
+    },
+    "PortGame.source_weapon_bullet_handle_call_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_handle_call_state",
+      "status": "active",
+      "source_slice": "N842",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) handleBullet dispatch",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_handle_call_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_handle_call_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_handle_call_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "created_bullet",
+          "schema": "source_weapon_bullet_handle_call_input.created_bullet",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "handleBulletCalled",
+        "handleBulletCall",
+        "mountBullet",
+        "handleBulletSource",
+        "handleBulletInternalsReservedSource",
+        "continuousBranchReservedSource",
+        "soundReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_handle_call_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_handle_call_state",
+        "test_weapon_bullet_handle_call_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_handle_call_state",
+      "rule": "Public runtime contract for Weapon.bullet handleBullet dispatch."
+    },
+    "PortGame.source_weapon_bullet_heat_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_heat_state",
+      "status": "active",
+      "source_slice": "N843",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) heat tail",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_heat_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_heat_input.mount_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountHeatApplied",
+        "mountHeatBefore",
+        "mountHeat",
+        "mountHeatSource",
+        "bulletMethodComplete"
+      ],
+      "tests": [
+        "test_weapon_bullet_heat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_heat_state",
+        "test_weapon_bullet_heat_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_heat_state",
+      "rule": "Public runtime contract for Weapon.bullet heat tail assignment."
+    },
+    "PortGame.source_weapon_bullet_initial_guard_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_initial_guard_state",
+      "status": "active",
+      "source_slice": "N844",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) initial guard",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_initial_guard_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_initial_guard_input.mount_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "unitAdded",
+        "bulletContinues",
+        "mountCharging",
+        "unitAddedGuardSource",
+        "chargingResetSource",
+        "geometryReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_initial_guard_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_initial_guard_state",
+        "test_weapon_bullet_initial_guard_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_initial_guard_state",
+      "rule": "Public runtime contract for Weapon.bullet unit-added guard and mount charging reset."
+    },
+    "PortGame.source_weapon_bullet_mount_recoil_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_mount_recoil_state",
+      "status": "active",
+      "source_slice": "N845",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) mount recoil",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_mount_recoil_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_mount_recoil_input.mount_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "mountRecoilApplied",
+        "mountRecoilBefore",
+        "mountRecoil",
+        "mountRecoilSource",
+        "recoilSlotsReservedSource",
+        "heatReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_mount_recoil_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_mount_recoil_state",
+        "test_weapon_bullet_mount_recoil_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_mount_recoil_state",
+      "rule": "Public runtime contract for Weapon.bullet mount recoil assignment."
+    },
+    "PortGame.source_weapon_bullet_recoil_slots_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_recoil_slots_state",
+      "status": "active",
+      "source_slice": "N846",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil slots",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_recoil_slots_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "recoilSlotsApplied",
+        "recoils",
+        "recoilIndex",
+        "recoilsCount",
+        "barrelCounter",
+        "recoilSlotsSource",
+        "updateInitSource",
+        "heatReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_slots_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_slots_state",
+        "test_weapon_bullet_recoil_slots_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_slots_state",
+      "rule": "Public runtime contract for Weapon.bullet recoil slot branch."
+    },
+    "PortGame.source_weapon_bullet_recoil_velocity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_recoil_velocity_state",
+      "status": "active",
+      "source_slice": "N847",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) recoil velocity",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_bullet_recoil_velocity_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "recoilVelocityApplied",
+        "shootAngle",
+        "bulletRecoil",
+        "unitVelBefore",
+        "unitVelAfter",
+        "recoilVector",
+        "recoilVelocitySource",
+        "vec2TrnsSource",
+        "vec2AddSource",
+        "shakeReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_recoil_velocity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_recoil_velocity_state",
+        "test_weapon_bullet_recoil_velocity_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_recoil_velocity_state",
+      "rule": "Public runtime contract for Weapon.bullet recoil velocity add."
+    },
+    "PortGame.source_weapon_bullet_shake_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_shake_state",
+      "status": "active",
+      "source_slice": "N848",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shake effect",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_shake_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_shake_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "shakeEffectCalled",
+        "shakeCall",
+        "shakeCallSource",
+        "effectCameraGuardSource",
+        "effectDistanceSource",
+        "effectDistanceFloorSource",
+        "effectFalloffSource",
+        "effectPrivateShakeSource",
+        "rendererShakeSource",
+        "mountRecoilReservedSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_shake_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shake_state",
+        "test_weapon_bullet_shake_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shake_state",
+      "rule": "Public runtime contract for Weapon.bullet shake effect dispatch."
+    },
+    "PortGame.source_weapon_bullet_shooter_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_shooter_state",
+      "status": "active",
+      "source_slice": "N849",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) shooter selection",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_bullet_shooter_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "controller_state",
+          "schema": "source_weapon_bullet_shooter_input.controller_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "unit",
+        "controllerIsMissileAI",
+        "missileShooter",
+        "shooter",
+        "shooterSelectionSource",
+        "missileShooterSource",
+        "unitControllerFieldSource",
+        "missileAiClassSource",
+        "unitControllerSource",
+        "bulletCreateShooterParamSource",
+        "bulletCreateReservedSource",
+        "bulletCreateNullShooterFallbackSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_shooter_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_shooter_state",
+        "test_weapon_bullet_shooter_selection_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_shooter_state",
+      "rule": "Public runtime contract for Weapon.bullet shooter selection."
+    },
+    "PortGame.source_weapon_bullet_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_bullet_sound_state",
+      "status": "active",
+      "source_slice": "N850",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.bullet(Unit unit, WeaponMount mount, float xOffset, float yOffset, float angleOffset, Mover mover) sound branch",
+      "params": [
+        {
+          "name": "create_call_state",
+          "schema": "source_weapon_bullet_sound_input.create_call_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_bullet_sound_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "sound_pitch",
+          "schema": "source_weapon_bullet_sound_input.sound_pitch",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "bulletContinues",
+        "soundCall",
+        "effectsReservedSource",
+        "soundSkipped",
+        "continuous",
+        "soundPitchMin",
+        "soundPitchMax",
+        "soundBranchSource",
+        "soundCallSource",
+        "initialSoundCallSource",
+        "selectedSoundCallSource",
+        "mathfRandomSource"
+      ],
+      "tests": [
+        "test_weapon_bullet_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_bullet_sound_state",
+        "test_weapon_bullet_sound_branch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_bullet_sound_state",
+      "rule": "Public runtime contract for Weapon.bullet sound branch dispatch."
+    },
+    "PortGame.source_weapon_handle_bullet_aim_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_handle_bullet_aim_update_state",
+      "status": "active",
+      "source_slice": "N851",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) aim update",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_handle_bullet_aim_update_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "continuous",
+        "continuousGate",
+        "bulletAimUpdated",
+        "bulletAimX",
+        "bulletAimY",
+        "aimUpdateSkippedSource",
+        "weaponRotation",
+        "mountX",
+        "mountY",
+        "bulletX",
+        "bulletY",
+        "bulletRotation",
+        "aimLength",
+        "previousBulletAimX",
+        "previousBulletAimY",
+        "aimUpdateSource",
+        "bulletAimXSource",
+        "bulletAimYSource",
+        "bulletRotationSource",
+        "vec2TrnsSource",
+        "vec2AddSource"
+      ],
+      "tests": [
+        "test_weapon_handle_bullet_aim_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_aim_update_state",
+        "test_weapon_handle_bullet_aim_update_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_aim_update_state",
+      "rule": "Public runtime contract for Weapon.handleBullet continuous aim update."
+    },
+    "PortGame.source_weapon_handle_bullet_continuous_geometry_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_handle_bullet_continuous_geometry_state",
+      "status": "active",
+      "source_slice": "N852",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.handleBullet(Unit unit, WeaponMount mount, Bullet bullet) continuous geometry",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_handle_bullet_continuous_geometry_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_handle_bullet_continuous_geometry_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_handle_bullet_continuous_geometry_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "continuous",
+        "continuousGate",
+        "aimUpdateReservedSource",
+        "weaponRotation",
+        "mountX",
+        "mountY",
+        "bulletX",
+        "bulletY",
+        "shootX",
+        "shootY",
+        "lastLength",
+        "continuousGateSource",
+        "weaponRotationSource",
+        "mountXSource",
+        "mountYSource",
+        "bulletXSource",
+        "bulletYSource",
+        "anglesSource",
+        "anglesTrnsxSource",
+        "anglesTrnsySource"
+      ],
+      "tests": [
+        "test_weapon_handle_bullet_continuous_geometry_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_handle_bullet_continuous_geometry_state",
+        "test_weapon_handle_bullet_continuous_geometry_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_handle_bullet_continuous_geometry_state",
+      "rule": "Public runtime contract for Weapon.handleBullet continuous geometry."
+    },
+    "PortGame.source_weapon_shoot_charge_start_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_shoot_charge_start_state",
+      "status": "active",
+      "source_slice": "N853",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) charge start",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_shoot_charge_start_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_shoot_charge_start_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_shoot_charge_start_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_shoot_charge_start_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shoot_x",
+          "schema": "source_weapon_shoot_charge_start_input.shoot_x",
+          "type": "float"
+        },
+        {
+          "name": "shoot_y",
+          "schema": "source_weapon_shoot_charge_start_input.shoot_y",
+          "type": "float"
+        },
+        {
+          "name": "charge_rotation",
+          "schema": "source_weapon_shoot_charge_start_input.charge_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "statusApplied",
+        "statusApplication",
+        "chargeGate",
+        "mountCharging",
+        "chargeSoundCall",
+        "chargeEffectCall",
+        "firstShotDelay",
+        "keepVelocity",
+        "parentizeEffects",
+        "statusApplySource",
+        "statusApplyGuardSource",
+        "chargeGateSource",
+        "mountChargingSource",
+        "chargeSoundSource",
+        "chargeEffectSource",
+        "shootLoopReservedSource"
+      ],
+      "tests": [
+        "test_weapon_shoot_charge_start_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_charge_start_state",
+        "test_weapon_shoot_charge_start_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_shoot_charge_start_state",
+      "rule": "Public runtime contract for Weapon.shoot charge-start branch."
+    },
+    "PortGame.source_weapon_shoot_default_pattern_dispatch_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_shoot_default_pattern_dispatch_state",
+      "status": "active",
+      "source_slice": "N854",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) default pattern dispatch",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_shoot_default_pattern_dispatch_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "shoot_state",
+          "schema": "source_weapon_shoot_default_pattern_dispatch_input.shoot_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "patternEvents",
+        "bulletCalls",
+        "scheduledCalls",
+        "totalShots",
+        "barrelCounter",
+        "barrelIncrementerCalls",
+        "shootDispatchSource",
+        "patternCompatSource",
+        "patternHandlerSource",
+        "totalShotsSource",
+        "barrelCaptureSource",
+        "timeRunSource",
+        "restoreBarrelSource",
+        "directBulletSource",
+        "barrelIncrementerSource"
+      ],
+      "tests": [
+        "test_weapon_shoot_default_pattern_dispatch_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state",
+        "test_weapon_shoot_default_pattern_dispatch_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_shoot_default_pattern_dispatch_state",
+      "rule": "Public runtime contract for Weapon.shoot default ShootPattern dispatch."
+    },
+    "PortGame.source_weapon_update_active_sound_loop_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_active_sound_loop_state",
+      "status": "active",
+      "source_slice": "N855",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) active sound loop",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_active_sound_loop_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_active_sound_loop_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "runtime_state",
+          "schema": "source_weapon_update_active_sound_loop_input.runtime_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_active_sound_loop_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapon_update_active_sound_loop_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "activeSoundGate",
+        "headless",
+        "activeSound",
+        "mountShoot",
+        "canShoot",
+        "mountWarmup",
+        "minWarmup",
+        "activeSoundVolume",
+        "soundLoopCall",
+        "guardSource",
+        "loopSource",
+        "soundControlGuardSource",
+        "velLenReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_active_sound_loop_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_active_sound_loop_state",
+        "test_weapon_update_active_sound_loop_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_active_sound_loop_state",
+      "rule": "Public runtime contract for Weapon.update active sound loop guard and dispatch."
+    },
+    "PortGame.source_weapon_update_alternating_side_flip_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_alternating_side_flip_state",
+      "status": "active",
+      "source_slice": "N856",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) alternating side flip",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_alternating_side_flip_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_alternating_side_flip_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_mount_states",
+          "schema": "source_weapon_update_alternating_side_flip_input.unit_mount_states",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "wasFlipped",
+        "flipGate",
+        "crossesHalfReload",
+        "mountSide",
+        "otherSide",
+        "unitMounts",
+        "guardSource",
+        "otherSideFlipSource",
+        "mountSideFlipSource",
+        "shootGateSource"
+      ],
+      "tests": [
+        "test_weapon_update_alternating_side_flip_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_alternating_side_flip_state",
+        "test_weapon_update_alternating_side_flip_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_alternating_side_flip_state",
+      "rule": "Public runtime contract for Weapon.update alternating side flip state."
+    },
+    "PortGame.source_weapon_update_always_continuous_keepalive_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_always_continuous_keepalive_state",
+      "status": "active",
+      "source_slice": "N857",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) always continuous keepalive",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_always_continuous_keepalive_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_always_continuous_keepalive_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_always_continuous_keepalive_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_always_continuous_keepalive_input.unit_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "alwaysContinuous",
+        "mountShoot",
+        "keepaliveGate",
+        "bulletTime",
+        "keepAlive",
+        "shootStatus",
+        "shootStatusDuration",
+        "statusImmune",
+        "statusApplied",
+        "statusApplication",
+        "guardSource",
+        "timeSource",
+        "keepAliveSource",
+        "unitApplySource",
+        "statusApplyGuardSource"
+      ],
+      "tests": [
+        "test_weapon_update_always_continuous_keepalive_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state",
+        "test_weapon_update_always_continuous_keepalive_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_always_continuous_keepalive_state",
+      "rule": "Public runtime contract for Weapon.update alwaysContinuous keepalive state."
+    },
+    "PortGame.source_weapon_update_always_shooting_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_always_shooting_state",
+      "status": "active",
+      "source_slice": "N858",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) always shooting assignment",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_always_shooting_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_always_shooting_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "shoot",
+        "alwaysShooting",
+        "alwaysShootingSource",
+        "continuousReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_always_shooting_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_always_shooting_state",
+        "test_weapon_update_always_shooting_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_always_shooting_state",
+      "rule": "Public runtime contract for Weapon.update alwaysShooting assignment state."
+    },
+    "PortGame.source_weapon_update_auto_target_invalidation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_auto_target_invalidation_state",
+      "status": "active",
+      "source_slice": "N859",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target invalidation",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_invalidation_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_invalidation_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "check_target_result",
+          "schema": "source_weapon_update_auto_target_invalidation_input.check_target_result",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "checkTargetCalled",
+        "checkTargetCall",
+        "checkTargetResult",
+        "targetExists",
+        "targetCleared",
+        "gateSource",
+        "guardSource",
+        "clearSource",
+        "checkTargetSource",
+        "invalidateTargetSource"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_invalidation_state",
+        "test_weapon_update_auto_target_invalidation_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_invalidation_state",
+      "rule": "Public runtime contract for Weapon.update auto-target invalidation state."
+    },
+    "PortGame.source_weapon_update_auto_target_retarget_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_auto_target_retarget_state",
+      "status": "active",
+      "source_slice": "N860",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target retarget",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_retarget_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_auto_target_retarget_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_retarget_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "find_target_result_exists",
+          "schema": "source_weapon_update_auto_target_retarget_input.find_target_result_exists",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "retarget",
+        "retargetAfterDecrement",
+        "findTargetCalled",
+        "findTargetCall",
+        "targetExists",
+        "gateSource",
+        "retargetSource",
+        "findTargetSource",
+        "intervalSource"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_retarget_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_retarget_state",
+        "test_weapon_update_auto_target_retarget_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_retarget_state",
+      "rule": "Public runtime contract for Weapon.update auto-target retarget state."
+    },
+    "PortGame.source_weapon_update_auto_target_shoot_aim_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_auto_target_shoot_aim_state",
+      "status": "active",
+      "source_slice": "N861",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) auto target shoot aim",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.mount_y",
+          "type": "float"
+        },
+        {
+          "name": "target_within_result",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.target_within_result",
+          "type": "bool"
+        },
+        {
+          "name": "predicted_aim",
+          "schema": "source_weapon_update_auto_target_shoot_aim_input.predicted_aim",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "targetExists",
+        "withinRange",
+        "targetWithin",
+        "canShoot",
+        "shoot",
+        "rotate",
+        "aimX",
+        "aimY",
+        "predictTarget",
+        "mountX",
+        "mountY",
+        "shootInitSource",
+        "targetGuardSource",
+        "withinSource",
+        "shootSource",
+        "predictGuardSource",
+        "predictSource",
+        "predictAimXSource",
+        "predictAimYSource",
+        "directAimXSource",
+        "directAimYSource",
+        "shootRotateSource",
+        "logicNoteSource",
+        "predictInterceptSource",
+        "predictInterceptReturnSource"
+      ],
+      "tests": [
+        "test_weapon_update_auto_target_shoot_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_auto_target_shoot_aim_state",
+        "test_weapon_update_auto_target_shoot_aim_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_auto_target_shoot_aim_state",
+      "rule": "Public runtime contract for Weapon.update auto-target shoot/aim state."
+    },
+    "PortGame.source_weapon_update_bullet_origin_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_bullet_origin_state",
+      "status": "active",
+      "source_slice": "N862",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) bullet origin",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_bullet_origin_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_bullet_origin_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_bullet_origin_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "mount_x",
+          "schema": "source_weapon_update_bullet_origin_input.mount_x",
+          "type": "float"
+        },
+        {
+          "name": "mount_y",
+          "schema": "source_weapon_update_bullet_origin_input.mount_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "rotate",
+        "weaponRotation",
+        "bulletX",
+        "bulletY",
+        "shootAngle",
+        "mountX",
+        "mountY",
+        "shootX",
+        "shootY",
+        "baseRotation",
+        "weaponRotationSource",
+        "bulletXSource",
+        "bulletYSource",
+        "shootAngleSource",
+        "bulletRotationMethodSource",
+        "bulletRotationSource",
+        "anglesTrnsxSource",
+        "anglesTrnsySource",
+        "anglesAngleSource",
+        "positionAngleToSource"
+      ],
+      "tests": [
+        "test_weapon_update_bullet_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_bullet_origin_state",
+        "test_weapon_update_bullet_origin_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_bullet_origin_state",
+      "rule": "Public runtime contract for Weapon.update bullet origin state."
+    },
+    "PortGame.source_weapon_update_cone_gate_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_cone_gate_state",
+      "status": "active",
+      "source_slice": "N863",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) cone gate",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_cone_gate_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_cone_gate_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_cone_gate_input.unit_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "coneGate",
+        "alwaysShooting",
+        "rotate",
+        "currentRotation",
+        "targetRotation",
+        "shootCone",
+        "angleDistance",
+        "withinCone",
+        "coneGateSource",
+        "anglesWithinSource",
+        "anglesAngleDistSource",
+        "shootCallReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_cone_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_cone_gate_state",
+        "test_weapon_update_cone_gate_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_cone_gate_state",
+      "rule": "Public runtime contract for Weapon.update cone gate state."
+    },
+    "PortGame.source_weapon_update_continuous_idle_heat_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_continuous_idle_heat_sound_state",
+      "status": "active",
+      "source_slice": "N864",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous idle heat sound",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_idle_heat_sound_input.bullet_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "continuous",
+        "bulletExists",
+        "continuousLiveGate",
+        "idleGate",
+        "heat",
+        "reloadMultiplier",
+        "cooldownTime",
+        "hasSound",
+        "soundUpdateCall",
+        "heatSource",
+        "soundGuardSource",
+        "soundUpdateSource",
+        "heatCommentSource"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_idle_heat_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state",
+        "test_weapon_update_continuous_idle_heat_sound_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_idle_heat_sound_state",
+      "rule": "Public runtime contract for Weapon.update continuous idle heat/sound state."
+    },
+    "PortGame.source_weapon_update_continuous_invalidation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_continuous_invalidation_state",
+      "status": "active",
+      "source_slice": "N865",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous invalidation",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_invalidation_input.bullet_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "bulletExists",
+        "continuous",
+        "bulletIsAdded",
+        "bulletTime",
+        "bulletLifetime",
+        "bulletTypeMatches",
+        "guardSource",
+        "invalidConditionSource",
+        "clearSource"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_invalidation_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_invalidation_state",
+        "test_weapon_update_continuous_invalidation_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_invalidation_state",
+      "rule": "Public runtime contract for Weapon.update continuous bullet invalidation state."
+    },
+    "PortGame.source_weapon_update_continuous_laser_aim_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_continuous_laser_aim_state",
+      "status": "active",
+      "source_slice": "N866",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous laser aim",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_continuous_laser_aim_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_laser_aim_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_angle",
+          "schema": "source_weapon_update_continuous_laser_aim_input.shoot_angle",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "shootLength",
+        "curLength",
+        "resultLength",
+        "lastLength",
+        "bulletAimX",
+        "bulletAimY",
+        "weaponRange",
+        "aimChangeSpeed",
+        "shootLengthSource",
+        "curLengthSource",
+        "resultLengthSource",
+        "aimEndpointSource",
+        "bulletAimXSource",
+        "bulletAimYSource",
+        "rangeSource",
+        "alwaysContinuousReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_laser_aim_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_laser_aim_state",
+        "test_weapon_update_continuous_laser_aim_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_laser_aim_state",
+      "rule": "Public runtime contract for Weapon.update continuous laser aim state."
+    },
+    "PortGame.source_weapon_update_continuous_live_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_continuous_live_state",
+      "status": "active",
+      "source_slice": "N867",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous live",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_live_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_live_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_continuous_live_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_live_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_continuous_live_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_live_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_live_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "weapon_rotation",
+          "schema": "source_weapon_update_continuous_live_input.weapon_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "bulletRotation",
+        "bulletX",
+        "bulletY",
+        "reload",
+        "recoil",
+        "velX",
+        "velY",
+        "velAddX",
+        "velAddY",
+        "bulletRotationSource",
+        "bulletSetSource",
+        "reloadSource",
+        "recoilSource",
+        "velocityAddSource",
+        "soundReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_live_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_live_state",
+        "test_weapon_update_continuous_live_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_live_state",
+      "rule": "Public runtime contract for Weapon.update continuous live state."
+    },
+    "PortGame.source_weapon_update_continuous_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_continuous_sound_state",
+      "status": "active",
+      "source_slice": "N868",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) continuous sound",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_continuous_sound_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_continuous_sound_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_continuous_sound_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "runtime_state",
+          "schema": "source_weapon_update_continuous_sound_input.runtime_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_continuous_sound_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_continuous_sound_input.bullet_y",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "invalid",
+        "live",
+        "soundGate",
+        "hasSound",
+        "createdSound",
+        "soundUpdateCall",
+        "shootSoundIsNone",
+        "headless",
+        "soundGuardSource",
+        "soundCreateSource",
+        "soundUpdateSource",
+        "soundLoopConstructorSource",
+        "soundLoopUpdateSource",
+        "soundLoopUpdateDelegateSource",
+        "laserLengthReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_continuous_sound_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_continuous_sound_state",
+        "test_weapon_update_continuous_sound_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_continuous_sound_state",
+      "rule": "Public runtime contract for Weapon.update continuous sound state."
+    },
+    "PortGame.source_weapon_update_mount_origin_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_mount_origin_state",
+      "status": "active",
+      "source_slice": "N869",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) mount origin",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_mount_origin_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_mount_origin_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "methodSource",
+        "angle",
+        "trnsx",
+        "trnsy",
+        "mountX",
+        "mountY",
+        "mountXSource",
+        "mountYSource",
+        "anglesSource",
+        "vec2RotateSource"
+      ],
+      "tests": [
+        "test_weapon_update_mount_origin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_mount_origin_state",
+        "test_weapon_update_mount_origin_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_mount_origin_state",
+      "rule": "Public runtime contract for Weapon.update mount origin state."
+    },
+    "PortGame.source_weapon_update_passive_timers_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_passive_timers_state",
+      "status": "active",
+      "source_slice": "N870",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) passive timers",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_passive_timers_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_passive_timers_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_passive_timers_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_passive_timers_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "canShootCall",
+        "canShoot",
+        "lastReload",
+        "reload",
+        "recoil",
+        "recoils",
+        "smoothReload",
+        "charge",
+        "warmupTarget",
+        "warmup",
+        "reloadAssignment",
+        "recoilAssignment",
+        "smoothReloadAssignment",
+        "chargeAssignment",
+        "warmupTargetSource",
+        "warmupMode",
+        "deltaSource"
+      ],
+      "tests": [
+        "test_weapon_update_passive_timers_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_passive_timers_state",
+        "test_weapon_update_passive_timers_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_passive_timers_state",
+      "rule": "Public runtime contract for Weapon.update passive timers state."
+    },
+    "PortGame.source_weapon_update_reload_gate_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_reload_gate_state",
+      "status": "active",
+      "source_slice": "N871",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) reload gate",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_reload_gate_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_reload_gate_input.weapon_state",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "reloadGate",
+        "reloadReady",
+        "alwaysContinuousReady",
+        "mountReload",
+        "alwaysContinuous",
+        "mountBulletNull",
+        "reloadGateSource",
+        "coneGateReservedSource",
+        "weaponAlwaysContinuousSource",
+        "mountReloadSource",
+        "mountBulletSource"
+      ],
+      "tests": [
+        "test_weapon_update_reload_gate_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_reload_gate_state",
+        "test_weapon_update_reload_gate_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_reload_gate_state",
+      "rule": "Public runtime contract for Weapon.update reload gate state."
+    },
+    "PortGame.source_weapon_update_rotate_toward_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_rotate_toward_state",
+      "status": "active",
+      "source_slice": "N872",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) rotate toward",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_rotate_toward_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_rotate_toward_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_rotate_toward_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_rotate_toward_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_rotate_toward_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "gate",
+        "axisAngle",
+        "axisX",
+        "axisY",
+        "targetRotation",
+        "rotation",
+        "rotationLimit",
+        "baseRotation",
+        "limitDistance",
+        "rotationLimitApplied",
+        "nonRotateApplied",
+        "canShoot",
+        "mountRotate",
+        "mountShoot",
+        "gateSource",
+        "axisXSource",
+        "axisYSource",
+        "targetRotationSource",
+        "rotationSource",
+        "rotationLimitSource",
+        "limitDistanceSource",
+        "limitMoveSource",
+        "nonRotateSource",
+        "baseRotationSource",
+        "angleToSource"
+      ],
+      "tests": [
+        "test_weapon_update_rotate_toward_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_rotate_toward_state",
+        "test_weapon_update_rotate_toward_matches_upstream_source",
+        "test_weapon_update_rotation_limit_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_rotate_toward_state",
+      "rule": "Public runtime contract for Weapon.update rotate toward state."
+    },
+    "PortGame.source_weapon_update_shoot_call_reload_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_shoot_call_reload_state",
+      "status": "active",
+      "source_slice": "N873",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) shoot call reload reset",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_shoot_call_reload_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_shoot_call_reload_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_weapon_update_shoot_call_reload_input.unit_id",
+          "type": "int"
+        },
+        {
+          "name": "bullet_x",
+          "schema": "source_weapon_update_shoot_call_reload_input.bullet_x",
+          "type": "float"
+        },
+        {
+          "name": "bullet_y",
+          "schema": "source_weapon_update_shoot_call_reload_input.bullet_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_angle",
+          "schema": "source_weapon_update_shoot_call_reload_input.shoot_angle",
+          "type": "float"
+        },
+        {
+          "name": "shoot_gate",
+          "schema": "source_weapon_update_shoot_call_reload_input.shoot_gate",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "shootGate",
+        "mountReload",
+        "previousReload",
+        "weaponReload",
+        "shootCall",
+        "shootCallSource",
+        "reloadResetSource",
+        "shootMethodReservedSource",
+        "shootStatusApplyReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_shoot_call_reload_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_call_reload_state",
+        "test_weapon_update_shoot_call_reload_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_call_reload_state",
+      "rule": "Public runtime contract for Weapon.update shoot call reload reset state."
+    },
+    "PortGame.source_weapon_update_shoot_gate_prefix_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_shoot_gate_prefix_state",
+      "status": "active",
+      "source_slice": "N874",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) shoot gate prefix",
+      "params": [
+        {
+          "name": "mount_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.mount_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "weapon_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.weapon_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "bullet_state",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.bullet_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "can_shoot",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.can_shoot",
+          "type": "bool"
+        },
+        {
+          "name": "was_flipped",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.was_flipped",
+          "type": "bool"
+        },
+        {
+          "name": "vel_len",
+          "schema": "source_weapon_update_shoot_gate_prefix_input.vel_len",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "shootGatePrefix",
+        "mountShoot",
+        "canShoot",
+        "killShooterOnceBlocked",
+        "alternateGate",
+        "warmupGate",
+        "velocityGate",
+        "totalShots",
+        "velLen",
+        "minShootVelocity",
+        "shootCommentSource",
+        "mountShootGateSource",
+        "canGateSource",
+        "killShooterGateSource",
+        "alternateGateSource",
+        "warmupGateSource",
+        "velocityGateSource",
+        "reloadGateReservedSource"
+      ],
+      "tests": [
+        "test_weapon_update_shoot_gate_prefix_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state",
+        "test_weapon_update_shoot_gate_prefix_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_shoot_gate_prefix_state",
+      "rule": "Public runtime contract for Weapon.update shoot gate prefix state."
+    },
+    "PortGame.source_weapon_update_velocity_length_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_weapon_update_velocity_length_state",
+      "status": "active",
+      "source_slice": "N875",
+      "java_source": "core/src/mindustry/type/Weapon.java",
+      "source_method": "Weapon.update(Unit unit, WeaponMount mount) velocity length",
+      "params": [
+        {
+          "name": "unit_state",
+          "schema": "source_weapon_update_velocity_length_input.unit_state",
+          "type": "Dictionary"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_weapon_update_velocity_length_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "velLen",
+        "isRemote",
+        "remoteVelLen",
+        "localDeltaLen",
+        "sourceDelta",
+        "branch",
+        "velLenSource",
+        "isRemoteSource",
+        "deltaLenSource",
+        "vec2LenSource",
+        "timeDeltaSource",
+        "shootGateSource"
+      ],
+      "tests": [
+        "test_weapon_update_velocity_length_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_update_velocity_length_state",
+        "test_weapon_update_velocity_length_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_weapon_update_velocity_length_state",
+      "rule": "Public runtime contract for Weapon.update velocity length state."
+    }
+  }
+}
