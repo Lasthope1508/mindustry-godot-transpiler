@@ -1,0 +1,3385 @@
+{
+  "version": 1,
+  "slices": {
+    "N1273": {
+      "canonical_ledger": "source_slice_ledger.N1273",
+      "deferred_exprs": [
+        "Concrete block instance storage remains explicit has_items input; this bridge preserves the field-backed return."
+      ],
+      "exact_exprs": [
+        "/** If true, buildings have an ItemModule. */",
+        "public @NoPatch boolean hasItems;",
+        "public boolean outputsItems(){",
+        "return hasItems;"
+      ],
+      "generated_owner": "Block.java_method_outputsItems_17",
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.outputsItems()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Registers source-backed operation plan for Block.outputsItems() returning hasItems.",
+      "runtime_proof": "/root/Main.generated_block_outputs_items_bridge_state",
+      "source_symbols": [
+        "block_outputs_items.method",
+        "block_outputs_items.has_items_field",
+        "block_outputs_items.return_has_items"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block outputsItems bridge state"
+    },
+    "N1274": {
+      "canonical_ledger": "source_slice_ledger.N1274",
+      "deferred_exprs": [
+        "Concrete tile/team/rotation semantics remain explicit inputs; default upstream method ignores them and returns true."
+      ],
+      "exact_exprs": [
+        "/** @return whether this block can be placed on the specified tile. */",
+        "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "return true;"
+      ],
+      "generated_owner": "Block.java_method_canPlaceOn_18",
+      "godot_owner": "PortGame.source_block_can_place_on_state",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Registers source-backed operation plan for default Block.canPlaceOn returning true.",
+      "runtime_proof": "/root/Main.generated_block_can_place_on_bridge_state",
+      "source_symbols": [
+        "block_can_place_on.method",
+        "block_can_place_on.return_true"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_place_on_to_source_state",
+        "test_port_game_exposes_source_block_can_place_on_state",
+        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
+        "test_block_can_place_on_matches_upstream_source",
+        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canPlaceOn bridge state"
+    },
+    "N1275": {
+      "canonical_ledger": "source_slice_ledger.N1275",
+      "exact_exprs": [
+        "/** @return whether this block can be broken on the specified tile. */",
+        "public boolean canBreak(Tile tile){",
+        "return true;"
+      ],
+      "generated_owner": "Block.java_method_canBreak_19",
+      "godot_owner": "PortGame.source_block_can_break_state",
+      "java_class": "Block",
+      "java_method": "Block.canBreak(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_break_bridge_state",
+      "source_symbols": [
+        "block_can_break.method",
+        "block_can_break.return_true"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBreak bridge state"
+    },
+    "N1276": {
+      "canonical_ledger": "source_slice_ledger.N1276",
+      "exact_exprs": [
+        "/** whether this is rotatable */",
+        "public boolean rotate;",
+        "public boolean rotatedOutput(int x, int y){",
+        "return rotate;"
+      ],
+      "generated_owner": "Block.java_method_rotatedOutput_20",
+      "godot_owner": "PortGame.source_block_rotated_output_state",
+      "java_class": "Block",
+      "java_method": "Block.rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_rotated_output_bridge_state",
+      "source_symbols": [
+        "block_rotated_output.method",
+        "block_rotated_output.rotate_field",
+        "block_rotated_output.return_rotate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_state",
+        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
+        "test_block_rotated_output_matches_upstream_source",
+        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block rotatedOutput bridge state"
+    },
+    "N1277": {
+      "canonical_ledger": "source_slice_ledger.N1277",
+      "exact_exprs": [
+        "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+        "rotatedOutput(fromX, fromY)",
+        "return rotatedOutput(fromX, fromY);"
+      ],
+      "generated_owner": "Block.java_method_rotatedOutput_21",
+      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
+      "java_class": "Block",
+      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_rotated_output_tile_bridge_state",
+      "source_symbols": [
+        "block_rotated_output_tile.method",
+        "block_rotated_output_tile.delegate_call",
+        "block_rotated_output_tile.return_delegate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block rotatedOutput tile bridge state"
+    },
+    "N1278": {
+      "canonical_ledger": "source_slice_ledger.N1278",
+      "exact_exprs": [
+        "public boolean synthetic(){",
+        "return update || destructible;"
+      ],
+      "generated_owner": "Block.java_method_synthetic_22",
+      "godot_owner": "PortGame.source_block_synthetic_state",
+      "java_class": "Block",
+      "java_method": "Block.synthetic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_synthetic_bridge_state",
+      "source_symbols": [
+        "block_synthetic.method",
+        "block_synthetic.return_update_or_destructible"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block synthetic bridge state"
+    },
+    "N1279": {
+      "canonical_ledger": "source_slice_ledger.N1279",
+      "exact_exprs": [
+        "public boolean checkForceDark(Tile tile){",
+        "return forceDark;"
+      ],
+      "generated_owner": "Block.java_method_checkForceDark_23",
+      "godot_owner": "PortGame.source_block_check_force_dark_state",
+      "java_class": "Block",
+      "java_method": "Block.checkForceDark(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_check_force_dark_bridge_state",
+      "source_symbols": [
+        "block_check_force_dark.method",
+        "block_check_force_dark.return_force_dark"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block checkForceDark bridge state"
+    },
+    "N1280": {
+      "canonical_ledger": "source_slice_ledger.N1280",
+      "exact_exprs": [
+        "/** If true, the 'map edge' darkness will be applied to this block. */",
+        "public boolean isDarkened(Tile tile){",
+        "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+        "synthetic()",
+        "checkForceDark(tile)"
+      ],
+      "generated_owner": "Block.java_method_isDarkened_24",
+      "godot_owner": "PortGame.source_block_is_darkened_state",
+      "java_class": "Block",
+      "java_method": "Block.isDarkened(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_darkened_bridge_state",
+      "source_symbols": [
+        "block_is_darkened.comment",
+        "block_is_darkened.method",
+        "block_is_darkened.return_expr",
+        "block_is_darkened.synthetic_call",
+        "block_is_darkened.check_force_dark_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_darkened_to_source_state",
+        "test_port_game_exposes_source_block_is_darkened_state",
+        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
+        "test_block_is_darkened_matches_upstream_source",
+        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isDarkened bridge state"
+    },
+    "N1281": {
+      "canonical_ledger": "source_slice_ledger.N1281",
+      "exact_exprs": [
+        "public boolean consumesItem(Item item){",
+        "return itemFilter[item.id];",
+        "itemFilter",
+        "item.id"
+      ],
+      "generated_owner": "Block.java_method_consumesItem_33",
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_item_bridge_state",
+      "source_symbols": [
+        "block_consumes_item.method",
+        "block_consumes_item.return_expr",
+        "block_consumes_item.item_filter",
+        "block_consumes_item.item_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesItem bridge state"
+    },
+    "N1282": {
+      "canonical_ledger": "source_slice_ledger.N1282",
+      "exact_exprs": [
+        "public boolean consumesLiquid(Liquid liq){",
+        "return liquidFilter[liq.id];",
+        "liquidFilter",
+        "liq.id"
+      ],
+      "generated_owner": "Block.java_method_consumesLiquid_34",
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_liquid_bridge_state",
+      "source_symbols": [
+        "block_consumes_liquid.method",
+        "block_consumes_liquid.return_expr",
+        "block_consumes_liquid.liquid_filter",
+        "block_consumes_liquid.liq_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesLiquid bridge state"
+    },
+    "N1283": {
+      "canonical_ledger": "source_slice_ledger.N1283",
+      "exact_exprs": [
+        "public boolean hasBuilding(){",
+        "return destructible || update;",
+        "destructible",
+        "update"
+      ],
+      "generated_owner": "Block.java_method_hasBuilding_70",
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "java_class": "Block",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_has_building_bridge_state",
+      "source_symbols": [
+        "block_has_building.method",
+        "block_has_building.return_expr",
+        "block_has_building.destructible",
+        "block_has_building.update"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block hasBuilding bridge state"
+    },
+    "N1284": {
+      "canonical_ledger": "source_slice_ledger.N1284",
+      "exact_exprs": [
+        "public boolean isMultiblock(){",
+        "return size > 1;",
+        "size"
+      ],
+      "generated_owner": "Block.java_method_isMultiblock_74",
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "java_class": "Block",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_multiblock_bridge_state",
+      "source_symbols": [
+        "block_is_multiblock.method",
+        "block_is_multiblock.return_expr",
+        "block_is_multiblock.size"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isMultiblock bridge state"
+    },
+    "N1285": {
+      "canonical_ledger": "source_slice_ledger.N1285",
+      "exact_exprs": [
+        "public boolean isAir(){",
+        "return id == 0;",
+        "id"
+      ],
+      "generated_owner": "Block.java_method_isAir_91",
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "java_class": "Block",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_air_bridge_state",
+      "source_symbols": [
+        "block_is_air.method",
+        "block_is_air.return_expr",
+        "block_is_air.id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isAir bridge state"
+    },
+    "N1286": {
+      "canonical_ledger": "source_slice_ledger.N1286",
+      "exact_exprs": [
+        "public boolean canBeBuilt(){",
+        "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+        "buildVisibility",
+        "BuildVisibility.hidden",
+        "BuildVisibility.debugOnly"
+      ],
+      "generated_owner": "Block.java_method_canBeBuilt_92",
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "java_class": "Block",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_be_built_bridge_state",
+      "source_symbols": [
+        "block_can_be_built.method",
+        "block_can_be_built.return_expr",
+        "block_can_be_built.build_visibility",
+        "block_can_be_built.hidden_constant",
+        "block_can_be_built.debug_only_constant"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBeBuilt bridge state"
+    },
+    "N1287": {
+      "canonical_ledger": "source_slice_ledger.N1287",
+      "exact_exprs": [
+        "public boolean isStatic(){",
+        "return cacheLayer == CacheLayer.walls;",
+        "cacheLayer",
+        "CacheLayer.walls"
+      ],
+      "generated_owner": "Block.java_method_isStatic_94",
+      "godot_owner": "PortGame.source_block_is_static_state",
+      "java_class": "Block",
+      "java_method": "Block.isStatic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_static_bridge_state",
+      "source_symbols": [
+        "block_is_static.method",
+        "block_is_static.return_expr",
+        "block_is_static.cache_layer",
+        "block_is_static.walls_constant"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_static_to_source_state",
+        "test_port_game_exposes_source_block_is_static_state",
+        "test_port_game_exposes_generated_block_is_static_bridge_state",
+        "test_block_is_static_matches_upstream_source",
+        "test_generated_block_is_static_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isStatic bridge state"
+    },
+    "N1288": {
+      "canonical_ledger": "source_slice_ledger.N1288",
+      "exact_exprs": [
+        "public boolean hasConsumer(Consume cons){",
+        "return consumeBuilder.contains(cons);",
+        "consumeBuilder.contains(cons)",
+        "Consume cons"
+      ],
+      "generated_owner": "Block.java_method_hasConsumer_96",
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "java_class": "Block",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_has_consumer_bridge_state",
+      "source_symbols": [
+        "block_has_consumer.method",
+        "block_has_consumer.return_expr",
+        "block_has_consumer.consume_builder_contains",
+        "block_has_consumer.cons"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block hasConsumer bridge state"
+    },
+    "N1289": {
+      "canonical_ledger": "source_slice_ledger.N1289",
+      "exact_exprs": [
+        "public void removeConsumer(Consume cons){",
+        "if(consumers.length > 0){",
+        "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");",
+        "consumeBuilder.remove(cons);",
+        "consumers.length",
+        "Consume cons"
+      ],
+      "generated_owner": "Block.java_method_removeConsumer_97",
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "java_class": "Block",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_remove_consumer_bridge_state",
+      "source_symbols": [
+        "block_remove_consumer.method",
+        "block_remove_consumer.guard_expr",
+        "block_remove_consumer.exception_expr",
+        "block_remove_consumer.remove_expr",
+        "block_remove_consumer.consumers_length",
+        "block_remove_consumer.cons"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block removeConsumer bridge state"
+    },
+    "N1290": {
+      "canonical_ledger": "source_slice_ledger.N1290",
+      "exact_exprs": [
+        "public void removeConsumers(Boolf<Consume> b){",
+        "consumeBuilder.removeAll(b);",
+        "//the power was removed, unassign it",
+        "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){",
+        "consPower = null;",
+        "consumeBuilder.contains(c -> c instanceof ConsumePower)",
+        "Boolf<Consume> b"
+      ],
+      "generated_owner": "Block.java_method_removeConsumers_98",
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "java_class": "Block",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_remove_consumers_bridge_state",
+      "source_symbols": [
+        "block_remove_consumers.method",
+        "block_remove_consumers.remove_all_expr",
+        "block_remove_consumers.comment",
+        "block_remove_consumers.power_guard_expr",
+        "block_remove_consumers.cons_power_expr",
+        "block_remove_consumers.consume_builder_contains_power_after_remove",
+        "block_remove_consumers.b"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block removeConsumers bridge state"
+    },
+    "N1291": {
+      "canonical_ledger": "source_slice_ledger.N1291",
+      "exact_exprs": [
+        "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+        "return consume(new ConsumeLiquid(liquid, amount));",
+        "new ConsumeLiquid(liquid, amount)",
+        "consume(new ConsumeLiquid(liquid, amount))",
+        "Liquid liquid",
+        "float amount"
+      ],
+      "generated_owner": "Block.java_method_consumeLiquid_99",
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_liquid_bridge_state",
+      "source_symbols": [
+        "block_consume_liquid.method",
+        "block_consume_liquid.return_expr",
+        "block_consume_liquid.constructor_expr",
+        "block_consume_liquid.consume_call_expr",
+        "block_consume_liquid.liquid",
+        "block_consume_liquid.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeLiquid bridge state"
+    },
+    "N1292": {
+      "canonical_ledger": "source_slice_ledger.N1292",
+      "exact_exprs": [
+        "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){",
+        "return consume(new ConsumeLiquids(stacks));",
+        "new ConsumeLiquids(stacks)",
+        "consume(new ConsumeLiquids(stacks))",
+        "LiquidStack... stacks"
+      ],
+      "generated_owner": "Block.java_method_consumeLiquids_100",
+      "godot_owner": "PortGame.source_block_consume_liquids_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeLiquids(LiquidStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_liquids_bridge_state",
+      "source_symbols": [
+        "block_consume_liquids.method",
+        "block_consume_liquids.return_expr",
+        "block_consume_liquids.constructor_expr",
+        "block_consume_liquids.consume_call_expr",
+        "block_consume_liquids.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquids_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquids_state",
+        "test_port_game_exposes_generated_block_consume_liquids_bridge_state",
+        "test_block_consume_liquids_matches_upstream_source",
+        "test_generated_block_consume_liquids_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeLiquids bridge state"
+    },
+    "N1293": {
+      "canonical_ledger": "source_slice_ledger.N1293",
+      "exact_exprs": [
+        "Creates a consumer which directly uses power without buffering it.",
+        "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+        "public ConsumePower consumePower(float powerPerTick){",
+        "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+        "new ConsumePower(powerPerTick, 0.0f, false)",
+        "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+        "float powerPerTick",
+        "0.0f",
+        "false"
+      ],
+      "generated_owner": "Block.java_method_consumePower_101",
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_bridge_state",
+      "source_symbols": [
+        "block_consume_power.comment",
+        "block_consume_power.param",
+        "block_consume_power.method",
+        "block_consume_power.return_expr",
+        "block_consume_power.constructor_expr",
+        "block_consume_power.consume_call_expr",
+        "block_consume_power.power_per_tick",
+        "block_consume_power.capacity",
+        "block_consume_power.buffered"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePower bridge state"
+    },
+    "N1294": {
+      "canonical_ledger": "source_slice_ledger.N1294",
+      "exact_exprs": [
+        "Creates a consumer which only consumes power when the condition is met.",
+        "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+        "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+        "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+        "(Boolf<Building>)cons",
+        "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+        "float usage",
+        "Boolf<T> cons"
+      ],
+      "generated_owner": "Block.java_method_consumePowerCond_102",
+      "godot_owner": "PortGame.source_block_consume_power_cond_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerCond(float,Boolf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_cond_bridge_state",
+      "source_symbols": [
+        "block_consume_power_cond.comment",
+        "block_consume_power_cond.method",
+        "block_consume_power_cond.return_expr",
+        "block_consume_power_cond.constructor_expr",
+        "block_consume_power_cond.condition_cast_expr",
+        "block_consume_power_cond.consume_call_expr",
+        "block_consume_power_cond.usage",
+        "block_consume_power_cond.cons"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_cond_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_cond_state",
+        "test_port_game_exposes_generated_block_consume_power_cond_bridge_state",
+        "test_block_consume_power_cond_matches_upstream_source",
+        "test_generated_block_consume_power_cond_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerCond bridge state"
+    },
+    "N1295": {
+      "canonical_ledger": "source_slice_ledger.N1295",
+      "exact_exprs": [
+        "Creates a consumer that consumes a dynamic amount of power.",
+        "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){",
+        "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));",
+        "new ConsumePowerDynamic((Floatf<Building>)usage)",
+        "(Floatf<Building>)usage",
+        "consume(new ConsumePowerDynamic((Floatf<Building>)usage))",
+        "Floatf<T> usage"
+      ],
+      "generated_owner": "Block.java_method_consumePowerDynamic_103",
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerDynamic(Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_dynamic_bridge_state",
+      "source_symbols": [
+        "block_consume_power_dynamic.comment",
+        "block_consume_power_dynamic.method",
+        "block_consume_power_dynamic.return_expr",
+        "block_consume_power_dynamic.constructor_expr",
+        "block_consume_power_dynamic.usage_cast_expr",
+        "block_consume_power_dynamic.consume_call_expr",
+        "block_consume_power_dynamic.usage"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_bridge_state",
+        "test_block_consume_power_dynamic_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerDynamic bridge state"
+    },
+    "N1296": {
+      "canonical_ledger": "source_slice_ledger.N1296",
+      "exact_exprs": [
+        "Creates a consumer that consumes a dynamic amount of power.",
+        "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){",
+        "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));",
+        "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+        "(Floatf<Building>)usage",
+        "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+        "float displayed",
+        "Floatf<T> usage"
+      ],
+      "generated_owner": "Block.java_method_consumePowerDynamic_104",
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_dynamic_displayed_bridge_state",
+      "source_symbols": [
+        "block_consume_power_dynamic_displayed.comment",
+        "block_consume_power_dynamic_displayed.method",
+        "block_consume_power_dynamic_displayed.return_expr",
+        "block_consume_power_dynamic_displayed.constructor_expr",
+        "block_consume_power_dynamic_displayed.usage_cast_expr",
+        "block_consume_power_dynamic_displayed.consume_call_expr",
+        "block_consume_power_dynamic_displayed.displayed",
+        "block_consume_power_dynamic_displayed.usage"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerDynamic displayed bridge state"
+    },
+    "N1297": {
+      "canonical_ledger": "source_slice_ledger.N1297",
+      "exact_exprs": [
+        "Creates a consumer which stores power.",
+        "@param powerCapacity The maximum capacity in power units.",
+        "public ConsumePower consumePowerBuffered(float powerCapacity){",
+        "return consume(new ConsumePower(0f, powerCapacity, true));",
+        "new ConsumePower(0f, powerCapacity, true)",
+        "consume(new ConsumePower(0f, powerCapacity, true))",
+        "0f",
+        "float powerCapacity",
+        "true"
+      ],
+      "generated_owner": "Block.java_method_consumePowerBuffered_105",
+      "godot_owner": "PortGame.source_block_consume_power_buffered_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerBuffered(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_buffered_bridge_state",
+      "source_symbols": [
+        "block_consume_power_buffered.comment",
+        "block_consume_power_buffered.param",
+        "block_consume_power_buffered.method",
+        "block_consume_power_buffered.return_expr",
+        "block_consume_power_buffered.constructor_expr",
+        "block_consume_power_buffered.consume_call_expr",
+        "block_consume_power_buffered.power_capacity",
+        "block_consume_power_buffered.power_per_tick",
+        "block_consume_power_buffered.buffered"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_buffered_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_buffered_state",
+        "test_port_game_exposes_generated_block_consume_power_buffered_bridge_state",
+        "test_block_consume_power_buffered_matches_upstream_source",
+        "test_generated_block_consume_power_buffered_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerBuffered bridge state"
+    },
+    "N1298": {
+      "canonical_ledger": "source_slice_ledger.N1298",
+      "exact_exprs": [
+        "public ConsumeItems consumeItem(Item item){",
+        "return consumeItem(item, 1);",
+        "consumeItem(item, 1)",
+        "Item item",
+        "1"
+      ],
+      "generated_owner": "Block.java_method_consumeItem_106",
+      "godot_owner": "PortGame.source_block_consume_item_single_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeItem(Item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_item_single_bridge_state",
+      "source_symbols": [
+        "block_consume_item_single.method",
+        "block_consume_item_single.return_expr",
+        "block_consume_item_single.delegate_call_expr",
+        "block_consume_item_single.item",
+        "block_consume_item_single.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_single_state",
+        "test_port_game_exposes_generated_block_consume_item_single_bridge_state",
+        "test_block_consume_item_single_matches_upstream_source",
+        "test_generated_block_consume_item_single_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeItem single bridge state"
+    },
+    "N1299": {
+      "canonical_ledger": "source_slice_ledger.N1299",
+      "exact_exprs": [
+        "public ConsumeItems consumeItem(Item item, int amount){",
+        "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+        "new ItemStack(item, amount)",
+        "new ItemStack[]{new ItemStack(item, amount)}",
+        "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+        "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+        "Item item",
+        "int amount"
+      ],
+      "generated_owner": "Block.java_method_consumeItem_107",
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_item_amount_bridge_state",
+      "source_symbols": [
+        "block_consume_item_amount.method",
+        "block_consume_item_amount.return_expr",
+        "block_consume_item_amount.item_stack_expr",
+        "block_consume_item_amount.item_stack_array_expr",
+        "block_consume_item_amount.constructor_expr",
+        "block_consume_item_amount.consume_call_expr",
+        "block_consume_item_amount.item",
+        "block_consume_item_amount.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeItem amount bridge state"
+    },
+    "N1300": {
+      "canonical_ledger": "source_slice_ledger.N1300",
+      "exact_exprs": [
+        "public ConsumeItems consumeItems(ItemStack... items){",
+        "return consume(new ConsumeItems(items));",
+        "new ConsumeItems(items)",
+        "consume(new ConsumeItems(items))",
+        "ItemStack... items"
+      ],
+      "generated_owner": "Block.java_method_consumeItems_108",
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_items_varargs_bridge_state",
+      "source_symbols": [
+        "block_consume_items_varargs.method",
+        "block_consume_items_varargs.return_expr",
+        "block_consume_items_varargs.constructor_expr",
+        "block_consume_items_varargs.consume_call_expr",
+        "block_consume_items_varargs.items"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeItems varargs bridge state"
+    },
+    "N1301": {
+      "canonical_ledger": "source_slice_ledger.N1301",
+      "exact_exprs": [
+        "public ConsumeCoolant consumeCoolant(float amount){",
+        "return consume(new ConsumeCoolant(amount));",
+        "new ConsumeCoolant(amount)",
+        "consume(new ConsumeCoolant(amount))",
+        "float amount"
+      ],
+      "generated_owner": "Block.java_method_consumeCoolant_109",
+      "godot_owner": "PortGame.source_block_consume_coolant_single_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeCoolant(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_coolant_single_bridge_state",
+      "source_symbols": [
+        "block_consume_coolant_single.method",
+        "block_consume_coolant_single.return_expr",
+        "block_consume_coolant_single.constructor_expr",
+        "block_consume_coolant_single.consume_call_expr",
+        "block_consume_coolant_single.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_single_state",
+        "test_port_game_exposes_generated_block_consume_coolant_single_bridge_state",
+        "test_block_consume_coolant_single_matches_upstream_source",
+        "test_generated_block_consume_coolant_single_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeCoolant single bridge state"
+    },
+    "N1302": {
+      "canonical_ledger": "source_slice_ledger.N1302",
+      "exact_exprs": [
+        "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){",
+        "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));",
+        "new ConsumeCoolant(amount, allowLiquid, allowGas)",
+        "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))",
+        "float amount",
+        "boolean allowLiquid",
+        "boolean allowGas"
+      ],
+      "generated_owner": "Block.java_method_consumeCoolant_110",
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_coolant_filtered_bridge_state",
+      "source_symbols": [
+        "block_consume_coolant_filtered.method",
+        "block_consume_coolant_filtered.return_expr",
+        "block_consume_coolant_filtered.constructor_expr",
+        "block_consume_coolant_filtered.consume_call_expr",
+        "block_consume_coolant_filtered.amount",
+        "block_consume_coolant_filtered.allow_liquid",
+        "block_consume_coolant_filtered.allow_gas"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeCoolant filtered bridge state"
+    },
+    "N1303": {
+      "canonical_ledger": "source_slice_ledger.N1303",
+      "exact_exprs": [
+        "public <T extends Consume> T consume(T consume){",
+        "if(consume instanceof ConsumePower){",
+        "//there can only be one power consumer",
+        "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+        "consPower = (ConsumePower)consume;",
+        "consumeBuilder.add(consume);",
+        "return consume;",
+        "T consume"
+      ],
+      "generated_owner": "Block.java_method_consume_111",
+      "godot_owner": "PortGame.source_block_consume_generic_state",
+      "java_class": "Block",
+      "java_method": "Block.consume(T)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_generic_bridge_state",
+      "source_symbols": [
+        "block_consume_generic.method",
+        "block_consume_generic.power_guard_expr",
+        "block_consume_generic.comment",
+        "block_consume_generic.remove_power_expr",
+        "block_consume_generic.cons_power_expr",
+        "block_consume_generic.add_expr",
+        "block_consume_generic.return_expr",
+        "block_consume_generic.consume",
+        "block_consume_generic.consume_is_power",
+        "block_consume_generic.consume_builder_before",
+        "block_consume_generic.consume_builder_without_power",
+        "block_consume_generic.cons_power_before"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_generic_to_source_state",
+        "test_port_game_exposes_source_block_consume_generic_state",
+        "test_port_game_exposes_generated_block_consume_generic_bridge_state",
+        "test_block_consume_generic_matches_upstream_source",
+        "test_generated_block_consume_generic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consume generic bridge state"
+    },
+    "N1304": {
+      "canonical_ledger": "source_slice_ledger.N1304",
+      "exact_exprs": [
+        "public void setupRequirements(Category cat, ItemStack[] stacks){",
+        "requirements(cat, stacks);",
+        "requirements(cat, stacks)",
+        "Category cat",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_setupRequirements_112",
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "java_class": "Block",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_setup_requirements_simple_bridge_state",
+      "source_symbols": [
+        "block_setup_requirements_simple.method",
+        "block_setup_requirements_simple.delegate_call_expr",
+        "block_setup_requirements_simple.cat",
+        "block_setup_requirements_simple.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block setupRequirements simple bridge state"
+    },
+    "N1305": {
+      "canonical_ledger": "source_slice_ledger.N1305",
+      "exact_exprs": [
+        "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "requirements(cat, visible, stacks);",
+        "requirements(cat, visible, stacks)",
+        "Category cat",
+        "BuildVisibility visible",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_setupRequirements_113",
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_setup_requirements_visible_bridge_state",
+      "source_symbols": [
+        "block_setup_requirements_visible.method",
+        "block_setup_requirements_visible.delegate_call_expr",
+        "block_setup_requirements_visible.cat",
+        "block_setup_requirements_visible.visible",
+        "block_setup_requirements_visible.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block setupRequirements visible bridge state"
+    },
+    "N1306": {
+      "canonical_ledger": "source_slice_ledger.N1306",
+      "exact_exprs": [
+        "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+        "requirements(cat, BuildVisibility.shown, stacks);",
+        "requirements(cat, BuildVisibility.shown, stacks)",
+        "this.alwaysUnlocked = unlocked;",
+        "Category cat",
+        "ItemStack[] stacks",
+        "boolean unlocked",
+        "BuildVisibility.shown"
+      ],
+      "generated_owner": "Block.java_method_requirements_114",
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_unlocked_bridge_state",
+      "source_symbols": [
+        "block_requirements_unlocked.method",
+        "block_requirements_unlocked.delegate_call_expr",
+        "block_requirements_unlocked.always_unlocked_assignment_expr",
+        "block_requirements_unlocked.cat",
+        "block_requirements_unlocked.stacks",
+        "block_requirements_unlocked.unlocked",
+        "block_requirements_unlocked.build_visibility_shown"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements unlocked bridge state"
+    },
+    "N1307": {
+      "canonical_ledger": "source_slice_ledger.N1307",
+      "exact_exprs": [
+        "public void requirements(Category cat, ItemStack[] stacks){",
+        "requirements(cat, BuildVisibility.shown, stacks);",
+        "requirements(cat, BuildVisibility.shown, stacks)",
+        "Category cat",
+        "ItemStack[] stacks",
+        "BuildVisibility.shown"
+      ],
+      "generated_owner": "Block.java_method_requirements_115",
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_simple_bridge_state",
+      "source_symbols": [
+        "block_requirements_simple.method",
+        "block_requirements_simple.delegate_call_expr",
+        "block_requirements_simple.cat",
+        "block_requirements_simple.stacks",
+        "block_requirements_simple.build_visibility_shown"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements simple bridge state"
+    },
+    "N1308": {
+      "canonical_ledger": "source_slice_ledger.N1308",
+      "exact_exprs": [
+        "/** Sets up requirements. Use only this method to set up requirements. */",
+        "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "this.category = cat;",
+        "this.requirements = stacks;",
+        "this.buildVisibility = visible;",
+        "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+        "i.item.id",
+        "Category cat",
+        "BuildVisibility visible",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_requirements_116",
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_visible_bridge_state",
+      "source_symbols": [
+        "block_requirements_visible.method",
+        "block_requirements_visible.comment",
+        "block_requirements_visible.category_assignment_expr",
+        "block_requirements_visible.requirements_assignment_expr",
+        "block_requirements_visible.build_visibility_assignment_expr",
+        "block_requirements_visible.sort_expr",
+        "block_requirements_visible.sort_key_expr",
+        "block_requirements_visible.cat",
+        "block_requirements_visible.visible",
+        "block_requirements_visible.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements visible bridge state"
+    },
+    "N1309": {
+      "canonical_ledger": "source_slice_ledger.N1309",
+      "exact_exprs": [
+        "protected void initBuilding(){",
+        "try{",
+        "}catch(Throwable ignored){",
+        "if(buildType == null){",
+        "//assign default value",
+        "buildType = Building::create;"
+      ],
+      "generated_owner": "Block.java_method_initBuilding_117",
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "java_class": "Block",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_init_building_default_bridge_state",
+      "source_symbols": [
+        "block_init_building_default.method",
+        "block_init_building_default.try_expr",
+        "block_init_building_default.catch_ignored_expr",
+        "block_init_building_default.default_guard_expr",
+        "block_init_building_default.default_comment",
+        "block_init_building_default.default_assignment_expr",
+        "block_init_building_default.build_type_before"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block initBuilding default bridge state"
+    },
+    "N1310": {
+      "canonical_ledger": "source_slice_ledger.N1310",
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "return researchCost;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_research_cost_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_research_cost_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_research_cost.override_expr",
+        "block_research_requirements_research_cost.method",
+        "block_research_requirements_research_cost.guard_expr",
+        "block_research_requirements_research_cost.return_expr",
+        "block_research_requirements_research_cost.research_cost"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_research_cost_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_research_cost_state",
+        "test_port_game_exposes_generated_block_research_requirements_research_cost_bridge_state",
+        "test_block_research_requirements_research_cost_matches_upstream_source",
+        "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements researchCost bridge state"
+    },
+    "N1311": {
+      "canonical_ledger": "source_slice_ledger.N1311",
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+        "return ItemStack.empty;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_empty_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_empty_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_empty.override_expr",
+        "block_research_requirements_empty.method",
+        "block_research_requirements_empty.research_cost_guard_expr",
+        "block_research_requirements_empty.empty_guard_expr",
+        "block_research_requirements_empty.empty_return_expr",
+        "block_research_requirements_empty.research_cost",
+        "block_research_requirements_empty.research_cost_multiplier"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_empty_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_empty_state",
+        "test_port_game_exposes_generated_block_research_requirements_empty_bridge_state",
+        "test_block_research_requirements_empty_matches_upstream_source",
+        "test_generated_block_research_requirements_empty_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements empty bridge state"
+    },
+    "N1312": {
+      "canonical_ledger": "source_slice_ledger.N1312",
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+        "ItemStack[] out = new ItemStack[requirements.length];",
+        "for(int i = 0; i < out.length; i++){",
+        "return out;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_loop_shape_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_loop_shape.override_expr",
+        "block_research_requirements_loop_shape.method",
+        "block_research_requirements_loop_shape.research_cost_guard_expr",
+        "block_research_requirements_loop_shape.empty_guard_expr",
+        "block_research_requirements_loop_shape.out_alloc_expr",
+        "block_research_requirements_loop_shape.loop_expr",
+        "block_research_requirements_loop_shape.return_out_expr",
+        "block_research_requirements_loop_shape.research_cost",
+        "block_research_requirements_loop_shape.research_cost_multiplier",
+        "block_research_requirements_loop_shape.requirements"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements loop shape bridge state"
+    },
+    "N1313": {
+      "canonical_ledger": "source_slice_ledger.N1313",
+      "exact_exprs": [
+        "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+        "60 * researchCostMultiplier",
+        "Mathf.pow(requirements[i].amount, 1.11f)",
+        "researchCostMultipliers.get(requirements[i].item, 1f)",
+        "public static int round(float value, int step){",
+        "return (int)(value / step) * step;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_quantity_formula_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_quantity_formula.quantity_expr",
+        "block_research_requirements_quantity_formula.base_term_expr",
+        "block_research_requirements_quantity_formula.pow_expr",
+        "block_research_requirements_quantity_formula.multiplier_get_expr",
+        "block_research_requirements_quantity_formula.mathf_round_signature",
+        "block_research_requirements_quantity_formula.mathf_round_step_expr",
+        "block_research_requirements_quantity_formula.research_cost",
+        "block_research_requirements_quantity_formula.research_cost_multiplier",
+        "block_research_requirements_quantity_formula.requirements",
+        "block_research_requirements_quantity_formula.research_cost_multipliers"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements quantity formula bridge state"
+    },
+    "N1314": {
+      "canonical_ledger": "source_slice_ledger.N1314",
+      "exact_exprs": [
+        "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+        "UI.roundAmount(quantity)",
+        "public static int roundAmount(int number){",
+        "if(number >= 1_000_000_000){",
+        "}else if(number >= 1_000_000){",
+        "}else if(number >= 10_000){",
+        "}else if(number >= 1000){",
+        "}else if(number >= 100){",
+        "}else if(number >= 10){",
+        "public static int round(int value, int step){",
+        "return (value / step) * step;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_round_amount_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_round_amount.itemstack_fill_expr",
+        "block_research_requirements_round_amount.round_amount_expr",
+        "block_research_requirements_round_amount.ui_round_amount_method",
+        "block_research_requirements_round_amount.billion_guard_expr",
+        "block_research_requirements_round_amount.million_guard_expr",
+        "block_research_requirements_round_amount.ten_thousand_guard_expr",
+        "block_research_requirements_round_amount.thousand_guard_expr",
+        "block_research_requirements_round_amount.hundred_guard_expr",
+        "block_research_requirements_round_amount.ten_guard_expr",
+        "block_research_requirements_round_amount.mathf_round_int_step_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements round amount bridge state"
+    },
+    "N1315": {
+      "canonical_ledger": "source_slice_ledger.N1315",
+      "exact_exprs": [
+        "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+        "requirements[i].item",
+        "UI.roundAmount(quantity)",
+        "return out;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_output_fill_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_output_fill.itemstack_fill_expr",
+        "block_research_requirements_output_fill.requirement_item_expr",
+        "block_research_requirements_output_fill.round_amount_expr",
+        "block_research_requirements_output_fill.return_out_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements output fill bridge state"
+    },
+    "N1316": {
+      "canonical_ledger": "source_slice_ledger.N1316",
+      "exact_exprs": [
+        "public void getDependencies(Cons<UnlockableContent> cons){",
+        "//just requires items",
+        "for(ItemStack stack : requirements){",
+        "cons.get(stack.item);"
+      ],
+      "generated_owner": "Block.java_method_getDependencies_119",
+      "godot_owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "java_class": "Block",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_dependencies_requirements_bridge_state",
+      "source_symbols": [
+        "block_get_dependencies_requirements.method",
+        "block_get_dependencies_requirements.requirements_comment",
+        "block_get_dependencies_requirements.requirements_loop_expr",
+        "block_get_dependencies_requirements.cons_get_item_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getDependencies requirements bridge state"
+    },
+    "N1317": {
+      "canonical_ledger": "source_slice_ledger.N1317",
+      "exact_exprs": [
+        "public void getDependencies(Cons<UnlockableContent> cons){",
+        "//also requires inputs",
+        "for(var c : consumeBuilder){",
+        "if(c.optional) continue;"
+      ],
+      "generated_owner": "Block.java_method_getDependencies_119",
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "java_class": "Block",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_dependencies_consume_builder_optional_bridge_state",
+      "source_symbols": [
+        "block_get_dependencies_consume_builder_optional.method",
+        "block_get_dependencies_consume_builder_optional.inputs_comment",
+        "block_get_dependencies_consume_builder_optional.consume_builder_loop_expr",
+        "block_get_dependencies_consume_builder_optional.optional_guard_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getDependencies consumeBuilder optional bridge state"
+    },
+    "N1318": {
+      "canonical_ledger": "source_slice_ledger.N1318",
+      "exact_exprs": [
+        "if(c instanceof ConsumeItems i){",
+        "for(ItemStack stack : i.items){",
+        "cons.get(stack.item);"
+      ],
+      "generated_owner": "Block.java_method_getDependencies_119",
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+      "java_class": "Block",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_dependencies_consume_items_bridge_state",
+      "source_symbols": [
+        "block_get_dependencies_consume_items.consume_items_guard_expr",
+        "block_get_dependencies_consume_items.consume_items_loop_expr",
+        "block_get_dependencies_consume_items.consume_items_cons_get_item_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getDependencies ConsumeItems bridge state"
+    },
+    "N1319": {
+      "canonical_ledger": "source_slice_ledger.N1319",
+      "exact_exprs": [
+        "public ContentType getContentType(){",
+        "return ContentType.block;"
+      ],
+      "generated_owner": "Block.java_method_getContentType_120",
+      "godot_owner": "PortGame.source_block_get_content_type_state",
+      "java_class": "Block",
+      "java_method": "Block.getContentType()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_content_type_bridge_state",
+      "source_symbols": [
+        "block_get_content_type.method",
+        "block_get_content_type.content_type_return_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_content_type_to_source_state",
+        "test_port_game_exposes_source_block_get_content_type_state",
+        "test_port_game_exposes_generated_block_get_content_type_bridge_state",
+        "test_block_get_content_type_matches_upstream_source",
+        "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getContentType bridge state"
+    },
+    "N1320": {
+      "canonical_ledger": "source_slice_ledger.N1320",
+      "exact_exprs": [
+        "public boolean logicVisible(){",
+        "return buildVisibility != BuildVisibility.hidden;"
+      ],
+      "generated_owner": "Block.java_method_logicVisible_121",
+      "godot_owner": "PortGame.source_block_logic_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.logicVisible()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_logic_visible_bridge_state",
+      "source_symbols": [
+        "block_logic_visible.method",
+        "block_logic_visible.logic_visible_return_expr",
+        "block_logic_visible.build_visibility"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block logicVisible bridge state"
+    },
+    "N1321": {
+      "canonical_ledger": "source_slice_ledger.N1321",
+      "exact_exprs": [
+        "public void postInit(){",
+        "if(databaseTag == null || databaseTag.isEmpty()){",
+        "databaseTag = category.name();",
+        "super.postInit();"
+      ],
+      "generated_owner": "Block.java_method_postInit_122",
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "java_class": "Block",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_post_init_database_tag_bridge_state",
+      "source_symbols": [
+        "block_post_init_database_tag.method",
+        "block_post_init_database_tag.database_tag_guard_expr",
+        "block_post_init_database_tag.database_tag_assign_expr",
+        "block_post_init_database_tag.database_tag",
+        "block_post_init_database_tag.category_name"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block postInit databaseTag bridge state"
+    },
+    "N1322": {
+      "canonical_ledger": "source_slice_ledger.N1322",
+      "exact_exprs": [
+        "public void postInit(){",
+        "if(requirements.length > 0 && shownPlanets.isEmpty()){",
+        "for(Planet planet : content.planets()){",
+        "if(planet.isLandable()){",
+        "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){",
+        "shownPlanets.add(planet);"
+      ],
+      "generated_owner": "Block.java_method_postInit_122",
+      "godot_owner": "PortGame.source_block_post_init_shown_planets_state",
+      "java_class": "Block",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_post_init_shown_planets_bridge_state",
+      "source_symbols": [
+        "block_post_init_shown_planets.method",
+        "block_post_init_shown_planets.auto_assign_guard_expr",
+        "block_post_init_shown_planets.planet_landable_guard_expr",
+        "block_post_init_shown_planets.structs_contains_guard_expr",
+        "block_post_init_shown_planets.shown_planets_add_expr",
+        "block_post_init_shown_planets.requirements",
+        "block_post_init_shown_planets.content_planets"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_shown_planets_to_source_state",
+        "test_port_game_exposes_source_block_post_init_shown_planets_state",
+        "test_port_game_exposes_generated_block_post_init_shown_planets_bridge_state",
+        "test_block_post_init_shown_planets_matches_upstream_source",
+        "test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block postInit shownPlanets bridge state"
+    },
+    "N1323": {
+      "canonical_ledger": "source_slice_ledger.N1323",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(destroySound == Sounds.unset){",
+        "destroySound =",
+        "size >= 3 ? Sounds.blockExplode3 :",
+        "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+        "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() destroySound default assignment to source-backed canonical state without claiming placeSound, breakSound, health, liquid, fog, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_destroy_sound_bridge_state",
+      "source_symbols": [
+        "block_init_destroy_sound.method",
+        "block_init_destroy_sound.destroy_sound_guard_expr",
+        "block_init_destroy_sound.destroy_sound_size_3_expr",
+        "block_init_destroy_sound.destroy_sound_size_2_expr",
+        "block_init_destroy_sound.destroy_sound_size_1_expr",
+        "block_init_destroy_sound.destroy_sound",
+        "block_init_destroy_sound.size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init destroySound bridge state"
+    },
+    "N1324": {
+      "canonical_ledger": "source_slice_ledger.N1324",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(placeSound == Sounds.unset){",
+        "placeSound =",
+        "size >= 3 ? Sounds.blockPlace3 :",
+        "size >= 2 ? Sounds.blockPlace2 :",
+        "Sounds.blockPlace1;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() placeSound default assignment to source-backed canonical state without claiming breakSound, health, liquid, fog, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_place_sound_bridge_state",
+      "source_symbols": [
+        "block_init_place_sound.method",
+        "block_init_place_sound.place_sound_guard_expr",
+        "block_init_place_sound.place_sound_assign_expr",
+        "block_init_place_sound.place_sound_size_3_expr",
+        "block_init_place_sound.place_sound_size_2_expr",
+        "block_init_place_sound.place_sound_size_1_expr",
+        "block_init_place_sound.place_sound",
+        "block_init_place_sound.size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init placeSound bridge state"
+    },
+    "N1325": {
+      "canonical_ledger": "source_slice_ledger.N1325",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(breakSound == Sounds.unset){",
+        "breakSound =",
+        "size >= 3 ? Sounds.blockBreak3 :",
+        "size >= 2 ? Sounds.blockBreak2 :",
+        "Sounds.blockBreak1;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() breakSound default assignment to source-backed canonical state without claiming health, liquid, fog, shadow, priority, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_break_sound_bridge_state",
+      "source_symbols": [
+        "block_init_break_sound.method",
+        "block_init_break_sound.break_sound_guard_expr",
+        "block_init_break_sound.break_sound_assign_expr",
+        "block_init_break_sound.break_sound_size_3_expr",
+        "block_init_break_sound.break_sound_size_2_expr",
+        "block_init_break_sound.break_sound_size_1_expr",
+        "block_init_break_sound.break_sound",
+        "block_init_break_sound.size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init breakSound bridge state"
+    },
+    "N1326": {
+      "canonical_ledger": "source_slice_ledger.N1326",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//disable standard shadow",
+        "if(customShadow){",
+        "hasShadow = false;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() customShadow standard shadow suppression to source-backed canonical state without claiming underBullets, fogRadius, sync, health, liquid, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_custom_shadow_bridge_state",
+      "source_symbols": [
+        "block_init_custom_shadow.method",
+        "block_init_custom_shadow.custom_shadow_comment",
+        "block_init_custom_shadow.custom_shadow_guard_expr",
+        "block_init_custom_shadow.has_shadow_assign_expr",
+        "block_init_custom_shadow.custom_shadow",
+        "block_init_custom_shadow.has_shadow"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init customShadow bridge state"
+    },
+    "N1327": {
+      "canonical_ledger": "source_slice_ledger.N1327",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(underBullets){",
+        "priority = TargetPriority.under;",
+        "TargetPriority.under"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() underBullets priority assignment to source-backed canonical state without claiming fogRadius, sync, health, liquid, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_under_bullets_bridge_state",
+      "source_symbols": [
+        "block_init_under_bullets.method",
+        "block_init_under_bullets.under_bullets_guard_expr",
+        "block_init_under_bullets.priority_assign_expr",
+        "block_init_under_bullets.target_priority_under_expr",
+        "block_init_under_bullets.under_bullets",
+        "block_init_under_bullets.priority"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init underBullets bridge state"
+    },
+    "N1328": {
+      "canonical_ledger": "source_slice_ledger.N1328",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(fogRadius > 0){",
+        "flags = flags.with(BlockFlag.hasFogRadius);",
+        "BlockFlag.hasFogRadius"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_fog_radius_flag_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() fogRadius flag assignment to source-backed canonical state without claiming sync, health, liquid, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_fog_radius_flag_bridge_state",
+      "source_symbols": [
+        "block_init_fog_radius_flag.method",
+        "block_init_fog_radius_flag.fog_radius_guard_expr",
+        "block_init_fog_radius_flag.flags_assign_expr",
+        "block_init_fog_radius_flag.block_flag_has_fog_radius_expr",
+        "block_init_fog_radius_flag.fog_radius",
+        "block_init_fog_radius_flag.flags"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_fog_radius_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_fog_radius_flag_state",
+        "test_port_game_exposes_generated_block_init_fog_radius_flag_bridge_state",
+        "test_block_init_fog_radius_flag_matches_upstream_source",
+        "test_generated_block_init_fog_radius_flag_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init fogRadius flag bridge state"
+    },
+    "N1329": {
+      "canonical_ledger": "source_slice_ledger.N1329",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(sync){",
+        "flags = flags.with(BlockFlag.synced);",
+        "BlockFlag.synced"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() sync flag assignment to source-backed canonical state without claiming health, liquid, or other init branches.",
+      "runtime_proof": "/root/Main.generated_block_init_sync_flag_bridge_state",
+      "source_symbols": [
+        "block_init_sync_flag.method",
+        "block_init_sync_flag.sync_guard_expr",
+        "block_init_sync_flag.flags_assign_expr",
+        "block_init_sync_flag.block_flag_synced_expr",
+        "block_init_sync_flag.sync",
+        "block_init_sync_flag.flags"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init sync flag bridge state"
+    },
+    "N1330": {
+      "canonical_ledger": "source_slice_ledger.N1330",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//initialize default health based on size",
+        "if(health == -1){",
+        "boolean round = false;",
+        "if(scaledHealth < 0){",
+        "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        "(int)(size * size * scaledHealth)"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() non-negative scaledHealth health assignment to source-backed canonical state while deferring negative scaledHealth requirements scaling.",
+      "runtime_proof": "/root/Main.generated_block_init_health_scaled_bridge_state",
+      "source_symbols": [
+        "block_init_health_scaled.method",
+        "block_init_health_scaled.health_comment",
+        "block_init_health_scaled.health_guard_expr",
+        "block_init_health_scaled.round_init_expr",
+        "block_init_health_scaled.scaled_health_negative_guard_expr",
+        "block_init_health_scaled.health_assign_expr",
+        "block_init_health_scaled.int_cast_expr",
+        "block_init_health_scaled.health",
+        "block_init_health_scaled.size",
+        "block_init_health_scaled.scaled_health"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init scaled health bridge state"
+    },
+    "N1331": {
+      "canonical_ledger": "source_slice_ledger.N1331",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//initialize default health based on size",
+        "if(health == -1){",
+        "if(scaledHealth < 0){",
+        "scaledHealth = 40;",
+        "float scaling = 1f;",
+        "for(var stack : requirements){",
+        "scaling += stack.item.healthScaling;",
+        "public float healthScaling = 0f;",
+        "scaledHealth *= scaling;",
+        "round = true;",
+        "Mathf.round(size * size * scaledHealth, 5)",
+        "return (int)(value / step) * step;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() negative scaledHealth requirements scaling to source-backed canonical state using Item.healthScaling and Arc Mathf.round step semantics.",
+      "runtime_proof": "/root/Main.generated_block_init_health_requirements_scaling_bridge_state",
+      "source_symbols": [
+        "block_init_health_requirements_scaling.method",
+        "block_init_health_requirements_scaling.health_comment",
+        "block_init_health_requirements_scaling.health_guard_expr",
+        "block_init_health_requirements_scaling.scaled_health_negative_guard_expr",
+        "block_init_health_requirements_scaling.scaled_health_default_expr",
+        "block_init_health_requirements_scaling.scaling_init_expr",
+        "block_init_health_requirements_scaling.requirements_loop_expr",
+        "block_init_health_requirements_scaling.health_scaling_add_expr",
+        "block_init_health_requirements_scaling.item_health_scaling_field_expr",
+        "block_init_health_requirements_scaling.scaled_health_multiply_expr",
+        "block_init_health_requirements_scaling.round_true_expr",
+        "block_init_health_requirements_scaling.mathf_round_expr",
+        "block_init_health_requirements_scaling.mathf_round_step_expr",
+        "block_init_health_requirements_scaling.health",
+        "block_init_health_requirements_scaling.size",
+        "block_init_health_requirements_scaling.scaled_health",
+        "block_init_health_requirements_scaling.requirements"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init health requirements scaling bridge state"
+    },
+    "N1332": {
+      "canonical_ledger": "source_slice_ledger.N1332",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "clipSize = Math.max(clipSize, size * tilesize);",
+        "/** size of tiles in units */",
+        "public static final int tilesize = 8;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() clipSize minimum clamp to source-backed canonical state using Vars.tilesize.",
+      "runtime_proof": "/root/Main.generated_block_init_clip_size_bridge_state",
+      "source_symbols": [
+        "block_init_clip_size.method",
+        "block_init_clip_size.super_init_expr",
+        "block_init_clip_size.clip_size_expr",
+        "block_init_clip_size.tilesize_comment",
+        "block_init_clip_size.tilesize_field_expr",
+        "block_init_clip_size.clip_size",
+        "block_init_clip_size.size",
+        "block_init_clip_size.tilesize",
+        "block_init_clip_size.size_tilesize"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init clip size bridge state"
+    },
+    "N1333": {
+      "canonical_ledger": "source_slice_ledger.N1333",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "clipSize = Math.max(clipSize, size * tilesize);",
+        "lightClipSize = Math.max(lightClipSize, clipSize);"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() lightClipSize minimum clamp to source-backed canonical state after clipSize is established.",
+      "runtime_proof": "/root/Main.generated_block_init_light_clip_size_bridge_state",
+      "source_symbols": [
+        "block_init_light_clip_size.method",
+        "block_init_light_clip_size.super_init_expr",
+        "block_init_light_clip_size.clip_size_expr",
+        "block_init_light_clip_size.light_clip_size_expr",
+        "block_init_light_clip_size.light_clip_size",
+        "block_init_light_clip_size.clip_size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init light clip size bridge state"
+    },
+    "N1334": {
+      "canonical_ledger": "source_slice_ledger.N1334",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(hasLiquids && drawLiquidLight){",
+        "emitLight = true;",
+        "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_liquid_light_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() liquid-light branch to source-backed canonical state, preserving branch false state and applying emitLight/lightClipSize only when the source guard passes.",
+      "runtime_proof": "/root/Main.generated_block_init_liquid_light_bridge_state",
+      "source_symbols": [
+        "block_init_liquid_light.method",
+        "block_init_liquid_light.super_init_expr",
+        "block_init_liquid_light.liquid_light_guard_expr",
+        "block_init_liquid_light.emit_light_assign_expr",
+        "block_init_liquid_light.light_clip_size_expr",
+        "block_init_liquid_light.has_liquids",
+        "block_init_liquid_light.draw_liquid_light",
+        "block_init_liquid_light.emit_light",
+        "block_init_liquid_light.light_clip_size",
+        "block_init_liquid_light.size",
+        "block_init_liquid_light.liquid_light_gate",
+        "block_init_liquid_light.liquid_light_clip_size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_light_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_light_state",
+        "test_port_game_exposes_generated_block_init_liquid_light_bridge_state",
+        "test_block_init_liquid_light_matches_upstream_source",
+        "test_generated_block_init_liquid_light_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init liquid light bridge state"
+    },
+    "N1335": {
+      "canonical_ledger": "source_slice_ledger.N1335",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+        "if(liquidCapacity < 0){",
+        "float consumeAmount = 1f;",
+        "for(var cons : consumeBuilder){",
+        "liquidCapacity = Mathf.round(10f * consumeAmount);",
+        "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() liquidCapacity default branch to source-backed canonical state, preserving non-negative liquidCapacity and applying Arc Mathf.round to the default consumeAmount only; consumer-specific liquid amounts remain deferred to later slices.",
+      "runtime_proof": "/root/Main.generated_block_init_liquid_capacity_default_bridge_state",
+      "source_symbols": [
+        "block_init_liquid_capacity_default.method",
+        "block_init_liquid_capacity_default.super_init_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_comment",
+        "block_init_liquid_capacity_default.liquid_capacity_guard_expr",
+        "block_init_liquid_capacity_default.consume_amount_default_expr",
+        "block_init_liquid_capacity_default.consume_builder_loop_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_assign_expr",
+        "block_init_liquid_capacity_default.mathf_round_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_before",
+        "block_init_liquid_capacity_default.consume_amount",
+        "block_init_liquid_capacity_default.liquid_capacity_assigned"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init liquid capacity default bridge state"
+    },
+    "N1336": {
+      "canonical_ledger": "source_slice_ledger.N1336",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(emitLight){",
+        "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() emitLight lightRadius clamp to source-backed canonical state, preserving lightClipSize when emitLight is false and clamping against lightRadius * 2f only when the guard passes.",
+      "runtime_proof": "/root/Main.generated_block_init_emit_light_radius_bridge_state",
+      "source_symbols": [
+        "block_init_emit_light_radius.method",
+        "block_init_emit_light_radius.super_init_expr",
+        "block_init_emit_light_radius.emit_light_guard_expr",
+        "block_init_emit_light_radius.light_clip_size_expr",
+        "block_init_emit_light_radius.emit_light",
+        "block_init_emit_light_radius.light_clip_size",
+        "block_init_emit_light_radius.light_radius",
+        "block_init_emit_light_radius.light_radius_clip_size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init emit light radius bridge state"
+    },
+    "N1337": {
+      "canonical_ledger": "source_slice_ledger.N1337",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(group == BlockGroup.transportation || category == Category.distribution){",
+        "acceptsItems = true;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() acceptsItems branch to source-backed canonical state, preserving prior acceptsItems unless group is BlockGroup.transportation or category is Category.distribution.",
+      "runtime_proof": "/root/Main.generated_block_init_accepts_items_bridge_state",
+      "source_symbols": [
+        "block_init_accepts_items.method",
+        "block_init_accepts_items.super_init_expr",
+        "block_init_accepts_items.accepts_items_guard_expr",
+        "block_init_accepts_items.accepts_items_assign_expr",
+        "block_init_accepts_items.group",
+        "block_init_accepts_items.category",
+        "block_init_accepts_items.accepts_items",
+        "block_init_accepts_items.accepts_items_gate"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init accepts items bridge state"
+    },
+    "N1338": {
+      "canonical_ledger": "source_slice_ledger.N1338",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "offset = ((size + 1) % 2) * tilesize / 2f;",
+        "sizeOffset = -((size - 1) / 2);",
+        "public static final int tilesize = 8;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_offset_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() offset and sizeOffset assignments to source-backed canonical state using Vars.tilesize.",
+      "runtime_proof": "/root/Main.generated_block_init_offset_bridge_state",
+      "source_symbols": [
+        "block_init_offset.method",
+        "block_init_offset.super_init_expr",
+        "block_init_offset.offset_expr",
+        "block_init_offset.size_offset_expr",
+        "block_init_offset.tilesize_field_expr",
+        "block_init_offset.size",
+        "block_init_offset.tilesize"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_offset_to_source_state",
+        "test_port_game_exposes_source_block_init_offset_state",
+        "test_port_game_exposes_generated_block_init_offset_bridge_state",
+        "test_block_init_offset_matches_upstream_source",
+        "test_generated_block_init_offset_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init offset bridge state"
+    },
+    "N1339": {
+      "canonical_ledger": "source_slice_ledger.N1339",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(requirements.length > 0 && buildTime < 0){",
+        "buildTime = 0f;",
+        "for(ItemStack stack : requirements){",
+        "buildTime += stack.amount * stack.item.cost;",
+        "public float cost = 1f;",
+        "public int amount = 0;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_build_time_requirements_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() requirements buildTime summation to source-backed canonical state using ItemStack.amount and Item.cost.",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_requirements_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_requirements.method",
+        "block_init_build_time_requirements.super_init_expr",
+        "block_init_build_time_requirements.build_time_guard_expr",
+        "block_init_build_time_requirements.build_time_zero_expr",
+        "block_init_build_time_requirements.requirements_loop_expr",
+        "block_init_build_time_requirements.build_time_add_expr",
+        "block_init_build_time_requirements.item_cost_field_expr",
+        "block_init_build_time_requirements.itemstack_amount_field_expr",
+        "block_init_build_time_requirements.build_time",
+        "block_init_build_time_requirements.requirements"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_requirements_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_requirements_state",
+        "test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state",
+        "test_block_init_build_time_requirements_matches_upstream_source",
+        "test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init build time requirements bridge state"
+    },
+    "N1340": {
+      "canonical_ledger": "source_slice_ledger.N1340",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(buildTime < 0){",
+        "buildTime = 20f;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() default buildTime assignment to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_default_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_default.method",
+        "block_init_build_time_default.super_init_expr",
+        "block_init_build_time_default.build_time_guard_expr",
+        "block_init_build_time_default.build_time_default_expr",
+        "block_init_build_time_default.build_time"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init build time default bridge state"
+    },
+    "N1341": {
+      "canonical_ledger": "source_slice_ledger.N1341",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public float buildCostMultiplier = 1f;",
+        "buildTime *= buildCostMultiplier;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() buildTime multiplier assignment to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_multiplier_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_multiplier.method",
+        "block_init_build_time_multiplier.super_init_expr",
+        "block_init_build_time_multiplier.build_cost_multiplier_field_expr",
+        "block_init_build_time_multiplier.build_time_multiplier_expr",
+        "block_init_build_time_multiplier.build_time"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init build time multiplier bridge state"
+    },
+    "N1342": {
+      "canonical_ledger": "source_slice_ledger.N1342",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "consumers = consumeBuilder.toArray(Consume.class);",
+        "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+        "hasConsumers = consumers.length > 0;",
+        "public boolean optional;",
+        "public boolean update = true;",
+        "public boolean ignore(){"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() consumer array setup to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_init_consumer_arrays_bridge_state",
+      "source_symbols": [
+        "block_init_consumer_arrays.method",
+        "block_init_consumer_arrays.super_init_expr",
+        "block_init_consumer_arrays.consumers_expr",
+        "block_init_consumer_arrays.optional_consumers_expr",
+        "block_init_consumer_arrays.non_optional_consumers_expr",
+        "block_init_consumer_arrays.update_consumers_expr",
+        "block_init_consumer_arrays.has_consumers_expr",
+        "block_init_consumer_arrays.consume_optional_field_expr",
+        "block_init_consumer_arrays.consume_update_field_expr",
+        "block_init_consumer_arrays.consume_ignore_method_expr",
+        "block_init_consumer_arrays.consume_builder"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init consumer arrays bridge state"
+    },
+    "N1343": {
+      "canonical_ledger": "source_slice_ledger.N1343",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "itemFilter = new boolean[content.items().size];",
+        "liquidFilter = new boolean[content.liquids().size];"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() item and liquid filter allocation to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_init_item_liquid_filters_bridge_state",
+      "source_symbols": [
+        "block_init_item_liquid_filters.method",
+        "block_init_item_liquid_filters.super_init_expr",
+        "block_init_item_liquid_filters.item_filter_expr",
+        "block_init_item_liquid_filters.liquid_filter_expr",
+        "block_init_item_liquid_filters.content_items_size",
+        "block_init_item_liquid_filters.content_liquids_size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init item liquid filters bridge state"
+    },
+    "N1344": {
+      "canonical_ledger": "source_slice_ledger.N1344",
+      "deferred_exprs": [
+        "Concrete Consume subclass apply(Block) mutations remain later slices; this slice preserves the Block.init() dispatch over every consumer."
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "for(Consume cons : consumers){",
+        "cons.apply(this);",
+        "public void apply(Block block){"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_consumer_apply_loop_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() consumer apply loop to source-backed call-plan state.",
+      "runtime_proof": "/root/Main.generated_block_init_consumer_apply_loop_bridge_state",
+      "source_symbols": [
+        "block_init_consumer_apply_loop.method",
+        "block_init_consumer_apply_loop.super_init_expr",
+        "block_init_consumer_apply_loop.consumers_loop_expr",
+        "block_init_consumer_apply_loop.consume_apply_expr",
+        "block_init_consumer_apply_loop.consume_apply_method_expr",
+        "block_init_consumer_apply_loop.consumers"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_apply_loop_state",
+        "test_port_game_exposes_generated_block_init_consumer_apply_loop_bridge_state",
+        "test_block_init_consumer_apply_loop_matches_upstream_source",
+        "test_generated_block_init_consumer_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init consumer apply loop bridge state"
+    },
+    "N1345": {
+      "canonical_ledger": "source_slice_ledger.N1345",
+      "deferred_exprs": [
+        "Concrete Block.setBars() bar construction remains later slices; this slice preserves the Block.init() setBars() dispatch."
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "setBars();",
+        "public void setBars(){",
+        "addBar(\"health\", entity -> new Bar(\"stat.health\", Pal.health, entity::healthf).blink(Color.white));"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_set_bars_call_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() setBars() dispatch to source-backed call-plan state.",
+      "runtime_proof": "/root/Main.generated_block_init_set_bars_call_bridge_state",
+      "source_symbols": [
+        "block_init_set_bars_call.method",
+        "block_init_set_bars_call.super_init_expr",
+        "block_init_set_bars_call.set_bars_expr",
+        "block_init_set_bars_call.set_bars_method_expr",
+        "block_init_set_bars_call.health_bar_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_set_bars_call_to_source_state",
+        "test_port_game_exposes_source_block_init_set_bars_call_state",
+        "test_port_game_exposes_generated_block_init_set_bars_call_bridge_state",
+        "test_block_init_set_bars_call_matches_upstream_source",
+        "test_generated_block_init_set_bars_call_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init setBars call bridge state"
+    },
+    "N1346": {
+      "canonical_ledger": "source_slice_ledger.N1346",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "stats.useCategories = true;",
+        "public boolean useCategories = false;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_stats_categories_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.init() stats.useCategories assignment to source-backed state.",
+      "runtime_proof": "/root/Main.generated_block_init_stats_categories_bridge_state",
+      "source_symbols": [
+        "block_init_stats_categories.method",
+        "block_init_stats_categories.super_init_expr",
+        "block_init_stats_categories.stats_use_categories_expr",
+        "block_init_stats_categories.stats_use_categories_field_expr",
+        "block_init_stats_categories.stats_use_categories_before"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_stats_categories_to_source_state",
+        "test_port_game_exposes_source_block_init_stats_categories_state",
+        "test_port_game_exposes_generated_block_init_stats_categories_bridge_state",
+        "test_block_init_stats_categories_matches_upstream_source",
+        "test_generated_block_init_stats_categories_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init stats categories bridge state"
+    },
+    "N1347": {
+      "canonical_ledger": "source_slice_ledger.N1347",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public boolean logicConfigurable = false;",
+        "if(!logicConfigurable){",
+        "configurations.each((key, val) -> {",
+        "if(UnlockableContent.class.isAssignableFrom(key)){",
+        "logicConfigurable = true;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_logic_configurable_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Pin source-backed Block.init() logicConfigurable unlockable configuration detection.",
+      "runtime_proof": "/root/Main.generated_block_init_logic_configurable_bridge_state",
+      "source_symbols": [
+        "block_init_logic_configurable.method",
+        "block_init_logic_configurable.super_init_expr",
+        "block_init_logic_configurable.logic_configurable_field_expr",
+        "block_init_logic_configurable.logic_configurable_guard_expr",
+        "block_init_logic_configurable.configurations_each_expr",
+        "block_init_logic_configurable.unlockable_assignable_expr",
+        "block_init_logic_configurable.logic_configurable_assignment_expr",
+        "block_init_logic_configurable.logic_configurable_before",
+        "block_init_logic_configurable.config_key_assignable_to_unlockable_content"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_init_logic_configurable_to_source_state",
+        "test_port_game_exposes_source_block_init_logic_configurable_state",
+        "test_port_game_exposes_generated_block_init_logic_configurable_bridge_state",
+        "test_block_init_logic_configurable_matches_upstream_source",
+        "test_generated_block_init_logic_configurable_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init logic configurable bridge state"
+    },
+    "N1348": {
+      "canonical_ledger": "source_slice_ledger.N1348",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public boolean outputsPower = false;",
+        "public @Nullable ConsumePower consPower;",
+        "public boolean buffered;",
+        "if(!outputsPower && consPower != null && consPower.buffered){",
+        "Log.warn(\"Consumer using buffered power: @. Disabling buffered power.\", name);",
+        "consPower.buffered = false;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_buffered_power_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Pin source-backed Block.init() buffered power guard and consPower.buffered disable assignment.",
+      "runtime_proof": "/root/Main.generated_block_init_buffered_power_bridge_state",
+      "source_symbols": [
+        "block_init_buffered_power.method",
+        "block_init_buffered_power.super_init_expr",
+        "block_init_buffered_power.outputs_power_field_expr",
+        "block_init_buffered_power.cons_power_field_expr",
+        "block_init_buffered_power.consume_power_buffered_field_expr",
+        "block_init_buffered_power.buffered_power_guard_expr",
+        "block_init_buffered_power.buffered_power_warn_expr",
+        "block_init_buffered_power.buffered_power_disable_expr",
+        "block_init_buffered_power.outputs_power",
+        "block_init_buffered_power.has_cons_power",
+        "block_init_buffered_power.cons_power_buffered_before"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_init_buffered_power_to_source_state",
+        "test_port_game_exposes_source_block_init_buffered_power_state",
+        "test_port_game_exposes_generated_block_init_buffered_power_bridge_state",
+        "test_block_init_buffered_power_matches_upstream_source",
+        "test_generated_block_init_buffered_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init buffered power guard bridge state"
+    },
+    "N1349": {
+      "canonical_ledger": "source_slice_ledger.N1349",
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+        "public boolean hideDetails = true;",
+        "if(buildVisibility == BuildVisibility.sandboxOnly){",
+        "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+        "hideDetails = false;"
+      ],
+      "generated_owner": "Block.java_method_init_123",
+      "godot_owner": "PortGame.source_block_init_sandbox_visibility_state",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Pin source-backed Block.init() sandboxOnly buildVisibility hideDetails reveal branch.",
+      "runtime_proof": "/root/Main.generated_block_init_sandbox_visibility_bridge_state",
+      "source_symbols": [
+        "block_init_sandbox_visibility.method",
+        "block_init_sandbox_visibility.super_init_expr",
+        "block_init_sandbox_visibility.build_visibility_field_expr",
+        "block_init_sandbox_visibility.hide_details_field_expr",
+        "block_init_sandbox_visibility.sandbox_visibility_guard_expr",
+        "block_init_sandbox_visibility.sandbox_only_expr",
+        "block_init_sandbox_visibility.hide_details_assign_expr",
+        "block_init_sandbox_visibility.build_visibility",
+        "block_init_sandbox_visibility.hide_details_before"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_init_sandbox_visibility_to_source_state",
+        "test_port_game_exposes_source_block_init_sandbox_visibility_state",
+        "test_port_game_exposes_generated_block_init_sandbox_visibility_bridge_state",
+        "test_block_init_sandbox_visibility_matches_upstream_source",
+        "test_generated_block_init_sandbox_visibility_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block init sandbox visibility bridge state"
+    },
+    "N1350": {
+      "canonical_ledger": "source_slice_ledger.N1350",
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "consumers = consumeBuilder.toArray(Consume.class);",
+        "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+        "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+        "hasConsumers = consumers.length > 0;",
+        "public boolean optional;",
+        "public boolean update = true;",
+        "public boolean ignore(){",
+        "c instanceof ConsumePower"
+      ],
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.reinitializeConsumers() consumer array rebuild and consPower discovery to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_arrays_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_arrays.method",
+        "block_reinitialize_consumers_arrays.consumers_expr",
+        "block_reinitialize_consumers_arrays.cons_power_expr",
+        "block_reinitialize_consumers_arrays.optional_consumers_expr",
+        "block_reinitialize_consumers_arrays.non_optional_consumers_expr",
+        "block_reinitialize_consumers_arrays.update_consumers_expr",
+        "block_reinitialize_consumers_arrays.has_consumers_expr",
+        "block_reinitialize_consumers_arrays.consume_optional_field_expr",
+        "block_reinitialize_consumers_arrays.consume_update_field_expr",
+        "block_reinitialize_consumers_arrays.consume_ignore_method_expr",
+        "block_reinitialize_consumers_arrays.consume_is_power",
+        "block_reinitialize_consumers_arrays.consume_builder"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block reinitializeConsumers consumer arrays bridge state"
+    },
+    "N1351": {
+      "canonical_ledger": "source_slice_ledger.N1351",
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "itemFilter = new boolean[content.items().size];",
+        "liquidFilter = new boolean[content.liquids().size];"
+      ],
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.reinitializeConsumers() item/liquid filter allocation to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_item_liquid_filters.method",
+        "block_reinitialize_consumers_item_liquid_filters.item_filter_expr",
+        "block_reinitialize_consumers_item_liquid_filters.liquid_filter_expr",
+        "block_reinitialize_consumers_item_liquid_filters.content_items_size",
+        "block_reinitialize_consumers_item_liquid_filters.content_liquids_size"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block reinitializeConsumers item liquid filters bridge state"
+    },
+    "N1352": {
+      "canonical_ledger": "source_slice_ledger.N1352",
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "if(outputsPower) hasPower = true;"
+      ],
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.reinitializeConsumers() outputsPower hasPower assignment to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_outputs_power_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_outputs_power.method",
+        "block_reinitialize_consumers_outputs_power.outputs_power_expr",
+        "block_reinitialize_consumers_outputs_power.outputs_power",
+        "block_reinitialize_consumers_outputs_power.has_power_before"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_outputs_power_bridge_state",
+        "test_block_reinitialize_consumers_outputs_power_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_outputs_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block reinitializeConsumers outputs power bridge state"
+    },
+    "N1353": {
+      "canonical_ledger": "source_slice_ledger.N1353",
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "for(Consume cons : consumers){",
+        "cons.apply(this);",
+        "public void apply(Block block){"
+      ],
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.reinitializeConsumers() consumer apply loop to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_apply_loop_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_apply_loop.method",
+        "block_reinitialize_consumers_apply_loop.consumers_loop_expr",
+        "block_reinitialize_consumers_apply_loop.consume_apply_expr",
+        "block_reinitialize_consumers_apply_loop.consume_apply_method_expr",
+        "block_reinitialize_consumers_apply_loop.consumers"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block reinitializeConsumers consumer apply loop bridge state"
+    },
+    "N1354": {
+      "canonical_ledger": "source_slice_ledger.N1354",
+      "exact_exprs": [
+        "public void checkContentArrayCapacity(int items, int liquids){",
+        "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+        "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);"
+      ],
+      "generated_owner": "Block.java_method_checkContentArrayCapacity_125",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "java_class": "Block",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.checkContentArrayCapacity() filter resizing to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_check_content_array_capacity_bridge_state",
+      "source_symbols": [
+        "block_check_content_array_capacity.method",
+        "block_check_content_array_capacity.liquid_resize_expr",
+        "block_check_content_array_capacity.item_resize_expr",
+        "block_check_content_array_capacity.items",
+        "block_check_content_array_capacity.liquids",
+        "block_check_content_array_capacity.item_filter_before",
+        "block_check_content_array_capacity.liquid_filter_before"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block checkContentArrayCapacity filter resize bridge state"
+    },
+    "N1355": {
+      "canonical_ledger": "source_slice_ledger.N1355",
+      "exact_exprs": [
+        "public void load(){",
+        "super.load();",
+        "region = Core.atlas.find(name);",
+        "ContentRegions.loadRegions(this);"
+      ],
+      "generated_owner": "Block.java_method_load_126",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.load() base region loading to source-backed canonical state before team region and variant slices.",
+      "runtime_proof": "/root/Main.generated_block_load_base_regions_bridge_state",
+      "source_symbols": [
+        "block_load_base_regions.method",
+        "block_load_base_regions.super_load_expr",
+        "block_load_base_regions.region_expr",
+        "block_load_base_regions.content_regions_expr",
+        "block_load_base_regions.name"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block load base regions bridge state"
+    },
+    "N1356": {
+      "canonical_ledger": "source_slice_ledger.N1356",
+      "exact_exprs": [
+        "public void load(){",
+        "//load specific team regions",
+        "teamRegions = new TextureRegion[Team.all.length];",
+        "for(Team team : Team.all){",
+        "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;"
+      ],
+      "generated_owner": "Block.java_method_load_126",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.load() teamRegions allocation and Team.all loop to source-backed canonical state before variant slices.",
+      "runtime_proof": "/root/Main.generated_block_load_team_regions_bridge_state",
+      "source_symbols": [
+        "block_load_team_regions.method",
+        "block_load_team_regions.comment",
+        "block_load_team_regions.team_regions_expr",
+        "block_load_team_regions.team_loop_expr",
+        "block_load_team_regions.team_assignment_expr",
+        "block_load_team_regions.name",
+        "block_load_team_regions.team_region_found",
+        "block_load_team_regions.team_region",
+        "block_load_team_regions.teams"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block load team regions bridge state"
+    },
+    "N1357": {
+      "canonical_ledger": "source_slice_ledger.N1357",
+      "exact_exprs": [
+        "public void load(){",
+        "if(variants != 0){",
+        "variantRegions = new TextureRegion[variants];",
+        "for(int i = 0; i < variants; i++){",
+        "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+        "region = variantRegions[0];"
+      ],
+      "generated_owner": "Block.java_method_load_126",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.load() variantRegions allocation, atlas lookup loop, and first variant region assignment to source-backed canonical state before customShadow slice.",
+      "runtime_proof": "/root/Main.generated_block_load_variant_regions_bridge_state",
+      "source_symbols": [
+        "block_load_variant_regions.method",
+        "block_load_variant_regions.variants_guard_expr",
+        "block_load_variant_regions.variant_regions_expr",
+        "block_load_variant_regions.variant_loop_expr",
+        "block_load_variant_regions.variant_assignment_expr",
+        "block_load_variant_regions.region_assignment_expr",
+        "block_load_variant_regions.name",
+        "block_load_variant_regions.variants"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block load variant regions bridge state"
+    },
+    "N1358": {
+      "canonical_ledger": "source_slice_ledger.N1358",
+      "exact_exprs": [
+        "public void load(){",
+        "if(variants != 0){",
+        "if(customShadow){",
+        "variantShadowRegions = new TextureRegion[variants];",
+        "for(int i = 0; i < variants; i++){",
+        "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));"
+      ],
+      "generated_owner": "Block.java_method_load_126",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.load() customShadow variantShadowRegions allocation and atlas lookup loop to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_load_variant_shadow_regions_bridge_state",
+      "source_symbols": [
+        "block_load_variant_shadow_regions.method",
+        "block_load_variant_shadow_regions.variants_guard_expr",
+        "block_load_variant_shadow_regions.custom_shadow_guard_expr",
+        "block_load_variant_shadow_regions.variant_shadow_regions_expr",
+        "block_load_variant_shadow_regions.variant_shadow_loop_expr",
+        "block_load_variant_shadow_regions.variant_shadow_assignment_expr",
+        "block_load_variant_shadow_regions.name",
+        "block_load_variant_shadow_regions.variants",
+        "block_load_variant_shadow_regions.custom_shadow"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block load variant shadow regions bridge state"
+    },
+    "N1359": {
+      "canonical_ledger": "source_slice_ledger.N1359",
+      "exact_exprs": [
+        "@Override",
+        "public boolean isHidden(){",
+        "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);"
+      ],
+      "generated_owner": "Block.java_method_isHidden_127",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "java_class": "Block",
+      "java_method": "Block.isHidden()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.isHidden() visibility and revealedBlocks rule to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_is_hidden_bridge_state",
+      "source_symbols": [
+        "block_is_hidden.override_expr",
+        "block_is_hidden.method",
+        "block_is_hidden.return_expr",
+        "block_is_hidden.build_visibility_visible",
+        "block_is_hidden.revealed_blocks_contains_self"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isHidden bridge state"
+    },
+    "N1360": {
+      "canonical_ledger": "source_slice_ledger.N1360",
+      "exact_exprs": [
+        "public int planRotation(int rot){",
+        "return !rotate && lockRotation ? 0 : rot;"
+      ],
+      "generated_owner": "Block.java_method_planRotation_129",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "java_class": "Block",
+      "java_method": "Block.planRotation(int rot)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.planRotation(int rot) rotate and lockRotation rule to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_plan_rotation_bridge_state",
+      "source_symbols": [
+        "block_plan_rotation.method",
+        "block_plan_rotation.return_expr",
+        "block_plan_rotation.rotate",
+        "block_plan_rotation.lock_rotation",
+        "block_plan_rotation.rot"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block planRotation bridge state"
+    },
+    "N1361": {
+      "canonical_ledger": "source_slice_ledger.N1361",
+      "exact_exprs": [
+        "public void flipRotation(BuildPlan req, boolean x){",
+        "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+        "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"
+      ],
+      "generated_owner": "Block.java_method_flipRotation_130",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "java_class": "Block",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.flipRotation(BuildPlan req, boolean x) guard and rotation mutation to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_flip_rotation_bridge_state",
+      "source_symbols": [
+        "block_flip_rotation.method",
+        "block_flip_rotation.guard_expr",
+        "block_flip_rotation.assignment_expr",
+        "block_flip_rotation.rotation_before",
+        "block_flip_rotation.x",
+        "block_flip_rotation.invert_flip",
+        "block_flip_rotation.rotate",
+        "block_flip_rotation.lock_rotation",
+        "block_flip_rotation.mathf_mod_call",
+        "block_flip_rotation.plan_rotation_call"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block flipRotation bridge state"
+    },
+    "N1362": {
+      "canonical_ledger": "source_slice_ledger.N1362",
+      "exact_exprs": [
+        "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+        "public void getPlanConfigs(Seq<UnlockableContent> options){",
+        "if(configurations.containsKey(Item.class)){",
+        "options.add(content.items());",
+        "if(configurations.containsKey(Liquid.class)){",
+        "options.add(content.liquids());"
+      ],
+      "generated_owner": "Block.java_method_getPlanConfigs_131",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "java_class": "Block",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.getPlanConfigs option appends to source-backed canonical state.",
+      "runtime_proof": "/root/Main.generated_block_get_plan_configs_bridge_state",
+      "source_symbols": [
+        "block_get_plan_configs.comment",
+        "block_get_plan_configs.method",
+        "block_get_plan_configs.item_guard_expr",
+        "block_get_plan_configs.item_add_expr",
+        "block_get_plan_configs.liquid_guard_expr",
+        "block_get_plan_configs.liquid_add_expr",
+        "block_get_plan_configs.options_before",
+        "block_get_plan_configs.item_configured",
+        "block_get_plan_configs.liquid_configured",
+        "block_get_plan_configs.content_items",
+        "block_get_plan_configs.content_liquids"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getPlanConfigs bridge state"
+    },
+    "N1363": {
+      "canonical_ledger": "source_slice_ledger.N1363",
+      "exact_exprs": [
+        "@Override",
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case color -> mapColor.toDoubleBits();",
+        "case health, maxHealth -> health;",
+        "case solid -> solid ? 1 : 0;",
+        "case size -> size;",
+        "case itemCapacity -> itemCapacity;",
+        "case liquidCapacity -> liquidCapacity;",
+        "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+        "case id -> getLogicId();",
+        "default -> Double.NaN;"
+      ],
+      "generated_owner": "Block.java_method_sense_132",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "java_class": "Block",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Bridge generated Block.sense(LAccess sensor) switch cases to source-backed canonical state; helper return values are explicit inputs.",
+      "runtime_proof": "/root/Main.generated_block_sense_laccess_bridge_state",
+      "source_symbols": [
+        "block_sense_laccess.override_expr",
+        "block_sense_laccess.method",
+        "block_sense_laccess.switch_expr",
+        "block_sense_laccess.color_case",
+        "block_sense_laccess.health_case",
+        "block_sense_laccess.solid_case",
+        "block_sense_laccess.size_case",
+        "block_sense_laccess.item_capacity_case",
+        "block_sense_laccess.liquid_capacity_case",
+        "block_sense_laccess.power_capacity_case",
+        "block_sense_laccess.id_case",
+        "block_sense_laccess.default_expr",
+        "block_sense_laccess.sensor",
+        "block_sense_laccess.map_color_double_bits",
+        "block_sense_laccess.health",
+        "block_sense_laccess.solid",
+        "block_sense_laccess.size",
+        "block_sense_laccess.item_capacity",
+        "block_sense_laccess.liquid_capacity",
+        "block_sense_laccess.has_cons_power",
+        "block_sense_laccess.cons_power_buffered",
+        "block_sense_laccess.cons_power_capacity",
+        "block_sense_laccess.logic_id"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block sense LAccess bridge state"
+    },
+    "N1364": {
+      "canonical_ledger": "source_slice_ledger.N1364",
+      "exact_exprs": [
+        "@Override",
+        "public double sense(Content content){",
+        "if(content instanceof Item item){",
+        "if(state.rules.infiniteResources) return 0;",
+        "for(ItemStack r : requirements){",
+        "if(r.item == item){",
+        "return Math.round(r.amount * state.rules.buildCostMultiplier);",
+        "return 0f;",
+        "return Double.NaN;"
+      ],
+      "generated_owner": "Block.java_method_sense_133",
+      "godot_owner": "PortGame.source_block_sense_content_state",
+      "java_class": "Block",
+      "java_method": "Block.sense(Content content)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_sense_content_bridge_state",
+      "source_symbols": [
+        "block_sense_content.override_expr",
+        "block_sense_content.method",
+        "block_sense_content.item_instanceof_expr",
+        "block_sense_content.infinite_resources_return_expr",
+        "block_sense_content.requirements_loop_expr",
+        "block_sense_content.item_match_guard_expr",
+        "block_sense_content.amount_return_expr",
+        "block_sense_content.missing_item_return_expr",
+        "block_sense_content.invalid_return_expr",
+        "block_sense_content.content_type",
+        "block_sense_content.content_item",
+        "block_sense_content.state_rules_infinite_resources",
+        "block_sense_content.requirements",
+        "block_sense_content.build_cost_multiplier",
+        "block_sense_content.matched_requirement_index",
+        "block_sense_content.matched_requirement",
+        "block_sense_content.matched_amount",
+        "block_sense_content.sense_value",
+        "block_sense_content.sense_value_is_nan"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_sense_content_to_source_state",
+        "test_port_game_exposes_source_block_sense_content_state",
+        "test_port_game_exposes_generated_block_sense_content_bridge_state",
+        "test_block_sense_content_matches_upstream_source",
+        "test_generated_block_sense_content_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block sense Content bridge state"
+    },
+    "N1365": {
+      "canonical_ledger": "source_slice_ledger.N1365",
+      "exact_exprs": [
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "if(sensor == LAccess.name) return name;",
+        "return noSensed;"
+      ],
+      "generated_owner": "Block.java_method_senseObject_134",
+      "godot_owner": "PortGame.source_block_sense_object_state",
+      "java_class": "Block",
+      "java_method": "Block.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_sense_object_bridge_state",
+      "source_symbols": [
+        "block_sense_object.override_expr",
+        "block_sense_object.method",
+        "block_sense_object.name_guard_expr",
+        "block_sense_object.default_return_expr",
+        "block_sense_object.sensor",
+        "block_sense_object.block_name",
+        "block_sense_object.no_sensed",
+        "block_sense_object.sense_object_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_sense_object_to_source_state",
+        "test_port_game_exposes_source_block_sense_object_state",
+        "test_port_game_exposes_generated_block_sense_object_bridge_state",
+        "test_block_sense_object_matches_upstream_source",
+        "test_generated_block_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block senseObject LAccess bridge state"
+    },
+    "N511": {
+      "canonical_ledger": "source_slice_ledger.N511",
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public boolean canReplace(Block other){\n        if(other.alwaysReplace) return true;\n        if(other.privileged) return false;\n        return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));\n    }",
+        "if(other.alwaysReplace) return true;",
+        "if(other.privileged) return false;",
+        "other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this)",
+        "size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace))",
+        "return other.replaceable && (other != this || (rotate && quickRotate)) && ((this.group != BlockGroup.none && other.group == this.group) || other == this) &&\n            (size == other.size || (size >= other.size && ((subclass != null && subclass == other.subclass) || group.anyReplace)));",
+        "other.alwaysReplace",
+        "other.privileged",
+        "other.replaceable",
+        "other == this",
+        "rotate",
+        "quickRotate",
+        "this.group != BlockGroup.none",
+        "other.group == this.group",
+        "size",
+        "other.size",
+        "subclass != null && subclass == other.subclass",
+        "group.anyReplace"
+      ],
+      "godot_owner": "PortGame.source_block_can_replace_state",
+      "java_class": "mindustry.world.Block",
+      "java_method": "canReplace(Block other)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Backfills SSOT for existing canonical source_block_can_replace_state helper against Mindustry Block.canReplace(Block other).",
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "source_symbols": [
+        "block_can_replace.method",
+        "block_can_replace.other_always_replace",
+        "block_can_replace.other_privileged",
+        "block_can_replace.replacement_gate",
+        "block_can_replace.size_gate",
+        "block_can_replace.result",
+        "block_can_replace.other_always_replace_input",
+        "block_can_replace.other_privileged_input",
+        "block_can_replace.other_replaceable_input",
+        "block_can_replace.same_block_input",
+        "block_can_replace.rotate_input",
+        "block_can_replace.quick_rotate_input",
+        "block_can_replace.group_is_none_input",
+        "block_can_replace.same_group_input",
+        "block_can_replace.size_input",
+        "block_can_replace.other_size_input",
+        "block_can_replace.same_subclass_input",
+        "block_can_replace.group_any_replace_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "N512": {
+      "canonical_ledger": "source_slice_ledger.N512",
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public int dumpTime = 5;",
+        "5",
+        "name"
+      ],
+      "godot_owner": "PortGame.source_block_dump_time",
+      "java_class": "mindustry.world.Block",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Backfills SSOT for existing canonical source_block_dump_time helper against Mindustry Block.dumpTime default field.",
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "source_symbols": [
+        "block_dump_time.field",
+        "block_dump_time.default_value",
+        "block_dump_time.block_id_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "N513": {
+      "canonical_ledger": "source_slice_ledger.N513",
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public int health = -1;",
+        "public float scaledHealth = -1;",
+        "if(health == -1)",
+        "if(scaledHealth < 0)",
+        "scaledHealth = 40;",
+        "scaledHealth *= scaling;",
+        "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        "name"
+      ],
+      "godot_owner": "PortGame.source_block_health",
+      "java_class": "mindustry.world.Block",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Backfills SSOT for existing canonical source_block_health helper against Mindustry Block health fields and init health formula.",
+      "runtime_proof": "/root/Main.source_block_health",
+      "source_symbols": [
+        "block_health.field",
+        "block_health.scaled_health_field",
+        "block_health.default_scaled_health",
+        "block_health.computed_health",
+        "block_health.block_id_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "N516": {
+      "canonical_ledger": "source_slice_ledger.N516",
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public int itemCapacity = 10;",
+        "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
+        "if(sensor == LAccess.itemCapacity) return storageCapacity;",
+        "name"
+      ],
+      "godot_owner": "PortGame.source_block_item_capacity",
+      "java_class": "mindustry.world.Block",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Backfills SSOT for existing canonical source_block_item_capacity helper against Mindustry Block itemCapacity and itemCapacity sense paths.",
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "source_symbols": [
+        "block_item_capacity.field",
+        "block_item_capacity.building_sense",
+        "block_item_capacity.core_sense",
+        "block_item_capacity.block_id_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ]
+    }
+  }
+}

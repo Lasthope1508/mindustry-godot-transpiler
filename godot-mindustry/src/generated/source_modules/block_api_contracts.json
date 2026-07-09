@@ -1,0 +1,4347 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_block_can_be_built_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_can_be_built_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "build_visibility_value",
+          "schema": "source_block_can_be_built_input.buildVisibility",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "buildVisibility",
+        "hidden_constant",
+        "debug_only_constant",
+        "can_be_built"
+      ],
+      "rule": "Public runtime contract for Block.canBeBuilt() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_method": "Block.canBeBuilt()",
+      "source_slice": "N1286",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_can_break_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_can_break_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "tile",
+          "schema": "source_block_can_break_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "tile",
+        "can_break"
+      ],
+      "rule": "Public runtime contract for Block.canBreak(Tile tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_method": "Block.canBreak(Tile tile)",
+      "source_slice": "N1275",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_can_place_on_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_can_place_on_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Tile tile",
+          "name": "tile",
+          "schema": "source_block_can_place_on_input.tile",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "Team team",
+          "name": "team",
+          "schema": "source_block_can_place_on_input.team",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "int rotation",
+          "name": "rotation",
+          "schema": "source_block_can_place_on_input.rotation",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "tile",
+        "team",
+        "rotation",
+        "can_place"
+      ],
+      "rule": "Public runtime contract for default Block.canPlaceOn source-backed true return.",
+      "runtime_proof": "/root/Main.source_block_can_place_on_state",
+      "source_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+      "source_slice": "N1274",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_place_on_to_source_state",
+        "test_port_game_exposes_source_block_can_place_on_state",
+        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
+        "test_block_can_place_on_matches_upstream_source",
+        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_can_replace_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_can_replace_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "existing_always_replace",
+          "schema": "source_block_can_replace_input.otherAlwaysReplace",
+          "type": "bool"
+        },
+        {
+          "name": "existing_privileged",
+          "schema": "source_block_can_replace_input.otherPrivileged",
+          "type": "bool"
+        },
+        {
+          "name": "existing_replaceable",
+          "schema": "source_block_can_replace_input.otherReplaceable",
+          "type": "bool"
+        },
+        {
+          "name": "same_block",
+          "schema": "source_block_can_replace_input.sameBlock",
+          "type": "bool"
+        },
+        {
+          "name": "new_rotate",
+          "schema": "source_block_can_replace_input.rotate",
+          "type": "bool"
+        },
+        {
+          "name": "new_quick_rotate",
+          "schema": "source_block_can_replace_input.quickRotate",
+          "type": "bool"
+        },
+        {
+          "name": "new_group_is_none",
+          "schema": "source_block_can_replace_input.groupIsNone",
+          "type": "bool"
+        },
+        {
+          "name": "same_group",
+          "schema": "source_block_can_replace_input.sameGroup",
+          "type": "bool"
+        },
+        {
+          "name": "new_size",
+          "schema": "source_block_can_replace_input.size",
+          "type": "int"
+        },
+        {
+          "name": "existing_size",
+          "schema": "source_block_can_replace_input.otherSize",
+          "type": "int"
+        },
+        {
+          "name": "same_subclass",
+          "schema": "source_block_can_replace_input.sameSubclass",
+          "type": "bool"
+        },
+        {
+          "name": "group_any_replace",
+          "schema": "source_block_can_replace_input.groupAnyReplace",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "otherAlwaysReplace",
+        "otherPrivileged",
+        "replacementGate",
+        "sizeGate",
+        "canReplace"
+      ],
+      "rule": "Public runtime contract for Mindustry Block.canReplace(Block other) helper.",
+      "runtime_proof": "/root/Main.source_block_can_replace_state",
+      "source_method": "canReplace(Block other)",
+      "source_slice": "N511",
+      "status": "active",
+      "tests": [
+        "test_block_can_replace_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_check_content_array_capacity_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_check_content_array_capacity_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "itemFilter",
+          "name": "item_filter",
+          "schema": "source_block_check_content_array_capacity_input.item_filter",
+          "type": "Array"
+        },
+        {
+          "java_expr": "liquidFilter",
+          "name": "liquid_filter",
+          "schema": "source_block_check_content_array_capacity_input.liquid_filter",
+          "type": "Array"
+        },
+        {
+          "java_expr": "items",
+          "name": "items",
+          "schema": "source_block_check_content_array_capacity_input.items",
+          "type": "int"
+        },
+        {
+          "java_expr": "liquids",
+          "name": "liquids",
+          "schema": "source_block_check_content_array_capacity_input.liquids",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "liquid_resize_expr",
+        "item_resize_expr",
+        "item_filter_before",
+        "liquid_filter_before",
+        "items",
+        "liquids",
+        "item_filter_after",
+        "liquid_filter_after"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize.",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "source_method": "Block.checkContentArrayCapacity(int,int)",
+      "source_slice": "N1354",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_check_force_dark_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_check_force_dark_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "force_dark_value",
+          "schema": "source_block_check_force_dark_input.forceDark",
+          "type": "bool"
+        },
+        {
+          "name": "tile",
+          "schema": "source_block_check_force_dark_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "force_dark",
+        "tile",
+        "check_force_dark"
+      ],
+      "rule": "Public runtime contract for Block.checkForceDark(Tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_method": "Block.checkForceDark(Tile tile)",
+      "source_slice": "N1279",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_coolant_filtered_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_coolant_filtered_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float amount",
+          "name": "amount",
+          "schema": "source_block_consume_coolant_filtered_input.amount",
+          "type": "float"
+        },
+        {
+          "java_expr": "boolean allowLiquid",
+          "name": "allow_liquid",
+          "schema": "source_block_consume_coolant_filtered_input.allow_liquid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "boolean allowGas",
+          "name": "allow_gas",
+          "schema": "source_block_consume_coolant_filtered_input.allow_gas",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "amount",
+        "allowLiquid",
+        "allowGas",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeCoolant(float,boolean,boolean) bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "source_slice": "N1302",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_coolant_single_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_coolant_single_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float amount",
+          "name": "amount",
+          "schema": "source_block_consume_coolant_single_input.amount",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "amount",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeCoolant(float) bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_single_state",
+      "source_method": "Block.consumeCoolant(float)",
+      "source_slice": "N1301",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_single_state",
+        "test_port_game_exposes_generated_block_consume_coolant_single_bridge_state",
+        "test_block_consume_coolant_single_matches_upstream_source",
+        "test_generated_block_consume_coolant_single_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_generic_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_generic_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "T consume",
+          "name": "consume",
+          "schema": "source_block_consume_generic_input.consume",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "consume instanceof ConsumePower",
+          "name": "consume_is_power",
+          "schema": "source_block_consume_generic_input.consume_is_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder_before",
+          "schema": "source_block_consume_generic_input.consume_builder_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "name": "consume_builder_without_power",
+          "schema": "source_block_consume_generic_input.consume_builder_without_power",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consPower",
+          "name": "cons_power_before",
+          "schema": "source_block_consume_generic_input.cons_power_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "power_guard_expr",
+        "comment",
+        "remove_power_expr",
+        "cons_power_expr",
+        "add_expr",
+        "return_expr",
+        "consume",
+        "consume_is_power",
+        "consume_builder_before",
+        "consume_builder_without_power",
+        "consume_builder_after",
+        "cons_power_before",
+        "cons_power_after",
+        "remove_power_called",
+        "add_called",
+        "returned_consume"
+      ],
+      "rule": "Pin source-backed Block.consume(T) state transition inputs and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_generic_state",
+      "source_method": "Block.consume(T)",
+      "source_slice": "N1303",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_generic_to_source_state",
+        "test_port_game_exposes_source_block_consume_generic_state",
+        "test_port_game_exposes_generated_block_consume_generic_bridge_state",
+        "test_block_consume_generic_matches_upstream_source",
+        "test_generated_block_consume_generic_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_item_amount_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_item_amount_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Item item",
+          "name": "item",
+          "schema": "source_block_consume_item_amount_input.item",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "int amount",
+          "name": "amount",
+          "schema": "source_block_consume_item_amount_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "item_stack_expr",
+        "item_stack_array_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "item",
+        "amount",
+        "item_stack",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeItem(Item,int) bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_method": "Block.consumeItem(Item,int)",
+      "source_slice": "N1299",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_item_single_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_item_single_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Item item",
+          "name": "item",
+          "schema": "source_block_consume_item_single_input.item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "delegate_call_expr",
+        "item",
+        "amount",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.consumeItem(Item) bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_item_single_state",
+      "source_method": "Block.consumeItem(Item)",
+      "source_slice": "N1298",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_item_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_single_state",
+        "test_port_game_exposes_generated_block_consume_item_single_bridge_state",
+        "test_block_consume_item_single_matches_upstream_source",
+        "test_generated_block_consume_item_single_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_items_varargs_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_items_varargs_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "ItemStack... items",
+          "name": "items",
+          "schema": "source_block_consume_items_varargs_input.items",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "items",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeItems(ItemStack...) bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_method": "Block.consumeItems(ItemStack...)",
+      "source_slice": "N1300",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_liquid_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_liquid_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "liquid",
+          "schema": "source_block_consume_liquid_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_block_consume_liquid_input.amount",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "liquid",
+        "amount",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeLiquid bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_method": "Block.consumeLiquid(Liquid,float)",
+      "source_slice": "N1291",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_liquids_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_liquids_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "stacks",
+          "schema": "source_block_consume_liquids_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "stacks",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeLiquids bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_liquids_state",
+      "source_method": "Block.consumeLiquids(LiquidStack...)",
+      "source_slice": "N1292",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_liquids_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquids_state",
+        "test_port_game_exposes_generated_block_consume_liquids_bridge_state",
+        "test_block_consume_liquids_matches_upstream_source",
+        "test_generated_block_consume_liquids_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_power_buffered_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_power_buffered_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float powerCapacity",
+          "name": "power_capacity",
+          "schema": "source_block_consume_power_buffered_input.power_capacity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "param",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "powerCapacity",
+        "powerPerTick",
+        "buffered",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerBuffered bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_buffered_state",
+      "source_method": "Block.consumePowerBuffered(float)",
+      "source_slice": "N1297",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_buffered_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_buffered_state",
+        "test_port_game_exposes_generated_block_consume_power_buffered_bridge_state",
+        "test_block_consume_power_buffered_matches_upstream_source",
+        "test_generated_block_consume_power_buffered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_power_cond_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_power_cond_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float usage",
+          "name": "usage",
+          "schema": "source_block_consume_power_cond_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "Boolf<T> cons",
+          "name": "cons",
+          "schema": "source_block_consume_power_cond_input.cons",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "condition_cast_expr",
+        "consume_call_expr",
+        "usage",
+        "condition",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerCond bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_cond_state",
+      "source_method": "Block.consumePowerCond(float,Boolf)",
+      "source_slice": "N1294",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_cond_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_cond_state",
+        "test_port_game_exposes_generated_block_consume_power_cond_bridge_state",
+        "test_block_consume_power_cond_matches_upstream_source",
+        "test_generated_block_consume_power_cond_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_power_dynamic_displayed_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_power_dynamic_displayed_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float displayed",
+          "name": "displayed",
+          "schema": "source_block_consume_power_dynamic_displayed_input.displayed",
+          "type": "float"
+        },
+        {
+          "java_expr": "Floatf<T> usage",
+          "name": "usage",
+          "schema": "source_block_consume_power_dynamic_displayed_input.usage",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "usage_cast_expr",
+        "consume_call_expr",
+        "displayed",
+        "usage",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerDynamic(float,Floatf) bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_method": "Block.consumePowerDynamic(float,Floatf)",
+      "source_slice": "N1296",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_power_dynamic_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_power_dynamic_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Floatf<T> usage",
+          "name": "usage",
+          "schema": "source_block_consume_power_dynamic_input.usage",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "usage_cast_expr",
+        "consume_call_expr",
+        "usage",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerDynamic bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_state",
+      "source_method": "Block.consumePowerDynamic(Floatf)",
+      "source_slice": "N1295",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_bridge_state",
+        "test_block_consume_power_dynamic_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consume_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consume_power_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "power_per_tick",
+          "schema": "source_block_consume_power_input.power_per_tick",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "param",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "powerPerTick",
+        "capacity",
+        "buffered",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePower bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_method": "Block.consumePower(float)",
+      "source_slice": "N1293",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consumes_item_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consumes_item_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "item_filter",
+          "schema": "source_block_consumes_item_input.itemFilter",
+          "type": "Array"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_block_consumes_item_input.item_id",
+          "type": "int"
+        },
+        {
+          "name": "item",
+          "schema": "source_block_consumes_item_input.item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "itemFilter",
+        "item_id",
+        "item",
+        "consumes_item"
+      ],
+      "rule": "Public runtime contract for Block.consumesItem(Item) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_method": "Block.consumesItem(Item item)",
+      "source_slice": "N1281",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_consumes_liquid_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_consumes_liquid_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "liquid_filter",
+          "schema": "source_block_consumes_liquid_input.liquidFilter",
+          "type": "Array"
+        },
+        {
+          "name": "liquid_id",
+          "schema": "source_block_consumes_liquid_input.liq_id",
+          "type": "int"
+        },
+        {
+          "name": "liq",
+          "schema": "source_block_consumes_liquid_input.liq",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "liquidFilter",
+        "liq_id",
+        "liq",
+        "consumes_liquid"
+      ],
+      "rule": "Public runtime contract for Block.consumesLiquid(Liquid) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_method": "Block.consumesLiquid(Liquid liq)",
+      "source_slice": "N1282",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_dump_time": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_dump_time",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_block_dump_time_input.blockId",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "dumpTime",
+        "defaultDumpTime",
+        "blockId"
+      ],
+      "rule": "Public runtime contract for Mindustry Block.dumpTime helper.",
+      "runtime_proof": "/root/Main.source_block_dump_time",
+      "source_method": "field declaration",
+      "source_slice": "N512",
+      "status": "active",
+      "tests": [
+        "test_block_dump_time_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_flip_rotation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_flip_rotation_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "req.rotation",
+          "name": "rotation_before",
+          "schema": "source_block_flip_rotation_input.rotation_before",
+          "type": "int"
+        },
+        {
+          "java_expr": "boolean x",
+          "name": "x_value",
+          "schema": "source_block_flip_rotation_input.x",
+          "type": "bool"
+        },
+        {
+          "java_expr": "invertFlip",
+          "name": "invert_flip",
+          "schema": "source_block_flip_rotation_input.invertFlip",
+          "type": "bool"
+        },
+        {
+          "java_expr": "rotate",
+          "name": "rotate_value",
+          "schema": "source_block_flip_rotation_input.rotate",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lockRotation",
+          "name": "lock_rotation",
+          "schema": "source_block_flip_rotation_input.lockRotation",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "guard_expr",
+        "assignment_expr",
+        "rotation_before",
+        "x",
+        "invertFlip",
+        "rotate",
+        "lockRotation",
+        "rotation_even",
+        "flip_guard",
+        "mod_input",
+        "mod_value",
+        "plan_rotation_state",
+        "rotation_after"
+      ],
+      "rule": "Public runtime contract for Block.flipRotation(BuildPlan req, boolean x) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "source_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "source_slice": "N1361",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_get_content_type_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_get_content_type_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "content_type_return_expr",
+        "content_type"
+      ],
+      "rule": "Pin source-backed Block.getContentType() fixed block content type return.",
+      "runtime_proof": "/root/Main.source_block_get_content_type_state",
+      "source_method": "Block.getContentType()",
+      "source_slice": "N1319",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_content_type_to_source_state",
+        "test_port_game_exposes_source_block_get_content_type_state",
+        "test_port_game_exposes_generated_block_get_content_type_bridge_state",
+        "test_block_get_content_type_matches_upstream_source",
+        "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_get_dependencies_consume_builder_optional_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_consume_builder_optional_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_get_dependencies_consume_builder_optional_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "inputs_comment",
+        "consume_builder_loop_expr",
+        "optional_guard_expr",
+        "requirements",
+        "dependency_items",
+        "consume_builder",
+        "consume_loop_indices",
+        "skipped_optional_indices",
+        "non_optional_indices"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() consumeBuilder loop and optional skip guard before ConsumeItems branch.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1317",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_get_dependencies_consume_items_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_get_dependencies_consume_items_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_consume_items_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_get_dependencies_consume_items_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "consume_items_guard_expr",
+        "consume_items_loop_expr",
+        "consume_items_cons_get_item_expr",
+        "requirements",
+        "dependency_items",
+        "consume_builder",
+        "consume_loop_indices",
+        "skipped_optional_indices",
+        "non_optional_indices",
+        "consume_items_indices",
+        "consume_item_dependency_items"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() ConsumeItems dependency branch after optional consumes are skipped.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1318",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_get_dependencies_requirements_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_get_dependencies_requirements_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_requirements_input.requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "requirements_comment",
+        "requirements_loop_expr",
+        "cons_get_item_expr",
+        "requirements",
+        "dependency_items"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() requirement item dependency loop before consumeBuilder branch.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1316",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_get_plan_configs_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_get_plan_configs_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Seq<UnlockableContent> options",
+          "name": "options_before",
+          "schema": "source_block_get_plan_configs_input.options_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "configurations.containsKey(Item.class)",
+          "name": "item_configured",
+          "schema": "source_block_get_plan_configs_input.item_configured",
+          "type": "bool"
+        },
+        {
+          "java_expr": "configurations.containsKey(Liquid.class)",
+          "name": "liquid_configured",
+          "schema": "source_block_get_plan_configs_input.liquid_configured",
+          "type": "bool"
+        },
+        {
+          "java_expr": "content.items()",
+          "name": "content_items",
+          "schema": "source_block_get_plan_configs_input.content_items",
+          "type": "Array"
+        },
+        {
+          "java_expr": "content.liquids()",
+          "name": "content_liquids",
+          "schema": "source_block_get_plan_configs_input.content_liquids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "item_guard_expr",
+        "item_add_expr",
+        "liquid_guard_expr",
+        "liquid_add_expr",
+        "options_before",
+        "item_configured",
+        "liquid_configured",
+        "content_items",
+        "content_liquids",
+        "item_options_added",
+        "liquid_options_added",
+        "options_after"
+      ],
+      "rule": "Public runtime contract for Block.getPlanConfigs generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "source_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "source_slice": "N1362",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_has_building_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_has_building_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "destructible_value",
+          "schema": "source_block_has_building_input.destructible",
+          "type": "bool"
+        },
+        {
+          "name": "update_value",
+          "schema": "source_block_has_building_input.update",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "destructible",
+        "update",
+        "has_building"
+      ],
+      "rule": "Public runtime contract for Block.hasBuilding() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_method": "Block.hasBuilding()",
+      "source_slice": "N1283",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_has_consumer_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_has_consumer_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "consume_builder_contains",
+          "schema": "source_block_has_consumer_input.consumeBuilder_contains",
+          "type": "bool"
+        },
+        {
+          "name": "cons",
+          "schema": "source_block_has_consumer_input.cons",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "consumeBuilder_contains",
+        "cons",
+        "has_consumer"
+      ],
+      "rule": "Public runtime contract for Block.hasConsumer(Consume) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_method": "Block.hasConsumer(Consume)",
+      "source_slice": "N1288",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_health": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_health",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_block_health_input.blockId",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "declaredHealth",
+        "scaledHealth",
+        "defaultScaledHealth",
+        "health",
+        "blockId"
+      ],
+      "rule": "Public runtime contract for Mindustry Block health helper.",
+      "runtime_proof": "/root/Main.source_block_health",
+      "source_method": "init()",
+      "source_slice": "N513",
+      "status": "active",
+      "tests": [
+        "test_block_health_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_accepts_items_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_accepts_items_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "group",
+          "name": "block_group",
+          "schema": "source_block_init_accepts_items_input.block_group",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "category",
+          "name": "category_value",
+          "schema": "source_block_init_accepts_items_input.category_value",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "acceptsItems",
+          "name": "accepts_items_before",
+          "schema": "source_block_init_accepts_items_input.accepts_items_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "accepts_items_guard_expr",
+        "accepts_items_assign_expr",
+        "block_group",
+        "category",
+        "accepts_items_before",
+        "accepts_items_gate",
+        "accepts_items_after"
+      ],
+      "rule": "Pin source-backed Block.init() acceptsItems transportation/distribution branch.",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1337",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_break_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_break_sound_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "breakSound",
+          "name": "break_sound_before",
+          "schema": "source_block_init_break_sound_input.break_sound_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_break_sound_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "break_sound_guard_expr",
+        "break_sound_assign_expr",
+        "break_sound_size_3_expr",
+        "break_sound_size_2_expr",
+        "break_sound_size_1_expr",
+        "break_sound_before",
+        "size",
+        "break_sound_after",
+        "break_sound_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() breakSound default assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1325",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_buffered_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_buffered_power_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "outputsPower",
+          "name": "outputs_power",
+          "schema": "source_block_init_buffered_power_input.outputs_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consPower != null",
+          "name": "has_cons_power",
+          "schema": "source_block_init_buffered_power_input.has_cons_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consPower.buffered",
+          "name": "cons_power_buffered_before",
+          "schema": "source_block_init_buffered_power_input.cons_power_buffered_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_power_source",
+        "method",
+        "super_init_expr",
+        "outputs_power_field_expr",
+        "cons_power_field_expr",
+        "consume_power_buffered_field_expr",
+        "buffered_power_guard_expr",
+        "buffered_power_warn_expr",
+        "buffered_power_disable_expr",
+        "outputs_power",
+        "has_cons_power",
+        "cons_power_buffered_before",
+        "buffered_power_disabled",
+        "cons_power_buffered_after"
+      ],
+      "rule": "Pin source-backed Block.init() buffered power guard and consPower.buffered disable assignment.",
+      "runtime_proof": "/root/Main.source_block_init_buffered_power_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1348",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_buffered_power_to_source_state",
+        "test_port_game_exposes_source_block_init_buffered_power_state",
+        "test_port_game_exposes_generated_block_init_buffered_power_bridge_state",
+        "test_block_init_buffered_power_matches_upstream_source",
+        "test_generated_block_init_buffered_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_build_time_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_build_time_default_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildTime",
+          "name": "build_time_before",
+          "schema": "source_block_init_build_time_default_input.build_time_before",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "build_time_guard_expr",
+        "build_time_default_expr",
+        "build_time_before",
+        "build_time_assigned",
+        "build_time_after"
+      ],
+      "rule": "Pin source-backed Block.init() buildTime default branch.",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1340",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_build_time_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_build_time_multiplier_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildTime",
+          "name": "build_time_before",
+          "schema": "source_block_init_build_time_multiplier_input.build_time_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "buildCostMultiplier",
+          "name": "build_cost_multiplier",
+          "schema": "source_block_init_build_time_multiplier_input.build_cost_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "build_cost_multiplier_field_expr",
+        "build_time_multiplier_expr",
+        "build_time_before",
+        "build_cost_multiplier",
+        "build_time_after"
+      ],
+      "rule": "Pin source-backed Block.init() buildTime multiplier branch.",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1341",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_build_time_requirements_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_build_time_requirements_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildTime",
+          "name": "build_time_before",
+          "schema": "source_block_init_build_time_requirements_input.build_time_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirement_stacks",
+          "schema": "source_block_init_build_time_requirements_input.requirement_stacks",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "item_source",
+        "item_stack_source",
+        "method",
+        "super_init_expr",
+        "build_time_guard_expr",
+        "build_time_zero_expr",
+        "requirements_loop_expr",
+        "build_time_add_expr",
+        "item_cost_field_expr",
+        "itemstack_amount_field_expr",
+        "build_time_before",
+        "requirement_stacks",
+        "requirements_length",
+        "build_time_assigned",
+        "build_time_after"
+      ],
+      "rule": "Pin source-backed Block.init() buildTime requirements summation branch.",
+      "runtime_proof": "/root/Main.source_block_init_build_time_requirements_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1339",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_requirements_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_requirements_state",
+        "test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state",
+        "test_block_init_build_time_requirements_matches_upstream_source",
+        "test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_building_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_building_default_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildType",
+          "name": "build_type_before",
+          "schema": "source_block_init_building_default_input.build_type_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "default_guard_expr",
+        "default_comment",
+        "default_assignment_expr",
+        "build_type_before",
+        "build_type_after",
+        "default_assigned"
+      ],
+      "rule": "Pin source-backed Block.initBuilding() default buildType fallback state.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_method": "Block.initBuilding()",
+      "source_slice": "N1309",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_clip_size_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_clip_size_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "clipSize",
+          "name": "clip_size_before",
+          "schema": "source_block_init_clip_size_input.clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_clip_size_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "tilesize",
+          "name": "source_tilesize",
+          "schema": "source_block_init_clip_size_input.source_tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "vars_source",
+        "method",
+        "super_init_expr",
+        "clip_size_expr",
+        "tilesize_comment",
+        "tilesize_field_expr",
+        "clip_size_before",
+        "size",
+        "source_tilesize",
+        "size_tilesize",
+        "clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() clipSize clamp.",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1332",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_consumer_apply_loop_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_consumer_apply_loop_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "consumers",
+          "name": "consumers",
+          "schema": "source_block_init_consumer_apply_loop_input.consumers",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "super_init_expr",
+        "consumers_loop_expr",
+        "consume_apply_expr",
+        "consume_apply_method_expr",
+        "consumers",
+        "apply_calls",
+        "apply_call_count"
+      ],
+      "rule": "Pin source-backed Block.init() consumer apply loop call plan.",
+      "runtime_proof": "/root/Main.source_block_init_consumer_apply_loop_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1344",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_apply_loop_state",
+        "test_port_game_exposes_generated_block_init_consumer_apply_loop_bridge_state",
+        "test_block_init_consumer_apply_loop_matches_upstream_source",
+        "test_generated_block_init_consumer_apply_loop_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_consumer_arrays_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_consumer_arrays_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_init_consumer_arrays_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "super_init_expr",
+        "consumers_expr",
+        "optional_consumers_expr",
+        "non_optional_consumers_expr",
+        "update_consumers_expr",
+        "has_consumers_expr",
+        "consume_optional_field_expr",
+        "consume_update_field_expr",
+        "consume_ignore_method_expr",
+        "consume_builder",
+        "consumers",
+        "optional_consumers",
+        "non_optional_consumers",
+        "update_consumers",
+        "has_consumers"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup.",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1342",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_custom_shadow_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_custom_shadow_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "customShadow",
+          "name": "custom_shadow",
+          "schema": "source_block_init_custom_shadow_input.custom_shadow",
+          "type": "bool"
+        },
+        {
+          "java_expr": "hasShadow",
+          "name": "has_shadow_before",
+          "schema": "source_block_init_custom_shadow_input.has_shadow_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "custom_shadow_comment",
+        "custom_shadow_guard_expr",
+        "has_shadow_assign_expr",
+        "custom_shadow",
+        "has_shadow_before",
+        "has_shadow_after",
+        "has_shadow_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() customShadow standard shadow suppression branch.",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1326",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_destroy_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_destroy_sound_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "destroySound",
+          "name": "destroy_sound_before",
+          "schema": "source_block_init_destroy_sound_input.destroy_sound_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_destroy_sound_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "destroy_sound_guard_expr",
+        "destroy_sound_assign_expr",
+        "destroy_sound_size_3_expr",
+        "destroy_sound_size_2_expr",
+        "destroy_sound_size_1_expr",
+        "destroy_sound_before",
+        "size",
+        "destroy_sound_after",
+        "destroy_sound_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() destroySound default assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1323",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_emit_light_radius_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_emit_light_radius_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "emitLight",
+          "name": "emit_light",
+          "schema": "source_block_init_emit_light_radius_input.emit_light",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_emit_light_radius_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "lightRadius",
+          "name": "light_radius",
+          "schema": "source_block_init_emit_light_radius_input.light_radius",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "emit_light_guard_expr",
+        "light_clip_size_expr",
+        "emit_light",
+        "light_clip_size_before",
+        "light_radius",
+        "light_radius_clip_size",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() emitLight lightRadius clamp.",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1336",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_fog_radius_flag_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_fog_radius_flag_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "fogRadius",
+          "name": "fog_radius",
+          "schema": "source_block_init_fog_radius_flag_input.fog_radius",
+          "type": "int"
+        },
+        {
+          "java_expr": "flags",
+          "name": "flags_before",
+          "schema": "source_block_init_fog_radius_flag_input.flags_before",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "fog_radius_guard_expr",
+        "flags_assign_expr",
+        "block_flag_has_fog_radius_expr",
+        "fog_radius",
+        "flags_before",
+        "flags_after",
+        "has_fog_radius_flag_added"
+      ],
+      "rule": "Pin source-backed Block.init() fogRadius flag assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_fog_radius_flag_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1328",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_fog_radius_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_fog_radius_flag_state",
+        "test_port_game_exposes_generated_block_init_fog_radius_flag_bridge_state",
+        "test_block_init_fog_radius_flag_matches_upstream_source",
+        "test_generated_block_init_fog_radius_flag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_health_requirements_scaling_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_health_requirements_scaling_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "health",
+          "name": "health_before",
+          "schema": "source_block_init_health_requirements_scaling_input.health_before",
+          "type": "int"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_health_requirements_scaling_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "scaledHealth",
+          "name": "scaled_health_before",
+          "schema": "source_block_init_health_requirements_scaling_input.scaled_health_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirement_health_scalings",
+          "schema": "source_block_init_health_requirements_scaling_input.requirement_health_scalings",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "item_source",
+        "arc_mathf_source",
+        "method",
+        "super_init_expr",
+        "health_comment",
+        "health_guard_expr",
+        "scaled_health_negative_guard_expr",
+        "scaled_health_default_expr",
+        "scaling_init_expr",
+        "requirements_loop_expr",
+        "health_scaling_add_expr",
+        "item_health_scaling_field_expr",
+        "scaled_health_multiply_expr",
+        "round_true_expr",
+        "mathf_round_expr",
+        "mathf_round_step_expr",
+        "health_before",
+        "size",
+        "scaled_health_before",
+        "requirement_health_scalings",
+        "scaling",
+        "scaled_health_after",
+        "round",
+        "health_after",
+        "health_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() negative scaledHealth requirements scaling branch.",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1331",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_health_scaled_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_health_scaled_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "health",
+          "name": "health_before",
+          "schema": "source_block_init_health_scaled_input.health_before",
+          "type": "int"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_health_scaled_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "scaledHealth",
+          "name": "scaled_health",
+          "schema": "source_block_init_health_scaled_input.scaled_health",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "health_comment",
+        "health_guard_expr",
+        "round_init_expr",
+        "scaled_health_negative_guard_expr",
+        "health_assign_expr",
+        "int_cast_expr",
+        "health_before",
+        "size",
+        "scaled_health",
+        "round",
+        "health_after",
+        "health_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() non-negative scaledHealth health assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1330",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_item_liquid_filters_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_item_liquid_filters_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "content.items().size",
+          "name": "content_items_size",
+          "schema": "source_block_init_item_liquid_filters_input.content_items_size",
+          "type": "int"
+        },
+        {
+          "java_expr": "content.liquids().size",
+          "name": "content_liquids_size",
+          "schema": "source_block_init_item_liquid_filters_input.content_liquids_size",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "item_filter_expr",
+        "liquid_filter_expr",
+        "content_items_size",
+        "content_liquids_size",
+        "item_filter",
+        "liquid_filter",
+        "item_filter_size",
+        "liquid_filter_size"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1343",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_light_clip_size_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_light_clip_size_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_light_clip_size_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "clipSize",
+          "name": "clip_size",
+          "schema": "source_block_init_light_clip_size_input.clip_size",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "clip_size_expr",
+        "light_clip_size_expr",
+        "light_clip_size_before",
+        "clip_size",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() lightClipSize clamp.",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1333",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_liquid_capacity_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_liquid_capacity_default_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "liquidCapacity",
+          "name": "liquid_capacity_before",
+          "schema": "source_block_init_liquid_capacity_default_input.liquid_capacity_before",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_mathf_source",
+        "method",
+        "super_init_expr",
+        "liquid_capacity_comment",
+        "liquid_capacity_guard_expr",
+        "consume_amount_default_expr",
+        "consume_builder_loop_expr",
+        "liquid_capacity_assign_expr",
+        "mathf_round_expr",
+        "liquid_capacity_before",
+        "consume_amount",
+        "liquid_capacity_assigned",
+        "liquid_capacity_after"
+      ],
+      "rule": "Pin source-backed Block.init() liquidCapacity default setup before consumer-specific amount branches.",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1335",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_liquid_light_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_liquid_light_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "hasLiquids",
+          "name": "has_liquids",
+          "schema": "source_block_init_liquid_light_input.has_liquids",
+          "type": "bool"
+        },
+        {
+          "java_expr": "drawLiquidLight",
+          "name": "draw_liquid_light",
+          "schema": "source_block_init_liquid_light_input.draw_liquid_light",
+          "type": "bool"
+        },
+        {
+          "java_expr": "emitLight",
+          "name": "emit_light_before",
+          "schema": "source_block_init_liquid_light_input.emit_light_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_liquid_light_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_liquid_light_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "liquid_light_guard_expr",
+        "emit_light_assign_expr",
+        "light_clip_size_expr",
+        "has_liquids",
+        "draw_liquid_light",
+        "emit_light_before",
+        "light_clip_size_before",
+        "size",
+        "liquid_light_gate",
+        "liquid_light_clip_size",
+        "emit_light_after",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() liquid light guarded branch.",
+      "runtime_proof": "/root/Main.source_block_init_liquid_light_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1334",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_light_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_light_state",
+        "test_port_game_exposes_generated_block_init_liquid_light_bridge_state",
+        "test_block_init_liquid_light_matches_upstream_source",
+        "test_generated_block_init_liquid_light_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_logic_configurable_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_logic_configurable_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "logicConfigurable",
+          "name": "logic_configurable_before",
+          "schema": "source_block_init_logic_configurable_input.logic_configurable_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "UnlockableContent.class.isAssignableFrom(key)",
+          "name": "config_key_assignable_to_unlockable_content",
+          "schema": "source_block_init_logic_configurable_input.config_key_assignable_to_unlockable_content",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "logic_configurable_field_expr",
+        "logic_configurable_guard_expr",
+        "configurations_each_expr",
+        "unlockable_assignable_expr",
+        "logic_configurable_assignment_expr",
+        "logic_configurable_before",
+        "config_key_assignable_to_unlockable_content",
+        "logic_configurable_after"
+      ],
+      "rule": "Pin source-backed Block.init() logicConfigurable unlockable configuration detection.",
+      "runtime_proof": "/root/Main.source_block_init_logic_configurable_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1347",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_logic_configurable_to_source_state",
+        "test_port_game_exposes_source_block_init_logic_configurable_state",
+        "test_port_game_exposes_generated_block_init_logic_configurable_bridge_state",
+        "test_block_init_logic_configurable_matches_upstream_source",
+        "test_generated_block_init_logic_configurable_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_offset_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_offset_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_offset_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "tilesize",
+          "name": "source_tilesize",
+          "schema": "source_block_init_offset_input.source_tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "vars_source",
+        "method",
+        "super_init_expr",
+        "offset_expr",
+        "size_offset_expr",
+        "tilesize_field_expr",
+        "size",
+        "source_tilesize",
+        "offset_after",
+        "size_offset_after"
+      ],
+      "rule": "Pin source-backed Block.init() offset and sizeOffset assignments.",
+      "runtime_proof": "/root/Main.source_block_init_offset_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1338",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_offset_to_source_state",
+        "test_port_game_exposes_source_block_init_offset_state",
+        "test_port_game_exposes_generated_block_init_offset_bridge_state",
+        "test_block_init_offset_matches_upstream_source",
+        "test_generated_block_init_offset_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_place_sound_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_place_sound_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "placeSound",
+          "name": "place_sound_before",
+          "schema": "source_block_init_place_sound_input.place_sound_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_place_sound_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "place_sound_guard_expr",
+        "place_sound_assign_expr",
+        "place_sound_size_3_expr",
+        "place_sound_size_2_expr",
+        "place_sound_size_1_expr",
+        "place_sound_before",
+        "size",
+        "place_sound_after",
+        "place_sound_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() placeSound default assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1324",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_sandbox_visibility_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_sandbox_visibility_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildVisibility",
+          "name": "build_visibility",
+          "schema": "source_block_init_sandbox_visibility_input.build_visibility",
+          "type": "String"
+        },
+        {
+          "java_expr": "hideDetails",
+          "name": "hide_details_before",
+          "schema": "source_block_init_sandbox_visibility_input.hide_details_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "build_visibility_source",
+        "unlockable_content_source",
+        "method",
+        "super_init_expr",
+        "build_visibility_field_expr",
+        "hide_details_field_expr",
+        "sandbox_visibility_guard_expr",
+        "sandbox_only_expr",
+        "hide_details_assign_expr",
+        "build_visibility",
+        "hide_details_before",
+        "sandbox_visibility_applied",
+        "hide_details_after"
+      ],
+      "rule": "Pin source-backed Block.init() sandboxOnly buildVisibility hideDetails reveal branch.",
+      "runtime_proof": "/root/Main.source_block_init_sandbox_visibility_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1349",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_sandbox_visibility_to_source_state",
+        "test_port_game_exposes_source_block_init_sandbox_visibility_state",
+        "test_port_game_exposes_generated_block_init_sandbox_visibility_bridge_state",
+        "test_block_init_sandbox_visibility_matches_upstream_source",
+        "test_generated_block_init_sandbox_visibility_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_set_bars_call_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_set_bars_call_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "set_bars_expr",
+        "set_bars_method_expr",
+        "health_bar_expr",
+        "set_bars_call",
+        "set_bars_called"
+      ],
+      "rule": "Pin source-backed Block.init() setBars() call plan.",
+      "runtime_proof": "/root/Main.source_block_init_set_bars_call_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1345",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_set_bars_call_to_source_state",
+        "test_port_game_exposes_source_block_init_set_bars_call_state",
+        "test_port_game_exposes_generated_block_init_set_bars_call_bridge_state",
+        "test_block_init_set_bars_call_matches_upstream_source",
+        "test_generated_block_init_set_bars_call_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_stats_categories_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_stats_categories_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "stats.useCategories",
+          "name": "stats_use_categories_before",
+          "schema": "source_block_init_stats_categories_input.stats_use_categories_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "stats_source",
+        "method",
+        "super_init_expr",
+        "stats_use_categories_expr",
+        "stats_use_categories_field_expr",
+        "stats_use_categories_before",
+        "stats_use_categories_after"
+      ],
+      "rule": "Pin source-backed Block.init() stats.useCategories assignment.",
+      "runtime_proof": "/root/Main.source_block_init_stats_categories_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1346",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_stats_categories_to_source_state",
+        "test_port_game_exposes_source_block_init_stats_categories_state",
+        "test_port_game_exposes_generated_block_init_stats_categories_bridge_state",
+        "test_block_init_stats_categories_matches_upstream_source",
+        "test_generated_block_init_stats_categories_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_sync_flag_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_sync_flag_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "sync",
+          "name": "sync_value",
+          "schema": "source_block_init_sync_flag_input.sync_value",
+          "type": "bool"
+        },
+        {
+          "java_expr": "flags",
+          "name": "flags_before",
+          "schema": "source_block_init_sync_flag_input.flags_before",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "sync_guard_expr",
+        "flags_assign_expr",
+        "block_flag_synced_expr",
+        "sync",
+        "flags_before",
+        "flags_after",
+        "synced_flag_added"
+      ],
+      "rule": "Pin source-backed Block.init() sync flag assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1329",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_init_under_bullets_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_init_under_bullets_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "underBullets",
+          "name": "under_bullets",
+          "schema": "source_block_init_under_bullets_input.under_bullets",
+          "type": "bool"
+        },
+        {
+          "java_expr": "priority",
+          "name": "priority_before",
+          "schema": "source_block_init_under_bullets_input.priority_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "under_bullets_guard_expr",
+        "priority_assign_expr",
+        "target_priority_under_expr",
+        "under_bullets",
+        "priority_before",
+        "priority_after",
+        "priority_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() underBullets priority assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1327",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_is_air_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_is_air_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "id_value",
+          "schema": "source_block_is_air_input.id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "id",
+        "is_air"
+      ],
+      "rule": "Public runtime contract for Block.isAir() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_air_state",
+      "source_method": "Block.isAir()",
+      "source_slice": "N1285",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_is_darkened_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_is_darkened_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "solid_value",
+          "schema": "source_block_is_darkened_input.solid",
+          "type": "bool"
+        },
+        {
+          "name": "update_value",
+          "schema": "source_block_is_darkened_input.update",
+          "type": "bool"
+        },
+        {
+          "name": "destructible_value",
+          "schema": "source_block_is_darkened_input.destructible",
+          "type": "bool"
+        },
+        {
+          "name": "fills_tile_value",
+          "schema": "source_block_is_darkened_input.fillsTile",
+          "type": "bool"
+        },
+        {
+          "name": "force_dark_value",
+          "schema": "source_block_is_darkened_input.forceDark",
+          "type": "bool"
+        },
+        {
+          "name": "tile",
+          "schema": "source_block_is_darkened_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "solid",
+        "fillsTile",
+        "synthetic_state",
+        "check_force_dark_state",
+        "tile",
+        "is_darkened"
+      ],
+      "rule": "Public runtime contract for Block.isDarkened(Tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_darkened_state",
+      "source_method": "Block.isDarkened(Tile tile)",
+      "source_slice": "N1280",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_darkened_to_source_state",
+        "test_port_game_exposes_source_block_is_darkened_state",
+        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
+        "test_block_is_darkened_matches_upstream_source",
+        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_is_hidden_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_is_hidden_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildVisibility.visible()",
+          "name": "build_visibility_visible",
+          "schema": "source_block_is_hidden_input.build_visibility_visible",
+          "type": "bool"
+        },
+        {
+          "java_expr": "state.rules.revealedBlocks.contains(this)",
+          "name": "revealed_blocks_contains_self",
+          "schema": "source_block_is_hidden_input.revealed_blocks_contains_self",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "return_expr",
+        "build_visibility_visible",
+        "revealed_blocks_contains_self",
+        "is_hidden"
+      ],
+      "rule": "Public runtime contract for Block.isHidden() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "source_method": "Block.isHidden()",
+      "source_slice": "N1359",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_is_multiblock_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_is_multiblock_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "size_value",
+          "schema": "source_block_is_multiblock_input.size",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "size",
+        "is_multiblock"
+      ],
+      "rule": "Public runtime contract for Block.isMultiblock() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_multiblock_state",
+      "source_method": "Block.isMultiblock()",
+      "source_slice": "N1284",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_is_static_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_is_static_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "cache_layer_value",
+          "schema": "source_block_is_static_input.cacheLayer",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "cache_layer_source",
+        "method",
+        "return_expr",
+        "cacheLayer",
+        "walls_constant",
+        "is_static"
+      ],
+      "rule": "Public runtime contract for Block.isStatic() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_static_state",
+      "source_method": "Block.isStatic()",
+      "source_slice": "N1287",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_static_to_source_state",
+        "test_port_game_exposes_source_block_is_static_state",
+        "test_port_game_exposes_generated_block_is_static_bridge_state",
+        "test_block_is_static_matches_upstream_source",
+        "test_generated_block_is_static_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_item_capacity": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_item_capacity",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_block_item_capacity_input.blockId",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "itemCapacity",
+        "buildingSenseItemCapacity",
+        "coreStorageCapacity",
+        "blockId"
+      ],
+      "rule": "Public runtime contract for Mindustry Block itemCapacity helper.",
+      "runtime_proof": "/root/Main.source_block_item_capacity",
+      "source_method": "field declaration",
+      "source_slice": "N516",
+      "status": "active",
+      "tests": [
+        "test_block_item_capacity_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_load_base_regions_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_load_base_regions_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "name",
+          "name": "name_value",
+          "schema": "source_block_load_base_regions_input.name_value",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_load_expr",
+        "region_expr",
+        "content_regions_expr",
+        "name",
+        "region",
+        "super_load_called",
+        "content_regions_loaded"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls.",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "source_method": "Block.load()",
+      "source_slice": "N1355",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_load_team_regions_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_load_team_regions_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "name",
+          "name": "name_value",
+          "schema": "source_block_load_team_regions_input.name_value",
+          "type": "String"
+        },
+        {
+          "java_expr": "teamRegion.found()",
+          "name": "team_region_found",
+          "schema": "source_block_load_team_regions_input.team_region_found",
+          "type": "bool"
+        },
+        {
+          "java_expr": "teamRegion",
+          "name": "team_region",
+          "schema": "source_block_load_team_regions_input.team_region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "Team.all",
+          "name": "teams",
+          "schema": "source_block_load_team_regions_input.teams",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "comment",
+        "team_regions_expr",
+        "team_loop_expr",
+        "team_assignment_expr",
+        "name",
+        "team_region_found",
+        "team_region",
+        "teams",
+        "team_all_length",
+        "team_regions",
+        "assignments"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop.",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "source_method": "Block.load()",
+      "source_slice": "N1356",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_load_variant_regions_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_load_variant_regions_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "name",
+          "name": "name_value",
+          "schema": "source_block_load_variant_regions_input.name_value",
+          "type": "String"
+        },
+        {
+          "java_expr": "variants",
+          "name": "variants",
+          "schema": "source_block_load_variant_regions_input.variants",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "variants_guard_expr",
+        "variant_regions_expr",
+        "variant_loop_expr",
+        "variant_assignment_expr",
+        "region_assignment_expr",
+        "name",
+        "variants",
+        "variants_guard",
+        "variant_regions",
+        "region"
+      ],
+      "rule": "Pin source-backed Block.load() variantRegions branch. params are explicit name and variants inputs.",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "source_method": "Block.load()",
+      "source_slice": "N1357",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_load_variant_shadow_regions_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_load_variant_shadow_regions_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "name",
+          "name": "name_value",
+          "schema": "source_block_load_variant_shadow_regions_input.name_value",
+          "type": "String"
+        },
+        {
+          "java_expr": "variants",
+          "name": "variants",
+          "schema": "source_block_load_variant_shadow_regions_input.variants",
+          "type": "int"
+        },
+        {
+          "java_expr": "customShadow",
+          "name": "custom_shadow",
+          "schema": "source_block_load_variant_shadow_regions_input.custom_shadow",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "variants_guard_expr",
+        "custom_shadow_guard_expr",
+        "variant_shadow_regions_expr",
+        "variant_shadow_loop_expr",
+        "variant_shadow_assignment_expr",
+        "name",
+        "variants",
+        "custom_shadow",
+        "variants_guard",
+        "custom_shadow_guard",
+        "variant_shadow_regions"
+      ],
+      "rule": "Pin source-backed Block.load() variantShadowRegions branch. params are explicit name, variants, and customShadow inputs.",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "source_method": "Block.load()",
+      "source_slice": "N1358",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_logic_visible_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_logic_visible_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildVisibility",
+          "name": "build_visibility_value",
+          "schema": "source_block_logic_visible_input.build_visibility",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "logic_visible_return_expr",
+        "build_visibility",
+        "logic_visible"
+      ],
+      "rule": "Pin source-backed Block.logicVisible() buildVisibility hidden check.",
+      "runtime_proof": "/root/Main.source_block_logic_visible_state",
+      "source_method": "Block.logicVisible()",
+      "source_slice": "N1320",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_outputs_items_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_outputs_items_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "hasItems",
+          "name": "has_items",
+          "schema": "source_block_outputs_items_input.has_items",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "field_comment",
+        "field_expr",
+        "method",
+        "return_expr",
+        "has_items",
+        "outputs_items"
+      ],
+      "rule": "Public runtime contract for Block.outputsItems source-backed hasItems return.",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_method": "Block.outputsItems()",
+      "source_slice": "N1273",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_plan_rotation_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_plan_rotation_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "rotate",
+          "name": "rotate_value",
+          "schema": "source_block_plan_rotation_input.rotate",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lockRotation",
+          "name": "lock_rotation",
+          "schema": "source_block_plan_rotation_input.lockRotation",
+          "type": "bool"
+        },
+        {
+          "java_expr": "int rot",
+          "name": "rot",
+          "schema": "source_block_plan_rotation_input.rot",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "rotate",
+        "lockRotation",
+        "rot",
+        "plan_rotation"
+      ],
+      "rule": "Public runtime contract for Block.planRotation(int rot) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "source_method": "Block.planRotation(int rot)",
+      "source_slice": "N1360",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_post_init_database_tag_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_post_init_database_tag_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "databaseTag",
+          "name": "database_tag_before",
+          "schema": "source_block_post_init_database_tag_input.database_tag_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "category.name()",
+          "name": "category_name",
+          "schema": "source_block_post_init_database_tag_input.category_name",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "database_tag_guard_expr",
+        "database_tag_assign_expr",
+        "super_post_init_expr",
+        "database_tag_before",
+        "category_name",
+        "database_tag_after",
+        "database_tag_assigned"
+      ],
+      "rule": "Pin source-backed Block.postInit() databaseTag default branch.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_method": "Block.postInit()",
+      "source_slice": "N1321",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_post_init_shown_planets_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_post_init_shown_planets_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_post_init_shown_planets_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "shownPlanets",
+          "name": "shown_planets_before",
+          "schema": "source_block_post_init_shown_planets_input.shown_planets_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "content.planets()",
+          "name": "content_planets",
+          "schema": "source_block_post_init_shown_planets_input.content_planets",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "shown_planets_comment",
+        "auto_assign_guard_expr",
+        "content_planets_loop_expr",
+        "planet_landable_guard_expr",
+        "structs_contains_guard_expr",
+        "shown_planets_add_expr",
+        "requirements",
+        "shown_planets_before",
+        "content_planets",
+        "shown_planets_after",
+        "auto_assign_guard_passed",
+        "evaluated_planets",
+        "landable_planets",
+        "added_planets",
+        "blocked_planets"
+      ],
+      "rule": "Pin source-backed Block.postInit() shownPlanets auto-assignment branch.",
+      "runtime_proof": "/root/Main.source_block_post_init_shown_planets_state",
+      "source_method": "Block.postInit()",
+      "source_slice": "N1322",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_post_init_shown_planets_to_source_state",
+        "test_port_game_exposes_source_block_post_init_shown_planets_state",
+        "test_port_game_exposes_generated_block_post_init_shown_planets_bridge_state",
+        "test_block_post_init_shown_planets_matches_upstream_source",
+        "test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_reinitialize_consumers_apply_loop_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "consumers",
+          "name": "consumers",
+          "schema": "source_block_reinitialize_consumers_apply_loop_input.consumers",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "consumers_loop_expr",
+        "consume_apply_expr",
+        "consume_apply_method_expr",
+        "consumers",
+        "apply_calls",
+        "apply_call_count"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop.",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "source_method": "Block.reinitializeConsumers()",
+      "source_slice": "N1353",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_reinitialize_consumers_arrays_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_reinitialize_consumers_arrays_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_reinitialize_consumers_arrays_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "consumers_expr",
+        "cons_power_expr",
+        "optional_consumers_expr",
+        "non_optional_consumers_expr",
+        "update_consumers_expr",
+        "has_consumers_expr",
+        "consume_optional_field_expr",
+        "consume_update_field_expr",
+        "consume_ignore_method_expr",
+        "consume_is_power_expr",
+        "consume_builder",
+        "consumers",
+        "cons_power",
+        "optional_consumers",
+        "non_optional_consumers",
+        "update_consumers",
+        "has_consumers"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery.",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "source_method": "Block.reinitializeConsumers()",
+      "source_slice": "N1350",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "content.items().size",
+          "name": "content_items_size",
+          "schema": "source_block_reinitialize_consumers_item_liquid_filters_input.content_items_size",
+          "type": "int"
+        },
+        {
+          "java_expr": "content.liquids().size",
+          "name": "content_liquids_size",
+          "schema": "source_block_reinitialize_consumers_item_liquid_filters_input.content_liquids_size",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "item_filter_expr",
+        "liquid_filter_expr",
+        "content_items_size",
+        "content_liquids_size",
+        "item_filter",
+        "liquid_filter",
+        "item_filter_size",
+        "liquid_filter_size"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation.",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "source_method": "Block.reinitializeConsumers()",
+      "source_slice": "N1351",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_reinitialize_consumers_outputs_power_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_reinitialize_consumers_outputs_power_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "outputsPower",
+          "name": "outputs_power",
+          "schema": "source_block_reinitialize_consumers_outputs_power_input.outputs_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "hasPower",
+          "name": "has_power_before",
+          "schema": "source_block_reinitialize_consumers_outputs_power_input.has_power_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "outputs_power_expr",
+        "outputs_power",
+        "has_power_before",
+        "has_power_after"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() outputsPower hasPower assignment.",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_outputs_power_state",
+      "source_method": "Block.reinitializeConsumers()",
+      "source_slice": "N1352",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_outputs_power_bridge_state",
+        "test_block_reinitialize_consumers_outputs_power_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_outputs_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_remove_consumer_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_remove_consumer_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "consumers_length",
+          "schema": "source_block_remove_consumer_input.consumers_length",
+          "type": "int"
+        },
+        {
+          "name": "cons",
+          "schema": "source_block_remove_consumer_input.cons",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "guard_expr",
+        "exception_expr",
+        "exception_message",
+        "remove_expr",
+        "consumers_length",
+        "cons",
+        "illegal_state_exception_thrown",
+        "consume_builder_remove_called"
+      ],
+      "rule": "Public runtime contract for Block.removeConsumer(Consume) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_method": "Block.removeConsumer(Consume)",
+      "source_slice": "N1289",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_remove_consumers_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_remove_consumers_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "consume_builder_contains_power_after_remove",
+          "schema": "source_block_remove_consumers_input.consumeBuilder_contains_power_after_remove",
+          "type": "bool"
+        },
+        {
+          "name": "b",
+          "schema": "source_block_remove_consumers_input.b",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "remove_all_expr",
+        "comment",
+        "power_guard_expr",
+        "cons_power_expr",
+        "consumeBuilder_contains_power_after_remove",
+        "b",
+        "consume_builder_remove_all_called",
+        "cons_power_cleared"
+      ],
+      "rule": "Pin source-backed Block.removeConsumers bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_method": "Block.removeConsumers(Boolf<Consume>)",
+      "source_slice": "N1290",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_requirements_simple_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_requirements_simple_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_requirements_simple_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_requirements_simple_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "cat",
+        "build_visibility",
+        "stacks",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.requirements(Category,ItemStack[]) delegate state.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_method": "Block.requirements(Category,ItemStack[])",
+      "source_slice": "N1307",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_requirements_unlocked_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_requirements_unlocked_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_requirements_unlocked_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_requirements_unlocked_input.stacks",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "boolean unlocked",
+          "name": "unlocked",
+          "schema": "source_block_requirements_unlocked_input.unlocked",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "always_unlocked_assignment_expr",
+        "cat",
+        "build_visibility",
+        "stacks",
+        "unlocked",
+        "delegate_called",
+        "always_unlocked_assigned",
+        "always_unlocked_after"
+      ],
+      "rule": "Pin source-backed Block.requirements(Category,ItemStack[],boolean) delegate and alwaysUnlocked assignment state.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "source_slice": "N1306",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_requirements_visible_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_requirements_visible_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_requirements_visible_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "BuildVisibility visible",
+          "name": "build_visibility",
+          "schema": "source_block_requirements_visible_input.build_visibility",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_requirements_visible_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "comment",
+        "category_assignment_expr",
+        "requirements_assignment_expr",
+        "build_visibility_assignment_expr",
+        "sort_expr",
+        "cat",
+        "visible",
+        "stacks",
+        "category_after",
+        "requirements_after",
+        "build_visibility_after",
+        "sort_called"
+      ],
+      "rule": "Pin source-backed Block.requirements(Category,BuildVisibility,ItemStack[]) assignment and sort state.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "source_slice": "N1308",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_empty_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_empty_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_empty_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_empty_input.research_cost_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "override_expr",
+        "research_cost_guard_expr",
+        "empty_guard_expr",
+        "empty_return_expr",
+        "research_cost",
+        "research_cost_multiplier",
+        "returned_requirements",
+        "returned_empty"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() ItemStack.empty branch state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_empty_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1311",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_empty_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_empty_state",
+        "test_port_game_exposes_generated_block_research_requirements_empty_bridge_state",
+        "test_block_research_requirements_empty_matches_upstream_source",
+        "test_generated_block_research_requirements_empty_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_loop_shape_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_loop_shape_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_loop_shape_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_loop_shape_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_loop_shape_input.requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "override_expr",
+        "research_cost_guard_expr",
+        "empty_guard_expr",
+        "out_alloc_expr",
+        "loop_expr",
+        "return_out_expr",
+        "research_cost",
+        "research_cost_multiplier",
+        "requirements",
+        "allocation_reached",
+        "allocated_out_length",
+        "loop_indices"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() allocation and loop shape state after early guards.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1312",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_output_fill_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_output_fill_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_output_fill_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_output_fill_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_output_fill_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "researchCostMultipliers",
+          "name": "research_cost_multipliers",
+          "schema": "source_block_research_requirements_output_fill_input.research_cost_multipliers",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "itemstack_fill_expr",
+        "return_out_expr",
+        "quantity_values",
+        "rounded_amount_values",
+        "output_requirements",
+        "returned_requirements"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() final ItemStack output fill and return out state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1315",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_quantity_formula_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_quantity_formula_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_quantity_formula_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_quantity_formula_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_quantity_formula_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "researchCostMultipliers",
+          "name": "research_cost_multipliers",
+          "schema": "source_block_research_requirements_quantity_formula_input.research_cost_multipliers",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "quantity_expr",
+        "mathf_round_expr",
+        "mathf_round_step_expr",
+        "research_cost",
+        "research_cost_multiplier",
+        "requirements",
+        "research_cost_multipliers",
+        "quantity_values",
+        "multiplier_values",
+        "amount_power_values"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() raw quantity formula before UI.roundAmount and ItemStack fill.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1313",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_research_cost_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_research_cost_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_research_cost_input.research_cost",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "override_expr",
+        "research_cost_guard_expr",
+        "return_expr",
+        "research_cost",
+        "returned_requirements",
+        "returned_early"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() researchCost early-return state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_research_cost_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1310",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_research_cost_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_research_cost_state",
+        "test_port_game_exposes_generated_block_research_requirements_research_cost_bridge_state",
+        "test_block_research_requirements_research_cost_matches_upstream_source",
+        "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_research_requirements_round_amount_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_research_requirements_round_amount_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_round_amount_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "researchCostMultipliers",
+          "name": "research_cost_multipliers",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost_multipliers",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "ui_source",
+        "method",
+        "round_amount_expr",
+        "ui_round_amount_method",
+        "mathf_round_int_step_expr",
+        "quantity_values",
+        "rounded_amount_values"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() UI.roundAmount(quantity) result before ItemStack output fill.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1314",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_rotated_output_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_rotated_output_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "rotate_value",
+          "schema": "source_block_rotated_output_input.rotate",
+          "type": "bool"
+        },
+        {
+          "name": "x_value",
+          "schema": "source_block_rotated_output_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y_value",
+          "schema": "source_block_rotated_output_input.y",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "field_comment",
+        "field_expr",
+        "method",
+        "return_expr",
+        "rotate",
+        "x",
+        "y",
+        "rotated_output"
+      ],
+      "rule": "Public runtime contract for Block.rotatedOutput(int x, int y) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_state",
+      "source_method": "Block.rotatedOutput(int x, int y)",
+      "source_slice": "N1276",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_state",
+        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
+        "test_block_rotated_output_matches_upstream_source",
+        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_rotated_output_tile_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_rotated_output_tile_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "rotate_value",
+          "schema": "source_block_rotated_output_tile_input.rotate",
+          "type": "bool"
+        },
+        {
+          "name": "from_x",
+          "schema": "source_block_rotated_output_tile_input.fromX",
+          "type": "int"
+        },
+        {
+          "name": "from_y",
+          "schema": "source_block_rotated_output_tile_input.fromY",
+          "type": "int"
+        },
+        {
+          "name": "destination",
+          "schema": "source_block_rotated_output_tile_input.destination",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call",
+        "return_expr",
+        "rotate",
+        "fromX",
+        "fromY",
+        "destination",
+        "base_state",
+        "rotated_output"
+      ],
+      "rule": "Public runtime contract for Block.rotatedOutput(int fromX, int fromY, Tile destination) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "source_slice": "N1277",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_sense_content_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_sense_content_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "content instanceof Item item",
+          "name": "content_type",
+          "schema": "source_block_sense_content_input.content_type",
+          "type": "String"
+        },
+        {
+          "java_expr": "Item item",
+          "name": "content_item",
+          "schema": "source_block_sense_content_input.content_item",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "state.rules.infiniteResources",
+          "name": "state_rules_infinite_resources",
+          "schema": "source_block_sense_content_input.state_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_sense_content_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "state.rules.buildCostMultiplier",
+          "name": "build_cost_multiplier",
+          "schema": "source_block_sense_content_input.build_cost_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "item_instanceof_expr",
+        "infinite_resources_return_expr",
+        "requirements_loop_expr",
+        "item_match_guard_expr",
+        "amount_return_expr",
+        "missing_item_return_expr",
+        "invalid_return_expr",
+        "content_type",
+        "content_item",
+        "state_rules_infinite_resources",
+        "requirements",
+        "build_cost_multiplier",
+        "matched_requirement_index",
+        "matched_requirement",
+        "matched_amount",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "rule": "PortGame.source_block_sense_content_state pins Block.sense(Content content) item requirements sensing contract.",
+      "runtime_proof": "/root/Main.source_block_sense_content_state",
+      "source_method": "Block.sense(Content content)",
+      "source_slice": "N1364",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_sense_content_to_source_state",
+        "test_port_game_exposes_source_block_sense_content_state",
+        "test_port_game_exposes_generated_block_sense_content_bridge_state",
+        "test_block_sense_content_matches_upstream_source",
+        "test_generated_block_sense_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_sense_laccess_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_sense_laccess_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "LAccess sensor",
+          "name": "sensor",
+          "schema": "source_block_sense_laccess_input.sensor",
+          "type": "String"
+        },
+        {
+          "java_expr": "mapColor.toDoubleBits()",
+          "name": "map_color_double_bits",
+          "schema": "source_block_sense_laccess_input.map_color_double_bits",
+          "type": "float"
+        },
+        {
+          "java_expr": "health",
+          "name": "health_value",
+          "schema": "source_block_sense_laccess_input.health",
+          "type": "float"
+        },
+        {
+          "java_expr": "solid",
+          "name": "solid_value",
+          "schema": "source_block_sense_laccess_input.solid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_sense_laccess_input.size",
+          "type": "int"
+        },
+        {
+          "java_expr": "itemCapacity",
+          "name": "item_capacity",
+          "schema": "source_block_sense_laccess_input.itemCapacity",
+          "type": "int"
+        },
+        {
+          "java_expr": "liquidCapacity",
+          "name": "liquid_capacity",
+          "schema": "source_block_sense_laccess_input.liquidCapacity",
+          "type": "float"
+        },
+        {
+          "java_expr": "consPower != null",
+          "name": "has_cons_power",
+          "schema": "source_block_sense_laccess_input.has_cons_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consPower.buffered",
+          "name": "cons_power_buffered",
+          "schema": "source_block_sense_laccess_input.cons_power_buffered",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consPower.capacity",
+          "name": "cons_power_capacity",
+          "schema": "source_block_sense_laccess_input.cons_power_capacity",
+          "type": "float"
+        },
+        {
+          "java_expr": "getLogicId()",
+          "name": "logic_id",
+          "schema": "source_block_sense_laccess_input.logic_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "switch_expr",
+        "color_case",
+        "health_case",
+        "solid_case",
+        "size_case",
+        "item_capacity_case",
+        "liquid_capacity_case",
+        "power_capacity_case",
+        "id_case",
+        "default_expr",
+        "sensor",
+        "map_color_double_bits",
+        "health",
+        "solid",
+        "size",
+        "itemCapacity",
+        "liquidCapacity",
+        "has_cons_power",
+        "cons_power_buffered",
+        "cons_power_capacity",
+        "logic_id",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "rule": "Public runtime contract for Block.sense(LAccess sensor) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "source_method": "Block.sense(LAccess sensor)",
+      "source_slice": "N1363",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_sense_object_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_sense_object_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "LAccess sensor",
+          "name": "sensor",
+          "schema": "source_block_sense_object_input.sensor",
+          "type": "String"
+        },
+        {
+          "java_expr": "name",
+          "name": "block_name",
+          "schema": "source_block_sense_object_input.block_name",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "noSensed",
+          "name": "no_sensed",
+          "schema": "source_block_sense_object_input.no_sensed",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "name_guard_expr",
+        "default_return_expr",
+        "sensor",
+        "block_name",
+        "no_sensed",
+        "sense_object_value"
+      ],
+      "rule": "PortGame.source_block_sense_object_state pins Block.senseObject(LAccess sensor) object sensing contract.",
+      "runtime_proof": "/root/Main.source_block_sense_object_state",
+      "source_method": "Block.senseObject(LAccess sensor)",
+      "source_slice": "N1365",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_sense_object_to_source_state",
+        "test_port_game_exposes_source_block_sense_object_state",
+        "test_port_game_exposes_generated_block_sense_object_bridge_state",
+        "test_block_sense_object_matches_upstream_source",
+        "test_generated_block_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_setup_requirements_simple_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_setup_requirements_simple_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_setup_requirements_simple_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_setup_requirements_simple_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "cat",
+        "stacks",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.setupRequirements(Category,ItemStack[]) delegate state.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
+      "source_method": "Block.setupRequirements(Category,ItemStack[])",
+      "source_slice": "N1304",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_setup_requirements_visible_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_setup_requirements_visible_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_setup_requirements_visible_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "BuildVisibility visible",
+          "name": "build_visibility",
+          "schema": "source_block_setup_requirements_visible_input.build_visibility",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_setup_requirements_visible_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "cat",
+        "visible",
+        "stacks",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.setupRequirements(Category,BuildVisibility,ItemStack[]) delegate state.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "source_slice": "N1305",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_synthetic_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_block_synthetic_state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "update_value",
+          "schema": "source_block_synthetic_input.update",
+          "type": "bool"
+        },
+        {
+          "name": "destructible_value",
+          "schema": "source_block_synthetic_input.destructible",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "update",
+        "destructible",
+        "synthetic"
+      ],
+      "rule": "Public runtime contract for Block.synthetic() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_method": "Block.synthetic()",
+      "source_slice": "N1278",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ]
+    }
+  }
+}
