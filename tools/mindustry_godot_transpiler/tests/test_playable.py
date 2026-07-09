@@ -513,6 +513,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItems.constructor"', source)
         self.assertIn('"matches": result.get("items_after", []) == canonical.get("items_after", [])', source)
 
+    def test_port_game_exposes_generated_consume_items_default_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_items_default_constructor_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_default_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source)
+        self.assertIn('"constructor": "protected ConsumeItems(){"', source)
+        self.assertIn('"default_call_expr": "this(ItemStack.empty);"', source)
+        self.assertIn('"item_stack_empty_expr": "public static final ItemStack[] empty = {};"', source)
+        self.assertIn('"items_after": []', source)
+        self.assertIn("func generated_consume_items_default_constructor_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItems_1([])", source)
+        self.assertIn("var canonical = source_consume_items_default_constructor_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_default_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItems.default_constructor"', source)
+        self.assertIn('"matches": result.get("items_after", []) == canonical.get("items_after", [])', source)
+
     def test_port_game_exposes_generated_consume_item_filter_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

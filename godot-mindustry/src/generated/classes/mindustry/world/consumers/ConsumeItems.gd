@@ -109,3 +109,8 @@ func java_constructor_ConsumeItems_0(_args: Array = []) -> Variant:
 	var item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []
 	var items_after: Array = item_stacks.duplicate(true)
 	return {"source_owner": "PortGame.source_consume_items_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "public ConsumeItems(ItemStack[] items){", "assignment_expr": "this.items = items;", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}
+
+func java_constructor_ConsumeItems_1(_args: Array = []) -> Variant:
+	var item_stacks: Array = []
+	var items_after: Array = item_stacks.duplicate(true)
+	return {"source_owner": "PortGame.source_consume_items_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "protected ConsumeItems(){", "default_call_expr": "this(ItemStack.empty);", "item_stack_empty_expr": "public static final ItemStack[] empty = {};", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}

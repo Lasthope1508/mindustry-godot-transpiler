@@ -2486,6 +2486,31 @@ func generated_consume_items_constructor_bridge_state(item_stacks: Array) -> Dic
 		"matches": result.get("items_after", []) == canonical.get("items_after", []),
 	}
 
+func source_consume_items_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_items_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+		"constructor": "protected ConsumeItems(){",
+		"default_call_expr": "this(ItemStack.empty);",
+		"item_stack_empty_expr": "public static final ItemStack[] empty = {};",
+		"items_field": "public final ItemStack[] items;",
+		"item_stacks": [],
+		"items_after": [],
+	}
+
+func generated_consume_items_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItems_1([])
+	var canonical = source_consume_items_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_items_default_constructor_state",
+		"generated_owner": "ConsumeItems.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("items_after", []) == canonical.get("items_after", []),
+	}
+
 func source_consume_item_filter_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
 	var item_filter_after := item_filter_before.duplicate()
 	for item_id in filtered_item_ids:

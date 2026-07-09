@@ -14835,6 +14835,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_items_constructor_result")
         self.assertEqual(result_schema["keys"]["items_after"]["java_expr"], "this.items = items;")
 
+    def test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_items_default_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeItems()")
+        self.assertEqual(constructor_symbol["java_expr"], "protected ConsumeItems(){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_items_default_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_items_default_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_items_default_constructor_result.constructor")
+
+        default_call_symbol = source_symbols.source_symbol(registry, "consume_items_default_constructor.default_call")
+        self.assertEqual(default_call_symbol["java_expr"], "this(ItemStack.empty);")
+        self.assertEqual(default_call_symbol["godot_symbol"], "source_consume_items_default_constructor_result.items_after")
+
+        item_stack_empty_symbol = source_symbols.source_symbol(registry, "consume_items_default_constructor.item_stack_empty")
+        self.assertEqual(item_stack_empty_symbol["java_source"], "core/src/mindustry/type/ItemStack.java")
+        self.assertEqual(item_stack_empty_symbol["java_expr"], "public static final ItemStack[] empty = {};")
+
+        default_slice = source_symbols.source_slice(ledger, "N1479")
+        self.assertEqual(default_slice["title"], "Generated ConsumeItems default constructor bridge state")
+        self.assertEqual(default_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(default_slice["java_method"], "ConsumeItems()")
+        self.assertEqual(default_slice["godot_owner"], "PortGame.source_consume_items_default_constructor_state")
+        self.assertEqual(default_slice["generated_owner"], "ConsumeItems.java_constructor_ConsumeItems_1")
+        self.assertEqual(default_slice["runtime_proof"], "/root/Main.generated_consume_items_default_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1479"]["canonical_ledger"], "source_slice_ledger.N1479")
+        for expr in [
+            "public final ItemStack[] items;",
+            "protected ConsumeItems(){",
+            "this(ItemStack.empty);",
+            "public static final ItemStack[] empty = {};",
+        ]:
+            self.assertIn(expr, default_slice["exact_exprs"])
+        self.assertIn("consume_items_default_constructor.constructor", default_slice["source_symbols"])
+        self.assertIn("consume_items_default_constructor.default_call", default_slice["source_symbols"])
+        self.assertIn("consume_items_default_constructor.item_stack_empty", default_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_items_default_constructor_state")
+        self.assertEqual(contract["params"], [])
+        self.assertIn("items_after", contract["return_keys"])
+        result_schema = source_symbols.state_schema(schema, "source_consume_items_default_constructor_result")
+        self.assertEqual(result_schema["keys"]["items_after"]["java_expr"], "this(ItemStack.empty);")
+
     def test_generated_consume_item_filter_apply_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23325,10 +23375,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 948)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 943)
+        self.assertEqual(audit["totalSourceFunctions"], 949)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 944)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 948)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 949)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23346,6 +23396,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_items_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_constructor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_items_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_trigger_state", audit["registeredSourceOwners"])

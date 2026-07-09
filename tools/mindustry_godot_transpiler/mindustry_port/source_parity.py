@@ -4250,6 +4250,32 @@ def verify_consume_items_constructor_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_consume_items_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_items_source = "core/src/mindustry/world/consumers/ConsumeItems.java"
+    item_stack_source = "core/src/mindustry/type/ItemStack.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_items_source).read_text(encoding="utf-8", errors="replace")
+    item_stack = (upstream_root / item_stack_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final ItemStack[] items;",
+        "constructor": "protected ConsumeItems(){",
+        "default_call": "this(ItemStack.empty);",
+        "item_stack_empty": "public static final ItemStack[] empty = {};",
+    }
+    source_by_key = {
+        "items_field": source,
+        "constructor": source,
+        "default_call": source,
+        "item_stack_empty": item_stack,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_items_source,
+        "sources": [item_stack_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     block_source = "core/src/mindustry/world/Block.java"

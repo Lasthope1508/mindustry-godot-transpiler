@@ -124259,6 +124259,74 @@
         "test_generated_consume_items_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_items_constructor_state"
+    },
+    "consume_items_default_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "protected ConsumeItems(){",
+      "godot_symbol": "source_consume_items_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical protected ConsumeItems no-arg constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.default_call": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "this(ItemStack.empty);",
+      "godot_symbol": "source_consume_items_default_constructor_result.items_after",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Default constructor delegates to ItemStack.empty constructor argument.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.item_stack_empty": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "public static final ItemStack[] empty = {};",
+      "godot_symbol": "source_consume_items_default_constructor_result.item_stacks",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical empty ItemStack array used by ConsumeItems default constructor.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
+    },
+    "consume_items_default_constructor.items_field": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "ConsumeItems()",
+      "java_expr": "public final ItemStack[] items;",
+      "godot_symbol": "source_consume_items_default_constructor_result.items_field",
+      "godot_owner": "PortGame.source_consume_items_default_constructor_state",
+      "rule": "Canonical ConsumeItems items field after default construction.",
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state"
     }
   },
   "version": 1

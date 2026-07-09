@@ -156944,6 +156944,58 @@
           "java_expr": "this.items = items;"
         }
       }
+    },
+    "source_consume_items_default_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_items_default_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "protected ConsumeItems(){"
+        },
+        "default_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "this(ItemStack.empty);"
+        },
+        "item_stack_empty_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/ItemStack.java",
+          "java_expr": "public static final ItemStack[] empty = {};"
+        },
+        "items_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "public final ItemStack[] items;"
+        },
+        "item_stacks": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/ItemStack.java",
+          "java_expr": "public static final ItemStack[] empty = {};"
+        },
+        "items_after": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "this(ItemStack.empty);"
+        }
+      }
     }
   },
   "version": 1

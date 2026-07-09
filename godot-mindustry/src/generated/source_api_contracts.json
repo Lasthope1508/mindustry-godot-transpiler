@@ -40889,6 +40889,31 @@
       ],
       "runtime_proof": "/root/Main.source_consume_items_constructor_state",
       "rule": "Source state mirrors ConsumeItems constructor assignment and defers live ItemStack instances."
+    },
+    "PortGame.source_consume_items_default_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1479",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "ConsumeItems()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "item_stack_empty_expr",
+        "items_field",
+        "item_stacks",
+        "items_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_items_default_constructor_bridge_state",
+        "test_consume_items_default_constructor_matches_upstream_source",
+        "test_generated_consume_items_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_items_default_constructor_state",
+      "rule": "Source state mirrors ConsumeItems protected default constructor delegation to ItemStack.empty."
     }
   },
   "policy": {

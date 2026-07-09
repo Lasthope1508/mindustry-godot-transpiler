@@ -5915,6 +5915,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "\tvar items_after: Array = item_stacks.duplicate(true)",
                     '\treturn {"source_owner": "PortGame.source_consume_items_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "public ConsumeItems(ItemStack[] items){", "assignment_expr": "this.items = items;", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItems_{index}(_args: Array = []) -> Variant:",
+                    "\tvar item_stacks: Array = []",
+                    "\tvar items_after: Array = item_stacks.duplicate(true)",
+                    '\treturn {"source_owner": "PortGame.source_consume_items_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "protected ConsumeItems(){", "default_call_expr": "this(ItemStack.empty);", "item_stack_empty_expr": "public static final ItemStack[] empty = {};", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
         and type_entry.get("name") == "ConsumeItemEfficiency"
