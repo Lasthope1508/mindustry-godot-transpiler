@@ -1125,6 +1125,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.constructor"', source)
         self.assertIn('"matches": result.get("amount_after", null) == canonical.get("amount_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_default_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_default_constructor_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state"', source)
+        self.assertIn('"constructor": "public ConsumeLiquidFilter(){"', source)
+        self.assertIn('"filter_field": "public Boolf<Liquid> filter = l -> false;"', source)
+        self.assertIn('"empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }"', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn("func generated_consume_liquid_filter_default_constructor_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeLiquidFilter_1([])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_default_constructor_state()", source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.default_constructor"', source)
+        self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

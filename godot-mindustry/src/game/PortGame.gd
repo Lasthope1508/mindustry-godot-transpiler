@@ -3452,6 +3452,29 @@ func generated_consume_liquid_filter_constructor_bridge_state(filter_handle: Var
 		"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("filter_after", null) == canonical.get("filter_after", null),
 	}
 
+func source_consume_liquid_filter_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"constructor": "public ConsumeLiquidFilter(){",
+		"filter_field": "public Boolf<Liquid> filter = l -> false;",
+		"empty_constructor_body": "public ConsumeLiquidFilter(){\n    }",
+		"no_op": true,
+	}
+
+func generated_consume_liquid_filter_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquidFilter_1([])
+	var canonical = source_consume_liquid_filter_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+		"generated_owner": "ConsumeLiquidFilter.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("constructor", "") == canonical.get("constructor", ""),
+	}
+
 func source_consume_liquid_filter_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, filtered_liquid_ids: Array) -> Dictionary:
 	var liquid_filter_after := liquid_filter_before.duplicate()
 	for liquid_id in filtered_liquid_ids:

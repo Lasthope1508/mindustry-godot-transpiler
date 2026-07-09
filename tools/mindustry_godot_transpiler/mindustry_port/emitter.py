@@ -6108,6 +6108,12 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "\tvar filter_after: Variant = filter_handle",
                     '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "filter_assignment_expr": "this.filter = liquid;", "amount_field": "public float amount;", "filter_handle": filter_handle, "amount": amount, "amount_after": amount_after, "filter_after": filter_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquidFilter_{index}(_args: Array = []) -> Variant:",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }", "no_op": true}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"

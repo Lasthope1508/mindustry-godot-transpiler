@@ -18889,6 +18889,44 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"filter_after": filter_after', source_text)
             self.assertIn('"amount_after": amount_after', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    public Boolf<Liquid> filter = l -> false;
+
+    public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){
+        super(amount);
+        this.filter = liquid;
+    }
+
+    public ConsumeLiquidFilter(){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquidFilter_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeLiquidFilter(){"', source_text)
+            self.assertIn('"filter_field": "public Boolf<Liquid> filter = l -> false;"', source_text)
+            self.assertIn('"empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }"', source_text)
+            self.assertIn('"no_op": true', source_text)
+
     def test_emit_bridges_consume_liquid_filter_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

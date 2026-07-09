@@ -126061,6 +126061,57 @@
       "status": "source-backed",
       "java_expr": "block.liquidFilter[item.id] = true",
       "godot_symbol": "source_consume_liquid_filter_apply_result.liquid_filter_after"
+    },
+    "consume_liquid_filter_default_constructor.constructor": {
+      "source_slice": "N1499",
+      "java_method": "ConsumeLiquidFilter()",
+      "godot_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_default_constructor_bridge_state",
+        "test_consume_liquid_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_default_constructor_state",
+      "rule": "Source no-arg ConsumeLiquidFilter constructor has an empty body and leaves the field initializer public Boolf<Liquid> filter = l -> false; intact; no amount or predicate execution is invented.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public ConsumeLiquidFilter(){",
+      "godot_symbol": "source_consume_liquid_filter_default_constructor_result.constructor"
+    },
+    "consume_liquid_filter_default_constructor.filter_field": {
+      "source_slice": "N1499",
+      "java_method": "ConsumeLiquidFilter()",
+      "godot_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_default_constructor_bridge_state",
+        "test_consume_liquid_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_default_constructor_state",
+      "rule": "Source no-arg ConsumeLiquidFilter constructor has an empty body and leaves the field initializer public Boolf<Liquid> filter = l -> false; intact; no amount or predicate execution is invented.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public Boolf<Liquid> filter = l -> false;",
+      "godot_symbol": "source_consume_liquid_filter_default_constructor_result.filter_field"
+    },
+    "consume_liquid_filter_default_constructor.no_op": {
+      "source_slice": "N1499",
+      "java_method": "ConsumeLiquidFilter()",
+      "godot_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_default_constructor_bridge_state",
+        "test_consume_liquid_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_default_constructor_state",
+      "rule": "Source no-arg ConsumeLiquidFilter constructor has an empty body and leaves the field initializer public Boolf<Liquid> filter = l -> false; intact; no amount or predicate execution is invented.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public ConsumeLiquidFilter(){\n    }",
+      "godot_symbol": "source_consume_liquid_filter_default_constructor_result.no_op"
     }
   },
   "version": 1

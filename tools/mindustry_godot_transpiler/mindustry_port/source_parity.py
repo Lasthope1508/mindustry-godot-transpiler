@@ -6049,6 +6049,22 @@ def verify_consume_liquid_filter_constructor_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source
+    source = consume_liquid_filter_path.read_text(encoding="utf-8", errors="replace").replace("\r\n", "\n")
+    checked = {
+        "filter_field": "public Boolf<Liquid> filter = l -> false;",
+        "constructor": "public ConsumeLiquidFilter(){",
+        "empty_constructor_body": "public ConsumeLiquidFilter(){\n    }",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

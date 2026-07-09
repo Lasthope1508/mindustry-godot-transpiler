@@ -607,6 +607,26 @@
         "test_generated_consume_liquid_filter_apply_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_filter_apply_bridge_state"
+    },
+    "N1499": {
+      "canonical_ledger": "source_slice_ledger.N1499",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter()",
+      "godot_owner": "PortGame.source_consume_liquid_filter_default_constructor_state",
+      "generated_owner": "ConsumeLiquidFilter.java_constructor_ConsumeLiquidFilter_1",
+      "source_symbols": [
+        "consume_liquid_filter_default_constructor.constructor",
+        "consume_liquid_filter_default_constructor.filter_field",
+        "consume_liquid_filter_default_constructor.no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_default_constructor_bridge_state",
+        "test_consume_liquid_filter_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_default_constructor_bridge_state"
     }
   },
   "version": 1

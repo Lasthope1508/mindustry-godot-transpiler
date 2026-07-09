@@ -67,3 +67,6 @@ func java_constructor_ConsumeLiquidFilter_0(_args: Array = []) -> Variant:
 	var amount_after: float = amount
 	var filter_after: Variant = filter_handle
 	return {"source_owner": "PortGame.source_consume_liquid_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "filter_assignment_expr": "this.filter = liquid;", "amount_field": "public float amount;", "filter_handle": filter_handle, "amount": amount, "amount_after": amount_after, "filter_after": filter_after}
+
+func java_constructor_ConsumeLiquidFilter_1(_args: Array = []) -> Variant:
+	return {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "empty_constructor_body": "public ConsumeLiquidFilter(){\n    }", "no_op": true}
