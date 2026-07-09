@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1367 |
-| Done | 1367 |
+| Total tracked work items | 1368 |
+| Done | 1368 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -1265,6 +1265,7 @@
 - [x] N1502: Generated ConsumeLiquidFilter efficiency bridge state.
 - [x] N1503: Generated ConsumeLiquidFilter efficiencyMultiplier bridge state.
 - [x] N1504: Generated ConsumeLiquidFilter build bridge state.
+- [x] N1505: Power SSOT JSON shard modules.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
@@ -2819,9 +2820,11 @@ Current cube: `source-symbol canonical backfill by audit next-owner`. Current so
 
 | N1504 | Generated ConsumeLiquidFilter build bridge state | This slice registers SSOT owner `PortGame.source_consume_liquid_filter_build_state`, wires generated `ConsumeLiquidFilter.java_method_build_1`, exposes `PortGame.generated_consume_liquid_filter_build_bridge_state(filtered_liquid_ids, consumed_liquid)`, and mirrors metadata through `source_modules/consumer_slices.json`, `source_modules/consumer_api_contracts.json`, `source_modules/consumer_state_schema.json`, and `source_modules/consumer_symbols.json` with canonical pointers to `source_slice_ledger.N1504`, `source_api_contracts.PortGame.source_consume_liquid_filter_build_state`, `source_state_schema.source_consume_liquid_filter_build_*`, and `source_symbol_registry.consume_liquid_filter_build.*`. It is backed by upstream `ConsumeLiquidFilter.java` exact method `public void build(Building build, Table table){`, filtered list `Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));`, UI stack `MultiReqImage image = new MultiReqImage();`, image row `list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));`, and table sizing `table.add(image).size(8 * 4);`, plus source anchors in `MultiReqImage`, `ReqImage`, `ContentLoader.liquids()`, and `Cell.size(float size)`. Generated output treats filtered liquid IDs and consumed liquid as canonical explicit inputs until concrete `Liquid`, `Boolf<Liquid>`, `TextureRegion`, `Table`, and UI widget binding are ported; it preserves the source filtered iteration order, per-liquid validity predicate, and exact size expression `8 * 4`. RED failed first with `4` expected failures because generated `build` had no source bridge payload, PortGame bridge methods were missing, source parity verifier was missing, and SSOT lacked `N1504`. Regeneration emitted `801` classes with `0` failures. JSON gate returned `json_modules 14 []`; fresh audit records `totalSourceFunctions=970`, `registeredSourceOwnerCount=965`, `exemptSourceOwnerCount=5`, and `legacyUnregisteredOwnerCount=0`. Focused GREEN passed `8` selected tests with `304` subtests and `3773` deselected in `3.65s`; full Python suite passed `3806` tests with `1294` subtests in `148.20s`. Clean MCP-started runtime showed Godot `4.6.2.stable.official.71f334935`, startup debug `errors: []`, runtime addon connected, and TCP `/root/Main.generated_consume_liquid_filter_build_bridge_state(["water","oil","slag"], "oil")` returned `matches=true`, `req_image_count=3`, only `oil` valid, and `table_image_size=32.0`; null consumed-liquid TCP returned `matches=true`, all req images invalid, and `table_image_size=32.0`. Regression TCP call on `/root/Main.generated_consume_liquid_filter_efficiency_multiplier_bridge_state("oil", 1.75)` returned `matches=true`. MCP debug after proof returned `errors: []`, runtime status returned `connected=true`, and stop returned `finalErrors: []`. Full game remains not complete; this row closes only `ConsumeLiquidFilter.build(Building, Table)` bridge state, not real Arc UI rendering, live predicate execution, concrete liquid binding, or broader consumer integration. |
 
+| N1505 | Power SSOT JSON shard modules | This infrastructure slice modules power-block migration metadata through `source_modules/power_slices.json`, `source_modules/power_api_contracts.json`, `source_modules/power_state_schema.json`, and `source_modules/power_symbols.json` without hand-authoring canonical values. The shard selector is `source_slice_ledger[*].java_source` containing `/world/blocks/power/`; it currently mirrors 50 slice rows, 50 API contracts, 100 existing canonical schemas, and 428 symbols. Manifest entries declare canonical modules `slice_ledger`, `api_contracts`, `state_schema`, and `registry`; each shard stores `canonical_*` references back to the root SSOT and mirrors only fields present in canonical data. RED failed first with expected `KeyError: 'power_slices'` because manifest entries and shard files were missing. Focused GREEN passed `2` selected tests with `628` subtests and `982` deselected in `1.94s`; JSON gate returned `json_modules 18 []`; focused `source_ssot` suite passed `15` selected tests with `1922` subtests and `2443` deselected in `6.40s`; full Python suite passed `3807` tests with `1922` subtests in `150.69s`. Clean MCP-started runtime showed Godot `4.6.2.stable.official.71f334935`, startup debug `errors: []`, and TCP `/root/Main.ssot_modules_state("power_slices")` plus `/root/Main.ssot_modules_state("power_symbols")` returned `loaded=true`, `count=12`, active shard paths `res://src/generated/source_modules/power_slices.json` and `res://src/generated/source_modules/power_symbols.json`, and extension modules containing `power_slices`, `power_api_contracts`, `power_state_schema`, and `power_symbols`; MCP runtime status returned `connected=true`, debug after proof returned `errors: []`, and stop returned `finalErrors: []`. Full game remains not complete; this row closes only power JSON modularization, not another Java gameplay behavior. |
+
 ## Not Done
 
-No tracked checklist item is currently open after N1504. Next slice must be selected from source/audit review before adding a new Not Done row.
+No tracked checklist item is currently open after N1505. Next slice must be selected from source/audit review before adding a new Not Done row.
 
 ## Scope
 

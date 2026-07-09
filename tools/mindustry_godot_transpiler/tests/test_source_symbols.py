@@ -360,6 +360,104 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(bullet_reports["bullet_state_schema"]["canonical_mirror"]["checked"], len(bullet_schema))
         self.assertEqual(bullet_reports["bullet_symbols"]["canonical_mirror"]["checked"], len(bullet_symbols))
 
+    def test_source_ssot_power_json_shards_declare_canonical_mirror_contracts(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        power_slices_entry = manifest["modules"]["power_slices"]
+        power_contracts_entry = manifest["modules"]["power_api_contracts"]
+        power_schema_entry = manifest["modules"]["power_state_schema"]
+        power_symbols_entry = manifest["modules"]["power_symbols"]
+
+        self.assertEqual(power_slices_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(power_slices_entry["canonical_reference_key"], "canonical_ledger")
+        self.assertEqual(power_slices_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertIn("java_method", power_slices_entry["mirror_fields"])
+
+        self.assertEqual(power_contracts_entry["canonical_module"], "api_contracts")
+        self.assertEqual(power_contracts_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(power_contracts_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertIn("return_keys", power_contracts_entry["mirror_fields"])
+
+        self.assertEqual(power_schema_entry["canonical_module"], "state_schema")
+        self.assertEqual(power_schema_entry["canonical_reference_key"], "canonical_schema")
+        self.assertEqual(power_schema_entry["canonical_reference_prefix"], "source_state_schema.")
+        self.assertEqual(power_schema_entry["root_key"], "schemas")
+
+        self.assertEqual(power_symbols_entry["canonical_module"], "registry")
+        self.assertEqual(power_symbols_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(power_symbols_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(power_symbols_entry["root_key"], "symbols")
+
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+        power_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")["slices"]
+        expected_slice_ids = {
+            slice_id
+            for slice_id, slice_entry in canonical_slices.items()
+            if "/world/blocks/power/" in slice_entry["java_source"]
+        }
+
+        self.assertEqual(set(power_slices), expected_slice_ids)
+        for slice_id in sorted(expected_slice_ids):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(power_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
+                for field in power_slices_entry["mirror_fields"]:
+                    self.assertEqual(power_slices[slice_id][field], canonical_slices[slice_id][field])
+
+        power_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_api_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+        expected_contract_owners = {entry["godot_owner"] for entry in power_slices.values()}
+        self.assertEqual(set(power_contracts), expected_contract_owners)
+        for owner in sorted(expected_contract_owners):
+            with self.subTest(owner=owner):
+                self.assertEqual(power_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
+                for field in power_contracts_entry["mirror_fields"]:
+                    self.assertEqual(power_contracts[owner][field], canonical_contracts[owner][field])
+
+        power_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_state_schema")["schemas"]
+        canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
+        expected_schema_names = set()
+        for owner, contract in sorted(power_contracts.items()):
+            for param in contract.get("params", []):
+                schema_name = str(param["schema"]).split(".", 1)[0]
+                if schema_name in canonical_schema:
+                    expected_schema_names.add(schema_name)
+            source_name = owner.split(".")[-1]
+            if source_name.endswith("_state"):
+                result_schema_name = source_name[:-len("_state")] + "_result"
+                if result_schema_name in canonical_schema:
+                    expected_schema_names.add(result_schema_name)
+        self.assertEqual(set(power_schema), expected_schema_names)
+        for schema_name in sorted(expected_schema_names):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(power_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
+                for field in power_schema_entry["mirror_fields"]:
+                    self.assertEqual(power_schema[schema_name][field], canonical_schema[schema_name][field])
+
+        power_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+        expected_symbol_names = {
+            symbol_name
+            for slice_entry in power_slices.values()
+            for symbol_name in slice_entry["source_symbols"]
+        }
+        self.assertEqual(set(power_symbols), expected_symbol_names)
+        for symbol_name in sorted(expected_symbol_names):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(power_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                for field in power_symbols_entry["mirror_fields"]:
+                    self.assertEqual(power_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        power_reports = {entry["name"]: entry for entry in report["modules"] if entry["name"].startswith("power_")}
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(power_reports["power_slices"]["canonical_mirror"]["checked"], len(power_slices))
+        self.assertEqual(power_reports["power_api_contracts"]["canonical_mirror"]["checked"], len(power_contracts))
+        self.assertEqual(power_reports["power_state_schema"]["canonical_mirror"]["checked"], len(power_schema))
+        self.assertEqual(power_reports["power_symbols"]["canonical_mirror"]["checked"], len(power_symbols))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 

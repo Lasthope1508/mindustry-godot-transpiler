@@ -1,0 +1,1187 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "selector": "java_source contains /world/blocks/power/"
+  },
+  "slices": {
+    "N888": {
+      "canonical_ledger": "source_slice_ledger.N888",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "add(Building build)",
+      "godot_owner": "PortGame.source_power_graph_add_role_state",
+      "source_symbols": [
+        "power_graph_add_role.build_present",
+        "power_graph_add_role.power_present",
+        "power_graph_add_role.graph_matches",
+        "power_graph_add_role.power_init",
+        "power_graph_add_role.old_graph_present",
+        "power_graph_add_role.old_graph_is_self",
+        "power_graph_add_role.old_graph_has_entity",
+        "power_graph_add_role.outputs_power",
+        "power_graph_add_role.consumes_power",
+        "power_graph_add_role.has_cons_power",
+        "power_graph_add_role.cons_power_buffered",
+        "power_graph_add_role.null_guard",
+        "power_graph_add_role.remove_old_graph_entity",
+        "power_graph_add_role.graph_assign",
+        "power_graph_add_role.init_assign",
+        "power_graph_add_role.all_add",
+        "power_graph_add_role.producer_consumer_gate",
+        "power_graph_add_role.producer_add",
+        "power_graph_add_role.consumer_add",
+        "power_graph_add_role.battery_gate",
+        "power_graph_add_role.battery_add",
+        "power_graph_add_role.producer_gate",
+        "power_graph_add_role.consumer_gate"
+      ],
+      "tests": [
+        "test_power_graph_add_role_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_role_state_for_mcp",
+        "test_power_graph_add_roles_match_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_add_role_state"
+    },
+    "N889": {
+      "canonical_ledger": "source_slice_ledger.N889",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerNeeded()",
+      "godot_owner": "PortGame.source_power_graph_power_needed_state",
+      "source_symbols": [
+        "consume_power_requested_power.buffered",
+        "consume_power_requested_power.unbuffered",
+        "consume_power_requested_power.buffered_input",
+        "consume_power_requested_power.usage_input",
+        "consume_power_requested_power.capacity_input",
+        "consume_power_requested_power.power_status_input",
+        "consume_power_requested_power.should_consume_input",
+        "power_graph_power_needed.consumers",
+        "power_graph_power_needed.initial",
+        "power_graph_power_needed.loop",
+        "power_graph_power_needed.consume_power",
+        "power_graph_power_needed.should_consume_power",
+        "power_graph_power_needed.requested_power",
+        "power_graph_power_needed.delta",
+        "power_graph_power_needed.add",
+        "power_graph_power_needed.return"
+      ],
+      "tests": [
+        "test_power_graph_power_needed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_needed_state_for_mcp",
+        "test_power_graph_power_needed_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_power_needed_state"
+    },
+    "N890": {
+      "canonical_ledger": "source_slice_ledger.N890",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getPowerProduced()",
+      "godot_owner": "PortGame.source_power_graph_power_produced_state",
+      "source_symbols": [
+        "power_graph_power_produced.producers",
+        "power_graph_power_produced.initial",
+        "power_graph_power_produced.loop",
+        "power_graph_power_produced.producer",
+        "power_graph_power_produced.producer_power",
+        "power_graph_power_produced.delta",
+        "power_graph_power_produced.add",
+        "power_graph_power_produced.return"
+      ],
+      "tests": [
+        "test_power_graph_power_produced_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_power_produced_state_for_mcp",
+        "test_power_graph_power_produced_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_power_produced_state"
+    },
+    "N891": {
+      "canonical_ledger": "source_slice_ledger.N891",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getBatteryStored()/getBatteryCapacity()/getTotalBatteryCapacity()",
+      "godot_owner": "PortGame.source_power_graph_battery_state",
+      "source_symbols": [
+        "power_graph_battery_state.stored_add",
+        "power_graph_battery_state.capacity_add",
+        "power_graph_battery_state.total_capacity_add",
+        "power_graph_battery_state.enabled"
+      ],
+      "tests": [
+        "test_power_graph_battery_state_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_battery_state_for_mcp",
+        "test_power_graph_battery_state_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_battery_state"
+    },
+    "N892": {
+      "canonical_ledger": "source_slice_ledger.N892",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "useBatteries(float needed)",
+      "godot_owner": "PortGame.source_power_graph_use_batteries_state",
+      "source_symbols": [
+        "power_graph_use_batteries.used",
+        "power_graph_use_batteries.consumed_percent",
+        "power_graph_use_batteries.status_mul",
+        "power_graph_use_batteries.needed"
+      ],
+      "tests": [
+        "test_power_graph_use_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_use_batteries_state_for_mcp",
+        "test_power_graph_use_batteries_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_use_batteries_state"
+    },
+    "N893": {
+      "canonical_ledger": "source_slice_ledger.N893",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "chargeBatteries(float excess)",
+      "godot_owner": "PortGame.source_power_graph_charge_batteries_state",
+      "source_symbols": [
+        "power_graph_charge_batteries.return_min",
+        "power_graph_charge_batteries.charged_percent",
+        "power_graph_charge_batteries.status_add",
+        "power_graph_charge_batteries.excess"
+      ],
+      "tests": [
+        "test_power_graph_charge_batteries_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_charge_batteries_state_for_mcp",
+        "test_power_graph_charge_batteries_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_charge_batteries_state"
+    },
+    "N894": {
+      "canonical_ledger": "source_slice_ledger.N894",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "distributePower(float needed, float produced, boolean charged)",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "source_symbols": [
+        "power_graph_distribute_power.coverage",
+        "power_graph_distribute_power.maximum_rate",
+        "power_graph_distribute_power.buffered_status_clamp",
+        "power_graph_distribute_power.unbuffered_coverage_status",
+        "power_graph_distribute_power.unbuffered_estimate_status",
+        "power_graph_distribute_power.nan_status_zero",
+        "power_graph_distribute_power.last_power_stored"
+      ],
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "N895": {
+      "canonical_ledger": "source_slice_ledger.N895",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_cheat_state",
+      "source_symbols": [
+        "power_graph_update_cheat.method",
+        "power_graph_update_cheat.cheat_gate",
+        "power_graph_update_cheat.consumers_empty",
+        "power_graph_update_cheat.first_cheating",
+        "power_graph_update_cheat.status_one",
+        "power_graph_update_cheat.last_power_assign",
+        "power_graph_update_cheat.return"
+      ],
+      "tests": [
+        "test_power_graph_update_cheat_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_cheat_state_for_mcp",
+        "test_power_graph_update_cheat_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_cheat_state"
+    },
+    "N896": {
+      "canonical_ledger": "source_slice_ledger.N896",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "source_symbols": [
+        "power_graph_update_balance.power_needed",
+        "power_graph_update_balance.power_produced",
+        "power_graph_update_balance.last_power_needed",
+        "power_graph_update_balance.last_power_produced",
+        "power_graph_update_balance.last_scaled_power_in",
+        "power_graph_update_balance.last_scaled_power_out",
+        "power_graph_update_balance.last_capacity",
+        "power_graph_update_balance.last_power_stored",
+        "power_graph_update_balance.power_balance",
+        "power_graph_update_balance.energy_delta_zero",
+        "power_graph_update_balance.source_delta"
+      ],
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "N897": {
+      "canonical_ledger": "source_slice_ledger.N897",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_power_graph_update_battery_distribute_state",
+      "source_symbols": [
+        "power_graph_update_battery_distribute.nonempty_guard",
+        "power_graph_update_battery_distribute.charged_init",
+        "power_graph_update_battery_distribute.unequal_guard",
+        "power_graph_update_battery_distribute.deficit_gate",
+        "power_graph_update_battery_distribute.power_battery_used",
+        "power_graph_update_battery_distribute.power_produced_battery_add",
+        "power_graph_update_battery_distribute.last_power_produced_battery_add",
+        "power_graph_update_battery_distribute.surplus_gate",
+        "power_graph_update_battery_distribute.charged_true",
+        "power_graph_update_battery_distribute.power_produced_charge_sub",
+        "power_graph_update_battery_distribute.distribute_power",
+        "power_graph_update_battery_distribute.consumers",
+        "power_graph_update_battery_distribute.producers",
+        "power_graph_update_battery_distribute.batteries",
+        "power_graph_update_battery_distribute.power_needed",
+        "power_graph_update_battery_distribute.power_produced",
+        "power_graph_update_battery_distribute.last_power_produced",
+        "power_graph_update_battery_distribute.last_power_stored"
+      ],
+      "tests": [
+        "test_power_graph_update_battery_distribute_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_battery_distribute_state_for_mcp",
+        "test_power_graph_update_battery_distribute_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_battery_distribute_state"
+    },
+    "N898": {
+      "canonical_ledger": "source_slice_ledger.N898",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "addGraph(PowerGraph graph)",
+      "godot_owner": "PortGame.source_power_graph_add_graph_state",
+      "source_symbols": [
+        "power_graph_add_graph.graph_is_self",
+        "power_graph_add_graph.graph_all_size",
+        "power_graph_add_graph.all_size",
+        "power_graph_add_graph.graph_has_entity",
+        "power_graph_add_graph.graph_tiles",
+        "power_graph_add_graph.self_guard",
+        "power_graph_add_graph.delegate_guard",
+        "power_graph_add_graph.delegate_call",
+        "power_graph_add_graph.remove_graph_entity",
+        "power_graph_add_graph.graph_all_loop",
+        "power_graph_add_graph.add_tile",
+        "power_graph_add_graph.check_add"
+      ],
+      "tests": [
+        "test_power_graph_add_graph_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_add_graph_state_for_mcp",
+        "test_power_graph_add_graph_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_add_graph_state"
+    },
+    "N899": {
+      "canonical_ledger": "source_slice_ledger.N899",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "checkAdd()",
+      "godot_owner": "PortGame.source_power_graph_check_add_state",
+      "source_symbols": [
+        "power_graph_check_add.entity_present",
+        "power_graph_check_add.entity_add_guard"
+      ],
+      "tests": [
+        "test_power_graph_check_add_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_check_add_state_for_mcp",
+        "test_power_graph_check_add_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_check_add_state"
+    },
+    "N900": {
+      "canonical_ledger": "source_slice_ledger.N900",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "clear()",
+      "godot_owner": "PortGame.source_power_graph_clear_state",
+      "source_symbols": [
+        "power_graph_clear.all",
+        "power_graph_clear.producers",
+        "power_graph_clear.consumers",
+        "power_graph_clear.batteries",
+        "power_graph_clear.entity_present",
+        "power_graph_clear.all_clear",
+        "power_graph_clear.producers_clear",
+        "power_graph_clear.consumers_clear",
+        "power_graph_clear.batteries_clear",
+        "power_graph_clear.entity_remove_guard"
+      ],
+      "tests": [
+        "test_power_graph_clear_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_clear_state_for_mcp",
+        "test_power_graph_clear_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_clear_state"
+    },
+    "N901": {
+      "canonical_ledger": "source_slice_ledger.N901",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "reflow(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_reflow_state",
+      "source_symbols": [
+        "power_graph_reflow.tile",
+        "power_graph_reflow.queue_clear",
+        "power_graph_reflow.queue_add_tile",
+        "power_graph_reflow.closed_set_clear",
+        "power_graph_reflow.while_queue",
+        "power_graph_reflow.remove_first",
+        "power_graph_reflow.add_child",
+        "power_graph_reflow.check_add",
+        "power_graph_reflow.connections_loop",
+        "power_graph_reflow.closed_set_add",
+        "power_graph_reflow.queue_add_next"
+      ],
+      "tests": [
+        "test_power_graph_reflow_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_reflow_state_for_mcp",
+        "test_power_graph_reflow_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_reflow_state"
+    },
+    "N902": {
+      "canonical_ledger": "source_slice_ledger.N902",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "removeList(Building build)",
+      "godot_owner": "PortGame.source_power_graph_remove_list_state",
+      "source_symbols": [
+        "power_graph_remove_list.all",
+        "power_graph_remove_list.producers",
+        "power_graph_remove_list.consumers",
+        "power_graph_remove_list.batteries",
+        "power_graph_remove_list.build",
+        "power_graph_remove_list.comment",
+        "power_graph_remove_list.all_remove",
+        "power_graph_remove_list.producers_remove",
+        "power_graph_remove_list.consumers_remove",
+        "power_graph_remove_list.batteries_remove"
+      ],
+      "tests": [
+        "test_power_graph_remove_list_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_list_state_for_mcp",
+        "test_power_graph_remove_list_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_list_state"
+    },
+    "N903": {
+      "canonical_ledger": "source_slice_ledger.N903",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_seed_state",
+      "source_symbols": [
+        "power_graph_remove_branch_seed.tile",
+        "power_graph_remove_branch_seed.other_power_graph_is_self",
+        "power_graph_remove_branch_seed.remove_comment",
+        "power_graph_remove_branch_seed.connections_loop",
+        "power_graph_remove_branch_seed.skip_guard",
+        "power_graph_remove_branch_seed.graph_create",
+        "power_graph_remove_branch_seed.graph_check_add",
+        "power_graph_remove_branch_seed.graph_add_other",
+        "power_graph_remove_branch_seed.queue_clear",
+        "power_graph_remove_branch_seed.queue_add_other"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_seed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_seed_state_for_mcp",
+        "test_power_graph_remove_branch_seed_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_seed_state"
+    },
+    "N904": {
+      "canonical_ledger": "source_slice_ledger.N904",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_bfs_state",
+      "source_symbols": [
+        "power_graph_remove_branch_bfs.tile",
+        "power_graph_remove_branch_bfs.while_queue",
+        "power_graph_remove_branch_bfs.remove_first",
+        "power_graph_remove_branch_bfs.graph_add_child",
+        "power_graph_remove_branch_bfs.connections_loop",
+        "power_graph_remove_branch_bfs.branch_guard",
+        "power_graph_remove_branch_bfs.graph_add_next",
+        "power_graph_remove_branch_bfs.queue_add_next"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_bfs_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_bfs_state_for_mcp",
+        "test_power_graph_remove_branch_bfs_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_bfs_state"
+    },
+    "N905": {
+      "canonical_ledger": "source_slice_ledger.N905",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_branch_update_state",
+      "source_symbols": [
+        "power_graph_remove_branch_update.tile",
+        "power_graph_remove_branch_update.update_comment",
+        "power_graph_remove_branch_update.graph_update"
+      ],
+      "tests": [
+        "test_power_graph_remove_branch_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_branch_update_state_for_mcp",
+        "test_power_graph_remove_branch_update_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_branch_update_state"
+    },
+    "N906": {
+      "canonical_ledger": "source_slice_ledger.N906",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "remove(Building tile)",
+      "godot_owner": "PortGame.source_power_graph_remove_empty_entity_state",
+      "source_symbols": [
+        "power_graph_remove_empty_entity.tile",
+        "power_graph_remove_empty_entity.entity_present",
+        "power_graph_remove_empty_entity.empty_graph_comment",
+        "power_graph_remove_empty_entity.entity_remove_guard"
+      ],
+      "tests": [
+        "test_power_graph_remove_empty_entity_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_remove_empty_entity_state_for_mcp",
+        "test_power_graph_remove_empty_entity_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_remove_empty_entity_state"
+    },
+    "N907": {
+      "canonical_ledger": "source_slice_ledger.N907",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getId()",
+      "godot_owner": "PortGame.source_power_graph_get_id_state",
+      "source_symbols": [
+        "power_graph_get_id.graph_id",
+        "power_graph_get_id.return_graph_id"
+      ],
+      "tests": [
+        "test_power_graph_get_id_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_get_id_state_for_mcp",
+        "test_power_graph_get_id_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_get_id_state"
+    },
+    "N908": {
+      "canonical_ledger": "source_slice_ledger.N908",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "toString()",
+      "godot_owner": "PortGame.source_power_graph_to_string_state",
+      "source_symbols": [
+        "power_graph_to_string.override",
+        "power_graph_to_string.method",
+        "power_graph_to_string.producers",
+        "power_graph_to_string.consumers",
+        "power_graph_to_string.batteries",
+        "power_graph_to_string.all",
+        "power_graph_to_string.graph_id",
+        "power_graph_to_string.return"
+      ],
+      "tests": [
+        "test_power_graph_to_string_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_to_string_state_for_mcp",
+        "test_power_graph_to_string_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_to_string_state"
+    },
+    "N909": {
+      "canonical_ledger": "source_slice_ledger.N909",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getPowerProduction()",
+      "godot_owner": "PortGame.source_power_generator_get_power_production_state",
+      "source_symbols": [
+        "power_generator_get_power_production.enabled",
+        "power_generator_get_power_production.power_production",
+        "power_generator_get_power_production.production_efficiency",
+        "power_generator_get_power_production.return_power_production"
+      ],
+      "tests": [
+        "test_power_generator_get_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_get_power_production_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_get_power_production_state"
+    },
+    "N910": {
+      "canonical_ledger": "source_slice_ledger.N910",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "warmup()",
+      "godot_owner": "PortGame.source_power_generator_warmup_state",
+      "source_symbols": [
+        "power_generator_warmup.enabled",
+        "power_generator_warmup.production_efficiency",
+        "power_generator_warmup.return_warmup"
+      ],
+      "tests": [
+        "test_power_generator_warmup_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_warmup_state"
+    },
+    "N911": {
+      "canonical_ledger": "source_slice_ledger.N911",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "shouldExplode()",
+      "godot_owner": "PortGame.source_power_generator_should_explode_state",
+      "source_symbols": [
+        "power_generator_should_explode.explosion_min_warmup",
+        "power_generator_should_explode.method",
+        "power_generator_should_explode.warmup_call",
+        "power_generator_should_explode.return_should_explode"
+      ],
+      "tests": [
+        "test_power_generator_should_explode_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_should_explode_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_should_explode_state"
+    },
+    "N912": {
+      "canonical_ledger": "source_slice_ledger.N912",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "ambientVolume()",
+      "godot_owner": "PortGame.source_power_generator_ambient_volume_state",
+      "source_symbols": [
+        "power_generator_ambient_volume.production_efficiency",
+        "power_generator_ambient_volume.method",
+        "power_generator_ambient_volume.return_clamp",
+        "power_generator_ambient_volume.mathf_clamp_unit"
+      ],
+      "tests": [
+        "test_power_generator_ambient_volume_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_ambient_volume_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_ambient_volume_state"
+    },
+    "N913": {
+      "canonical_ledger": "source_slice_ledger.N913",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_gate_state",
+      "source_symbols": [
+        "power_generator_create_explosion_gate.should_explode_call",
+        "power_generator_create_explosion_gate.method",
+        "power_generator_create_explosion_gate.gate",
+        "power_generator_create_explosion_gate.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_gate_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_gate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_gate_state"
+    },
+    "N914": {
+      "canonical_ledger": "source_slice_ledger.N914",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_damage_state",
+      "source_symbols": [
+        "power_generator_create_explosion_damage.should_explode_call",
+        "power_generator_create_explosion_damage.source_x",
+        "power_generator_create_explosion_damage.source_y",
+        "power_generator_create_explosion_damage.explosion_radius",
+        "power_generator_create_explosion_damage.explosion_damage",
+        "power_generator_create_explosion_damage.source_tilesize",
+        "power_generator_create_explosion_damage.method",
+        "power_generator_create_explosion_damage.gate",
+        "power_generator_create_explosion_damage.damage_guard",
+        "power_generator_create_explosion_damage.damage_dispatch",
+        "power_generator_create_explosion_damage.damage_radius",
+        "power_generator_create_explosion_damage.damage_overload_method",
+        "power_generator_create_explosion_damage.damage_overload_dispatch",
+        "power_generator_create_explosion_damage.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_damage_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_damage_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_damage_state"
+    },
+    "N915": {
+      "canonical_ledger": "source_slice_ledger.N915",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_effect_sound_state",
+      "source_symbols": [
+        "power_generator_create_explosion_effect_sound.should_explode_call",
+        "power_generator_create_explosion_effect_sound.source_x",
+        "power_generator_create_explosion_effect_sound.source_y",
+        "power_generator_create_explosion_effect_sound.explode_effect",
+        "power_generator_create_explosion_effect_sound.explode_sound",
+        "power_generator_create_explosion_effect_sound.effect_field",
+        "power_generator_create_explosion_effect_sound.sound_field",
+        "power_generator_create_explosion_effect_sound.method",
+        "power_generator_create_explosion_effect_sound.gate",
+        "power_generator_create_explosion_effect_sound.effect_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_dispatch",
+        "power_generator_create_explosion_effect_sound.effect_position_overload",
+        "power_generator_create_explosion_effect_sound.effect_position_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_position_overload",
+        "power_generator_create_explosion_effect_sound.sound_position_dispatch",
+        "power_generator_create_explosion_effect_sound.sound_xy_dispatch",
+        "power_generator_create_explosion_effect_sound.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_effect_sound_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_effect_sound_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_effect_sound_state"
+    },
+    "N916": {
+      "canonical_ledger": "source_slice_ledger.N916",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_loop_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_loop.should_explode_call",
+        "power_generator_create_explosion_puddle_loop.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_loop.explosion_puddles",
+        "power_generator_create_explosion_puddle_loop.puddles_field",
+        "power_generator_create_explosion_puddle_loop.puddle_liquid_field",
+        "power_generator_create_explosion_puddle_loop.method",
+        "power_generator_create_explosion_puddle_loop.gate",
+        "power_generator_create_explosion_puddle_loop.puddle_guard",
+        "power_generator_create_explosion_puddle_loop.puddle_loop",
+        "power_generator_create_explosion_puddle_loop.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_puddle_loop_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_loop_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_loop_state"
+    },
+    "N917": {
+      "canonical_ledger": "source_slice_ledger.N917",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_vector.should_explode_call",
+        "power_generator_create_explosion_puddle_vector.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_vector.explosion_puddles",
+        "power_generator_create_explosion_puddle_vector.explosion_puddle_range",
+        "power_generator_create_explosion_puddle_vector.random_angle_units",
+        "power_generator_create_explosion_puddle_vector.random_range_units",
+        "power_generator_create_explosion_puddle_vector.puddle_range_field",
+        "power_generator_create_explosion_puddle_vector.method",
+        "power_generator_create_explosion_puddle_vector.gate",
+        "power_generator_create_explosion_puddle_vector.puddle_guard",
+        "power_generator_create_explosion_puddle_vector.puddle_loop",
+        "power_generator_create_explosion_puddle_vector.random_vector",
+        "power_generator_create_explosion_puddle_vector.mathf_random_float",
+        "power_generator_create_explosion_puddle_vector.vec2_trns",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_x",
+        "power_generator_create_explosion_puddle_vector.vec2_rotate_rad_new_y",
+        "power_generator_create_explosion_puddle_vector.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_puddle_vector_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_vector_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_vector_state"
+    },
+    "N918": {
+      "canonical_ledger": "source_slice_ledger.N918",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_tile_world.should_explode_call",
+        "power_generator_create_explosion_puddle_tile_world.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_tile_world.explosion_puddles",
+        "power_generator_create_explosion_puddle_tile_world.source_x",
+        "power_generator_create_explosion_puddle_tile_world.source_y",
+        "power_generator_create_explosion_puddle_tile_world.source_tilesize",
+        "power_generator_create_explosion_puddle_tile_world.tmp_v1_vectors",
+        "power_generator_create_explosion_puddle_tile_world.method",
+        "power_generator_create_explosion_puddle_tile_world.gate",
+        "power_generator_create_explosion_puddle_tile_world.puddle_guard",
+        "power_generator_create_explosion_puddle_tile_world.puddle_loop",
+        "power_generator_create_explosion_puddle_tile_world.random_vector",
+        "power_generator_create_explosion_puddle_tile_world.tile_assignment",
+        "power_generator_create_explosion_puddle_tile_world.world_tile_world",
+        "power_generator_create_explosion_puddle_tile_world.world_tile",
+        "power_generator_create_explosion_puddle_tile_world.world_to_tile",
+        "power_generator_create_explosion_puddle_tile_world.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_puddle_tile_world_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_tile_world_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_tile_world_state"
+    },
+    "N919": {
+      "canonical_ledger": "source_slice_ledger.N919",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state",
+      "source_symbols": [
+        "power_generator_create_explosion_puddle_deposit.should_explode_call",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddle_liquid",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddles",
+        "power_generator_create_explosion_puddle_deposit.explosion_puddle_amount",
+        "power_generator_create_explosion_puddle_deposit.tile_world_calls",
+        "power_generator_create_explosion_puddle_deposit.method",
+        "power_generator_create_explosion_puddle_deposit.gate",
+        "power_generator_create_explosion_puddle_deposit.puddle_guard",
+        "power_generator_create_explosion_puddle_deposit.puddle_loop",
+        "power_generator_create_explosion_puddle_deposit.puddle_amount_field",
+        "power_generator_create_explosion_puddle_deposit.deposit_call",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_tile_dispatch",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_initial_dispatch",
+        "power_generator_create_explosion_puddle_deposit.puddles_deposit_full_method",
+        "power_generator_create_explosion_puddle_deposit.puddles_null_guard",
+        "power_generator_create_explosion_puddle_deposit.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_puddle_deposit_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_puddle_deposit_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_puddle_deposit_state"
+    },
+    "N920": {
+      "canonical_ledger": "source_slice_ledger.N920",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "createExplosion()",
+      "godot_owner": "PortGame.source_power_generator_create_explosion_shake_state",
+      "source_symbols": [
+        "power_generator_create_explosion_shake.should_explode_call",
+        "power_generator_create_explosion_shake.source_x",
+        "power_generator_create_explosion_shake.source_y",
+        "power_generator_create_explosion_shake.explosion_shake",
+        "power_generator_create_explosion_shake.explosion_shake_duration",
+        "power_generator_create_explosion_shake.method",
+        "power_generator_create_explosion_shake.gate",
+        "power_generator_create_explosion_shake.shake_fields",
+        "power_generator_create_explosion_shake.shake_guard",
+        "power_generator_create_explosion_shake.shake_call",
+        "power_generator_create_explosion_shake.effect_shake_position_method",
+        "power_generator_create_explosion_shake.effect_shake_position_dispatch",
+        "power_generator_create_explosion_shake.position_get_x",
+        "power_generator_create_explosion_shake.position_get_y",
+        "power_generator_create_explosion_shake.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_create_explosion_shake_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_create_explosion_shake_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_create_explosion_shake_state"
+    },
+    "N921": {
+      "canonical_ledger": "source_slice_ledger.N921",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "onDestroyed()",
+      "godot_owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state",
+      "source_symbols": [
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions",
+        "power_generator_on_destroyed_reactor_explosion.create_explosion_state",
+        "power_generator_on_destroyed_reactor_explosion.override",
+        "power_generator_on_destroyed_reactor_explosion.method",
+        "power_generator_on_destroyed_reactor_explosion.super_call",
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions_field",
+        "power_generator_on_destroyed_reactor_explosion.reactor_explosions_guard",
+        "power_generator_on_destroyed_reactor_explosion.create_explosion_call",
+        "power_generator_on_destroyed_reactor_explosion.deferred_body"
+      ],
+      "tests": [
+        "test_power_generator_on_destroyed_reactor_explosion_matches_upstream_source",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_on_destroyed_reactor_explosion_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_on_destroyed_reactor_explosion_state"
+    },
+    "N922": {
+      "canonical_ledger": "source_slice_ledger.N922",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "godot_owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "source_symbols": [
+        "power_generator_displayed_power_production.power_production",
+        "power_generator_displayed_power_production.return_power_production",
+        "power_generator_displayed_power_production.schematic_sum"
+      ],
+      "tests": [
+        "test_power_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_displayed_power_production_state"
+    },
+    "N923": {
+      "canonical_ledger": "source_slice_ledger.N923",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "version()/write(Writes write)/read(Reads read, byte revision)",
+      "godot_owner": "PortGame.source_power_generator_build_serialization_state",
+      "source_symbols": [
+        "power_generator_build_serialization.production_efficiency",
+        "power_generator_build_serialization.generate_time",
+        "power_generator_build_serialization.version_return",
+        "power_generator_build_serialization.write_production_efficiency",
+        "power_generator_build_serialization.write_generate_time",
+        "power_generator_build_serialization.read_production_efficiency",
+        "power_generator_build_serialization.read_revision_guard",
+        "power_generator_build_serialization.read_generate_time"
+      ],
+      "tests": [
+        "test_power_generator_build_serialization_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_power_generator_build_serialization_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_generator_build_serialization_state"
+    },
+    "N924": {
+      "canonical_ledger": "source_slice_ledger.N924",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/SolarGenerator.java",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_solar_generator_update_tile_state",
+      "source_symbols": [
+        "solar_generator_update_tile.enabled",
+        "solar_generator_update_tile.solar_multiplier",
+        "solar_generator_update_tile.light_env",
+        "solar_generator_update_tile.lighting",
+        "solar_generator_update_tile.ambient_light_alpha",
+        "solar_generator_update_tile.production_efficiency",
+        "solar_generator_update_tile.max_zero"
+      ],
+      "tests": [
+        "test_solar_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_solar_generator_update_tile_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_solar_generator_update_tile_state"
+    },
+    "N925": {
+      "canonical_ledger": "source_slice_ledger.N925",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile()",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_state",
+      "source_symbols": [
+        "thermal_generator_update_tile.sum",
+        "thermal_generator_update_tile.attribute_env",
+        "thermal_generator_update_tile.production_efficiency"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_state"
+    },
+    "N926": {
+      "canonical_ledger": "source_slice_ledger.N926",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "godot_owner": "PortGame.source_thermal_generator_displayed_power_production_state",
+      "source_symbols": [
+        "thermal_generator_displayed_power_production.power_production",
+        "thermal_generator_displayed_power_production.display_efficiency_scale",
+        "thermal_generator_displayed_power_production.displayed_power_production"
+      ],
+      "tests": [
+        "test_thermal_generator_displayed_power_production_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_displayed_power_production_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_displayed_power_production_state"
+    },
+    "N927": {
+      "canonical_ledger": "source_slice_ledger.N927",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "init()",
+      "godot_owner": "PortGame.source_thermal_generator_init_state",
+      "source_symbols": [
+        "thermal_generator_init.output_liquid_present",
+        "thermal_generator_init.initial_light_clip_size",
+        "thermal_generator_init.size",
+        "thermal_generator_init.outputs_liquid",
+        "thermal_generator_init.has_liquids",
+        "thermal_generator_init.emit_light",
+        "thermal_generator_init.light_clip_size"
+      ],
+      "tests": [
+        "test_thermal_generator_init_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_init_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_init_state"
+    },
+    "N928": {
+      "canonical_ledger": "source_slice_ledger.N928",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "totalProgress()",
+      "godot_owner": "PortGame.source_thermal_generator_total_progress_state",
+      "source_symbols": [
+        "thermal_generator_total_progress.enabled",
+        "thermal_generator_total_progress.sum",
+        "thermal_generator_total_progress.super_total_progress",
+        "thermal_generator_total_progress.total_progress"
+      ],
+      "tests": [
+        "test_thermal_generator_total_progress_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_total_progress_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_total_progress_state"
+    },
+    "N929": {
+      "canonical_ledger": "source_slice_ledger.N929",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "afterPickedUp()",
+      "godot_owner": "PortGame.source_thermal_generator_after_picked_up_state",
+      "source_symbols": [
+        "thermal_generator_after_picked_up.sum",
+        "thermal_generator_after_picked_up.super_after_picked_up_state",
+        "thermal_generator_after_picked_up.sum_reset"
+      ],
+      "tests": [
+        "test_thermal_generator_after_picked_up_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_after_picked_up_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_after_picked_up_state"
+    },
+    "N930": {
+      "canonical_ledger": "source_slice_ledger.N930",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "onProximityAdded()",
+      "godot_owner": "PortGame.source_thermal_generator_on_proximity_added_state",
+      "source_symbols": [
+        "thermal_generator_on_proximity_added.sum_attribute",
+        "thermal_generator_on_proximity_added.super_on_proximity_added_state",
+        "thermal_generator_on_proximity_added.sum"
+      ],
+      "tests": [
+        "test_thermal_generator_on_proximity_added_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_on_proximity_added_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_on_proximity_added_state"
+    },
+    "N931": {
+      "canonical_ledger": "source_slice_ledger.N931",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "canPlaceOn(Tile tile, Team team, int rotation)",
+      "godot_owner": "PortGame.source_thermal_generator_can_place_on_state",
+      "source_symbols": [
+        "thermal_generator_can_place_on.linked_attribute_sum",
+        "thermal_generator_can_place_on.min_efficiency",
+        "thermal_generator_can_place_on.can_place_on"
+      ],
+      "tests": [
+        "test_thermal_generator_can_place_on_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_can_place_on_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_can_place_on_state"
+    },
+    "N932": {
+      "canonical_ledger": "source_slice_ledger.N932",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawLight()",
+      "godot_owner": "PortGame.source_thermal_generator_draw_light_state",
+      "source_symbols": [
+        "thermal_generator_draw_light.absin",
+        "thermal_generator_draw_light.capped_production_efficiency",
+        "thermal_generator_draw_light.light_call",
+        "thermal_generator_draw_light.light_radius",
+        "thermal_generator_draw_light.production_efficiency",
+        "thermal_generator_draw_light.size",
+        "thermal_generator_draw_light.source_time",
+        "thermal_generator_draw_light.source_x",
+        "thermal_generator_draw_light.source_y"
+      ],
+      "tests": [
+        "test_thermal_generator_draw_light_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_light_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_light_state"
+    },
+    "N933": {
+      "canonical_ledger": "source_slice_ledger.N933",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats()",
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_state",
+      "source_symbols": [
+        "thermal_generator_set_stats.display_efficiency",
+        "thermal_generator_set_stats.display_efficiency_scale",
+        "thermal_generator_set_stats.floating",
+        "thermal_generator_set_stats.generation_stat_removed",
+        "thermal_generator_set_stats.generation_stat_value",
+        "thermal_generator_set_stats.power_production",
+        "thermal_generator_set_stats.size",
+        "thermal_generator_set_stats.super_set_stats_state",
+        "thermal_generator_set_stats.tile_stat_scale",
+        "thermal_generator_set_stats.tile_stat_start_zero"
+      ],
+      "tests": [
+        "test_thermal_generator_set_stats_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_state"
+    },
+    "N934": {
+      "canonical_ledger": "source_slice_ledger.N934",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "setStats() outputLiquid branch",
+      "godot_owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state",
+      "source_symbols": [
+        "thermal_generator_set_stats_output_liquid.output_liquid_amount",
+        "thermal_generator_set_stats_output_liquid.output_liquid_liquid",
+        "thermal_generator_set_stats_output_liquid.output_liquid_present",
+        "thermal_generator_set_stats_output_liquid.output_stat_added",
+        "thermal_generator_set_stats_output_liquid.output_stat_amount",
+        "thermal_generator_set_stats_output_liquid.output_stat_call",
+        "thermal_generator_set_stats_output_liquid.per_second",
+        "thermal_generator_set_stats_output_liquid.size"
+      ],
+      "tests": [
+        "test_thermal_generator_set_stats_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_set_stats_output_liquid_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_set_stats_output_liquid_state"
+    },
+    "N935": {
+      "canonical_ledger": "source_slice_ledger.N935",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_thermal_generator_draw_place_state",
+      "source_symbols": [
+        "thermal_generator_draw_place.display_efficiency",
+        "thermal_generator_draw_place.display_efficiency_guard",
+        "thermal_generator_draw_place.display_efficiency_scale",
+        "thermal_generator_draw_place.draw_place_text_added",
+        "thermal_generator_draw_place.draw_place_text_call",
+        "thermal_generator_draw_place.efficiency_value",
+        "thermal_generator_draw_place.rotation",
+        "thermal_generator_draw_place.sum_attribute",
+        "thermal_generator_draw_place.super_draw_place",
+        "thermal_generator_draw_place.valid",
+        "thermal_generator_draw_place.x",
+        "thermal_generator_draw_place.y"
+      ],
+      "tests": [
+        "test_thermal_generator_draw_place_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_draw_place_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_draw_place_state"
+    },
+    "N936": {
+      "canonical_ledger": "source_slice_ledger.N936",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() effect branch",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_effect_state",
+      "source_symbols": [
+        "thermal_generator_update_tile_effect.chance_delta_result",
+        "thermal_generator_update_tile_effect.effect_chance",
+        "thermal_generator_update_tile_effect.effect_gate",
+        "thermal_generator_update_tile_effect.effect_triggered",
+        "thermal_generator_update_tile_effect.effect_x",
+        "thermal_generator_update_tile_effect.effect_y",
+        "thermal_generator_update_tile_effect.generate_effect_call",
+        "thermal_generator_update_tile_effect.generate_effect_name",
+        "thermal_generator_update_tile_effect.production_efficiency",
+        "thermal_generator_update_tile_effect.range_x",
+        "thermal_generator_update_tile_effect.range_y",
+        "thermal_generator_update_tile_effect.source_x",
+        "thermal_generator_update_tile_effect.source_y"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_effect_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_effect_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_effect_state"
+    },
+    "N937": {
+      "canonical_ledger": "source_slice_ledger.N937",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java",
+      "java_method": "updateTile() outputLiquid branch",
+      "godot_owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state",
+      "source_symbols": [
+        "thermal_generator_update_tile_output_liquid.added",
+        "thermal_generator_update_tile_output_liquid.current_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.delta_value",
+        "thermal_generator_update_tile_output_liquid.dump_liquid_called",
+        "thermal_generator_update_tile_output_liquid.liquid_amount_after",
+        "thermal_generator_update_tile_output_liquid.liquid_capacity",
+        "thermal_generator_update_tile_output_liquid.output_liquid_guard",
+        "thermal_generator_update_tile_output_liquid.output_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.output_liquid_liquid",
+        "thermal_generator_update_tile_output_liquid.output_liquid_present",
+        "thermal_generator_update_tile_output_liquid.production_efficiency",
+        "thermal_generator_update_tile_output_liquid.production_liquid_amount",
+        "thermal_generator_update_tile_output_liquid.remaining_capacity"
+      ],
+      "tests": [
+        "test_thermal_generator_update_tile_output_liquid_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_selected_build_power_metadata_for_mcp",
+        "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state"
+    }
+  }
+}
