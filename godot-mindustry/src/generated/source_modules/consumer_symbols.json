@@ -3940,6 +3940,186 @@
       "status": "source-backed",
       "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
       "godot_symbol": "source_consume_liquid_filter_update_result.remove_call"
+    },
+    "consume_liquid_filter_efficiency.method": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.method",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_result.method"
+    },
+    "consume_liquid_filter_efficiency.consumed_liquid": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.consumed_liquid",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "explicit-input",
+      "java_expr": "var liq = getConsumed(build);",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_input.consumed_liquid"
+    },
+    "consume_liquid_filter_efficiency.build_liquids_get": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.build_liquids_get",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "status": "explicit-input",
+      "java_expr": "build.liquids.get(liq)",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_input.build_liquids_get"
+    },
+    "consume_liquid_filter_efficiency.amount": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.amount",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "status": "explicit-input",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_input.amount"
+    },
+    "consume_liquid_filter_efficiency.build_edelta": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.build_edelta",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "status": "explicit-input",
+      "java_expr": "build.edelta()",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_input.build_edelta"
+    },
+    "consume_liquid_filter_efficiency.multiplier_get_build": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.multiplier_get_build",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "status": "explicit-input",
+      "java_expr": "multiplier.get(build)",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_input.multiplier_get_build"
+    },
+    "consume_liquid_filter_efficiency.ed_guard": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.ed_guard",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "if(ed <= 0.00000001f) return 0f;",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_result.ed_guard"
+    },
+    "consume_liquid_filter_efficiency.required_liquid_amount": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.required_liquid_amount",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "amount * ed * multiplier.get(build)",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_result.required_liquid_amount"
+    },
+    "consume_liquid_filter_efficiency.raw_efficiency": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.raw_efficiency",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "build.liquids.get(liq) / (amount * ed * multiplier.get(build))",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_result.raw_efficiency"
+    },
+    "consume_liquid_filter_efficiency.efficiency": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_efficiency.efficiency",
+      "source_slice": "N1502",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f)",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_result.efficiency"
     }
   }
 }

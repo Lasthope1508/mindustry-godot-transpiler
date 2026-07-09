@@ -681,6 +681,35 @@
         "test_consume_liquid_filter_update_matches_upstream_source",
         "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1502": {
+      "canonical_ledger": "source_slice_ledger.N1502",
+      "title": "Generated ConsumeLiquidFilter efficiency bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "efficiency(Building build)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_efficiency_3",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_bridge_state",
+      "source_symbols": [
+        "consume_liquid_filter_efficiency.method",
+        "consume_liquid_filter_efficiency.consumed_liquid",
+        "consume_liquid_filter_efficiency.build_liquids_get",
+        "consume_liquid_filter_efficiency.amount",
+        "consume_liquid_filter_efficiency.build_edelta",
+        "consume_liquid_filter_efficiency.multiplier_get_build",
+        "consume_liquid_filter_efficiency.ed_guard",
+        "consume_liquid_filter_efficiency.required_liquid_amount",
+        "consume_liquid_filter_efficiency.raw_efficiency",
+        "consume_liquid_filter_efficiency.efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

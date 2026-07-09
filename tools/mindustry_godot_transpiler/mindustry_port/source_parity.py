@@ -5338,6 +5338,57 @@ def verify_consume_liquid_filter_update_source(upstream_root: Path, arc_root: Pa
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_efficiency_source(upstream_root: Path, arc_root: Path | None = None) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    liquid_module_source = "core/src/mindustry/world/modules/LiquidModule.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    floatf_source = "arc-core/src/arc/func/Floatf.java"
+    upstream_root = Path(upstream_root)
+    arc_root = Path(arc_root) if arc_root is not None else upstream_root.parent / "arc-upstream"
+    source = (upstream_root / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    consume_liquid_base_text = (upstream_root / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")
+    liquid_module = (upstream_root / liquid_module_source).read_text(encoding="utf-8", errors="replace")
+    building_comp = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    floatf = (arc_root / floatf_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float efficiency(Building build){",
+        "get_consumed_expr": "var liq = getConsumed(build);",
+        "ed_expr": "float ed = build.edelta();",
+        "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+        "return_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;",
+        "amount_field": "public float amount;",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "floatf_get": "float get(T t);",
+        "liquid_module_get": "public float get(Liquid liquid){",
+        "building_liquids_field": "@Nullable LiquidModule liquids;",
+        "building_edelta_method": "public float edelta(){",
+        "next_method": "public float efficiencyMultiplier(Building build){",
+    }
+    source_by_key = {
+        "method": source,
+        "get_consumed_expr": source,
+        "ed_expr": source,
+        "ed_guard_expr": source,
+        "return_expr": source,
+        "amount_field": consume_liquid_base_text,
+        "multiplier_field": consume_text,
+        "floatf_get": floatf,
+        "liquid_module_get": liquid_module,
+        "building_liquids_field": building_comp,
+        "building_edelta_method": building_comp,
+        "next_method": source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_filter_source,
+        "sources": [consume_source, consume_liquid_base_source, liquid_module_source, building_comp_source, floatf_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     block_source = "core/src/mindustry/world/Block.java"

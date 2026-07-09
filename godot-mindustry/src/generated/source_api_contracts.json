@@ -41644,6 +41644,76 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
       "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported."
+    },
+    "PortGame.source_consume_liquid_filter_efficiency_state": {
+      "status": "source-backed",
+      "source_slice": "N1502",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "name": "consumed_liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_filter_efficiency_input.consumed_liquid",
+          "java_expr": "var liq = getConsumed(build);"
+        },
+        {
+          "name": "build_liquids_get",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_efficiency_input.build_liquids_get",
+          "java_expr": "build.liquids.get(liq)"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_efficiency_input.amount",
+          "java_expr": "amount"
+        },
+        {
+          "name": "build_edelta",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_efficiency_input.build_edelta",
+          "java_expr": "build.edelta()"
+        },
+        {
+          "name": "multiplier_get_build",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_efficiency_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "ed_expr",
+        "ed_guard_expr",
+        "return_expr",
+        "build_liquids_get_expr",
+        "amount_expr",
+        "build_edelta_expr",
+        "multiplier_get_build_expr",
+        "consumed_liquid",
+        "build_liquids_get",
+        "amount",
+        "build_edelta",
+        "multiplier_get_build",
+        "ed",
+        "ed_guard",
+        "has_consumed_liquid",
+        "required_liquid_amount",
+        "raw_efficiency",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_bridge_state",
+        "test_consume_liquid_filter_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
+      "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported."
     }
   },
   "policy": {
