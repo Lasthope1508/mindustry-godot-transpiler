@@ -1,7 +1,20 @@
 {
   "modules": {
     "consumer_slices": {
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
       "label": "sliceId",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "generated_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ],
       "path": "src/generated/source_modules/consumer_slices.json",
       "root_key": "slices",
       "rule": "Extension shard for new consumer-related slice metadata; canonical slice IDs and keys must remain mirrored through the SSOT gate before use.",

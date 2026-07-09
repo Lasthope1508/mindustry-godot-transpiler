@@ -94,6 +94,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             report = source_ssot.validate_json_modules(godot_root)
             self.assertEqual(report["errors"], [])
 
+    def test_source_ssot_catalog_validates_extension_canonical_mirror_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "slice_ledger", {
+                "version": 1,
+                "policy": {"newSliceRequiresLedger": True},
+                "slices": {
+                    "NTEST": {
+                        "status": "done",
+                        "java_source": "core/src/example/Example.java",
+                        "java_method": "run()",
+                        "godot_owner": "PortGame.source_example_state",
+                        "source_symbols": ["example.method"],
+                        "tests": ["test_example"],
+                        "runtime_proof": "/root/Main.source_example_state",
+                    },
+                },
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"consumer_slices": {"path": "src/generated/source_modules/consumer_slices.json", "root_key": "slices", "label": "sliceId", "canonical_module": "slice_ledger", "canonical_reference_key": "canonical_ledger", "canonical_reference_prefix": "source_slice_ledger.", "mirror_fields": ["status", "java_source", "java_method", "godot_owner", "source_symbols", "tests", "runtime_proof"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/consumer_slices.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "policy": {"canonicalOwner": "source_slice_ledger"}, "slices": {"NTEST": {"status": "done", "canonical_ledger": "source_slice_ledger.NTEST", "java_source": "core/src/example/Example.java", "java_method": "wrong()", "godot_owner": "PortGame.source_example_state", "source_symbols": ["example.method"], "tests": ["test_example"], "runtime_proof": "/root/Main.source_example_state"}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("consumer_slices.NTEST: mirror field java_method differs from slice_ledger.NTEST", report["errors"])
+
+    def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        consumer_entry = manifest["modules"]["consumer_slices"]
+
+        self.assertEqual(consumer_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(consumer_entry["canonical_reference_key"], "canonical_ledger")
+        self.assertEqual(consumer_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertIn("java_method", consumer_entry["mirror_fields"])
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        consumer_report = [entry for entry in report["modules"] if entry["name"] == "consumer_slices"][0]
+        self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "slice_ledger")
+        self.assertGreaterEqual(consumer_report["canonical_mirror"]["checked"], 4)
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 
