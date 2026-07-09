@@ -40690,6 +40690,69 @@
         "test_consume_items_trigger_matches_upstream_source",
         "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_items_efficiency_state": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "efficiency(Building build)",
+      "source_slice": "N1474",
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state",
+      "rule": "Public runtime contract for ConsumeItems.efficiency(Building) predicate state.",
+      "params": [
+        {
+          "name": "consume_trigger_valid",
+          "type": "bool",
+          "schema": "source_consume_items_efficiency_input.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()"
+        },
+        {
+          "name": "item_stacks",
+          "type": "Array",
+          "schema": "source_consume_items_efficiency_input.item_stacks",
+          "java_expr": "items"
+        },
+        {
+          "name": "item_amounts",
+          "type": "Array",
+          "schema": "source_consume_items_efficiency_input.item_amounts",
+          "java_expr": "get(item)"
+        },
+        {
+          "name": "multiplier_get_build",
+          "type": "float",
+          "schema": "source_consume_items_efficiency_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "return_expr",
+        "consume_trigger_valid_expr",
+        "item_module_has_stacks_expr",
+        "item_module_has_stack_guard_expr",
+        "item_module_has_stacks_return_expr",
+        "item_module_has_item_amount_expr",
+        "item_module_has_item_amount_return_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "consume_trigger_valid",
+        "item_stacks",
+        "item_amounts",
+        "multiplier_get_build",
+        "item_module_has_stacks",
+        "stack_checks",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

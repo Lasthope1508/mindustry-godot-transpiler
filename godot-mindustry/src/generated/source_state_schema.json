@@ -156074,6 +156074,332 @@
           "alias_of": "source_consume_items_trigger_input.multiplier_get_build"
         }
       }
+    },
+    "source_consume_items_efficiency_input": {
+      "source_slice": "N1474",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state",
+      "keys": {
+        "consume_trigger_valid": {
+          "rule": "Explicit Building.consumeTriggerValid predicate input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_input.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "BuildingComp.consumeTriggerValid()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java"
+        },
+        "item_stacks": {
+          "rule": "Explicit ordered ItemStack rows from ConsumeItems.items.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_input.item_stacks",
+          "java_expr": "items",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "item_amounts": {
+          "rule": "Explicit indexed ItemModule stock counts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_input.item_amounts",
+          "java_expr": "get(item)",
+          "java_method": "ItemModule.has(Item item, int amount)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "multiplier_get_build": {
+          "rule": "Explicit multiplier.get(build) value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "Consume.multiplier",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java"
+        }
+      },
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "source_consume_items_efficiency_result": {
+      "source_slice": "N1474",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "runtime_proof": "/root/Main.source_consume_items_efficiency_state",
+      "keys": {
+        "source_owner": {
+          "rule": "Canonical Godot owner label.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.source_owner",
+          "java_expr": "PortGame.source_consume_items_efficiency_state",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "source": {
+          "rule": "Exact upstream source path.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.source",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "method": {
+          "rule": "Exact source method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.method",
+          "java_expr": "public float efficiency(Building build){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "items_field": {
+          "rule": "ConsumeItems.items field anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.items_field",
+          "java_expr": "public final ItemStack[] items;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "return_expr": {
+          "rule": "Exact source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.return_expr",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "consume_trigger_valid_expr": {
+          "rule": "Source predicate expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.consume_trigger_valid_expr",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "BuildingComp.consumeTriggerValid()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java"
+        },
+        "item_module_has_stacks_expr": {
+          "rule": "ItemModule.has stack method anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stacks_expr",
+          "java_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+          "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "item_module_has_stack_guard_expr": {
+          "rule": "ItemModule.has stack guard expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stack_guard_expr",
+          "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+          "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "item_module_has_stacks_return_expr": {
+          "rule": "ItemModule.has success return.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stacks_return_expr",
+          "java_expr": "return true;",
+          "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "item_module_has_item_amount_expr": {
+          "rule": "Nested ItemModule.has method anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_item_amount_expr",
+          "java_expr": "public boolean has(Item item, int amount){",
+          "java_method": "ItemModule.has(Item item, int amount)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "item_module_has_item_amount_return_expr": {
+          "rule": "Nested ItemModule.has return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_item_amount_return_expr",
+          "java_expr": "return get(item) >= amount;",
+          "java_method": "ItemModule.has(Item item, int amount)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "multiplier_field": {
+          "rule": "Consume multiplier field anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.multiplier_field",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "java_method": "Consume.multiplier",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java"
+        },
+        "item_stack_item_field": {
+          "rule": "ItemStack.item field anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_stack_item_field",
+          "java_expr": "public Item item;",
+          "java_method": "ItemStack",
+          "java_source": "core/src/mindustry/type/ItemStack.java"
+        },
+        "item_stack_amount_field": {
+          "rule": "ItemStack.amount field anchor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_stack_amount_field",
+          "java_expr": "public int amount = 0;",
+          "java_method": "ItemStack",
+          "java_source": "core/src/mindustry/type/ItemStack.java"
+        },
+        "consume_trigger_valid": {
+          "rule": "Returned predicate input value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.consume_trigger_valid",
+          "java_expr": "build.consumeTriggerValid()",
+          "java_method": "BuildingComp.consumeTriggerValid()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java"
+        },
+        "item_stacks": {
+          "rule": "Returned ItemStack input rows.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_stacks",
+          "java_expr": "items",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        },
+        "item_amounts": {
+          "rule": "Returned item stock count inputs.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_amounts",
+          "java_expr": "get(item)",
+          "java_method": "ItemModule.has(Item item, int amount)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "multiplier_get_build": {
+          "rule": "Returned multiplier input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "Consume.multiplier",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java"
+        },
+        "item_module_has_stacks": {
+          "rule": "Computed ItemModule.has(ItemStack[], float) result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.item_module_has_stacks",
+          "java_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+          "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "stack_checks": {
+          "rule": "Per-stack guard check trace.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.stack_checks",
+          "java_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+          "java_method": "ItemModule.has(ItemStack[] stacks, float multiplier)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "efficiency": {
+          "rule": "Computed source return value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_items_efficiency_state"
+          ],
+          "godot_symbol": "source_consume_items_efficiency_result.efficiency",
+          "java_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java"
+        }
+      },
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -1512,6 +1512,35 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_items_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void trigger(Building build){", "items_field": "public final ItemStack[] items;", "items_loop_expr": "for(var stack : items){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_stacks": item_stacks, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+        and method.get("name") == "efficiency"
+    ):
+        return [
+            "\tvar consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar item_stacks: Array = (_args[1] as Array).duplicate(true) if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar item_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar item_module_has_stacks: bool = true",
+            "\tvar stack_checks: Array = []",
+            "\tfor stack in item_stacks:",
+            "\t\tif not stack is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar item_id: int = int(stack.get("item_id", -1))',
+            '\t\tvar stack_amount: float = float(stack.get("amount", 0.0))',
+            "\t\tvar required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
+            "\t\tvar item_amount: float = 0.0",
+            "\t\tif item_id < item_amounts.size():",
+            "\t\t\titem_amount = float(item_amounts[item_id])",
+            "\t\tvar has_stack: bool = item_id < item_amounts.size() and item_amount >= required_amount",
+            '\t\tstack_checks.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "has_stack": has_stack})',
+            "\t\tif item_id >= item_amounts.size() or float(item_amounts[item_id]) < required_amount:",
+            "\t\t\titem_module_has_stacks = false",
+            "\t\t\tbreak",
+            "\tvar efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0",
+            '\treturn {"source_owner": "PortGame.source_consume_items_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public float efficiency(Building build){", "items_field": "public final ItemStack[] items;", "return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;", "consume_trigger_valid_expr": "build.consumeTriggerValid()", "item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){", "item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;", "item_module_has_stacks_return_expr": "return true;", "item_module_has_item_amount_expr": "public boolean has(Item item, int amount){", "item_module_has_item_amount_return_expr": "return get(item) >= amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "consume_trigger_valid": consume_trigger_valid, "item_stacks": item_stacks, "item_amounts": item_amounts, "multiplier_get_build": multiplier_get_build, "item_module_has_stacks": item_module_has_stacks, "stack_checks": stack_checks, "efficiency": efficiency_value}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "build"

@@ -37096,6 +37096,61 @@
         "Concrete ItemStack and Item objects remain represented by explicit item_id and amount rows.",
         "Actual ItemModule inventory mutation remains represented as remove_calls until live Building ItemModule wiring is ported."
       ]
+    },
+    "N1474": {
+      "title": "Generated ConsumeItems efficiency bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_class": "ConsumeItems",
+      "java_method": "efficiency(Building build)",
+      "generated_owner": "ConsumeItems.java_method_efficiency_3",
+      "godot_owner": "PortGame.source_consume_items_efficiency_state",
+      "runtime_proof": "/root/Main.generated_consume_items_efficiency_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItems.efficiency trigger-valid or ItemModule.has ternary without inventing live Building, ItemStack, Item, or ItemModule objects.",
+      "exact_exprs": [
+        "public final ItemStack[] items;",
+        "public float efficiency(Building build){",
+        "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+        "public boolean consumeTriggerValid(){",
+        "return false;",
+        "public boolean has(ItemStack[] stacks, float multiplier){",
+        "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+        "return true;",
+        "public boolean has(Item item, int amount){",
+        "return get(item) >= amount;",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Item item;",
+        "public int amount = 0;",
+        "public void display(Stats stats){"
+      ],
+      "source_symbols": [
+        "consume_items_efficiency.items_field",
+        "consume_items_efficiency.method",
+        "consume_items_efficiency.return",
+        "consume_items_efficiency.consume_trigger_valid",
+        "consume_items_efficiency.consume_trigger_valid_method",
+        "consume_items_efficiency.consume_trigger_valid_default",
+        "consume_items_efficiency.item_module_has_stacks",
+        "consume_items_efficiency.item_module_has_stack_guard",
+        "consume_items_efficiency.item_module_has_stacks_return",
+        "consume_items_efficiency.item_module_has_item_amount",
+        "consume_items_efficiency.item_module_has_item_amount_return",
+        "consume_items_efficiency.item_stacks",
+        "consume_items_efficiency.stack_item_id",
+        "consume_items_efficiency.stack_amount",
+        "consume_items_efficiency.item_amounts",
+        "consume_items_efficiency.multiplier_get_build",
+        "consume_items_efficiency.multiplier",
+        "consume_items_efficiency.item_stack_item_field",
+        "consume_items_efficiency.item_stack_amount_field",
+        "consume_items_efficiency.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_items_efficiency_bridge_state",
+        "test_consume_items_efficiency_matches_upstream_source",
+        "test_generated_consume_items_efficiency_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -554,6 +554,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItems.trigger"', source)
         self.assertIn('"matches": result.get("remove_calls", []) == canonical.get("remove_calls", [])', source)
 
+    def test_port_game_exposes_generated_consume_items_efficiency_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_items_efficiency_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_efficiency_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source)
+        self.assertIn('"method": "public float efficiency(Building build){"', source)
+        self.assertIn('"return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;"', source)
+        self.assertIn('"consume_trigger_valid_expr": "build.consumeTriggerValid()"', source)
+        self.assertIn('"item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){"', source)
+        self.assertIn('"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;"', source)
+        self.assertIn("func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")', source)
+        self.assertIn("var result = instance.java_method_efficiency_3([consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_items_efficiency_state(consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_efficiency_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItems.efficiency"', source)
+        self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("item_module_has_stacks", null) == canonical.get("item_module_has_stacks", null)', source)
+
     def test_port_game_exposes_generated_consume_item_filter_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

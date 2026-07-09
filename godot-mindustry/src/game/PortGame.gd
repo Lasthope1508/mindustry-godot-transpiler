@@ -2581,6 +2581,61 @@ func generated_consume_items_trigger_bridge_state(item_stacks: Array, multiplier
 		"matches": result.get("remove_calls", []) == canonical.get("remove_calls", []),
 	}
 
+func source_consume_items_efficiency_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var item_module_has_stacks: bool = true
+	var stack_checks: Array = []
+	for stack in item_stacks:
+		if not stack is Dictionary:
+			continue
+		var item_id: int = int(stack.get("item_id", -1))
+		var stack_amount: float = float(stack.get("amount", 0.0))
+		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		var item_amount: float = 0.0
+		if item_id < item_amounts.size():
+			item_amount = float(item_amounts[item_id])
+		var has_stack: bool = item_id < item_amounts.size() and item_amount >= required_amount
+		stack_checks.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "has_stack": has_stack})
+		if item_id >= item_amounts.size() or float(item_amounts[item_id]) < required_amount:
+			item_module_has_stacks = false
+			break
+	var efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0
+	return {
+		"source_owner": "PortGame.source_consume_items_efficiency_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+		"method": "public float efficiency(Building build){",
+		"items_field": "public final ItemStack[] items;",
+		"return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
+		"consume_trigger_valid_expr": "build.consumeTriggerValid()",
+		"item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
+		"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
+		"item_module_has_stacks_return_expr": "return true;",
+		"item_module_has_item_amount_expr": "public boolean has(Item item, int amount){",
+		"item_module_has_item_amount_return_expr": "return get(item) >= amount;",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"item_stack_item_field": "public Item item;",
+		"item_stack_amount_field": "public int amount = 0;",
+		"consume_trigger_valid": consume_trigger_valid,
+		"item_stacks": item_stacks,
+		"item_amounts": item_amounts,
+		"multiplier_get_build": multiplier_get_build,
+		"item_module_has_stacks": item_module_has_stacks,
+		"stack_checks": stack_checks,
+		"efficiency": efficiency_value,
+	}
+
+func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_3([consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build])
+	var canonical = source_consume_items_efficiency_state(consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_items_efficiency_state",
+		"generated_owner": "ConsumeItems.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("item_module_has_stacks", null) == canonical.get("item_module_has_stacks", null),
+	}
+
 func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
 	var req_images: Array = []
 	for index in filtered_item_ids.size():

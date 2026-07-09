@@ -17672,6 +17672,52 @@ public class ConsumeItems extends Consume{
             self.assertIn('"items_loop_expr": "for(var stack : items){"', source_text)
             self.assertIn('"remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));"', source_text)
 
+    def test_emit_bridges_consume_items_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItems.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItems extends Consume{
+    public final ItemStack[] items;
+
+    public float efficiency(Building build){
+        return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consume_trigger_valid: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var item_stacks: Array = (_args[1] as Array).duplicate(true) if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var item_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var item_module_has_stacks: bool = true", source_text)
+            self.assertIn("for stack in item_stacks:", source_text)
+            self.assertIn('var item_id: int = int(stack.get("item_id", -1))', source_text)
+            self.assertIn('var stack_amount: float = float(stack.get("amount", 0.0))', source_text)
+            self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
+            self.assertIn("var efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_items_efficiency_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
+            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
+            self.assertIn('"return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;"', source_text)
+            self.assertIn('"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;"', source_text)
+
     def test_emit_bridges_consume_item_filter_build_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
