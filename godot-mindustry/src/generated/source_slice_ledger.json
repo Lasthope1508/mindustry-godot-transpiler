@@ -36772,6 +36772,46 @@
         "No deferred behavior; upstream body is empty."
       ],
       "rule": "Generated bridge preserves only the explicit Building build input and the empty upstream update body."
+    },
+    "N1465": {
+      "title": "Generated ConsumeItemFilter trigger bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "trigger(Building build)",
+      "generated_owner": "ConsumeItemFilter.java_method_trigger_3",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_trigger_bridge_state",
+      "exact_exprs": [
+        "public void trigger(Building build){",
+        "Item item = getConsumed(build);",
+        "if(item != null){",
+        "build.items.remove(item, 1);",
+        "public void remove(Item item, int amount){",
+        "amount = Math.min(amount, items[item.id]);",
+        "public float efficiency(Building build){"
+      ],
+      "source_symbols": [
+        "consume_item_filter_trigger.method",
+        "consume_item_filter_trigger.build_state",
+        "consume_item_filter_trigger.consumed_item",
+        "consume_item_filter_trigger.null_guard",
+        "consume_item_filter_trigger.remove_call",
+        "consume_item_filter_trigger.remove_amount",
+        "consume_item_filter_trigger.item_module_remove",
+        "consume_item_filter_trigger.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "getConsumed(Building) scan/filter internals remain a later source-backed slice.",
+        "ItemModule.remove(Item,int) clamping/mutation internals remain separate source-backed behavior."
+      ],
+      "rule": "Generated bridge models only trigger getConsumed result, null guard, and remove call from exact Java source."
     }
   },
   "version": 1

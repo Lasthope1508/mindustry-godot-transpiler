@@ -553,6 +553,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.update"', source)
         self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("build_state", null) == canonical.get("build_state", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_trigger_state(build_state: Variant, consumed_item: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_trigger_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public void trigger(Building build){"', source)
+        self.assertIn('"get_consumed_expr": "Item item = getConsumed(build);"', source)
+        self.assertIn('"null_guard_expr": "if(item != null){"', source)
+        self.assertIn('"remove_expr": "build.items.remove(item, 1);"', source)
+        self.assertIn("var item_removed: bool = consumed_item != null", source)
+        self.assertIn("var remove_amount: int = 1 if item_removed else 0", source)
+        self.assertIn("var remove_call: Variant = null", source)
+        self.assertIn("if item_removed:", source)
+        self.assertIn('remove_call = {"call": "build.items.remove(item, 1)", "item": consumed_item, "amount": 1}', source)
+        self.assertIn('"consumed_item": consumed_item', source)
+        self.assertIn('"item_removed": item_removed', source)
+        self.assertIn('"remove_amount": remove_amount', source)
+        self.assertIn('"remove_call": remove_call', source)
+        self.assertIn("func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, consumed_item: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_trigger_3([build_state, consumed_item])", source)
+        self.assertIn("var canonical = source_consume_item_filter_trigger_state(build_state, consumed_item)", source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.trigger"', source)
+        self.assertIn('"matches": result.get("item_removed", null) == canonical.get("item_removed", null) and result.get("remove_amount", null) == canonical.get("remove_amount", null) and result.get("consumed_item", null) == canonical.get("consumed_item", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

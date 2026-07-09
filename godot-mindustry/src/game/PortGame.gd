@@ -2563,6 +2563,39 @@ func generated_consume_item_filter_update_bridge_state(build_state: Variant) -> 
 		"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("build_state", null) == canonical.get("build_state", null),
 	}
 
+func source_consume_item_filter_trigger_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
+	var item_removed: bool = consumed_item != null
+	var remove_amount: int = 1 if item_removed else 0
+	var remove_call: Variant = null
+	if item_removed:
+		remove_call = {"call": "build.items.remove(item, 1)", "item": consumed_item, "amount": 1}
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_trigger_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public void trigger(Building build){",
+		"get_consumed_expr": "Item item = getConsumed(build);",
+		"null_guard_expr": "if(item != null){",
+		"remove_expr": "build.items.remove(item, 1);",
+		"build_state": build_state,
+		"consumed_item": consumed_item,
+		"item_removed": item_removed,
+		"remove_amount": remove_amount,
+		"remove_call": remove_call,
+	}
+
+func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_trigger_3([build_state, consumed_item])
+	var canonical = source_consume_item_filter_trigger_state(build_state, consumed_item)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_trigger_state",
+		"generated_owner": "ConsumeItemFilter.trigger",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("item_removed", null) == canonical.get("item_removed", null) and result.get("remove_amount", null) == canonical.get("remove_amount", null) and result.get("consumed_item", null) == canonical.get("consumed_item", null),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

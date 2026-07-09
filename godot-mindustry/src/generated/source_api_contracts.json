@@ -40361,6 +40361,47 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_update_state",
       "rule": "Public source helper exposes only keys backed by ConsumeItemFilter.update(Building) empty body."
+    },
+    "PortGame.source_consume_item_filter_trigger_state": {
+      "status": "source-backed",
+      "source_slice": "N1465",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "source_method": "trigger(Building build)",
+      "params": [
+        {
+          "name": "build_state",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_trigger_input.build_state",
+          "java_expr": "Building build"
+        },
+        {
+          "name": "consumed_item",
+          "type": "Variant",
+          "schema": "source_consume_item_filter_trigger_input.consumed_item",
+          "java_expr": "Item item = getConsumed(build);"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "null_guard_expr",
+        "remove_expr",
+        "build_state",
+        "consumed_item",
+        "item_removed",
+        "remove_amount",
+        "remove_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state",
+      "rule": "Public source helper exposes trigger state keys backed by ConsumeItemFilter.trigger(Building)."
     }
   },
   "policy": {

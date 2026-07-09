@@ -40,7 +40,14 @@ func java_method_update_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_item_filter_update_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void update(Building build){", "empty_body": "public void update(Building build){\n    }", "build_state": build_state, "no_op": true}
 
 func java_method_trigger_3(_args: Array = []) -> Variant:
-	return null
+	var build_state: Variant = _args[0] if _args.size() > 0 else null
+	var consumed_item: Variant = _args[1] if _args.size() > 1 else null
+	var item_removed: bool = consumed_item != null
+	var remove_amount: int = 1 if item_removed else 0
+	var remove_call: Variant = null
+	if item_removed:
+		remove_call = {"call": "build.items.remove(item, 1)", "item": consumed_item, "amount": 1}
+	return {"source_owner": "PortGame.source_consume_item_filter_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void trigger(Building build){", "get_consumed_expr": "Item item = getConsumed(build);", "null_guard_expr": "if(item != null){", "remove_expr": "build.items.remove(item, 1);", "build_state": build_state, "consumed_item": consumed_item, "item_removed": item_removed, "remove_amount": remove_amount, "remove_call": remove_call}
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
 	return null

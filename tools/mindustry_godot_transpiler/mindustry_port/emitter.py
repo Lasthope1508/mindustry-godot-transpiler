@@ -1500,6 +1500,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
+        and method.get("name") == "trigger"
+    ):
+        return [
+            "\tvar build_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar consumed_item: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar item_removed: bool = consumed_item != null",
+            "\tvar remove_amount: int = 1 if item_removed else 0",
+            "\tvar remove_call: Variant = null",
+            "\tif item_removed:",
+            '\t\tremove_call = {"call": "build.items.remove(item, 1)", "item": consumed_item, "amount": 1}',
+            '\treturn {"source_owner": "PortGame.source_consume_item_filter_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void trigger(Building build){", "get_consumed_expr": "Item item = getConsumed(build);", "null_guard_expr": "if(item != null){", "remove_expr": "build.items.remove(item, 1);", "build_state": build_state, "consumed_item": consumed_item, "item_removed": item_removed, "remove_amount": remove_amount, "remove_call": remove_call}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
+        and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "itemEfficiencyMultiplier"
     ):
         return [

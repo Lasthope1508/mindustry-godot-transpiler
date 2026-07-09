@@ -121663,6 +121663,134 @@
         "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
+    },
+    "consume_item_filter_trigger.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public void trigger(Building build){",
+      "godot_symbol": "source_consume_item_filter_trigger_result.method",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Registers the exact ConsumeItemFilter.trigger(Building) method boundary before modeling remove side effects.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.build_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "Building build",
+      "godot_symbol": "source_consume_item_filter_trigger_input.build_state",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Carries the explicit Java Building build parameter through trigger without inventing Building fields.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.consumed_item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "Item item = getConsumed(build);",
+      "godot_symbol": "source_consume_item_filter_trigger_input.consumed_item",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Treats the getConsumed(build) result assigned to local Item item as explicit input until getConsumed is ported.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.null_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "if(item != null){",
+      "godot_symbol": "source_consume_item_filter_trigger_result.item_removed",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Records the exact null guard that gates item removal in trigger.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.remove_call": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "build.items.remove(item, 1);",
+      "godot_symbol": "source_consume_item_filter_trigger_result.remove_call",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Records the source remove call made only when Item item is not null.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.remove_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "1",
+      "godot_symbol": "source_consume_item_filter_trigger_result.remove_amount",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Pins the literal amount argument from build.items.remove(item, 1).",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.item_module_remove": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "remove(Item item, int amount)",
+      "java_expr": "public void remove(Item item, int amount){",
+      "godot_symbol": "source_consume_item_filter_trigger_result.item_module_remove",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Anchors the called ItemModule.remove(Item,int) method; internals remain separate source-backed behavior.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
+    },
+    "consume_item_filter_trigger.next_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_item_filter_trigger_result.next_method",
+      "godot_owner": "PortGame.source_consume_item_filter_trigger_state",
+      "rule": "Records next method boundary so trigger slice does not absorb efficiency(Building).",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_trigger_bridge_state",
+        "test_consume_item_filter_trigger_matches_upstream_source",
+        "test_generated_consume_item_filter_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_trigger_state"
     }
   },
   "version": 1

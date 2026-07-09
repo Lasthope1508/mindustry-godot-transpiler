@@ -1008,6 +1008,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_filter_trigger_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_trigger_source"))
+        report = source_parity.verify_consume_item_filter_trigger_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void trigger(Building build){",
+            "get_consumed": "Item item = getConsumed(build);",
+            "null_guard": "if(item != null){",
+            "remove_expr": "build.items.remove(item, 1);",
+            "item_module_remove": "public void remove(Item item, int amount){",
+            "item_module_min": "amount = Math.min(amount, items[item.id]);",
+            "next_method": "public float efficiency(Building build){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
         report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")
