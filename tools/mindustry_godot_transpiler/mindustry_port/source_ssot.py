@@ -61,3 +61,43 @@ def write_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return path
+
+def validate_json_modules(godot_root: Path) -> dict[str, Any]:
+    godot_root = Path(godot_root)
+    errors: list[str] = []
+    module_reports: list[dict[str, Any]] = []
+    for entry in MODULES:
+        path = godot_root / entry.relative_path
+        report: dict[str, Any] = {
+            "name": entry.name,
+            "path": entry.relative_path.as_posix(),
+            "root_key": entry.root_key,
+            "runtime_label": entry.runtime_label,
+            "loaded": False,
+            "root_key_present": entry.root_key == "",
+        }
+        if not path.exists():
+            errors.append(f"{entry.name}: missing {entry.relative_path.as_posix()}")
+            module_reports.append(report)
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"{entry.name}: invalid JSON at {entry.relative_path.as_posix()}: {exc.msg}")
+            module_reports.append(report)
+            continue
+        if not isinstance(data, dict):
+            errors.append(f"{entry.name}: root must be an object")
+            module_reports.append(report)
+            continue
+        report["loaded"] = True
+        if entry.root_key:
+            report["root_key_present"] = entry.root_key in data
+            if not report["root_key_present"]:
+                errors.append(f"{entry.name}: missing root key {entry.root_key}")
+        module_reports.append(report)
+    return {
+        "module_count": len(MODULES),
+        "modules": module_reports,
+        "errors": errors,
+    }

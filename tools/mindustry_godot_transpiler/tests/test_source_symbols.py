@@ -46,6 +46,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             source_ssot.write_json(godot_root, "state_schema", {"version": 2, "module": "state_schema"})
             self.assertEqual(source_ssot.load_json(godot_root, "state_schema")["version"], 2)
 
+    def test_source_ssot_catalog_validates_registered_json_modules(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        self.assertEqual(report["module_count"], len(source_ssot.module_names()))
+        self.assertEqual(report["errors"], [])
+        self.assertEqual([entry["name"] for entry in report["modules"]], source_ssot.module_names())
+        for entry in report["modules"]:
+            self.assertTrue(entry["loaded"])
+            self.assertEqual(entry["path"], source_ssot.relative_path(entry["name"]).as_posix())
+            if source_ssot.root_key(entry["name"]):
+                self.assertTrue(entry["root_key_present"])
+
+    def test_source_ssot_catalog_reports_missing_json_module(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                if module_name == "state_schema":
+                    continue
+                path = godot_root / source_ssot.relative_path(module_name)
+                path.parent.mkdir(parents=True, exist_ok=True)
+                root_key = source_ssot.root_key(module_name)
+                payload = {"version": 1}
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+
+            report = source_ssot.validate_json_modules(godot_root)
+            self.assertIn("state_schema: missing src/generated/source_state_schema.json", report["errors"])
+            state_schema = [entry for entry in report["modules"] if entry["name"] == "state_schema"][0]
+            self.assertFalse(state_schema["loaded"])
+
+    def test_source_ssot_catalog_reports_missing_root_key(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                if module_name != "registry" and source_ssot.root_key(module_name):
+                    payload[source_ssot.root_key(module_name)] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+
+            report = source_ssot.validate_json_modules(godot_root)
+            self.assertIn("registry: missing root key symbols", report["errors"])
+            registry = [entry for entry in report["modules"] if entry["name"] == "registry"][0]
+            self.assertTrue(registry["loaded"])
+            self.assertFalse(registry["root_key_present"])
+
     def test_source_symbol_loaders_use_canonical_ssot_modules(self):
         import importlib
 
