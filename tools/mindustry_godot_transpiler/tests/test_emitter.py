@@ -18739,6 +18739,44 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             self.assertIn('"amount_after": amount_after', source_text)
             self.assertIn('"min_flammability_after": min_flammability_after', source_text)
 
+    def test_emit_bridges_consume_liquid_flammable_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
+    @Override
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var display_amount_per_second: float = amount * 60.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_display_state"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));"', source_text)
+            self.assertIn('"liquid_eff_multiplier_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)"', source_text)
+            self.assertIn('"liquid_eff_multiplier_method": "public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){"', source_text)
+            self.assertIn('"display_liquid_expr": "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();"', source_text)
+            self.assertIn('"efficiency_expr": "b.add(Core.bundle.format(\\"stat.efficiency\\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);"', source_text)
+            self.assertIn('"display_amount_per_second": display_amount_per_second', source_text)
+
     def test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

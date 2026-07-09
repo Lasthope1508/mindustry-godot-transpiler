@@ -3260,6 +3260,53 @@ func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_i
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null),
 	}
 
+func source_consume_liquid_flammable_display_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:
+	var selected_stat: String = "booster" if booster else "input"
+	var display_amount_per_second: float = amount * 60.0
+	var display_rows: Array = []
+	for index in filtered_liquid_ids.size():
+		var liquid_id: int = int(filtered_liquid_ids[index])
+		var efficiency: float = float(liquid_efficiency_values[index] if index < liquid_efficiency_values.size() else 0.0)
+		var efficiency_percent: float = efficiency * 100.0
+		display_rows.append({"liquid_id": liquid_id, "display_amount_per_second": display_amount_per_second, "efficiency": efficiency, "efficiency_percent": efficiency_percent})
+	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)", "amount": amount, "display_amount_per_second": display_amount_per_second, "filtered_liquid_ids": filtered_liquid_ids}
+	return {
+		"source_owner": "PortGame.source_consume_liquid_flammable_display_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+		"method": "public void display(Stats stats){",
+		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));",
+		"stats_add_call_expr": "stats.add",
+		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
+		"selected_stat": selected_stat,
+		"liquid_eff_multiplier_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)",
+		"liquid_eff_multiplier_method": "public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){",
+		"table_cells_grow_expr": "if(table.getCells().size > 0) table.getCells().peek().growX();",
+		"table_grow_previous_cell": table_has_cells,
+		"content_filter_expr": "for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){",
+		"display_liquid_expr": "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();",
+		"efficiency_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);",
+		"booster": booster,
+		"amount": amount,
+		"display_amount_per_second": display_amount_per_second,
+		"filtered_liquid_ids": filtered_liquid_ids,
+		"liquid_efficiency_values": liquid_efficiency_values,
+		"stats_add_call": stats_add_call,
+		"display_rows": display_rows,
+	}
+
+func generated_consume_liquid_flammable_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFlammable.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_0([booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells])
+	var canonical = source_consume_liquid_flammable_display_state(booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_flammable_display_state",
+		"generated_owner": "ConsumeLiquidFlammable.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_amount_per_second", null) == canonical.get("display_amount_per_second", null) and result.get("display_rows", []) == canonical.get("display_rows", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

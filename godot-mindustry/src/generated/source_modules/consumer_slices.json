@@ -499,6 +499,36 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_flammable_default_constructor_bridge_state",
       "rule": "Consumer shard mirror for ConsumeLiquidFlammable default constructor; canonical data remains source_slice_ledger.N1493."
+    },
+    "N1494": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1494",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "generated_owner": "ConsumeLiquidFlammable.java_method_display_0",
+      "source_symbols": [
+        "consume_liquid_flammable_display.method",
+        "consume_liquid_flammable_display.booster",
+        "consume_liquid_flammable_display.amount",
+        "consume_liquid_flammable_display.filtered_liquid_ids",
+        "consume_liquid_flammable_display.liquid_efficiency_values",
+        "consume_liquid_flammable_display.stats_add",
+        "consume_liquid_flammable_display.selected_stat",
+        "consume_liquid_flammable_display.liquid_eff_multiplier",
+        "consume_liquid_flammable_display.display_amount_per_second",
+        "consume_liquid_flammable_display.content_filter",
+        "consume_liquid_flammable_display.display_liquid",
+        "consume_liquid_flammable_display.efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_display_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeLiquidFlammable display; canonical data remains source_slice_ledger.N1494."
     }
   },
   "version": 1

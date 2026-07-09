@@ -1060,6 +1060,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFlammable.default_constructor"', source)
         self.assertIn('"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_flammable_display_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_flammable_display_state"', source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));"', source)
+        self.assertIn('"liquid_eff_multiplier_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)"', source)
+        self.assertIn('"display_amount_per_second": display_amount_per_second', source)
+        self.assertIn("func generated_consume_liquid_flammable_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_display_0([booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells])", source)
+        self.assertIn("var canonical = source_consume_liquid_flammable_display_state(booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells)", source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFlammable.display"', source)
+        self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

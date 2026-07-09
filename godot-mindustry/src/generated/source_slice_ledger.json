@@ -37689,6 +37689,49 @@
         "test_consume_liquid_flammable_default_constructor_matches_upstream_source",
         "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1494": {
+      "title": "Generated ConsumeLiquidFlammable display bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_class": "ConsumeLiquidFlammable",
+      "java_method": "display(Stats stats)",
+      "generated_owner": "ConsumeLiquidFlammable.java_method_display_0",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_display_bridge_state",
+      "rule": "Generated bridge models exact ConsumeLiquidFlammable display stats.add call and StatValues.liquidEffMultiplier display rows without executing live UI Table mutation or Boolf<Liquid>.",
+      "exact_exprs": [
+        "public void display(Stats stats){",
+        "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));",
+        "public void add(Stat stat, StatValue value){",
+        "public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){",
+        "if(table.getCells().size > 0) table.getCells().peek().growX();",
+        "for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){",
+        "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();",
+        "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);",
+        "public boolean booster;",
+        "booster = new Stat(\"booster\", StatCat.optional),"
+      ],
+      "source_symbols": [
+        "consume_liquid_flammable_display.method",
+        "consume_liquid_flammable_display.booster",
+        "consume_liquid_flammable_display.amount",
+        "consume_liquid_flammable_display.filtered_liquid_ids",
+        "consume_liquid_flammable_display.liquid_efficiency_values",
+        "consume_liquid_flammable_display.stats_add",
+        "consume_liquid_flammable_display.selected_stat",
+        "consume_liquid_flammable_display.liquid_eff_multiplier",
+        "consume_liquid_flammable_display.display_amount_per_second",
+        "consume_liquid_flammable_display.content_filter",
+        "consume_liquid_flammable_display.display_liquid",
+        "consume_liquid_flammable_display.efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

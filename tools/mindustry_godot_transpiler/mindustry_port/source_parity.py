@@ -5097,6 +5097,50 @@ def verify_consume_liquid_flammable_default_constructor_source(upstream_root: Pa
         "missing": missing,
     }
 
+def verify_consume_liquid_flammable_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquid_flammable_source).read_text(encoding="utf-8", errors="replace")
+    stats = (upstream_root / stats_source).read_text(encoding="utf-8", errors="replace")
+    stat_values = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    consume = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    stat = (upstream_root / stat_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));",
+        "stats_add_method": "public void add(Stat stat, StatValue value){",
+        "liquid_eff_multiplier_method": "public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){",
+        "table_cells_grow_expr": "if(table.getCells().size > 0) table.getCells().peek().growX();",
+        "content_filter_expr": "for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){",
+        "display_liquid_expr": "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();",
+        "efficiency_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);",
+        "booster_field": "public boolean booster;",
+        "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+    }
+    source_by_key = {
+        "method": source,
+        "stats_add_expr": source,
+        "stats_add_method": stats,
+        "liquid_eff_multiplier_method": stat_values,
+        "table_cells_grow_expr": stat_values,
+        "content_filter_expr": stat_values,
+        "display_liquid_expr": stat_values,
+        "efficiency_expr": stat_values,
+        "booster_field": consume,
+        "stat_booster": stat,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_flammable_source,
+        "sources": [stats_source, stat_values_source, consume_source, stat_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

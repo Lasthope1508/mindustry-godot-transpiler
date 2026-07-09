@@ -2929,6 +2929,210 @@
         "test_generated_consume_liquid_flammable_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "consume_liquid_flammable_display.method": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Canonical ConsumeLiquidFlammable display method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.booster": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.booster",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster",
+      "godot_symbol": "source_consume_liquid_flammable_display_input.booster",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Explicit input mirrors Consume.booster selected stat branch.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.amount": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_flammable_display_input.amount",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Explicit input mirrors inherited liquid consume amount used by display.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.filtered_liquid_ids": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.filtered_liquid_ids",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())",
+      "godot_symbol": "source_consume_liquid_flammable_display_input.filtered_liquid_ids",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Explicit display input stands in for source content liquid selection until concrete Liquid binding is ported.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.liquid_efficiency_values": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.liquid_efficiency_values",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "l -> l.flammability",
+      "godot_symbol": "source_consume_liquid_flammable_display_input.liquid_efficiency_values",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Explicit display input mirrors liquid flammability efficiency function values.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.stats_add": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.stats_add",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.stats_add_call",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Source display adds liquid efficiency multiplier StatValue using selected booster/input stat.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.selected_stat": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.selected_stat",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster ? Stat.booster : Stat.input",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Selected stat follows exact booster ternary from display source.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.liquid_eff_multiplier": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.liquid_eff_multiplier",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.liquid_eff_multiplier_expr",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Source display delegates rendering to liquidEffMultiplier StatValue.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.display_amount_per_second": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.display_amount_per_second",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "amount * 60f",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.display_amount_per_second",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "Source display converts amount to per-second quantity with exact 60f multiplier.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.content_filter": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.content_filter",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "for(Liquid liquid : content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.filtered_liquid_ids",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "StatValues liquidEffMultiplier iterates filtered unlocked visible liquids.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.display_liquid": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.display_liquid",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.display_rows",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "StatValues liquidEffMultiplier displays each selected liquid with source amount.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
+    },
+    "consume_liquid_flammable_display.efficiency": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_flammable_display.efficiency",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);",
+      "godot_symbol": "source_consume_liquid_flammable_display_result.display_rows",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_display_state",
+      "rule": "StatValues liquidEffMultiplier displays each liquid efficiency percentage.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state"
     }
   }
 }

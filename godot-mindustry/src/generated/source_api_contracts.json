@@ -41270,6 +41270,75 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_default_constructor_state",
       "rule": "Source state mirrors default constructor delegation to this(0.2f), then amount constructor delegation to this(0.2f, amount), and delegated assignment results; live predicate execution deferred."
+    },
+    "PortGame.source_consume_liquid_flammable_display_state": {
+      "status": "source-backed",
+      "source_slice": "N1494",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_liquid_flammable_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_flammable_display_input.amount",
+          "java_expr": "amount"
+        },
+        {
+          "name": "filtered_liquid_ids",
+          "type": "Array",
+          "schema": "source_consume_liquid_flammable_display_input.filtered_liquid_ids",
+          "java_expr": "content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())"
+        },
+        {
+          "name": "liquid_efficiency_values",
+          "type": "Array",
+          "schema": "source_consume_liquid_flammable_display_input.liquid_efficiency_values",
+          "java_expr": "l -> l.flammability"
+        },
+        {
+          "name": "table_has_cells",
+          "type": "bool",
+          "schema": "source_consume_liquid_flammable_display_input.table_has_cells",
+          "java_expr": "table.getCells().size > 0"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stats_add_expr",
+        "stats_add_call_expr",
+        "selected_stat_expr",
+        "selected_stat",
+        "liquid_eff_multiplier_expr",
+        "liquid_eff_multiplier_method",
+        "table_cells_grow_expr",
+        "table_grow_previous_cell",
+        "content_filter_expr",
+        "display_liquid_expr",
+        "efficiency_expr",
+        "booster",
+        "amount",
+        "display_amount_per_second",
+        "filtered_liquid_ids",
+        "liquid_efficiency_values",
+        "stats_add_call",
+        "display_rows"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_display_bridge_state",
+        "test_consume_liquid_flammable_display_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state",
+      "rule": "Source state mirrors ConsumeLiquidFlammable display stats.add with booster/input stat selection, amount * 60f display amount, and liquidEffMultiplier rows; live UI Table mutation and concrete Liquid binding deferred."
     }
   },
   "policy": {
