@@ -5987,6 +5987,38 @@ def verify_consume_liquids_dynamic_build_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    base_text = (upstream_root / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Liquid> filter = l -> false;",
+        "constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){",
+        "super_call": "super(amount);",
+        "filter_assignment": "this.filter = liquid;",
+        "base_constructor": "public ConsumeLiquidBase(float amount){",
+        "amount_assignment": "this.amount = amount;",
+        "amount_field": "public float amount;",
+    }
+    source_by_key = {
+        "filter_field": source,
+        "constructor": source,
+        "super_call": source,
+        "filter_assignment": source,
+        "base_constructor": base_text,
+        "amount_assignment": base_text,
+        "amount_field": base_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_filter_source,
+        "sources": [consume_liquid_base_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

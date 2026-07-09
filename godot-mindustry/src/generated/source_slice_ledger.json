@@ -37776,6 +37776,41 @@
         "test_consume_liquid_filter_display_matches_upstream_source",
         "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1497": {
+      "title": "Generated ConsumeLiquidFilter constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "generated_owner": "ConsumeLiquidFilter.java_constructor_ConsumeLiquidFilter_0",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_constructor_bridge_state",
+      "rule": "Generated bridge models ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount) by preserving explicit filter handle, assigning inherited amount through super(amount), and deferring live Boolf<Liquid> execution.",
+      "exact_exprs": [
+        "public Boolf<Liquid> filter = l -> false;",
+        "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){",
+        "super(amount);",
+        "this.filter = liquid;",
+        "public ConsumeLiquidBase(float amount){",
+        "this.amount = amount;",
+        "public float amount;"
+      ],
+      "source_symbols": [
+        "consume_liquid_filter_constructor.constructor",
+        "consume_liquid_filter_constructor.filter_handle",
+        "consume_liquid_filter_constructor.amount",
+        "consume_liquid_filter_constructor.super_call",
+        "consume_liquid_filter_constructor.filter_assignment",
+        "consume_liquid_filter_constructor.base_constructor",
+        "consume_liquid_filter_constructor.amount_assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

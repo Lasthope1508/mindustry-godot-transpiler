@@ -559,6 +559,30 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_filter_display_bridge_state",
       "rule": "Consumer shard mirror for ConsumeLiquidFilter display; canonical data remains source_slice_ledger.N1495."
+    },
+    "N1497": {
+      "canonical_ledger": "source_slice_ledger.N1497",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "generated_owner": "ConsumeLiquidFilter.java_constructor_ConsumeLiquidFilter_0",
+      "source_symbols": [
+        "consume_liquid_filter_constructor.constructor",
+        "consume_liquid_filter_constructor.filter_handle",
+        "consume_liquid_filter_constructor.amount",
+        "consume_liquid_filter_constructor.super_call",
+        "consume_liquid_filter_constructor.filter_assignment",
+        "consume_liquid_filter_constructor.base_constructor",
+        "consume_liquid_filter_constructor.amount_assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_constructor_bridge_state"
     }
   },
   "version": 1

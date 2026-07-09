@@ -6078,6 +6078,22 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(){", "default_call_expr": "this(0.2f);", "amount_constructor_expr": "public ConsumeLiquidFlammable(float amount){", "amount_constructor_default_call_expr": "this(0.2f, amount);", "typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_amount": 0.2, "default_min_flammability": 0.2, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 2:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquidFilter_{index}(_args: Array = []) -> Variant:",
+                    "\tvar filter_handle: Variant = _args[0] if _args.size() > 0 else null",
+                    "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                    "\tvar amount_after: float = amount",
+                    "\tvar filter_after: Variant = filter_handle",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "filter_assignment_expr": "this.filter = liquid;", "amount_field": "public float amount;", "filter_handle": filter_handle, "amount": amount, "amount_after": amount_after, "filter_after": filter_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):

@@ -53,3 +53,10 @@ func java_method_consumes_7(_args: Array = []) -> Variant:
 func java_method_liquidEfficiencyMultiplier_8(_args: Array = []) -> Variant:
 	var efficiency_multiplier: float = 1.0
 	return {"source_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public float liquidEfficiencyMultiplier(Liquid liquid){", "efficiency_multiplier": efficiency_multiplier, "return_expr": "return 1f;"}
+
+func java_constructor_ConsumeLiquidFilter_0(_args: Array = []) -> Variant:
+	var filter_handle: Variant = _args[0] if _args.size() > 0 else null
+	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var amount_after: float = amount
+	var filter_after: Variant = filter_handle
+	return {"source_owner": "PortGame.source_consume_liquid_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "filter_assignment_expr": "this.filter = liquid;", "amount_field": "public float amount;", "filter_handle": filter_handle, "amount": amount, "amount_after": amount_after, "filter_after": filter_after}

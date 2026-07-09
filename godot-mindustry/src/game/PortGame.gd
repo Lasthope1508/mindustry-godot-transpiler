@@ -3422,6 +3422,36 @@ func generated_consume_liquid_flammable_default_constructor_bridge_state() -> Di
 		"matches": result.get("min_flammability_after", null) == canonical.get("min_flammability_after", null) and result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
 	}
 
+func source_consume_liquid_filter_constructor_state(filter_handle: Variant, amount: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){",
+		"filter_field": "public Boolf<Liquid> filter = l -> false;",
+		"super_call_expr": "super(amount);",
+		"base_constructor_expr": "public ConsumeLiquidBase(float amount){",
+		"amount_assignment_expr": "this.amount = amount;",
+		"filter_assignment_expr": "this.filter = liquid;",
+		"amount_field": "public float amount;",
+		"filter_handle": filter_handle,
+		"amount": amount,
+		"amount_after": amount,
+		"filter_after": filter_handle,
+	}
+
+func generated_consume_liquid_filter_constructor_bridge_state(filter_handle: Variant, amount: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquidFilter_0([filter_handle, amount])
+	var canonical = source_consume_liquid_filter_constructor_state(filter_handle, amount)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+		"generated_owner": "ConsumeLiquidFilter.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("filter_after", null) == canonical.get("filter_after", null),
+	}
+
 func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

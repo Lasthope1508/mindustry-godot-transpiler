@@ -18848,6 +18848,47 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"separator_expr": "table.add(\\"/\\");"', source_text)
             self.assertIn('"display_amount_per_second": display_amount_per_second', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    public Boolf<Liquid> filter = l -> false;
+
+    public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){
+        super(amount);
+        this.filter = liquid;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquidFilter_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var filter_handle: Variant = _args[0] if _args.size() > 0 else null', source_text)
+            self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var amount_after: float = amount", source_text)
+            self.assertIn("var filter_after: Variant = filter_handle", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){"', source_text)
+            self.assertIn('"super_call_expr": "super(amount);"', source_text)
+            self.assertIn('"amount_assignment_expr": "this.amount = amount;"', source_text)
+            self.assertIn('"filter_assignment_expr": "this.filter = liquid;"', source_text)
+            self.assertIn('"filter_after": filter_after', source_text)
+            self.assertIn('"amount_after": amount_after', source_text)
+
     def test_emit_bridges_consume_liquid_filter_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

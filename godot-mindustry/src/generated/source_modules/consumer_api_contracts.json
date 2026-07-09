@@ -836,6 +836,50 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
       "rule": "Source state mirrors ConsumeLiquidFilter display stats.add with booster/input stat selection, amount * 60f display amount, true perSecond flag, and StatValues.liquids rows; live UI Table mutation and concrete Liquid binding deferred."
+    },
+    "PortGame.source_consume_liquid_filter_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1497",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "params": [
+        {
+          "name": "filter_handle",
+          "type": "Variant",
+          "schema": "source_consume_liquid_filter_constructor_input.filter_handle",
+          "java_expr": "liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_constructor_input.amount",
+          "java_expr": "amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "filter_field",
+        "super_call_expr",
+        "base_constructor_expr",
+        "amount_assignment_expr",
+        "filter_assignment_expr",
+        "amount_field",
+        "filter_handle",
+        "amount",
+        "amount_after",
+        "filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state",
+      "rule": "Source state mirrors typed ConsumeLiquidFilter constructor fields and assignments while treating Boolf<Liquid> as an explicit handle until concrete Liquid predicates are ported."
     }
   }
 }

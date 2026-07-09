@@ -3337,6 +3337,125 @@
         "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state"
+    },
+    "consume_liquid_filter_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "java_expr": "public ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount){",
+      "godot_symbol": "source_consume_liquid_filter_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.filter_handle": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.filter_handle",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "java_expr": "liquid",
+      "godot_symbol": "source_consume_liquid_filter_constructor_input.filter_handle",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.amount": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.amount",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_filter_constructor_input.amount",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.super_call": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.super_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "java_expr": "super(amount);",
+      "godot_symbol": "source_consume_liquid_filter_constructor_result.super_call_expr",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.filter_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.filter_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "ConsumeLiquidFilter(Boolf<Liquid> liquid, float amount)",
+      "java_expr": "this.filter = liquid;",
+      "godot_symbol": "source_consume_liquid_filter_constructor_result.filter_after",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.base_constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.base_constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "public ConsumeLiquidBase(float amount){",
+      "godot_symbol": "source_consume_liquid_filter_constructor_result.base_constructor_expr",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
+    },
+    "consume_liquid_filter_constructor.amount_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_filter_constructor.amount_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_filter_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_filter_constructor_state",
+      "rule": "Source constructor assigns inherited amount through ConsumeLiquidBase super(amount) and stores explicit Boolf<Liquid> filter handle without executing predicate.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_constructor_bridge_state",
+        "test_consume_liquid_filter_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_filter_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_constructor_state"
     }
   }
 }
