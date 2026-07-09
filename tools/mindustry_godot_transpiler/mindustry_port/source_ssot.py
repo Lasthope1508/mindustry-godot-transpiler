@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 
+
 @dataclass(frozen=True)
 class SourceSsotModule:
     name: str
@@ -51,3 +52,12 @@ def runtime_label(name: str) -> str:
 
 def load_json(godot_root: Path, name: str) -> dict[str, Any]:
     return json.loads((Path(godot_root) / relative_path(name)).read_text(encoding="utf-8"))
+
+def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:
+    return {module_name: load_json(godot_root, module_name) for module_name in module_names()}
+
+def write_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
+    path = Path(godot_root) / relative_path(name)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return path

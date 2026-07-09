@@ -154952,6 +154952,81 @@
           ]
         }
       }
+    },
+    "source_consume_item_filter_update_input": {
+      "status": "source-backed",
+      "source_slice": "N1464",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "keys": {
+        "build_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "Building build",
+          "rule": "Input mirrors Java parameter Building build."
+        }
+      },
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
+    },
+    "source_consume_item_filter_update_result": {
+      "status": "source-backed",
+      "source_slice": "N1464",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_filter_update_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "public void update(Building build){",
+          "rule": "Exact update method boundary."
+        },
+        "empty_body": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "public void update(Building build){\n    }",
+          "rule": "Exact empty update body."
+        },
+        "build_state": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_filter_update_input.build_state",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "no_op": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+          "java_expr": "public void update(Building build){\n    }",
+          "rule": "True because upstream update body is empty."
+        }
+      },
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
     }
   },
   "version": 1

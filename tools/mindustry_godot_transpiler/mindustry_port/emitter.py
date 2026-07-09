@@ -1491,6 +1491,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar build_state: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "PortGame.source_consume_item_filter_update_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void update(Building build){", "empty_body": "public void update(Building build){\\n    }", "build_state": build_state, "no_op": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
+        and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "itemEfficiencyMultiplier"
     ):
         return [

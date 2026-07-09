@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 from pathlib import Path
 from typing import Any
@@ -11,11 +10,16 @@ from typing import Any
 from . import source_ssot
 
 
-REGISTRY_RELATIVE_PATH = source_ssot.relative_path("registry")
-AUDIT_REPORT_RELATIVE_PATH = source_ssot.relative_path("audit_report")
-SLICE_LEDGER_RELATIVE_PATH = source_ssot.relative_path("slice_ledger")
-API_CONTRACTS_RELATIVE_PATH = source_ssot.relative_path("api_contracts")
-STATE_SCHEMA_RELATIVE_PATH = source_ssot.relative_path("state_schema")
+REGISTRY_MODULE = source_ssot.module("registry")
+AUDIT_REPORT_MODULE = source_ssot.module("audit_report")
+SLICE_LEDGER_MODULE = source_ssot.module("slice_ledger")
+API_CONTRACTS_MODULE = source_ssot.module("api_contracts")
+STATE_SCHEMA_MODULE = source_ssot.module("state_schema")
+REGISTRY_RELATIVE_PATH = REGISTRY_MODULE.relative_path
+AUDIT_REPORT_RELATIVE_PATH = AUDIT_REPORT_MODULE.relative_path
+SLICE_LEDGER_RELATIVE_PATH = SLICE_LEDGER_MODULE.relative_path
+API_CONTRACTS_RELATIVE_PATH = API_CONTRACTS_MODULE.relative_path
+STATE_SCHEMA_RELATIVE_PATH = STATE_SCHEMA_MODULE.relative_path
 ALLOWED_STATUSES = {"source-backed", "explicit-input", "deferred", "generated"}
 REQUIRED_ENTRY_FIELDS = {"status", "godot_symbol", "godot_owner", "rule", "tests", "runtime_proof"}
 SOURCE_REQUIRED_STATUSES = {"source-backed", "explicit-input"}
@@ -130,8 +134,7 @@ def write_source_symbol_audit_report(godot_root: Path) -> dict[str, Any]:
     godot_root = Path(godot_root)
     registry = load_source_symbol_registry(godot_root)
     audit = audit_godot_source_symbol_coverage(godot_root, registry)
-    report_path = godot_root / AUDIT_REPORT_RELATIVE_PATH
-    report_path.write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    source_ssot.write_json(godot_root, "audit_report", audit)
     return audit
 
 

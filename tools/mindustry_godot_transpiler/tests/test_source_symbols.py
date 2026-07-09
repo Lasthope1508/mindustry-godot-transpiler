@@ -1,4 +1,5 @@
 import unittest
+import tempfile
 from pathlib import Path
 
 import sys
@@ -25,6 +26,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.root_key("slice_ledger"), "slices")
         self.assertEqual(source_ssot.runtime_label("state_schema"), "schemaName")
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "registry")["version"], 1)
+
+    def test_source_ssot_catalog_loads_and_writes_modules_by_name(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                path = godot_root / source_ssot.relative_path(module_name)
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('{"version": 1, "module": "' + module_name + '"}\n', encoding="utf-8")
+
+            loaded = source_ssot.load_all_json(godot_root)
+            self.assertEqual(sorted(loaded.keys()), sorted(source_ssot.module_names()))
+            self.assertEqual(loaded["registry"]["module"], "registry")
+
+            source_ssot.write_json(godot_root, "state_schema", {"version": 2, "module": "state_schema"})
+            self.assertEqual(source_ssot.load_json(godot_root, "state_schema")["version"], 2)
+
+    def test_source_symbol_loaders_use_canonical_ssot_modules(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        self.assertIs(source_symbols.REGISTRY_MODULE, source_ssot.module("registry"))
+        self.assertIs(source_symbols.AUDIT_REPORT_MODULE, source_ssot.module("audit_report"))
+        self.assertIs(source_symbols.SLICE_LEDGER_MODULE, source_ssot.module("slice_ledger"))
+        self.assertIs(source_symbols.API_CONTRACTS_MODULE, source_ssot.module("api_contracts"))
+        self.assertIs(source_symbols.STATE_SCHEMA_MODULE, source_ssot.module("state_schema"))
 
     def test_draw_parts_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
@@ -14678,6 +14709,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item)))")
         self.assertEqual(result_schema["keys"]["table_image_size"]["java_expr"], "table.add(image).size(8 * 4);")
 
+    def test_generated_consume_item_filter_update_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "consume_item_filter_update.method")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(method["java_method"], "update(Building build)")
+        self.assertEqual(method["java_expr"], "public void update(Building build){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_consume_item_filter_update_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_consume_item_filter_update_state")
+        self.assertEqual(method["godot_symbol"], "source_consume_item_filter_update_result.method")
+
+        build_state = source_symbols.source_symbol(registry, "consume_item_filter_update.build_state")
+        self.assertEqual(build_state["status"], "explicit-input")
+        self.assertEqual(build_state["java_expr"], "Building build")
+        self.assertEqual(build_state["godot_symbol"], "source_consume_item_filter_update_input.build_state")
+
+        no_op = source_symbols.source_symbol(registry, "consume_item_filter_update.no_op")
+        self.assertEqual(no_op["java_expr"], "public void update(Building build){\n    }")
+        self.assertEqual(no_op["godot_symbol"], "source_consume_item_filter_update_result.no_op")
+
+        filter_slice = source_symbols.source_slice(ledger, "N1464")
+        self.assertEqual(filter_slice["title"], "Generated ConsumeItemFilter update bridge state")
+        self.assertEqual(filter_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemFilter.java")
+        self.assertEqual(filter_slice["java_method"], "update(Building build)")
+        self.assertEqual(filter_slice["godot_owner"], "PortGame.source_consume_item_filter_update_state")
+        self.assertEqual(filter_slice["generated_owner"], "ConsumeItemFilter.java_method_update_2")
+        self.assertEqual(filter_slice["runtime_proof"], "/root/Main.generated_consume_item_filter_update_bridge_state")
+        for expr in [
+            "public void update(Building build){",
+            "public void update(Building build){\n    }",
+            "public void trigger(Building build){",
+        ]:
+            self.assertIn(expr, filter_slice["exact_exprs"])
+        self.assertIn("consume_item_filter_update.method", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_update.build_state", filter_slice["source_symbols"])
+        self.assertIn("consume_item_filter_update.no_op", filter_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_filter_update_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_state"])
+        self.assertIn("no_op", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_filter_update_input")
+        self.assertEqual(input_schema["keys"]["build_state"]["java_expr"], "Building build")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_filter_update_result")
+        self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void update(Building build){\n    }")
+
     def test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -22408,10 +22489,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 936)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 931)
+        self.assertEqual(audit["totalSourceFunctions"], 937)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 932)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 936)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 937)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22424,6 +22505,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_filter_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_apply_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_filter_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])

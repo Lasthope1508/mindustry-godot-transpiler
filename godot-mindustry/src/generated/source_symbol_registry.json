@@ -121599,6 +121599,70 @@
       "java_expr": "build.items.has(item)",
       "godot_symbol": "source_consume_item_filter_build_input.build_items_has_item_flags",
       "rule": "Explicit validity callback results for build.items.has(item)."
+    },
+    "consume_item_filter_update.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "update(Building build)",
+      "java_expr": "public void update(Building build){",
+      "godot_symbol": "source_consume_item_filter_update_result.method",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "rule": "Registers the exact ConsumeItemFilter.update(Building) method boundary before modeling its empty body.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
+    },
+    "consume_item_filter_update.build_state": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "update(Building build)",
+      "java_expr": "Building build",
+      "godot_symbol": "source_consume_item_filter_update_input.build_state",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "rule": "Carries the explicit Java Building build parameter through the no-op update bridge without inventing fields.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
+    },
+    "consume_item_filter_update.no_op": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "update(Building build)",
+      "java_expr": "public void update(Building build){\n    }",
+      "godot_symbol": "source_consume_item_filter_update_result.no_op",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "rule": "Marks ConsumeItemFilter.update(Building) as a source-backed no-op because the upstream method body is empty.",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
+    },
+    "consume_item_filter_update.next_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_method": "update(Building build)",
+      "java_expr": "public void trigger(Building build){",
+      "godot_symbol": "source_consume_item_filter_update_result.next_method",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "rule": "Records the next method boundary to keep the empty update body slice scoped before trigger(Building).",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_filter_update_state"
     }
   },
   "version": 1

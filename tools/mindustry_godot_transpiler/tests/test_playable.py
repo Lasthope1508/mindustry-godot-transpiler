@@ -534,6 +534,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.build"', source)
         self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("table_image_size", null) == canonical.get("table_image_size", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_update_state(build_state: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_update_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public void update(Building build){"', source)
+        self.assertIn('"empty_body": "public void update(Building build){\\n    }"', source)
+        self.assertIn('"build_state": build_state', source)
+        self.assertIn('"no_op": true', source)
+        self.assertIn("func generated_consume_item_filter_update_bridge_state(build_state: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_update_2([build_state])", source)
+        self.assertIn("var canonical = source_consume_item_filter_update_state(build_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_update_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.update"', source)
+        self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("build_state", null) == canonical.get("build_state", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

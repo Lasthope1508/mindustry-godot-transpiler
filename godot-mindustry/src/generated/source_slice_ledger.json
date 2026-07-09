@@ -36741,6 +36741,37 @@
         "test_consume_item_filter_build_matches_upstream_source",
         "test_generated_consume_item_filter_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1464": {
+      "title": "Generated ConsumeItemFilter update bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "update(Building build)",
+      "generated_owner": "ConsumeItemFilter.java_method_update_2",
+      "godot_owner": "PortGame.source_consume_item_filter_update_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_update_bridge_state",
+      "exact_exprs": [
+        "public void update(Building build){",
+        "public void update(Building build){\n    }",
+        "public void trigger(Building build){"
+      ],
+      "source_symbols": [
+        "consume_item_filter_update.method",
+        "consume_item_filter_update.build_state",
+        "consume_item_filter_update.no_op",
+        "consume_item_filter_update.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_update_bridge_state",
+        "test_consume_item_filter_update_matches_upstream_source",
+        "test_generated_consume_item_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "No deferred behavior; upstream body is empty."
+      ],
+      "rule": "Generated bridge preserves only the explicit Building build input and the empty upstream update body."
     }
   },
   "version": 1
