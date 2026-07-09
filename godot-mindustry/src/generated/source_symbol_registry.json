@@ -123378,6 +123378,465 @@
       "java_method": "display(Stats stats)",
       "java_expr": "public void display(Stats stats){",
       "rule": "Next method boundary after ConsumeItems.efficiency."
+    },
+    "consume_items_build.items_field": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.items_field",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "public final ItemStack[] items;",
+      "rule": "ConsumeItems.build iterates the fixed ItemStack[] items field."
+    },
+    "consume_items_build.method": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.method",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "public void build(Building build, Table table){",
+      "rule": "Canonical ConsumeItems.build method boundary."
+    },
+    "consume_items_build.table_expr": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.table_expr",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "table.table(c -> {",
+      "rule": "ConsumeItems.build creates a nested table through table.table(c -> {."
+    },
+    "consume_items_build.i_initial_expr": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.i_initial_expr",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "int i = 0;",
+      "rule": "ConsumeItems.build initializes row counter i to 0."
+    },
+    "consume_items_build.items_loop": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.loop_expr",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "for(var stack : items){",
+      "rule": "ConsumeItems.build loops over each ItemStack in items."
+    },
+    "consume_items_build.add_expr": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.req_images",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+      "rule": "ReqImage add call for each ConsumeItems.build stack."
+    },
+    "consume_items_build.stat_values_stack": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.req_images.stat_values_stack_expr",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+      "rule": "StatValues.stack call uses stack item and rounded stack amount times multiplier."
+    },
+    "consume_items_build.req_images": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.req_images",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);",
+      "rule": "ReqImage validity uses build.items.has with the same rounded amount and padRight(8)."
+    },
+    "consume_items_build.row_calls": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.row_calls",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "if(++i % 4 == 0) c.row();",
+      "rule": "ConsumeItems.build inserts a row after every fourth item."
+    },
+    "consume_items_build.table_left": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.table_cell_left",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "}).left();",
+      "rule": "Outer table cell is left-aligned."
+    },
+    "consume_items_build.item_stacks": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_consume_items_build_input.item_stacks",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "items",
+      "rule": "Explicit ordered ItemStack rows from ConsumeItems.items until live ItemStack objects are wired."
+    },
+    "consume_items_build.stack_item_id": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_consume_items_build_result.req_images.item_id",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.item.id",
+      "rule": "Explicit Item id from each source ItemStack row."
+    },
+    "consume_items_build.stack_amount": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_consume_items_build_result.req_images.stack_amount",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "stack.amount",
+      "rule": "Explicit amount from each source ItemStack row."
+    },
+    "consume_items_build.item_amounts": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_consume_items_build_input.item_amounts",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "get(item)",
+      "rule": "Explicit indexed ItemModule stock counts used by the ReqImage validity predicate."
+    },
+    "consume_items_build.multiplier_get_build": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_consume_items_build_input.multiplier_get_build",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "multiplier.get(build)",
+      "rule": "Explicit multiplier.get(build) result used in Math.round amount checks."
+    },
+    "consume_items_build.multiplier": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.multiplier_field",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.multiplier",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "rule": "Consume multiplier default source anchor."
+    },
+    "consume_items_build.item_stack_item_field": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.item_stack_item_field",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public Item item;",
+      "rule": "ItemStack.item source field anchor."
+    },
+    "consume_items_build.item_stack_amount_field": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.item_stack_amount_field",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "java_method": "ItemStack",
+      "java_expr": "public int amount = 0;",
+      "rule": "ItemStack.amount source field anchor."
+    },
+    "consume_items_build.building_items_field": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.building_items_field",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "java_method": "BuildingComp.items",
+      "java_expr": "@Nullable ItemModule items;",
+      "rule": "BuildingComp.items source field anchor for build.items.has."
+    },
+    "consume_items_build.item_module_has": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.item_module_has_expr",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "rule": "ItemModule.has(Item, int) is used by ReqImage validity."
+    },
+    "consume_items_build.item_module_has_return": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.item_module_has_return_expr",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_expr": "return get(item) >= amount;",
+      "rule": "ItemModule.has compares get(item) with required amount."
+    },
+    "consume_items_build.req_image_constructor": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.req_image_constructor",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "java_method": "ReqImage(Element image, Boolp valid)",
+      "java_expr": "public ReqImage(Element image, Boolp valid){",
+      "rule": "ReqImage constructor source anchor."
+    },
+    "consume_items_build.req_image_valid": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.req_image_valid_expr",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "java_method": "ReqImage.valid()",
+      "java_expr": "public boolean valid(){",
+      "rule": "ReqImage valid method delegates to Boolp valid."
+    },
+    "consume_items_build.stat_values_stack_method": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.stat_values_stack_method",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "StatValues.stack(UnlockableContent item, int amount)",
+      "java_expr": "public static Stack stack(UnlockableContent item, int amount){",
+      "rule": "StatValues.stack overload source anchor."
+    },
+    "consume_items_build.cell_pad_right": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.cell_pad_right_expr",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "java_method": "Cell.padRight(float padRight)",
+      "java_expr": "public Cell<T> padRight(float padRight){",
+      "rule": "Cell.padRight source anchor for padRight(8)."
+    },
+    "consume_items_build.cell_left": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.cell_left_expr",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "java_method": "Cell.left()",
+      "java_expr": "public Cell<T> left(){",
+      "rule": "Cell.left source anchor for outer left alignment."
+    },
+    "consume_items_build.next_method": {
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "runtime_proof": "/root/Main.source_consume_items_build_state",
+      "source_slice": "N1475",
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_consume_items_build_result.next_method",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "trigger(Building build)",
+      "java_expr": "public void trigger(Building build){",
+      "rule": "Next method boundary after ConsumeItems.build."
     }
   },
   "version": 1

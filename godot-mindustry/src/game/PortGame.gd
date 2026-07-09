@@ -2540,6 +2540,69 @@ func generated_consume_items_apply_bridge_state(block_has_items_before: bool, bl
 		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", []),
 	}
 
+func source_consume_items_build_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var req_images: Array = []
+	var row_calls: Array = []
+	for index in item_stacks.size():
+		var stack: Variant = item_stacks[index]
+		if not stack is Dictionary:
+			continue
+		var item_id: int = int(stack.get("item_id", -1))
+		var stack_amount: float = float(stack.get("amount", 0.0))
+		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		var item_amount: float = 0.0
+		if item_id < item_amounts.size():
+			item_amount = float(item_amounts[item_id])
+		var valid: bool = item_id < item_amounts.size() and item_amount >= required_amount
+		req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})
+		if (index + 1) % 4 == 0:
+			row_calls.append({"call": "c.row();", "after_count": index + 1})
+	var table_cell_left: bool = true
+	return {
+		"source_owner": "PortGame.source_consume_items_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+		"method": "public void build(Building build, Table table){",
+		"items_field": "public final ItemStack[] items;",
+		"table_expr": "table.table(c -> {",
+		"i_initial_expr": "int i = 0;",
+		"loop_expr": "for(var stack : items){",
+		"add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+		"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+		"valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);",
+		"row_expr": "if(++i % 4 == 0) c.row();",
+		"table_left_expr": "}).left();",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"item_stack_item_field": "public Item item;",
+		"item_stack_amount_field": "public int amount = 0;",
+		"building_items_field": "@Nullable ItemModule items;",
+		"item_module_has_expr": "public boolean has(Item item, int amount){",
+		"item_module_has_return_expr": "return get(item) >= amount;",
+		"req_image_constructor": "public ReqImage(Element image, Boolp valid){",
+		"req_image_valid_expr": "public boolean valid(){",
+		"stat_values_stack_method": "public static Stack stack(UnlockableContent item, int amount){",
+		"cell_pad_right_expr": "public Cell<T> padRight(float padRight){",
+		"cell_left_expr": "public Cell<T> left(){",
+		"item_stacks": item_stacks,
+		"item_amounts": item_amounts,
+		"multiplier_get_build": multiplier_get_build,
+		"req_images": req_images,
+		"row_calls": row_calls,
+		"table_cell_left": table_cell_left,
+	}
+
+func generated_consume_items_build_bridge_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([item_stacks, item_amounts, multiplier_get_build])
+	var canonical = source_consume_items_build_state(item_stacks, item_amounts, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_items_build_state",
+		"generated_owner": "ConsumeItems.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", []) and result.get("table_cell_left", null) == canonical.get("table_cell_left", null),
+	}
+
 func source_consume_items_trigger_state(item_stacks: Array, multiplier_get_build: float) -> Dictionary:
 	var remove_calls: Array = []
 	for stack in item_stacks:

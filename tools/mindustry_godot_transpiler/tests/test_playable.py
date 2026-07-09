@@ -574,6 +574,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItems.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("item_module_has_stacks", null) == canonical.get("item_module_has_stacks", null)', source)
 
+    def test_port_game_exposes_generated_consume_items_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_items_build_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_build_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){"', source)
+        self.assertIn('"table_expr": "table.table(c -> {"', source)
+        self.assertIn('"i_initial_expr": "int i = 0;"', source)
+        self.assertIn('"loop_expr": "for(var stack : items){"', source)
+        self.assertIn('"add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),"', source)
+        self.assertIn('"valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);"', source)
+        self.assertIn('"row_expr": "if(++i % 4 == 0) c.row();"', source)
+        self.assertIn("func generated_consume_items_build_bridge_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")', source)
+        self.assertIn("var result = instance.java_method_build_1([item_stacks, item_amounts, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_items_build_state(item_stacks, item_amounts, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_items_build_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItems.build"', source)
+        self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", [])', source)
+
     def test_port_game_exposes_generated_consume_item_filter_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

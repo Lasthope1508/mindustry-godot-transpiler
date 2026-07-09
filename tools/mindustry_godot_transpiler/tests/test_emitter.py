@@ -17718,6 +17718,65 @@ public class ConsumeItems extends Consume{
             self.assertIn('"return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;"', source_text)
             self.assertIn('"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;"', source_text)
 
+    def test_emit_bridges_consume_items_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItems.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.meta.*;
+
+public class ConsumeItems extends Consume{
+    public final ItemStack[] items;
+
+    public void build(Building build, Table table){
+        table.table(c -> {
+            int i = 0;
+            for(var stack : items){
+                c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),
+                () -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);
+                if(++i % 4 == 0) c.row();
+            }
+        }).left();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var item_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[2] if _args.size() > 2 else 1.0)", source_text)
+            self.assertIn("var req_images: Array = []", source_text)
+            self.assertIn("var row_calls: Array = []", source_text)
+            self.assertIn("for index in item_stacks.size():", source_text)
+            self.assertIn('var item_id: int = int(stack.get("item_id", -1))', source_text)
+            self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
+            self.assertIn('req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})', source_text)
+            self.assertIn('row_calls.append({"call": "c.row();", "after_count": index + 1})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_items_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"table_expr": "table.table(c -> {"', source_text)
+            self.assertIn('"add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),"', source_text)
+            self.assertIn('"valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);"', source_text)
+            self.assertIn('"row_expr": "if(++i % 4 == 0) c.row();"', source_text)
+            self.assertIn('"table_left_expr": "}).left();"', source_text)
+
     def test_emit_bridges_consume_item_filter_build_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

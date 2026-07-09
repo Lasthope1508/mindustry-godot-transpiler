@@ -108,6 +108,51 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_items_efficiency_bridge_state",
       "rule": "Consumer shard mirror for ConsumeItems.efficiency; canonical data remains source_slice_ledger.N1474."
+    },
+    "N1475": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1475",
+      "godot_owner": "PortGame.source_consume_items_build_state",
+      "generated_owner": "ConsumeItems.java_method_build_1",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "build(Building build, Table table)",
+      "source_symbols": [
+        "consume_items_build.items_field",
+        "consume_items_build.method",
+        "consume_items_build.table_expr",
+        "consume_items_build.i_initial_expr",
+        "consume_items_build.items_loop",
+        "consume_items_build.add_expr",
+        "consume_items_build.stat_values_stack",
+        "consume_items_build.req_images",
+        "consume_items_build.row_calls",
+        "consume_items_build.table_left",
+        "consume_items_build.item_stacks",
+        "consume_items_build.stack_item_id",
+        "consume_items_build.stack_amount",
+        "consume_items_build.item_amounts",
+        "consume_items_build.multiplier_get_build",
+        "consume_items_build.multiplier",
+        "consume_items_build.item_stack_item_field",
+        "consume_items_build.item_stack_amount_field",
+        "consume_items_build.building_items_field",
+        "consume_items_build.item_module_has",
+        "consume_items_build.item_module_has_return",
+        "consume_items_build.req_image_constructor",
+        "consume_items_build.req_image_valid",
+        "consume_items_build.stat_values_stack_method",
+        "consume_items_build.cell_pad_right",
+        "consume_items_build.cell_left",
+        "consume_items_build.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_build_to_source_state",
+        "test_port_game_exposes_generated_consume_items_build_bridge_state",
+        "test_consume_items_build_matches_upstream_source",
+        "test_generated_consume_items_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_items_build_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeItems.build; canonical data remains source_slice_ledger.N1475."
     }
   },
   "version": 1

@@ -1496,6 +1496,34 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
+        and method.get("name") == "build"
+    ):
+        return [
+            "\tvar item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar item_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar multiplier_get_build: float = float(_args[2] if _args.size() > 2 else 1.0)",
+            "\tvar req_images: Array = []",
+            "\tvar row_calls: Array = []",
+            "\tfor index in item_stacks.size():",
+            "\t\tvar stack: Variant = item_stacks[index]",
+            "\t\tif not stack is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar item_id: int = int(stack.get("item_id", -1))',
+            '\t\tvar stack_amount: float = float(stack.get("amount", 0.0))',
+            "\t\tvar required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
+            "\t\tvar item_amount: float = 0.0",
+            "\t\tif item_id < item_amounts.size():",
+            "\t\t\titem_amount = float(item_amounts[item_id])",
+            "\t\tvar valid: bool = item_id < item_amounts.size() and item_amount >= required_amount",
+            '\t\treq_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})',
+            "\t\tif (index + 1) % 4 == 0:",
+            '\t\t\trow_calls.append({"call": "c.row();", "after_count": index + 1})',
+            "\tvar table_cell_left: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_items_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void build(Building build, Table table){", "items_field": "public final ItemStack[] items;", "table_expr": "table.table(c -> {", "i_initial_expr": "int i = 0;", "loop_expr": "for(var stack : items){", "add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),", "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);", "row_expr": "if(++i % 4 == 0) c.row();", "table_left_expr": "}).left();", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item, int amount){", "item_module_has_return_expr": "return get(item) >= amount;", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "stat_values_stack_method": "public static Stack stack(UnlockableContent item, int amount){", "cell_pad_right_expr": "public Cell<T> padRight(float padRight){", "cell_left_expr": "public Cell<T> left(){", "item_stacks": item_stacks, "item_amounts": item_amounts, "multiplier_get_build": multiplier_get_build, "req_images": req_images, "row_calls": row_calls, "table_cell_left": table_cell_left}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
         and method.get("name") == "trigger"
     ):
         return [

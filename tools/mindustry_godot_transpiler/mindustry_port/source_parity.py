@@ -4398,6 +4398,78 @@ def verify_consume_items_efficiency_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_consume_items_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_items_source = "core/src/mindustry/world/consumers/ConsumeItems.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    item_stack_source = "core/src/mindustry/type/ItemStack.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    item_module_source = "core/src/mindustry/world/modules/ItemModule.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    cell_source = "arc-core/src/arc/scene/ui/layout/Cell.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_items_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    item_stack_text = (upstream_root / item_stack_source).read_text(encoding="utf-8", errors="replace")
+    building_comp_text = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    item_module_text = (upstream_root / item_module_source).read_text(encoding="utf-8", errors="replace")
+    req_image_text = (upstream_root / req_image_source).read_text(encoding="utf-8", errors="replace")
+    stat_values_text = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    cell_text = (upstream_root.parent / "arc-upstream" / cell_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final ItemStack[] items;",
+        "method": "public void build(Building build, Table table){",
+        "table_expr": "table.table(c -> {",
+        "i_initial_expr": "int i = 0;",
+        "items_loop": "for(var stack : items){",
+        "add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+        "valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);",
+        "row_expr": "if(++i % 4 == 0) c.row();",
+        "table_left_expr": "}).left();",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "item_stack_item_field": "public Item item;",
+        "item_stack_amount_field": "public int amount = 0;",
+        "building_items_field": "@Nullable ItemModule items;",
+        "item_module_has": "public boolean has(Item item, int amount){",
+        "item_module_has_return": "return get(item) >= amount;",
+        "req_image_constructor": "public ReqImage(Element image, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "stat_values_stack": "public static Stack stack(UnlockableContent item, int amount){",
+        "cell_pad_right": "public Cell<T> padRight(float padRight){",
+        "cell_left": "public Cell<T> left(){",
+        "next_method": "public void trigger(Building build){",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "table_expr": source,
+        "i_initial_expr": source,
+        "items_loop": source,
+        "add_expr": source,
+        "valid_expr": source,
+        "row_expr": source,
+        "table_left_expr": source,
+        "multiplier_field": consume_text,
+        "item_stack_item_field": item_stack_text,
+        "item_stack_amount_field": item_stack_text,
+        "building_items_field": building_comp_text,
+        "item_module_has": item_module_text,
+        "item_module_has_return": item_module_text,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "stat_values_stack": stat_values_text,
+        "cell_pad_right": cell_text,
+        "cell_left": cell_text,
+        "next_method": source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_items_source,
+        "sources": [consume_source, item_stack_source, building_comp_source, item_module_source, req_image_source, stat_values_source, cell_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_build_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     multi_req_image_source = "core/src/mindustry/ui/MultiReqImage.java"
