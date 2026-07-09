@@ -124854,6 +124854,108 @@
         "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state"
+    },
+    "consume_item_charged_constructor.min_charge_field": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "public float minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.min_charge_field",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed ConsumeItemCharged minCharge field used by the constructor assignment.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "public ConsumeItemCharged(float minCharge){",
+      "godot_symbol": "source_consume_item_charged_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Canonical ConsumeItemCharged minCharge constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.min_charge": {
+      "status": "explicit-input",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "float minCharge",
+      "godot_symbol": "source_consume_item_charged_constructor_input.min_charge",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Explicit input for ConsumeItemCharged constructor parameter minCharge.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "this.minCharge = minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.min_charge_after",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed constructor field assignment for minCharge.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.filter": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "java_expr": "filter = item -> item.charge >= this.minCharge;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.filter_expr",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed constructor filter expression for charge threshold.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
+    },
+    "consume_item_charged_constructor.item_charge_field": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "java_method": "Item",
+      "java_expr": "public float charge = 0f;",
+      "godot_symbol": "source_consume_item_charged_constructor_result.item_charge_field",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "rule": "Source-backed Item.charge field used by ConsumeItemCharged constructor filter.",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state"
     }
   },
   "version": 1

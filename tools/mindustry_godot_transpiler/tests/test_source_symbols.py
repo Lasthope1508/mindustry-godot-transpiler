@@ -15069,6 +15069,79 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_charged_item_efficiency_multiplier_result")
         self.assertEqual(result_schema["keys"]["efficiency_multiplier"]["java_expr"], "return item.charge;")
 
+    def test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_item_charged_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemCharged.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeItemCharged(float minCharge)")
+        self.assertEqual(constructor_symbol["java_expr"], "public ConsumeItemCharged(float minCharge){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_item_charged_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_item_charged_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_item_charged_constructor_result.constructor")
+
+        min_charge_symbol = source_symbols.source_symbol(registry, "consume_item_charged_constructor.min_charge")
+        self.assertEqual(min_charge_symbol["status"], "explicit-input")
+        self.assertEqual(min_charge_symbol["java_expr"], "float minCharge")
+        self.assertEqual(min_charge_symbol["godot_symbol"], "source_consume_item_charged_constructor_input.min_charge")
+
+        assignment_symbol = source_symbols.source_symbol(registry, "consume_item_charged_constructor.assignment")
+        self.assertEqual(assignment_symbol["java_expr"], "this.minCharge = minCharge;")
+        self.assertEqual(assignment_symbol["godot_symbol"], "source_consume_item_charged_constructor_result.min_charge_after")
+
+        filter_symbol = source_symbols.source_symbol(registry, "consume_item_charged_constructor.filter")
+        self.assertEqual(filter_symbol["java_expr"], "filter = item -> item.charge >= this.minCharge;")
+        self.assertEqual(filter_symbol["godot_symbol"], "source_consume_item_charged_constructor_result.filter_expr")
+
+        charged_slice = source_symbols.source_slice(ledger, "N1488")
+        self.assertEqual(charged_slice["title"], "Generated ConsumeItemCharged constructor bridge state")
+        self.assertEqual(charged_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemCharged.java")
+        self.assertEqual(charged_slice["java_method"], "ConsumeItemCharged(float minCharge)")
+        self.assertEqual(charged_slice["godot_owner"], "PortGame.source_consume_item_charged_constructor_state")
+        self.assertEqual(charged_slice["generated_owner"], "ConsumeItemCharged.java_constructor_ConsumeItemCharged_0")
+        self.assertEqual(charged_slice["runtime_proof"], "/root/Main.generated_consume_item_charged_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1488"]["canonical_ledger"], "source_slice_ledger.N1488")
+        for expr in [
+            "public float minCharge;",
+            "public ConsumeItemCharged(float minCharge){",
+            "this.minCharge = minCharge;",
+            "filter = item -> item.charge >= this.minCharge;",
+            "public float charge = 0f;",
+        ]:
+            self.assertIn(expr, charged_slice["exact_exprs"])
+        self.assertIn("consume_item_charged_constructor.constructor", charged_slice["source_symbols"])
+        self.assertIn("consume_item_charged_constructor.min_charge", charged_slice["source_symbols"])
+        self.assertIn("consume_item_charged_constructor.assignment", charged_slice["source_symbols"])
+        self.assertIn("consume_item_charged_constructor.filter", charged_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_charged_constructor_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["min_charge"])
+        self.assertIn("min_charge_after", contract["return_keys"])
+        self.assertEqual(
+            consumer_contract_shard["contracts"]["PortGame.source_consume_item_charged_constructor_state"]["canonical_contract"],
+            "source_api_contracts.PortGame.source_consume_item_charged_constructor_state",
+        )
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_charged_constructor_input")
+        self.assertEqual(input_schema["keys"]["min_charge"]["java_expr"], "float minCharge")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_charged_constructor_result")
+        self.assertEqual(result_schema["keys"]["min_charge_after"]["java_expr"], "this.minCharge = minCharge;")
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_item_charged_constructor_input"]["canonical_schema"],
+            "source_state_schema.source_consume_item_charged_constructor_input",
+        )
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_item_charged_constructor_result"]["canonical_schema"],
+            "source_state_schema.source_consume_item_charged_constructor_result",
+        )
+
     def test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -23788,10 +23861,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 955)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 950)
+        self.assertEqual(audit["totalSourceFunctions"], 956)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 951)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 955)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 956)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -23828,6 +23901,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_charged_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_item_charged_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_radioactive_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_radioactive_default_constructor_state", audit["registeredSourceOwners"])

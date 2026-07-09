@@ -41096,6 +41096,40 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state",
       "rule": "Source state mirrors default constructor delegation and delegated assignment result; live predicate execution deferred."
+    },
+    "PortGame.source_consume_item_charged_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "source_method": "ConsumeItemCharged(float minCharge)",
+      "params": [
+        {
+          "name": "min_charge",
+          "type": "float",
+          "schema": "source_consume_item_charged_constructor_input.min_charge",
+          "java_expr": "float minCharge"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "min_charge_field",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "item_charge_field",
+        "min_charge",
+        "min_charge_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_charged_constructor_state",
+      "rule": "Source state mirrors constructor assignment and filter expression; live predicate execution deferred."
     }
   },
   "policy": {

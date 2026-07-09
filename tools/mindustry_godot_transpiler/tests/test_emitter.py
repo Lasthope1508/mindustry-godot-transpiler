@@ -17675,6 +17675,47 @@ public class ConsumeItemCharged extends ConsumeItemEfficiency{
             self.assertIn('"item_charge": item_charge', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_item_charged_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemCharged.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+
+public class ConsumeItemCharged extends ConsumeItemEfficiency{
+    public float minCharge;
+
+    public ConsumeItemCharged(float minCharge){
+        this.minCharge = minCharge;
+        filter = item -> item.charge >= this.minCharge;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemCharged.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItemCharged_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var min_charge: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var min_charge_after: float = min_charge", source_text)
+            self.assertIn('var filter_expr: String = "item -> item.charge >= this.minCharge"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_charged_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItemCharged(float minCharge){"', source_text)
+            self.assertIn('"assignment_expr": "this.minCharge = minCharge;"', source_text)
+            self.assertIn('"filter_expr": filter_expr', source_text)
+            self.assertIn('"min_charge": min_charge', source_text)
+            self.assertIn('"min_charge_after": min_charge_after', source_text)
+
     def test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

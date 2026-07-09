@@ -5974,6 +5974,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "default_min_radioactivity": 0.2, "min_radioactivity_after": min_radioactivity_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
+        and type_entry.get("name") == "ConsumeItemCharged"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemCharged_{index}(_args: Array = []) -> Variant:",
+                    "\tvar min_charge: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                    "\tvar min_charge_after: float = min_charge",
+                    '\tvar filter_expr: String = "item -> item.charge >= this.minCharge"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_charged_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(float minCharge){", "min_charge_field": "public float minCharge;", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "item_charge_field": "public float charge = 0f;", "min_charge": min_charge, "min_charge_after": min_charge_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
         and type_entry.get("name") == "ConsumeItems"
     ):

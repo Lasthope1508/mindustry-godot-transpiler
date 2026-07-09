@@ -157416,6 +157416,82 @@
           "java_expr": "this(0.2f);"
         }
       }
+    },
+    "source_consume_item_charged_constructor_input": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "keys": {
+        "min_charge": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "float minCharge"
+        }
+      }
+    },
+    "source_consume_item_charged_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1488",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_charged_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemCharged.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "public ConsumeItemCharged(float minCharge){"
+        },
+        "min_charge_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "public float minCharge;"
+        },
+        "assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "this.minCharge = minCharge;"
+        },
+        "filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "filter = item -> item.charge >= this.minCharge;"
+        },
+        "filter_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "filter = item -> item.charge >= this.minCharge;"
+        },
+        "item_charge_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "java_expr": "public float charge = 0f;"
+        },
+        "min_charge": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "float minCharge"
+        },
+        "min_charge_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "java_expr": "this.minCharge = minCharge;"
+        }
+      }
     }
   },
   "version": 1

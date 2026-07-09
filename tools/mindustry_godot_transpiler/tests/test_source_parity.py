@@ -998,6 +998,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_charged_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_charged_constructor_source"))
+        report = source_parity.verify_consume_item_charged_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemCharged.java")
+        self.assertIn("core/src/mindustry/type/Item.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "min_charge_field": "public float minCharge;",
+            "constructor": "public ConsumeItemCharged(float minCharge){",
+            "assignment": "this.minCharge = minCharge;",
+            "filter_assignment": "filter = item -> item.charge >= this.minCharge;",
+            "item_charge_field": "public float charge = 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_item_efficiency_multiplier_source"))
         report = source_parity.verify_consume_item_filter_item_efficiency_multiplier_source(ROOT / "mindustry-upstream")

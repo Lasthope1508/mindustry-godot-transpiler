@@ -562,6 +562,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemCharged.itemEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_charged_constructor_state(min_charge: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_charged_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java"', source)
+        self.assertIn('"constructor": "public ConsumeItemCharged(float minCharge){"', source)
+        self.assertIn('"min_charge_field": "public float minCharge;"', source)
+        self.assertIn('"assignment_expr": "this.minCharge = minCharge;"', source)
+        self.assertIn('"filter_expr": "item -> item.charge >= this.minCharge"', source)
+        self.assertIn('"item_charge_field": "public float charge = 0f;"', source)
+        self.assertIn("func generated_consume_item_charged_constructor_bridge_state(min_charge: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeItemCharged_0([min_charge])", source)
+        self.assertIn("var canonical = source_consume_item_charged_constructor_state(min_charge)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_charged_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemCharged.constructor"', source)
+        self.assertIn('"matches": result.get("min_charge_after", null) == canonical.get("min_charge_after", null)', source)
+
     def test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

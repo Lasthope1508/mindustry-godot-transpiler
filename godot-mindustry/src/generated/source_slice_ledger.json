@@ -37521,6 +37521,38 @@
         "test_consume_item_radioactive_default_constructor_matches_upstream_source",
         "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1488": {
+      "title": "Generated ConsumeItemCharged constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "java_class": "ConsumeItemCharged",
+      "java_method": "ConsumeItemCharged(float minCharge)",
+      "generated_owner": "ConsumeItemCharged.java_constructor_ConsumeItemCharged_0",
+      "godot_owner": "PortGame.source_consume_item_charged_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_charged_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItemCharged constructor field assignment and filter expression without executing live Boolf<Item>.",
+      "exact_exprs": [
+        "public float minCharge;",
+        "public ConsumeItemCharged(float minCharge){",
+        "this.minCharge = minCharge;",
+        "filter = item -> item.charge >= this.minCharge;",
+        "public float charge = 0f;"
+      ],
+      "source_symbols": [
+        "consume_item_charged_constructor.min_charge_field",
+        "consume_item_charged_constructor.constructor",
+        "consume_item_charged_constructor.min_charge",
+        "consume_item_charged_constructor.assignment",
+        "consume_item_charged_constructor.filter",
+        "consume_item_charged_constructor.item_charge_field"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_charged_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_constructor_bridge_state",
+        "test_consume_item_charged_constructor_matches_upstream_source",
+        "test_generated_consume_item_charged_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
