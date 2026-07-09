@@ -27286,6 +27286,19 @@
         "test_building_check_allow_update_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_check_allow_update.method": {
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "godot_symbol": "source_building_check_allow_update_result.method",
+      "java_expr": "public void checkAllowUpdate(){",
+      "java_method": "checkAllowUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp checkAllowUpdate method boundary.",
+      "runtime_proof": "/root/Main.source_building_check_allow_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_check_allow_update_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_check_solid.method": {
       "godot_owner": "PortGame.source_building_check_solid_state",
       "godot_symbol": "source_building_check_solid_result.method",
