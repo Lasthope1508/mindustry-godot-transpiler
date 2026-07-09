@@ -19,6 +19,27 @@
       "root_key": "slices",
       "rule": "Extension shard for new consumer-related slice metadata; canonical slice IDs and keys must remain mirrored through the SSOT gate before use.",
       "status": "active"
+    },
+    "consumer_api_contracts": {
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "label": "owner",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ],
+      "path": "src/generated/source_modules/consumer_api_contracts.json",
+      "root_key": "contracts",
+      "rule": "Extension shard for consumer source API contracts; canonical owners and public contract fields remain mirrored through source_api_contracts before use.",
+      "status": "active"
     }
   },
   "policy": {

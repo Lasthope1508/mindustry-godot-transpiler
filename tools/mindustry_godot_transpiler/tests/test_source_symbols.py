@@ -156,6 +156,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "slice_ledger")
         self.assertGreaterEqual(consumer_report["canonical_mirror"]["checked"], 4)
 
+    def test_source_ssot_consumer_api_contract_shard_declares_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        consumer_entry = manifest["modules"]["consumer_api_contracts"]
+
+        self.assertEqual(consumer_entry["canonical_module"], "api_contracts")
+        self.assertEqual(consumer_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(consumer_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertIn("return_keys", consumer_entry["mirror_fields"])
+
+        consumer_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")["slices"]
+        consumer_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+
+        for slice_id, slice_entry in sorted(consumer_slices.items()):
+            owner = slice_entry["godot_owner"]
+            with self.subTest(slice_id=slice_id):
+                self.assertIn(owner, consumer_contracts)
+                self.assertEqual(consumer_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
+                for field in consumer_entry["mirror_fields"]:
+                    self.assertEqual(consumer_contracts[owner][field], canonical_contracts[owner][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        consumer_report = [entry for entry in report["modules"] if entry["name"] == "consumer_api_contracts"][0]
+        self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "api_contracts")
+        self.assertEqual(consumer_report["canonical_mirror"]["checked"], len(consumer_contracts))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 
