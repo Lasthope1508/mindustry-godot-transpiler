@@ -143,7 +143,7 @@ def load_all_registered_json(godot_root: Path) -> dict[str, dict[str, Any]]:
 def write_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
     path = Path(godot_root) / relative_path(name)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     return path
 
 

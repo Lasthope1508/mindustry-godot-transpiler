@@ -48,6 +48,23 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             source_ssot.write_json(godot_root, "state_schema", {"version": 2, "module": "state_schema"})
             self.assertEqual(source_ssot.load_json(godot_root, "state_schema")["version"], 2)
 
+    def test_source_ssot_writer_preserves_canonical_insertion_order(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            source_ssot.write_json(godot_root, "state_schema", {
+                "version": 1,
+                "schemas": {},
+                "policy": {"newSchemaRequiresSource": True},
+            })
+
+            text = (godot_root / source_ssot.relative_path("state_schema")).read_text(encoding="utf-8")
+            self.assertLess(text.index('"version"'), text.index('"schemas"'))
+            self.assertLess(text.index('"schemas"'), text.index('"policy"'))
+
     def test_source_ssot_catalog_loads_extension_modules_from_manifest(self):
         import importlib
 
