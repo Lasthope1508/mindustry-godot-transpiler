@@ -4478,6 +4478,24 @@ def verify_consume_item_filter_display_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_consume_item_filter_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    source = (Path(upstream_root) / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float efficiencyMultiplier(Building build){",
+        "get_consumed_expr": "var item = getConsumed(build);",
+        "return_expr": "return item == null ? 0f : itemEfficiencyMultiplier(item);",
+        "get_consumed_method": "public @Nullable Item getConsumed(Building build){",
+        "item_efficiency_multiplier_method": "public float itemEfficiencyMultiplier(Item item){",
+        "next_method": "public float itemEfficiencyMultiplier(Item item){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

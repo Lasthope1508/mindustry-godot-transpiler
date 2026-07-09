@@ -36953,6 +36953,44 @@
         "Concrete Arc Table and displayItem UI rendering remain deferred beyond display item trace rows."
       ],
       "rule": "Generated bridge models exact ConsumeItemFilter.display stats.add selection and StatValues.items display rows without inventing UI mutation internals."
+    },
+    "N1470": {
+      "title": "Generated ConsumeItemFilter efficiencyMultiplier bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "generated_owner": "ConsumeItemFilter.java_method_efficiencyMultiplier_7",
+      "godot_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_efficiency_multiplier_bridge_state",
+      "exact_exprs": [
+        "public float efficiencyMultiplier(Building build){",
+        "var item = getConsumed(build);",
+        "return item == null ? 0f : itemEfficiencyMultiplier(item);",
+        "public @Nullable Item getConsumed(Building build){",
+        "public float itemEfficiencyMultiplier(Item item){"
+      ],
+      "source_symbols": [
+        "consume_item_filter_efficiency_multiplier.method",
+        "consume_item_filter_efficiency_multiplier.consumed_item",
+        "consume_item_filter_efficiency_multiplier.item_efficiency_multiplier",
+        "consume_item_filter_efficiency_multiplier.has_consumed_item",
+        "consume_item_filter_efficiency_multiplier.efficiency_multiplier",
+        "consume_item_filter_efficiency_multiplier.get_consumed_method",
+        "consume_item_filter_efficiency_multiplier.item_efficiency_multiplier_method",
+        "consume_item_filter_efficiency_multiplier.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete getConsumed(Building) dispatch into live Building inventory remains separate from this bridge input.",
+        "Concrete itemEfficiencyMultiplier(Item) dynamic override dispatch remains explicit through item_efficiency_multiplier."
+      ],
+      "rule": "Generated bridge models exact efficiencyMultiplier ternary from local getConsumed result to itemEfficiencyMultiplier result."
     }
   },
   "version": 1

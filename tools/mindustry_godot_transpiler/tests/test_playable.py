@@ -658,6 +658,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemFilter.display"', source)
         self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", [])', source)
 
+    def test_port_game_exposes_generated_consume_item_filter_efficiency_multiplier_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_filter_efficiency_multiplier_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source)
+        self.assertIn('"method": "public float efficiencyMultiplier(Building build){"', source)
+        self.assertIn('"get_consumed_expr": "var item = getConsumed(build);"', source)
+        self.assertIn('"return_expr": "return item == null ? 0f : itemEfficiencyMultiplier(item);"', source)
+        self.assertIn('"item_efficiency_multiplier_expr": "itemEfficiencyMultiplier(item)"', source)
+        self.assertIn("var has_consumed_item: bool = consumed_item != null", source)
+        self.assertIn("var efficiency_multiplier: float = item_efficiency_multiplier if has_consumed_item else 0.0", source)
+        self.assertIn('"consumed_item": consumed_item', source)
+        self.assertIn('"item_efficiency_multiplier": item_efficiency_multiplier', source)
+        self.assertIn('"has_consumed_item": has_consumed_item', source)
+        self.assertIn('"efficiency_multiplier": efficiency_multiplier', source)
+        self.assertIn("func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_efficiencyMultiplier_7([consumed_item, item_efficiency_multiplier])", source)
+        self.assertIn("var canonical = source_consume_item_filter_efficiency_multiplier_state(consumed_item, item_efficiency_multiplier)", source)
+        self.assertIn('"generated_owner": "ConsumeItemFilter.efficiencyMultiplier"', source)
+        self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

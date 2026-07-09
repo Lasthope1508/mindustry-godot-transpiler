@@ -2708,6 +2708,35 @@ func generated_consume_item_filter_display_bridge_state(booster: bool, stats_tim
 		"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_items", []) == canonical.get("display_items", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),
 	}
 
+func source_consume_item_filter_efficiency_multiplier_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
+	var has_consumed_item: bool = consumed_item != null
+	var efficiency_multiplier: float = item_efficiency_multiplier if has_consumed_item else 0.0
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+		"method": "public float efficiencyMultiplier(Building build){",
+		"get_consumed_expr": "var item = getConsumed(build);",
+		"return_expr": "return item == null ? 0f : itemEfficiencyMultiplier(item);",
+		"item_efficiency_multiplier_expr": "itemEfficiencyMultiplier(item)",
+		"consumed_item": consumed_item,
+		"item_efficiency_multiplier": item_efficiency_multiplier,
+		"has_consumed_item": has_consumed_item,
+		"efficiency_multiplier": efficiency_multiplier,
+	}
+
+func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiencyMultiplier_7([consumed_item, item_efficiency_multiplier])
+	var canonical = source_consume_item_filter_efficiency_multiplier_state(consumed_item, item_efficiency_multiplier)
+	return {
+		"source_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
+		"generated_owner": "ConsumeItemFilter.efficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null),
+	}
+
 func source_consume_liquid_flammable_liquid_efficiency_multiplier_state(liquid_flammability: float) -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
