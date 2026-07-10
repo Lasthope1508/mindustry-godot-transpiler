@@ -196,6 +196,23 @@ func asset_manifest_state() -> Dictionary:
 		"first_asset": first_asset,
 	}
 
+func source_manifest_state() -> Dictionary:
+	var document := SourceSsotCatalog.load_document("source_manifest")
+	if not bool(document.get("loaded", false)):
+		return {"loaded": false, "java_file_count": 0, "source_root": "", "first_file": {}}
+	var parsed: Dictionary = document.get("data", {})
+	var files_value = parsed.get("files", [])
+	var files: Array = files_value if typeof(files_value) == TYPE_ARRAY else []
+	var first_file: Dictionary = {}
+	if not files.is_empty() and typeof(files[0]) == TYPE_DICTIONARY:
+		first_file = files[0]
+	return {
+		"loaded": true,
+		"java_file_count": int(parsed.get("java_file_count", 0)),
+		"source_root": str(parsed.get("source_root", "")),
+		"first_file": first_file,
+	}
+
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()

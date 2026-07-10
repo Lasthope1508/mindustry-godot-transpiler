@@ -12799,6 +12799,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"first_asset": first_asset', source)
         self.assertNotIn("ASSET_MANIFEST_PATH", source)
 
+    def test_port_game_exposes_source_manifest_through_ssot_catalog(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+
+        self.assertIn('"source_manifest": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/source_manifest.json"', catalog_source)
+        self.assertIn("func source_manifest_state() -> Dictionary:", source)
+        self.assertIn('var document := SourceSsotCatalog.load_document("source_manifest")', source)
+        self.assertIn('"java_file_count": int(parsed.get("java_file_count", 0))', source)
+        self.assertIn('"source_root": str(parsed.get("source_root", ""))', source)
+        self.assertIn('"first_file": first_file', source)
+        self.assertNotIn("SOURCE_MANIFEST_PATH", source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
