@@ -1812,6 +1812,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_explode_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_explode_build_source"))
+        report = source_parity.verify_consume_item_explode_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemExplode.java")
+        self.assertEqual(report["checked"], {
+            "comment": "//as this consumer doesn't actually consume anything, all methods below are empty",
+            "method": "public void build(Building build, Table table){}",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_trigger_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_trigger_source"))
         report = source_parity.verify_consume_trigger_source(ROOT / "mindustry-upstream")

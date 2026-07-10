@@ -74231,6 +74231,59 @@
         ],
         "rule": "Generated bridge records ConsumePower.apply(Block) power field assignments without inventing live Block object mutation."
       }
+    },
+    "N1588": {
+      "canonical_slice": "source_slice_ledger.N1588",
+      "exact_exprs": [
+        "//as this consumer doesn't actually consume anything, all methods below are empty",
+        "public void build(Building build, Table table){}"
+      ],
+      "godot_owner": "PortGame.source_consume_item_explode_build_state",
+      "java_class": "ConsumeItemExplode",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+      "runtime_proof": "/root/Main.generated_consume_item_explode_build_bridge_state",
+      "source_symbols": [
+        "consume_item_explode_build.method",
+        "consume_item_explode_build.comment",
+        "consume_item_explode_build.empty_body"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_explode_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+        "test_consume_item_explode_build_matches_upstream_source",
+        "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated ConsumeItemExplode build empty body bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+        "java_class": "ConsumeItemExplode",
+        "java_method": "build(Building build, Table table)",
+        "generated_owner": "ConsumeItemExplode.java_method_build_1",
+        "godot_owner": "PortGame.source_consume_item_explode_build_state",
+        "runtime_proof": "/root/Main.generated_consume_item_explode_build_bridge_state",
+        "exact_exprs": [
+          "//as this consumer doesn't actually consume anything, all methods below are empty",
+          "public void build(Building build, Table table){}"
+        ],
+        "source_symbols": [
+          "consume_item_explode_build.method",
+          "consume_item_explode_build.comment",
+          "consume_item_explode_build.empty_body"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_item_explode_build_to_source_state",
+          "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+          "test_consume_item_explode_build_matches_upstream_source",
+          "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "ConsumeItemExplode.update(Building), trigger(Building), display(Stats), apply(Block), and efficiency(Building) remain separate source-backed slices."
+        ],
+        "rule": "Generated bridge records ConsumeItemExplode.build(Building, Table) empty implementation without inventing consumption behavior."
+      }
     }
   }
 }

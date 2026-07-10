@@ -86747,6 +86747,81 @@
         "runtime_proof": "/root/Main.source_consume_power_apply_state",
         "rule": "Public source helper exposes ConsumePower.apply(Block) before/after assignment state and echoes explicit this representation."
       }
+    },
+    "PortGame.source_consume_item_explode_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_explode_build_state",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "java_expr": "Building build",
+          "schema": "source_consume_item_explode_build_input.build"
+        },
+        {
+          "name": "table",
+          "type": "Variant",
+          "java_expr": "Table table",
+          "schema": "source_consume_item_explode_build_input.table"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "empty_body",
+        "build",
+        "table"
+      ],
+      "rule": "Public source helper exposes ConsumeItemExplode.build(Building, Table) empty body state and echoes arguments for bridge parity.",
+      "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
+      "source_method": "build(Building build, Table table)",
+      "source_slice": "N1588",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_explode_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+        "test_consume_item_explode_build_matches_upstream_source",
+        "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1588",
+        "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+        "source_method": "build(Building build, Table table)",
+        "params": [
+          {
+            "name": "build",
+            "type": "Variant",
+            "java_expr": "Building build",
+            "schema": "source_consume_item_explode_build_input.build"
+          },
+          {
+            "name": "table",
+            "type": "Variant",
+            "java_expr": "Table table",
+            "schema": "source_consume_item_explode_build_input.table"
+          }
+        ],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "comment",
+          "method",
+          "empty_body",
+          "build",
+          "table"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_item_explode_build_to_source_state",
+          "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+          "test_consume_item_explode_build_matches_upstream_source",
+          "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
+        "rule": "Public source helper exposes ConsumeItemExplode.build(Building, Table) empty body state and echoes arguments for bridge parity."
+      }
     }
   }
 }

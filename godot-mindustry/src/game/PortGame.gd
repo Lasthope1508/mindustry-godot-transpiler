@@ -4113,6 +4113,30 @@ func generated_consume_build_bridge_state(build: Variant, table: Variant) -> Dic
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null),
 	}
 
+func source_consume_item_explode_build_state(build: Variant, table: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_explode_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+		"comment": "//as this consumer doesn't actually consume anything, all methods below are empty",
+		"method": "public void build(Building build, Table table){}",
+		"empty_body": true,
+		"build": build,
+		"table": table,
+	}
+
+func generated_consume_item_explode_build_bridge_state(build: Variant, table: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplode.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([build, table])
+	var canonical = source_consume_item_explode_build_state(build, table)
+	return {
+		"source_owner": "PortGame.source_consume_item_explode_build_state",
+		"generated_owner": "ConsumeItemExplode.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null),
+	}
+
 func source_consume_apply_state(block: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_apply_state",

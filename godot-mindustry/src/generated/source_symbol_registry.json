@@ -130140,6 +130140,54 @@
         "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_item_explode_build.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_explode_build_state",
+      "tests": [
+        "test_emit_bridges_consume_item_explode_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+        "test_consume_item_explode_build_matches_upstream_source",
+        "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
+      "java_expr": "public void build(Building build, Table table){}",
+      "godot_symbol": "source_consume_item_explode_build_result.method",
+      "rule": "Exact empty ConsumeItemExplode.build(Building, Table) method boundary."
+    },
+    "consume_item_explode_build.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_explode_build_state",
+      "tests": [
+        "test_emit_bridges_consume_item_explode_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+        "test_consume_item_explode_build_matches_upstream_source",
+        "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
+      "java_expr": "//as this consumer doesn't actually consume anything, all methods below are empty",
+      "godot_symbol": "source_consume_item_explode_build_result.comment",
+      "rule": "Exact upstream comment explaining why ConsumeItemExplode consumer methods below are empty."
+    },
+    "consume_item_explode_build.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_item_explode_build_state",
+      "tests": [
+        "test_emit_bridges_consume_item_explode_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explode_build_bridge_state",
+        "test_consume_item_explode_build_matches_upstream_source",
+        "test_generated_consume_item_explode_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
+      "java_expr": "public void build(Building build, Table table){}",
+      "godot_symbol": "source_consume_item_explode_build_result.empty_body",
+      "rule": "True because upstream ConsumeItemExplode.build(Building, Table) body is empty."
     }
   },
   "version": 1

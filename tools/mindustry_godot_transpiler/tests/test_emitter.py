@@ -19719,6 +19719,45 @@ public abstract class Consume{
             self.assertIn('"build": build_arg', source_text)
             self.assertIn('"table": table_arg', source_text)
 
+    def test_emit_bridges_consume_item_explode_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemExplode.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import arc.scene.ui.layout.*;
+
+public class ConsumeItemExplode extends ConsumeItemFilter{
+    //as this consumer doesn't actually consume anything, all methods below are empty
+    @Override
+    public void build(Building build, Table table){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemExplode.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var build_arg: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var table_arg: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var empty_body: bool = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_explode_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java"', source_text)
+            self.assertIn('"comment": "//as this consumer doesn', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){}"', source_text)
+            self.assertIn('"empty_body": empty_body', source_text)
+            self.assertIn('"build": build_arg', source_text)
+            self.assertIn('"table": table_arg', source_text)
+
     def test_emit_bridges_consume_trigger_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
