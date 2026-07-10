@@ -248937,6 +248937,99 @@
         "runtime_proof": "/root/Main.source_consume_build_state"
       }
     },
+    "consume_trigger.comment": {
+      "canonical_symbol": "source_symbol_registry.consume_trigger.comment",
+      "godot_owner": "PortGame.source_consume_trigger_state",
+      "godot_symbol": "source_consume_trigger_result.comment",
+      "java_expr": "/** Called when a consumption is triggered manually. */",
+      "rule": "Exact upstream comment for manual consumption trigger.",
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "trigger(Building build)",
+        "java_expr": "/** Called when a consumption is triggered manually. */",
+        "godot_symbol": "source_consume_trigger_result.comment",
+        "godot_owner": "PortGame.source_consume_trigger_state",
+        "rule": "Exact upstream comment for manual consumption trigger.",
+        "tests": [
+          "test_emit_bridges_consume_trigger_to_source_state",
+          "test_port_game_exposes_generated_consume_trigger_bridge_state",
+          "test_consume_trigger_matches_upstream_source",
+          "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_trigger_state"
+      }
+    },
+    "consume_trigger.method": {
+      "canonical_symbol": "source_symbol_registry.consume_trigger.method",
+      "godot_owner": "PortGame.source_consume_trigger_state",
+      "godot_symbol": "source_consume_trigger_result.method",
+      "java_expr": "public void trigger(Building build){}",
+      "rule": "Exact empty base Consume.trigger(Building) method boundary.",
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "trigger(Building build)",
+        "java_expr": "public void trigger(Building build){}",
+        "godot_symbol": "source_consume_trigger_result.method",
+        "godot_owner": "PortGame.source_consume_trigger_state",
+        "rule": "Exact empty base Consume.trigger(Building) method boundary.",
+        "tests": [
+          "test_emit_bridges_consume_trigger_to_source_state",
+          "test_port_game_exposes_generated_consume_trigger_bridge_state",
+          "test_consume_trigger_matches_upstream_source",
+          "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_trigger_state"
+      }
+    },
+    "consume_trigger.empty_body": {
+      "canonical_symbol": "source_symbol_registry.consume_trigger.empty_body",
+      "godot_owner": "PortGame.source_consume_trigger_state",
+      "godot_symbol": "source_consume_trigger_result.empty_body",
+      "java_expr": "public void trigger(Building build){}",
+      "rule": "True because upstream base implementation has an empty inline body.",
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "trigger(Building build)",
+        "java_expr": "public void trigger(Building build){}",
+        "godot_symbol": "source_consume_trigger_result.empty_body",
+        "godot_owner": "PortGame.source_consume_trigger_state",
+        "rule": "True because upstream base implementation has an empty inline body.",
+        "tests": [
+          "test_emit_bridges_consume_trigger_to_source_state",
+          "test_port_game_exposes_generated_consume_trigger_bridge_state",
+          "test_consume_trigger_matches_upstream_source",
+          "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_trigger_state"
+      }
+    },
     "consume_efficiency.method": {
       "canonical_symbol": "source_symbol_registry.consume_efficiency.method",
       "godot_owner": "PortGame.source_consume_efficiency_state",

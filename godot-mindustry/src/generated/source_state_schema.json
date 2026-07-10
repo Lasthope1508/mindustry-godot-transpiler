@@ -163183,6 +163183,82 @@
         }
       }
     },
+    "source_consume_trigger_input": {
+      "status": "source-backed",
+      "source_slice": "N1581",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "Building build",
+          "rule": "Java parameter echoed for bridge parity."
+        }
+      }
+    },
+    "source_consume_trigger_result": {
+      "status": "source-backed",
+      "source_slice": "N1581",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_trigger_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "/** Called when a consumption is triggered manually. */",
+          "rule": "Exact source comment above Consume.trigger(Building)."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public void trigger(Building build){}",
+          "rule": "Exact empty method boundary."
+        },
+        "empty_body": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public void trigger(Building build){}",
+          "rule": "True because source method body is empty."
+        },
+        "build": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "alias_of": "source_consume_trigger_input.build",
+          "rule": "Echoed build argument for bridge parity."
+        }
+      }
+    },
     "source_consume_efficiency_result": {
       "status": "source-backed",
       "source_slice": "N1578",

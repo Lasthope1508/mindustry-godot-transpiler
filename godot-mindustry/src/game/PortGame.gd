@@ -4083,6 +4083,29 @@ func generated_consume_build_bridge_state(build: Variant, table: Variant) -> Dic
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null),
 	}
 
+func source_consume_trigger_state(build: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_trigger_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"comment": "/** Called when a consumption is triggered manually. */",
+		"method": "public void trigger(Building build){}",
+		"empty_body": true,
+		"build": build,
+	}
+
+func generated_consume_trigger_bridge_state(build: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_trigger_6([build])
+	var canonical = source_consume_trigger_state(build)
+	return {
+		"source_owner": "PortGame.source_consume_trigger_state",
+		"generated_owner": "Consume.trigger",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null),
+	}
+
 func source_consume_efficiency_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_efficiency_state",

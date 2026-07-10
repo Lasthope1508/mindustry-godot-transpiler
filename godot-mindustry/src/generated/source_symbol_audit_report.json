@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 994,
-  "registeredSourceOwnerCount": 987,
+  "totalSourceFunctions": 995,
+  "registeredSourceOwnerCount": 988,
   "exemptSourceOwnerCount": 7,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -601,6 +601,7 @@
     "PortGame.source_consume_power_efficiency_state",
     "PortGame.source_consume_power_ignore_state",
     "PortGame.source_consume_power_requested_power_state",
+    "PortGame.source_consume_trigger_state",
     "PortGame.source_consume_update_flag_state",
     "PortGame.source_continuous_liquid_turret_ammo_state",
     "PortGame.source_continuous_liquid_turret_build_accept_item_state",
@@ -1651,6 +1652,11 @@
     {
       "owner": "PortGame.source_consume_build_state",
       "function": "source_consume_build_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_consume_trigger_state",
+      "function": "source_consume_trigger_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {

@@ -42668,6 +42668,36 @@
       "runtime_proof": "/root/Main.source_consume_build_state",
       "rule": "Public source helper exposes Consume.build(Building, Table) empty body state and echoes arguments for bridge parity."
     },
+    "PortGame.source_consume_trigger_state": {
+      "status": "source-backed",
+      "source_slice": "N1581",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "source_method": "trigger(Building build)",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "java_expr": "Building build",
+          "schema": "source_consume_trigger_input.build"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "empty_body",
+        "build"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_trigger_state",
+      "rule": "Public source helper exposes Consume.trigger(Building) empty body state and echoes build for bridge parity."
+    },
     "PortGame.source_consume_efficiency_state": {
       "status": "source-backed",
       "source_slice": "N1578",

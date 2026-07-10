@@ -73959,6 +73959,59 @@
         ],
         "rule": "Generated bridge records Consume.build(Building, Table) empty base implementation without inventing UI behavior."
       }
+    },
+    "N1581": {
+      "canonical_slice": "source_slice_ledger.N1581",
+      "exact_exprs": [
+        "/** Called when a consumption is triggered manually. */",
+        "public void trigger(Building build){}"
+      ],
+      "godot_owner": "PortGame.source_consume_trigger_state",
+      "java_class": "Consume",
+      "java_method": "trigger(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.generated_consume_trigger_bridge_state",
+      "source_symbols": [
+        "consume_trigger.comment",
+        "consume_trigger.method",
+        "consume_trigger.empty_body"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_trigger_bridge_state",
+        "test_consume_trigger_matches_upstream_source",
+        "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated Consume trigger empty body bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_class": "Consume",
+        "java_method": "trigger(Building build)",
+        "generated_owner": "Consume.java_method_trigger_6",
+        "godot_owner": "PortGame.source_consume_trigger_state",
+        "runtime_proof": "/root/Main.generated_consume_trigger_bridge_state",
+        "exact_exprs": [
+          "/** Called when a consumption is triggered manually. */",
+          "public void trigger(Building build){}"
+        ],
+        "source_symbols": [
+          "consume_trigger.comment",
+          "consume_trigger.method",
+          "consume_trigger.empty_body"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_trigger_to_source_state",
+          "test_port_game_exposes_generated_consume_trigger_bridge_state",
+          "test_consume_trigger_matches_upstream_source",
+          "test_generated_consume_trigger_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "Consume.update(Building) and display(Stats) remain separate base consumer slices."
+        ],
+        "rule": "Generated bridge records Consume.trigger(Building) empty base implementation and exact source comment without inventing side effects."
+      }
     }
   }
 }

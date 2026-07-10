@@ -1967,6 +1967,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
         and type_entry.get("name") == "Consume"
+        and method.get("name") == "trigger"
+    ):
+        return [
+            "\tvar build_arg: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar empty_body: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_trigger_state", "source": "core/src/mindustry/world/consumers/Consume.java", "comment": "/** Called when a consumption is triggered manually. */", "method": "public void trigger(Building build){}", "empty_body": empty_body, "build": build_arg}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
         and method.get("name") == "efficiency"
     ):
         return [
