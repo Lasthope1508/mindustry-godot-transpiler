@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_conveyor_path_progress_delta_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_path_progress_delta_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Block id selects the source Conveyor block data used for speed.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "efficiency": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.efficiency",
+          "java_expr": "efficiency",
+          "java_method": "edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Efficiency input maps to source BuildingComp.efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "seconds": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.seconds",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Seconds input maps to source Time.delta after tick conversion.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_conveyor_path_progress_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Time scale input maps to source BuildingComp.timeScale.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_delta"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_conveyor_path_progress_rate_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_path_progress_rate_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_conveyor_path_progress_rate_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Block id selects the source Conveyor block data used for path progress rate.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_path_progress_rate"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_conveyor_world_speed_input": {
+      "canonical_schema": "source_state_schema.source_conveyor_world_speed_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_conveyor_world_speed_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "unitOn(Unit unit)",
+          "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+          "rule": "Block id selects the source Conveyor block data used for world speed.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_conveyor_world_speed"
+          ]
+        }
+      },
+      "status": "active"
+    }
+  }
+}

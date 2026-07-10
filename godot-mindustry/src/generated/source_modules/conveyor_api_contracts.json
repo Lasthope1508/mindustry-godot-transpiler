@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_conveyor_path_progress_delta": {
+      "canonical_contract": "source_api_contracts.PortGame.source_conveyor_path_progress_delta",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_path_progress_delta_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_conveyor_path_progress_delta_input.seconds",
+          "type": "float"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_conveyor_path_progress_delta_input.time_scale",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_conveyor_path_progress_delta_input.efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress_delta"
+      ],
+      "rule": "Public runtime contract for converting Conveyor speed * edelta() into normalized Godot path progress delta.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_delta",
+      "source_method": "updateTile()",
+      "source_slice": "N684",
+      "status": "active",
+      "tests": [
+        "test_conveyor_path_progress_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_conveyor_path_progress_rate": {
+      "canonical_contract": "source_api_contracts.PortGame.source_conveyor_path_progress_rate",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_path_progress_rate_input.block_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "path_progress_rate",
+        "path_length"
+      ],
+      "rule": "Public runtime contract for resolving Conveyor speed into normalized Godot path progress rate over the generated path length.",
+      "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
+      "source_method": "unitOn(Unit unit)/ConveyorBuild.updateTile()",
+      "source_slice": "N686",
+      "status": "active",
+      "tests": [
+        "test_conveyor_path_progress_rate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_conveyor_world_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_conveyor_world_speed",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_conveyor_world_speed_input.block_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "world_speed",
+        "scale"
+      ],
+      "rule": "Public runtime contract for resolving Conveyor speed into source world speed mspeed.",
+      "runtime_proof": "/root/Main.source_conveyor_world_speed",
+      "source_method": "unitOn(Unit unit)",
+      "source_slice": "N687",
+      "status": "active",
+      "tests": [
+        "test_conveyor_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    }
+  }
+}

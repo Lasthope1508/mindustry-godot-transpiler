@@ -53840,6 +53840,9 @@
     "conveyor_path_progress_rate.path_length": {
       "godot_owner": "PortGame.source_conveyor_path_progress_rate",
       "godot_symbol": "source_conveyor_path_progress_rate_result.path_length",
+      "java_expr": "public float[] xs = new float[capacity], ys = new float[capacity];",
+      "java_method": "ConveyorBuild fields",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
       "rule": "Godot bridge length for a multi-tile path; generated from path_points and tile_size, not an upstream Java field.",
       "runtime_proof": "/root/Main.source_conveyor_path_progress_rate",
       "status": "generated",
@@ -53954,6 +53957,9 @@
     "conveyor_world_speed.speed_key": {
       "godot_owner": "PortGame.source_conveyor_world_speed",
       "godot_symbol": "source_conveyor_world_speed_result.speed_key",
+      "java_expr": "public float speed = 0f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/world/blocks/distribution/Conveyor.java",
       "rule": "Godot content properties key for the source Conveyor speed field.",
       "runtime_proof": "/root/Main.source_conveyor_world_speed",
       "status": "generated",

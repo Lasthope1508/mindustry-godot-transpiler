@@ -1453,6 +1453,104 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_reports["vec2_state_schema"]["canonical_mirror"]["checked"], len(vec2_schema))
         self.assertEqual(vec2_reports["vec2_symbols"]["canonical_mirror"]["checked"], len(vec2_symbols))
 
+    def test_source_ssot_conveyor_json_shards_declare_canonical_mirror_contracts(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        conveyor_slices_entry = manifest["modules"]["conveyor_slices"]
+        conveyor_contracts_entry = manifest["modules"]["conveyor_api_contracts"]
+        conveyor_schema_entry = manifest["modules"]["conveyor_state_schema"]
+        conveyor_symbols_entry = manifest["modules"]["conveyor_symbols"]
+
+        self.assertEqual(conveyor_slices_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(conveyor_slices_entry["canonical_reference_key"], "canonical_ledger")
+        self.assertEqual(conveyor_slices_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertIn("java_method", conveyor_slices_entry["mirror_fields"])
+
+        self.assertEqual(conveyor_contracts_entry["canonical_module"], "api_contracts")
+        self.assertEqual(conveyor_contracts_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(conveyor_contracts_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertIn("return_keys", conveyor_contracts_entry["mirror_fields"])
+
+        self.assertEqual(conveyor_schema_entry["canonical_module"], "state_schema")
+        self.assertEqual(conveyor_schema_entry["canonical_reference_key"], "canonical_schema")
+        self.assertEqual(conveyor_schema_entry["canonical_reference_prefix"], "source_state_schema.")
+        self.assertEqual(conveyor_schema_entry["root_key"], "schemas")
+
+        self.assertEqual(conveyor_symbols_entry["canonical_module"], "registry")
+        self.assertEqual(conveyor_symbols_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(conveyor_symbols_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(conveyor_symbols_entry["root_key"], "symbols")
+
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+        conveyor_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "conveyor_slices")["slices"]
+        expected_slice_ids = {
+            slice_id
+            for slice_id, slice_entry in canonical_slices.items()
+            if slice_entry["java_source"] == "core/src/mindustry/world/blocks/distribution/Conveyor.java"
+        }
+
+        self.assertEqual(set(conveyor_slices), expected_slice_ids)
+        for slice_id in sorted(expected_slice_ids):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(conveyor_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
+                for field in conveyor_slices_entry["mirror_fields"]:
+                    self.assertEqual(conveyor_slices[slice_id][field], canonical_slices[slice_id][field])
+
+        conveyor_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "conveyor_api_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+        expected_contract_owners = {entry["godot_owner"] for entry in conveyor_slices.values()}
+        self.assertEqual(set(conveyor_contracts), expected_contract_owners)
+        for owner in sorted(expected_contract_owners):
+            with self.subTest(owner=owner):
+                self.assertEqual(conveyor_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
+                for field in conveyor_contracts_entry["mirror_fields"]:
+                    self.assertEqual(conveyor_contracts[owner][field], canonical_contracts[owner][field])
+
+        conveyor_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "conveyor_state_schema")["schemas"]
+        canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
+        expected_schema_names = set()
+        for owner, contract in sorted(conveyor_contracts.items()):
+            for param in contract.get("params", []):
+                schema_name = str(param["schema"]).split(".", 1)[0]
+                if schema_name in canonical_schema:
+                    expected_schema_names.add(schema_name)
+            source_name = owner.split(".")[-1]
+            if source_name.endswith("_state"):
+                result_schema_name = source_name[:-len("_state")] + "_result"
+                if result_schema_name in canonical_schema:
+                    expected_schema_names.add(result_schema_name)
+        self.assertEqual(set(conveyor_schema), expected_schema_names)
+        for schema_name in sorted(expected_schema_names):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(conveyor_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
+                for field in conveyor_schema_entry["mirror_fields"]:
+                    self.assertEqual(conveyor_schema[schema_name][field], canonical_schema[schema_name][field])
+
+        conveyor_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "conveyor_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+        expected_symbol_names = {
+            symbol_name
+            for slice_entry in conveyor_slices.values()
+            for symbol_name in slice_entry["source_symbols"]
+        }
+        self.assertEqual(set(conveyor_symbols), expected_symbol_names)
+        for symbol_name in sorted(expected_symbol_names):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(conveyor_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                for field in conveyor_symbols_entry["mirror_fields"]:
+                    self.assertEqual(conveyor_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        conveyor_reports = {entry["name"]: entry for entry in report["modules"] if entry["name"].startswith("conveyor_")}
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(conveyor_reports["conveyor_slices"]["canonical_mirror"]["checked"], len(conveyor_slices))
+        self.assertEqual(conveyor_reports["conveyor_api_contracts"]["canonical_mirror"]["checked"], len(conveyor_contracts))
+        self.assertEqual(conveyor_reports["conveyor_state_schema"]["canonical_mirror"]["checked"], len(conveyor_schema))
+        self.assertEqual(conveyor_reports["conveyor_symbols"]["canonical_mirror"]["checked"], len(conveyor_symbols))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 
@@ -15102,6 +15200,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         path_length = source_symbols.source_symbol(registry, "conveyor_path_progress_rate.path_length")
         self.assertEqual(path_length["status"], "generated")
+        self.assertEqual(path_length["java_expr"], "public float[] xs = new float[capacity], ys = new float[capacity];")
         self.assertEqual(path_length["godot_symbol"], "source_conveyor_path_progress_rate_result.path_length")
 
         result = source_symbols.source_symbol(registry, "conveyor_path_progress_rate.result")
@@ -15148,6 +15247,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         speed_key = source_symbols.source_symbol(registry, "conveyor_world_speed.speed_key")
         self.assertEqual(speed_key["status"], "generated")
+        self.assertEqual(speed_key["java_expr"], "public float speed = 0f;")
         self.assertEqual(speed_key["godot_symbol"], "source_conveyor_world_speed_result.speed_key")
 
         scale = source_symbols.source_symbol(registry, "conveyor_world_speed.scale")
@@ -45423,6 +45523,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["ys_add"]["java_expr"], "ys[i] += maxmove;")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["pass_threshold"]["java_expr"], "if(ys[i] >= 1f && pass(ids[i])){")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["path_length"]["status"], "generated")
+        self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["path_length"]["java_expr"], "public float[] xs = new float[capacity], ys = new float[capacity];")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["path_progress_rate"]["java_expr"], "float moved = speed * edelta();")
         self.assertEqual(source_conveyor_path_progress_rate_result["keys"]["block_id"]["alias_of"], "source_conveyor_path_progress_rate_input.block_id")
 
@@ -45436,6 +45537,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_conveyor_world_speed_result["keys"]["tilesize_comment"]["java_expr"], "/** size of tiles in units */")
         self.assertEqual(source_conveyor_world_speed_result["keys"]["tilesize_field"]["java_expr"], "public static final int tilesize = 8;")
         self.assertEqual(source_conveyor_world_speed_result["keys"]["speed_key"]["status"], "generated")
+        self.assertEqual(source_conveyor_world_speed_result["keys"]["speed_key"]["java_expr"], "public float speed = 0f;")
         self.assertEqual(source_conveyor_world_speed_result["keys"]["scale"]["java_expr"], "55f")
         self.assertEqual(source_conveyor_world_speed_result["keys"]["world_speed"]["java_expr"], "speed * tilesize * 55f")
         self.assertEqual(source_conveyor_world_speed_result["keys"]["block_id"]["alias_of"], "source_conveyor_world_speed_input.block_id")
