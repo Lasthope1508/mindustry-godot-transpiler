@@ -8330,7 +8330,7 @@
         "builder_should_skip.stuck_missing_requirements",
         "builder_should_skip.should_skip"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_builder_comp_should_skip_to_source_state",
         "test_port_game_exposes_source_builder_should_skip_state",
@@ -8370,7 +8370,7 @@
           "builder_should_skip.stuck_missing_requirements",
           "builder_should_skip.should_skip"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_builder_comp_should_skip_to_source_state",
           "test_port_game_exposes_source_builder_should_skip_state",

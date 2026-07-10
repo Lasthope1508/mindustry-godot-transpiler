@@ -66232,6 +66232,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_remove_build_result["keys"]["remove_index_call"]["java_expr"], "plans.removeIndex(idx);")
 
     def test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -66257,6 +66260,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(should_skip["godot_symbol"], "source_builder_should_skip_result.should_skip")
 
         should_skip_slice = source_symbols.source_slice(ledger, "N1149")
+        self.assertEqual(should_skip_slice["status"], "done")
         self.assertEqual(should_skip_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
         self.assertEqual(should_skip_slice["java_method"], "shouldSkip(BuildPlan plan, @Nullable Building core)")
         self.assertEqual(should_skip_slice["godot_owner"], "PortGame.source_builder_should_skip_state")
@@ -66266,6 +66270,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;", should_skip_slice["exact_exprs"])
         self.assertIn("return (plan.stuck && !core.items.has(plan.block.requirements)) ||", should_skip_slice["exact_exprs"])
         self.assertIn("(Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));", should_skip_slice["exact_exprs"])
+        comp_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]["N1149"]
+        ledger_mirror = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]["N1149"]
+        self.assertEqual(comp_slice["status"], "done")
+        self.assertEqual(ledger_mirror["status"], "done")
 
         contract = source_symbols.api_contract(contracts, "PortGame.source_builder_should_skip_state")
         self.assertEqual(contract["params"], [
