@@ -4394,7 +4394,7 @@
         "builder_draw_plan_top.draw_alpha_call",
         "builder_draw_plan_top.draw_plan_config_top_call"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_builder_comp_draw_plan_top_to_source_state",
         "test_port_game_exposes_source_builder_draw_plan_top_state",

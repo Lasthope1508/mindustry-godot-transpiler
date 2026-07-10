@@ -66310,6 +66310,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_should_skip_result["keys"]["should_skip"]["java_expr"], "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));")
 
     def test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -66335,6 +66338,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_plan_config_top["godot_symbol"], "source_builder_draw_plan_top_result.draw_plan_config_top_call")
 
         draw_plan_top_slice = source_symbols.source_slice(ledger, "N1150")
+        self.assertEqual(draw_plan_top_slice["status"], "done")
         self.assertEqual(draw_plan_top_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
         self.assertEqual(draw_plan_top_slice["java_method"], "drawPlanTop(BuildPlan plan, float alpha)")
         self.assertEqual(draw_plan_top_slice["godot_owner"], "PortGame.source_builder_draw_plan_top_state")
@@ -66345,6 +66349,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));", draw_plan_top_slice["exact_exprs"])
         self.assertIn("Draw.alpha(alpha);", draw_plan_top_slice["exact_exprs"])
         self.assertIn("plan.block.drawPlanConfigTop(plan, plans);", draw_plan_top_slice["exact_exprs"])
+        comp_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]["N1150"]
+        ledger_mirror = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]["N1150"]
+        self.assertEqual(comp_slice["status"], "done")
+        self.assertEqual(ledger_mirror["status"], "done")
 
         contract = source_symbols.api_contract(contracts, "PortGame.source_builder_draw_plan_top_state")
         self.assertEqual(contract["params"], [
