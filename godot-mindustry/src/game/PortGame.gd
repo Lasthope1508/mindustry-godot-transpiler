@@ -13571,6 +13571,23 @@ func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_
 		"matches": result.get("events", []) == canonical,
 	}
 
+func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
+	var instance = script.new()
+	var result = instance.java_method_shoot_0([total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present])
+	var canonical = source_shoot_pattern_default_events({
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+	})
+	return {
+		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"generated_owner": "ShootPattern.java_method_shoot_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0,
+	}
+
 func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
 	var total_shots := int(mount_state.get("totalShots", 0))
 	var barrel_counter := int(mount_state.get("barrelCounter", 0))

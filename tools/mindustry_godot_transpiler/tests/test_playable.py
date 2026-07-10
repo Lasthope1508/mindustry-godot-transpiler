@@ -11186,6 +11186,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"delay": first_shot_delay + shot_delay * float(i)', method_body)
         self.assertIn('"mover": null', method_body)
 
+    def test_generated_shoot_pattern_compat_dispatch_bridge_matches_source_owner(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_shoot_0(_args: Array = []) -> Variant:", source)
+        method_body = source.split("func java_method_shoot_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertNotIn("return null", method_body)
+        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', method_body)
+        self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
+        self.assertIn('"method": "public void shoot(int totalShots, BulletHandler handler, @Nullable Runnable barrelIncrementer){"', method_body)
+        self.assertIn('"compatibility_call": "shoot(totalShots, handler);"', method_body)
+        self.assertIn('"compatibility_comment": "//the default implementation calls the \\"soft deprecated\\" variant for mod compatibility, so overrides from older mods can function properly"', method_body)
+        self.assertIn("var compat_result = java_method_shoot_1([shots, first_shot_delay, shot_delay])", method_body)
+        self.assertIn('"barrelIncrementerCalls": 0', method_body)
+        self.assertIn('"barrelIncrementerIgnored": true', method_body)
+
     def test_port_game_exposes_generated_shoot_pattern_default_events_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11197,6 +11214,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', source)
         self.assertIn('"matches": result.get("events", []) == canonical', source)
+
+    def test_port_game_exposes_generated_shoot_pattern_compat_dispatch_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
+        self.assertIn("var result = instance.java_method_shoot_0([total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present])", source)
+        self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
+        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', source)
+        self.assertIn('"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0', source)
 
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

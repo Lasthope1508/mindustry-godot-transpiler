@@ -14,7 +14,29 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "shoot", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_shoot_0(_args: Array = []) -> Variant:
-	return null
+	var total_shots: int = int(_args[0] if _args.size() > 0 else 0)
+	var shots: int = int(_args[1] if _args.size() > 1 else 1)
+	var first_shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var shot_delay: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var barrel_incrementer_present: bool = bool(_args[4] if _args.size() > 4 else false)
+	var compat_result = java_method_shoot_1([shots, first_shot_delay, shot_delay])
+	return {
+		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"generated_owner": "ShootPattern.java_method_shoot_0",
+		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+		"method": "public void shoot(int totalShots, BulletHandler handler, @Nullable Runnable barrelIncrementer){",
+		"compatibility_call": "shoot(totalShots, handler);",
+		"compatibility_comment": "//the default implementation calls the \"soft deprecated\" variant for mod compatibility, so overrides from older mods can function properly",
+		"totalShots": total_shots,
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+		"barrelIncrementerPresent": barrel_incrementer_present,
+		"barrelIncrementerCalls": 0,
+		"barrelIncrementerIgnored": true,
+		"compat_result": compat_result,
+		"events": compat_result.get("events", []),
+	}
 
 func java_method_shoot_1(_args: Array = []) -> Variant:
 	var shots: int = int(_args[0] if _args.size() > 0 else 1)
