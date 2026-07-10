@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "slices": {
+    "N688": {
+      "canonical_ledger": "source_slice_ledger.N688",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "java_method": "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "source_symbols": [
+        "core_accept_item.core_incinerates",
+        "core_accept_item.item_count",
+        "core_accept_item.item_id",
+        "core_accept_item.maximum_method",
+        "core_accept_item.maximum_result",
+        "core_accept_item.method",
+        "core_accept_item.result",
+        "core_accept_item.rules_core_incinerates_field",
+        "core_accept_item.storage_capacity"
+      ],
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing",
+        "test_port_game_dump_respects_source_core_accept_item_capacity"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "N689": {
+      "canonical_ledger": "source_slice_ledger.N689",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "java_method": "handleItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "source_symbols": [
+        "core_handle_item.building_handle_add",
+        "core_handle_item.full_or_incinerate_gate",
+        "core_handle_item.handled",
+        "core_handle_item.incinerate",
+        "core_handle_item.incinerate_non_buildable_field",
+        "core_handle_item.item_buildable",
+        "core_handle_item.item_buildable_comment",
+        "core_handle_item.item_buildable_field",
+        "core_handle_item.item_count",
+        "core_handle_item.item_id",
+        "core_handle_item.method",
+        "core_handle_item.storage_capacity",
+        "core_handle_item.super_handle"
+      ],
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing",
+        "test_port_game_handles_core_item_like_source_before_dump_remove"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    }
+  }
+}

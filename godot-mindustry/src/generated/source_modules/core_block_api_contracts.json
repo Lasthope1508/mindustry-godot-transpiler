@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_core_accept_item": {
+      "canonical_contract": "source_api_contracts.PortGame.source_core_accept_item",
+      "status": "active",
+      "source_slice": "N688",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "source_method": "acceptItem(Building source, Item item)/getMaximumAccepted(Item item)",
+      "params": [
+        {
+          "name": "item_id",
+          "schema": "source_core_accept_item_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "acceptItem",
+        "coreIncinerates",
+        "maximumAccepted"
+      ],
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item",
+      "rule": "Public runtime contract for CoreBuild.acceptItem using state.rules.coreIncinerates and storage capacity."
+    },
+    "PortGame.source_core_handle_item": {
+      "canonical_contract": "source_api_contracts.PortGame.source_core_handle_item",
+      "status": "active",
+      "source_slice": "N689",
+      "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+      "source_method": "handleItem(Building source, Item item)",
+      "params": [
+        {
+          "name": "item_id",
+          "schema": "source_core_handle_item_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "handled",
+        "incinerate",
+        "itemBuildable",
+        "itemCount",
+        "storageCapacity"
+      ],
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item",
+      "rule": "Public runtime contract for CoreBuild.handleItem full/incinerate gate and BuildingComp.handleItem add path."
+    }
+  }
+}

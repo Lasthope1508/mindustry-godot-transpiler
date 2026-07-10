@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_core_accept_item_input": {
+      "canonical_schema": "source_state_schema.source_core_accept_item_input",
+      "keys": {
+        "item_id": {
+          "godot_symbol": "source_core_accept_item_input.item_id",
+          "java_expr": "Item item",
+          "java_method": "acceptItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Item id selects the source Item argument.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_accept_item"
+          ]
+        }
+      }
+    },
+    "source_core_handle_item_input": {
+      "canonical_schema": "source_state_schema.source_core_handle_item_input",
+      "keys": {
+        "item_id": {
+          "godot_symbol": "source_core_handle_item_input.item_id",
+          "java_expr": "Item item",
+          "java_method": "handleItem(Building source, Item item)",
+          "java_source": "core/src/mindustry/world/blocks/storage/CoreBlock.java",
+          "rule": "Godot item_id identifies source Item item parameter.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_core_handle_item"
+          ]
+        }
+      }
+    }
+  }
+}

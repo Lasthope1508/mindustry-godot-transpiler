@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "symbols": {
+    "core_accept_item.core_incinerates": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.core_incinerates",
+      "status": "source-backed",
+      "java_expr": "state.rules.coreIncinerates",
+      "godot_symbol": "source_core_accept_item_result.coreIncinerates",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Runtime core_incinerates supplies source state.rules.coreIncinerates.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.item_count": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.item_count",
+      "status": "source-backed",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_core_accept_item_result.itemCount",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Runtime core item count supplies source items.get(item).",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.item_id": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.item_id",
+      "status": "explicit-input",
+      "java_expr": "Item item",
+      "godot_symbol": "source_core_accept_item_input.item_id",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Godot item id selects the source Item argument.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.maximum_method": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.maximum_method",
+      "status": "source-backed",
+      "java_expr": "public int getMaximumAccepted(Item item){",
+      "godot_symbol": "source_core_accept_item_result.maximum_method",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "CoreBuild maximum accepted method boundary used by acceptItem.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.maximum_result": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.maximum_result",
+      "status": "source-backed",
+      "java_expr": "return state.rules.coreIncinerates ? Integer.MAX_VALUE/2 : storageCapacity;",
+      "godot_symbol": "source_core_accept_item_result.maximumAccepted",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Source CoreBuild maximum accepted capacity depends on coreIncinerates.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.method": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.method",
+      "status": "source-backed",
+      "java_expr": "public boolean acceptItem(Building source, Item item){",
+      "godot_symbol": "source_core_accept_item_result.method",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "CoreBuild override acceptItem method boundary.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.result": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.result",
+      "status": "source-backed",
+      "java_expr": "return state.rules.coreIncinerates || items.get(item) < getMaximumAccepted(item);",
+      "godot_symbol": "source_core_accept_item_result.acceptItem",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Source CoreBuild accepts items when rules incinerate cores or stored amount is below maximum accepted.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.rules_core_incinerates_field": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.rules_core_incinerates_field",
+      "status": "source-backed",
+      "java_expr": "public boolean coreIncinerates = true;",
+      "godot_symbol": "source_core_accept_item_result.rules_core_incinerates_field",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Source Rules default enables core item incineration.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_accept_item.storage_capacity": {
+      "canonical_symbol": "source_symbol_registry.core_accept_item.storage_capacity",
+      "status": "source-backed",
+      "java_expr": "storageCapacity",
+      "godot_symbol": "source_core_accept_item_result.storageCapacity",
+      "godot_owner": "PortGame.source_core_accept_item",
+      "rule": "Runtime core item capacity supplies source storageCapacity.",
+      "tests": [
+        "test_core_accept_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_accept_item"
+    },
+    "core_handle_item.building_handle_add": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.building_handle_add",
+      "status": "source-backed",
+      "java_expr": "items.add(item, 1);",
+      "godot_symbol": "source_core_handle_item_result.buildingHandleAdd",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "BuildingComp default handleItem adds one item.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.full_or_incinerate_gate": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.full_or_incinerate_gate",
+      "status": "source-backed",
+      "java_expr": "if(items.get(item) >= storageCapacity || incinerate){",
+      "godot_symbol": "source_core_handle_item_result.fullOrIncinerateGate",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Source skips super handle when storage full or item incinerates.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.handled": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.handled",
+      "status": "generated",
+      "java_expr": "void handleItem handled by Godot bool bridge",
+      "godot_symbol": "source_core_handle_item_result.handled",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Godot bool bridge reports whether source void handleItem accepted/handled the item path.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.incinerate": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.incinerate",
+      "status": "source-backed",
+      "java_expr": "boolean incinerate = incinerateNonBuildable && !item.buildable;",
+      "godot_symbol": "source_core_handle_item_result.incinerate",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Source incinerate gate combines CoreBlock.incinerateNonBuildable and Item.buildable.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.incinerate_non_buildable_field": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.incinerate_non_buildable_field",
+      "status": "source-backed",
+      "java_expr": "public boolean incinerateNonBuildable = false;",
+      "godot_symbol": "source_core_handle_item_result.incinerateNonBuildableField",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "CoreBlock default incinerateNonBuildable field.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.item_buildable": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.item_buildable",
+      "status": "source-backed",
+      "java_expr": "item.buildable",
+      "godot_symbol": "source_core_handle_item_result.itemBuildable",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Runtime content property supplies source item.buildable.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.item_buildable_comment": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.item_buildable_comment",
+      "status": "source-backed",
+      "java_expr": "If true, this material is used by buildings. If false, this material will be incinerated in certain cores.",
+      "godot_symbol": "source_core_handle_item_result.itemBuildableComment",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Item.buildable comment defines incineration semantics.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.item_buildable_field": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.item_buildable_field",
+      "status": "source-backed",
+      "java_expr": "public boolean buildable = true;",
+      "godot_symbol": "source_core_handle_item_result.itemBuildableField",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Item.buildable default true.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.item_count": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.item_count",
+      "status": "source-backed",
+      "java_expr": "items.get(item)",
+      "godot_symbol": "source_core_handle_item_result.itemCount",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Runtime core item count supplies source items.get(item).",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.item_id": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.item_id",
+      "status": "explicit-input",
+      "java_expr": "Item item",
+      "godot_symbol": "source_core_handle_item_input.item_id",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Godot item_id identifies source Item item parameter.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.method": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.method",
+      "status": "source-backed",
+      "java_expr": "public void handleItem(Building source, Item item){",
+      "godot_symbol": "source_core_handle_item_result.method",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "CoreBuild override handleItem method boundary.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.storage_capacity": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.storage_capacity",
+      "status": "source-backed",
+      "java_expr": "storageCapacity",
+      "godot_symbol": "source_core_handle_item_result.storageCapacity",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Runtime core item capacity supplies source storageCapacity.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    },
+    "core_handle_item.super_handle": {
+      "canonical_symbol": "source_symbol_registry.core_handle_item.super_handle",
+      "status": "source-backed",
+      "java_expr": "super.handleItem(source, item);",
+      "godot_symbol": "source_core_handle_item_result.superHandle",
+      "godot_owner": "PortGame.source_core_handle_item",
+      "rule": "Source delegates accepted non-full non-incinerated items to BuildingComp.handleItem.",
+      "tests": [
+        "test_core_handle_item_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_core_handle_item"
+    }
+  }
+}
