@@ -33,7 +33,10 @@ func java_method_boost_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_boost_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume boost(){", "optional_call_expr": "return optional(true, true);", "optional_method_expr": "public Consume optional(boolean optional, boolean boost){", "optional_assignment_expr": "this.optional = optional;", "booster_assignment_expr": "this.booster = boost;", "return_expr": "return this;", "optional_value": optional_value, "boost_value": boost_value, "optional_after": optional_after, "booster_after": booster_after, "return_self": return_self}
 
 func java_method_update_3(_args: Array = []) -> Variant:
-	return null
+	var update_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var update_after: bool = update_value
+	var return_self: bool = true
+	return {"source_owner": "PortGame.source_consume_update_flag_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume update(boolean update){", "update_field": "public boolean update = true;", "update_assignment_expr": "this.update = update;", "return_expr": "return this;", "update_value": update_value, "update_after": update_after, "return_self": return_self}
 
 func java_method_ignore_4(_args: Array = []) -> Variant:
 	return null

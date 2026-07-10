@@ -2279,6 +2279,26 @@
         "test_generated_consume_boost_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_boost_bridge_state"
+    },
+    "N1574": {
+      "canonical_ledger": "source_slice_ledger.N1574",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(boolean update)",
+      "godot_owner": "PortGame.source_consume_update_flag_state",
+      "generated_owner": "Consume.java_method_update_3",
+      "source_symbols": [
+        "consume_update_flag.method",
+        "consume_update_flag.update_assignment",
+        "consume_update_flag.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_update_flag_to_source_state",
+        "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+        "test_consume_update_flag_matches_upstream_source",
+        "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_update_flag_bridge_state"
     }
   }
 }

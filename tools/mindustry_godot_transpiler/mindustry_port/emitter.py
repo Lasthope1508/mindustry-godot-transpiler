@@ -1932,6 +1932,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_boost_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume boost(){", "optional_call_expr": "return optional(true, true);", "optional_method_expr": "public Consume optional(boolean optional, boolean boost){", "optional_assignment_expr": "this.optional = optional;", "booster_assignment_expr": "this.booster = boost;", "return_expr": "return this;", "optional_value": optional_value, "boost_value": boost_value, "optional_after": optional_after, "booster_after": booster_after, "return_self": return_self}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
+        and method.get("name") == "update"
+        and len(method.get("parameters", [])) == 1
+        and method.get("parameters", [])[0].get("type") == "boolean"
+    ):
+        return [
+            "\tvar update_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar update_after: bool = update_value",
+            "\tvar return_self: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_update_flag_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume update(boolean update){", "update_field": "public boolean update = true;", "update_assignment_expr": "this.update = update;", "return_expr": "return this;", "update_value": update_value, "update_after": update_after, "return_self": return_self}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

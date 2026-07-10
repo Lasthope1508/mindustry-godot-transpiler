@@ -13516,6 +13516,85 @@
           "rule": "Delegated optional method returns self."
         }
       }
+    },
+    "source_consume_update_flag_input": {
+      "canonical_schema": "source_state_schema.source_consume_update_flag_input",
+      "keys": {
+        "update_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "boolean update",
+          "source_symbol": "consume_update_flag.update_assignment",
+          "rule": "Explicit update(boolean) parameter."
+        }
+      }
+    },
+    "source_consume_update_flag_result": {
+      "canonical_schema": "source_state_schema.source_consume_update_flag_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_update_flag_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Consume update(boolean update){",
+          "rule": "Exact method boundary."
+        },
+        "update_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public boolean update = true;",
+          "rule": "Exact update field declaration."
+        },
+        "update_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.update = update;",
+          "rule": "Exact update assignment expression."
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return this;",
+          "rule": "Exact return expression."
+        },
+        "update_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_consume_update_flag_input.update_value",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "update_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.update = update;",
+          "rule": "Result after exact update assignment equals update parameter."
+        },
+        "return_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return this;",
+          "rule": "True because source returns this."
+        }
+      }
     }
   }
 }

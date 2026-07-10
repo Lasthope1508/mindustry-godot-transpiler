@@ -248719,6 +248719,99 @@
         "rule": "Exact delegated Consume.optional method boundary used by boost.",
         "source_slice": "N1554"
       }
+    },
+    "consume_update_flag.method": {
+      "canonical_symbol": "source_symbol_registry.consume_update_flag.method",
+      "godot_owner": "PortGame.source_consume_update_flag_state",
+      "godot_symbol": "source_consume_update_flag_result.method",
+      "java_expr": "public Consume update(boolean update){",
+      "rule": "Exact method boundary for Consume.update(boolean).",
+      "runtime_proof": "/root/Main.source_consume_update_flag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_update_flag_to_source_state",
+        "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+        "test_consume_update_flag_matches_upstream_source",
+        "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "update(boolean update)",
+        "java_expr": "public Consume update(boolean update){",
+        "godot_symbol": "source_consume_update_flag_result.method",
+        "godot_owner": "PortGame.source_consume_update_flag_state",
+        "rule": "Exact method boundary for Consume.update(boolean).",
+        "tests": [
+          "test_emit_bridges_consume_update_flag_to_source_state",
+          "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+          "test_consume_update_flag_matches_upstream_source",
+          "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_update_flag_state"
+      }
+    },
+    "consume_update_flag.update_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_update_flag.update_assignment",
+      "godot_owner": "PortGame.source_consume_update_flag_state",
+      "godot_symbol": "source_consume_update_flag_result.update_after",
+      "java_expr": "this.update = update;",
+      "rule": "Exact update flag assignment in Consume.update(boolean).",
+      "runtime_proof": "/root/Main.source_consume_update_flag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_update_flag_to_source_state",
+        "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+        "test_consume_update_flag_matches_upstream_source",
+        "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "update(boolean update)",
+        "java_expr": "this.update = update;",
+        "godot_symbol": "source_consume_update_flag_result.update_after",
+        "godot_owner": "PortGame.source_consume_update_flag_state",
+        "rule": "Exact update flag assignment in Consume.update(boolean).",
+        "tests": [
+          "test_emit_bridges_consume_update_flag_to_source_state",
+          "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+          "test_consume_update_flag_matches_upstream_source",
+          "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_update_flag_state"
+      }
+    },
+    "consume_update_flag.return": {
+      "canonical_symbol": "source_symbol_registry.consume_update_flag.return",
+      "godot_owner": "PortGame.source_consume_update_flag_state",
+      "godot_symbol": "source_consume_update_flag_result.return_self",
+      "java_expr": "return this;",
+      "rule": "Exact fluent self return in Consume.update(boolean).",
+      "runtime_proof": "/root/Main.source_consume_update_flag_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_update_flag_to_source_state",
+        "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+        "test_consume_update_flag_matches_upstream_source",
+        "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "update(boolean update)",
+        "java_expr": "return this;",
+        "godot_symbol": "source_consume_update_flag_result.return_self",
+        "godot_owner": "PortGame.source_consume_update_flag_state",
+        "rule": "Exact fluent self return in Consume.update(boolean).",
+        "tests": [
+          "test_emit_bridges_consume_update_flag_to_source_state",
+          "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+          "test_consume_update_flag_matches_upstream_source",
+          "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_update_flag_state"
+      }
     }
   }
 }

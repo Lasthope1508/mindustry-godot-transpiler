@@ -3934,6 +3934,41 @@
       ],
       "runtime_proof": "/root/Main.source_consume_boost_state",
       "rule": "Public source helper exposes Consume.boost() delegation to optional(true, true) and resulting optional/booster state."
+    },
+    "PortGame.source_consume_update_flag_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_update_flag_state",
+      "status": "source-backed",
+      "source_slice": "N1574",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "source_method": "update(boolean update)",
+      "params": [
+        {
+          "name": "update_value",
+          "type": "bool",
+          "schema": "source_consume_update_flag_input.update_value",
+          "java_expr": "boolean update",
+          "source_symbol": "consume_update_flag.update_assignment"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "update_field",
+        "update_assignment_expr",
+        "return_expr",
+        "update_value",
+        "update_after",
+        "return_self"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_update_flag_to_source_state",
+        "test_port_game_exposes_generated_consume_update_flag_bridge_state",
+        "test_consume_update_flag_matches_upstream_source",
+        "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_update_flag_state",
+      "rule": "Public source helper exposes Consume.update(boolean update) field assignment and fluent return state."
     }
   }
 }

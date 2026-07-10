@@ -19529,6 +19529,47 @@ public abstract class Consume{
             self.assertIn('"booster_after": booster_after', source_text)
             self.assertIn('"return_self": return_self', source_text)
 
+    def test_emit_bridges_consume_update_flag_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "Consume.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public abstract class Consume{
+    public boolean update = true;
+
+    public Consume update(boolean update){
+        this.update = update;
+        return this;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "Consume.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var update_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var update_after: bool = update_value", source_text)
+            self.assertIn("var return_self: bool = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_update_flag_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source_text)
+            self.assertIn('"method": "public Consume update(boolean update){"', source_text)
+            self.assertIn('"update_field": "public boolean update = true;"', source_text)
+            self.assertIn('"update_assignment_expr": "this.update = update;"', source_text)
+            self.assertIn('"return_expr": "return this;"', source_text)
+            self.assertIn('"update_value": update_value', source_text)
+            self.assertIn('"update_after": update_after', source_text)
+            self.assertIn('"return_self": return_self', source_text)
+
     def test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
