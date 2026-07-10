@@ -38850,6 +38850,34 @@
         "Consume.build(), trigger(), update(Building), efficiencyMultiplier(), and display() remain separate base consumer slices."
       ],
       "rule": "Generated bridge records Consume.efficiency(Building) default 1f result without inventing subclass efficiency behavior."
+    },
+    "N1579": {
+      "title": "Generated Consume efficiency multiplier bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_class": "Consume",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "generated_owner": "Consume.java_method_efficiencyMultiplier_9",
+      "godot_owner": "PortGame.source_consume_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.generated_consume_efficiency_multiplier_bridge_state",
+      "exact_exprs": [
+        "public float efficiencyMultiplier(Building build){",
+        "return 1f;"
+      ],
+      "source_symbols": [
+        "consume_efficiency_multiplier.method",
+        "consume_efficiency_multiplier.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+        "test_consume_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Consume.build(), trigger(), update(Building), and display() remain separate base consumer slices."
+      ],
+      "rule": "Generated bridge records Consume.efficiencyMultiplier(Building) default 1f result without inventing subclass multiplier behavior."
     }
   },
   "version": 1

@@ -248936,6 +248936,68 @@
         ],
         "runtime_proof": "/root/Main.source_consume_efficiency_state"
       }
+    },
+    "consume_efficiency_multiplier.method": {
+      "canonical_symbol": "source_symbol_registry.consume_efficiency_multiplier.method",
+      "godot_owner": "PortGame.source_consume_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_efficiency_multiplier_result.method",
+      "java_expr": "public float efficiencyMultiplier(Building build){",
+      "rule": "Exact method boundary for Consume.efficiencyMultiplier(Building).",
+      "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+        "test_consume_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "efficiencyMultiplier(Building build)",
+        "java_expr": "public float efficiencyMultiplier(Building build){",
+        "godot_symbol": "source_consume_efficiency_multiplier_result.method",
+        "godot_owner": "PortGame.source_consume_efficiency_multiplier_state",
+        "rule": "Exact method boundary for Consume.efficiencyMultiplier(Building).",
+        "tests": [
+          "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+          "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+          "test_consume_efficiency_multiplier_matches_upstream_source",
+          "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state"
+      }
+    },
+    "consume_efficiency_multiplier.return": {
+      "canonical_symbol": "source_symbol_registry.consume_efficiency_multiplier.return",
+      "godot_owner": "PortGame.source_consume_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return 1f;",
+      "rule": "Exact default 1f return in Consume.efficiencyMultiplier(Building).",
+      "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+        "test_consume_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "efficiencyMultiplier(Building build)",
+        "java_expr": "return 1f;",
+        "godot_symbol": "source_consume_efficiency_multiplier_result.efficiency_multiplier",
+        "godot_owner": "PortGame.source_consume_efficiency_multiplier_state",
+        "rule": "Exact default 1f return in Consume.efficiencyMultiplier(Building).",
+        "tests": [
+          "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+          "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+          "test_consume_efficiency_multiplier_matches_upstream_source",
+          "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state"
+      }
     }
   }
 }

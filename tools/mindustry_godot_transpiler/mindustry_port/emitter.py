@@ -1963,6 +1963,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_efficiency_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public float efficiency(Building build){", "return_expr": "return 1f;", "efficiency": efficiency}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
+        and method.get("name") == "efficiencyMultiplier"
+    ):
+        return [
+            "\tvar efficiency_multiplier: float = 1.0",
+            '\treturn {"source_owner": "PortGame.source_consume_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public float efficiencyMultiplier(Building build){", "return_expr": "return 1f;", "efficiency_multiplier": efficiency_multiplier}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

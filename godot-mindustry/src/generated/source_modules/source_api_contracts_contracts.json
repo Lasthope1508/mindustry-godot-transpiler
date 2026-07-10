@@ -86290,6 +86290,51 @@
         "runtime_proof": "/root/Main.source_consume_efficiency_state",
         "rule": "Public source helper exposes Consume.efficiency(Building) default 1f return state."
       }
+    },
+    "PortGame.source_consume_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_efficiency_multiplier_state",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "efficiency_multiplier"
+      ],
+      "rule": "Public source helper exposes Consume.efficiencyMultiplier(Building) default 1f return state.",
+      "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state",
+      "source_method": "efficiencyMultiplier(Building build)",
+      "source_slice": "N1579",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+        "test_consume_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1579",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "source_method": "efficiencyMultiplier(Building build)",
+        "params": [],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "method",
+          "return_expr",
+          "efficiency_multiplier"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_efficiency_multiplier_to_source_state",
+          "test_port_game_exposes_generated_consume_efficiency_multiplier_bridge_state",
+          "test_consume_efficiency_multiplier_matches_upstream_source",
+          "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state",
+        "rule": "Public source helper exposes Consume.efficiencyMultiplier(Building) default 1f return state."
+      }
     }
   }
 }
