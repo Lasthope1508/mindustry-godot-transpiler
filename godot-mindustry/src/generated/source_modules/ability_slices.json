@@ -1,0 +1,389 @@
+{
+  "version": 1,
+  "slices": {
+    "N1261": {
+      "canonical_ledger": "source_slice_ledger.N1261",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void update(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_update_0",
+      "godot_owner": "PortGame.source_ability_update_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_update_bridge_state",
+      "source_symbols": [
+        "ability_update.method",
+        "ability_update.unit",
+        "ability_update.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_update_to_source_state",
+        "test_port_game_exposes_source_ability_update_state",
+        "test_port_game_exposes_generated_ability_update_bridge_state",
+        "test_ability_update_matches_upstream_source",
+        "test_generated_ability_update_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability update bridge state"
+    },
+    "N1262": {
+      "canonical_ledger": "source_slice_ledger.N1262",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void draw(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_draw_1",
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.draw(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_draw_bridge_state",
+      "source_symbols": [
+        "ability_draw.method",
+        "ability_draw.unit",
+        "ability_draw.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_draw_to_source_state",
+        "test_port_game_exposes_source_ability_draw_state",
+        "test_port_game_exposes_generated_ability_draw_bridge_state",
+        "test_ability_draw_matches_upstream_source",
+        "test_generated_ability_draw_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability draw bridge state"
+    },
+    "N1263": {
+      "canonical_ledger": "source_slice_ledger.N1263",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void death(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_death_2",
+      "godot_owner": "PortGame.source_ability_death_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.death(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_death_bridge_state",
+      "source_symbols": [
+        "ability_death.method",
+        "ability_death.unit",
+        "ability_death.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_death_to_source_state",
+        "test_port_game_exposes_source_ability_death_state",
+        "test_port_game_exposes_generated_ability_death_bridge_state",
+        "test_ability_death_matches_upstream_source",
+        "test_generated_ability_death_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability death bridge state"
+    },
+    "N1264": {
+      "canonical_ledger": "source_slice_ledger.N1264",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void created(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_created_3",
+      "godot_owner": "PortGame.source_ability_created_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.created(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_created_bridge_state",
+      "source_symbols": [
+        "ability_created.method",
+        "ability_created.unit",
+        "ability_created.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_created_to_source_state",
+        "test_port_game_exposes_source_ability_created_state",
+        "test_port_game_exposes_generated_ability_created_bridge_state",
+        "test_ability_created_matches_upstream_source",
+        "test_generated_ability_created_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability created bridge state"
+    },
+    "N1265": {
+      "canonical_ledger": "source_slice_ledger.N1265",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.type.*;",
+        "public void init(UnitType type){}"
+      ],
+      "generated_owner": "Ability.java_method_init_4",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.init(UnitType type)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_init_bridge_state",
+      "source_symbols": [
+        "ability_init.method",
+        "ability_init.type",
+        "ability_init.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability init bridge state"
+    },
+    "N1266": {
+      "canonical_ledger": "source_slice_ledger.N1266",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "import arc.scene.ui.layout.*;",
+        "public void displayBars(Unit unit, Table bars){}"
+      ],
+      "generated_owner": "Ability.java_method_displayBars_5",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_display_bars_bridge_state",
+      "source_symbols": [
+        "ability_display_bars.method",
+        "ability_display_bars.unit",
+        "ability_display_bars.bars",
+        "ability_display_bars.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability displayBars bridge state"
+    },
+    "N1267": {
+      "canonical_ledger": "source_slice_ledger.N1267",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.scene.ui.layout.*;",
+        "import mindustry.ui.*;",
+        "public void display(Table t){",
+        "t.table(Styles.grayPanel, a -> {",
+        "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+        "a.row();",
+        "a.left().top().defaults().left();",
+        "addStats(a);",
+        "}).pad(5).margin(10).growX().top().uniformX();"
+      ],
+      "generated_owner": "Ability.java_method_display_6",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_display_bridge_state",
+      "source_symbols": [
+        "ability_display.method",
+        "ability_display.table",
+        "ability_display.localized_call",
+        "ability_display.add_stats_call",
+        "ability_display.style_expr",
+        "ability_display.title_expr",
+        "ability_display.outer_chain"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability display bridge state"
+    },
+    "N1268": {
+      "canonical_ledger": "source_slice_ledger.N1268",
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle lookup and Table widget mutation remain explicit inputs/runtime UI integration; this bridge preserves source guard, key, description text, width, and row operation plan."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "import arc.scene.ui.layout.*;",
+        "protected static final float descriptionWidth = 350f;",
+        "public void addStats(Table t){",
+        "if(Core.bundle.has(getBundle() + \".description\")){",
+        "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+        "t.row();"
+      ],
+      "generated_owner": "Ability.java_method_addStats_7",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.addStats(Table t) description row mutation guarded by Core.bundle.has(getBundle() + \".description\").",
+      "runtime_proof": "/root/Main.generated_ability_add_stats_bridge_state",
+      "source_symbols": [
+        "ability_add_stats.method",
+        "ability_add_stats.guard",
+        "ability_add_stats.description_width",
+        "ability_add_stats.add_description"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability addStats bridge state"
+    },
+    "N1269": {
+      "canonical_ledger": "source_slice_ledger.N1269",
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle.format lookup remains explicit formatted_value input; this bridge preserves key expression, values varargs, and return expression."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "public String abilityStat(String stat, Object... values){",
+        "return Core.bundle.format(\"ability.stat.\" + stat, values);"
+      ],
+      "generated_owner": "Ability.java_method_abilityStat_8",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.abilityStat(String stat, Object... values) bundle format return.",
+      "runtime_proof": "/root/Main.generated_ability_ability_stat_bridge_state",
+      "source_symbols": [
+        "ability_ability_stat.method",
+        "ability_ability_stat.bundle_key",
+        "ability_ability_stat.format_call",
+        "ability_ability_stat.return_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability abilityStat bridge state"
+    },
+    "N1270": {
+      "canonical_ledger": "source_slice_ledger.N1270",
+      "deferred_exprs": [
+        "Concrete Java Object.clone() behavior remains explicit clone_supported/clone_value input; this bridge preserves try/catch and RuntimeException wrapper semantics."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "public Ability copy(){",
+        "try{",
+        "return (Ability)clone();",
+        "}catch(CloneNotSupportedException e){",
+        "//I am disgusted",
+        "throw new RuntimeException(\"java sucks\", e);"
+      ],
+      "generated_owner": "Ability.java_method_copy_9",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.copy() clone success and CloneNotSupportedException wrapper branches.",
+      "runtime_proof": "/root/Main.generated_ability_copy_bridge_state",
+      "source_symbols": [
+        "ability_copy.method",
+        "ability_copy.clone_return",
+        "ability_copy.catch",
+        "ability_copy.runtime_exception"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability copy bridge state"
+    },
+    "N1271": {
+      "canonical_ledger": "source_slice_ledger.N1271",
+      "deferred_exprs": [
+        "Concrete Core.bundle lookup and getBundle() internals remain explicit get_bundle_value and bundle_value inputs; this bridge preserves localized() return expression without inventing bundle state."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "/** @return localized ability name; mods should override this. */",
+        "public String localized(){",
+        "return Core.bundle.get(getBundle());"
+      ],
+      "generated_owner": "Ability.java_method_localized_10",
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.localized()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.localized() using explicit bundle lookup facts.",
+      "runtime_proof": "/root/Main.generated_ability_localized_bridge_state",
+      "source_symbols": [
+        "ability_localized.method",
+        "ability_localized.get_bundle_call",
+        "ability_localized.bundle_get"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_localized_to_source_state",
+        "test_port_game_exposes_source_ability_localized_state",
+        "test_port_game_exposes_generated_ability_localized_bridge_state",
+        "test_ability_localized_matches_upstream_source",
+        "test_generated_ability_localized_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability localized bridge state"
+    },
+    "N1272": {
+      "canonical_ledger": "source_slice_ledger.N1272",
+      "deferred_exprs": [
+        "Concrete Java getClass(), isAnonymousClass(), getSuperclass(), and getSimpleName() runtime reflection stay explicit class_simple_name, is_anonymous_class, and superclass_simple_name inputs."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "public String getBundle(){",
+        "var type = getClass();",
+        "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();"
+      ],
+      "generated_owner": "Ability.java_method_getBundle_11",
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.getBundle()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.getBundle() class/simple-name bundle key formula.",
+      "runtime_proof": "/root/Main.generated_ability_get_bundle_bridge_state",
+      "source_symbols": [
+        "ability_get_bundle.method",
+        "ability_get_bundle.type_assignment",
+        "ability_get_bundle.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability getBundle bridge state"
+    }
+  }
+}
