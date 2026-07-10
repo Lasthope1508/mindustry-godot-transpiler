@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_shoot_pattern_default_events": {
+      "canonical_contract": "source_api_contracts.PortGame.source_shoot_pattern_default_events",
+      "status": "active",
+      "source_slice": "N734",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "source_method": "shoot(int totalShots, BulletHandler handler)",
+      "params": [
+        {
+          "name": "shoot_state",
+          "schema": "source_shoot_pattern_default_events_input",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "events",
+        "delay",
+        "mover"
+      ],
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events",
+      "rule": "Public runtime contract for default ShootPattern.shoot handler events: zero x/y/rotation offsets, delay firstShotDelay + shotDelay * i, null mover via BulletHandler default overload."
+    }
+  }
+}

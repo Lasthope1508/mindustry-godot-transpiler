@@ -1845,6 +1845,104 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(strings_reports["strings_state_schema"]["canonical_mirror"]["checked"], len(strings_schema))
         self.assertEqual(strings_reports["strings_symbols"]["canonical_mirror"]["checked"], len(strings_symbols))
 
+    def test_source_ssot_shoot_pattern_json_shards_declare_canonical_mirror_contracts(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        shoot_pattern_slices_entry = manifest["modules"]["shoot_pattern_slices"]
+        shoot_pattern_contracts_entry = manifest["modules"]["shoot_pattern_api_contracts"]
+        shoot_pattern_schema_entry = manifest["modules"]["shoot_pattern_state_schema"]
+        shoot_pattern_symbols_entry = manifest["modules"]["shoot_pattern_symbols"]
+
+        self.assertEqual(shoot_pattern_slices_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(shoot_pattern_slices_entry["canonical_reference_key"], "canonical_ledger")
+        self.assertEqual(shoot_pattern_slices_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertIn("java_method", shoot_pattern_slices_entry["mirror_fields"])
+
+        self.assertEqual(shoot_pattern_contracts_entry["canonical_module"], "api_contracts")
+        self.assertEqual(shoot_pattern_contracts_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(shoot_pattern_contracts_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertIn("return_keys", shoot_pattern_contracts_entry["mirror_fields"])
+
+        self.assertEqual(shoot_pattern_schema_entry["canonical_module"], "state_schema")
+        self.assertEqual(shoot_pattern_schema_entry["canonical_reference_key"], "canonical_schema")
+        self.assertEqual(shoot_pattern_schema_entry["canonical_reference_prefix"], "source_state_schema.")
+        self.assertEqual(shoot_pattern_schema_entry["root_key"], "schemas")
+
+        self.assertEqual(shoot_pattern_symbols_entry["canonical_module"], "registry")
+        self.assertEqual(shoot_pattern_symbols_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(shoot_pattern_symbols_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(shoot_pattern_symbols_entry["root_key"], "symbols")
+
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+        shoot_pattern_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "shoot_pattern_slices")["slices"]
+        expected_slice_ids = {
+            slice_id
+            for slice_id, slice_entry in canonical_slices.items()
+            if slice_entry["java_source"] == "core/src/mindustry/entities/pattern/ShootPattern.java"
+        }
+
+        self.assertEqual(set(shoot_pattern_slices), expected_slice_ids)
+        for slice_id in sorted(expected_slice_ids):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(shoot_pattern_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
+                for field in shoot_pattern_slices_entry["mirror_fields"]:
+                    self.assertEqual(shoot_pattern_slices[slice_id][field], canonical_slices[slice_id][field])
+
+        shoot_pattern_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "shoot_pattern_api_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+        expected_contract_owners = {entry["godot_owner"] for entry in shoot_pattern_slices.values()}
+        self.assertEqual(set(shoot_pattern_contracts), expected_contract_owners)
+        for owner in sorted(expected_contract_owners):
+            with self.subTest(owner=owner):
+                self.assertEqual(shoot_pattern_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
+                for field in shoot_pattern_contracts_entry["mirror_fields"]:
+                    self.assertEqual(shoot_pattern_contracts[owner][field], canonical_contracts[owner][field])
+
+        shoot_pattern_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "shoot_pattern_state_schema")["schemas"]
+        canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
+        expected_schema_names = set()
+        for owner, contract in sorted(shoot_pattern_contracts.items()):
+            for param in contract.get("params", []):
+                schema_name = str(param["schema"]).split(".", 1)[0]
+                if schema_name in canonical_schema:
+                    expected_schema_names.add(schema_name)
+            source_name = owner.split(".")[-1]
+            if source_name.endswith("_state"):
+                result_schema_name = source_name[:-len("_state")] + "_result"
+                if result_schema_name in canonical_schema:
+                    expected_schema_names.add(result_schema_name)
+        self.assertEqual(set(shoot_pattern_schema), expected_schema_names)
+        for schema_name in sorted(expected_schema_names):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(shoot_pattern_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
+                for field in shoot_pattern_schema_entry["mirror_fields"]:
+                    self.assertEqual(shoot_pattern_schema[schema_name][field], canonical_schema[schema_name][field])
+
+        shoot_pattern_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "shoot_pattern_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+        expected_symbol_names = {
+            symbol_name
+            for slice_entry in shoot_pattern_slices.values()
+            for symbol_name in slice_entry["source_symbols"]
+        }
+        self.assertEqual(set(shoot_pattern_symbols), expected_symbol_names)
+        for symbol_name in sorted(expected_symbol_names):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(shoot_pattern_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                for field in shoot_pattern_symbols_entry["mirror_fields"]:
+                    self.assertEqual(shoot_pattern_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        shoot_pattern_reports = {entry["name"]: entry for entry in report["modules"] if entry["name"].startswith("shoot_pattern_")}
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(shoot_pattern_reports["shoot_pattern_slices"]["canonical_mirror"]["checked"], len(shoot_pattern_slices))
+        self.assertEqual(shoot_pattern_reports["shoot_pattern_api_contracts"]["canonical_mirror"]["checked"], len(shoot_pattern_contracts))
+        self.assertEqual(shoot_pattern_reports["shoot_pattern_state_schema"]["canonical_mirror"]["checked"], len(shoot_pattern_schema))
+        self.assertEqual(shoot_pattern_reports["shoot_pattern_symbols"]["canonical_mirror"]["checked"], len(shoot_pattern_symbols))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 

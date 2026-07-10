@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "slices": {
+    "N734": {
+      "canonical_ledger": "source_slice_ledger.N734",
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+      "java_method": "shoot(int totalShots, BulletHandler handler)",
+      "godot_owner": "PortGame.source_shoot_pattern_default_events",
+      "source_symbols": [
+        "shoot_pattern_default_events.method",
+        "shoot_pattern_default_events.shots",
+        "shoot_pattern_default_events.first_shot_delay",
+        "shoot_pattern_default_events.shot_delay",
+        "shoot_pattern_default_events.loop",
+        "shoot_pattern_default_events.handler_call",
+        "shoot_pattern_default_events.delay",
+        "shoot_pattern_default_events.mover_null"
+      ],
+      "tests": [
+        "test_shoot_pattern_default_events_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state"
+      ],
+      "runtime_proof": "/root/Main.source_shoot_pattern_default_events"
+    }
+  }
+}

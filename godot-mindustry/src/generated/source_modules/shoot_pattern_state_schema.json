@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_shoot_pattern_default_events_input": {
+      "canonical_schema": "source_state_schema.source_shoot_pattern_default_events_input",
+      "keys": {
+        "firstShotDelay": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.firstShotDelay",
+          "java_expr": "public float firstShotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern first shot delay field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "shotDelay": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.shotDelay",
+          "java_expr": "public float shotDelay = 0;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern shot delay field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        },
+        "shots": {
+          "godot_symbol": "source_shoot_pattern_default_events_input.shots",
+          "java_expr": "public int shots = 1;",
+          "java_method": "shoot(int totalShots, BulletHandler handler)",
+          "java_source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+          "rule": "ShootPattern shots field.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_shoot_pattern_default_events"
+          ]
+        }
+      }
+    }
+  }
+}
