@@ -13599,6 +13599,23 @@ func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
 		"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == [],
 	}
 
+func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
+	var instance = script.new()
+	var result = instance.java_method_copy_3([shots, first_shot_delay, shot_delay])
+	var expected_copy := {
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+	}
+	return {
+		"source_owner": "ShootPattern.copy",
+		"generated_owner": "ShootPattern.java_method_copy_3",
+		"result": result,
+		"expected_copy": expected_copy,
+		"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false,
+	}
+
 func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
 	var total_shots := int(mount_state.get("totalShots", 0))
 	var barrel_counter := int(mount_state.get("barrelCounter", 0))

@@ -76,4 +76,24 @@ func java_method_flip_2(_args: Array = []) -> Variant:
 	}
 
 func java_method_copy_3(_args: Array = []) -> Variant:
-	return null
+	var shots: int = int(_args[0] if _args.size() > 0 else 1)
+	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var copy_state := {
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+	}
+	return {
+		"source_owner": "ShootPattern.copy",
+		"generated_owner": "ShootPattern.java_method_copy_3",
+		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+		"method": "public ShootPattern copy(){",
+		"try_source": "try{",
+		"clone_return_source": "return (ShootPattern)clone();",
+		"catch_source": "}catch(CloneNotSupportedException absurd){",
+		"throw_source": "throw new RuntimeException(\"impending doom\", absurd);",
+		"implements_cloneable": "public class ShootPattern implements Cloneable{",
+		"copy": copy_state,
+		"same_reference": false,
+	}

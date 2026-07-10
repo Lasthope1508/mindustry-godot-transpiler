@@ -11218,6 +11218,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"no_op": true', method_body)
         self.assertIn('"mutated_fields": []', method_body)
 
+    def test_generated_shoot_pattern_copy_bridge_matches_source_clone(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_copy_3(_args: Array = []) -> Variant:", source)
+        method_body = source.split("func java_method_copy_3(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertNotIn("return null", method_body)
+        self.assertIn('"source_owner": "ShootPattern.copy"', method_body)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_copy_3"', method_body)
+        self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
+        self.assertIn('"method": "public ShootPattern copy(){"', method_body)
+        self.assertIn('"try_source": "try{"', method_body)
+        self.assertIn('"clone_return_source": "return (ShootPattern)clone();"', method_body)
+        self.assertIn('"catch_source": "}catch(CloneNotSupportedException absurd){"', method_body)
+        self.assertIn('"throw_source": "throw new RuntimeException(\\"impending doom\\", absurd);"', method_body)
+        self.assertIn('"implements_cloneable": "public class ShootPattern implements Cloneable{"', method_body)
+        self.assertIn('"copy": copy_state', method_body)
+        self.assertIn('"same_reference": false', method_body)
+
     def test_port_game_exposes_generated_shoot_pattern_default_events_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11252,6 +11271,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "ShootPattern.flip"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_flip_2"', source)
         self.assertIn('"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == []', source)
+
+    def test_port_game_exposes_generated_shoot_pattern_copy_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
+        self.assertIn("var result = instance.java_method_copy_3([shots, first_shot_delay, shot_delay])", source)
+        self.assertIn('"source_owner": "ShootPattern.copy"', source)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_copy_3"', source)
+        self.assertIn('"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false', source)
 
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
