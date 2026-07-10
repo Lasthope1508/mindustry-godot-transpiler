@@ -3634,6 +3634,58 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state",
       "rule": "Public runtime contract for ConsumeLiquid.efficiency(Building) edelta*efficiencyScale guard and clamped liquid ratio formula."
+    },
+    "PortGame.source_consume_liquid_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_build_state",
+      "status": "active",
+      "source_slice": "N1544",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_consume_liquid_build_input.liquid_id",
+          "java_expr": "liquid"
+        },
+        {
+          "name": "build_liquids_get",
+          "type": "float",
+          "schema": "source_consume_liquid_build_input.build_liquids_get",
+          "java_expr": "build.liquids.get(liquid)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "liquid_field",
+        "req_image_expr",
+        "liquid_ui_icon_expr",
+        "valid_expr",
+        "req_image_constructor",
+        "req_image_valid",
+        "vars_icon_med",
+        "liquid_module_get",
+        "cell_size_expr",
+        "cell_top_expr",
+        "cell_left_expr",
+        "liquid_id",
+        "build_liquids_get",
+        "valid",
+        "req_image",
+        "table_image_size",
+        "table_top",
+        "table_left"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+        "test_consume_liquid_build_matches_upstream_source",
+        "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_build_state",
+      "rule": "Public runtime contract for ConsumeLiquid.build(Building, Table) ReqImage(liquid.uiIcon), valid lambda, iconMed size, top, and left table state."
     }
   }
 }

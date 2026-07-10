@@ -2107,6 +2107,40 @@
         "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_efficiency_bridge_state"
+    },
+    "N1544": {
+      "canonical_ledger": "source_slice_ledger.N1544",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_liquid_build_state",
+      "generated_owner": "ConsumeLiquid.java_method_build_1",
+      "source_symbols": [
+        "consume_liquid_build.method",
+        "consume_liquid_build.req_image",
+        "consume_liquid_build.liquid_id",
+        "consume_liquid_build.build_liquids_get",
+        "consume_liquid_build.valid",
+        "consume_liquid_build.liquid_field",
+        "consume_liquid_build.liquid_ui_icon",
+        "consume_liquid_build.req_image_constructor",
+        "consume_liquid_build.req_image_valid",
+        "consume_liquid_build.vars_icon_med",
+        "consume_liquid_build.liquid_module_get",
+        "consume_liquid_build.cell_size",
+        "consume_liquid_build.cell_top",
+        "consume_liquid_build.cell_left",
+        "consume_liquid_build.table_image_size",
+        "consume_liquid_build.table_top",
+        "consume_liquid_build.table_left"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+        "test_consume_liquid_build_matches_upstream_source",
+        "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_build_bridge_state"
     }
   }
 }

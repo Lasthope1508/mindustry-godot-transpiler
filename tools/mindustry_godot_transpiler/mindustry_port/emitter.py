@@ -1905,6 +1905,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
         and type_entry.get("name") == "ConsumeLiquid"
+        and method.get("name") == "build"
+    ):
+        return [
+            "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar valid: bool = build_liquids_get > 0.0",
+            '\tvar req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}',
+            "\tvar table_image_size: float = 8.0 * 4.0",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
         and method.get("name") == "update"
     ):
         return [

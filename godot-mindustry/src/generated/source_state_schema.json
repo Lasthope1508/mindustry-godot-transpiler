@@ -161556,6 +161556,433 @@
           "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
         }
       }
+    },
+    "source_consume_liquid_build_input": {
+      "status": "active",
+      "keys": {
+        "liquid_id": {
+          "type": "int",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "ConsumeLiquid fields",
+          "java_expr": "liquid",
+          "godot_symbol": "source_consume_liquid_build_input.liquid_id",
+          "rule": "source_consume_liquid_build key liquid_id.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "build_liquids_get": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "build.liquids.get(liquid)",
+          "godot_symbol": "source_consume_liquid_build_input.build_liquids_get",
+          "rule": "source_consume_liquid_build key build_liquids_get.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        }
+      }
+    },
+    "source_consume_liquid_build_result": {
+      "status": "active",
+      "keys": {
+        "liquid_id": {
+          "type": "int",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_build_input.liquid_id",
+          "rule": "source_consume_liquid_build echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ]
+        },
+        "build_liquids_get": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_build_input.build_liquids_get",
+          "rule": "source_consume_liquid_build echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ]
+        },
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "PortGame.source_consume_liquid_build_state",
+          "godot_symbol": "source_consume_liquid_build_result.source_owner",
+          "rule": "source_consume_liquid_build key source_owner.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "godot_symbol": "source_consume_liquid_build_result.source",
+          "rule": "source_consume_liquid_build key source.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "public void build(Building build, Table table){",
+          "godot_symbol": "source_consume_liquid_build_result.method",
+          "rule": "source_consume_liquid_build key method.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "liquid_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "ConsumeLiquid fields",
+          "java_expr": "public final Liquid liquid;",
+          "godot_symbol": "source_consume_liquid_build_result.liquid_field",
+          "rule": "source_consume_liquid_build key liquid_field.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "req_image_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();",
+          "godot_symbol": "source_consume_liquid_build_result.req_image_expr",
+          "rule": "source_consume_liquid_build key req_image_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "liquid_ui_icon_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "liquid.uiIcon",
+          "godot_symbol": "source_consume_liquid_build_result.liquid_ui_icon_expr",
+          "rule": "source_consume_liquid_build key liquid_ui_icon_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "valid_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "build.liquids.get(liquid) > 0",
+          "godot_symbol": "source_consume_liquid_build_result.valid_expr",
+          "rule": "source_consume_liquid_build key valid_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "req_image_constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ui/ReqImage.java",
+          "java_method": "ReqImage(TextureRegion region, Boolp valid)",
+          "java_expr": "public ReqImage(TextureRegion region, Boolp valid){",
+          "godot_symbol": "source_consume_liquid_build_result.req_image_constructor",
+          "rule": "source_consume_liquid_build key req_image_constructor.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "req_image_valid": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/ui/ReqImage.java",
+          "java_method": "valid()",
+          "java_expr": "public boolean valid(){",
+          "godot_symbol": "source_consume_liquid_build_result.req_image_valid",
+          "rule": "source_consume_liquid_build key req_image_valid.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "vars_icon_med": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Vars UI constants",
+          "java_expr": "iconMed = 8*4f",
+          "godot_symbol": "source_consume_liquid_build_result.vars_icon_med",
+          "rule": "source_consume_liquid_build key vars_icon_med.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "liquid_module_get": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_method": "get(Liquid liquid)",
+          "java_expr": "public float get(Liquid liquid){",
+          "godot_symbol": "source_consume_liquid_build_result.liquid_module_get",
+          "rule": "source_consume_liquid_build key liquid_module_get.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "cell_size_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+          "java_method": "size(float size)",
+          "java_expr": "public Cell<T> size(float size){",
+          "godot_symbol": "source_consume_liquid_build_result.cell_size_expr",
+          "rule": "source_consume_liquid_build key cell_size_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "cell_top_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+          "java_method": "top()",
+          "java_expr": "public Cell<T> top(){",
+          "godot_symbol": "source_consume_liquid_build_result.cell_top_expr",
+          "rule": "source_consume_liquid_build key cell_top_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "cell_left_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+          "java_method": "left()",
+          "java_expr": "public Cell<T> left(){",
+          "godot_symbol": "source_consume_liquid_build_result.cell_left_expr",
+          "rule": "source_consume_liquid_build key cell_left_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "valid": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "build.liquids.get(liquid) > 0",
+          "godot_symbol": "source_consume_liquid_build_result.valid",
+          "rule": "source_consume_liquid_build key valid.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "req_image": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "build(Building build, Table table)",
+          "java_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();",
+          "godot_symbol": "source_consume_liquid_build_result.req_image",
+          "rule": "source_consume_liquid_build key req_image.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "table_image_size": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Vars UI constants",
+          "java_expr": "iconMed = 8*4f",
+          "godot_symbol": "source_consume_liquid_build_result.table_image_size",
+          "rule": "source_consume_liquid_build key table_image_size.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "table_top": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+          "java_method": "top()",
+          "java_expr": "top()",
+          "godot_symbol": "source_consume_liquid_build_result.table_top",
+          "rule": "source_consume_liquid_build key table_top.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        },
+        "table_left": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+          "java_method": "left()",
+          "java_expr": "left()",
+          "godot_symbol": "source_consume_liquid_build_result.table_left",
+          "rule": "source_consume_liquid_build key table_left.",
+          "used_by": [
+            "PortGame.source_consume_liquid_build_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_build_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_build_bridge_state",
+            "test_consume_liquid_build_matches_upstream_source",
+            "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_build_state"
+        }
+      }
     }
   },
   "version": 1

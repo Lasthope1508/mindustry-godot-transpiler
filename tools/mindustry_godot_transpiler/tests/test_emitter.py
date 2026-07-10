@@ -19519,6 +19519,60 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;"', source_text)
             self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
 
+    def test_emit_bridges_consume_liquid_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+
+public class ConsumeLiquid extends ConsumeLiquidBase{
+    public final Liquid liquid;
+
+    @Override
+    public void build(Building build, Table table){
+        table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var valid: bool = build_liquids_get > 0.0", source_text)
+            self.assertIn("var req_image: Dictionary = {\"liquid_id\": liquid_id, \"icon\": \"liquid.uiIcon\", \"valid\": valid, \"valid_expr\": \"build.liquids.get(liquid) > 0\"}", source_text)
+            self.assertIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"liquid_field": "public final Liquid liquid;"', source_text)
+            self.assertIn('"req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();"', source_text)
+            self.assertIn('"liquid_ui_icon_expr": "liquid.uiIcon"', source_text)
+            self.assertIn('"valid_expr": "build.liquids.get(liquid) > 0"', source_text)
+            self.assertIn('"vars_icon_med": "iconMed = 8*4f"', source_text)
+            self.assertIn('"cell_size_expr": "public Cell<T> size(float size){"', source_text)
+            self.assertIn('"cell_top_expr": "public Cell<T> top(){"', source_text)
+            self.assertIn('"cell_left_expr": "public Cell<T> left(){"', source_text)
+            self.assertIn('"req_image": req_image', source_text)
+            self.assertIn('"table_image_size": table_image_size', source_text)
+            self.assertIn('"table_top": true', source_text)
+            self.assertIn('"table_left": true', source_text)
+
     def test_emit_bridges_consume_liquid_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

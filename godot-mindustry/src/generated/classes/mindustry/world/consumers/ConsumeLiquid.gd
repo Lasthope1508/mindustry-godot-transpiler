@@ -37,7 +37,12 @@ func java_method_apply_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_liquid_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void apply(Block block){", "super_apply_expr": "super.apply(block);", "liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": base_apply_state["block_has_liquids_after"], "base_apply_state": base_apply_state, "liquid_filter_before": liquid_filter_before, "liquid_id": liquid_id, "liquid_filter_after": liquid_filter_after}
 
 func java_method_build_1(_args: Array = []) -> Variant:
-	return null
+	var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)
+	var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var valid: bool = build_liquids_get > 0.0
+	var req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}
+	var table_image_size: float = 8.0 * 4.0
+	return {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}
 
 func java_method_update_2(_args: Array = []) -> Variant:
 	var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)

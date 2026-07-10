@@ -5656,6 +5656,55 @@ def verify_consume_liquid_update_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquid_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    liquid_module_source = "core/src/mindustry/world/modules/LiquidModule.java"
+    cell_source = "arc-core/src/arc/scene/ui/layout/Cell.java"
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source = (upstream_root / consume_liquid_source).read_text(encoding="utf-8", errors="replace")
+    req_image_text = (upstream_root / req_image_source).read_text(encoding="utf-8", errors="replace")
+    vars_text = (upstream_root / vars_source).read_text(encoding="utf-8", errors="replace")
+    liquid_module_text = (upstream_root / liquid_module_source).read_text(encoding="utf-8", errors="replace")
+    cell_text = (arc_root / cell_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquid_field": "public final Liquid liquid;",
+        "method": "public void build(Building build, Table table){",
+        "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();",
+        "liquid_ui_icon_expr": "liquid.uiIcon",
+        "valid_expr": "build.liquids.get(liquid) > 0",
+        "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "vars_icon_med": "iconMed = 8*4f",
+        "liquid_module_get": "public float get(Liquid liquid){",
+        "cell_size": "public Cell<T> size(float size){",
+        "cell_top": "public Cell<T> top(){",
+        "cell_left": "public Cell<T> left(){",
+    }
+    source_by_key = {
+        "liquid_field": source,
+        "method": source,
+        "req_image_expr": source,
+        "liquid_ui_icon_expr": source,
+        "valid_expr": source,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "vars_icon_med": vars_text,
+        "liquid_module_get": liquid_module_text,
+        "cell_size": cell_text,
+        "cell_top": cell_text,
+        "cell_left": cell_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_source,
+        "sources": [req_image_source, vars_source, liquid_module_source, cell_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_efficiency_source(upstream_root: Path, arc_root: Path | None = None) -> dict[str, Any]:
     consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

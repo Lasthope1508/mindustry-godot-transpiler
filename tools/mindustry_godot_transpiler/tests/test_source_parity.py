@@ -1752,6 +1752,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_build_source"))
+        report = source_parity.verify_consume_liquid_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        for source_path in [
+            "core/src/mindustry/ui/ReqImage.java",
+            "core/src/mindustry/Vars.java",
+            "core/src/mindustry/world/modules/LiquidModule.java",
+            "arc-core/src/arc/scene/ui/layout/Cell.java",
+        ]:
+            self.assertIn(source_path, report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquid_field": "public final Liquid liquid;",
+            "method": "public void build(Building build, Table table){",
+            "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();",
+            "liquid_ui_icon_expr": "liquid.uiIcon",
+            "valid_expr": "build.liquids.get(liquid) > 0",
+            "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "vars_icon_med": "iconMed = 8*4f",
+            "liquid_module_get": "public float get(Liquid liquid){",
+            "cell_size": "public Cell<T> size(float size){",
+            "cell_top": "public Cell<T> top(){",
+            "cell_left": "public Cell<T> left(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_default_constructor_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_default_constructor_source"))
         report = source_parity.verify_consume_liquid_default_constructor_source(ROOT / "mindustry-upstream")

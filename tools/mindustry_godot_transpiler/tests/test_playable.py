@@ -1365,6 +1365,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquid.default_constructor"', source)
         self.assertIn('"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("liquid_after", null) == canonical.get("liquid_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_build_state(liquid_id: int, build_liquids_get: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_build_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){"', source)
+        self.assertIn('"liquid_field": "public final Liquid liquid;"', source)
+        self.assertIn('"req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();"', source)
+        self.assertIn('"valid_expr": "build.liquids.get(liquid) > 0"', source)
+        self.assertIn('"vars_icon_med": "iconMed = 8*4f"', source)
+        self.assertIn("var valid: bool = build_liquids_get > 0.0", source)
+        self.assertIn('var req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}', source)
+        self.assertIn("func generated_consume_liquid_build_bridge_state(liquid_id: int, build_liquids_get: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
+        self.assertIn("var result = instance.java_method_build_1([liquid_id, build_liquids_get])", source)
+        self.assertIn("var canonical = source_consume_liquid_build_state(liquid_id, build_liquids_get)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_build_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquid.build"', source)
+        self.assertIn('"matches": result.get("req_image", {}) == canonical.get("req_image", {}) and result.get("table_image_size", null) == canonical.get("table_image_size", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
