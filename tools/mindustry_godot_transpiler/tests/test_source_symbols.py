@@ -543,6 +543,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(ast_report["canonical_mirror"]["checked"], len(ast_files))
 
+    def test_source_ssot_ast_manifest_failures_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        failure_entry = manifest["modules"]["ast_manifest_failures"]
+
+        self.assertEqual(failure_entry["canonical_module"], "ast_manifest")
+        self.assertEqual(failure_entry["canonical_collection_key"], "failures")
+        self.assertEqual(failure_entry["canonical_key_field"], "path")
+        self.assertEqual(failure_entry["canonical_reference_key"], "canonical_failure")
+        self.assertEqual(failure_entry["canonical_reference_prefix"], "ast_manifest.failures.")
+        self.assertEqual(failure_entry["root_key"], "failures")
+        self.assertEqual(failure_entry["mirror_fields"], ["error", "error_type", "path"])
+        self.assertIn("ast_manifest.json parser failures", failure_entry["rule"])
+
+        ast_failures = source_ssot.load_registered_json(ROOT / "godot-mindustry", "ast_manifest_failures")["failures"]
+        canonical_manifest = source_ssot.load_registered_json(ROOT / "godot-mindustry", "ast_manifest")
+        canonical_failures = {entry["path"]: entry for entry in canonical_manifest["failures"]}
+
+        self.assertEqual(set(ast_failures), set(canonical_failures))
+        self.assertEqual(len(ast_failures), canonical_manifest["failed_file_count"])
+        self.assertIn("mindustry/ai/BaseBuilderAI.java", ast_failures)
+        self.assertIn("mindustry/ai/types/LogicAI.java", ast_failures)
+        for file_path, canonical_entry in sorted(canonical_failures.items()):
+            with self.subTest(file_path=file_path):
+                self.assertEqual(ast_failures[file_path]["canonical_failure"], f"ast_manifest.failures.{file_path}")
+                for field in failure_entry["mirror_fields"]:
+                    self.assertEqual(ast_failures[file_path][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        failure_report = [entry for entry in report["modules"] if entry["name"] == "ast_manifest_failures"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(failure_report["canonical_mirror"]["checked"], len(ast_failures))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

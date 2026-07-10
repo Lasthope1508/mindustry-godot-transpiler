@@ -1368,6 +1368,23 @@
         "types"
       ]
     },
+    "ast_manifest_failures": {
+      "path": "src/generated/source_modules/ast_manifest_failures.json",
+      "root_key": "failures",
+      "label": "path",
+      "status": "active",
+      "rule": "Extension shard for ast_manifest.json parser failures; canonical parser failure metadata remains mirrored from ast_manifest.failures before use.",
+      "canonical_module": "ast_manifest",
+      "canonical_collection_key": "failures",
+      "canonical_key_field": "path",
+      "canonical_reference_key": "canonical_failure",
+      "canonical_reference_prefix": "ast_manifest.failures.",
+      "mirror_fields": [
+        "error",
+        "error_type",
+        "path"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

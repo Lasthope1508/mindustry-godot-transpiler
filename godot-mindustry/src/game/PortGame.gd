@@ -200,6 +200,9 @@ func ast_manifest_state() -> Dictionary:
 func ast_manifest_file_state(file_path: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("ast_manifest_files", file_path)
 
+func ast_manifest_failure_state(file_path: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("ast_manifest_failures", file_path)
+
 func content_registry_state() -> Dictionary:
 	return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])
 
