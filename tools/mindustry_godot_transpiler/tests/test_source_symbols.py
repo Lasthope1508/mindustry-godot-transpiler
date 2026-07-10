@@ -599,6 +599,36 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(emitted_report["canonical_mirror"]["checked"], len(emitted_files))
 
+    def test_source_ssot_emitted_class_failures_shard_declares_empty_canonical_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        failure_entry = manifest["modules"]["emitted_class_failures"]
+
+        self.assertEqual(failure_entry["canonical_module"], "emitted_classes")
+        self.assertEqual(failure_entry["canonical_collection_key"], "failures")
+        self.assertEqual(failure_entry["canonical_key_field"], "@index")
+        self.assertEqual(failure_entry["canonical_value_field"], "failure_entry")
+        self.assertEqual(failure_entry["canonical_reference_key"], "canonical_failure")
+        self.assertEqual(failure_entry["canonical_reference_prefix"], "emitted_classes.failures.")
+        self.assertEqual(failure_entry["root_key"], "failures")
+        self.assertEqual(failure_entry["mirror_fields"], ["index", "failure_entry"])
+        self.assertIn("emitted_classes.json failures", failure_entry["rule"])
+
+        emitted_failures = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_class_failures")["failures"]
+        canonical_emitted = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_classes")
+
+        self.assertEqual(canonical_emitted["failures"], [])
+        self.assertEqual(canonical_emitted["skipped_failure_count"], 0)
+        self.assertEqual(emitted_failures, {})
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        failure_report = [entry for entry in report["modules"] if entry["name"] == "emitted_class_failures"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(failure_report["canonical_mirror"]["checked"], 0)
+
     def test_source_ssot_source_manifest_files_shard_declares_canonical_object_array_mirror_contract(self):
         import importlib
 
