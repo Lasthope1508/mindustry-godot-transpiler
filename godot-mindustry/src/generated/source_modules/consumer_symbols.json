@@ -12868,6 +12868,40 @@
       ],
       "runtime_proof": "/root/Main.source_consume_update_build_state"
     },
+    "consume_display.method": {
+      "canonical_symbol": "source_symbol_registry.consume_display.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){}",
+      "godot_symbol": "source_consume_display_result.method",
+      "godot_owner": "PortGame.source_consume_display_state",
+      "rule": "Exact empty base Consume.display(Stats) method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_display_to_source_state",
+        "test_port_game_exposes_generated_consume_display_bridge_state",
+        "test_consume_display_matches_upstream_source",
+        "test_generated_consume_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_display_state"
+    },
+    "consume_display.empty_body": {
+      "canonical_symbol": "source_symbol_registry.consume_display.empty_body",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){}",
+      "godot_symbol": "source_consume_display_result.empty_body",
+      "godot_owner": "PortGame.source_consume_display_state",
+      "rule": "True because upstream base implementation has an empty inline body.",
+      "tests": [
+        "test_emit_bridges_consume_display_to_source_state",
+        "test_port_game_exposes_generated_consume_display_bridge_state",
+        "test_consume_display_matches_upstream_source",
+        "test_generated_consume_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_display_state"
+    },
     "consume_efficiency.method": {
       "canonical_symbol": "source_symbol_registry.consume_efficiency.method",
       "status": "source-backed",

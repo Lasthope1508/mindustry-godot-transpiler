@@ -74061,6 +74061,55 @@
         ],
         "rule": "Generated bridge records Consume.update(Building) empty base implementation without inventing runtime update side effects."
       }
+    },
+    "N1583": {
+      "canonical_slice": "source_slice_ledger.N1583",
+      "exact_exprs": [
+        "public void display(Stats stats){}"
+      ],
+      "godot_owner": "PortGame.source_consume_display_state",
+      "java_class": "Consume",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.generated_consume_display_bridge_state",
+      "source_symbols": [
+        "consume_display.method",
+        "consume_display.empty_body"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_display_to_source_state",
+        "test_port_game_exposes_generated_consume_display_bridge_state",
+        "test_consume_display_matches_upstream_source",
+        "test_generated_consume_display_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated Consume display empty body bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_class": "Consume",
+        "java_method": "display(Stats stats)",
+        "generated_owner": "Consume.java_method_display_10",
+        "godot_owner": "PortGame.source_consume_display_state",
+        "runtime_proof": "/root/Main.generated_consume_display_bridge_state",
+        "exact_exprs": [
+          "public void display(Stats stats){}"
+        ],
+        "source_symbols": [
+          "consume_display.method",
+          "consume_display.empty_body"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_display_to_source_state",
+          "test_port_game_exposes_generated_consume_display_bridge_state",
+          "test_consume_display_matches_upstream_source",
+          "test_generated_consume_display_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "Subclass display(Stats) overrides remain separate source-backed slices."
+        ],
+        "rule": "Generated bridge records Consume.display(Stats) empty base implementation without inventing stats table mutation."
+      }
     }
   }
 }

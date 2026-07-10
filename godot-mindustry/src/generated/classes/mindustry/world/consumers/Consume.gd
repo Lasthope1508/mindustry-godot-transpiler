@@ -67,4 +67,6 @@ func java_method_efficiencyMultiplier_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public float efficiencyMultiplier(Building build){", "return_expr": "return 1f;", "efficiency_multiplier": efficiency_multiplier}
 
 func java_method_display_10(_args: Array = []) -> Variant:
-	return null
+	var stats_arg: Variant = _args[0] if _args.size() > 0 else null
+	var empty_body: bool = true
+	return {"source_owner": "PortGame.source_consume_display_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void display(Stats stats){}", "empty_body": empty_body, "stats": stats_arg}

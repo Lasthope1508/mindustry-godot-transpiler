@@ -86439,6 +86439,65 @@
         "rule": "Public source helper exposes Consume.update(Building) empty body state and echoes build for bridge parity."
       }
     },
+    "PortGame.source_consume_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_display_state",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "params": [
+        {
+          "name": "stats",
+          "type": "Variant",
+          "java_expr": "Stats stats",
+          "schema": "source_consume_display_input.stats"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "empty_body",
+        "stats"
+      ],
+      "rule": "Public source helper exposes Consume.display(Stats) empty body state and echoes stats for bridge parity.",
+      "runtime_proof": "/root/Main.source_consume_display_state",
+      "source_method": "display(Stats stats)",
+      "source_slice": "N1583",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_display_to_source_state",
+        "test_port_game_exposes_generated_consume_display_bridge_state",
+        "test_consume_display_matches_upstream_source",
+        "test_generated_consume_display_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1583",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "source_method": "display(Stats stats)",
+        "params": [
+          {
+            "name": "stats",
+            "type": "Variant",
+            "java_expr": "Stats stats",
+            "schema": "source_consume_display_input.stats"
+          }
+        ],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "method",
+          "empty_body",
+          "stats"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_display_to_source_state",
+          "test_port_game_exposes_generated_consume_display_bridge_state",
+          "test_consume_display_matches_upstream_source",
+          "test_generated_consume_display_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_display_state",
+        "rule": "Public source helper exposes Consume.display(Stats) empty body state and echoes stats for bridge parity."
+      }
+    },
     "PortGame.source_consume_efficiency_state": {
       "canonical_contract": "source_api_contracts.PortGame.source_consume_efficiency_state",
       "java_source": "core/src/mindustry/world/consumers/Consume.java",
