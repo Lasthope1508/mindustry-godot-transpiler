@@ -1977,6 +1977,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
         and type_entry.get("name") == "Consume"
+        and method.get("name") == "update"
+        and method.get("parameters", [])
+        and method.get("parameters", [])[0].get("type") == "Building"
+    ):
+        return [
+            "\tvar build_arg: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar empty_body: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_update_build_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void update(Building build){}", "empty_body": empty_body, "build": build_arg}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
         and method.get("name") == "efficiency"
     ):
         return [

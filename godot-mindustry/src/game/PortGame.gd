@@ -4106,6 +4106,28 @@ func generated_consume_trigger_bridge_state(build: Variant) -> Dictionary:
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null),
 	}
 
+func source_consume_update_build_state(build: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_update_build_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public void update(Building build){}",
+		"empty_body": true,
+		"build": build,
+	}
+
+func generated_consume_update_build_bridge_state(build: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_7([build])
+	var canonical = source_consume_update_build_state(build)
+	return {
+		"source_owner": "PortGame.source_consume_update_build_state",
+		"generated_owner": "Consume.update(Building)",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null),
+	}
+
 func source_consume_efficiency_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_efficiency_state",

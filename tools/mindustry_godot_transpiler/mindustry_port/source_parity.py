@@ -5647,6 +5647,19 @@ def verify_consume_trigger_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_update_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void update(Building build){}",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_efficiency_source(upstream_root: Path) -> dict[str, Any]:
     consume_source = "core/src/mindustry/world/consumers/Consume.java"
     source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")

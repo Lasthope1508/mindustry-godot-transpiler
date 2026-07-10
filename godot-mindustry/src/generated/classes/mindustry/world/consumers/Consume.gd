@@ -54,7 +54,9 @@ func java_method_trigger_6(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_trigger_state", "source": "core/src/mindustry/world/consumers/Consume.java", "comment": "/** Called when a consumption is triggered manually. */", "method": "public void trigger(Building build){}", "empty_body": empty_body, "build": build_arg}
 
 func java_method_update_7(_args: Array = []) -> Variant:
-	return null
+	var build_arg: Variant = _args[0] if _args.size() > 0 else null
+	var empty_body: bool = true
+	return {"source_owner": "PortGame.source_consume_update_build_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void update(Building build){}", "empty_body": empty_body, "build": build_arg}
 
 func java_method_efficiency_8(_args: Array = []) -> Variant:
 	var efficiency: float = 1.0

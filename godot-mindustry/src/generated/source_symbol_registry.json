@@ -129853,6 +129853,38 @@
       ],
       "runtime_proof": "/root/Main.source_consume_trigger_state"
     },
+    "consume_update_build.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(Building build)",
+      "java_expr": "public void update(Building build){}",
+      "godot_symbol": "source_consume_update_build_result.method",
+      "godot_owner": "PortGame.source_consume_update_build_state",
+      "rule": "Exact empty base Consume.update(Building) method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_update_build_to_source_state",
+        "test_port_game_exposes_generated_consume_update_build_bridge_state",
+        "test_consume_update_build_matches_upstream_source",
+        "test_generated_consume_update_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_update_build_state"
+    },
+    "consume_update_build.empty_body": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "update(Building build)",
+      "java_expr": "public void update(Building build){}",
+      "godot_symbol": "source_consume_update_build_result.empty_body",
+      "godot_owner": "PortGame.source_consume_update_build_state",
+      "rule": "True because upstream base implementation has an empty inline body.",
+      "tests": [
+        "test_emit_bridges_consume_update_build_to_source_state",
+        "test_port_game_exposes_generated_consume_update_build_bridge_state",
+        "test_consume_update_build_matches_upstream_source",
+        "test_generated_consume_update_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_update_build_state"
+    },
     "consume_efficiency.method": {
       "status": "source-backed",
       "java_source": "core/src/mindustry/world/consumers/Consume.java",
