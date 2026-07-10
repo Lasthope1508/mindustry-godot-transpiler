@@ -1605,6 +1605,29 @@
         "keys",
         "schema"
       ]
+    },
+    "source_slice_ledger_slices": {
+      "path": "src/generated/source_modules/source_slice_ledger_slices.json",
+      "root_key": "slices",
+      "label": "sliceId",
+      "status": "active",
+      "rule": "Complete extension shard for source_slice_ledger.json slices; canonical source migration slice metadata remains mirrored from slice_ledger before use.",
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_slice",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "canonical_value_field": "slice",
+      "mirror_fields": [
+        "exact_exprs",
+        "godot_owner",
+        "java_class",
+        "java_method",
+        "java_source",
+        "runtime_proof",
+        "source_symbols",
+        "status",
+        "tests",
+        "slice"
+      ]
     }
   },
   "policy": {

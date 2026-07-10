@@ -1168,6 +1168,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(schema_report["canonical_mirror"]["checked"], len(schema_files))
 
+    def test_source_ssot_source_slice_ledger_slices_shard_declares_full_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        slice_entry = manifest["modules"]["source_slice_ledger_slices"]
+
+        self.assertEqual(slice_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(slice_entry["canonical_reference_key"], "canonical_slice")
+        self.assertEqual(slice_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertEqual(slice_entry["canonical_value_field"], "slice")
+        self.assertEqual(slice_entry["root_key"], "slices")
+        self.assertEqual(slice_entry["mirror_fields"], ["exact_exprs", "godot_owner", "java_class", "java_method", "java_source", "runtime_proof", "source_symbols", "status", "tests", "slice"])
+        self.assertIn("source_slice_ledger.json slices", slice_entry["rule"])
+
+        slice_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+
+        self.assertEqual(set(slice_files), set(canonical_slices))
+        self.assertEqual(len(slice_files), len(canonical_slices))
+        self.assertIn("N1026", slice_files)
+        self.assertEqual(slice_files["N1026"]["canonical_slice"], "source_slice_ledger.N1026")
+        for slice_id, canonical_entry in sorted(canonical_slices.items()):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(slice_files[slice_id]["canonical_slice"], f"source_slice_ledger.{slice_id}")
+                self.assertEqual(slice_files[slice_id]["slice"], canonical_entry)
+                for field in ["exact_exprs", "godot_owner", "java_class", "java_method", "java_source", "runtime_proof", "source_symbols", "status", "tests"]:
+                    self.assertEqual(slice_files[slice_id][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        slice_report = [entry for entry in report["modules"] if entry["name"] == "source_slice_ledger_slices"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(slice_report["canonical_mirror"]["checked"], len(slice_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 
