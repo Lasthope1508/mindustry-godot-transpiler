@@ -1444,6 +1444,25 @@
         "texture"
       ]
     },
+    "content_registry_blocks": {
+      "path": "src/generated/source_modules/content_registry_blocks.json",
+      "root_key": "blocks",
+      "label": "id",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json blocks; canonical block metadata remains mirrored from content_registry.blocks before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "blocks",
+      "canonical_key_field": "id",
+      "canonical_reference_key": "canonical_block",
+      "canonical_reference_prefix": "content_registry.blocks.",
+      "mirror_fields": [
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",
