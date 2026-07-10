@@ -182,6 +182,9 @@ func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
 func source_api_contract_state(contract_owner: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
 
+func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)
+
 func source_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 

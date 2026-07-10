@@ -1567,6 +1567,29 @@
         "tests",
         "symbol"
       ]
+    },
+    "source_api_contracts_contracts": {
+      "path": "src/generated/source_modules/source_api_contracts_contracts.json",
+      "root_key": "contracts",
+      "label": "owner",
+      "status": "active",
+      "rule": "Complete extension shard for source_api_contracts.json contracts; canonical API contract metadata remains mirrored from api_contracts before use.",
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "canonical_value_field": "contract",
+      "mirror_fields": [
+        "java_source",
+        "params",
+        "return_keys",
+        "rule",
+        "runtime_proof",
+        "source_method",
+        "source_slice",
+        "status",
+        "tests",
+        "contract"
+      ]
     }
   },
   "policy": {

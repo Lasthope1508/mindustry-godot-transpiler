@@ -1099,6 +1099,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(symbol_report["canonical_mirror"]["checked"], len(symbol_files))
 
+    def test_source_ssot_source_api_contracts_contracts_shard_declares_full_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        contract_entry = manifest["modules"]["source_api_contracts_contracts"]
+
+        self.assertEqual(contract_entry["canonical_module"], "api_contracts")
+        self.assertEqual(contract_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(contract_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertEqual(contract_entry["canonical_value_field"], "contract")
+        self.assertEqual(contract_entry["root_key"], "contracts")
+        self.assertEqual(contract_entry["mirror_fields"], ["java_source", "params", "return_keys", "rule", "runtime_proof", "source_method", "source_slice", "status", "tests", "contract"])
+        self.assertIn("source_api_contracts.json contracts", contract_entry["rule"])
+
+        contract_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_api_contracts_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+
+        self.assertEqual(set(contract_files), set(canonical_contracts))
+        self.assertEqual(len(contract_files), len(canonical_contracts))
+        self.assertIn("PortGame.source_ability_ability_stat_state", contract_files)
+        self.assertEqual(contract_files["PortGame.source_ability_ability_stat_state"]["canonical_contract"], "source_api_contracts.PortGame.source_ability_ability_stat_state")
+        for contract_owner, canonical_entry in sorted(canonical_contracts.items()):
+            with self.subTest(contract_owner=contract_owner):
+                self.assertEqual(contract_files[contract_owner]["canonical_contract"], f"source_api_contracts.{contract_owner}")
+                self.assertEqual(contract_files[contract_owner]["contract"], canonical_entry)
+                for field in ["java_source", "params", "return_keys", "rule", "runtime_proof", "source_method", "source_slice", "status", "tests"]:
+                    self.assertEqual(contract_files[contract_owner][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        contract_report = [entry for entry in report["modules"] if entry["name"] == "source_api_contracts_contracts"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(contract_report["canonical_mirror"]["checked"], len(contract_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

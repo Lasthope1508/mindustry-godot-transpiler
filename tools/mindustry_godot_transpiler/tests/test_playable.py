@@ -13083,6 +13083,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)', source)
 
+    def test_port_game_exposes_source_api_contracts_contracts_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_api_contracts_contracts.json").exists())
+        self.assertIn('"source_api_contracts_contracts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn('func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', source)
+
     def test_port_game_exposes_source_symbol_audit_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
