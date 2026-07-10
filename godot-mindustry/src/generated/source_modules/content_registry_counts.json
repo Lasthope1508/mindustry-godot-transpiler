@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "counts": {
+    "blocks": {
+      "canonical_count": "content_registry.counts.blocks",
+      "count": 417
+    },
+    "items": {
+      "canonical_count": "content_registry.counts.items",
+      "count": 22
+    },
+    "liquids": {
+      "canonical_count": "content_registry.counts.liquids",
+      "count": 11
+    },
+    "units": {
+      "canonical_count": "content_registry.counts.units",
+      "count": 56
+    }
+  }
+}

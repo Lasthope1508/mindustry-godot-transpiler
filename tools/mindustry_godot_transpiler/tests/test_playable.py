@@ -13625,6 +13625,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func content_registry_block_state(block_id: String = \"\") -> Dictionary:", source)
         self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_blocks", block_id)', source)
 
+    def test_port_game_exposes_content_registry_counts_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_counts.json").exists())
+        self.assertIn('"content_registry_counts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func content_registry_count_state(count_name: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_counts", count_name)', source)
+
     def test_port_game_exposes_content_registry_wave_groups_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

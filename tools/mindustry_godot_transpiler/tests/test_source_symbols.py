@@ -996,6 +996,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(block_report["canonical_mirror"]["checked"], len(block_files))
 
+    def test_source_ssot_content_registry_counts_shard_declares_canonical_dict_value_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        count_entry = manifest["modules"]["content_registry_counts"]
+
+        self.assertEqual(count_entry["canonical_module"], "content_registry")
+        self.assertEqual(count_entry["canonical_collection_key"], "counts")
+        self.assertEqual(count_entry["canonical_reference_key"], "canonical_count")
+        self.assertEqual(count_entry["canonical_reference_prefix"], "content_registry.counts.")
+        self.assertEqual(count_entry["canonical_value_field"], "count")
+        self.assertEqual(count_entry["root_key"], "counts")
+        self.assertEqual(count_entry["label"], "countName")
+        self.assertEqual(count_entry["mirror_fields"], ["count"])
+        self.assertIn("content_registry.json counts", count_entry["rule"])
+
+        count_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry_counts")["counts"]
+        canonical_registry = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry")
+        canonical_counts = canonical_registry["counts"]
+
+        self.assertEqual(set(count_files), set(canonical_counts))
+        self.assertEqual(count_files["items"]["count"], 22)
+        self.assertEqual(count_files["liquids"]["count"], 11)
+        self.assertEqual(count_files["blocks"]["count"], 417)
+        self.assertEqual(count_files["units"]["count"], 56)
+        for count_name, canonical_value in sorted(canonical_counts.items()):
+            with self.subTest(count_name=count_name):
+                self.assertEqual(count_files[count_name]["canonical_count"], f"content_registry.counts.{count_name}")
+                self.assertEqual(count_files[count_name]["count"], canonical_value)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        count_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_counts"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(count_report["canonical_mirror"]["checked"], len(count_files))
+
     def test_source_ssot_content_registry_wave_groups_shard_declares_canonical_nested_indexed_array_mirror_contract(self):
         import importlib
 

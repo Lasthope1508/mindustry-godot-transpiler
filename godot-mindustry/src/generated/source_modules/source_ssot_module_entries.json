@@ -1150,6 +1150,35 @@
         ]
       }
     },
+    "content_registry_counts": {
+      "canonical_manifest_entry": "source_ssot_modules.modules.content_registry_counts",
+      "path": "src/generated/source_modules/content_registry_counts.json",
+      "root_key": "counts",
+      "label": "countName",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json counts; canonical content collection counts remain mirrored from content_registry.counts before use.",
+      "canonical_module": "content_registry",
+      "canonical_reference_key": "canonical_count",
+      "canonical_reference_prefix": "content_registry.counts.",
+      "mirror_fields": [
+        "count"
+      ],
+      "entry": {
+        "path": "src/generated/source_modules/content_registry_counts.json",
+        "root_key": "counts",
+        "label": "countName",
+        "status": "active",
+        "rule": "Extension shard for content_registry.json counts; canonical content collection counts remain mirrored from content_registry.counts before use.",
+        "canonical_module": "content_registry",
+        "canonical_collection_key": "counts",
+        "canonical_value_field": "count",
+        "canonical_reference_key": "canonical_count",
+        "canonical_reference_prefix": "content_registry.counts.",
+        "mirror_fields": [
+          "count"
+        ]
+      }
+    },
     "content_registry_wave_groups": {
       "canonical_manifest_entry": "source_ssot_modules.modules.content_registry_wave_groups",
       "path": "src/generated/source_modules/content_registry_wave_groups.json",

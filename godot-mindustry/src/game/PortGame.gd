@@ -254,6 +254,9 @@ func content_registry_unit_state(unit_id: String = "") -> Dictionary:
 func content_registry_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("content_registry_blocks", block_id)
 
+func content_registry_count_state(count_name: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("content_registry_counts", count_name)
+
 func content_registry_wave_group_state(group_index: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("content_registry_wave_groups", group_index)
 
