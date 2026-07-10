@@ -11203,6 +11203,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"barrelIncrementerCalls": 0', method_body)
         self.assertIn('"barrelIncrementerIgnored": true', method_body)
 
+    def test_generated_shoot_pattern_flip_bridge_matches_source_no_op(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_flip_2(_args: Array = []) -> Variant:", source)
+        method_body = source.split("func java_method_flip_2(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertNotIn("return null", method_body)
+        self.assertIn('"source_owner": "ShootPattern.flip"', method_body)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_flip_2"', method_body)
+        self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
+        self.assertIn('"method": "public void flip(){"', method_body)
+        self.assertIn('"comment": "/** Subclasses should override this to flip its sides. */"', method_body)
+        self.assertIn('"no_op": true', method_body)
+        self.assertIn('"mutated_fields": []', method_body)
+
     def test_port_game_exposes_generated_shoot_pattern_default_events_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11226,6 +11241,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', source)
         self.assertIn('"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0', source)
+
+    def test_port_game_exposes_generated_shoot_pattern_flip_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_shoot_pattern_flip_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
+        self.assertIn("var result = instance.java_method_flip_2([])", source)
+        self.assertIn('"source_owner": "ShootPattern.flip"', source)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_flip_2"', source)
+        self.assertIn('"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == []', source)
 
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

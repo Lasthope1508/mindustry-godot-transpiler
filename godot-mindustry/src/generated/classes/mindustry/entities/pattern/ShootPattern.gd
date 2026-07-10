@@ -65,7 +65,15 @@ func java_method_shoot_1(_args: Array = []) -> Variant:
 	}
 
 func java_method_flip_2(_args: Array = []) -> Variant:
-	return null
+	return {
+		"source_owner": "ShootPattern.flip",
+		"generated_owner": "ShootPattern.java_method_flip_2",
+		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+		"method": "public void flip(){",
+		"comment": "/** Subclasses should override this to flip its sides. */",
+		"no_op": true,
+		"mutated_fields": [],
+	}
 
 func java_method_copy_3(_args: Array = []) -> Variant:
 	return null

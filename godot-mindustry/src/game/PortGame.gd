@@ -13588,6 +13588,17 @@ func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shot
 		"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0,
 	}
 
+func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
+	var instance = script.new()
+	var result = instance.java_method_flip_2([])
+	return {
+		"source_owner": "ShootPattern.flip",
+		"generated_owner": "ShootPattern.java_method_flip_2",
+		"result": result,
+		"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == [],
+	}
+
 func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
 	var total_shots := int(mount_state.get("totalShots", 0))
 	var barrel_counter := int(mount_state.get("barrelCounter", 0))
