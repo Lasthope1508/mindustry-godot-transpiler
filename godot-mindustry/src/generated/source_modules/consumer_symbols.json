@@ -12612,6 +12612,57 @@
         "test_generated_consume_optional_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_optional_state"
+    },
+    "consume_boost.method": {
+      "canonical_symbol": "source_symbol_registry.consume_boost.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "boost()",
+      "java_expr": "public Consume boost(){",
+      "godot_symbol": "source_consume_boost_result.method",
+      "godot_owner": "PortGame.source_consume_boost_state",
+      "rule": "Exact Consume.boost method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_boost_state"
+    },
+    "consume_boost.optional_call": {
+      "canonical_symbol": "source_symbol_registry.consume_boost.optional_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "boost()",
+      "java_expr": "return optional(true, true);",
+      "godot_symbol": "source_consume_boost_result.optional_call_expr",
+      "godot_owner": "PortGame.source_consume_boost_state",
+      "rule": "Exact Consume.boost delegation to optional(true, true).",
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_boost_state"
+    },
+    "consume_boost.optional_method": {
+      "canonical_symbol": "source_symbol_registry.consume_boost.optional_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "java_expr": "public Consume optional(boolean optional, boolean boost){",
+      "godot_symbol": "source_consume_boost_result.optional_method_expr",
+      "godot_owner": "PortGame.source_consume_boost_state",
+      "rule": "Exact delegated Consume.optional method boundary used by boost.",
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_boost_state"
     }
   }
 }

@@ -1737,6 +1737,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_boost_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_boost_source"))
+        report = source_parity.verify_consume_boost_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(report["checked"], {
+            "method": "public Consume boost(){",
+            "optional_call": "return optional(true, true);",
+            "optional_method": "public Consume optional(boolean optional, boolean boost){",
+            "optional_assignment": "this.optional = optional;",
+            "booster_assignment": "this.booster = boost;",
+            "optional_return": "return this;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_base_abstract_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_base_abstract_consumes_source"))
         report = source_parity.verify_consume_liquid_base_abstract_consumes_source(ROOT / "mindustry-upstream")

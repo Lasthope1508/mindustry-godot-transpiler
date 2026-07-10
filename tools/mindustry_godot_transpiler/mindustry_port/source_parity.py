@@ -5572,6 +5572,24 @@ def verify_consume_optional_source(upstream_root: Path) -> dict[str, Any]:
     }
 
 
+def verify_consume_boost_source(upstream_root: Path) -> dict[str, Any]:
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public Consume boost(){",
+        "optional_call": "return optional(true, true);",
+        "optional_method": "public Consume optional(boolean optional, boolean boost){",
+        "optional_assignment": "this.optional = optional;",
+        "booster_assignment": "this.booster = boost;",
+        "optional_return": "return this;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_abstract_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     source = (Path(upstream_root) / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")

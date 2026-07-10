@@ -13421,6 +13421,101 @@
           "rule": "True because source returns this."
         }
       }
+    },
+    "source_consume_boost_result": {
+      "canonical_schema": "source_state_schema.source_consume_boost_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_boost_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Consume boost(){",
+          "rule": "Exact method boundary."
+        },
+        "optional_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return optional(true, true);",
+          "rule": "Exact boost delegation expression."
+        },
+        "optional_method_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public Consume optional(boolean optional, boolean boost){",
+          "rule": "Exact delegated optional method boundary."
+        },
+        "optional_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.optional = optional;",
+          "rule": "Exact optional field assignment reached by optional(true, true)."
+        },
+        "booster_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.booster = boost;",
+          "rule": "Exact booster field assignment reached by optional(true, true)."
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return this;",
+          "rule": "Exact fluent self return in delegated optional method."
+        },
+        "optional_value": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "optional(true, true)",
+          "rule": "First constant argument passed by Consume.boost()."
+        },
+        "boost_value": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "optional(true, true)",
+          "rule": "Second constant argument passed by Consume.boost()."
+        },
+        "optional_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.optional = optional;",
+          "rule": "Resulting optional field value after optional(true, true)."
+        },
+        "booster_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "this.booster = boost;",
+          "rule": "Resulting booster field value after optional(true, true)."
+        },
+        "return_self": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return this;",
+          "rule": "Delegated optional method returns self."
+        }
+      }
     }
   }
 }

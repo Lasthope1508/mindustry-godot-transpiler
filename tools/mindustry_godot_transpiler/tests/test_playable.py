@@ -1363,6 +1363,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Consume.optional"', source)
         self.assertIn('"matches": result.get("optional_after", null) == canonical.get("optional_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("return_self", null) == canonical.get("return_self", null)', source)
 
+    def test_port_game_exposes_generated_consume_boost_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_boost_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_boost_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"method": "public Consume boost(){"', source)
+        self.assertIn('"optional_call_expr": "return optional(true, true);"', source)
+        self.assertIn('"optional_method_expr": "public Consume optional(boolean optional, boolean boost){"', source)
+        self.assertIn('"optional_value": true', source)
+        self.assertIn('"boost_value": true', source)
+        self.assertIn('"optional_after": true', source)
+        self.assertIn('"booster_after": true', source)
+        self.assertIn('"return_self": true', source)
+        self.assertIn("func generated_consume_boost_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")', source)
+        self.assertIn("var result = instance.java_method_boost_2([])", source)
+        self.assertIn("var canonical = source_consume_boost_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_boost_state"', source)
+        self.assertIn('"generated_owner": "Consume.boost"', source)
+        self.assertIn('"matches": result.get("optional_after", null) == canonical.get("optional_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("return_self", null) == canonical.get("return_self", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

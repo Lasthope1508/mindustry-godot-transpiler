@@ -3903,6 +3903,37 @@
       ],
       "runtime_proof": "/root/Main.source_consume_optional_state",
       "rule": "Public source helper exposes Consume.optional(boolean optional, boolean boost) field assignment and fluent return state."
+    },
+    "PortGame.source_consume_boost_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_boost_state",
+      "status": "source-backed",
+      "source_slice": "N1554",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "source_method": "boost()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "optional_call_expr",
+        "optional_method_expr",
+        "optional_assignment_expr",
+        "booster_assignment_expr",
+        "return_expr",
+        "optional_value",
+        "boost_value",
+        "optional_after",
+        "booster_after",
+        "return_self"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_boost_state",
+      "rule": "Public source helper exposes Consume.boost() delegation to optional(true, true) and resulting optional/booster state."
     }
   }
 }

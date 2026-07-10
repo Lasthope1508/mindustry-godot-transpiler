@@ -2259,6 +2259,26 @@
         "test_generated_consume_optional_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_optional_bridge_state"
+    },
+    "N1554": {
+      "canonical_ledger": "source_slice_ledger.N1554",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "boost()",
+      "godot_owner": "PortGame.source_consume_boost_state",
+      "generated_owner": "Consume.java_method_boost_2",
+      "source_symbols": [
+        "consume_boost.method",
+        "consume_boost.optional_call",
+        "consume_boost.optional_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_boost_bridge_state"
     }
   }
 }

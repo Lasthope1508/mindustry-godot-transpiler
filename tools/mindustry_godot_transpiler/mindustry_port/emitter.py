@@ -1919,6 +1919,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_optional_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume optional(boolean optional, boolean boost){", "optional_field": "public boolean optional;", "booster_field": "public boolean booster;", "optional_assignment_expr": "this.optional = optional;", "booster_assignment_expr": "this.booster = boost;", "return_expr": "return this;", "optional_value": optional_value, "boost_value": boost_value, "optional_after": optional_after, "booster_after": booster_after, "return_self": return_self}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
+        and method.get("name") == "boost"
+    ):
+        return [
+            "\tvar optional_value: bool = true",
+            "\tvar boost_value: bool = true",
+            "\tvar optional_after: bool = optional_value",
+            "\tvar booster_after: bool = boost_value",
+            "\tvar return_self: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_boost_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume boost(){", "optional_call_expr": "return optional(true, true);", "optional_method_expr": "public Consume optional(boolean optional, boolean boost){", "optional_assignment_expr": "this.optional = optional;", "booster_assignment_expr": "this.booster = boost;", "return_expr": "return this;", "optional_value": optional_value, "boost_value": boost_value, "optional_after": optional_after, "booster_after": booster_after, "return_self": return_self}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

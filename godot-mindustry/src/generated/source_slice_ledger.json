@@ -38730,6 +38730,39 @@
         "Consume.boost(), Consume.update(boolean), ignore(), build(), trigger(), update(Building), efficiency(), efficiencyMultiplier(), and display() remain separate base consumer slices."
       ],
       "rule": "Generated bridge records Consume.optional(boolean, boolean) field assignments and fluent self return without inventing live object mutation beyond explicit source state."
+    },
+    "N1554": {
+      "title": "Generated Consume boost bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_class": "Consume",
+      "java_method": "boost()",
+      "generated_owner": "Consume.java_method_boost_2",
+      "godot_owner": "PortGame.source_consume_boost_state",
+      "runtime_proof": "/root/Main.generated_consume_boost_bridge_state",
+      "exact_exprs": [
+        "public Consume boost(){",
+        "return optional(true, true);",
+        "public Consume optional(boolean optional, boolean boost){",
+        "this.optional = optional;",
+        "this.booster = boost;",
+        "return this;"
+      ],
+      "source_symbols": [
+        "consume_boost.method",
+        "consume_boost.optional_call",
+        "consume_boost.optional_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_boost_to_source_state",
+        "test_port_game_exposes_generated_consume_boost_bridge_state",
+        "test_consume_boost_matches_upstream_source",
+        "test_generated_consume_boost_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Consume.update(boolean), ignore(), build(), trigger(), update(Building), efficiency(), efficiencyMultiplier(), and display() remain separate base consumer slices."
+      ],
+      "rule": "Generated bridge records Consume.boost() delegation to optional(true, true) and fluent self return without inventing live object mutation beyond explicit source state."
     }
   },
   "version": 1
