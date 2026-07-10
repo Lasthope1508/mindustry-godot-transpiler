@@ -38599,6 +38599,40 @@
         "Concrete Stats mutation is represented by canonical stats_add_call until world meta UI binding is ported.",
         "Concrete StatValue table rendering is recorded as source-backed display expressions until Arc scene UI rendering is ported."
       ]
+    },
+    "N1547": {
+      "title": "Generated ConsumeItemList efficiencyMultiplier bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_class": "ConsumeItemList",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "generated_owner": "ConsumeItemList.java_method_efficiencyMultiplier_1",
+      "godot_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.generated_consume_item_list_efficiency_multiplier_bridge_state",
+      "exact_exprs": [
+        "public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();",
+        "public float efficiencyMultiplier(Building build){",
+        "var item = getConsumed(build);",
+        "return itemMultipliers.get(item, 1f);",
+        "public @Nullable Item getConsumed(Building build){"
+      ],
+      "source_symbols": [
+        "consume_item_list_efficiency_multiplier.method",
+        "consume_item_list_efficiency_multiplier.consumed_item",
+        "consume_item_list_efficiency_multiplier.item_multiplier_value",
+        "consume_item_list_efficiency_multiplier.efficiency_multiplier"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete getConsumed(Building) inventory scan remains represented by explicit consumed_item input from inherited ConsumeItemFilter.",
+        "Concrete ObjectFloatMap lookup storage remains represented by explicit item_multiplier_value input backed by itemMultipliers.get(item, 1f)."
+      ],
+      "rule": "Generated bridge models exact ConsumeItemList.efficiencyMultiplier map lookup from local getConsumed result to itemMultipliers.get(item, 1f)."
     }
   },
   "version": 1

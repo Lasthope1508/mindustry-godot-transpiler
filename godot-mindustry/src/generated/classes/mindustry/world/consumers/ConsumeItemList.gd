@@ -17,4 +17,7 @@ func java_method_setMultipliers_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_efficiencyMultiplier_1(_args: Array = []) -> Variant:
-	return null
+	var consumed_item: Variant = _args[0] if _args.size() > 0 else null
+	var item_multiplier_value: float = float(_args[1] if _args.size() > 1 else 1.0)
+	var efficiency_multiplier: float = item_multiplier_value
+	return {"source_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemList.java", "method": "public float efficiencyMultiplier(Building build){", "get_consumed_expr": "var item = getConsumed(build);", "map_get_expr": "itemMultipliers.get(item, 1f)", "return_expr": "return itemMultipliers.get(item, 1f);", "consumed_item": consumed_item, "item_multiplier_value": item_multiplier_value, "efficiency_multiplier": efficiency_multiplier}

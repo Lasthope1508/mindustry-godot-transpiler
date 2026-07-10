@@ -5072,6 +5072,33 @@ def verify_consume_item_filter_efficiency_multiplier_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_consume_item_list_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_list_source = "core/src/mindustry/world/consumers/ConsumeItemList.java"
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    list_text = (Path(upstream_root) / consume_item_list_source).read_text(encoding="utf-8", errors="replace")
+    filter_text = (Path(upstream_root) / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();",
+        "method": "public float efficiencyMultiplier(Building build){",
+        "get_consumed_expr": "var item = getConsumed(build);",
+        "return_expr": "return itemMultipliers.get(item, 1f);",
+        "get_consumed_method": "public @Nullable Item getConsumed(Building build){",
+    }
+    source_by_key = {
+        "field": list_text,
+        "method": list_text,
+        "get_consumed_expr": list_text,
+        "return_expr": list_text,
+        "get_consumed_method": filter_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_list_source,
+        "sources": [consume_item_filter_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

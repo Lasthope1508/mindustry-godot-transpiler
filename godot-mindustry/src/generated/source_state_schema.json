@@ -162419,6 +162419,108 @@
           "runtime_proof": "/root/Main.source_consume_liquid_display_state"
         }
       }
+    },
+    "source_consume_item_list_efficiency_multiplier_input": {
+      "status": "source-backed",
+      "source_slice": "N1547",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "consumed_item": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "var item = getConsumed(build);",
+          "rule": "Explicit local item result from getConsumed(build)."
+        },
+        "item_multiplier_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "itemMultipliers.get(item, 1f)",
+          "rule": "Explicit ObjectFloatMap lookup result using source default 1f."
+        }
+      }
+    },
+    "source_consume_item_list_efficiency_multiplier_result": {
+      "status": "source-backed",
+      "source_slice": "N1547",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "public float efficiencyMultiplier(Building build){",
+          "rule": "Exact method boundary."
+        },
+        "get_consumed_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "var item = getConsumed(build);",
+          "rule": "Exact local item assignment."
+        },
+        "map_get_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "itemMultipliers.get(item, 1f)",
+          "rule": "Exact ObjectFloatMap lookup expression."
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "return itemMultipliers.get(item, 1f);",
+          "rule": "Exact return expression."
+        },
+        "consumed_item": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_list_efficiency_multiplier_input.consumed_item",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "item_multiplier_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_list_efficiency_multiplier_input.item_multiplier_value",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "efficiency_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "return itemMultipliers.get(item, 1f);",
+          "rule": "Result equals item_multiplier_value from itemMultipliers.get(item, 1f)."
+        }
+      }
     }
   },
   "version": 1

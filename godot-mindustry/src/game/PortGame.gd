@@ -3275,6 +3275,33 @@ func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_i
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_item", null) == canonical.get("has_consumed_item", null),
 	}
 
+func source_consume_item_list_efficiency_multiplier_state(consumed_item: Variant, item_multiplier_value: float) -> Dictionary:
+	var efficiency_multiplier: float = item_multiplier_value
+	return {
+		"source_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+		"method": "public float efficiencyMultiplier(Building build){",
+		"get_consumed_expr": "var item = getConsumed(build);",
+		"map_get_expr": "itemMultipliers.get(item, 1f)",
+		"return_expr": "return itemMultipliers.get(item, 1f);",
+		"consumed_item": consumed_item,
+		"item_multiplier_value": item_multiplier_value,
+		"efficiency_multiplier": efficiency_multiplier,
+	}
+
+func generated_consume_item_list_efficiency_multiplier_bridge_state(consumed_item: Variant, item_multiplier_value: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemList.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiencyMultiplier_1([consumed_item, item_multiplier_value])
+	var canonical = source_consume_item_list_efficiency_multiplier_state(consumed_item, item_multiplier_value)
+	return {
+		"source_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+		"generated_owner": "ConsumeItemList.efficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("item_multiplier_value", null) == canonical.get("item_multiplier_value", null),
+	}
+
 func source_consume_liquid_flammable_display_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:
 	var selected_stat: String = "booster" if booster else "input"
 	var display_amount_per_second: float = amount * 60.0

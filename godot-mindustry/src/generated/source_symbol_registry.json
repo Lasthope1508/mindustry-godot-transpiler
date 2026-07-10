@@ -129384,6 +129384,70 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_display_state",
       "source_slice": "N1545"
+    },
+    "consume_item_list_efficiency_multiplier.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "public float efficiencyMultiplier(Building build){",
+      "godot_symbol": "source_consume_item_list_efficiency_multiplier_result.method",
+      "godot_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "rule": "Exact ConsumeItemList.efficiencyMultiplier method boundary."
+    },
+    "consume_item_list_efficiency_multiplier.consumed_item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "var item = getConsumed(build);",
+      "godot_symbol": "source_consume_item_list_efficiency_multiplier_input.consumed_item",
+      "godot_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "rule": "Explicit local item result from inherited getConsumed(build)."
+    },
+    "consume_item_list_efficiency_multiplier.item_multiplier_value": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "itemMultipliers.get(item, 1f)",
+      "godot_symbol": "source_consume_item_list_efficiency_multiplier_input.item_multiplier_value",
+      "godot_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "rule": "Explicit result of ObjectFloatMap itemMultipliers.get(item, 1f)."
+    },
+    "consume_item_list_efficiency_multiplier.efficiency_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "return itemMultipliers.get(item, 1f);",
+      "godot_symbol": "source_consume_item_list_efficiency_multiplier_result.efficiency_multiplier",
+      "godot_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_efficiency_multiplier_bridge_state",
+        "test_consume_item_list_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
+      "rule": "Exact return value from itemMultipliers.get(item, 1f)."
     }
   },
   "version": 1

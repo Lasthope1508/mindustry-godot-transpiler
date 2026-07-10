@@ -1704,6 +1704,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float efficiencyMultiplier(Building build){", "get_consumed_expr": "var item = getConsumed(build);", "return_expr": "return item == null ? 0f : itemEfficiencyMultiplier(item);", "item_efficiency_multiplier_expr": "itemEfficiencyMultiplier(item)", "consumed_item": consumed_item, "item_efficiency_multiplier": item_efficiency_multiplier, "has_consumed_item": has_consumed_item, "efficiency_multiplier": efficiency_multiplier}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemList.java"
+        and type_entry.get("name") == "ConsumeItemList"
+        and method.get("name") == "efficiencyMultiplier"
+    ):
+        return [
+            "\tvar consumed_item: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar item_multiplier_value: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar efficiency_multiplier: float = item_multiplier_value",
+            '\treturn {"source_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemList.java", "method": "public float efficiencyMultiplier(Building build){", "get_consumed_expr": "var item = getConsumed(build);", "map_get_expr": "itemMultipliers.get(item, 1f)", "return_expr": "return itemMultipliers.get(item, 1f);", "consumed_item": consumed_item, "item_multiplier_value": item_multiplier_value, "efficiency_multiplier": efficiency_multiplier}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
         and type_entry.get("name") == "ConsumeLiquidFlammable"
         and method.get("name") == "display"

@@ -18657,6 +18657,52 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"has_consumed_item": has_consumed_item', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_item_list_efficiency_multiplier_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemList.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.struct.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItemList extends ConsumeItemFilter{
+    public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();
+
+    @Override
+    public float efficiencyMultiplier(Building build){
+        var item = getConsumed(build);
+        return itemMultipliers.get(item, 1f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemList.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiencyMultiplier_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumed_item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var item_multiplier_value: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("var efficiency_multiplier: float = item_multiplier_value", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_list_efficiency_multiplier_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemList.java"', source_text)
+            self.assertIn('"method": "public float efficiencyMultiplier(Building build){"', source_text)
+            self.assertIn('"get_consumed_expr": "var item = getConsumed(build);"', source_text)
+            self.assertIn('"map_get_expr": "itemMultipliers.get(item, 1f)"', source_text)
+            self.assertIn('"return_expr": "return itemMultipliers.get(item, 1f);"', source_text)
+            self.assertIn('"consumed_item": consumed_item', source_text)
+            self.assertIn('"item_multiplier_value": item_multiplier_value', source_text)
+            self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

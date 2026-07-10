@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 983,
-  "registeredSourceOwnerCount": 977,
+  "totalSourceFunctions": 984,
+  "registeredSourceOwnerCount": 978,
   "exemptSourceOwnerCount": 6,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -536,6 +536,7 @@
     "PortGame.source_consume_item_flammable_constructor_state",
     "PortGame.source_consume_item_flammable_default_constructor_state",
     "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
+    "PortGame.source_consume_item_list_efficiency_multiplier_state",
     "PortGame.source_consume_item_radioactive_constructor_state",
     "PortGame.source_consume_item_radioactive_default_constructor_state",
     "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
@@ -1520,6 +1521,11 @@
     {
       "owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
       "function": "source_consume_item_filter_efficiency_multiplier_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_consume_item_list_efficiency_multiplier_state",
+      "function": "source_consume_item_list_efficiency_multiplier_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
