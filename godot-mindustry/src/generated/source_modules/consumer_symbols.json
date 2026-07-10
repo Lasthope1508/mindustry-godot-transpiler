@@ -12969,6 +12969,57 @@
         "test_generated_consume_efficiency_multiplier_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state"
+    },
+    "consume_apply.comment_text": {
+      "canonical_symbol": "source_symbol_registry.consume_apply.comment_text",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "Apply extra filters to a block.",
+      "godot_symbol": "source_consume_apply_result.comment_text",
+      "godot_owner": "PortGame.source_consume_apply_state",
+      "rule": "Exact Consume.apply(Block) Javadoc sentence above the empty base method.",
+      "tests": [
+        "test_emit_bridges_consume_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_apply_bridge_state",
+        "test_consume_apply_matches_upstream_source",
+        "test_generated_consume_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_apply_state"
+    },
+    "consume_apply.method": {
+      "canonical_symbol": "source_symbol_registry.consume_apply.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public void apply(Block block){",
+      "godot_symbol": "source_consume_apply_result.method",
+      "godot_owner": "PortGame.source_consume_apply_state",
+      "rule": "Exact base Consume.apply(Block) method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_apply_bridge_state",
+        "test_consume_apply_matches_upstream_source",
+        "test_generated_consume_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_apply_state"
+    },
+    "consume_apply.empty_body": {
+      "canonical_symbol": "source_symbol_registry.consume_apply.empty_body",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "public void apply(Block block){",
+      "godot_symbol": "source_consume_apply_result.empty_body",
+      "godot_owner": "PortGame.source_consume_apply_state",
+      "rule": "True because upstream base Consume.apply(Block) implementation has no body statements.",
+      "tests": [
+        "test_emit_bridges_consume_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_apply_bridge_state",
+        "test_consume_apply_matches_upstream_source",
+        "test_generated_consume_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_apply_state"
     }
   }
 }

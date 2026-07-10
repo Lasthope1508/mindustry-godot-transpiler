@@ -4083,6 +4083,29 @@ func generated_consume_build_bridge_state(build: Variant, table: Variant) -> Dic
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null),
 	}
 
+func source_consume_apply_state(block: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_apply_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"comment_text": "Apply extra filters to a block.",
+		"method": "public void apply(Block block){",
+		"empty_body": true,
+		"block": block,
+	}
+
+func generated_consume_apply_bridge_state(block: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block])
+	var canonical = source_consume_apply_state(block)
+	return {
+		"source_owner": "PortGame.source_consume_apply_state",
+		"generated_owner": "Consume.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("block", null) == canonical.get("block", null),
+	}
+
 func source_consume_trigger_state(build: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_trigger_state",

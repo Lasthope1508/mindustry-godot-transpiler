@@ -1776,6 +1776,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_apply_source"))
+        report = source_parity.verify_consume_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(report["checked"], {
+            "comment_text": "Apply extra filters to a block.",
+            "method": "public void apply(Block block){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_build_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_build_source"))
         report = source_parity.verify_consume_build_source(ROOT / "mindustry-upstream")
@@ -1814,6 +1825,17 @@ class SourceParityTests(unittest.TestCase):
         self.assertEqual(report["source"], "core/src/mindustry/world/consumers/Consume.java")
         self.assertEqual(report["checked"], {
             "method": "public void display(Stats stats){}",
+        })
+        self.assertEqual(report["missing"], [])
+
+    def test_consume_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_apply_source"))
+        report = source_parity.verify_consume_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(report["checked"], {
+            "comment_text": "Apply extra filters to a block.",
+            "method": "public void apply(Block block){",
         })
         self.assertEqual(report["missing"], [])
 

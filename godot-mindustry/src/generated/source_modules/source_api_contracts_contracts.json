@@ -86587,6 +86587,67 @@
         "runtime_proof": "/root/Main.source_consume_efficiency_multiplier_state",
         "rule": "Public source helper exposes Consume.efficiencyMultiplier(Building) default 1f return state."
       }
+    },
+    "PortGame.source_consume_apply_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_apply_state",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "java_expr": "Block block",
+          "schema": "source_consume_apply_input.block"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment_text",
+        "method",
+        "empty_body",
+        "block"
+      ],
+      "rule": "Public source helper exposes Consume.apply(Block) empty body state and echoes block for bridge parity.",
+      "runtime_proof": "/root/Main.source_consume_apply_state",
+      "source_method": "apply(Block block)",
+      "source_slice": "N1584",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_apply_bridge_state",
+        "test_consume_apply_matches_upstream_source",
+        "test_generated_consume_apply_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1584",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "source_method": "apply(Block block)",
+        "params": [
+          {
+            "name": "block",
+            "type": "Variant",
+            "java_expr": "Block block",
+            "schema": "source_consume_apply_input.block"
+          }
+        ],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "comment_text",
+          "method",
+          "empty_body",
+          "block"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_apply_to_source_state",
+          "test_port_game_exposes_generated_consume_apply_bridge_state",
+          "test_consume_apply_matches_upstream_source",
+          "test_generated_consume_apply_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_apply_state",
+        "rule": "Public source helper exposes Consume.apply(Block) empty body state and echoes block for bridge parity."
+      }
     }
   }
 }

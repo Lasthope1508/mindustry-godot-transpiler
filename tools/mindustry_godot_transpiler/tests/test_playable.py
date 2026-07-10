@@ -1425,6 +1425,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Consume.ignore"', source)
         self.assertIn('"matches": result.get("ignored", null) == canonical.get("ignored", null)', source)
 
+    def test_port_game_exposes_generated_consume_apply_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_apply_state(block: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_apply_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"comment_text": "Apply extra filters to a block."', source)
+        self.assertIn('"method": "public void apply(Block block){"', source)
+        self.assertIn('"empty_body": true', source)
+        self.assertIn('"block": block', source)
+        self.assertIn("func generated_consume_apply_bridge_state(block: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")', source)
+        self.assertIn("var result = instance.java_method_apply_0([block])", source)
+        self.assertIn("var canonical = source_consume_apply_state(block)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_apply_state"', source)
+        self.assertIn('"generated_owner": "Consume.apply"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("block", null) == canonical.get("block", null)', source)
+
     def test_port_game_exposes_generated_consume_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -1498,6 +1517,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_consume_display_state"', source)
         self.assertIn('"generated_owner": "Consume.display"', source)
         self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("stats", null) == canonical.get("stats", null)', source)
+
+    def test_port_game_exposes_generated_consume_apply_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_apply_state(block: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_apply_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"comment_text": "Apply extra filters to a block."', source)
+        self.assertIn('"method": "public void apply(Block block){"', source)
+        self.assertIn('"empty_body": true', source)
+        self.assertIn('"block": block', source)
+        self.assertIn("func generated_consume_apply_bridge_state(block: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")', source)
+        self.assertIn("var result = instance.java_method_apply_0([block])", source)
+        self.assertIn("var canonical = source_consume_apply_state(block)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_apply_state"', source)
+        self.assertIn('"generated_owner": "Consume.apply"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("block", null) == canonical.get("block", null)', source)
 
     def test_port_game_exposes_generated_consume_efficiency_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

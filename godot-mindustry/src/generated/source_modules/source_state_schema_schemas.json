@@ -324543,6 +324543,158 @@
           }
         }
       }
+    },
+    "source_consume_apply_input": {
+      "canonical_schema": "source_state_schema.source_consume_apply_input",
+      "keys": {
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "Block block",
+          "rule": "Java parameter echoed for bridge parity."
+        }
+      },
+      "schema": {
+        "status": "source-backed",
+        "source_slice": "N1584",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "runtime_proof": "/root/Main.source_consume_apply_state",
+        "tests": [
+          "test_emit_bridges_consume_apply_to_source_state",
+          "test_port_game_exposes_generated_consume_apply_bridge_state",
+          "test_consume_apply_matches_upstream_source",
+          "test_generated_consume_apply_slice_is_registered_with_source_backing"
+        ],
+        "keys": {
+          "block": {
+            "type": "Variant",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "java_expr": "Block block",
+            "rule": "Java parameter echoed for bridge parity."
+          }
+        }
+      }
+    },
+    "source_consume_apply_result": {
+      "canonical_schema": "source_state_schema.source_consume_apply_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_apply_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "comment_text": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "Apply extra filters to a block.",
+          "source_symbols": [
+            "consume_apply.comment_text"
+          ],
+          "rule": "Exact Javadoc sentence for Consume.apply(Block)."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public void apply(Block block){",
+          "source_symbols": [
+            "consume_apply.method"
+          ],
+          "rule": "Exact empty method boundary."
+        },
+        "empty_body": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public void apply(Block block){",
+          "source_symbols": [
+            "consume_apply.empty_body"
+          ],
+          "rule": "True because source method body is empty."
+        },
+        "block": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "alias_of": "source_consume_apply_input.block",
+          "rule": "Echoed block argument for bridge parity."
+        }
+      },
+      "schema": {
+        "status": "source-backed",
+        "source_slice": "N1584",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "runtime_proof": "/root/Main.source_consume_apply_state",
+        "tests": [
+          "test_emit_bridges_consume_apply_to_source_state",
+          "test_port_game_exposes_generated_consume_apply_bridge_state",
+          "test_consume_apply_matches_upstream_source",
+          "test_generated_consume_apply_slice_is_registered_with_source_backing"
+        ],
+        "keys": {
+          "source_owner": {
+            "type": "String",
+            "status": "generated",
+            "java_expr": "PortGame.source_consume_apply_state",
+            "rule": "Canonical Godot owner label for this source helper."
+          },
+          "source": {
+            "type": "String",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+            "rule": "Exact upstream source path."
+          },
+          "comment_text": {
+            "type": "String",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "java_expr": "Apply extra filters to a block.",
+            "source_symbols": [
+              "consume_apply.comment_text"
+            ],
+            "rule": "Exact Javadoc sentence for Consume.apply(Block)."
+          },
+          "method": {
+            "type": "String",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "java_expr": "public void apply(Block block){",
+            "source_symbols": [
+              "consume_apply.method"
+            ],
+            "rule": "Exact empty method boundary."
+          },
+          "empty_body": {
+            "type": "bool",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "java_expr": "public void apply(Block block){",
+            "source_symbols": [
+              "consume_apply.empty_body"
+            ],
+            "rule": "True because source method body is empty."
+          },
+          "block": {
+            "type": "Variant",
+            "status": "source-backed",
+            "java_source": "core/src/mindustry/world/consumers/Consume.java",
+            "alias_of": "source_consume_apply_input.block",
+            "rule": "Echoed block argument for bridge parity."
+          }
+        }
+      }
     }
   }
 }

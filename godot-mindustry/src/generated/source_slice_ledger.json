@@ -38988,6 +38988,36 @@
         "Subclass display(Stats) overrides remain separate source-backed slices."
       ],
       "rule": "Generated bridge records Consume.display(Stats) empty base implementation without inventing stats table mutation."
+    },
+    "N1584": {
+      "title": "Generated Consume apply empty body bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_class": "Consume",
+      "java_method": "apply(Block block)",
+      "generated_owner": "Consume.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_apply_state",
+      "runtime_proof": "/root/Main.generated_consume_apply_bridge_state",
+      "exact_exprs": [
+        "Apply extra filters to a block.",
+        "public void apply(Block block){"
+      ],
+      "source_symbols": [
+        "consume_apply.comment_text",
+        "consume_apply.method",
+        "consume_apply.empty_body"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_apply_bridge_state",
+        "test_consume_apply_matches_upstream_source",
+        "test_generated_consume_apply_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Subclass apply(Block) overrides remain separate source-backed slices.",
+        "Concrete Block filter mutation is absent from this base empty method."
+      ],
+      "rule": "Generated bridge records Consume.apply(Block) empty base implementation without inventing Block mutation."
     }
   },
   "version": 1

@@ -5673,6 +5673,20 @@ def verify_consume_display_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment_text": "Apply extra filters to a block.",
+        "method": "public void apply(Block block){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_efficiency_source(upstream_root: Path) -> dict[str, Any]:
     consume_source = "core/src/mindustry/world/consumers/Consume.java"
     source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")

@@ -14,7 +14,9 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_apply_0(_args: Array = []) -> Variant:
-	return null
+	var block_arg: Variant = _args[0] if _args.size() > 0 else null
+	var empty_body: bool = true
+	return {"source_owner": "PortGame.source_consume_apply_state", "source": "core/src/mindustry/world/consumers/Consume.java", "comment_text": "Apply extra filters to a block.", "method": "public void apply(Block block){", "empty_body": empty_body, "block": block_arg}
 
 func java_method_optional_1(_args: Array = []) -> Variant:
 	var optional_value: bool = bool(_args[0] if _args.size() > 0 else false)

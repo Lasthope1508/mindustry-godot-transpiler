@@ -1908,6 +1908,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
         and type_entry.get("name") == "Consume"
+        and method.get("name") == "apply"
+    ):
+        return [
+            "\tvar block_arg: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar empty_body: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_apply_state", "source": "core/src/mindustry/world/consumers/Consume.java", "comment_text": "Apply extra filters to a block.", "method": "public void apply(Block block){", "empty_body": empty_body, "block": block_arg}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
         and method.get("name") == "optional"
     ):
         return [
