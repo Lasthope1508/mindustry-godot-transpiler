@@ -13070,6 +13070,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"consumer_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_modules_state(module_name: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.ssot_modules_state(module_name)', source)
+        self.assertIn('func helper_state_schema_state(schema_name: String = "") -> Dictionary:', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)', source)
 
     def test_port_game_loads_playable_content_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

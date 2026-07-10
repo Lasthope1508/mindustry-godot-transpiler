@@ -269,6 +269,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "state_schema")
         self.assertEqual(consumer_report["canonical_mirror"]["checked"], len(consumer_schema))
 
+    def test_source_ssot_helper_state_schema_shard_declares_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        helper_entry = manifest["modules"]["helper_state_schema"]
+
+        self.assertEqual(helper_entry["canonical_module"], "state_schema")
+        self.assertEqual(helper_entry["canonical_reference_key"], "canonical_schema")
+        self.assertEqual(helper_entry["canonical_reference_prefix"], "source_state_schema.")
+        self.assertEqual(helper_entry["root_key"], "schemas")
+        self.assertEqual(helper_entry["mirror_fields"], ["keys"])
+        self.assertIn("not selected by domain API contracts", helper_entry["rule"])
+
+        helper_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "helper_state_schema")["schemas"]
+        canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+        domain_schema_names = set()
+        for owner, contract in sorted(canonical_contracts.items()):
+            for param in contract.get("params", []):
+                schema_name = str(param["schema"]).split(".", 1)[0]
+                if schema_name in canonical_schema:
+                    domain_schema_names.add(schema_name)
+            source_name = owner.split(".")[-1]
+            if source_name.endswith("_state"):
+                result_schema_name = source_name[:-len("_state")] + "_result"
+                if result_schema_name in canonical_schema:
+                    domain_schema_names.add(result_schema_name)
+        sharded_schema_names = set()
+        for module_name in source_ssot.registered_module_names(ROOT / "godot-mindustry"):
+            if module_name.endswith("_state_schema") and module_name != "helper_state_schema":
+                sharded_schema_names.update(source_ssot.load_registered_json(ROOT / "godot-mindustry", module_name)["schemas"].keys())
+        expected_schema_names = set(canonical_schema) - domain_schema_names - sharded_schema_names
+
+        self.assertEqual(set(helper_schema), expected_schema_names)
+        self.assertEqual(len(helper_schema), 181)
+        self.assertEqual(len(domain_schema_names & set(helper_schema)), 0)
+        self.assertIn("part_params", helper_schema)
+        self.assertIn("source_absin_result", helper_schema)
+        for schema_name in sorted(expected_schema_names):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(helper_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
+                for field in helper_entry["mirror_fields"]:
+                    self.assertEqual(helper_schema[schema_name][field], canonical_schema[schema_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        helper_report = [entry for entry in report["modules"] if entry["name"] == "helper_state_schema"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(helper_report["canonical_mirror"]["checked"], len(helper_schema))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

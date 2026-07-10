@@ -176,6 +176,9 @@ func source_api_contract_state(contract_owner: String = "") -> Dictionary:
 func source_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 
+func helper_state_schema_state(schema_name: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)
+
 func ssot_modules_state(module_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.ssot_modules_state(module_name)
 

@@ -1298,6 +1298,19 @@
         "tests",
         "runtime_proof"
       ]
+    },
+    "helper_state_schema": {
+      "path": "src/generated/source_modules/helper_state_schema.json",
+      "root_key": "schemas",
+      "label": "schemaName",
+      "status": "active",
+      "rule": "Extension shard for source state helper schemas not selected by domain API contracts or contract result schemas; canonical schema names and keys remain mirrored through source_state_schema before use.",
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "mirror_fields": [
+        "keys"
+      ]
     }
   },
   "policy": {
