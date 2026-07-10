@@ -4060,6 +4060,28 @@ func generated_consume_ignore_bridge_state() -> Dictionary:
 		"matches": result.get("ignored", null) == canonical.get("ignored", null),
 	}
 
+func source_consume_efficiency_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_efficiency_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public float efficiency(Building build){",
+		"return_expr": "return 1f;",
+		"efficiency": 1.0,
+	}
+
+func generated_consume_efficiency_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_8([])
+	var canonical = source_consume_efficiency_state()
+	return {
+		"source_owner": "PortGame.source_consume_efficiency_state",
+		"generated_owner": "Consume.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null),
+	}
+
 func source_consume_liquid_base_constructor_state(amount: float) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquid_base_constructor_state",

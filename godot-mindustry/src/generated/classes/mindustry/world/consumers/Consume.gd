@@ -52,7 +52,8 @@ func java_method_update_7(_args: Array = []) -> Variant:
 	return null
 
 func java_method_efficiency_8(_args: Array = []) -> Variant:
-	return null
+	var efficiency: float = 1.0
+	return {"source_owner": "PortGame.source_consume_efficiency_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public float efficiency(Building build){", "return_expr": "return 1f;", "efficiency": efficiency}
 
 func java_method_efficiencyMultiplier_9(_args: Array = []) -> Variant:
 	return null

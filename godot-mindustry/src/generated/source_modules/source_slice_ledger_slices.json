@@ -73808,6 +73808,57 @@
         ],
         "rule": "Generated bridge records Consume.ignore() default false result without inventing subclass ignore behavior."
       }
+    },
+    "N1578": {
+      "canonical_slice": "source_slice_ledger.N1578",
+      "exact_exprs": [
+        "public float efficiency(Building build){",
+        "return 1f;"
+      ],
+      "godot_owner": "PortGame.source_consume_efficiency_state",
+      "java_class": "Consume",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.generated_consume_efficiency_bridge_state",
+      "source_symbols": [
+        "consume_efficiency.method",
+        "consume_efficiency.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+        "test_consume_efficiency_matches_upstream_source",
+        "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated Consume efficiency bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_class": "Consume",
+        "java_method": "efficiency(Building build)",
+        "generated_owner": "Consume.java_method_efficiency_8",
+        "godot_owner": "PortGame.source_consume_efficiency_state",
+        "runtime_proof": "/root/Main.generated_consume_efficiency_bridge_state",
+        "exact_exprs": [
+          "public float efficiency(Building build){",
+          "return 1f;"
+        ],
+        "source_symbols": [
+          "consume_efficiency.method",
+          "consume_efficiency.return"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_efficiency_to_source_state",
+          "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+          "test_consume_efficiency_matches_upstream_source",
+          "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "Consume.build(), trigger(), update(Building), efficiencyMultiplier(), and display() remain separate base consumer slices."
+        ],
+        "rule": "Generated bridge records Consume.efficiency(Building) default 1f result without inventing subclass efficiency behavior."
+      }
     }
   }
 }

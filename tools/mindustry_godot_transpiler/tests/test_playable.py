@@ -1425,6 +1425,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Consume.ignore"', source)
         self.assertIn('"matches": result.get("ignored", null) == canonical.get("ignored", null)', source)
 
+    def test_port_game_exposes_generated_consume_efficiency_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_efficiency_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_efficiency_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"method": "public float efficiency(Building build){"', source)
+        self.assertIn('"return_expr": "return 1f;"', source)
+        self.assertIn('"efficiency": 1.0', source)
+        self.assertIn("func generated_consume_efficiency_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")', source)
+        self.assertIn("var result = instance.java_method_efficiency_8([])", source)
+        self.assertIn("var canonical = source_consume_efficiency_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_efficiency_state"', source)
+        self.assertIn('"generated_owner": "Consume.efficiency"', source)
+        self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

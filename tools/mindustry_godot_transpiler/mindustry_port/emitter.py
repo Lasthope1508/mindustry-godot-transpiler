@@ -1954,6 +1954,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_ignore_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public boolean ignore(){", "return_expr": "return false;", "ignored": ignored}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
+        and method.get("name") == "efficiency"
+    ):
+        return [
+            "\tvar efficiency: float = 1.0",
+            '\treturn {"source_owner": "PortGame.source_consume_efficiency_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public float efficiency(Building build){", "return_expr": "return 1f;", "efficiency": efficiency}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

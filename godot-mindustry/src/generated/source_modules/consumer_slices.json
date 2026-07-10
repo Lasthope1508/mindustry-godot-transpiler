@@ -2318,6 +2318,25 @@
         "test_generated_consume_ignore_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_ignore_bridge_state"
+    },
+    "N1578": {
+      "canonical_ledger": "source_slice_ledger.N1578",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_efficiency_state",
+      "generated_owner": "Consume.java_method_efficiency_8",
+      "source_symbols": [
+        "consume_efficiency.method",
+        "consume_efficiency.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+        "test_consume_efficiency_matches_upstream_source",
+        "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_efficiency_bridge_state"
     }
   }
 }

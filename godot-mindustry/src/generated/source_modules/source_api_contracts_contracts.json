@@ -86245,6 +86245,51 @@
         "runtime_proof": "/root/Main.source_consume_ignore_state",
         "rule": "Public source helper exposes Consume.ignore() default false return state."
       }
+    },
+    "PortGame.source_consume_efficiency_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_efficiency_state",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "efficiency"
+      ],
+      "rule": "Public source helper exposes Consume.efficiency(Building) default 1f return state.",
+      "runtime_proof": "/root/Main.source_consume_efficiency_state",
+      "source_method": "efficiency(Building build)",
+      "source_slice": "N1578",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+        "test_consume_efficiency_matches_upstream_source",
+        "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1578",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "source_method": "efficiency(Building build)",
+        "params": [],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "method",
+          "return_expr",
+          "efficiency"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_efficiency_to_source_state",
+          "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+          "test_consume_efficiency_matches_upstream_source",
+          "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_efficiency_state",
+        "rule": "Public source helper exposes Consume.efficiency(Building) default 1f return state."
+      }
     }
   }
 }

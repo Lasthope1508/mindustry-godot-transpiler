@@ -12748,6 +12748,40 @@
         "test_generated_consume_ignore_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_ignore_state"
+    },
+    "consume_efficiency.method": {
+      "canonical_symbol": "source_symbol_registry.consume_efficiency.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "public float efficiency(Building build){",
+      "godot_symbol": "source_consume_efficiency_result.method",
+      "godot_owner": "PortGame.source_consume_efficiency_state",
+      "rule": "Exact method boundary for Consume.efficiency(Building).",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+        "test_consume_efficiency_matches_upstream_source",
+        "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_efficiency_state"
+    },
+    "consume_efficiency.return": {
+      "canonical_symbol": "source_symbol_registry.consume_efficiency.return",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "efficiency(Building build)",
+      "java_expr": "return 1f;",
+      "godot_symbol": "source_consume_efficiency_result.efficiency",
+      "godot_owner": "PortGame.source_consume_efficiency_state",
+      "rule": "Exact default 1f return in Consume.efficiency(Building).",
+      "tests": [
+        "test_emit_bridges_consume_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_efficiency_bridge_state",
+        "test_consume_efficiency_matches_upstream_source",
+        "test_generated_consume_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_efficiency_state"
     }
   }
 }
