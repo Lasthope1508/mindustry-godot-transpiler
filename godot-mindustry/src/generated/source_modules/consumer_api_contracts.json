@@ -3485,6 +3485,49 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state",
       "rule": "Public runtime contract for ConsumeLiquidBase(float amount) constructor field assignment."
+    },
+    "PortGame.source_consume_liquid_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1541",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_constructor_input.liquid",
+          "java_expr": "Liquid liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_constructor_input.amount",
+          "java_expr": "float amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "liquid_field",
+        "super_call_expr",
+        "base_constructor_expr",
+        "amount_assignment_expr",
+        "liquid_assignment_expr",
+        "liquid",
+        "amount",
+        "amount_after",
+        "liquid_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_constructor_bridge_state",
+        "test_consume_liquid_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_constructor_state",
+      "rule": "Public runtime contract for ConsumeLiquid(Liquid liquid, float amount) constructor field assignment and super amount assignment."
     }
   }
 }

@@ -6278,6 +6278,22 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_consume_liquid_base_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "constructor": "public ConsumeLiquidBase(float amount){", "amount_field": "public float amount;", "assignment_expr": "this.amount = amount;", "amount": amount, "amount_after": amount_after}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 2:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquid_{index}(_args: Array = []) -> Variant:",
+                    "\tvar liquid: Variant = _args[0] if _args.size() > 0 else null",
+                    "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                    "\tvar amount_after: float = amount",
+                    "\tvar liquid_after: Variant = liquid",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "liquid": liquid, "amount": amount, "amount_after": amount_after, "liquid_after": liquid_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
     ):

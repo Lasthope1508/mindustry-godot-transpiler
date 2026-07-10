@@ -5521,6 +5521,37 @@ def verify_consume_liquid_base_constructor_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_consume_liquid_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    consume_liquid_text = (Path(upstream_root) / consume_liquid_source).read_text(encoding="utf-8", errors="replace")
+    consume_liquid_base_text = (Path(upstream_root) / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquid_field": "public final Liquid liquid;",
+        "constructor": "public ConsumeLiquid(Liquid liquid, float amount){",
+        "super_call": "super(amount);",
+        "liquid_assignment": "this.liquid = liquid;",
+        "base_constructor": "public ConsumeLiquidBase(float amount){",
+        "amount_assignment": "this.amount = amount;",
+        "amount_field": "public float amount;",
+    }
+    source_by_key = {
+        "liquid_field": consume_liquid_text,
+        "constructor": consume_liquid_text,
+        "super_call": consume_liquid_text,
+        "liquid_assignment": consume_liquid_text,
+        "base_constructor": consume_liquid_base_text,
+        "amount_assignment": consume_liquid_base_text,
+        "amount_field": consume_liquid_base_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_source,
+        "sources": [consume_liquid_base_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
     block_source = "core/src/mindustry/world/Block.java"
