@@ -122,6 +122,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             report = source_ssot.validate_json_modules(godot_root)
             self.assertEqual(report["errors"], [])
 
+    def test_source_ssot_catalog_reports_unregistered_generated_root_json(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text('{"version": 1, "modules": {}}\n', encoding="utf-8")
+            extra_path = godot_root / "src/generated/new_runtime_index.json"
+            extra_path.write_text('{"version": 1}\n', encoding="utf-8")
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("new_runtime_index: unregistered generated JSON file src/generated/new_runtime_index.json", report["errors"])
+
+    def test_source_ssot_catalog_reports_unregistered_source_module_json(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text('{"version": 1, "modules": {}}\n', encoding="utf-8")
+            orphan_path = godot_root / "src/generated/source_modules/orphan_symbols.json"
+            orphan_path.parent.mkdir(parents=True, exist_ok=True)
+            orphan_path.write_text('{"version": 1, "symbols": {}}\n', encoding="utf-8")
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("orphan_symbols: unregistered generated JSON file src/generated/source_modules/orphan_symbols.json", report["errors"])
+
     def test_source_ssot_catalog_validates_extension_canonical_mirror_fields(self):
         import importlib
 

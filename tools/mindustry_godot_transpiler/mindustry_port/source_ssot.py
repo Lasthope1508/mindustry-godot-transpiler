@@ -392,14 +392,39 @@ def _manifest_extension_modules(godot_root: Path, errors: list[str]) -> list[Sou
     return result
 
 
+def _validate_generated_json_coverage(
+    godot_root: Path,
+    extension_entries: list[SourceSsotModule],
+    errors: list[str],
+) -> None:
+    registered_paths = {
+        entry.relative_path.as_posix()
+        for entry in [*MODULES, EXTENSION_MANIFEST_MODULE, *extension_entries]
+    }
+    generated_root = godot_root / "src/generated"
+    source_modules_root = generated_root / "source_modules"
+    discovered_paths: list[Path] = []
+    if generated_root.exists():
+        discovered_paths.extend(sorted(generated_root.glob("*.json")))
+    if source_modules_root.exists():
+        discovered_paths.extend(sorted(source_modules_root.glob("*.json")))
+    for json_path in discovered_paths:
+        relative_path = json_path.relative_to(godot_root).as_posix()
+        if relative_path in registered_paths:
+            continue
+        module_name = json_path.stem
+        errors.append(f"{module_name}: unregistered generated JSON file {relative_path}")
+
 def validate_json_modules(godot_root: Path) -> dict[str, Any]:
     godot_root = Path(godot_root)
     errors: list[str] = []
     module_reports: list[dict[str, Any]] = []
     for entry in [*MODULES, EXTENSION_MANIFEST_MODULE]:
         module_reports.append(_validate_module_file(godot_root, entry, errors))
-    for entry in _manifest_extension_modules(godot_root, errors):
+    extension_entries = _manifest_extension_modules(godot_root, errors)
+    for entry in extension_entries:
         module_reports.append(_validate_module_file(godot_root, entry, errors))
+    _validate_generated_json_coverage(godot_root, extension_entries, errors)
     return {
         "module_count": len(module_reports),
         "modules": module_reports,
