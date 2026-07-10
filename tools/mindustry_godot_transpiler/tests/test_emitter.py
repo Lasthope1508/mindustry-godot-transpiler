@@ -17954,6 +17954,50 @@ public class ConsumeItems extends Consume{
             self.assertIn('"items_field": "public final ItemStack[] items;"', source_text)
             self.assertIn('"items_after": items_after', source_text)
 
+    def test_emit_bridges_consume_liquids_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+
+public class ConsumeLiquids extends Consume{
+    public final LiquidStack[] liquids;
+
+    public ConsumeLiquids(LiquidStack[] liquids){
+        this.liquids = liquids;
+    }
+
+    /** Mods. */
+    protected ConsumeLiquids(){
+        this(LiquidStack.empty);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquids_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid_stacks: Array = []", source_text)
+            self.assertIn("var liquids_after: Array = liquid_stacks.duplicate(true)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
+            self.assertIn('"constructor": "protected ConsumeLiquids(){"', source_text)
+            self.assertIn('"default_call_expr": "this(LiquidStack.empty);"', source_text)
+            self.assertIn('"liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};"', source_text)
+            self.assertIn('"liquids_field": "public final LiquidStack[] liquids;"', source_text)
+            self.assertIn('"liquids_after": liquids_after', source_text)
+
     def test_emit_bridges_consume_item_filter_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

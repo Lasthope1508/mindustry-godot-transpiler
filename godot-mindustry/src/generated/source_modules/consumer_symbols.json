@@ -10963,6 +10963,74 @@
         "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
+    },
+    "consume_liquids_default_constructor.liquids_field": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_default_constructor.liquids_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids()",
+      "java_expr": "public final LiquidStack[] liquids;",
+      "godot_symbol": "source_consume_liquids_default_constructor_result.liquids_field",
+      "godot_owner": "PortGame.source_consume_liquids_default_constructor_state",
+      "rule": "Canonical ConsumeLiquids liquids field used by default constructor delegation.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state"
+    },
+    "consume_liquids_default_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_default_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids()",
+      "java_expr": "protected ConsumeLiquids(){",
+      "godot_symbol": "source_consume_liquids_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquids_default_constructor_state",
+      "rule": "Canonical protected ConsumeLiquids no-arg constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state"
+    },
+    "consume_liquids_default_constructor.default_call": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_default_constructor.default_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids()",
+      "java_expr": "this(LiquidStack.empty);",
+      "godot_symbol": "source_consume_liquids_default_constructor_result.liquids_after",
+      "godot_owner": "PortGame.source_consume_liquids_default_constructor_state",
+      "rule": "Default ConsumeLiquids constructor delegates to LiquidStack.empty.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state"
+    },
+    "consume_liquids_default_constructor.liquid_stack_empty": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_default_constructor.liquid_stack_empty",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "java_method": "LiquidStack.empty",
+      "java_expr": "public static final LiquidStack[] empty = {};",
+      "godot_symbol": "source_consume_liquids_default_constructor_result.liquid_stacks",
+      "godot_owner": "PortGame.source_consume_liquids_default_constructor_state",
+      "rule": "Canonical empty LiquidStack array used by ConsumeLiquids default constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state"
     }
   }
 }

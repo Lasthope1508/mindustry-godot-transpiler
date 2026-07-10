@@ -11383,6 +11383,57 @@
           "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
         }
       }
+    },
+    "source_consume_liquids_default_constructor_result": {
+      "canonical_schema": "source_state_schema.source_consume_liquids_default_constructor_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_liquids_default_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquids.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "java_expr": "protected ConsumeLiquids(){"
+        },
+        "default_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "java_expr": "this(LiquidStack.empty);"
+        },
+        "liquid_stack_empty_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "java_expr": "public static final LiquidStack[] empty = {};"
+        },
+        "liquids_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "java_expr": "public final LiquidStack[] liquids;"
+        },
+        "liquid_stacks": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "java_expr": "public static final LiquidStack[] empty = {};"
+        },
+        "liquids_after": {
+          "type": "Array[Dictionary]",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "java_expr": "this(LiquidStack.empty);"
+        }
+      }
     }
   }
 }

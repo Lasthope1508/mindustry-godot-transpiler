@@ -1461,6 +1461,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquids.constructor"', source)
         self.assertIn('"matches": result.get("liquids_after", []) == canonical.get("liquids_after", [])', source)
 
+    def test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquids_default_constructor_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_default_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source)
+        self.assertIn('"constructor": "protected ConsumeLiquids(){"', source)
+        self.assertIn('"default_call_expr": "this(LiquidStack.empty);"', source)
+        self.assertIn('"liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};"', source)
+        self.assertIn('"liquids_after": []', source)
+        self.assertIn("func generated_consume_liquids_default_constructor_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeLiquids_1([])", source)
+        self.assertIn("var canonical = source_consume_liquids_default_constructor_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_default_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquids.default_constructor"', source)
+        self.assertIn('"matches": result.get("liquids_after", []) == canonical.get("liquids_after", [])', source)
+
     def test_port_game_exposes_generated_consume_liquids_dynamic_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

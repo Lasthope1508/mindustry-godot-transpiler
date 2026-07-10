@@ -4460,6 +4460,32 @@ def verify_consume_items_default_constructor_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_consume_liquids_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_source = "core/src/mindustry/world/consumers/ConsumeLiquids.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquids_source).read_text(encoding="utf-8", errors="replace")
+    liquid_stack = (upstream_root / liquid_stack_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final LiquidStack[] liquids;",
+        "constructor": "protected ConsumeLiquids(){",
+        "default_call": "this(LiquidStack.empty);",
+        "liquid_stack_empty": "public static final LiquidStack[] empty = {};",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "constructor": source,
+        "default_call": source,
+        "liquid_stack_empty": liquid_stack,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_source,
+        "sources": [liquid_stack_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_filter_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
     block_source = "core/src/mindustry/world/Block.java"

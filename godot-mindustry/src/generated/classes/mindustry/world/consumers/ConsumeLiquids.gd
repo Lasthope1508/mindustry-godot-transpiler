@@ -87,3 +87,8 @@ func java_constructor_ConsumeLiquids_0(_args: Array = []) -> Variant:
 	var liquid_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []
 	var liquids_after: Array = liquid_stacks.duplicate(true)
 	return {"source_owner": "PortGame.source_consume_liquids_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "constructor": "public ConsumeLiquids(LiquidStack[] liquids){", "assignment_expr": "this.liquids = liquids;", "liquids_field": "public final LiquidStack[] liquids;", "liquid_stacks": liquid_stacks, "liquids_after": liquids_after}
+
+func java_constructor_ConsumeLiquids_1(_args: Array = []) -> Variant:
+	var liquid_stacks: Array = []
+	var liquids_after: Array = liquid_stacks.duplicate(true)
+	return {"source_owner": "PortGame.source_consume_liquids_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "constructor": "protected ConsumeLiquids(){", "default_call_expr": "this(LiquidStack.empty);", "liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};", "liquids_field": "public final LiquidStack[] liquids;", "liquid_stacks": liquid_stacks, "liquids_after": liquids_after}

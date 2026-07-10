@@ -42080,6 +42080,31 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_constructor_state",
       "rule": "Public runtime contract for ConsumeLiquids(LiquidStack[] liquids) constructor field assignment."
+    },
+    "PortGame.source_consume_liquids_default_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1539",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "ConsumeLiquids()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "liquid_stack_empty_expr",
+        "liquids_field",
+        "liquid_stacks",
+        "liquids_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state",
+      "rule": "Source state mirrors ConsumeLiquids protected default constructor delegation to LiquidStack.empty."
     }
   },
   "policy": {

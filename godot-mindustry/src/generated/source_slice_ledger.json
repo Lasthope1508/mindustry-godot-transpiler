@@ -38296,6 +38296,35 @@
       "deferred_exprs": [
         "Concrete LiquidStack[] object identity is represented by explicit liquid_stacks until generated LiquidStack object references are wired."
       ]
+    },
+    "N1539": {
+      "title": "Generated ConsumeLiquids default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquids",
+      "java_method": "ConsumeLiquids()",
+      "generated_owner": "ConsumeLiquids.java_constructor_ConsumeLiquids_1",
+      "godot_owner": "PortGame.source_consume_liquids_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_liquids_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact protected ConsumeLiquids default constructor delegation to LiquidStack.empty without inventing live LiquidStack objects.",
+      "exact_exprs": [
+        "public final LiquidStack[] liquids;",
+        "protected ConsumeLiquids(){",
+        "this(LiquidStack.empty);",
+        "public static final LiquidStack[] empty = {};"
+      ],
+      "source_symbols": [
+        "consume_liquids_default_constructor.liquids_field",
+        "consume_liquids_default_constructor.constructor",
+        "consume_liquids_default_constructor.default_call",
+        "consume_liquids_default_constructor.liquid_stack_empty"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_default_constructor_bridge_state",
+        "test_consume_liquids_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -3927,6 +3927,31 @@ func generated_consume_liquids_constructor_bridge_state(liquid_stacks: Array) ->
 		"matches": result.get("liquids_after", []) == canonical.get("liquids_after", []),
 	}
 
+func source_consume_liquids_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquids_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+		"constructor": "protected ConsumeLiquids(){",
+		"default_call_expr": "this(LiquidStack.empty);",
+		"liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};",
+		"liquids_field": "public final LiquidStack[] liquids;",
+		"liquid_stacks": [],
+		"liquids_after": [],
+	}
+
+func generated_consume_liquids_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquids_1([])
+	var canonical = source_consume_liquids_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_liquids_default_constructor_state",
+		"generated_owner": "ConsumeLiquids.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("liquids_after", []) == canonical.get("liquids_after", []),
+	}
+
 func source_consume_liquids_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
 	var liquid_filter_after := liquid_filter_before.duplicate()
 	for liquid_id in liquid_ids:

@@ -6321,6 +6321,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "\tvar liquids_after: Array = liquid_stacks.duplicate(true)",
                     '\treturn {"source_owner": "PortGame.source_consume_liquids_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "constructor": "public ConsumeLiquids(LiquidStack[] liquids){", "assignment_expr": "this.liquids = liquids;", "liquids_field": "public final LiquidStack[] liquids;", "liquid_stacks": liquid_stacks, "liquids_after": liquids_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquids_{index}(_args: Array = []) -> Variant:",
+                    "\tvar liquid_stacks: Array = []",
+                    "\tvar liquids_after: Array = liquid_stacks.duplicate(true)",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquids_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "constructor": "protected ConsumeLiquids(){", "default_call_expr": "this(LiquidStack.empty);", "liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};", "liquids_field": "public final LiquidStack[] liquids;", "liquid_stacks": liquid_stacks, "liquids_after": liquids_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
         and type_entry.get("name") == "ConsumeItemEfficiency"
