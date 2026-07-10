@@ -13224,6 +13224,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry', catalog_source)
         self.assertNotIn("CONTENT_REGISTRY_PATH", source)
 
+    def test_port_game_exposes_content_registry_items_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_items.json").exists())
+        self.assertIn('"content_registry_items": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func content_registry_item_state(item_id: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_items", item_id)', source)
+
     def test_port_game_exposes_emitted_classes_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -206,6 +206,9 @@ func ast_manifest_failure_state(file_path: String = "") -> Dictionary:
 func content_registry_state() -> Dictionary:
 	return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])
 
+func content_registry_item_state(item_id: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("content_registry_items", item_id)
+
 func emitted_classes_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
 

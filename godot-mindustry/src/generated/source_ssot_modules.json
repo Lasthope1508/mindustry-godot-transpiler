@@ -1385,6 +1385,26 @@
         "path"
       ]
     },
+    "content_registry_items": {
+      "path": "src/generated/source_modules/content_registry_items.json",
+      "root_key": "items",
+      "label": "id",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json items; canonical item metadata remains mirrored from content_registry.items before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "items",
+      "canonical_key_field": "id",
+      "canonical_reference_key": "canonical_item",
+      "canonical_reference_prefix": "content_registry.items.",
+      "mirror_fields": [
+        "color",
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

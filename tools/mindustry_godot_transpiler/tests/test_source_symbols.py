@@ -579,6 +579,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(failure_report["canonical_mirror"]["checked"], len(ast_failures))
 
+    def test_source_ssot_content_registry_items_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        item_entry = manifest["modules"]["content_registry_items"]
+
+        self.assertEqual(item_entry["canonical_module"], "content_registry")
+        self.assertEqual(item_entry["canonical_collection_key"], "items")
+        self.assertEqual(item_entry["canonical_key_field"], "id")
+        self.assertEqual(item_entry["canonical_reference_key"], "canonical_item")
+        self.assertEqual(item_entry["canonical_reference_prefix"], "content_registry.items.")
+        self.assertEqual(item_entry["root_key"], "items")
+        self.assertEqual(item_entry["mirror_fields"], ["color", "field", "id", "implementation", "properties", "texture"])
+        self.assertIn("content_registry.json items", item_entry["rule"])
+
+        item_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry_items")["items"]
+        canonical_registry = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry")
+        canonical_items = {entry["id"]: entry for entry in canonical_registry["items"]}
+
+        self.assertEqual(set(item_files), set(canonical_items))
+        self.assertEqual(len(item_files), canonical_registry["counts"]["items"])
+        self.assertIn("copper", item_files)
+        self.assertIn("dormant-cyst", item_files)
+        for item_id, canonical_entry in sorted(canonical_items.items()):
+            with self.subTest(item_id=item_id):
+                self.assertEqual(item_files[item_id]["canonical_item"], f"content_registry.items.{item_id}")
+                for field in item_entry["mirror_fields"]:
+                    self.assertEqual(item_files[item_id][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        item_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_items"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(item_report["canonical_mirror"]["checked"], len(item_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 
