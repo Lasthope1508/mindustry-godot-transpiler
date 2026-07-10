@@ -15,6 +15,7 @@ class SourceSsotModule:
     root_key: str
     runtime_label: str
     canonical_module: str = ""
+    canonical_collection_key: str = ""
     canonical_reference_key: str = ""
     canonical_reference_prefix: str = ""
     mirror_fields: tuple[str, ...] = ()
@@ -89,6 +90,7 @@ def _extension_module_from_entry(name: str, entry: dict[str, Any]) -> SourceSsot
         str(entry.get("root_key", "")),
         str(entry.get("label", "")),
         str(entry.get("canonical_module", "")),
+        str(entry.get("canonical_collection_key", "")),
         str(entry.get("canonical_reference_key", "")),
         str(entry.get("canonical_reference_prefix", "")),
         tuple(str(field) for field in mirror_fields),
@@ -203,6 +205,7 @@ def _validate_extension_canonical_mirror(
 ) -> dict[str, Any]:
     report = {
         "canonical_module": entry.canonical_module,
+        "canonical_collection_key": entry.canonical_collection_key,
         "canonical_reference_key": entry.canonical_reference_key,
         "canonical_reference_prefix": entry.canonical_reference_prefix,
         "mirror_fields": list(entry.mirror_fields),
@@ -223,6 +226,8 @@ def _validate_extension_canonical_mirror(
         errors.append(f"{entry.name}: canonical module {entry.canonical_module} is not registered")
         return report
     if not canonical_module.root_key:
+        if entry.canonical_collection_key:
+            return _validate_extension_canonical_array_mirror(godot_root, entry, data, errors, report)
         errors.append(f"{entry.name}: canonical module {entry.canonical_module} has no root key")
         return report
     try:
@@ -258,6 +263,46 @@ def _validate_extension_canonical_mirror(
                 continue
             if shard_entry[field] != canonical_entry[field]:
                 errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{item_key}")
+        report["checked"] += 1
+    return report
+
+def _validate_extension_canonical_array_mirror(
+    godot_root: Path,
+    entry: SourceSsotModule,
+    data: dict[str, Any],
+    errors: list[str],
+    report: dict[str, Any],
+) -> dict[str, Any]:
+    try:
+        canonical_data = load_registered_json(godot_root, entry.canonical_module)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        errors.append(f"{entry.name}: cannot load canonical module {entry.canonical_module}: {exc}")
+        return report
+    shard_entries = data.get(entry.root_key, {})
+    canonical_values_raw = canonical_data.get(entry.canonical_collection_key, [])
+    if not isinstance(shard_entries, dict):
+        errors.append(f"{entry.name}: root key {entry.root_key} must be an object")
+        return report
+    if not isinstance(canonical_values_raw, list):
+        errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array")
+        return report
+    canonical_values = {str(value): value for value in canonical_values_raw}
+    for item_key, shard_entry in sorted(shard_entries.items()):
+        if not isinstance(shard_entry, dict):
+            errors.append(f"{entry.name}.{item_key}: shard entry must be an object")
+            continue
+        if item_key not in canonical_values:
+            errors.append(f"{entry.name}.{item_key}: missing canonical {entry.canonical_module}.{entry.canonical_collection_key}.{item_key}")
+            continue
+        expected_reference = f"{entry.canonical_reference_prefix}{item_key}"
+        if shard_entry.get(entry.canonical_reference_key) != expected_reference:
+            errors.append(f"{entry.name}.{item_key}: {entry.canonical_reference_key} must be {expected_reference}")
+        for field in entry.mirror_fields:
+            if field not in shard_entry:
+                errors.append(f"{entry.name}.{item_key}: missing mirror field {field}")
+                continue
+            if shard_entry[field] != canonical_values[item_key]:
+                errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{entry.canonical_collection_key}.{item_key}")
         report["checked"] += 1
     return report
 

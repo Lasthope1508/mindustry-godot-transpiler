@@ -13180,6 +13180,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("typeof(entries[0]) == TYPE_DICTIONARY", manifest_helper_source)
         self.assertNotIn("EMITTED_CLASSES_PATH", source)
 
+    def test_port_game_exposes_emitted_class_files_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_files.json").exists())
+        self.assertIn('"emitted_class_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func emitted_class_file_state(file_path: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)', source)
+
     def test_port_game_exposes_port_report_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

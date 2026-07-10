@@ -1299,6 +1299,20 @@
         "runtime_proof"
       ]
     },
+    "emitted_class_files": {
+      "path": "src/generated/source_modules/emitted_class_files.json",
+      "root_key": "files",
+      "label": "file",
+      "status": "active",
+      "rule": "Extension shard for emitted_classes.json files; canonical file paths remain mirrored from emitted_classes.files before use.",
+      "canonical_module": "emitted_classes",
+      "canonical_collection_key": "files",
+      "canonical_reference_key": "canonical_file",
+      "canonical_reference_prefix": "emitted_classes.files.",
+      "mirror_fields": [
+        "file"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

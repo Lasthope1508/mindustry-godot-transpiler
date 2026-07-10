@@ -197,6 +197,9 @@ func content_registry_state() -> Dictionary:
 func emitted_classes_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
 
+func emitted_class_file_state(file_path: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)
+
 func port_report_state() -> Dictionary:
 	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
 

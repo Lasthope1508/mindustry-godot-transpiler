@@ -167,6 +167,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
             self.assertIn("consumer_slices.NTEST: mirror field java_method differs from slice_ledger.NTEST", report["errors"])
 
+    def test_source_ssot_catalog_validates_extension_canonical_array_mirror_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "emitted_classes", {
+                "emitted_file_count": 1,
+                "files": ["mindustry/example/Example.gd"],
+                "output_root": "godot-mindustry/src/generated/classes",
+                "registry": "GeneratedClassRegistry.gd",
+                "skipped_failure_count": 0,
+                "source_root": "mindustry-upstream/core/src",
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"emitted_class_files": {"path": "src/generated/source_modules/emitted_class_files.json", "root_key": "files", "label": "file", "canonical_module": "emitted_classes", "canonical_collection_key": "files", "canonical_reference_key": "canonical_file", "canonical_reference_prefix": "emitted_classes.files.", "mirror_fields": ["file"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/emitted_class_files.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "files": {"mindustry/example/Example.gd": {"canonical_file": "emitted_classes.files.mindustry/example/Example.gd", "file": "mindustry/example/Wrong.gd"}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("emitted_class_files.mindustry/example/Example.gd: mirror field file differs from emitted_classes.files.mindustry/example/Example.gd", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -319,6 +357,40 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         helper_report = [entry for entry in report["modules"] if entry["name"] == "helper_state_schema"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(helper_report["canonical_mirror"]["checked"], len(helper_schema))
+
+    def test_source_ssot_emitted_class_files_shard_declares_canonical_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        emitted_entry = manifest["modules"]["emitted_class_files"]
+
+        self.assertEqual(emitted_entry["canonical_module"], "emitted_classes")
+        self.assertEqual(emitted_entry["canonical_collection_key"], "files")
+        self.assertEqual(emitted_entry["canonical_reference_key"], "canonical_file")
+        self.assertEqual(emitted_entry["canonical_reference_prefix"], "emitted_classes.files.")
+        self.assertEqual(emitted_entry["root_key"], "files")
+        self.assertEqual(emitted_entry["mirror_fields"], ["file"])
+        self.assertIn("emitted_classes.json files", emitted_entry["rule"])
+
+        emitted_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_class_files")["files"]
+        canonical_emitted = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_classes")
+        canonical_files = set(canonical_emitted["files"])
+
+        self.assertEqual(set(emitted_files), canonical_files)
+        self.assertEqual(len(emitted_files), canonical_emitted["emitted_file_count"])
+        self.assertIn("mindustry/Vars.gd", emitted_files)
+        self.assertIn("mindustry/world/WorldParams.gd", emitted_files)
+        for file_path in sorted(canonical_files):
+            with self.subTest(file_path=file_path):
+                self.assertEqual(emitted_files[file_path]["canonical_file"], f"emitted_classes.files.{file_path}")
+                self.assertEqual(emitted_files[file_path]["file"], file_path)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        emitted_report = [entry for entry in report["modules"] if entry["name"] == "emitted_class_files"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(emitted_report["canonical_mirror"]["checked"], len(emitted_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
