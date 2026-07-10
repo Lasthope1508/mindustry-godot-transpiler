@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceSsotCatalog
 
-const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest"]
+const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry"]
 const MODULES := {
 	"registry": {
 		"path": "res://src/generated/source_symbol_registry.json",
@@ -45,6 +45,11 @@ const MODULES := {
 	},
 	"ast_manifest": {
 		"path": "res://src/generated/ast_manifest.json",
+		"root_key": "",
+		"label": "",
+	},
+	"content_registry": {
+		"path": "res://src/generated/content_registry.json",
 		"root_key": "",
 		"label": "",
 	},
@@ -132,6 +137,33 @@ static func manifest_summary_state(module_name: String, int_fields: Array, strin
 	if not entries.is_empty() and typeof(entries[0]) == TYPE_DICTIONARY:
 		first_entry = entries[0]
 	result[first_key] = first_entry
+	return result
+
+static func collection_summary_state(module_name: String, string_fields: Array, counts_key: String, collection_names: Array) -> Dictionary:
+	var document := load_document(module_name)
+	var result := {"loaded": false, "counts": {}}
+	for field in string_fields:
+		result[str(field)] = ""
+	for collection_name_value in collection_names:
+		var collection_name := str(collection_name_value)
+		var first_key := "first_" + collection_name.substr(0, collection_name.length() - 1)
+		result[first_key] = {}
+	if not bool(document.get("loaded", false)):
+		return result
+	var parsed: Dictionary = document.get("data", {})
+	result["loaded"] = true
+	for field in string_fields:
+		result[str(field)] = str(parsed.get(str(field), ""))
+	var counts_value = parsed.get(counts_key, {})
+	result["counts"] = counts_value if typeof(counts_value) == TYPE_DICTIONARY else {}
+	for collection_name_value in collection_names:
+		var collection_name := str(collection_name_value)
+		var entries_value = parsed.get(collection_name, [])
+		var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
+		var first_entry: Dictionary = {}
+		if not entries.is_empty() and typeof(entries[0]) == TYPE_DICTIONARY:
+			first_entry = entries[0]
+		result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry
 	return result
 
 static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:

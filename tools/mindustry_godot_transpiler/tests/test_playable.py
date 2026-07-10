@@ -12827,6 +12827,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")', source)
         self.assertNotIn("AST_MANIFEST_PATH", source)
 
+    def test_port_game_exposes_content_registry_through_ssot_catalog(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+
+        self.assertIn('"content_registry": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/content_registry.json"', catalog_source)
+        self.assertIn("func content_registry_state() -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])', source)
+        self.assertIn('static func collection_summary_state(module_name: String, string_fields: Array, counts_key: String, collection_names: Array) -> Dictionary:', catalog_source)
+        self.assertIn('result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry', catalog_source)
+        self.assertNotIn("CONTENT_REGISTRY_PATH", source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
