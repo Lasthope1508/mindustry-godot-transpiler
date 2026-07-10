@@ -287,6 +287,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
             self.assertIn("content_registry_wave_groups.0: mirror field group differs from content_registry.waves.groups.0", report["errors"])
 
+    def test_source_ssot_catalog_validates_canonical_dict_collection_value_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "playable_content", {
+                "tile_size": 32,
+                "blocks": {
+                    "conveyor": {
+                        "id": "conveyor",
+                        "source": "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+                        "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+                    },
+                },
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"playable_content_blocks": {"path": "src/generated/source_modules/playable_content_blocks.json", "root_key": "blocks", "label": "block", "canonical_module": "playable_content", "canonical_collection_key": "blocks", "canonical_reference_key": "canonical_block", "canonical_reference_prefix": "playable_content.blocks.", "canonical_value_field": "block", "mirror_fields": ["id", "source", "texture", "block"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/playable_content_blocks.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "blocks": {"conveyor": {"canonical_block": "playable_content.blocks.conveyor", "id": "conveyor", "source": "wrong.png", "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png", "block": {"id": "wrong"}}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("playable_content_blocks.conveyor: mirror field source differs from playable_content.blocks.conveyor", report["errors"])
+            self.assertIn("playable_content_blocks.conveyor: mirror field block differs from playable_content.blocks.conveyor", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -855,6 +896,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         feature_report = [entry for entry in report["modules"] if entry["name"] == "port_report_unsupported_features"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(feature_report["canonical_mirror"]["checked"], len(feature_files))
+
+    def test_source_ssot_playable_content_blocks_shard_declares_canonical_dict_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        block_entry = manifest["modules"]["playable_content_blocks"]
+
+        self.assertEqual(block_entry["canonical_module"], "playable_content")
+        self.assertEqual(block_entry["canonical_collection_key"], "blocks")
+        self.assertEqual(block_entry["canonical_reference_key"], "canonical_block")
+        self.assertEqual(block_entry["canonical_reference_prefix"], "playable_content.blocks.")
+        self.assertEqual(block_entry["canonical_value_field"], "block")
+        self.assertEqual(block_entry["root_key"], "blocks")
+        self.assertEqual(block_entry["mirror_fields"], ["id", "source", "texture", "block"])
+        self.assertIn("playable_content.json blocks", block_entry["rule"])
+
+        block_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content_blocks")["blocks"]
+        canonical_playable = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content")
+        canonical_blocks = canonical_playable["blocks"]
+
+        self.assertEqual(set(block_files), set(canonical_blocks))
+        self.assertEqual(len(block_files), 5)
+        self.assertEqual(block_files["conveyor"]["block"], {
+            "id": "conveyor",
+            "source": "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+            "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+        })
+        self.assertEqual(block_files["core_shard"]["block"], {
+            "id": "core_shard",
+            "source": "core/assets-raw/sprites/blocks/storage/core-shard.png",
+            "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png",
+        })
+        for block_id, canonical_entry in sorted(canonical_blocks.items()):
+            with self.subTest(block_id=block_id):
+                self.assertEqual(block_files[block_id]["canonical_block"], f"playable_content.blocks.{block_id}")
+                self.assertEqual(block_files[block_id]["block"], canonical_entry)
+                for field in ["id", "source", "texture"]:
+                    self.assertEqual(block_files[block_id][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        block_report = [entry for entry in report["modules"] if entry["name"] == "playable_content_blocks"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(block_report["canonical_mirror"]["checked"], len(block_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib

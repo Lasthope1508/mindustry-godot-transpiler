@@ -161,6 +161,9 @@ func load_config() -> void:
 	config = document.get("data", {})
 	tile_size = int(config.get("tile_size", 32))
 
+func playable_content_block_state(block_id: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
+
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 

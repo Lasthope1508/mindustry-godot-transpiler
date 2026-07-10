@@ -297,20 +297,23 @@ def _validate_extension_canonical_array_mirror(
     if not isinstance(shard_entries, dict):
         errors.append(f"{entry.name}: root key {entry.root_key} must be an object")
         return report
-    if not isinstance(canonical_values_raw, list):
-        errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array")
-        return report
     canonical_values: dict[str, Any] = {}
-    for index, value in enumerate(canonical_values_raw):
-        if entry.canonical_key_field == "@index":
-            canonical_values[str(index)] = value
-        elif entry.canonical_key_field:
-            if not isinstance(value, dict):
-                errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} entries must be objects")
-                continue
-            canonical_values[str(value.get(entry.canonical_key_field, ""))] = value
-        else:
-            canonical_values[str(value)] = value
+    if isinstance(canonical_values_raw, dict):
+        canonical_values = {str(key): value for key, value in canonical_values_raw.items()}
+    elif isinstance(canonical_values_raw, list):
+        for index, value in enumerate(canonical_values_raw):
+            if entry.canonical_key_field == "@index":
+                canonical_values[str(index)] = value
+            elif entry.canonical_key_field:
+                if not isinstance(value, dict):
+                    errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} entries must be objects")
+                    continue
+                canonical_values[str(value.get(entry.canonical_key_field, ""))] = value
+            else:
+                canonical_values[str(value)] = value
+    else:
+        errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array or object")
+        return report
     for item_key, shard_entry in sorted(shard_entries.items()):
         if not isinstance(shard_entry, dict):
             errors.append(f"{entry.name}.{item_key}: shard entry must be an object")

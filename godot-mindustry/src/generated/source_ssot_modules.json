@@ -1385,6 +1385,24 @@
         "path"
       ]
     },
+    "playable_content_blocks": {
+      "path": "src/generated/source_modules/playable_content_blocks.json",
+      "root_key": "blocks",
+      "label": "block",
+      "status": "active",
+      "rule": "Extension shard for playable_content.json blocks; canonical playable block asset metadata remains mirrored from playable_content.blocks before use.",
+      "canonical_module": "playable_content",
+      "canonical_collection_key": "blocks",
+      "canonical_value_field": "block",
+      "canonical_reference_key": "canonical_block",
+      "canonical_reference_prefix": "playable_content.blocks.",
+      "mirror_fields": [
+        "id",
+        "source",
+        "texture",
+        "block"
+      ]
+    },
     "port_report_unsupported_features": {
       "path": "src/generated/source_modules/port_report_unsupported_features.json",
       "root_key": "features",

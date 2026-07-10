@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "playable_content.blocks",
+    "newBlockRequiresCanonicalPlayableContentEntry": true
+  },
+  "blocks": {
+    "conveyor": {
+      "canonical_block": "playable_content.blocks.conveyor",
+      "id": "conveyor",
+      "source": "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+      "block": {
+        "id": "conveyor",
+        "source": "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+        "texture": "res://assets/core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png"
+      }
+    },
+    "core_shard": {
+      "canonical_block": "playable_content.blocks.core_shard",
+      "id": "core_shard",
+      "source": "core/assets-raw/sprites/blocks/storage/core-shard.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png",
+      "block": {
+        "id": "core_shard",
+        "source": "core/assets-raw/sprites/blocks/storage/core-shard.png",
+        "texture": "res://assets/core/assets-raw/sprites/blocks/storage/core-shard.png"
+      }
+    },
+    "mechanical_drill": {
+      "canonical_block": "playable_content.blocks.mechanical_drill",
+      "id": "mechanical_drill",
+      "source": "core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+      "block": {
+        "id": "mechanical_drill",
+        "source": "core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+        "texture": "res://assets/core/assets-raw/sprites/blocks/drills/mechanical-drill.png"
+      }
+    },
+    "ore_copper": {
+      "canonical_block": "playable_content.blocks.ore_copper",
+      "id": "ore_copper",
+      "source": "core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+      "block": {
+        "id": "ore_copper",
+        "source": "core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+        "texture": "res://assets/core/assets-raw/sprites/blocks/environment/ore-copper1.png"
+      }
+    },
+    "stone_floor": {
+      "canonical_block": "playable_content.blocks.stone_floor",
+      "id": "stone_floor",
+      "source": "core/assets-raw/sprites/blocks/environment/stone1.png",
+      "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png",
+      "block": {
+        "id": "stone_floor",
+        "source": "core/assets-raw/sprites/blocks/environment/stone1.png",
+        "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
+      }
+    }
+  }
+}
