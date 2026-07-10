@@ -3977,6 +3977,45 @@ func generated_consume_liquids_build_bridge_state(liquid_ids: Array, liquid_amou
 		"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", []) and result.get("table_left", null) == canonical.get("table_left", null),
 	}
 
+func source_consume_liquids_update_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var remove_calls: Array = []
+	for index in range(liquid_ids.size()):
+		var amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
+		var remove_amount: float = amount * build_edelta * multiplier_get_build
+		remove_calls.append({"liquid_id": liquid_ids[index], "amount": amount, "remove_amount": remove_amount})
+	return {
+		"source_owner": "PortGame.source_consume_liquids_update_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+		"method": "public void update(Building build){",
+		"multiplier_expr": "float mult = multiplier.get(build);",
+		"loop_expr": "for(var stack : liquids){",
+		"remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);",
+		"liquids_field": "public final LiquidStack[] liquids;",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"liquid_stack_liquid_field": "public Liquid liquid;",
+		"liquid_stack_amount_field": "public float amount;",
+		"building_liquids_field": "@Nullable LiquidModule liquids;",
+		"building_edelta_method": "public float edelta(){",
+		"liquid_ids": liquid_ids,
+		"liquid_stack_amounts": liquid_stack_amounts,
+		"build_edelta": build_edelta,
+		"multiplier_get_build": multiplier_get_build,
+		"remove_calls": remove_calls,
+	}
+
+func generated_consume_liquids_update_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_2([liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build])
+	var canonical = source_consume_liquids_update_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_update_state",
+		"generated_owner": "ConsumeLiquids.update",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("remove_calls", []) == canonical.get("remove_calls", []),
+	}
+
 func source_consume_liquids_dynamic_constructor_state(liquids: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",

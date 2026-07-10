@@ -19492,6 +19492,54 @@ public class ConsumeLiquids extends Consume{
             self.assertIn('"row_expr": "if(++i % 4 == 0) c.row();"', source_text)
             self.assertIn('"table_left_expr": "}).left();"', source_text)
 
+    def test_emit_bridges_consume_liquids_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+
+public class ConsumeLiquids extends Consume{
+    public final LiquidStack[] liquids;
+
+    @Override
+    public void update(Building build){
+        float mult = multiplier.get(build);
+        for(var stack : liquids){
+            build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var remove_calls: Array = []", source_text)
+            self.assertIn("for index in range(liquid_ids.size()):", source_text)
+            self.assertIn("var remove_amount: float = amount * build_edelta * multiplier_get_build", source_text)
+            self.assertIn('remove_calls.append({"liquid_id": liquid_ids[index], "amount": amount, "remove_amount": remove_amount})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_update_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
+            self.assertIn('"method": "public void update(Building build){"', source_text)
+            self.assertIn('"multiplier_expr": "float mult = multiplier.get(build);"', source_text)
+            self.assertIn('"remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);"', source_text)
+            self.assertIn('"remove_calls": remove_calls', source_text)
+
     def test_emit_bridges_consume_liquids_dynamic_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

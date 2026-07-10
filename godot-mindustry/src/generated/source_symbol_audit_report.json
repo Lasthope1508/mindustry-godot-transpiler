@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 972,
-  "registeredSourceOwnerCount": 966,
+  "totalSourceFunctions": 973,
+  "registeredSourceOwnerCount": 967,
   "exemptSourceOwnerCount": 6,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -574,6 +574,7 @@
     "PortGame.source_consume_liquids_dynamic_efficiency_state",
     "PortGame.source_consume_liquids_dynamic_rebuild_state",
     "PortGame.source_consume_liquids_dynamic_update_state",
+    "PortGame.source_consume_liquids_update_state",
     "PortGame.source_consume_power_condition_requested_power_state",
     "PortGame.source_consume_power_display_state",
     "PortGame.source_consume_power_dynamic_display_state",
@@ -1614,6 +1615,11 @@
     {
       "owner": "PortGame.source_consume_liquids_build_state",
       "function": "source_consume_liquids_build_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_consume_liquids_update_state",
+      "function": "source_consume_liquids_update_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {

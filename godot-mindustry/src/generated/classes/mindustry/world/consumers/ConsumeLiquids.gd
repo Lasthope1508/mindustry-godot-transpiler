@@ -37,7 +37,16 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_liquids_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void build(Building build, Table table){", "table_expr": "table.table(c -> {", "i_initial_expr": "int i = 0;", "loop_expr": "for(var stack : liquids){", "add_expr": "c.add(new ReqImage(stack.liquid.uiIcon,", "valid_expr": "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);", "row_expr": "if(++i % 4 == 0) c.row();", "table_left_expr": "}).left();", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_ids": liquid_ids, "liquid_amounts": liquid_amounts, "req_images": req_images, "row_calls": row_calls, "table_left": true}
 
 func java_method_update_2(_args: Array = []) -> Variant:
-	return null
+	var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var remove_calls: Array = []
+	for index in range(liquid_ids.size()):
+		var amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
+		var remove_amount: float = amount * build_edelta * multiplier_get_build
+		remove_calls.append({"liquid_id": liquid_ids[index], "amount": amount, "remove_amount": remove_amount})
+	return {"source_owner": "PortGame.source_consume_liquids_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void update(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "loop_expr": "for(var stack : liquids){", "remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}
 
 func java_method_efficiency_3(_args: Array = []) -> Variant:
 	return null

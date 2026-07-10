@@ -1376,6 +1376,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquids.build"', source)
         self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", []) and result.get("table_left", null) == canonical.get("table_left", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquids_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquids_update_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_update_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source)
+        self.assertIn('"method": "public void update(Building build){"', source)
+        self.assertIn('"multiplier_expr": "float mult = multiplier.get(build);"', source)
+        self.assertIn('"loop_expr": "for(var stack : liquids){"', source)
+        self.assertIn('"remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);"', source)
+        self.assertIn("var remove_amount: float = amount * build_edelta * multiplier_get_build", source)
+        self.assertIn('remove_calls.append({"liquid_id": liquid_ids[index], "amount": amount, "remove_amount": remove_amount})', source)
+        self.assertIn("func generated_consume_liquids_update_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")', source)
+        self.assertIn("var result = instance.java_method_update_2([liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_liquids_update_state(liquid_ids, liquid_stack_amounts, build_edelta, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_update_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquids.update"', source)
+        self.assertIn('"matches": result.get("remove_calls", []) == canonical.get("remove_calls", [])', source)
+
     def test_port_game_exposes_generated_consume_liquids_dynamic_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1853,6 +1853,37 @@
         "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquids_build_bridge_state"
+    },
+    "N1535": {
+      "canonical_ledger": "source_slice_ledger.N1535",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquids_update_state",
+      "generated_owner": "ConsumeLiquids.java_method_update_2",
+      "source_symbols": [
+        "consume_liquids_update.method",
+        "consume_liquids_update.liquids_field",
+        "consume_liquids_update.multiplier",
+        "consume_liquids_update.loop",
+        "consume_liquids_update.remove",
+        "consume_liquids_update.multiplier_field",
+        "consume_liquids_update.liquid_stack_liquid_field",
+        "consume_liquids_update.liquid_stack_amount_field",
+        "consume_liquids_update.building_liquids_field",
+        "consume_liquids_update.building_edelta_method",
+        "consume_liquids_update.liquid_ids",
+        "consume_liquids_update.liquid_stack_amounts",
+        "consume_liquids_update.build_edelta",
+        "consume_liquids_update.multiplier_get_build"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_update_bridge_state",
+        "test_consume_liquids_update_matches_upstream_source",
+        "test_generated_consume_liquids_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_update_bridge_state"
     }
   }
 }

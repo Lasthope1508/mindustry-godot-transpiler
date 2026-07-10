@@ -41853,6 +41853,61 @@
         "test_consume_liquids_build_matches_upstream_source",
         "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_liquids_update_state": {
+      "status": "active",
+      "source_slice": "N1535",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "update(Building build)",
+      "params": [
+        {
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_update_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "name": "liquid_stack_amounts",
+          "schema": "source_consume_liquids_update_input.liquid_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "name": "build_edelta",
+          "schema": "source_consume_liquids_update_input.build_edelta",
+          "type": "float"
+        },
+        {
+          "name": "multiplier_get_build",
+          "schema": "source_consume_liquids_update_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "multiplier_expr",
+        "loop_expr",
+        "remove_expr",
+        "liquids_field",
+        "multiplier_field",
+        "liquid_stack_liquid_field",
+        "liquid_stack_amount_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "liquid_ids",
+        "liquid_stack_amounts",
+        "build_edelta",
+        "multiplier_get_build",
+        "remove_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_update_bridge_state",
+        "test_consume_liquids_update_matches_upstream_source",
+        "test_generated_consume_liquids_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_update_state",
+      "rule": "Source-backed ConsumeLiquids.update state bridge; parameters are explicit inputs for Java stack/build fields until concrete object binding is ported."
     }
   },
   "policy": {
