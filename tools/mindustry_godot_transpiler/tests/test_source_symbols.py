@@ -1058,6 +1058,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(feature_report["canonical_mirror"]["checked"], len(feature_files))
 
+    def test_source_ssot_port_report_unsupported_shard_declares_canonical_indexed_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        unsupported_entry = manifest["modules"]["port_report_unsupported"]
+
+        self.assertEqual(unsupported_entry["canonical_module"], "port_report")
+        self.assertEqual(unsupported_entry["canonical_collection_key"], "unsupported")
+        self.assertEqual(unsupported_entry["canonical_key_field"], "@index")
+        self.assertEqual(unsupported_entry["canonical_reference_key"], "canonical_unsupported")
+        self.assertEqual(unsupported_entry["canonical_reference_prefix"], "port_report.unsupported.")
+        self.assertEqual(unsupported_entry["canonical_value_field"], "unsupported_entry")
+        self.assertEqual(unsupported_entry["root_key"], "unsupported")
+        self.assertEqual(unsupported_entry["mirror_fields"], ["index", "unsupported_entry"])
+        self.assertIn("port_report.json unsupported", unsupported_entry["rule"])
+
+        unsupported_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report_unsupported")["unsupported"]
+        canonical_report = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report")
+        canonical_unsupported = canonical_report["unsupported"]
+
+        self.assertEqual(set(unsupported_files), {str(index) for index in range(len(canonical_unsupported))})
+        self.assertEqual(len(unsupported_files), 3)
+        self.assertEqual(unsupported_files["0"]["unsupported_entry"], "Generated gameplay classes not implemented yet")
+        self.assertEqual(unsupported_files["1"]["unsupported_entry"], "mindustry.gen generated Java package not expanded yet")
+        self.assertEqual(unsupported_files["2"]["unsupported_entry"], "Unsupported Java parser failures are listed in ast_manifest.json with paths and error types")
+        for index, canonical_entry in enumerate(canonical_unsupported):
+            item_key = str(index)
+            with self.subTest(item_key=item_key):
+                self.assertEqual(unsupported_files[item_key]["canonical_unsupported"], f"port_report.unsupported.{item_key}")
+                self.assertEqual(unsupported_files[item_key]["index"], index)
+                self.assertEqual(unsupported_files[item_key]["unsupported_entry"], canonical_entry)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        unsupported_report = [entry for entry in report["modules"] if entry["name"] == "port_report_unsupported"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(unsupported_report["canonical_mirror"]["checked"], len(unsupported_files))
+
+    def test_source_ssot_builds_extension_shard_from_canonical_manifest_entry(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        generated = source_ssot.build_extension_shard(ROOT / "godot-mindustry", "port_report_unsupported")
+        actual = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report_unsupported")
+
+        self.assertEqual(generated["version"], 1)
+        self.assertEqual(generated["unsupported"], actual["unsupported"])
+        self.assertEqual(
+            generated["unsupported"]["1"]["unsupported_entry"],
+            source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report")["unsupported"][1],
+        )
+
     def test_source_ssot_playable_content_blocks_shard_declares_canonical_dict_mirror_contract(self):
         import importlib
 

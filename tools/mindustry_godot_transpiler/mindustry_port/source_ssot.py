@@ -171,6 +171,69 @@ def write_json(godot_root: Path, name: str, data: dict[str, Any]) -> Path:
     return path
 
 
+def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -> dict[str, Any]:
+    canonical_module = registered_module(godot_root, entry.canonical_module)
+    canonical_data = load_registered_json(godot_root, entry.canonical_module)
+    if canonical_module.root_key:
+        canonical_entries = canonical_data.get(canonical_module.root_key, {})
+        if not isinstance(canonical_entries, dict):
+            raise ValueError(f"{entry.name}: canonical root key {canonical_module.root_key} must be an object")
+        return {str(key): value for key, value in canonical_entries.items()}
+    if not entry.canonical_collection_key:
+        raise ValueError(f"{entry.name}: canonical module {entry.canonical_module} has no root key")
+    canonical_values_raw = _nested_value(canonical_data, entry.canonical_collection_key)
+    canonical_values: dict[str, Any] = {}
+    if isinstance(canonical_values_raw, dict):
+        if entry.canonical_key_field and entry.canonical_key_field in canonical_values_raw:
+            canonical_values = {str(canonical_values_raw[entry.canonical_key_field]): canonical_values_raw}
+        else:
+            canonical_values = {str(key): value for key, value in canonical_values_raw.items()}
+    elif isinstance(canonical_values_raw, list):
+        for index, value in enumerate(canonical_values_raw):
+            if entry.canonical_key_field == "@index":
+                canonical_values[str(index)] = value
+            elif entry.canonical_key_field:
+                if not isinstance(value, dict):
+                    raise ValueError(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} entries must be objects")
+                canonical_values[str(value.get(entry.canonical_key_field, ""))] = value
+            else:
+                canonical_values[str(value)] = value
+    else:
+        raise ValueError(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array or object")
+    return canonical_values
+
+def build_extension_shard(godot_root: Path, name: str) -> dict[str, Any]:
+    godot_root = Path(godot_root)
+    entry = registered_module(godot_root, name)
+    if not entry.canonical_module:
+        raise ValueError(f"{entry.name}: canonical_module is required")
+    if not entry.root_key:
+        raise ValueError(f"{entry.name}: root_key is required")
+    if not entry.canonical_reference_key:
+        raise ValueError(f"{entry.name}: canonical_reference_key is required")
+    if not entry.canonical_reference_prefix:
+        raise ValueError(f"{entry.name}: canonical_reference_prefix is required")
+    if not entry.mirror_fields:
+        raise ValueError(f"{entry.name}: mirror_fields must be a non-empty list")
+
+    canonical_values = _canonical_values_for_extension(godot_root, entry)
+    shard_entries: dict[str, Any] = {}
+    for item_key, canonical_value in sorted(canonical_values.items()):
+        shard_entry: dict[str, Any] = {
+            entry.canonical_reference_key: f"{entry.canonical_reference_prefix}{item_key}",
+        }
+        for field in entry.mirror_fields:
+            if field == entry.canonical_value_field:
+                shard_entry[field] = canonical_value
+            elif entry.canonical_key_field == "@index" and field == "index":
+                shard_entry[field] = int(item_key)
+            elif isinstance(canonical_value, dict):
+                shard_entry[field] = canonical_value[field]
+            else:
+                shard_entry[field] = canonical_value
+        shard_entries[item_key] = shard_entry
+    return {"version": 1, entry.root_key: shard_entries}
+
 def _validate_module_file(godot_root: Path, entry: SourceSsotModule, errors: list[str]) -> dict[str, Any]:
     path = godot_root / entry.relative_path
     report: dict[str, Any] = {

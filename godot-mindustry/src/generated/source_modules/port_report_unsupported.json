@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "port_report.unsupported",
+    "canonicalKey": "@index",
+    "newUnsupportedRequiresCanonicalPortReportEntry": true
+  },
+  "unsupported": {
+    "0": {
+      "canonical_unsupported": "port_report.unsupported.0",
+      "index": 0,
+      "unsupported_entry": "Generated gameplay classes not implemented yet"
+    },
+    "1": {
+      "canonical_unsupported": "port_report.unsupported.1",
+      "index": 1,
+      "unsupported_entry": "mindustry.gen generated Java package not expanded yet"
+    },
+    "2": {
+      "canonical_unsupported": "port_report.unsupported.2",
+      "index": 2,
+      "unsupported_entry": "Unsupported Java parser failures are listed in ast_manifest.json with paths and error types"
+    }
+  }
+}
