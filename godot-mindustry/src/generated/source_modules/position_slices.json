@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "slices": {
+    "N487": {
+      "canonical_ledger": "source_slice_ledger.N487",
+      "status": "done",
+      "java_source": "arc-core/src/arc/math/geom/Position.java",
+      "java_method": "angleTo(Position other)",
+      "godot_owner": "PortGame.source_angle_to_target",
+      "source_symbols": [
+        "arc_position_angle_to.other_method",
+        "arc_position_angle_to.angles_angle",
+        "arc_position_angle_to.origin_x_input",
+        "arc_position_angle_to.origin_y_input",
+        "arc_position_angle_to.target_x_input",
+        "arc_position_angle_to.target_y_input",
+        "arc_position_angle_to.target_input"
+      ],
+      "tests": [
+        "test_arc_position_angle_to_target_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ],
+      "runtime_proof": "/root/Main.source_angle_to_target"
+    }
+  }
+}

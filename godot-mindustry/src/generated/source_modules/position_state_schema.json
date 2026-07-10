@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_angle_to_target_input": {
+      "canonical_schema": "source_state_schema.source_angle_to_target_input",
+      "keys": {
+        "origin": {
+          "godot_symbol": "source_angle_to_target_input.origin",
+          "java_expr": "getX(), getY()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Runtime origin vector supplies this Position coordinates.",
+          "status": "explicit-input",
+          "type": "Vector2",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        },
+        "originX": {
+          "godot_symbol": "source_angle_to_target_input.originX",
+          "java_expr": "getX()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Origin x coordinate.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        },
+        "originY": {
+          "godot_symbol": "source_angle_to_target_input.originY",
+          "java_expr": "getY()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Origin y coordinate.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        },
+        "target": {
+          "godot_symbol": "source_angle_to_target_input.target",
+          "java_expr": "other",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Runtime target supplies Java Position other.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        },
+        "targetX": {
+          "godot_symbol": "source_angle_to_target_input.targetX",
+          "java_expr": "other.getX()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Target x coordinate.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        },
+        "targetY": {
+          "godot_symbol": "source_angle_to_target_input.targetY",
+          "java_expr": "other.getY()",
+          "java_method": "angleTo(Position other)",
+          "java_source": "arc-core/src/arc/math/geom/Position.java",
+          "rule": "Target y coordinate.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_to_target"
+          ]
+        }
+      }
+    }
+  }
+}
