@@ -1313,6 +1313,25 @@
         "file"
       ]
     },
+    "source_manifest_files": {
+      "path": "src/generated/source_modules/source_manifest_files.json",
+      "root_key": "files",
+      "label": "path",
+      "status": "active",
+      "rule": "Extension shard for source_manifest.json files; canonical Java source file metadata remains mirrored from source_manifest.files before use.",
+      "canonical_module": "source_manifest",
+      "canonical_collection_key": "files",
+      "canonical_key_field": "path",
+      "canonical_reference_key": "canonical_file",
+      "canonical_reference_prefix": "source_manifest.files.",
+      "mirror_fields": [
+        "bytes",
+        "package",
+        "path",
+        "sha256",
+        "types"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

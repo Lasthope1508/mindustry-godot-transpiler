@@ -205,6 +205,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
             self.assertIn("emitted_class_files.mindustry/example/Example.gd: mirror field file differs from emitted_classes.files.mindustry/example/Example.gd", report["errors"])
 
+    def test_source_ssot_catalog_validates_extension_canonical_object_array_mirror_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "source_manifest", {
+                "java_file_count": 1,
+                "source_root": "mindustry-upstream/core/src",
+                "files": [
+                    {
+                        "bytes": 42,
+                        "package": "mindustry.example",
+                        "path": "mindustry/example/Example.java",
+                        "sha256": "abc",
+                        "types": ["Example"],
+                    },
+                ],
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"source_manifest_files": {"path": "src/generated/source_modules/source_manifest_files.json", "root_key": "files", "label": "path", "canonical_module": "source_manifest", "canonical_collection_key": "files", "canonical_key_field": "path", "canonical_reference_key": "canonical_file", "canonical_reference_prefix": "source_manifest.files.", "mirror_fields": ["bytes", "package", "path", "sha256", "types"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/source_manifest_files.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "files": {"mindustry/example/Example.java": {"canonical_file": "source_manifest.files.mindustry/example/Example.java", "bytes": 99, "package": "mindustry.example", "path": "mindustry/example/Example.java", "sha256": "abc", "types": ["Example"]}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("source_manifest_files.mindustry/example/Example.java: mirror field bytes differs from source_manifest.files.mindustry/example/Example.java", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -391,6 +434,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         emitted_report = [entry for entry in report["modules"] if entry["name"] == "emitted_class_files"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(emitted_report["canonical_mirror"]["checked"], len(emitted_files))
+
+    def test_source_ssot_source_manifest_files_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        source_files_entry = manifest["modules"]["source_manifest_files"]
+
+        self.assertEqual(source_files_entry["canonical_module"], "source_manifest")
+        self.assertEqual(source_files_entry["canonical_collection_key"], "files")
+        self.assertEqual(source_files_entry["canonical_key_field"], "path")
+        self.assertEqual(source_files_entry["canonical_reference_key"], "canonical_file")
+        self.assertEqual(source_files_entry["canonical_reference_prefix"], "source_manifest.files.")
+        self.assertEqual(source_files_entry["root_key"], "files")
+        self.assertEqual(source_files_entry["mirror_fields"], ["bytes", "package", "path", "sha256", "types"])
+        self.assertIn("source_manifest.json files", source_files_entry["rule"])
+
+        source_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_manifest_files")["files"]
+        canonical_manifest = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_manifest")
+        canonical_files = {entry["path"]: entry for entry in canonical_manifest["files"]}
+
+        self.assertEqual(set(source_files), set(canonical_files))
+        self.assertEqual(len(source_files), canonical_manifest["java_file_count"])
+        self.assertIn("mindustry/Vars.java", source_files)
+        self.assertIn("mindustry/world/WorldParams.java", source_files)
+        for file_path, canonical_entry in sorted(canonical_files.items()):
+            with self.subTest(file_path=file_path):
+                self.assertEqual(source_files[file_path]["canonical_file"], f"source_manifest.files.{file_path}")
+                for field in source_files_entry["mirror_fields"]:
+                    self.assertEqual(source_files[file_path][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        source_files_report = [entry for entry in report["modules"] if entry["name"] == "source_manifest_files"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(source_files_report["canonical_mirror"]["checked"], len(source_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
@@ -28018,16 +28097,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 987)
+        self.assertEqual(audit["totalSourceFunctions"], 988)
         self.assertEqual(audit["registeredSourceOwnerCount"], 981)
-        self.assertEqual(audit["exemptSourceOwnerCount"], 6)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 987)
+        self.assertEqual(audit["exemptSourceOwnerCount"], 7)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 988)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_manifest_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_manifest_file_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_consume_item_flammable_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_flammable_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_efficiency_default_constructor_state", audit["registeredSourceOwners"])
