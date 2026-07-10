@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "slices": {
+    "N509": {
+      "canonical_ledger": "source_slice_ledger.N509",
+      "status": "done",
+      "java_source": "arc-core/src/arc/util/Strings.java",
+      "java_method": "fixed(float d, int decimalPlaces)",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "source_symbols": [
+        "arc_strings_fixed_one_decimal.method",
+        "arc_strings_fixed_one_decimal.decimal_places",
+        "arc_strings_fixed_one_decimal.negative",
+        "arc_strings_fixed_one_decimal.absolute_value",
+        "arc_strings_fixed_one_decimal.scaled",
+        "arc_strings_fixed_one_decimal.decimal_position",
+        "arc_strings_fixed_one_decimal.dot_insert",
+        "arc_strings_fixed_one_decimal.return_expr",
+        "arc_strings_fixed_one_decimal.value_input"
+      ],
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    }
+  }
+}

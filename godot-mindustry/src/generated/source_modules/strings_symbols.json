@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "symbols": {
+    "arc_strings_fixed_one_decimal.method": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.method",
+      "status": "source-backed",
+      "java_expr": "public static String fixed(float d, int decimalPlaces){\n        return fixedBuilder(d, decimalPlaces).toString();\n    }",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.method",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "Arc Strings.fixed delegates to fixedBuilder.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.decimal_places": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.decimal_places",
+      "status": "source-backed",
+      "java_expr": "decimalPlaces = 1",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.decimalPlaces",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "This canonical helper pins decimalPlaces to one.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.negative": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.negative",
+      "status": "source-backed",
+      "java_expr": "boolean negative = d < 0;",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.negative",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "FixedBuilder preserves negative sign before abs.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.absolute_value": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.absolute_value",
+      "status": "source-backed",
+      "java_expr": "d = Math.abs(d);",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.absoluteValue",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "FixedBuilder formats absolute value after storing sign.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.scaled": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.scaled",
+      "status": "source-backed",
+      "java_expr": "dec.append((int)(float)(d * Math.pow(10, decimalPlaces) + 0.0001f));",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.scaled",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "FixedBuilder truncates scaled decimal string with epsilon.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.decimal_position": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.decimal_position",
+      "status": "source-backed",
+      "java_expr": "int decimalPosition = len - decimalPlaces;",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.decimalPosition",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "Decimal point position from scaled length and places.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.dot_insert": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.dot_insert",
+      "status": "source-backed",
+      "java_expr": "result.append(\".\");",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.dotInserted",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "FixedBuilder inserts decimal dot for decimalPlaces greater than zero.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.return_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.return_expr",
+      "status": "source-backed",
+      "java_expr": "return fixedBuilder(d, decimalPlaces).toString();",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_result.fixed",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "Fixed returns the fixedBuilder string.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    },
+    "arc_strings_fixed_one_decimal.value_input": {
+      "canonical_symbol": "source_symbol_registry.arc_strings_fixed_one_decimal.value_input",
+      "status": "explicit-input",
+      "java_expr": "d",
+      "godot_symbol": "source_arc_strings_fixed_one_decimal_input.value",
+      "godot_owner": "PortGame.source_arc_strings_fixed_one_decimal",
+      "rule": "Runtime value maps to Java d.",
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "contracts": {
+    "PortGame.source_arc_strings_fixed_one_decimal": {
+      "canonical_contract": "source_api_contracts.PortGame.source_arc_strings_fixed_one_decimal",
+      "status": "active",
+      "source_slice": "N509",
+      "java_source": "arc-core/src/arc/util/Strings.java",
+      "source_method": "fixed(float d, int decimalPlaces)",
+      "params": [
+        {
+          "name": "value",
+          "schema": "source_arc_strings_fixed_one_decimal_input.value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "decimalPlaces",
+        "negative",
+        "absoluteValue",
+        "scaled",
+        "decimalPosition",
+        "dotInserted",
+        "fixed",
+        "value"
+      ],
+      "tests": [
+        "test_arc_strings_fixed_one_decimal_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_arc_strings_fixed_one_decimal",
+      "rule": "Public runtime contract for Arc Strings.fixed(float,1) helper."
+    }
+  }
+}

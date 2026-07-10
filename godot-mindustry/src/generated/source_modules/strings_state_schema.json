@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_arc_strings_fixed_one_decimal_input": {
+      "canonical_schema": "source_state_schema.source_arc_strings_fixed_one_decimal_input",
+      "keys": {
+        "value": {
+          "godot_symbol": "source_arc_strings_fixed_one_decimal_input.value",
+          "java_expr": "d",
+          "java_method": "fixed(float d, int decimalPlaces)",
+          "java_source": "arc-core/src/arc/util/Strings.java",
+          "rule": "Java d input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_strings_fixed_one_decimal"
+          ]
+        }
+      }
+    }
+  }
+}
