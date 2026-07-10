@@ -4552,7 +4552,7 @@
         "builder_draw_plan.draw_breaking_call",
         "builder_draw_plan.draw_plan_call"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_builder_comp_draw_plan_to_source_state",
         "test_port_game_exposes_source_builder_draw_plan_state",

@@ -66420,6 +66420,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_plan_config_top_call"]["java_expr"], "plan.block.drawPlanConfigTop(plan, plans);")
 
     def test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -66449,6 +66452,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_plan_slice["java_method"], "drawPlan(BuildPlan plan, float alpha)")
         self.assertEqual(draw_plan_slice["godot_owner"], "PortGame.source_builder_draw_plan_state")
         self.assertEqual(draw_plan_slice["runtime_proof"], "/root/Main.generated_builder_comp_draw_plan_bridge_state")
+        self.assertEqual(draw_plan_slice["status"], "done")
         self.assertIn("void drawPlan(BuildPlan plan, float alpha){", draw_plan_slice["exact_exprs"])
         self.assertIn("plan.animScale = 1f;", draw_plan_slice["exact_exprs"])
         self.assertIn("if(plan.breaking){", draw_plan_slice["exact_exprs"])
@@ -66456,6 +66460,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("plan.block.drawPlan(plan, control.input.allPlans(),", draw_plan_slice["exact_exprs"])
         self.assertIn("Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),", draw_plan_slice["exact_exprs"])
         self.assertIn("alpha);", draw_plan_slice["exact_exprs"])
+
+        comp_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]["N1151"]
+        source_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]["N1151"]
+        self.assertEqual(comp_slice["status"], "done")
+        self.assertEqual(source_slice["status"], "done")
+        self.assertEqual(source_slice["slice"]["status"], "done")
 
         contract = source_symbols.api_contract(contracts, "PortGame.source_builder_draw_plan_state")
         self.assertEqual(contract["params"], [
