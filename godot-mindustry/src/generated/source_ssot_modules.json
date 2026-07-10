@@ -1590,6 +1590,21 @@
         "tests",
         "contract"
       ]
+    },
+    "source_state_schema_schemas": {
+      "path": "src/generated/source_modules/source_state_schema_schemas.json",
+      "root_key": "schemas",
+      "label": "schemaName",
+      "status": "active",
+      "rule": "Complete extension shard for source_state_schema.json schemas; canonical state schema metadata remains mirrored from state_schema before use.",
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "canonical_value_field": "schema",
+      "mirror_fields": [
+        "keys",
+        "schema"
+      ]
     }
   },
   "policy": {
