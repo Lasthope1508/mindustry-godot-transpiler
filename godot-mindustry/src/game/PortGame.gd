@@ -3883,6 +3883,36 @@ func generated_consume_liquid_filter_consumes_bridge_state(filter_get_liquid: bo
 		"matches": result.get("consumes_liquid", null) == canonical.get("consumes_liquid", null),
 	}
 
+func source_consume_optional_state(optional_value: bool, boost_value: bool) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_optional_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public Consume optional(boolean optional, boolean boost){",
+		"optional_field": "public boolean optional;",
+		"booster_field": "public boolean booster;",
+		"optional_assignment_expr": "this.optional = optional;",
+		"booster_assignment_expr": "this.booster = boost;",
+		"return_expr": "return this;",
+		"optional_value": optional_value,
+		"boost_value": boost_value,
+		"optional_after": optional_value,
+		"booster_after": boost_value,
+		"return_self": true,
+	}
+
+func generated_consume_optional_bridge_state(optional_value: bool, boost_value: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_optional_1([optional_value, boost_value])
+	var canonical = source_consume_optional_state(optional_value, boost_value)
+	return {
+		"source_owner": "PortGame.source_consume_optional_state",
+		"generated_owner": "Consume.optional",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("optional_after", null) == canonical.get("optional_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("return_self", null) == canonical.get("return_self", null),
+	}
+
 func source_consume_liquid_base_constructor_state(amount: float) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquid_base_constructor_state",

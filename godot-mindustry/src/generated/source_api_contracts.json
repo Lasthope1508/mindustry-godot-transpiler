@@ -42500,6 +42500,51 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state",
       "rule": "Public source helper exposes only the abstract ConsumeLiquidBase.consumes(Liquid) contract boundary."
+    },
+    "PortGame.source_consume_optional_state": {
+      "status": "source-backed",
+      "source_slice": "N1551",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "source_method": "optional(boolean optional, boolean boost)",
+      "params": [
+        {
+          "name": "optional_value",
+          "type": "bool",
+          "schema": "source_consume_optional_input.optional_value",
+          "java_expr": "boolean optional",
+          "source_symbol": "consume_optional.optional_assignment"
+        },
+        {
+          "name": "boost_value",
+          "type": "bool",
+          "schema": "source_consume_optional_input.boost_value",
+          "java_expr": "boolean boost",
+          "source_symbol": "consume_optional.booster_assignment"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "optional_field",
+        "booster_field",
+        "optional_assignment_expr",
+        "booster_assignment_expr",
+        "return_expr",
+        "optional_value",
+        "boost_value",
+        "optional_after",
+        "booster_after",
+        "return_self"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_optional_state",
+      "rule": "Public source helper exposes Consume.optional(boolean optional, boolean boost) field assignment and fluent return state."
     }
   },
   "policy": {

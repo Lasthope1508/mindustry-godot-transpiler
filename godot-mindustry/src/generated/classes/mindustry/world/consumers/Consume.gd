@@ -17,7 +17,12 @@ func java_method_apply_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_optional_1(_args: Array = []) -> Variant:
-	return null
+	var optional_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var boost_value: bool = bool(_args[1] if _args.size() > 1 else false)
+	var optional_after: bool = optional_value
+	var booster_after: bool = boost_value
+	var return_self: bool = true
+	return {"source_owner": "PortGame.source_consume_optional_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume optional(boolean optional, boolean boost){", "optional_field": "public boolean optional;", "booster_field": "public boolean booster;", "optional_assignment_expr": "this.optional = optional;", "booster_assignment_expr": "this.booster = boost;", "return_expr": "return this;", "optional_value": optional_value, "boost_value": boost_value, "optional_after": optional_after, "booster_after": booster_after, "return_self": return_self}
 
 func java_method_boost_2(_args: Array = []) -> Variant:
 	return null

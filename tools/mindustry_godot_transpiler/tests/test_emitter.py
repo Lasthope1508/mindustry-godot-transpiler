@@ -19437,6 +19437,51 @@ public abstract class ConsumeLiquidBase extends Consume{
             self.assertIn('"block_has_liquids_before": block_has_liquids_before', source_text)
             self.assertIn('"block_has_liquids_after": block_has_liquids_after', source_text)
 
+    def test_emit_bridges_consume_optional_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "Consume.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public abstract class Consume{
+    public boolean optional;
+    public boolean booster;
+
+    public Consume optional(boolean optional, boolean boost){
+        this.optional = optional;
+        this.booster = boost;
+        return this;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "Consume.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_optional_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var optional_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var boost_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var optional_after: bool = optional_value", source_text)
+            self.assertIn("var booster_after: bool = boost_value", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_optional_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source_text)
+            self.assertIn('"method": "public Consume optional(boolean optional, boolean boost){"', source_text)
+            self.assertIn('"optional_field": "public boolean optional;"', source_text)
+            self.assertIn('"booster_field": "public boolean booster;"', source_text)
+            self.assertIn('"optional_assignment_expr": "this.optional = optional;"', source_text)
+            self.assertIn('"booster_assignment_expr": "this.booster = boost;"', source_text)
+            self.assertIn('"return_expr": "return this;"', source_text)
+            self.assertIn('"optional_after": optional_after', source_text)
+            self.assertIn('"booster_after": booster_after', source_text)
+
     def test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

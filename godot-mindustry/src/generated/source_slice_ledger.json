@@ -38696,6 +38696,40 @@
         "Concrete consumes(Liquid) behavior remains implemented by subclasses such as ConsumeLiquidFilter and ConsumeLiquid; base class only declares the abstract contract."
       ],
       "rule": "Generated bridge records ConsumeLiquidBase abstract consumes(Liquid) declaration without inventing subclass liquid-consumption behavior."
+    },
+    "N1551": {
+      "title": "Generated Consume optional bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_class": "Consume",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "generated_owner": "Consume.java_method_optional_1",
+      "godot_owner": "PortGame.source_consume_optional_state",
+      "runtime_proof": "/root/Main.generated_consume_optional_bridge_state",
+      "exact_exprs": [
+        "public boolean optional;",
+        "public boolean booster;",
+        "public Consume optional(boolean optional, boolean boost){",
+        "this.optional = optional;",
+        "this.booster = boost;",
+        "return this;"
+      ],
+      "source_symbols": [
+        "consume_optional.method",
+        "consume_optional.optional_assignment",
+        "consume_optional.booster_assignment",
+        "consume_optional.return"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Consume.boost(), Consume.update(boolean), ignore(), build(), trigger(), update(Building), efficiency(), efficiencyMultiplier(), and display() remain separate base consumer slices."
+      ],
+      "rule": "Generated bridge records Consume.optional(boolean, boolean) field assignments and fluent self return without inventing live object mutation beyond explicit source state."
     }
   },
   "version": 1

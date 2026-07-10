@@ -129576,6 +129576,70 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state",
       "rule": "Consumes is abstract in base class; concrete return is deferred to subclasses."
+    },
+    "consume_optional.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "java_expr": "public Consume optional(boolean optional, boolean boost){",
+      "godot_symbol": "source_consume_optional_result.method",
+      "godot_owner": "PortGame.source_consume_optional_state",
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_optional_state",
+      "rule": "Exact Consume.optional method boundary."
+    },
+    "consume_optional.optional_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "java_expr": "this.optional = optional;",
+      "godot_symbol": "source_consume_optional_result.optional_after",
+      "godot_owner": "PortGame.source_consume_optional_state",
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_optional_state",
+      "rule": "Exact optional field assignment in Consume.optional."
+    },
+    "consume_optional.booster_assignment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "java_expr": "this.booster = boost;",
+      "godot_symbol": "source_consume_optional_result.booster_after",
+      "godot_owner": "PortGame.source_consume_optional_state",
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_optional_state",
+      "rule": "Exact booster field assignment in Consume.optional."
+    },
+    "consume_optional.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "optional(boolean optional, boolean boost)",
+      "java_expr": "return this;",
+      "godot_symbol": "source_consume_optional_result.return_self",
+      "godot_owner": "PortGame.source_consume_optional_state",
+      "tests": [
+        "test_emit_bridges_consume_optional_to_source_state",
+        "test_port_game_exposes_generated_consume_optional_bridge_state",
+        "test_consume_optional_matches_upstream_source",
+        "test_generated_consume_optional_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_optional_state",
+      "rule": "Exact fluent self return in Consume.optional."
     }
   },
   "version": 1
