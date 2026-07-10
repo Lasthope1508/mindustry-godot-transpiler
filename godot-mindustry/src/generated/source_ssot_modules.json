@@ -1425,6 +1425,25 @@
         "texture"
       ]
     },
+    "content_registry_units": {
+      "path": "src/generated/source_modules/content_registry_units.json",
+      "root_key": "units",
+      "label": "id",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json units; canonical unit metadata remains mirrored from content_registry.units before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "units",
+      "canonical_key_field": "id",
+      "canonical_reference_key": "canonical_unit",
+      "canonical_reference_prefix": "content_registry.units.",
+      "mirror_fields": [
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

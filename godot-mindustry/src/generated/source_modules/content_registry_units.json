@@ -1,0 +1,784 @@
+{
+  "version": 1,
+  "units": {
+    "dagger": {
+      "canonical_unit": "content_registry.units.dagger",
+      "field": "dagger",
+      "id": "dagger",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 150,
+        "hitSize": 8.0,
+        "speed": 0.5,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 60.0,
+              "speed": 2.5,
+              "sprite": "bullet"
+            },
+            "reload": 13.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/dagger.png"
+    },
+    "mace": {
+      "canonical_unit": "content_registry.units.mace",
+      "field": "mace",
+      "id": "mace",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 550,
+        "hitSize": 10.0,
+        "speed": 0.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/mace.png"
+    },
+    "fortress": {
+      "canonical_unit": "content_registry.units.fortress",
+      "field": "fortress",
+      "id": "fortress",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 900,
+        "hitSize": 13.0,
+        "speed": 0.43
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/fortress.png"
+    },
+    "scepter": {
+      "canonical_unit": "content_registry.units.scepter",
+      "field": "scepter",
+      "id": "scepter",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 9000,
+        "hitSize": 22.0,
+        "speed": 0.36,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 70,
+              "lifetime": 27.0,
+              "speed": 8.0,
+              "sprite": "bullet"
+            },
+            "reload": 45.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/scepter.png"
+    },
+    "reign": {
+      "canonical_unit": "content_registry.units.reign",
+      "field": "reign",
+      "id": "reign",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 24000,
+        "hitSize": 30.0,
+        "speed": 0.4,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 80,
+              "lifetime": 15.0,
+              "speed": 13.0,
+              "sprite": "bullet"
+            },
+            "reload": 9.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/reign.png"
+    },
+    "nova": {
+      "canonical_unit": "content_registry.units.nova",
+      "field": "nova",
+      "id": "nova",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 120.0,
+        "hitSize": 8.0,
+        "speed": 0.55
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/nova.png"
+    },
+    "pulsar": {
+      "canonical_unit": "content_registry.units.pulsar",
+      "field": "pulsar",
+      "id": "pulsar",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 320.0,
+        "hitSize": 11.0,
+        "speed": 0.7
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/pulsar.png"
+    },
+    "quasar": {
+      "canonical_unit": "content_registry.units.quasar",
+      "field": "quasar",
+      "id": "quasar",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 640.0,
+        "hitSize": 13.0,
+        "speed": 0.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/quasar.png"
+    },
+    "vela": {
+      "canonical_unit": "content_registry.units.vela",
+      "field": "vela",
+      "id": "vela",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 8200.0,
+        "hitSize": 24.0,
+        "speed": 0.44
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/vela.png"
+    },
+    "corvus": {
+      "canonical_unit": "content_registry.units.corvus",
+      "field": "corvus",
+      "id": "corvus",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 18000.0,
+        "hitSize": 29.0,
+        "speed": 0.3
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/corvus.png"
+    },
+    "crawler": {
+      "canonical_unit": "content_registry.units.crawler",
+      "field": "crawler",
+      "id": "crawler",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 150,
+        "hitSize": 8.0,
+        "speed": 1.0
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/crawler.png"
+    },
+    "atrax": {
+      "canonical_unit": "content_registry.units.atrax",
+      "field": "atrax",
+      "id": "atrax",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 600,
+        "hitSize": 13.0,
+        "speed": 0.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/atrax.png"
+    },
+    "spiroct": {
+      "canonical_unit": "content_registry.units.spiroct",
+      "field": "spiroct",
+      "id": "spiroct",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 1000,
+        "hitSize": 15.0,
+        "speed": 0.54
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/spiroct.png"
+    },
+    "arkyid": {
+      "canonical_unit": "content_registry.units.arkyid",
+      "field": "arkyid",
+      "id": "arkyid",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 8000,
+        "hitSize": 23.0,
+        "speed": 0.62
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/arkyid.png"
+    },
+    "toxopid": {
+      "canonical_unit": "content_registry.units.toxopid",
+      "field": "toxopid",
+      "id": "toxopid",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 22000,
+        "hitSize": 26.0,
+        "speed": 0.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/toxopid.png"
+    },
+    "flare": {
+      "canonical_unit": "content_registry.units.flare",
+      "field": "flare",
+      "id": "flare",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 70,
+        "hitSize": 9,
+        "speed": 2.7,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 32.0,
+              "speed": 2.5,
+              "sprite": "bullet"
+            },
+            "reload": 80.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/flare.png"
+    },
+    "horizon": {
+      "canonical_unit": "content_registry.units.horizon",
+      "field": "horizon",
+      "id": "horizon",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 340,
+        "hitSize": 11.0,
+        "speed": 1.65
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/horizon.png"
+    },
+    "zenith": {
+      "canonical_unit": "content_registry.units.zenith",
+      "field": "zenith",
+      "id": "zenith",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 700,
+        "hitSize": 20.0,
+        "speed": 1.7
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/zenith.png"
+    },
+    "antumbra": {
+      "canonical_unit": "content_registry.units.antumbra",
+      "field": "antumbra",
+      "id": "antumbra",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 7200,
+        "hitSize": 46.0,
+        "speed": 0.8
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/antumbra.png"
+    },
+    "eclipse": {
+      "canonical_unit": "content_registry.units.eclipse",
+      "field": "eclipse",
+      "id": "eclipse",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 22000,
+        "hitSize": 58.0,
+        "speed": 0.54
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/eclipse.png"
+    },
+    "mono": {
+      "canonical_unit": "content_registry.units.mono",
+      "field": "mono",
+      "id": "mono",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 100,
+        "speed": 1.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/mono.png"
+    },
+    "poly": {
+      "canonical_unit": "content_registry.units.poly",
+      "field": "poly",
+      "id": "poly",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 400,
+        "hitSize": 9.0,
+        "speed": 2.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/poly.png"
+    },
+    "mega": {
+      "canonical_unit": "content_registry.units.mega",
+      "field": "mega",
+      "id": "mega",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 460,
+        "hitSize": 16.05,
+        "speed": 2.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/mega.png"
+    },
+    "quad": {
+      "canonical_unit": "content_registry.units.quad",
+      "field": "quad",
+      "id": "quad",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 6000,
+        "hitSize": 36.0,
+        "speed": 1.2
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/quad.png"
+    },
+    "oct": {
+      "canonical_unit": "content_registry.units.oct",
+      "field": "oct",
+      "id": "oct",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 24000,
+        "hitSize": 66.0,
+        "speed": 0.8
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/oct.png"
+    },
+    "risso": {
+      "canonical_unit": "content_registry.units.risso",
+      "field": "risso",
+      "id": "risso",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 280,
+        "hitSize": 10.0,
+        "speed": 1.1,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 9,
+              "lifetime": 60.0,
+              "speed": 2.5,
+              "sprite": "bullet"
+            },
+            "reload": 13.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/risso.png"
+    },
+    "minke": {
+      "canonical_unit": "content_registry.units.minke",
+      "field": "minke",
+      "id": "minke",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 600,
+        "hitSize": 13.0,
+        "speed": 0.9
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/minke.png"
+    },
+    "bryde": {
+      "canonical_unit": "content_registry.units.bryde",
+      "field": "bryde",
+      "id": "bryde",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 910,
+        "hitSize": 20.0,
+        "speed": 0.85
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/bryde.png"
+    },
+    "sei": {
+      "canonical_unit": "content_registry.units.sei",
+      "field": "sei",
+      "id": "sei",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 11000,
+        "hitSize": 39.0,
+        "speed": 0.73,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 57,
+              "lifetime": 35.0,
+              "speed": 7.0,
+              "sprite": "bullet"
+            },
+            "reload": 60.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/sei.png"
+    },
+    "omura": {
+      "canonical_unit": "content_registry.units.omura",
+      "field": "omura",
+      "id": "omura",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 22000,
+        "hitSize": 58.0,
+        "speed": 0.62
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/omura.png"
+    },
+    "retusa": {
+      "canonical_unit": "content_registry.units.retusa",
+      "field": "retusa",
+      "id": "retusa",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 270,
+        "hitSize": 11.0,
+        "speed": 0.9
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/retusa.png"
+    },
+    "oxynoe": {
+      "canonical_unit": "content_registry.units.oxynoe",
+      "field": "oxynoe",
+      "id": "oxynoe",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 560,
+        "hitSize": 14.0,
+        "speed": 0.83
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/oxynoe.png"
+    },
+    "cyerce": {
+      "canonical_unit": "content_registry.units.cyerce",
+      "field": "cyerce",
+      "id": "cyerce",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 870,
+        "hitSize": 20.0,
+        "speed": 0.86
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/cyerce.png"
+    },
+    "aegires": {
+      "canonical_unit": "content_registry.units.aegires",
+      "field": "aegires",
+      "id": "aegires",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 12000,
+        "hitSize": 44.0,
+        "speed": 0.7
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/aegires.png"
+    },
+    "navanax": {
+      "canonical_unit": "content_registry.units.navanax",
+      "field": "navanax",
+      "id": "navanax",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 20000,
+        "hitSize": 58.0,
+        "speed": 0.65
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/navanax.png"
+    },
+    "alpha": {
+      "canonical_unit": "content_registry.units.alpha",
+      "field": "alpha",
+      "id": "alpha",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 150.0,
+        "hitSize": 8.0,
+        "speed": 3.0
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/alpha.png"
+    },
+    "beta": {
+      "canonical_unit": "content_registry.units.beta",
+      "field": "beta",
+      "id": "beta",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 170.0,
+        "hitSize": 9.0,
+        "speed": 3.3
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/beta.png"
+    },
+    "gamma": {
+      "canonical_unit": "content_registry.units.gamma",
+      "field": "gamma",
+      "id": "gamma",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 220.0,
+        "hitSize": 11.0,
+        "speed": 3.55
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/gamma.png"
+    },
+    "merui": {
+      "canonical_unit": "content_registry.units.merui",
+      "field": "merui",
+      "id": "merui",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 680,
+        "hitSize": 9.0,
+        "speed": 0.72
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/merui.png"
+    },
+    "cleroi": {
+      "canonical_unit": "content_registry.units.cleroi",
+      "field": "cleroi",
+      "id": "cleroi",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 1100,
+        "hitSize": 14.0,
+        "speed": 0.6,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 30,
+              "lifetime": 40.0,
+              "speed": 3.5,
+              "sprite": "bullet"
+            },
+            "reload": 33.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/cleroi.png"
+    },
+    "anthicus": {
+      "canonical_unit": "content_registry.units.anthicus",
+      "field": "anthicus",
+      "id": "anthicus",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 2700,
+        "hitSize": 21.0,
+        "speed": 0.65
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/anthicus.png"
+    },
+    "tecta": {
+      "canonical_unit": "content_registry.units.tecta",
+      "field": "tecta",
+      "id": "tecta",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 6500,
+        "hitSize": 30.0,
+        "speed": 0.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/tecta.png"
+    },
+    "collaris": {
+      "canonical_unit": "content_registry.units.collaris",
+      "field": "collaris",
+      "id": "collaris",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 18000,
+        "hitSize": 44.0,
+        "speed": 1.1
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/collaris.png"
+    },
+    "elude": {
+      "canonical_unit": "content_registry.units.elude",
+      "field": "elude",
+      "id": "elude",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 600.0,
+        "hitSize": 11.0,
+        "speed": 1.8,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 16,
+              "lifetime": 30.0,
+              "speed": 5.0,
+              "sprite": "bullet"
+            },
+            "reload": 40.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/elude.png"
+    },
+    "avert": {
+      "canonical_unit": "content_registry.units.avert",
+      "field": "avert",
+      "id": "avert",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 1100.0,
+        "hitSize": 12.0,
+        "speed": 2.0,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 22.0,
+              "lifetime": 18.0,
+              "speed": 5.0,
+              "sprite": "bullet"
+            },
+            "reload": 35.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/avert.png"
+    },
+    "obviate": {
+      "canonical_unit": "content_registry.units.obviate",
+      "field": "obviate",
+      "id": "obviate",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 2300.0,
+        "hitSize": 25.0,
+        "speed": 1.8
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/obviate.png"
+    },
+    "quell": {
+      "canonical_unit": "content_registry.units.quell",
+      "field": "quell",
+      "id": "quell",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 6000.0,
+        "hitSize": 36.0,
+        "speed": 1.1,
+        "weapons": [
+          {
+            "bullet": {
+              "damage": 70.0,
+              "speed": 4.3,
+              "sprite": "missile-large"
+            },
+            "reload": 55.0
+          }
+        ]
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/quell.png"
+    },
+    "disrupt": {
+      "canonical_unit": "content_registry.units.disrupt",
+      "field": "disrupt",
+      "id": "disrupt",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 12000.0,
+        "hitSize": 46.0,
+        "speed": 1.0
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/disrupt.png"
+    },
+    "renale": {
+      "canonical_unit": "content_registry.units.renale",
+      "field": "renale",
+      "id": "renale",
+      "implementation": "NeoplasmUnitType",
+      "properties": {
+        "health": 500,
+        "hitSize": 9.0,
+        "speed": 1.2
+      },
+      "texture": ""
+    },
+    "latum": {
+      "canonical_unit": "content_registry.units.latum",
+      "field": "latum",
+      "id": "latum",
+      "implementation": "NeoplasmUnitType",
+      "properties": {
+        "health": 20000,
+        "hitSize": 48.0,
+        "speed": 1.0
+      },
+      "texture": ""
+    },
+    "evoke": {
+      "canonical_unit": "content_registry.units.evoke",
+      "field": "evoke",
+      "id": "evoke",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 300.0,
+        "hitSize": 9.0,
+        "speed": 5.6
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/evoke.png"
+    },
+    "incite": {
+      "canonical_unit": "content_registry.units.incite",
+      "field": "incite",
+      "id": "incite",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 500.0,
+        "hitSize": 11.0,
+        "speed": 7.0
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/incite.png"
+    },
+    "emanate": {
+      "canonical_unit": "content_registry.units.emanate",
+      "field": "emanate",
+      "id": "emanate",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 700.0,
+        "hitSize": 12.0,
+        "speed": 7.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/emanate.png"
+    },
+    "block": {
+      "canonical_unit": "content_registry.units.block",
+      "field": "block",
+      "id": "block",
+      "implementation": "UnitType",
+      "properties": {
+        "health": 1,
+        "hitSize": 0.0,
+        "speed": 0.0
+      },
+      "texture": ""
+    },
+    "manifold": {
+      "canonical_unit": "content_registry.units.manifold",
+      "field": "manifold",
+      "id": "manifold",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 200.0,
+        "hitSize": 11.0,
+        "speed": 3.5
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/manifold.png"
+    },
+    "assembly-drone": {
+      "canonical_unit": "content_registry.units.assembly-drone",
+      "field": "assemblyDrone",
+      "id": "assembly-drone",
+      "implementation": "ErekirUnitType",
+      "properties": {
+        "health": 90,
+        "speed": 1.3
+      },
+      "texture": "res://assets/core/assets-raw/sprites/units/assembly-drone.png"
+    }
+  }
+}
