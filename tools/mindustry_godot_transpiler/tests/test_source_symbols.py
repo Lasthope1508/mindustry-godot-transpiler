@@ -1314,6 +1314,37 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(exempt_report["canonical_mirror"]["checked"], len(exempt_files))
 
+    def test_source_ssot_source_audit_legacy_unregistered_owners_shard_declares_empty_indexed_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        legacy_entry = manifest["modules"]["source_audit_legacy_unregistered_owners"]
+
+        self.assertEqual(legacy_entry["canonical_module"], "audit_report")
+        self.assertEqual(legacy_entry["canonical_collection_key"], "legacyUnregisteredOwners")
+        self.assertEqual(legacy_entry["canonical_key_field"], "@index")
+        self.assertEqual(legacy_entry["canonical_reference_key"], "canonical_owner")
+        self.assertEqual(legacy_entry["canonical_reference_prefix"], "source_symbol_audit_report.legacyUnregisteredOwners.")
+        self.assertEqual(legacy_entry["canonical_value_field"], "owner")
+        self.assertEqual(legacy_entry["root_key"], "owners")
+        self.assertEqual(legacy_entry["mirror_fields"], ["index", "owner"])
+        self.assertIn("source_symbol_audit_report.json legacyUnregisteredOwners", legacy_entry["rule"])
+
+        legacy_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_audit_legacy_unregistered_owners")["owners"]
+        canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
+        canonical_legacy_owners = canonical_audit["legacyUnregisteredOwners"]
+
+        self.assertEqual(legacy_files, {})
+        self.assertEqual(canonical_legacy_owners, [])
+        self.assertEqual(len(legacy_files), canonical_audit["legacyUnregisteredOwnerCount"])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        legacy_report = [entry for entry in report["modules"] if entry["name"] == "source_audit_legacy_unregistered_owners"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(legacy_report["canonical_mirror"]["checked"], 0)
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

@@ -185,6 +185,9 @@ func ssot_audit_function_state(function_index: String = "") -> Dictionary:
 func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)
 
+func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)
+
 func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
 
