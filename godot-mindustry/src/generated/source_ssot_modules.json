@@ -1645,6 +1645,23 @@
         "index",
         "owner"
       ]
+    },
+    "source_audit_functions": {
+      "path": "src/generated/source_modules/source_audit_functions.json",
+      "root_key": "functions",
+      "label": "index",
+      "status": "active",
+      "rule": "Extension shard for source_symbol_audit_report.json sourceFunctions; canonical source function audit rows remain mirrored from audit_report before use.",
+      "canonical_module": "audit_report",
+      "canonical_collection_key": "sourceFunctions",
+      "canonical_key_field": "@index",
+      "canonical_reference_key": "canonical_function",
+      "canonical_reference_prefix": "source_symbol_audit_report.sourceFunctions.",
+      "canonical_value_field": "function_entry",
+      "mirror_fields": [
+        "index",
+        "function_entry"
+      ]
     }
   },
   "policy": {

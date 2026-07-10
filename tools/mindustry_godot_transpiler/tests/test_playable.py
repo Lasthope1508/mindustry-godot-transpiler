@@ -13119,6 +13119,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)', source)
 
+    def test_port_game_exposes_source_audit_functions_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_functions.json").exists())
+        self.assertIn('"source_audit_functions": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn('func ssot_audit_function_state(function_index: String = "") -> Dictionary:', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)', source)
+
     def test_port_game_exposes_source_symbol_audit_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

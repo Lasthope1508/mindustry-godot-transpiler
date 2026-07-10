@@ -1240,6 +1240,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(owner_report["canonical_mirror"]["checked"], len(owner_files))
 
+    def test_source_ssot_source_audit_functions_shard_declares_indexed_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        function_entry = manifest["modules"]["source_audit_functions"]
+
+        self.assertEqual(function_entry["canonical_module"], "audit_report")
+        self.assertEqual(function_entry["canonical_collection_key"], "sourceFunctions")
+        self.assertEqual(function_entry["canonical_key_field"], "@index")
+        self.assertEqual(function_entry["canonical_reference_key"], "canonical_function")
+        self.assertEqual(function_entry["canonical_reference_prefix"], "source_symbol_audit_report.sourceFunctions.")
+        self.assertEqual(function_entry["canonical_value_field"], "function_entry")
+        self.assertEqual(function_entry["root_key"], "functions")
+        self.assertEqual(function_entry["mirror_fields"], ["index", "function_entry"])
+        self.assertIn("source_symbol_audit_report.json sourceFunctions", function_entry["rule"])
+
+        function_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_audit_functions")["functions"]
+        canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
+        canonical_functions = canonical_audit["sourceFunctions"]
+
+        self.assertEqual(set(function_files), {str(index) for index in range(len(canonical_functions))})
+        self.assertEqual(len(function_files), canonical_audit["totalSourceFunctions"])
+        self.assertEqual(function_files["0"]["function_entry"]["owner"], "PortGame.source_symbol_registry_state")
+        for index, canonical_function in enumerate(canonical_functions):
+            item_key = str(index)
+            with self.subTest(item_key=item_key):
+                self.assertEqual(function_files[item_key]["canonical_function"], f"source_symbol_audit_report.sourceFunctions.{item_key}")
+                self.assertEqual(function_files[item_key]["index"], index)
+                self.assertEqual(function_files[item_key]["function_entry"], canonical_function)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        function_report = [entry for entry in report["modules"] if entry["name"] == "source_audit_functions"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(function_report["canonical_mirror"]["checked"], len(function_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 
