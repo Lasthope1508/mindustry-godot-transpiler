@@ -5606,6 +5606,20 @@ def verify_consume_update_flag_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_ignore_source(upstream_root: Path) -> dict[str, Any]:
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    source = (Path(upstream_root) / consume_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean ignore(){",
+        "return_expr": "return false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_abstract_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     source = (Path(upstream_root) / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")

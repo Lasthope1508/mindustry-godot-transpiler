@@ -4038,6 +4038,28 @@ func generated_consume_update_flag_bridge_state(update_value: bool) -> Dictionar
 		"matches": result.get("update_after", null) == canonical.get("update_after", null) and result.get("return_self", null) == canonical.get("return_self", null),
 	}
 
+func source_consume_ignore_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_ignore_state",
+		"source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public boolean ignore(){",
+		"return_expr": "return false;",
+		"ignored": false,
+	}
+
+func generated_consume_ignore_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")
+	var instance = script.new()
+	var result = instance.java_method_ignore_4([])
+	var canonical = source_consume_ignore_state()
+	return {
+		"source_owner": "PortGame.source_consume_ignore_state",
+		"generated_owner": "Consume.ignore",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ignored", null) == canonical.get("ignored", null),
+	}
+
 func source_consume_liquid_base_constructor_state(amount: float) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquid_base_constructor_state",

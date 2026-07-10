@@ -163051,6 +163051,54 @@
           "rule": "True because source returns this."
         }
       }
+    },
+    "source_consume_ignore_result": {
+      "status": "source-backed",
+      "source_slice": "N1577",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.source_consume_ignore_state",
+      "tests": [
+        "test_emit_bridges_consume_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_ignore_bridge_state",
+        "test_consume_ignore_matches_upstream_source",
+        "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_ignore_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public boolean ignore(){",
+          "rule": "Exact method boundary."
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return false;",
+          "rule": "Exact return expression."
+        },
+        "ignored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return false;",
+          "rule": "False because source default implementation returns false."
+        }
+      }
     }
   },
   "version": 1

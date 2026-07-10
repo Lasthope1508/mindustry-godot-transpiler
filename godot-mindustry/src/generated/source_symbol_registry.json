@@ -129740,6 +129740,38 @@
         "test_generated_consume_update_flag_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_update_flag_state"
+    },
+    "consume_ignore.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "ignore()",
+      "java_expr": "public boolean ignore(){",
+      "godot_symbol": "source_consume_ignore_result.method",
+      "godot_owner": "PortGame.source_consume_ignore_state",
+      "rule": "Exact method boundary for Consume.ignore().",
+      "tests": [
+        "test_emit_bridges_consume_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_ignore_bridge_state",
+        "test_consume_ignore_matches_upstream_source",
+        "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_ignore_state"
+    },
+    "consume_ignore.return": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "ignore()",
+      "java_expr": "return false;",
+      "godot_symbol": "source_consume_ignore_result.ignored",
+      "godot_owner": "PortGame.source_consume_ignore_state",
+      "rule": "Exact default false return in Consume.ignore().",
+      "tests": [
+        "test_emit_bridges_consume_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_ignore_bridge_state",
+        "test_consume_ignore_matches_upstream_source",
+        "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_ignore_state"
     }
   },
   "version": 1

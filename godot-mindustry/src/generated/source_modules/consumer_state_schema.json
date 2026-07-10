@@ -13595,6 +13595,45 @@
           "rule": "True because source returns this."
         }
       }
+    },
+    "source_consume_ignore_result": {
+      "canonical_schema": "source_state_schema.source_consume_ignore_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_ignore_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "public boolean ignore(){",
+          "rule": "Exact method boundary."
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return false;",
+          "rule": "Exact return expression."
+        },
+        "ignored": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "return false;",
+          "rule": "False because source default implementation returns false."
+        }
+      }
     }
   }
 }

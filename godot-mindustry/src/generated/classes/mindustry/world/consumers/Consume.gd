@@ -39,7 +39,8 @@ func java_method_update_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_update_flag_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume update(boolean update){", "update_field": "public boolean update = true;", "update_assignment_expr": "this.update = update;", "return_expr": "return this;", "update_value": update_value, "update_after": update_after, "return_self": return_self}
 
 func java_method_ignore_4(_args: Array = []) -> Variant:
-	return null
+	var ignored: bool = false
+	return {"source_owner": "PortGame.source_consume_ignore_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public boolean ignore(){", "return_expr": "return false;", "ignored": ignored}
 
 func java_method_build_5(_args: Array = []) -> Variant:
 	return null

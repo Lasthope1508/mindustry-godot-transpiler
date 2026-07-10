@@ -86200,6 +86200,51 @@
         "runtime_proof": "/root/Main.source_consume_update_flag_state",
         "rule": "Public source helper exposes Consume.update(boolean update) field assignment and fluent return state."
       }
+    },
+    "PortGame.source_consume_ignore_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_ignore_state",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "ignored"
+      ],
+      "rule": "Public source helper exposes Consume.ignore() default false return state.",
+      "runtime_proof": "/root/Main.source_consume_ignore_state",
+      "source_method": "ignore()",
+      "source_slice": "N1577",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_ignore_bridge_state",
+        "test_consume_ignore_matches_upstream_source",
+        "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+      ],
+      "contract": {
+        "status": "source-backed",
+        "source_slice": "N1577",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "source_method": "ignore()",
+        "params": [],
+        "return_keys": [
+          "source_owner",
+          "source",
+          "method",
+          "return_expr",
+          "ignored"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_ignore_to_source_state",
+          "test_port_game_exposes_generated_consume_ignore_bridge_state",
+          "test_consume_ignore_matches_upstream_source",
+          "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_ignore_state",
+        "rule": "Public source helper exposes Consume.ignore() default false return state."
+      }
     }
   }
 }

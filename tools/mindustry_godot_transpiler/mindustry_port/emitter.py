@@ -1945,6 +1945,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_update_flag_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public Consume update(boolean update){", "update_field": "public boolean update = true;", "update_assignment_expr": "this.update = update;", "return_expr": "return this;", "update_value": update_value, "update_after": update_after, "return_self": return_self}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/Consume.java"
+        and type_entry.get("name") == "Consume"
+        and method.get("name") == "ignore"
+    ):
+        return [
+            "\tvar ignored: bool = false",
+            '\treturn {"source_owner": "PortGame.source_consume_ignore_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public boolean ignore(){", "return_expr": "return false;", "ignored": ignored}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

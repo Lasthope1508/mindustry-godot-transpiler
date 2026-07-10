@@ -73757,6 +73757,57 @@
         ],
         "rule": "Generated bridge records Consume.update(boolean) update flag assignment and fluent self return without inventing live object mutation beyond explicit source state."
       }
+    },
+    "N1577": {
+      "canonical_slice": "source_slice_ledger.N1577",
+      "exact_exprs": [
+        "public boolean ignore(){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_consume_ignore_state",
+      "java_class": "Consume",
+      "java_method": "ignore()",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.generated_consume_ignore_bridge_state",
+      "source_symbols": [
+        "consume_ignore.method",
+        "consume_ignore.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_ignore_bridge_state",
+        "test_consume_ignore_matches_upstream_source",
+        "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated Consume ignore bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_class": "Consume",
+        "java_method": "ignore()",
+        "generated_owner": "Consume.java_method_ignore_4",
+        "godot_owner": "PortGame.source_consume_ignore_state",
+        "runtime_proof": "/root/Main.generated_consume_ignore_bridge_state",
+        "exact_exprs": [
+          "public boolean ignore(){",
+          "return false;"
+        ],
+        "source_symbols": [
+          "consume_ignore.method",
+          "consume_ignore.return"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_ignore_to_source_state",
+          "test_port_game_exposes_generated_consume_ignore_bridge_state",
+          "test_consume_ignore_matches_upstream_source",
+          "test_generated_consume_ignore_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "Consume.build(), trigger(), update(Building), efficiency(), efficiencyMultiplier(), and display() remain separate base consumer slices."
+        ],
+        "rule": "Generated bridge records Consume.ignore() default false result without inventing subclass ignore behavior."
+      }
     }
   }
 }
