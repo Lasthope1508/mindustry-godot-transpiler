@@ -185,6 +185,9 @@ func asset_manifest_state() -> Dictionary:
 func source_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
 
+func ast_manifest_state() -> Dictionary:
+	return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")
+
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()
