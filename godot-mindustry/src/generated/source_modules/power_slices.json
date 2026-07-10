@@ -479,6 +479,24 @@
       ],
       "runtime_proof": "/root/Main.source_power_graph_get_id_state"
     },
+    "N1590": {
+      "canonical_ledger": "source_slice_ledger.N1590",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_method": "getId()",
+      "godot_owner": "PortGame.source_power_graph_get_id_state",
+      "source_symbols": [
+        "power_graph_get_id.graph_id",
+        "power_graph_get_id.return_graph_id"
+      ],
+      "tests": [
+        "test_emit_bridges_power_graph_get_id_to_source_state",
+        "test_port_game_exposes_generated_power_graph_get_id_bridge_state",
+        "test_power_graph_get_id_matches_upstream_source",
+        "test_generated_power_graph_get_id_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_graph_get_id_bridge_state"
+    },
     "N908": {
       "canonical_ledger": "source_slice_ledger.N908",
       "status": "done",

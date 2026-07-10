@@ -2507,6 +2507,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_graph_id": "return graphID;"', source)
         self.assertIn('"graph_id": graph_id', source)
 
+    def test_port_game_exposes_generated_power_graph_get_id_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGraph.gd")', source)
+        self.assertIn("var result = instance.java_method_getId_27([graph_id])", source)
+        self.assertIn("var canonical = source_power_graph_get_id_state(graph_id)", source)
+        self.assertIn('"generated_owner": "PowerGraph.getId"', source)
+        self.assertIn('"matches": result.get("graph_id", null) == canonical.get("graph_id", null) and result.get("return_graph_id", null) == canonical.get("return_graph_id", null)', source)
+
     def test_port_game_exposes_source_power_graph_to_string_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

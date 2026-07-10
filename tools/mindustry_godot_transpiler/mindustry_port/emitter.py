@@ -2009,6 +2009,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
+        and type_entry.get("name") == "PowerGraph"
+        and method.get("name") == "getId"
+    ):
+        return [
+            "\tvar graph_id: int = int(_args[0] if _args.size() > 0 else 0)",
+            '\treturn {"source_owner": "PortGame.source_power_graph_get_id_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public int getId(){", "return_graph_id": "return graphID;", "graph_id": graph_id}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
         and type_entry.get("name") == "Consume"
         and method.get("name") == "trigger"

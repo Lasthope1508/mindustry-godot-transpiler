@@ -95,7 +95,8 @@ func java_method_remove_26(_args: Array = []) -> Variant:
 	return null
 
 func java_method_getId_27(_args: Array = []) -> Variant:
-	return null
+	var graph_id: int = int(_args[0] if _args.size() > 0 else 0)
+	return {"source_owner": "PortGame.source_power_graph_get_id_state", "source": "core/src/mindustry/world/blocks/power/PowerGraph.java", "method": "public int getId(){", "return_graph_id": "return graphID;", "graph_id": graph_id}
 
 func java_method_toString_28(_args: Array = []) -> Variant:
 	return null

@@ -21042,6 +21042,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(complete_shard["slices"]["N1589"]["canonical_slice"], "source_slice_ledger.N1589")
         self.assertEqual(complete_shard["slices"]["N1589"]["slice"], bridge_slice)
 
+    def test_generated_power_graph_get_id_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        graph_id = source_symbols.source_symbol(registry, "power_graph_get_id.graph_id")
+        self.assertEqual(graph_id["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(graph_id["java_method"], "getId()")
+        self.assertEqual(graph_id["godot_owner"], "PortGame.source_power_graph_get_id_state")
+
+        bridge_slice = source_symbols.source_slice(ledger, "N1590")
+        self.assertEqual(bridge_slice["title"], "Generated PowerGraph getId bridge state")
+        self.assertEqual(bridge_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGraph.java")
+        self.assertEqual(bridge_slice["java_method"], "getId()")
+        self.assertEqual(bridge_slice["godot_owner"], "PortGame.source_power_graph_get_id_state")
+        self.assertEqual(bridge_slice["generated_owner"], "PowerGraph.java_method_getId_27")
+        self.assertEqual(bridge_slice["runtime_proof"], "/root/Main.generated_power_graph_get_id_bridge_state")
+        self.assertIn("public int getId(){", bridge_slice["exact_exprs"])
+        self.assertIn("return graphID;", bridge_slice["exact_exprs"])
+        self.assertIn("power_graph_get_id.graph_id", bridge_slice["source_symbols"])
+        self.assertIn("power_graph_get_id.return_graph_id", bridge_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1590"]["canonical_ledger"], "source_slice_ledger.N1590")
+        self.assertEqual(complete_shard["slices"]["N1590"]["canonical_slice"], "source_slice_ledger.N1590")
+        self.assertEqual(complete_shard["slices"]["N1590"]["slice"], bridge_slice)
+
     def test_generated_consume_trigger_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")

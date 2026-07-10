@@ -39113,6 +39113,34 @@
         "PowerGenerator.icons(), load(), setStats(), setBars(), drawPlanRegion(BuildPlan, Eachable<BuildPlan>), and outputsItems() remain separate source-backed slices."
       ],
       "rule": "Generated bridge records PowerGenerator.getDisplayedPowerProduction() return of powerProduction without inventing live block state."
+    },
+    "N1590": {
+      "title": "Generated PowerGraph getId bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGraph.java",
+      "java_class": "PowerGraph",
+      "java_method": "getId()",
+      "generated_owner": "PowerGraph.java_method_getId_27",
+      "godot_owner": "PortGame.source_power_graph_get_id_state",
+      "runtime_proof": "/root/Main.generated_power_graph_get_id_bridge_state",
+      "exact_exprs": [
+        "public int getId(){",
+        "return graphID;"
+      ],
+      "source_symbols": [
+        "power_graph_get_id.graph_id",
+        "power_graph_get_id.return_graph_id"
+      ],
+      "tests": [
+        "test_emit_bridges_power_graph_get_id_to_source_state",
+        "test_port_game_exposes_generated_power_graph_get_id_bridge_state",
+        "test_power_graph_get_id_matches_upstream_source",
+        "test_generated_power_graph_get_id_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "PowerGraph.getID() is a separate same-return method; this slice bridges getId() only."
+      ],
+      "rule": "Generated bridge records PowerGraph.getId() graphID return without confusing it with getID()."
     }
   },
   "version": 1

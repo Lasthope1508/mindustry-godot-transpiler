@@ -19795,6 +19795,40 @@ public class PowerGenerator extends PowerDistributor{
             self.assertIn('"power_production": power_production', source_text)
             self.assertIn('"displayed_power_production": displayed_power_production', source_text)
 
+    def test_emit_bridges_power_graph_get_id_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGraph{
+    private final int graphID;
+
+    public int getId(){
+        return graphID;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGraph.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getId_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var graph_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_graph_get_id_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGraph.java"', source_text)
+            self.assertIn('"method": "public int getId(){"', source_text)
+            self.assertIn('"return_graph_id": "return graphID;"', source_text)
+            self.assertIn('"graph_id": graph_id', source_text)
+
     def test_emit_bridges_consume_trigger_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

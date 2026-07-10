@@ -2253,6 +2253,19 @@ func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
 		"graph_id": graph_id,
 	}
 
+func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGraph.gd")
+	var instance = script.new()
+	var result = instance.java_method_getId_27([graph_id])
+	var canonical = source_power_graph_get_id_state(graph_id)
+	return {
+		"source_owner": "PortGame.source_power_graph_get_id_state",
+		"generated_owner": "PowerGraph.getId",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("graph_id", null) == canonical.get("graph_id", null) and result.get("return_graph_id", null) == canonical.get("return_graph_id", null),
+	}
+
 func source_power_graph_to_string_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> String:
 	return "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + str(graph_id) + "}"
 
