@@ -1,0 +1,4915 @@
+{
+  "version": 1,
+  "owners": {
+    "0": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.0",
+      "index": 0,
+      "owner": "PortGame.source_ability_ability_stat_state"
+    },
+    "1": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.1",
+      "index": 1,
+      "owner": "PortGame.source_ability_add_stats_state"
+    },
+    "2": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.2",
+      "index": 2,
+      "owner": "PortGame.source_ability_copy_state"
+    },
+    "3": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.3",
+      "index": 3,
+      "owner": "PortGame.source_ability_created_state"
+    },
+    "4": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.4",
+      "index": 4,
+      "owner": "PortGame.source_ability_death_state"
+    },
+    "5": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.5",
+      "index": 5,
+      "owner": "PortGame.source_ability_display_bars_state"
+    },
+    "6": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.6",
+      "index": 6,
+      "owner": "PortGame.source_ability_display_state"
+    },
+    "7": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.7",
+      "index": 7,
+      "owner": "PortGame.source_ability_draw_state"
+    },
+    "8": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.8",
+      "index": 8,
+      "owner": "PortGame.source_ability_get_bundle_state"
+    },
+    "9": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.9",
+      "index": 9,
+      "owner": "PortGame.source_ability_init_state"
+    },
+    "10": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.10",
+      "index": 10,
+      "owner": "PortGame.source_ability_localized_state"
+    },
+    "11": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.11",
+      "index": 11,
+      "owner": "PortGame.source_ability_update_state"
+    },
+    "12": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.12",
+      "index": 12,
+      "owner": "PortGame.source_absin"
+    },
+    "13": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.13",
+      "index": 13,
+      "owner": "PortGame.source_angle_distance"
+    },
+    "14": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.14",
+      "index": 14,
+      "owner": "PortGame.source_angle_to_target"
+    },
+    "15": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.15",
+      "index": 15,
+      "owner": "PortGame.source_angles_angle_dist"
+    },
+    "16": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.16",
+      "index": 16,
+      "owner": "PortGame.source_approach"
+    },
+    "17": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.17",
+      "index": 17,
+      "owner": "PortGame.source_approach_delta"
+    },
+    "18": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.18",
+      "index": 18,
+      "owner": "PortGame.source_arc_angles_angle"
+    },
+    "19": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.19",
+      "index": 19,
+      "owner": "PortGame.source_arc_angles_angle_dist"
+    },
+    "20": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.20",
+      "index": 20,
+      "owner": "PortGame.source_arc_angles_backward_distance"
+    },
+    "21": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.21",
+      "index": 21,
+      "owner": "PortGame.source_arc_angles_forward_distance"
+    },
+    "22": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.22",
+      "index": 22,
+      "owner": "PortGame.source_arc_angles_move_toward"
+    },
+    "23": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.23",
+      "index": 23,
+      "owner": "PortGame.source_arc_angles_trns_vec"
+    },
+    "24": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.24",
+      "index": 24,
+      "owner": "PortGame.source_arc_chance_delta_threshold"
+    },
+    "25": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.25",
+      "index": 25,
+      "owner": "PortGame.source_arc_is_power_of_two"
+    },
+    "26": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.26",
+      "index": 26,
+      "owner": "PortGame.source_arc_lerp_delta"
+    },
+    "27": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.27",
+      "index": 27,
+      "owner": "PortGame.source_arc_mathf_cos_lookup"
+    },
+    "28": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.28",
+      "index": 28,
+      "owner": "PortGame.source_arc_mathf_cos_scaled"
+    },
+    "29": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.29",
+      "index": 29,
+      "owner": "PortGame.source_arc_mathf_mod_float"
+    },
+    "30": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.30",
+      "index": 30,
+      "owner": "PortGame.source_arc_mathf_num"
+    },
+    "31": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.31",
+      "index": 31,
+      "owner": "PortGame.source_arc_mathf_sin_lookup"
+    },
+    "32": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.32",
+      "index": 32,
+      "owner": "PortGame.source_arc_mathf_sin_scaled"
+    },
+    "33": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.33",
+      "index": 33,
+      "owner": "PortGame.source_arc_mathf_sin_table_value"
+    },
+    "34": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.34",
+      "index": 34,
+      "owner": "PortGame.source_arc_random_seed_float_max"
+    },
+    "35": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.35",
+      "index": 35,
+      "owner": "PortGame.source_arc_random_seed_int"
+    },
+    "36": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.36",
+      "index": 36,
+      "owner": "PortGame.source_arc_strings_fixed_one_decimal"
+    },
+    "37": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.37",
+      "index": 37,
+      "owner": "PortGame.source_arc_vec2_limit"
+    },
+    "38": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.38",
+      "index": 38,
+      "owner": "PortGame.source_base_turret_check_init_coolant_state"
+    },
+    "39": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.39",
+      "index": 39,
+      "owner": "PortGame.source_base_turret_draw_place_state"
+    },
+    "40": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.40",
+      "index": 40,
+      "owner": "PortGame.source_base_turret_init_state"
+    },
+    "41": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.41",
+      "index": 41,
+      "owner": "PortGame.source_base_turret_reinitialize_consumers_state"
+    },
+    "42": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.42",
+      "index": 42,
+      "owner": "PortGame.source_base_turret_set_bars_state"
+    },
+    "43": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.43",
+      "index": 43,
+      "owner": "PortGame.source_base_turret_set_stats_state"
+    },
+    "44": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.44",
+      "index": 44,
+      "owner": "PortGame.source_block_can_be_built_state"
+    },
+    "45": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.45",
+      "index": 45,
+      "owner": "PortGame.source_block_can_break_state"
+    },
+    "46": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.46",
+      "index": 46,
+      "owner": "PortGame.source_block_can_place_on_state"
+    },
+    "47": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.47",
+      "index": 47,
+      "owner": "PortGame.source_block_can_replace_state"
+    },
+    "48": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.48",
+      "index": 48,
+      "owner": "PortGame.source_block_check_content_array_capacity_state"
+    },
+    "49": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.49",
+      "index": 49,
+      "owner": "PortGame.source_block_check_force_dark_state"
+    },
+    "50": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.50",
+      "index": 50,
+      "owner": "PortGame.source_block_consume_coolant_filtered_state"
+    },
+    "51": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.51",
+      "index": 51,
+      "owner": "PortGame.source_block_consume_coolant_single_state"
+    },
+    "52": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.52",
+      "index": 52,
+      "owner": "PortGame.source_block_consume_generic_state"
+    },
+    "53": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.53",
+      "index": 53,
+      "owner": "PortGame.source_block_consume_item_amount_state"
+    },
+    "54": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.54",
+      "index": 54,
+      "owner": "PortGame.source_block_consume_item_single_state"
+    },
+    "55": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.55",
+      "index": 55,
+      "owner": "PortGame.source_block_consume_items_varargs_state"
+    },
+    "56": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.56",
+      "index": 56,
+      "owner": "PortGame.source_block_consume_liquid_state"
+    },
+    "57": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.57",
+      "index": 57,
+      "owner": "PortGame.source_block_consume_liquids_state"
+    },
+    "58": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.58",
+      "index": 58,
+      "owner": "PortGame.source_block_consume_power_buffered_state"
+    },
+    "59": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.59",
+      "index": 59,
+      "owner": "PortGame.source_block_consume_power_cond_state"
+    },
+    "60": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.60",
+      "index": 60,
+      "owner": "PortGame.source_block_consume_power_dynamic_displayed_state"
+    },
+    "61": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.61",
+      "index": 61,
+      "owner": "PortGame.source_block_consume_power_dynamic_state"
+    },
+    "62": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.62",
+      "index": 62,
+      "owner": "PortGame.source_block_consume_power_state"
+    },
+    "63": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.63",
+      "index": 63,
+      "owner": "PortGame.source_block_consumes_item_state"
+    },
+    "64": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.64",
+      "index": 64,
+      "owner": "PortGame.source_block_consumes_liquid_state"
+    },
+    "65": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.65",
+      "index": 65,
+      "owner": "PortGame.source_block_dump_time"
+    },
+    "66": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.66",
+      "index": 66,
+      "owner": "PortGame.source_block_flip_rotation_state"
+    },
+    "67": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.67",
+      "index": 67,
+      "owner": "PortGame.source_block_get_content_type_state"
+    },
+    "68": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.68",
+      "index": 68,
+      "owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state"
+    },
+    "69": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.69",
+      "index": 69,
+      "owner": "PortGame.source_block_get_dependencies_consume_items_state"
+    },
+    "70": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.70",
+      "index": 70,
+      "owner": "PortGame.source_block_get_dependencies_requirements_state"
+    },
+    "71": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.71",
+      "index": 71,
+      "owner": "PortGame.source_block_get_plan_configs_state"
+    },
+    "72": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.72",
+      "index": 72,
+      "owner": "PortGame.source_block_has_building_state"
+    },
+    "73": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.73",
+      "index": 73,
+      "owner": "PortGame.source_block_has_consumer_state"
+    },
+    "74": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.74",
+      "index": 74,
+      "owner": "PortGame.source_block_health"
+    },
+    "75": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.75",
+      "index": 75,
+      "owner": "PortGame.source_block_health_at_cell"
+    },
+    "76": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.76",
+      "index": 76,
+      "owner": "PortGame.source_block_init_accepts_items_state"
+    },
+    "77": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.77",
+      "index": 77,
+      "owner": "PortGame.source_block_init_break_sound_state"
+    },
+    "78": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.78",
+      "index": 78,
+      "owner": "PortGame.source_block_init_buffered_power_state"
+    },
+    "79": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.79",
+      "index": 79,
+      "owner": "PortGame.source_block_init_build_time_default_state"
+    },
+    "80": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.80",
+      "index": 80,
+      "owner": "PortGame.source_block_init_build_time_multiplier_state"
+    },
+    "81": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.81",
+      "index": 81,
+      "owner": "PortGame.source_block_init_build_time_requirements_state"
+    },
+    "82": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.82",
+      "index": 82,
+      "owner": "PortGame.source_block_init_building_default_state"
+    },
+    "83": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.83",
+      "index": 83,
+      "owner": "PortGame.source_block_init_clip_size_state"
+    },
+    "84": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.84",
+      "index": 84,
+      "owner": "PortGame.source_block_init_consumer_apply_loop_state"
+    },
+    "85": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.85",
+      "index": 85,
+      "owner": "PortGame.source_block_init_consumer_arrays_state"
+    },
+    "86": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.86",
+      "index": 86,
+      "owner": "PortGame.source_block_init_custom_shadow_state"
+    },
+    "87": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.87",
+      "index": 87,
+      "owner": "PortGame.source_block_init_destroy_sound_state"
+    },
+    "88": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.88",
+      "index": 88,
+      "owner": "PortGame.source_block_init_emit_light_radius_state"
+    },
+    "89": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.89",
+      "index": 89,
+      "owner": "PortGame.source_block_init_fog_radius_flag_state"
+    },
+    "90": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.90",
+      "index": 90,
+      "owner": "PortGame.source_block_init_health_requirements_scaling_state"
+    },
+    "91": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.91",
+      "index": 91,
+      "owner": "PortGame.source_block_init_health_scaled_state"
+    },
+    "92": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.92",
+      "index": 92,
+      "owner": "PortGame.source_block_init_item_liquid_filters_state"
+    },
+    "93": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.93",
+      "index": 93,
+      "owner": "PortGame.source_block_init_light_clip_size_state"
+    },
+    "94": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.94",
+      "index": 94,
+      "owner": "PortGame.source_block_init_liquid_capacity_default_state"
+    },
+    "95": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.95",
+      "index": 95,
+      "owner": "PortGame.source_block_init_liquid_light_state"
+    },
+    "96": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.96",
+      "index": 96,
+      "owner": "PortGame.source_block_init_logic_configurable_state"
+    },
+    "97": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.97",
+      "index": 97,
+      "owner": "PortGame.source_block_init_offset_state"
+    },
+    "98": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.98",
+      "index": 98,
+      "owner": "PortGame.source_block_init_place_sound_state"
+    },
+    "99": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.99",
+      "index": 99,
+      "owner": "PortGame.source_block_init_sandbox_visibility_state"
+    },
+    "100": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.100",
+      "index": 100,
+      "owner": "PortGame.source_block_init_set_bars_call_state"
+    },
+    "101": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.101",
+      "index": 101,
+      "owner": "PortGame.source_block_init_stats_categories_state"
+    },
+    "102": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.102",
+      "index": 102,
+      "owner": "PortGame.source_block_init_sync_flag_state"
+    },
+    "103": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.103",
+      "index": 103,
+      "owner": "PortGame.source_block_init_under_bullets_state"
+    },
+    "104": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.104",
+      "index": 104,
+      "owner": "PortGame.source_block_is_air_state"
+    },
+    "105": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.105",
+      "index": 105,
+      "owner": "PortGame.source_block_is_damaged"
+    },
+    "106": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.106",
+      "index": 106,
+      "owner": "PortGame.source_block_is_darkened_state"
+    },
+    "107": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.107",
+      "index": 107,
+      "owner": "PortGame.source_block_is_hidden_state"
+    },
+    "108": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.108",
+      "index": 108,
+      "owner": "PortGame.source_block_is_multiblock_state"
+    },
+    "109": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.109",
+      "index": 109,
+      "owner": "PortGame.source_block_is_static_state"
+    },
+    "110": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.110",
+      "index": 110,
+      "owner": "PortGame.source_block_item_capacity"
+    },
+    "111": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.111",
+      "index": 111,
+      "owner": "PortGame.source_block_load_base_regions_state"
+    },
+    "112": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.112",
+      "index": 112,
+      "owner": "PortGame.source_block_load_team_regions_state"
+    },
+    "113": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.113",
+      "index": 113,
+      "owner": "PortGame.source_block_load_variant_regions_state"
+    },
+    "114": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.114",
+      "index": 114,
+      "owner": "PortGame.source_block_load_variant_shadow_regions_state"
+    },
+    "115": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.115",
+      "index": 115,
+      "owner": "PortGame.source_block_logic_visible_state"
+    },
+    "116": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.116",
+      "index": 116,
+      "owner": "PortGame.source_block_outputs_items_state"
+    },
+    "117": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.117",
+      "index": 117,
+      "owner": "PortGame.source_block_plan_rotation_state"
+    },
+    "118": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.118",
+      "index": 118,
+      "owner": "PortGame.source_block_post_init_database_tag_state"
+    },
+    "119": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.119",
+      "index": 119,
+      "owner": "PortGame.source_block_post_init_shown_planets_state"
+    },
+    "120": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.120",
+      "index": 120,
+      "owner": "PortGame.source_block_producer_build_accept_item_state"
+    },
+    "121": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.121",
+      "index": 121,
+      "owner": "PortGame.source_block_producer_build_accept_payload_state"
+    },
+    "122": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.122",
+      "index": 122,
+      "owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"
+    },
+    "123": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.123",
+      "index": 123,
+      "owner": "PortGame.source_block_producer_build_should_consume_state"
+    },
+    "124": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.124",
+      "index": 124,
+      "owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state"
+    },
+    "125": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.125",
+      "index": 125,
+      "owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"
+    },
+    "126": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.126",
+      "index": 126,
+      "owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+    },
+    "127": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.127",
+      "index": 127,
+      "owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state"
+    },
+    "128": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.128",
+      "index": 128,
+      "owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+    },
+    "129": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.129",
+      "index": 129,
+      "owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state"
+    },
+    "130": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.130",
+      "index": 130,
+      "owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+    },
+    "131": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.131",
+      "index": 131,
+      "owner": "PortGame.source_block_producer_draw_plan_region_state"
+    },
+    "132": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.132",
+      "index": 132,
+      "owner": "PortGame.source_block_producer_icons_state"
+    },
+    "133": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.133",
+      "index": 133,
+      "owner": "PortGame.source_block_producer_set_bars_state"
+    },
+    "134": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.134",
+      "index": 134,
+      "owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state"
+    },
+    "135": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.135",
+      "index": 135,
+      "owner": "PortGame.source_block_reinitialize_consumers_arrays_state"
+    },
+    "136": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.136",
+      "index": 136,
+      "owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+    },
+    "137": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.137",
+      "index": 137,
+      "owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state"
+    },
+    "138": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.138",
+      "index": 138,
+      "owner": "PortGame.source_block_remove_consumer_state"
+    },
+    "139": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.139",
+      "index": 139,
+      "owner": "PortGame.source_block_remove_consumers_state"
+    },
+    "140": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.140",
+      "index": 140,
+      "owner": "PortGame.source_block_requirements_simple_state"
+    },
+    "141": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.141",
+      "index": 141,
+      "owner": "PortGame.source_block_requirements_unlocked_state"
+    },
+    "142": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.142",
+      "index": 142,
+      "owner": "PortGame.source_block_requirements_visible_state"
+    },
+    "143": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.143",
+      "index": 143,
+      "owner": "PortGame.source_block_research_requirements_empty_state"
+    },
+    "144": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.144",
+      "index": 144,
+      "owner": "PortGame.source_block_research_requirements_loop_shape_state"
+    },
+    "145": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.145",
+      "index": 145,
+      "owner": "PortGame.source_block_research_requirements_output_fill_state"
+    },
+    "146": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.146",
+      "index": 146,
+      "owner": "PortGame.source_block_research_requirements_quantity_formula_state"
+    },
+    "147": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.147",
+      "index": 147,
+      "owner": "PortGame.source_block_research_requirements_research_cost_state"
+    },
+    "148": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.148",
+      "index": 148,
+      "owner": "PortGame.source_block_research_requirements_round_amount_state"
+    },
+    "149": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.149",
+      "index": 149,
+      "owner": "PortGame.source_block_rotated_output_state"
+    },
+    "150": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.150",
+      "index": 150,
+      "owner": "PortGame.source_block_rotated_output_tile_state"
+    },
+    "151": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.151",
+      "index": 151,
+      "owner": "PortGame.source_block_sense_content_state"
+    },
+    "152": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.152",
+      "index": 152,
+      "owner": "PortGame.source_block_sense_laccess_state"
+    },
+    "153": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.153",
+      "index": 153,
+      "owner": "PortGame.source_block_sense_object_state"
+    },
+    "154": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.154",
+      "index": 154,
+      "owner": "PortGame.source_block_setup_requirements_simple_state"
+    },
+    "155": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.155",
+      "index": 155,
+      "owner": "PortGame.source_block_setup_requirements_visible_state"
+    },
+    "156": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.156",
+      "index": 156,
+      "owner": "PortGame.source_block_sprite_base_position"
+    },
+    "157": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.157",
+      "index": 157,
+      "owner": "PortGame.source_block_synthetic_state"
+    },
+    "158": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.158",
+      "index": 158,
+      "owner": "PortGame.source_block_time_scale_at_cell"
+    },
+    "159": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.159",
+      "index": 159,
+      "owner": "PortGame.source_block_time_scale_duration_at_cell"
+    },
+    "160": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.160",
+      "index": 160,
+      "owner": "PortGame.source_block_unit_add_state"
+    },
+    "161": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.161",
+      "index": 161,
+      "owner": "PortGame.source_block_unit_ammof_state"
+    },
+    "162": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.162",
+      "index": 162,
+      "owner": "PortGame.source_block_unit_damage_state"
+    },
+    "163": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.163",
+      "index": 163,
+      "owner": "PortGame.source_block_unit_dead_state"
+    },
+    "164": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.164",
+      "index": 164,
+      "owner": "PortGame.source_block_unit_icon_state"
+    },
+    "165": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.165",
+      "index": 165,
+      "owner": "PortGame.source_block_unit_is_added_state"
+    },
+    "166": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.166",
+      "index": 166,
+      "owner": "PortGame.source_block_unit_is_valid_state"
+    },
+    "167": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.167",
+      "index": 167,
+      "owner": "PortGame.source_block_unit_killed_state"
+    },
+    "168": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.168",
+      "index": 168,
+      "owner": "PortGame.source_block_unit_team_state"
+    },
+    "169": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.169",
+      "index": 169,
+      "owner": "PortGame.source_block_unit_tile_state"
+    },
+    "170": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.170",
+      "index": 170,
+      "owner": "PortGame.source_block_unit_update_state"
+    },
+    "171": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.171",
+      "index": 171,
+      "owner": "PortGame.source_build_payload_block_state"
+    },
+    "172": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.172",
+      "index": 172,
+      "owner": "PortGame.source_build_payload_build_time_state"
+    },
+    "173": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.173",
+      "index": 173,
+      "owner": "PortGame.source_build_payload_constructor_block_team_state"
+    },
+    "174": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.174",
+      "index": 174,
+      "owner": "PortGame.source_build_payload_constructor_build_state"
+    },
+    "175": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.175",
+      "index": 175,
+      "owner": "PortGame.source_build_payload_content_equals_state"
+    },
+    "176": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.176",
+      "index": 176,
+      "owner": "PortGame.source_build_payload_content_state"
+    },
+    "177": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.177",
+      "index": 177,
+      "owner": "PortGame.source_build_payload_destroyed_state"
+    },
+    "178": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.178",
+      "index": 178,
+      "owner": "PortGame.source_build_payload_draw_shadow_state"
+    },
+    "179": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.179",
+      "index": 179,
+      "owner": "PortGame.source_build_payload_draw_state"
+    },
+    "180": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.180",
+      "index": 180,
+      "owner": "PortGame.source_build_payload_icon_state"
+    },
+    "181": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.181",
+      "index": 181,
+      "owner": "PortGame.source_build_payload_place_default_state"
+    },
+    "182": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.182",
+      "index": 182,
+      "owner": "PortGame.source_build_payload_place_state"
+    },
+    "183": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.183",
+      "index": 183,
+      "owner": "PortGame.source_build_payload_remove_state"
+    },
+    "184": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.184",
+      "index": 184,
+      "owner": "PortGame.source_build_payload_requirements_state"
+    },
+    "185": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.185",
+      "index": 185,
+      "owner": "PortGame.source_build_payload_set_state"
+    },
+    "186": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.186",
+      "index": 186,
+      "owner": "PortGame.source_build_payload_size_state"
+    },
+    "187": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.187",
+      "index": 187,
+      "owner": "PortGame.source_build_payload_update_state"
+    },
+    "188": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.188",
+      "index": 188,
+      "owner": "PortGame.source_build_payload_write_state"
+    },
+    "189": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.189",
+      "index": 189,
+      "owner": "PortGame.source_build_payload_x_state"
+    },
+    "190": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.190",
+      "index": 190,
+      "owner": "PortGame.source_build_payload_y_state"
+    },
+    "191": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.191",
+      "index": 191,
+      "owner": "PortGame.source_builder_actively_building_state"
+    },
+    "192": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.192",
+      "index": 192,
+      "owner": "PortGame.source_builder_add_build_state"
+    },
+    "193": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.193",
+      "index": 193,
+      "owner": "PortGame.source_builder_add_build_tail_state"
+    },
+    "194": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.194",
+      "index": 194,
+      "owner": "PortGame.source_builder_after_read_state"
+    },
+    "195": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.195",
+      "index": 195,
+      "owner": "PortGame.source_builder_build_plan_state"
+    },
+    "196": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.196",
+      "index": 196,
+      "owner": "PortGame.source_builder_can_build_state"
+    },
+    "197": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.197",
+      "index": 197,
+      "owner": "PortGame.source_builder_clear_building_state"
+    },
+    "198": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.198",
+      "index": 198,
+      "owner": "PortGame.source_builder_draw_building_beam_state"
+    },
+    "199": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.199",
+      "index": 199,
+      "owner": "PortGame.source_builder_draw_building_state"
+    },
+    "200": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.200",
+      "index": 200,
+      "owner": "PortGame.source_builder_draw_plan_state"
+    },
+    "201": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.201",
+      "index": 201,
+      "owner": "PortGame.source_builder_draw_plan_top_state"
+    },
+    "202": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.202",
+      "index": 202,
+      "owner": "PortGame.source_builder_is_building_state"
+    },
+    "203": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.203",
+      "index": 203,
+      "owner": "PortGame.source_builder_remove_build_state"
+    },
+    "204": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.204",
+      "index": 204,
+      "owner": "PortGame.source_builder_should_skip_state"
+    },
+    "205": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.205",
+      "index": 205,
+      "owner": "PortGame.source_builder_update_state"
+    },
+    "206": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.206",
+      "index": 206,
+      "owner": "PortGame.source_building_absorb_lasers_state"
+    },
+    "207": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.207",
+      "index": 207,
+      "owner": "PortGame.source_building_accept_item_state"
+    },
+    "208": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.208",
+      "index": 208,
+      "owner": "PortGame.source_building_accept_liquid_state"
+    },
+    "209": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.209",
+      "index": 209,
+      "owner": "PortGame.source_building_accept_payload_state"
+    },
+    "210": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.210",
+      "index": 210,
+      "owner": "PortGame.source_building_accept_stack_state"
+    },
+    "211": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.211",
+      "index": 211,
+      "owner": "PortGame.source_building_after_destroyed_state"
+    },
+    "212": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.212",
+      "index": 212,
+      "owner": "PortGame.source_building_after_picked_up_state"
+    },
+    "213": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.213",
+      "index": 213,
+      "owner": "PortGame.source_building_ambient_volume"
+    },
+    "214": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.214",
+      "index": 214,
+      "owner": "PortGame.source_building_apply_boost_state"
+    },
+    "215": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.215",
+      "index": 215,
+      "owner": "PortGame.source_building_block_half_extent"
+    },
+    "216": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.216",
+      "index": 216,
+      "owner": "PortGame.source_building_bullet_damage_state"
+    },
+    "217": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.217",
+      "index": 217,
+      "owner": "PortGame.source_building_can_be_replaced_state"
+    },
+    "218": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.218",
+      "index": 218,
+      "owner": "PortGame.source_building_can_consume_state"
+    },
+    "219": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.219",
+      "index": 219,
+      "owner": "PortGame.source_building_can_dump_item_default_state"
+    },
+    "220": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.220",
+      "index": 220,
+      "owner": "PortGame.source_building_can_dump_liquid_default_state"
+    },
+    "221": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.221",
+      "index": 221,
+      "owner": "PortGame.source_building_can_pickup_state"
+    },
+    "222": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.222",
+      "index": 222,
+      "owner": "PortGame.source_building_change_team_delegate_state"
+    },
+    "223": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.223",
+      "index": 223,
+      "owner": "PortGame.source_building_change_team_final_state"
+    },
+    "224": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.224",
+      "index": 224,
+      "owner": "PortGame.source_building_change_team_initial_state"
+    },
+    "225": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.225",
+      "index": 225,
+      "owner": "PortGame.source_building_change_team_power_links_state"
+    },
+    "226": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.226",
+      "index": 226,
+      "owner": "PortGame.source_building_change_team_power_proximity_state"
+    },
+    "227": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.227",
+      "index": 227,
+      "owner": "PortGame.source_building_check_allow_update_state"
+    },
+    "228": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.228",
+      "index": 228,
+      "owner": "PortGame.source_building_check_solid_state"
+    },
+    "229": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.229",
+      "index": 229,
+      "owner": "PortGame.source_building_check_suppression_state"
+    },
+    "230": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.230",
+      "index": 230,
+      "owner": "PortGame.source_building_collide_state"
+    },
+    "231": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.231",
+      "index": 231,
+      "owner": "PortGame.source_building_collision_damage_state"
+    },
+    "232": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.232",
+      "index": 232,
+      "owner": "PortGame.source_building_conducts_to_state"
+    },
+    "233": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.233",
+      "index": 233,
+      "owner": "PortGame.source_building_config_default"
+    },
+    "234": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.234",
+      "index": 234,
+      "owner": "PortGame.source_building_configure_menu_visibility_state"
+    },
+    "235": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.235",
+      "index": 235,
+      "owner": "PortGame.source_building_configured_copy_config_state"
+    },
+    "236": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.236",
+      "index": 236,
+      "owner": "PortGame.source_building_configured_direct_handler_state"
+    },
+    "237": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.237",
+      "index": 237,
+      "owner": "PortGame.source_building_configured_last_access_state"
+    },
+    "238": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.238",
+      "index": 238,
+      "owner": "PortGame.source_building_configured_type_state"
+    },
+    "239": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.239",
+      "index": 239,
+      "owner": "PortGame.source_building_consume_state"
+    },
+    "240": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.240",
+      "index": 240,
+      "owner": "PortGame.source_building_consume_trigger_valid_state"
+    },
+    "241": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.241",
+      "index": 241,
+      "owner": "PortGame.source_building_control_config_state"
+    },
+    "242": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.242",
+      "index": 242,
+      "owner": "PortGame.source_building_control_enabled_state"
+    },
+    "243": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.243",
+      "index": 243,
+      "owner": "PortGame.source_building_cursor_state"
+    },
+    "244": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.244",
+      "index": 244,
+      "owner": "PortGame.source_building_damage_block_health_scale_state"
+    },
+    "245": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.245",
+      "index": 245,
+      "owner": "PortGame.source_building_damage_dead_guard_state"
+    },
+    "246": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.246",
+      "index": 246,
+      "owner": "PortGame.source_building_damage_delegate_state"
+    },
+    "247": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.247",
+      "index": 247,
+      "owner": "PortGame.source_building_damage_destroy_gate_state"
+    },
+    "248": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.248",
+      "index": 248,
+      "owner": "PortGame.source_building_damage_handle_damage_gate_state"
+    },
+    "249": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.249",
+      "index": 249,
+      "owner": "PortGame.source_building_damage_health_changed_call_state"
+    },
+    "250": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.250",
+      "index": 250,
+      "owner": "PortGame.source_building_delta"
+    },
+    "251": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.251",
+      "index": 251,
+      "owner": "PortGame.source_building_display_bars_state"
+    },
+    "252": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.252",
+      "index": 252,
+      "owner": "PortGame.source_building_display_consumption_state"
+    },
+    "253": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.253",
+      "index": 253,
+      "owner": "PortGame.source_building_display_efficiency"
+    },
+    "254": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.254",
+      "index": 254,
+      "owner": "PortGame.source_building_display_flow_rate_label"
+    },
+    "255": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.255",
+      "index": 255,
+      "owner": "PortGame.source_building_display_icon_state"
+    },
+    "256": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.256",
+      "index": 256,
+      "owner": "PortGame.source_building_display_name_state"
+    },
+    "257": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.257",
+      "index": 257,
+      "owner": "PortGame.source_building_display_ui_gates_state"
+    },
+    "258": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.258",
+      "index": 258,
+      "owner": "PortGame.source_building_draw_cached_state"
+    },
+    "259": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.259",
+      "index": 259,
+      "owner": "PortGame.source_building_draw_configure_state"
+    },
+    "260": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.260",
+      "index": 260,
+      "owner": "PortGame.source_building_draw_cracks_state"
+    },
+    "261": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.261",
+      "index": 261,
+      "owner": "PortGame.source_building_draw_disabled_state"
+    },
+    "262": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.262",
+      "index": 262,
+      "owner": "PortGame.source_building_draw_item_selection_state"
+    },
+    "263": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.263",
+      "index": 263,
+      "owner": "PortGame.source_building_draw_light_state"
+    },
+    "264": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.264",
+      "index": 264,
+      "owner": "PortGame.source_building_draw_liquid_light_state"
+    },
+    "265": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.265",
+      "index": 265,
+      "owner": "PortGame.source_building_draw_select_state"
+    },
+    "266": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.266",
+      "index": 266,
+      "owner": "PortGame.source_building_draw_state"
+    },
+    "267": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.267",
+      "index": 267,
+      "owner": "PortGame.source_building_draw_status_state"
+    },
+    "268": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.268",
+      "index": 268,
+      "owner": "PortGame.source_building_draw_team_state"
+    },
+    "269": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.269",
+      "index": 269,
+      "owner": "PortGame.source_building_draw_team_top_state"
+    },
+    "270": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.270",
+      "index": 270,
+      "owner": "PortGame.source_building_drawrot_state"
+    },
+    "271": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.271",
+      "index": 271,
+      "owner": "PortGame.source_building_dump_accumulate_default_state"
+    },
+    "272": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.272",
+      "index": 272,
+      "owner": "PortGame.source_building_dump_default_state"
+    },
+    "273": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.273",
+      "index": 273,
+      "owner": "PortGame.source_building_dump_liquid_campaign_unlock_state"
+    },
+    "274": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.274",
+      "index": 274,
+      "owner": "PortGame.source_building_dump_liquid_default_scaling_state"
+    },
+    "275": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.275",
+      "index": 275,
+      "owner": "PortGame.source_building_dump_liquid_fraction_transfer_state"
+    },
+    "276": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.276",
+      "index": 276,
+      "owner": "PortGame.source_building_dump_liquid_routing_gate_state"
+    },
+    "277": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.277",
+      "index": 277,
+      "owner": "PortGame.source_building_dump_null_item_scan_state"
+    },
+    "278": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.278",
+      "index": 278,
+      "owner": "PortGame.source_building_dump_null_proximity_scan_state"
+    },
+    "279": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.279",
+      "index": 279,
+      "owner": "PortGame.source_building_dump_null_remove_item_state"
+    },
+    "280": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.280",
+      "index": 280,
+      "owner": "PortGame.source_building_dump_null_success_handoff_state"
+    },
+    "281": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.281",
+      "index": 281,
+      "owner": "PortGame.source_building_dump_specific_proximity_scan_state"
+    },
+    "282": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.282",
+      "index": 282,
+      "owner": "PortGame.source_building_dump_terminal_failure_state"
+    },
+    "283": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.283",
+      "index": 283,
+      "owner": "PortGame.source_building_edelta"
+    },
+    "284": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.284",
+      "index": 284,
+      "owner": "PortGame.source_building_efficiency_scale_state"
+    },
+    "285": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.285",
+      "index": 285,
+      "owner": "PortGame.source_building_explosion_item_cap_state"
+    },
+    "286": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.286",
+      "index": 286,
+      "owner": "PortGame.source_building_flow_items_state"
+    },
+    "287": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.287",
+      "index": 287,
+      "owner": "PortGame.source_building_get_liquid_destination_default_state"
+    },
+    "288": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.288",
+      "index": 288,
+      "owner": "PortGame.source_building_get_payload_default_state"
+    },
+    "289": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.289",
+      "index": 289,
+      "owner": "PortGame.source_building_get_payloads_default_state"
+    },
+    "290": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.290",
+      "index": 290,
+      "owner": "PortGame.source_building_get_power_connections_automatic_add_state"
+    },
+    "291": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.291",
+      "index": 291,
+      "owner": "PortGame.source_building_get_power_connections_conducts_link_guard_state"
+    },
+    "292": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.292",
+      "index": 292,
+      "owner": "PortGame.source_building_get_power_connections_empty_guard_state"
+    },
+    "293": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.293",
+      "index": 293,
+      "owner": "PortGame.source_building_get_power_connections_manual_links_loop_state"
+    },
+    "294": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.294",
+      "index": 294,
+      "owner": "PortGame.source_building_get_power_connections_power_compatibility_guard_state"
+    },
+    "295": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.295",
+      "index": 295,
+      "owner": "PortGame.source_building_get_power_connections_proximity_guard_state"
+    },
+    "296": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.296",
+      "index": 296,
+      "owner": "PortGame.source_building_handle_damage_state"
+    },
+    "297": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.297",
+      "index": 297,
+      "owner": "PortGame.source_building_handle_item_count"
+    },
+    "298": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.298",
+      "index": 298,
+      "owner": "PortGame.source_building_handle_liquid_amount"
+    },
+    "299": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.299",
+      "index": 299,
+      "owner": "PortGame.source_building_handle_payload_state"
+    },
+    "300": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.300",
+      "index": 300,
+      "owner": "PortGame.source_building_handle_stack_count"
+    },
+    "301": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.301",
+      "index": 301,
+      "owner": "PortGame.source_building_heal_state"
+    },
+    "302": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.302",
+      "index": 302,
+      "owner": "PortGame.source_building_health_changed_state"
+    },
+    "303": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.303",
+      "index": 303,
+      "owner": "PortGame.source_building_hit_size"
+    },
+    "304": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.304",
+      "index": 304,
+      "owner": "PortGame.source_building_hitbox_state"
+    },
+    "305": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.305",
+      "index": 305,
+      "owner": "PortGame.source_building_in_fog_discovery_gate_state"
+    },
+    "306": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.306",
+      "index": 306,
+      "owner": "PortGame.source_building_in_fog_initial_gate_state"
+    },
+    "307": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.307",
+      "index": 307,
+      "owner": "PortGame.source_building_in_fog_visibility_loop_state"
+    },
+    "308": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.308",
+      "index": 308,
+      "owner": "PortGame.source_building_is_commandable_state"
+    },
+    "309": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.309",
+      "index": 309,
+      "owner": "PortGame.source_building_is_heal_suppressed_state"
+    },
+    "310": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.310",
+      "index": 310,
+      "owner": "PortGame.source_building_is_insulated_state"
+    },
+    "311": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.311",
+      "index": 311,
+      "owner": "PortGame.source_building_is_payload_state"
+    },
+    "312": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.312",
+      "index": 312,
+      "owner": "PortGame.source_building_is_valid"
+    },
+    "313": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.313",
+      "index": 313,
+      "owner": "PortGame.source_building_kill_state"
+    },
+    "314": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.314",
+      "index": 314,
+      "owner": "PortGame.source_building_killed_initial_side_effects_state"
+    },
+    "315": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.315",
+      "index": 315,
+      "owner": "PortGame.source_building_killed_removal_side_effects_state"
+    },
+    "316": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.316",
+      "index": 316,
+      "owner": "PortGame.source_building_maximum_accepted"
+    },
+    "317": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.317",
+      "index": 317,
+      "owner": "PortGame.source_building_move_liquid_fire_reaction_state"
+    },
+    "318": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.318",
+      "index": 318,
+      "owner": "PortGame.source_building_move_liquid_forward_state"
+    },
+    "319": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.319",
+      "index": 319,
+      "owner": "PortGame.source_building_move_liquid_reaction_setup_state"
+    },
+    "320": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.320",
+      "index": 320,
+      "owner": "PortGame.source_building_move_liquid_return_zero_state"
+    },
+    "321": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.321",
+      "index": 321,
+      "owner": "PortGame.source_building_move_liquid_state"
+    },
+    "322": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.322",
+      "index": 322,
+      "owner": "PortGame.source_building_move_liquid_steam_reaction_state"
+    },
+    "323": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.323",
+      "index": 323,
+      "owner": "PortGame.source_building_on_configure_build_tapped_state"
+    },
+    "324": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.324",
+      "index": 324,
+      "owner": "PortGame.source_building_on_configure_closed_state"
+    },
+    "325": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.325",
+      "index": 325,
+      "owner": "PortGame.source_building_on_configure_tapped_state"
+    },
+    "326": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.326",
+      "index": 326,
+      "owner": "PortGame.source_building_on_deconstructed_liquid_state"
+    },
+    "327": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.327",
+      "index": 327,
+      "owner": "PortGame.source_building_on_destroyed_base_sound_state"
+    },
+    "328": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.328",
+      "index": 328,
+      "owner": "PortGame.source_building_on_destroyed_buffered_power_state"
+    },
+    "329": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.329",
+      "index": 329,
+      "owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"
+    },
+    "330": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.330",
+      "index": 330,
+      "owner": "PortGame.source_building_on_destroyed_item_explosion_state"
+    },
+    "331": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.331",
+      "index": 331,
+      "owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"
+    },
+    "332": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.332",
+      "index": 332,
+      "owner": "PortGame.source_building_on_destroyed_power_sound_state"
+    },
+    "333": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.333",
+      "index": 333,
+      "owner": "PortGame.source_building_on_destroyed_reactive_sound_state"
+    },
+    "334": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.334",
+      "index": 334,
+      "owner": "PortGame.source_building_on_destroyed_rubble_state"
+    },
+    "335": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.335",
+      "index": 335,
+      "owner": "PortGame.source_building_on_destroyed_splash_liquid_state"
+    },
+    "336": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.336",
+      "index": 336,
+      "owner": "PortGame.source_building_on_nearby_build_added_state"
+    },
+    "337": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.337",
+      "index": 337,
+      "owner": "PortGame.source_building_on_proximity_added_state"
+    },
+    "338": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.338",
+      "index": 338,
+      "owner": "PortGame.source_building_on_proximity_removed_state"
+    },
+    "339": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.339",
+      "index": 339,
+      "owner": "PortGame.source_building_on_proximity_update_state"
+    },
+    "340": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.340",
+      "index": 340,
+      "owner": "PortGame.source_building_on_removed_state"
+    },
+    "341": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.341",
+      "index": 341,
+      "owner": "PortGame.source_building_on_repaired_state"
+    },
+    "342": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.342",
+      "index": 342,
+      "owner": "PortGame.source_building_overwrote_state"
+    },
+    "343": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.343",
+      "index": 343,
+      "owner": "PortGame.source_building_payload_draw_state"
+    },
+    "344": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.344",
+      "index": 344,
+      "owner": "PortGame.source_building_picked_up_state"
+    },
+    "345": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.345",
+      "index": 345,
+      "owner": "PortGame.source_building_placed_state"
+    },
+    "346": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.346",
+      "index": 346,
+      "owner": "PortGame.source_building_player_placed_state"
+    },
+    "347": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.347",
+      "index": 347,
+      "owner": "PortGame.source_building_power_production_state"
+    },
+    "348": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.348",
+      "index": 348,
+      "owner": "PortGame.source_building_produced_item_amount_state"
+    },
+    "349": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.349",
+      "index": 349,
+      "owner": "PortGame.source_building_produced_item_default_state"
+    },
+    "350": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.350",
+      "index": 350,
+      "owner": "PortGame.source_building_production_valid_state"
+    },
+    "351": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.351",
+      "index": 351,
+      "owner": "PortGame.source_building_progress_increase"
+    },
+    "352": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.352",
+      "index": 352,
+      "owner": "PortGame.source_building_puddle_on_state"
+    },
+    "353": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.353",
+      "index": 353,
+      "owner": "PortGame.source_building_put_item_state"
+    },
+    "354": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.354",
+      "index": 354,
+      "owner": "PortGame.source_building_recache_state"
+    },
+    "355": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.355",
+      "index": 355,
+      "owner": "PortGame.source_building_remove_from_proximity_state"
+    },
+    "356": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.356",
+      "index": 356,
+      "owner": "PortGame.source_building_remove_stack_state"
+    },
+    "357": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.357",
+      "index": 357,
+      "owner": "PortGame.source_building_sense_camera_default_state"
+    },
+    "358": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.358",
+      "index": 358,
+      "owner": "PortGame.source_building_sense_capacity_power_net_state"
+    },
+    "359": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.359",
+      "index": 359,
+      "owner": "PortGame.source_building_sense_content_state"
+    },
+    "360": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.360",
+      "index": 360,
+      "owner": "PortGame.source_building_sense_enabled_controlled_state"
+    },
+    "361": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.361",
+      "index": 361,
+      "owner": "PortGame.source_building_sense_health_process_state"
+    },
+    "362": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.362",
+      "index": 362,
+      "owner": "PortGame.source_building_sense_object_state"
+    },
+    "363": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.363",
+      "index": 363,
+      "owner": "PortGame.source_building_sense_payload_size_state"
+    },
+    "364": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.364",
+      "index": 364,
+      "owner": "PortGame.source_building_sense_position_state"
+    },
+    "365": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.365",
+      "index": 365,
+      "owner": "PortGame.source_building_sense_totals_state"
+    },
+    "366": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.366",
+      "index": 366,
+      "owner": "PortGame.source_building_set_prop_health_state"
+    },
+    "367": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.367",
+      "index": 367,
+      "owner": "PortGame.source_building_set_prop_item_content_state"
+    },
+    "368": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.368",
+      "index": 368,
+      "owner": "PortGame.source_building_set_prop_liquid_content_state"
+    },
+    "369": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.369",
+      "index": 369,
+      "owner": "PortGame.source_building_set_prop_team_double_state"
+    },
+    "370": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.370",
+      "index": 370,
+      "owner": "PortGame.source_building_set_prop_team_object_state"
+    },
+    "371": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.371",
+      "index": 371,
+      "owner": "PortGame.source_building_set_prop_total_power_state"
+    },
+    "372": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.372",
+      "index": 372,
+      "owner": "PortGame.source_building_should_ambient_sound"
+    },
+    "373": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.373",
+      "index": 373,
+      "owner": "PortGame.source_building_should_consume_state"
+    },
+    "374": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.374",
+      "index": 374,
+      "owner": "PortGame.source_building_should_hide_configure_state"
+    },
+    "375": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.375",
+      "index": 375,
+      "owner": "PortGame.source_building_should_show_configure_state"
+    },
+    "376": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.376",
+      "index": 376,
+      "owner": "PortGame.source_building_splash_liquid_state"
+    },
+    "377": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.377",
+      "index": 377,
+      "owner": "PortGame.source_building_take_payload_default_state"
+    },
+    "378": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.378",
+      "index": 378,
+      "owner": "PortGame.source_building_tapped_state"
+    },
+    "379": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.379",
+      "index": 379,
+      "owner": "PortGame.source_building_tether_update_state"
+    },
+    "380": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.380",
+      "index": 380,
+      "owner": "PortGame.source_building_time_scale_decay_state"
+    },
+    "381": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.381",
+      "index": 381,
+      "owner": "PortGame.source_building_to_string_state"
+    },
+    "382": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.382",
+      "index": 382,
+      "owner": "PortGame.source_building_transfer_liquid_state"
+    },
+    "383": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.383",
+      "index": 383,
+      "owner": "PortGame.source_building_unit_on_any_state"
+    },
+    "384": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.384",
+      "index": 384,
+      "owner": "PortGame.source_building_unit_on_state"
+    },
+    "385": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.385",
+      "index": 385,
+      "owner": "PortGame.source_building_unit_removed_state"
+    },
+    "386": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.386",
+      "index": 386,
+      "owner": "PortGame.source_building_update_ambient_sound_gate_state"
+    },
+    "387": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.387",
+      "index": 387,
+      "owner": "PortGame.source_building_update_consumption_call_state"
+    },
+    "388": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.388",
+      "index": 388,
+      "owner": "PortGame.source_building_update_consumption_disabled_state"
+    },
+    "389": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.389",
+      "index": 389,
+      "owner": "PortGame.source_building_update_consumption_efficiency_state"
+    },
+    "390": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.390",
+      "index": 390,
+      "owner": "PortGame.source_building_update_consumption_initial_state"
+    },
+    "391": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.391",
+      "index": 391,
+      "owner": "PortGame.source_building_update_consumption_non_optional_pass_state"
+    },
+    "392": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.392",
+      "index": 392,
+      "owner": "PortGame.source_building_update_consumption_optional_pass_state"
+    },
+    "393": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.393",
+      "index": 393,
+      "owner": "PortGame.source_building_update_consumption_second_pass_state"
+    },
+    "394": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.394",
+      "index": 394,
+      "owner": "PortGame.source_building_update_consumption_setup_state"
+    },
+    "395": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.395",
+      "index": 395,
+      "owner": "PortGame.source_building_update_efficiency_multiplier_state"
+    },
+    "396": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.396",
+      "index": 396,
+      "owner": "PortGame.source_building_update_fog_visibility_state"
+    },
+    "397": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.397",
+      "index": 397,
+      "owner": "PortGame.source_building_update_power_graph_state"
+    },
+    "398": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.398",
+      "index": 398,
+      "owner": "PortGame.source_building_update_proximity_state"
+    },
+    "399": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.399",
+      "index": 399,
+      "owner": "PortGame.source_building_update_tile_gate_state"
+    },
+    "400": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.400",
+      "index": 400,
+      "owner": "PortGame.source_building_update_timescale_decay_state"
+    },
+    "401": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.401",
+      "index": 401,
+      "owner": "PortGame.source_bullet_ammo_multiplier"
+    },
+    "402": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.402",
+      "index": 402,
+      "owner": "PortGame.source_bullet_damage"
+    },
+    "403": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.403",
+      "index": 403,
+      "owner": "PortGame.source_bullet_hit_size"
+    },
+    "404": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.404",
+      "index": 404,
+      "owner": "PortGame.source_bullet_inaccuracy"
+    },
+    "405": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.405",
+      "index": 405,
+      "owner": "PortGame.source_bullet_lifetime_seconds"
+    },
+    "406": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.406",
+      "index": 406,
+      "owner": "PortGame.source_bullet_range_change"
+    },
+    "407": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.407",
+      "index": 407,
+      "owner": "PortGame.source_bullet_reload_multiplier"
+    },
+    "408": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.408",
+      "index": 408,
+      "owner": "PortGame.source_bullet_rotation_degrees"
+    },
+    "409": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.409",
+      "index": 409,
+      "owner": "PortGame.source_bullet_scale"
+    },
+    "410": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.410",
+      "index": 410,
+      "owner": "PortGame.source_bullet_texture"
+    },
+    "411": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.411",
+      "index": 411,
+      "owner": "PortGame.source_bullet_type_building_damage_state"
+    },
+    "412": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.412",
+      "index": 412,
+      "owner": "PortGame.source_bullet_type_calculate_range_despawn_unit_state"
+    },
+    "413": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.413",
+      "index": 413,
+      "owner": "PortGame.source_bullet_type_calculate_range_fallback_state"
+    },
+    "414": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.414",
+      "index": 414,
+      "owner": "PortGame.source_bullet_type_calculate_range_override_state"
+    },
+    "415": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.415",
+      "index": 415,
+      "owner": "PortGame.source_bullet_type_calculate_range_spawn_unit_state"
+    },
+    "416": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.416",
+      "index": 416,
+      "owner": "PortGame.source_bullet_type_continuous_damage_default_state"
+    },
+    "417": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.417",
+      "index": 417,
+      "owner": "PortGame.source_bullet_type_create_aim_state"
+    },
+    "418": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.418",
+      "index": 418,
+      "owner": "PortGame.source_bullet_type_create_bullet_identity_state"
+    },
+    "419": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.419",
+      "index": 419,
+      "owner": "PortGame.source_bullet_type_create_frags_create_call_state"
+    },
+    "420": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.420",
+      "index": 420,
+      "owner": "PortGame.source_bullet_type_create_frags_increment_state"
+    },
+    "421": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.421",
+      "index": 421,
+      "owner": "PortGame.source_bullet_type_create_frags_initial_state"
+    },
+    "422": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.422",
+      "index": 422,
+      "owner": "PortGame.source_bullet_type_create_frags_random_geometry_state"
+    },
+    "423": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.423",
+      "index": 423,
+      "owner": "PortGame.source_bullet_type_create_incend_state"
+    },
+    "424": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.424",
+      "index": 424,
+      "owner": "PortGame.source_bullet_type_create_initial_gate_state"
+    },
+    "425": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.425",
+      "index": 425,
+      "owner": "PortGame.source_bullet_type_create_keep_velocity_state"
+    },
+    "426": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.426",
+      "index": 426,
+      "owner": "PortGame.source_bullet_type_create_lifetime_payload_damage_state"
+    },
+    "427": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.427",
+      "index": 427,
+      "owner": "PortGame.source_bullet_type_create_puddles_deposit_state"
+    },
+    "428": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.428",
+      "index": 428,
+      "owner": "PortGame.source_bullet_type_create_puddles_initial_state"
+    },
+    "429": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.429",
+      "index": 429,
+      "owner": "PortGame.source_bullet_type_create_puddles_tile_world_state"
+    },
+    "430": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.430",
+      "index": 430,
+      "owner": "PortGame.source_bullet_type_create_spawn_unit_state"
+    },
+    "431": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.431",
+      "index": 431,
+      "owner": "PortGame.source_bullet_type_create_splash_damage_damage_dispatch_state"
+    },
+    "432": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.432",
+      "index": 432,
+      "owner": "PortGame.source_bullet_type_create_splash_damage_heal_dispatch_state"
+    },
+    "433": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.433",
+      "index": 433,
+      "owner": "PortGame.source_bullet_type_create_splash_damage_make_fire_dispatch_state"
+    },
+    "434": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.434",
+      "index": 434,
+      "owner": "PortGame.source_bullet_type_create_splash_damage_status_dispatch_state"
+    },
+    "435": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.435",
+      "index": 435,
+      "owner": "PortGame.source_bullet_type_create_trail_add_state"
+    },
+    "436": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.436",
+      "index": 436,
+      "owner": "PortGame.source_bullet_type_create_units_initial_state"
+    },
+    "437": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.437",
+      "index": 437,
+      "owner": "PortGame.source_bullet_type_create_units_notify_state"
+    },
+    "438": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.438",
+      "index": 438,
+      "owner": "PortGame.source_bullet_type_create_units_random_offset_state"
+    },
+    "439": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.439",
+      "index": 439,
+      "owner": "PortGame.source_bullet_type_create_units_rotation_state"
+    },
+    "440": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.440",
+      "index": 440,
+      "owner": "PortGame.source_bullet_type_create_units_spawn_state"
+    },
+    "441": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.441",
+      "index": 441,
+      "owner": "PortGame.source_bullet_type_create_velocity_position_state"
+    },
+    "442": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.442",
+      "index": 442,
+      "owner": "PortGame.source_bullet_type_damage_multiplier_state"
+    },
+    "443": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.443",
+      "index": 443,
+      "owner": "PortGame.source_bullet_type_despawned_dispatch_state"
+    },
+    "444": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.444",
+      "index": 444,
+      "owner": "PortGame.source_bullet_type_despawned_effect_state"
+    },
+    "445": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.445",
+      "index": 445,
+      "owner": "PortGame.source_bullet_type_despawned_shake_state"
+    },
+    "446": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.446",
+      "index": 446,
+      "owner": "PortGame.source_bullet_type_despawned_sound_state"
+    },
+    "447": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.447",
+      "index": 447,
+      "owner": "PortGame.source_bullet_type_draw_light_state"
+    },
+    "448": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.448",
+      "index": 448,
+      "owner": "PortGame.source_bullet_type_draw_parts_state"
+    },
+    "449": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.449",
+      "index": 449,
+      "owner": "PortGame.source_bullet_type_draw_state"
+    },
+    "450": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.450",
+      "index": 450,
+      "owner": "PortGame.source_bullet_type_draw_trail_state"
+    },
+    "451": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.451",
+      "index": 451,
+      "owner": "PortGame.source_bullet_type_handle_pierce_state"
+    },
+    "452": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.452",
+      "index": 452,
+      "owner": "PortGame.source_bullet_type_heals_state"
+    },
+    "453": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.453",
+      "index": 453,
+      "owner": "PortGame.source_bullet_type_hit_default_state"
+    },
+    "454": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.454",
+      "index": 454,
+      "owner": "PortGame.source_bullet_type_hit_effects_state"
+    },
+    "455": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.455",
+      "index": 455,
+      "owner": "PortGame.source_bullet_type_hit_entity_armor_damage_state"
+    },
+    "456": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.456",
+      "index": 456,
+      "owner": "PortGame.source_bullet_type_hit_entity_damage_cap_state"
+    },
+    "457": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.457",
+      "index": 457,
+      "owner": "PortGame.source_bullet_type_hit_entity_handle_pierce_state"
+    },
+    "458": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.458",
+      "index": 458,
+      "owner": "PortGame.source_bullet_type_hit_entity_lifesteal_state"
+    },
+    "459": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.459",
+      "index": 459,
+      "owner": "PortGame.source_bullet_type_hit_entity_unit_destroy_event_state"
+    },
+    "460": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.460",
+      "index": 460,
+      "owner": "PortGame.source_bullet_type_hit_entity_unit_effects_state"
+    },
+    "461": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.461",
+      "index": 461,
+      "owner": "PortGame.source_bullet_type_hit_frag_dispatch_state"
+    },
+    "462": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.462",
+      "index": 462,
+      "owner": "PortGame.source_bullet_type_hit_post_frag_dispatch_state"
+    },
+    "463": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.463",
+      "index": 463,
+      "owner": "PortGame.source_bullet_type_hit_splash_damage_dispatch_state"
+    },
+    "464": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.464",
+      "index": 464,
+      "owner": "PortGame.source_bullet_type_hit_suppression_state"
+    },
+    "465": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.465",
+      "index": 465,
+      "owner": "PortGame.source_bullet_type_hit_tile_enemy_direct_state"
+    },
+    "466": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.466",
+      "index": 466,
+      "owner": "PortGame.source_bullet_type_hit_tile_fire_state"
+    },
+    "467": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.467",
+      "index": 467,
+      "owner": "PortGame.source_bullet_type_hit_tile_heal_state"
+    },
+    "468": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.468",
+      "index": 468,
+      "owner": "PortGame.source_bullet_type_hit_tile_lifesteal_state"
+    },
+    "469": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.469",
+      "index": 469,
+      "owner": "PortGame.source_bullet_type_hit_xy_default_state"
+    },
+    "470": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.470",
+      "index": 470,
+      "owner": "PortGame.source_bullet_type_init_draw_size_state"
+    },
+    "471": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.471",
+      "index": 471,
+      "owner": "PortGame.source_bullet_type_init_frag_velocity_state"
+    },
+    "472": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.472",
+      "index": 472,
+      "owner": "PortGame.source_bullet_type_init_initial_state"
+    },
+    "473": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.473",
+      "index": 473,
+      "owner": "PortGame.source_bullet_type_init_light_radius_state"
+    },
+    "474": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.474",
+      "index": 474,
+      "owner": "PortGame.source_bullet_type_init_lightning_type_state"
+    },
+    "475": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.475",
+      "index": 475,
+      "owner": "PortGame.source_bullet_type_init_range_assignment_state"
+    },
+    "476": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.476",
+      "index": 476,
+      "owner": "PortGame.source_bullet_type_init_spawn_bullets_state"
+    },
+    "477": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.477",
+      "index": 477,
+      "owner": "PortGame.source_bullet_type_init_type_defaults_state"
+    },
+    "478": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.478",
+      "index": 478,
+      "owner": "PortGame.source_bullet_type_removed_frag_dispatch_state"
+    },
+    "479": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.479",
+      "index": 479,
+      "owner": "PortGame.source_bullet_type_removed_trail_fade_state"
+    },
+    "480": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.480",
+      "index": 480,
+      "owner": "PortGame.source_bullet_type_shield_damage_state"
+    },
+    "481": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.481",
+      "index": 481,
+      "owner": "PortGame.source_bullet_type_test_collision_state"
+    },
+    "482": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.482",
+      "index": 482,
+      "owner": "PortGame.source_bullet_type_update_bullet_interval_state"
+    },
+    "483": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.483",
+      "index": 483,
+      "owner": "PortGame.source_bullet_type_update_dispatch_state"
+    },
+    "484": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.484",
+      "index": 484,
+      "owner": "PortGame.source_bullet_type_update_homing_follow_aim_state"
+    },
+    "485": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.485",
+      "index": 485,
+      "owner": "PortGame.source_bullet_type_update_homing_initial_state"
+    },
+    "486": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.486",
+      "index": 486,
+      "owner": "PortGame.source_bullet_type_update_homing_target_velocity_state"
+    },
+    "487": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.487",
+      "index": 487,
+      "owner": "PortGame.source_bullet_type_update_trail_effects_chance_state"
+    },
+    "488": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.488",
+      "index": 488,
+      "owner": "PortGame.source_bullet_type_update_trail_effects_interval_state"
+    },
+    "489": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.489",
+      "index": 489,
+      "owner": "PortGame.source_bullet_type_update_trail_state"
+    },
+    "490": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.490",
+      "index": 490,
+      "owner": "PortGame.source_bullet_type_update_weaving_circle_shooter_state"
+    },
+    "491": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.491",
+      "index": 491,
+      "owner": "PortGame.source_bullet_type_update_weaving_rotate_speed_state"
+    },
+    "492": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.492",
+      "index": 492,
+      "owner": "PortGame.source_bullet_type_update_weaving_state"
+    },
+    "493": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.493",
+      "index": 493,
+      "owner": "PortGame.source_bullet_velocity"
+    },
+    "494": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.494",
+      "index": 494,
+      "owner": "PortGame.source_bullet_velocity_vector_state"
+    },
+    "495": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.495",
+      "index": 495,
+      "owner": "PortGame.source_bullet_world_speed"
+    },
+    "496": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.496",
+      "index": 496,
+      "owner": "PortGame.source_child_add_state"
+    },
+    "497": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.497",
+      "index": 497,
+      "owner": "PortGame.source_child_update_state"
+    },
+    "498": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.498",
+      "index": 498,
+      "owner": "PortGame.source_consume_boost_state"
+    },
+    "499": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.499",
+      "index": 499,
+      "owner": "PortGame.source_consume_item_charged_constructor_state"
+    },
+    "500": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.500",
+      "index": 500,
+      "owner": "PortGame.source_consume_item_charged_default_constructor_state"
+    },
+    "501": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.501",
+      "index": 501,
+      "owner": "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+    },
+    "502": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.502",
+      "index": 502,
+      "owner": "PortGame.source_consume_item_dynamic_apply_state"
+    },
+    "503": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.503",
+      "index": 503,
+      "owner": "PortGame.source_consume_item_dynamic_build_state"
+    },
+    "504": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.504",
+      "index": 504,
+      "owner": "PortGame.source_consume_item_dynamic_constructor_state"
+    },
+    "505": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.505",
+      "index": 505,
+      "owner": "PortGame.source_consume_item_dynamic_efficiency_state"
+    },
+    "506": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.506",
+      "index": 506,
+      "owner": "PortGame.source_consume_item_dynamic_rebuild_state"
+    },
+    "507": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.507",
+      "index": 507,
+      "owner": "PortGame.source_consume_item_dynamic_trigger_state"
+    },
+    "508": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.508",
+      "index": 508,
+      "owner": "PortGame.source_consume_item_efficiency_constructor_state"
+    },
+    "509": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.509",
+      "index": 509,
+      "owner": "PortGame.source_consume_item_efficiency_default_constructor_state"
+    },
+    "510": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.510",
+      "index": 510,
+      "owner": "PortGame.source_consume_item_efficiency_display_state"
+    },
+    "511": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.511",
+      "index": 511,
+      "owner": "PortGame.source_consume_item_explosive_constructor_state"
+    },
+    "512": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.512",
+      "index": 512,
+      "owner": "PortGame.source_consume_item_explosive_default_constructor_state"
+    },
+    "513": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.513",
+      "index": 513,
+      "owner": "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state"
+    },
+    "514": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.514",
+      "index": 514,
+      "owner": "PortGame.source_consume_item_filter_apply_state"
+    },
+    "515": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.515",
+      "index": 515,
+      "owner": "PortGame.source_consume_item_filter_build_state"
+    },
+    "516": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.516",
+      "index": 516,
+      "owner": "PortGame.source_consume_item_filter_constructor_state"
+    },
+    "517": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.517",
+      "index": 517,
+      "owner": "PortGame.source_consume_item_filter_default_constructor_state"
+    },
+    "518": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.518",
+      "index": 518,
+      "owner": "PortGame.source_consume_item_filter_display_state"
+    },
+    "519": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.519",
+      "index": 519,
+      "owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state"
+    },
+    "520": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.520",
+      "index": 520,
+      "owner": "PortGame.source_consume_item_filter_efficiency_state"
+    },
+    "521": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.521",
+      "index": 521,
+      "owner": "PortGame.source_consume_item_filter_get_consumed_state"
+    },
+    "522": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.522",
+      "index": 522,
+      "owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state"
+    },
+    "523": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.523",
+      "index": 523,
+      "owner": "PortGame.source_consume_item_filter_trigger_state"
+    },
+    "524": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.524",
+      "index": 524,
+      "owner": "PortGame.source_consume_item_filter_update_state"
+    },
+    "525": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.525",
+      "index": 525,
+      "owner": "PortGame.source_consume_item_flammable_constructor_state"
+    },
+    "526": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.526",
+      "index": 526,
+      "owner": "PortGame.source_consume_item_flammable_default_constructor_state"
+    },
+    "527": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.527",
+      "index": 527,
+      "owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state"
+    },
+    "528": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.528",
+      "index": 528,
+      "owner": "PortGame.source_consume_item_list_efficiency_multiplier_state"
+    },
+    "529": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.529",
+      "index": 529,
+      "owner": "PortGame.source_consume_item_list_set_multipliers_state"
+    },
+    "530": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.530",
+      "index": 530,
+      "owner": "PortGame.source_consume_item_radioactive_constructor_state"
+    },
+    "531": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.531",
+      "index": 531,
+      "owner": "PortGame.source_consume_item_radioactive_default_constructor_state"
+    },
+    "532": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.532",
+      "index": 532,
+      "owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state"
+    },
+    "533": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.533",
+      "index": 533,
+      "owner": "PortGame.source_consume_items_apply_state"
+    },
+    "534": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.534",
+      "index": 534,
+      "owner": "PortGame.source_consume_items_build_state"
+    },
+    "535": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.535",
+      "index": 535,
+      "owner": "PortGame.source_consume_items_constructor_state"
+    },
+    "536": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.536",
+      "index": 536,
+      "owner": "PortGame.source_consume_items_default_constructor_state"
+    },
+    "537": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.537",
+      "index": 537,
+      "owner": "PortGame.source_consume_items_display_state"
+    },
+    "538": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.538",
+      "index": 538,
+      "owner": "PortGame.source_consume_items_efficiency_state"
+    },
+    "539": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.539",
+      "index": 539,
+      "owner": "PortGame.source_consume_items_trigger_state"
+    },
+    "540": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.540",
+      "index": 540,
+      "owner": "PortGame.source_consume_liquid_apply_state"
+    },
+    "541": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.541",
+      "index": 541,
+      "owner": "PortGame.source_consume_liquid_base_abstract_consumes_state"
+    },
+    "542": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.542",
+      "index": 542,
+      "owner": "PortGame.source_consume_liquid_base_apply_state"
+    },
+    "543": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.543",
+      "index": 543,
+      "owner": "PortGame.source_consume_liquid_base_constructor_state"
+    },
+    "544": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.544",
+      "index": 544,
+      "owner": "PortGame.source_consume_liquid_build_state"
+    },
+    "545": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.545",
+      "index": 545,
+      "owner": "PortGame.source_consume_liquid_constructor_state"
+    },
+    "546": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.546",
+      "index": 546,
+      "owner": "PortGame.source_consume_liquid_consumes_state"
+    },
+    "547": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.547",
+      "index": 547,
+      "owner": "PortGame.source_consume_liquid_default_constructor_state"
+    },
+    "548": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.548",
+      "index": 548,
+      "owner": "PortGame.source_consume_liquid_display_state"
+    },
+    "549": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.549",
+      "index": 549,
+      "owner": "PortGame.source_consume_liquid_efficiency_state"
+    },
+    "550": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.550",
+      "index": 550,
+      "owner": "PortGame.source_consume_liquid_filter_apply_state"
+    },
+    "551": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.551",
+      "index": 551,
+      "owner": "PortGame.source_consume_liquid_filter_build_state"
+    },
+    "552": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.552",
+      "index": 552,
+      "owner": "PortGame.source_consume_liquid_filter_constructor_state"
+    },
+    "553": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.553",
+      "index": 553,
+      "owner": "PortGame.source_consume_liquid_filter_consumes_state"
+    },
+    "554": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.554",
+      "index": 554,
+      "owner": "PortGame.source_consume_liquid_filter_default_constructor_state"
+    },
+    "555": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.555",
+      "index": 555,
+      "owner": "PortGame.source_consume_liquid_filter_display_state"
+    },
+    "556": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.556",
+      "index": 556,
+      "owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state"
+    },
+    "557": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.557",
+      "index": 557,
+      "owner": "PortGame.source_consume_liquid_filter_efficiency_state"
+    },
+    "558": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.558",
+      "index": 558,
+      "owner": "PortGame.source_consume_liquid_filter_get_consumed_state"
+    },
+    "559": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.559",
+      "index": 559,
+      "owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state"
+    },
+    "560": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.560",
+      "index": 560,
+      "owner": "PortGame.source_consume_liquid_filter_update_state"
+    },
+    "561": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.561",
+      "index": 561,
+      "owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state"
+    },
+    "562": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.562",
+      "index": 562,
+      "owner": "PortGame.source_consume_liquid_flammable_constructor_state"
+    },
+    "563": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.563",
+      "index": 563,
+      "owner": "PortGame.source_consume_liquid_flammable_default_constructor_state"
+    },
+    "564": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.564",
+      "index": 564,
+      "owner": "PortGame.source_consume_liquid_flammable_display_state"
+    },
+    "565": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.565",
+      "index": 565,
+      "owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+    },
+    "566": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.566",
+      "index": 566,
+      "owner": "PortGame.source_consume_liquid_update_state"
+    },
+    "567": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.567",
+      "index": 567,
+      "owner": "PortGame.source_consume_liquids_apply_state"
+    },
+    "568": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.568",
+      "index": 568,
+      "owner": "PortGame.source_consume_liquids_build_state"
+    },
+    "569": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.569",
+      "index": 569,
+      "owner": "PortGame.source_consume_liquids_constructor_state"
+    },
+    "570": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.570",
+      "index": 570,
+      "owner": "PortGame.source_consume_liquids_default_constructor_state"
+    },
+    "571": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.571",
+      "index": 571,
+      "owner": "PortGame.source_consume_liquids_display_state"
+    },
+    "572": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.572",
+      "index": 572,
+      "owner": "PortGame.source_consume_liquids_dynamic_apply_state"
+    },
+    "573": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.573",
+      "index": 573,
+      "owner": "PortGame.source_consume_liquids_dynamic_build_state"
+    },
+    "574": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.574",
+      "index": 574,
+      "owner": "PortGame.source_consume_liquids_dynamic_constructor_state"
+    },
+    "575": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.575",
+      "index": 575,
+      "owner": "PortGame.source_consume_liquids_dynamic_efficiency_state"
+    },
+    "576": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.576",
+      "index": 576,
+      "owner": "PortGame.source_consume_liquids_dynamic_rebuild_state"
+    },
+    "577": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.577",
+      "index": 577,
+      "owner": "PortGame.source_consume_liquids_dynamic_update_state"
+    },
+    "578": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.578",
+      "index": 578,
+      "owner": "PortGame.source_consume_liquids_efficiency_state"
+    },
+    "579": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.579",
+      "index": 579,
+      "owner": "PortGame.source_consume_liquids_update_state"
+    },
+    "580": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.580",
+      "index": 580,
+      "owner": "PortGame.source_consume_optional_state"
+    },
+    "581": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.581",
+      "index": 581,
+      "owner": "PortGame.source_consume_power_condition_requested_power_state"
+    },
+    "582": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.582",
+      "index": 582,
+      "owner": "PortGame.source_consume_power_display_state"
+    },
+    "583": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.583",
+      "index": 583,
+      "owner": "PortGame.source_consume_power_dynamic_display_state"
+    },
+    "584": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.584",
+      "index": 584,
+      "owner": "PortGame.source_consume_power_dynamic_requested_power_state"
+    },
+    "585": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.585",
+      "index": 585,
+      "owner": "PortGame.source_consume_power_efficiency_state"
+    },
+    "586": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.586",
+      "index": 586,
+      "owner": "PortGame.source_consume_power_ignore_state"
+    },
+    "587": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.587",
+      "index": 587,
+      "owner": "PortGame.source_consume_power_requested_power_state"
+    },
+    "588": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.588",
+      "index": 588,
+      "owner": "PortGame.source_continuous_liquid_turret_ammo_state"
+    },
+    "589": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.589",
+      "index": 589,
+      "owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state"
+    },
+    "590": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.590",
+      "index": 590,
+      "owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state"
+    },
+    "591": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.591",
+      "index": 591,
+      "owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state"
+    },
+    "592": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.592",
+      "index": 592,
+      "owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+    },
+    "593": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.593",
+      "index": 593,
+      "owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"
+    },
+    "594": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.594",
+      "index": 594,
+      "owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state"
+    },
+    "595": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.595",
+      "index": 595,
+      "owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state"
+    },
+    "596": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.596",
+      "index": 596,
+      "owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"
+    },
+    "597": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.597",
+      "index": 597,
+      "owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+    },
+    "598": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.598",
+      "index": 598,
+      "owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"
+    },
+    "599": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.599",
+      "index": 599,
+      "owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state"
+    },
+    "600": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.600",
+      "index": 600,
+      "owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state"
+    },
+    "601": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.601",
+      "index": 601,
+      "owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state"
+    },
+    "602": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.602",
+      "index": 602,
+      "owner": "PortGame.source_continuous_liquid_turret_init_state"
+    },
+    "603": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.603",
+      "index": 603,
+      "owner": "PortGame.source_continuous_liquid_turret_set_stats_state"
+    },
+    "604": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.604",
+      "index": 604,
+      "owner": "PortGame.source_continuous_turret_set_stats_state"
+    },
+    "605": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.605",
+      "index": 605,
+      "owner": "PortGame.source_conveyor_path_progress_delta"
+    },
+    "606": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.606",
+      "index": 606,
+      "owner": "PortGame.source_conveyor_path_progress_delta_for_cell"
+    },
+    "607": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.607",
+      "index": 607,
+      "owner": "PortGame.source_conveyor_path_progress_rate"
+    },
+    "608": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.608",
+      "index": 608,
+      "owner": "PortGame.source_conveyor_world_speed"
+    },
+    "609": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.609",
+      "index": 609,
+      "owner": "PortGame.source_core_accept_item"
+    },
+    "610": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.610",
+      "index": 610,
+      "owner": "PortGame.source_core_handle_item"
+    },
+    "611": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.611",
+      "index": 611,
+      "owner": "PortGame.source_drill_delay"
+    },
+    "612": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.612",
+      "index": 612,
+      "owner": "PortGame.source_drill_dump_interval"
+    },
+    "613": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.613",
+      "index": 613,
+      "owner": "PortGame.source_drill_inactive_warmup_state"
+    },
+    "614": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.614",
+      "index": 614,
+      "owner": "PortGame.source_drill_last_speed"
+    },
+    "615": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.615",
+      "index": 615,
+      "owner": "PortGame.source_drill_last_speed_for_cell"
+    },
+    "616": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.616",
+      "index": 616,
+      "owner": "PortGame.source_drill_ore_count"
+    },
+    "617": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.617",
+      "index": 617,
+      "owner": "PortGame.source_drill_output_batch"
+    },
+    "618": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.618",
+      "index": 618,
+      "owner": "PortGame.source_drill_output_delta"
+    },
+    "619": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.619",
+      "index": 619,
+      "owner": "PortGame.source_drill_output_delta_for_cell"
+    },
+    "620": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.620",
+      "index": 620,
+      "owner": "PortGame.source_drill_output_rate"
+    },
+    "621": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.621",
+      "index": 621,
+      "owner": "PortGame.source_drill_progress_fraction"
+    },
+    "622": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.622",
+      "index": 622,
+      "owner": "PortGame.source_drill_time_drilled_delta"
+    },
+    "623": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.623",
+      "index": 623,
+      "owner": "PortGame.source_drill_warmup_speed"
+    },
+    "624": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.624",
+      "index": 624,
+      "owner": "PortGame.source_drill_warmup_state"
+    },
+    "625": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.625",
+      "index": 625,
+      "owner": "PortGame.source_dump_accumulate_attempt_state"
+    },
+    "626": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.626",
+      "index": 626,
+      "owner": "PortGame.source_dump_drill_item_to_core"
+    },
+    "627": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.627",
+      "index": 627,
+      "owner": "PortGame.source_dump_payload_index"
+    },
+    "628": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.628",
+      "index": 628,
+      "owner": "PortGame.source_dump_payload_state"
+    },
+    "629": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.629",
+      "index": 629,
+      "owner": "PortGame.source_increment_dump_cursor"
+    },
+    "630": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.630",
+      "index": 630,
+      "owner": "PortGame.source_item_entry_constructor_state"
+    },
+    "631": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.631",
+      "index": 631,
+      "owner": "PortGame.source_item_entry_to_string_state"
+    },
+    "632": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.632",
+      "index": 632,
+      "owner": "PortGame.source_item_entry_type_state"
+    },
+    "633": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.633",
+      "index": 633,
+      "owner": "PortGame.source_item_turret_ammo_state"
+    },
+    "634": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.634",
+      "index": 634,
+      "owner": "PortGame.source_item_turret_build_accept_item_state"
+    },
+    "635": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.635",
+      "index": 635,
+      "owner": "PortGame.source_item_turret_build_accept_stack_state"
+    },
+    "636": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.636",
+      "index": 636,
+      "owner": "PortGame.source_item_turret_build_get_ammo_content_state"
+    },
+    "637": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.637",
+      "index": 637,
+      "owner": "PortGame.source_item_turret_build_get_ammo_fraction_state"
+    },
+    "638": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.638",
+      "index": 638,
+      "owner": "PortGame.source_item_turret_build_handle_item_state"
+    },
+    "639": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.639",
+      "index": 639,
+      "owner": "PortGame.source_item_turret_build_handle_stack_state"
+    },
+    "640": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.640",
+      "index": 640,
+      "owner": "PortGame.source_item_turret_build_on_proximity_added_state"
+    },
+    "641": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.641",
+      "index": 641,
+      "owner": "PortGame.source_item_turret_build_read_state"
+    },
+    "642": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.642",
+      "index": 642,
+      "owner": "PortGame.source_item_turret_build_remove_stack_state"
+    },
+    "643": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.643",
+      "index": 643,
+      "owner": "PortGame.source_item_turret_build_sense_object_state"
+    },
+    "644": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.644",
+      "index": 644,
+      "owner": "PortGame.source_item_turret_build_version_state"
+    },
+    "645": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.645",
+      "index": 645,
+      "owner": "PortGame.source_item_turret_build_write_state"
+    },
+    "646": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.646",
+      "index": 646,
+      "owner": "PortGame.source_item_turret_init_ground_overlap_state"
+    },
+    "647": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.647",
+      "index": 647,
+      "owner": "PortGame.source_item_turret_limit_range_default_state"
+    },
+    "648": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.648",
+      "index": 648,
+      "owner": "PortGame.source_item_turret_limit_range_entries_state"
+    },
+    "649": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.649",
+      "index": 649,
+      "owner": "PortGame.source_item_turret_set_bars_state"
+    },
+    "650": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.650",
+      "index": 650,
+      "owner": "PortGame.source_item_turret_set_stats_state"
+    },
+    "651": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.651",
+      "index": 651,
+      "owner": "PortGame.source_lerp_delta"
+    },
+    "652": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.652",
+      "index": 652,
+      "owner": "PortGame.source_liquid_turret_ammo_state"
+    },
+    "653": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.653",
+      "index": 653,
+      "owner": "PortGame.source_liquid_turret_build_accept_item_state"
+    },
+    "654": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.654",
+      "index": 654,
+      "owner": "PortGame.source_liquid_turret_build_accept_liquid_state"
+    },
+    "655": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.655",
+      "index": 655,
+      "owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+    },
+    "656": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.656",
+      "index": 656,
+      "owner": "PortGame.source_liquid_turret_build_get_ammo_content_state"
+    },
+    "657": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.657",
+      "index": 657,
+      "owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state"
+    },
+    "658": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.658",
+      "index": 658,
+      "owner": "PortGame.source_liquid_turret_build_has_ammo_state"
+    },
+    "659": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.659",
+      "index": 659,
+      "owner": "PortGame.source_liquid_turret_build_peek_ammo_state"
+    },
+    "660": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.660",
+      "index": 660,
+      "owner": "PortGame.source_liquid_turret_build_sense_object_state"
+    },
+    "661": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.661",
+      "index": 661,
+      "owner": "PortGame.source_liquid_turret_build_should_active_sound_state"
+    },
+    "662": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.662",
+      "index": 662,
+      "owner": "PortGame.source_liquid_turret_build_use_ammo_state"
+    },
+    "663": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.663",
+      "index": 663,
+      "owner": "PortGame.source_liquid_turret_init_state"
+    },
+    "664": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.664",
+      "index": 664,
+      "owner": "PortGame.source_liquid_turret_set_stats_state"
+    },
+    "665": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.665",
+      "index": 665,
+      "owner": "PortGame.source_mathf_approach_delta"
+    },
+    "666": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.666",
+      "index": 666,
+      "owner": "PortGame.source_mathf_dst"
+    },
+    "667": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.667",
+      "index": 667,
+      "owner": "PortGame.source_mathf_lerp_delta"
+    },
+    "668": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.668",
+      "index": 668,
+      "owner": "PortGame.source_mend_projector_draw_state"
+    },
+    "669": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.669",
+      "index": 669,
+      "owner": "PortGame.source_mend_projector_light_state"
+    },
+    "670": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.670",
+      "index": 670,
+      "owner": "PortGame.source_mend_projector_place_state"
+    },
+    "671": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.671",
+      "index": 671,
+      "owner": "PortGame.source_mend_projector_progress"
+    },
+    "672": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.672",
+      "index": 672,
+      "owner": "PortGame.source_mend_projector_range"
+    },
+    "673": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.673",
+      "index": 673,
+      "owner": "PortGame.source_mend_projector_repair_amount"
+    },
+    "674": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.674",
+      "index": 674,
+      "owner": "PortGame.source_mend_projector_select_state"
+    },
+    "675": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.675",
+      "index": 675,
+      "owner": "PortGame.source_move_angle_toward"
+    },
+    "676": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.676",
+      "index": 676,
+      "owner": "PortGame.source_move_forward_accept_state"
+    },
+    "677": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.677",
+      "index": 677,
+      "owner": "PortGame.source_move_forward_to_core"
+    },
+    "678": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.678",
+      "index": 678,
+      "owner": "PortGame.source_move_payload_state"
+    },
+    "679": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.679",
+      "index": 679,
+      "owner": "PortGame.source_offload_to_inventory"
+    },
+    "680": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.680",
+      "index": 680,
+      "owner": "PortGame.source_overdrive_projector_boost_bar_fraction"
+    },
+    "681": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.681",
+      "index": 681,
+      "owner": "PortGame.source_overdrive_projector_draw_state"
+    },
+    "682": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.682",
+      "index": 682,
+      "owner": "PortGame.source_overdrive_projector_light_state"
+    },
+    "683": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.683",
+      "index": 683,
+      "owner": "PortGame.source_overdrive_projector_place_state"
+    },
+    "684": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.684",
+      "index": 684,
+      "owner": "PortGame.source_overdrive_projector_range"
+    },
+    "685": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.685",
+      "index": 685,
+      "owner": "PortGame.source_overdrive_projector_real_boost"
+    },
+    "686": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.686",
+      "index": 686,
+      "owner": "PortGame.source_overdrive_projector_select_state"
+    },
+    "687": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.687",
+      "index": 687,
+      "owner": "PortGame.source_overdrive_projector_target_filter_state"
+    },
+    "688": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.688",
+      "index": 688,
+      "owner": "PortGame.source_payload_forward_offset"
+    },
+    "689": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.689",
+      "index": 689,
+      "owner": "PortGame.source_pos_set_state"
+    },
+    "690": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.690",
+      "index": 690,
+      "owner": "PortGame.source_power_generator_ambient_volume_state"
+    },
+    "691": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.691",
+      "index": 691,
+      "owner": "PortGame.source_power_generator_build_serialization_state"
+    },
+    "692": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.692",
+      "index": 692,
+      "owner": "PortGame.source_power_generator_create_explosion_damage_state"
+    },
+    "693": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.693",
+      "index": 693,
+      "owner": "PortGame.source_power_generator_create_explosion_effect_sound_state"
+    },
+    "694": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.694",
+      "index": 694,
+      "owner": "PortGame.source_power_generator_create_explosion_gate_state"
+    },
+    "695": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.695",
+      "index": 695,
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_deposit_state"
+    },
+    "696": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.696",
+      "index": 696,
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_loop_state"
+    },
+    "697": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.697",
+      "index": 697,
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_tile_world_state"
+    },
+    "698": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.698",
+      "index": 698,
+      "owner": "PortGame.source_power_generator_create_explosion_puddle_vector_state"
+    },
+    "699": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.699",
+      "index": 699,
+      "owner": "PortGame.source_power_generator_create_explosion_shake_state"
+    },
+    "700": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.700",
+      "index": 700,
+      "owner": "PortGame.source_power_generator_displayed_power_production_state"
+    },
+    "701": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.701",
+      "index": 701,
+      "owner": "PortGame.source_power_generator_get_power_production_state"
+    },
+    "702": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.702",
+      "index": 702,
+      "owner": "PortGame.source_power_generator_on_destroyed_reactor_explosion_state"
+    },
+    "703": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.703",
+      "index": 703,
+      "owner": "PortGame.source_power_generator_should_explode_state"
+    },
+    "704": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.704",
+      "index": 704,
+      "owner": "PortGame.source_power_generator_warmup_state"
+    },
+    "705": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.705",
+      "index": 705,
+      "owner": "PortGame.source_power_graph_add_graph_state"
+    },
+    "706": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.706",
+      "index": 706,
+      "owner": "PortGame.source_power_graph_add_role_state"
+    },
+    "707": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.707",
+      "index": 707,
+      "owner": "PortGame.source_power_graph_battery_state"
+    },
+    "708": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.708",
+      "index": 708,
+      "owner": "PortGame.source_power_graph_charge_batteries_state"
+    },
+    "709": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.709",
+      "index": 709,
+      "owner": "PortGame.source_power_graph_check_add_state"
+    },
+    "710": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.710",
+      "index": 710,
+      "owner": "PortGame.source_power_graph_clear_state"
+    },
+    "711": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.711",
+      "index": 711,
+      "owner": "PortGame.source_power_graph_distribute_power_state"
+    },
+    "712": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.712",
+      "index": 712,
+      "owner": "PortGame.source_power_graph_get_id_state"
+    },
+    "713": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.713",
+      "index": 713,
+      "owner": "PortGame.source_power_graph_power_needed_state"
+    },
+    "714": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.714",
+      "index": 714,
+      "owner": "PortGame.source_power_graph_power_produced_state"
+    },
+    "715": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.715",
+      "index": 715,
+      "owner": "PortGame.source_power_graph_reflow_state"
+    },
+    "716": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.716",
+      "index": 716,
+      "owner": "PortGame.source_power_graph_remove_branch_bfs_state"
+    },
+    "717": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.717",
+      "index": 717,
+      "owner": "PortGame.source_power_graph_remove_branch_seed_state"
+    },
+    "718": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.718",
+      "index": 718,
+      "owner": "PortGame.source_power_graph_remove_branch_update_state"
+    },
+    "719": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.719",
+      "index": 719,
+      "owner": "PortGame.source_power_graph_remove_empty_entity_state"
+    },
+    "720": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.720",
+      "index": 720,
+      "owner": "PortGame.source_power_graph_remove_list_state"
+    },
+    "721": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.721",
+      "index": 721,
+      "owner": "PortGame.source_power_graph_to_string_state"
+    },
+    "722": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.722",
+      "index": 722,
+      "owner": "PortGame.source_power_graph_update_balance_state"
+    },
+    "723": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.723",
+      "index": 723,
+      "owner": "PortGame.source_power_graph_update_battery_distribute_state"
+    },
+    "724": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.724",
+      "index": 724,
+      "owner": "PortGame.source_power_graph_update_cheat_state"
+    },
+    "725": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.725",
+      "index": 725,
+      "owner": "PortGame.source_power_graph_use_batteries_state"
+    },
+    "726": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.726",
+      "index": 726,
+      "owner": "PortGame.source_power_turret_build_get_ammo_fraction_state"
+    },
+    "727": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.727",
+      "index": 727,
+      "owner": "PortGame.source_power_turret_build_has_ammo_state"
+    },
+    "728": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.728",
+      "index": 728,
+      "owner": "PortGame.source_power_turret_build_peek_ammo_state"
+    },
+    "729": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.729",
+      "index": 729,
+      "owner": "PortGame.source_power_turret_build_sense_state"
+    },
+    "730": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.730",
+      "index": 730,
+      "owner": "PortGame.source_power_turret_build_use_ammo_state"
+    },
+    "731": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.731",
+      "index": 731,
+      "owner": "PortGame.source_power_turret_limit_range_state"
+    },
+    "732": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.732",
+      "index": 732,
+      "owner": "PortGame.source_power_turret_set_stats_state"
+    },
+    "733": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.733",
+      "index": 733,
+      "owner": "PortGame.source_reload_turret_set_stats_state"
+    },
+    "734": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.734",
+      "index": 734,
+      "owner": "PortGame.source_shielder_absorb_state"
+    },
+    "735": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.735",
+      "index": 735,
+      "owner": "PortGame.source_shoot_pattern_default_events"
+    },
+    "736": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.736",
+      "index": 736,
+      "owner": "PortGame.source_solar_generator_update_tile_state"
+    },
+    "737": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.737",
+      "index": 737,
+      "owner": "PortGame.source_status_apply_result"
+    },
+    "738": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.738",
+      "index": 738,
+      "owner": "PortGame.source_sync_after_sync_state"
+    },
+    "739": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.739",
+      "index": 739,
+      "owner": "PortGame.source_sync_handle_sync_hidden_state"
+    },
+    "740": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.740",
+      "index": 740,
+      "owner": "PortGame.source_sync_interpolate_state"
+    },
+    "741": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.741",
+      "index": 741,
+      "owner": "PortGame.source_sync_is_sync_hidden_state"
+    },
+    "742": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.742",
+      "index": 742,
+      "owner": "PortGame.source_sync_read_sync_manual_state"
+    },
+    "743": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.743",
+      "index": 743,
+      "owner": "PortGame.source_sync_read_sync_state"
+    },
+    "744": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.744",
+      "index": 744,
+      "owner": "PortGame.source_sync_remove_client_removed_entity_state"
+    },
+    "745": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.745",
+      "index": 745,
+      "owner": "PortGame.source_sync_snap_interpolation_state"
+    },
+    "746": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.746",
+      "index": 746,
+      "owner": "PortGame.source_sync_snap_sync_state"
+    },
+    "747": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.747",
+      "index": 747,
+      "owner": "PortGame.source_sync_update_interpolate_state"
+    },
+    "748": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.748",
+      "index": 748,
+      "owner": "PortGame.source_sync_write_sync_manual_state"
+    },
+    "749": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.749",
+      "index": 749,
+      "owner": "PortGame.source_sync_write_sync_state"
+    },
+    "750": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.750",
+      "index": 750,
+      "owner": "PortGame.source_thermal_generator_after_picked_up_state"
+    },
+    "751": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.751",
+      "index": 751,
+      "owner": "PortGame.source_thermal_generator_can_place_on_state"
+    },
+    "752": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.752",
+      "index": 752,
+      "owner": "PortGame.source_thermal_generator_displayed_power_production_state"
+    },
+    "753": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.753",
+      "index": 753,
+      "owner": "PortGame.source_thermal_generator_draw_light_state"
+    },
+    "754": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.754",
+      "index": 754,
+      "owner": "PortGame.source_thermal_generator_draw_place_state"
+    },
+    "755": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.755",
+      "index": 755,
+      "owner": "PortGame.source_thermal_generator_init_state"
+    },
+    "756": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.756",
+      "index": 756,
+      "owner": "PortGame.source_thermal_generator_on_proximity_added_state"
+    },
+    "757": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.757",
+      "index": 757,
+      "owner": "PortGame.source_thermal_generator_set_stats_output_liquid_state"
+    },
+    "758": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.758",
+      "index": 758,
+      "owner": "PortGame.source_thermal_generator_set_stats_state"
+    },
+    "759": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.759",
+      "index": 759,
+      "owner": "PortGame.source_thermal_generator_total_progress_state"
+    },
+    "760": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.760",
+      "index": 760,
+      "owner": "PortGame.source_thermal_generator_update_tile_effect_state"
+    },
+    "761": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.761",
+      "index": 761,
+      "owner": "PortGame.source_thermal_generator_update_tile_output_liquid_state"
+    },
+    "762": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.762",
+      "index": 762,
+      "owner": "PortGame.source_thermal_generator_update_tile_state"
+    },
+    "763": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.763",
+      "index": 763,
+      "owner": "PortGame.source_tractor_beam_turret_build_draw_state"
+    },
+    "764": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.764",
+      "index": 764,
+      "owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"
+    },
+    "765": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.765",
+      "index": 765,
+      "owner": "PortGame.source_tractor_beam_turret_build_read_state"
+    },
+    "766": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.766",
+      "index": 766,
+      "owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"
+    },
+    "767": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.767",
+      "index": 767,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state"
+    },
+    "768": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.768",
+      "index": 768,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state"
+    },
+    "769": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.769",
+      "index": 769,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state"
+    },
+    "770": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.770",
+      "index": 770,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state"
+    },
+    "771": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.771",
+      "index": 771,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state"
+    },
+    "772": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.772",
+      "index": 772,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state"
+    },
+    "773": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.773",
+      "index": 773,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state"
+    },
+    "774": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.774",
+      "index": 774,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state"
+    },
+    "775": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.775",
+      "index": 775,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state"
+    },
+    "776": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.776",
+      "index": 776,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state"
+    },
+    "777": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.777",
+      "index": 777,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state"
+    },
+    "778": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.778",
+      "index": 778,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state"
+    },
+    "779": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.779",
+      "index": 779,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state"
+    },
+    "780": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.780",
+      "index": 780,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state"
+    },
+    "781": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.781",
+      "index": 781,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state"
+    },
+    "782": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.782",
+      "index": 782,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state"
+    },
+    "783": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.783",
+      "index": 783,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state"
+    },
+    "784": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.784",
+      "index": 784,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state"
+    },
+    "785": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.785",
+      "index": 785,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state"
+    },
+    "786": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.786",
+      "index": 786,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state"
+    },
+    "787": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.787",
+      "index": 787,
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state"
+    },
+    "788": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.788",
+      "index": 788,
+      "owner": "PortGame.source_tractor_beam_turret_build_write_state"
+    },
+    "789": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.789",
+      "index": 789,
+      "owner": "PortGame.source_tractor_beam_turret_icons_state"
+    },
+    "790": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.790",
+      "index": 790,
+      "owner": "PortGame.source_tractor_beam_turret_init_state"
+    },
+    "791": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.791",
+      "index": 791,
+      "owner": "PortGame.source_tractor_beam_turret_set_stats_state"
+    },
+    "792": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.792",
+      "index": 792,
+      "owner": "PortGame.source_turret_ammo_data"
+    },
+    "793": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.793",
+      "index": 793,
+      "owner": "PortGame.source_turret_bullet_origin"
+    },
+    "794": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.794",
+      "index": 794,
+      "owner": "PortGame.source_turret_draw_place_state"
+    },
+    "795": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.795",
+      "index": 795,
+      "owner": "PortGame.source_turret_draw_plan_region_state"
+    },
+    "796": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.796",
+      "index": 796,
+      "owner": "PortGame.source_turret_get_regions_to_outline_state"
+    },
+    "797": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.797",
+      "index": 797,
+      "owner": "PortGame.source_turret_icons_state"
+    },
+    "798": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.798",
+      "index": 798,
+      "owner": "PortGame.source_turret_inaccuracy"
+    },
+    "799": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.799",
+      "index": 799,
+      "owner": "PortGame.source_turret_init_state"
+    },
+    "800": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.800",
+      "index": 800,
+      "owner": "PortGame.source_turret_limit_range_state"
+    },
+    "801": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.801",
+      "index": 801,
+      "owner": "PortGame.source_turret_load_state"
+    },
+    "802": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.802",
+      "index": 802,
+      "owner": "PortGame.source_turret_outputs_items_state"
+    },
+    "803": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.803",
+      "index": 803,
+      "owner": "PortGame.source_turret_place_ended_state"
+    },
+    "804": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.804",
+      "index": 804,
+      "owner": "PortGame.source_turret_range"
+    },
+    "805": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.805",
+      "index": 805,
+      "owner": "PortGame.source_turret_range_for_ammo"
+    },
+    "806": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.806",
+      "index": 806,
+      "owner": "PortGame.source_turret_recoil"
+    },
+    "807": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.807",
+      "index": 807,
+      "owner": "PortGame.source_turret_recoil_offset"
+    },
+    "808": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.808",
+      "index": 808,
+      "owner": "PortGame.source_turret_recoil_time"
+    },
+    "809": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.809",
+      "index": 809,
+      "owner": "PortGame.source_turret_recoils"
+    },
+    "810": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.810",
+      "index": 810,
+      "owner": "PortGame.source_turret_reload_seconds"
+    },
+    "811": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.811",
+      "index": 811,
+      "owner": "PortGame.source_turret_reload_seconds_for_ammo"
+    },
+    "812": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.812",
+      "index": 812,
+      "owner": "PortGame.source_turret_rotate_speed"
+    },
+    "813": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.813",
+      "index": 813,
+      "owner": "PortGame.source_turret_rotated_output_state"
+    },
+    "814": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.814",
+      "index": 814,
+      "owner": "PortGame.source_turret_set_bars_state"
+    },
+    "815": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.815",
+      "index": 815,
+      "owner": "PortGame.source_turret_set_stats_state"
+    },
+    "816": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.816",
+      "index": 816,
+      "owner": "PortGame.source_turret_shoot_cone"
+    },
+    "817": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.817",
+      "index": 817,
+      "owner": "PortGame.source_turret_shoot_pattern"
+    },
+    "818": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.818",
+      "index": 818,
+      "owner": "PortGame.source_turret_shoot_y"
+    },
+    "819": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.819",
+      "index": 819,
+      "owner": "PortGame.source_turret_total_inaccuracy"
+    },
+    "820": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.820",
+      "index": 820,
+      "owner": "PortGame.source_unit_add_state"
+    },
+    "821": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.821",
+      "index": 821,
+      "owner": "PortGame.source_unit_after_read_all_state"
+    },
+    "822": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.822",
+      "index": 822,
+      "owner": "PortGame.source_unit_after_read_state"
+    },
+    "823": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.823",
+      "index": 823,
+      "owner": "PortGame.source_unit_after_sync_state"
+    },
+    "824": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.824",
+      "index": 824,
+      "owner": "PortGame.source_unit_aim_look_position_state"
+    },
+    "825": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.825",
+      "index": 825,
+      "owner": "PortGame.source_unit_aim_look_xy_state"
+    },
+    "826": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.826",
+      "index": 826,
+      "owner": "PortGame.source_unit_approach_state"
+    },
+    "827": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.827",
+      "index": 827,
+      "owner": "PortGame.source_unit_can_drown_state"
+    },
+    "828": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.828",
+      "index": 828,
+      "owner": "PortGame.source_unit_can_target_state"
+    },
+    "829": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.829",
+      "index": 829,
+      "owner": "PortGame.source_unit_cap_state"
+    },
+    "830": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.830",
+      "index": 830,
+      "owner": "PortGame.source_unit_check_target_state"
+    },
+    "831": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.831",
+      "index": 831,
+      "owner": "PortGame.source_unit_command_state"
+    },
+    "832": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.832",
+      "index": 832,
+      "owner": "PortGame.source_unit_controller_predicates_state"
+    },
+    "833": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.833",
+      "index": 833,
+      "owner": "PortGame.source_unit_count_state"
+    },
+    "834": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.834",
+      "index": 834,
+      "owner": "PortGame.source_unit_destroy_ability_death_state"
+    },
+    "835": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.835",
+      "index": 835,
+      "owner": "PortGame.source_unit_destroy_crash_landing_damage_state"
+    },
+    "836": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.836",
+      "index": 836,
+      "owner": "PortGame.source_unit_destroy_explosion_dispatch_state"
+    },
+    "837": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.837",
+      "index": 837,
+      "owner": "PortGame.source_unit_destroy_initial_payload_state"
+    },
+    "838": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.838",
+      "index": 838,
+      "owner": "PortGame.source_unit_destroy_shoot_on_death_mounts_state"
+    },
+    "839": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.839",
+      "index": 839,
+      "owner": "PortGame.source_unit_destroy_sound_and_event_state"
+    },
+    "840": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.840",
+      "index": 840,
+      "owner": "PortGame.source_unit_destroy_suicide_bomb_trigger_state"
+    },
+    "841": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.841",
+      "index": 841,
+      "owner": "PortGame.source_unit_destroy_type_killed_remove_state"
+    },
+    "842": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.842",
+      "index": 842,
+      "owner": "PortGame.source_unit_destroy_visual_effects_state"
+    },
+    "843": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.843",
+      "index": 843,
+      "owner": "PortGame.source_unit_destroy_wreck_decal_state"
+    },
+    "844": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.844",
+      "index": 844,
+      "owner": "PortGame.source_unit_drown_floor_state"
+    },
+    "845": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.845",
+      "index": 845,
+      "owner": "PortGame.source_unit_floor_speed_multiplier_state"
+    },
+    "846": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.846",
+      "index": 846,
+      "owner": "PortGame.source_unit_heal_state"
+    },
+    "847": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.847",
+      "index": 847,
+      "owner": "PortGame.source_unit_health"
+    },
+    "848": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.848",
+      "index": 848,
+      "owner": "PortGame.source_unit_hit_size"
+    },
+    "849": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.849",
+      "index": 849,
+      "owner": "PortGame.source_unit_hittable_state"
+    },
+    "850": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.850",
+      "index": 850,
+      "owner": "PortGame.source_unit_icon_state"
+    },
+    "851": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.851",
+      "index": 851,
+      "owner": "PortGame.source_unit_is_flying"
+    },
+    "852": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.852",
+      "index": 852,
+      "owner": "PortGame.source_unit_is_grounded"
+    },
+    "853": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.853",
+      "index": 853,
+      "owner": "PortGame.source_unit_is_missile_state"
+    },
+    "854": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.854",
+      "index": 854,
+      "owner": "PortGame.source_unit_kill_sync_state"
+    },
+    "855": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.855",
+      "index": 855,
+      "owner": "PortGame.source_unit_killable_state"
+    },
+    "856": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.856",
+      "index": 856,
+      "owner": "PortGame.source_unit_killed_state"
+    },
+    "857": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.857",
+      "index": 857,
+      "owner": "PortGame.source_unit_landed_state"
+    },
+    "858": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.858",
+      "index": 858,
+      "owner": "PortGame.source_unit_look_at_angle_state"
+    },
+    "859": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.859",
+      "index": 859,
+      "owner": "PortGame.source_unit_look_at_position_state"
+    },
+    "860": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.860",
+      "index": 860,
+      "owner": "PortGame.source_unit_look_at_xy_state"
+    },
+    "861": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.861",
+      "index": 861,
+      "owner": "PortGame.source_unit_move_at_default_accel_state"
+    },
+    "862": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.862",
+      "index": 862,
+      "owner": "PortGame.source_unit_move_at_state"
+    },
+    "863": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.863",
+      "index": 863,
+      "owner": "PortGame.source_unit_move_pref_state"
+    },
+    "864": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.864",
+      "index": 864,
+      "owner": "PortGame.source_unit_payload_build_time_state"
+    },
+    "865": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.865",
+      "index": 865,
+      "owner": "PortGame.source_unit_payload_constructor_state"
+    },
+    "866": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.866",
+      "index": 866,
+      "owner": "PortGame.source_unit_payload_content_equals_state"
+    },
+    "867": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.867",
+      "index": 867,
+      "owner": "PortGame.source_unit_payload_content_state"
+    },
+    "868": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.868",
+      "index": 868,
+      "owner": "PortGame.source_unit_payload_draw_elevation_setup_state"
+    },
+    "869": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.869",
+      "index": 869,
+      "owner": "PortGame.source_unit_payload_draw_overlay_warning_state"
+    },
+    "870": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.870",
+      "index": 870,
+      "owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"
+    },
+    "871": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.871",
+      "index": 871,
+      "owner": "PortGame.source_unit_payload_draw_type_null_state"
+    },
+    "872": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.872",
+      "index": 872,
+      "owner": "PortGame.source_unit_payload_dump_can_create_guard_state"
+    },
+    "873": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.873",
+      "index": 873,
+      "owner": "PortGame.source_unit_payload_dump_no_client_guard_state"
+    },
+    "874": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.874",
+      "index": 874,
+      "owner": "PortGame.source_unit_payload_dump_overlap_guard_state"
+    },
+    "875": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.875",
+      "index": 875,
+      "owner": "PortGame.source_unit_payload_dump_solidity_guard_state"
+    },
+    "876": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.876",
+      "index": 876,
+      "owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state"
+    },
+    "877": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.877",
+      "index": 877,
+      "owner": "PortGame.source_unit_payload_dump_type_null_guard_state"
+    },
+    "878": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.878",
+      "index": 878,
+      "owner": "PortGame.source_unit_payload_icon_state"
+    },
+    "879": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.879",
+      "index": 879,
+      "owner": "PortGame.source_unit_payload_requirements_state"
+    },
+    "880": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.880",
+      "index": 880,
+      "owner": "PortGame.source_unit_payload_rotation_state"
+    },
+    "881": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.881",
+      "index": 881,
+      "owner": "PortGame.source_unit_payload_set_state"
+    },
+    "882": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.882",
+      "index": 882,
+      "owner": "PortGame.source_unit_payload_show_overlay_drawable_state"
+    },
+    "883": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.883",
+      "index": 883,
+      "owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"
+    },
+    "884": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.884",
+      "index": 884,
+      "owner": "PortGame.source_unit_payload_size_state"
+    },
+    "885": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.885",
+      "index": 885,
+      "owner": "PortGame.source_unit_payload_update_state"
+    },
+    "886": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.886",
+      "index": 886,
+      "owner": "PortGame.source_unit_payload_write_state"
+    },
+    "887": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.887",
+      "index": 887,
+      "owner": "PortGame.source_unit_payload_x_state"
+    },
+    "888": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.888",
+      "index": 888,
+      "owner": "PortGame.source_unit_payload_y_state"
+    },
+    "889": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.889",
+      "index": 889,
+      "owner": "PortGame.source_unit_player_controllable_state"
+    },
+    "890": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.890",
+      "index": 890,
+      "owner": "PortGame.source_unit_remove_state"
+    },
+    "891": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.891",
+      "index": 891,
+      "owner": "PortGame.source_unit_rotate_move_motion_state"
+    },
+    "892": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.892",
+      "index": 892,
+      "owner": "PortGame.source_unit_rotate_move_rotation_state"
+    },
+    "893": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.893",
+      "index": 893,
+      "owner": "PortGame.source_unit_set_type_state"
+    },
+    "894": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.894",
+      "index": 894,
+      "owner": "PortGame.source_unit_targetable_state"
+    },
+    "895": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.895",
+      "index": 895,
+      "owner": "PortGame.source_unit_tether_after_read_state"
+    },
+    "896": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.896",
+      "index": 896,
+      "owner": "PortGame.source_unit_tether_after_sync_state"
+    },
+    "897": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.897",
+      "index": 897,
+      "owner": "PortGame.source_unit_tether_update_state"
+    },
+    "898": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.898",
+      "index": 898,
+      "owner": "PortGame.source_unit_unloaded_state"
+    },
+    "899": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.899",
+      "index": 899,
+      "owner": "PortGame.source_unit_update_abilities_loop_state"
+    },
+    "900": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.900",
+      "index": 900,
+      "owner": "PortGame.source_unit_update_ai_controller_server_gate_state"
+    },
+    "901": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.901",
+      "index": 901,
+      "owner": "PortGame.source_unit_update_boosting_default_event_state"
+    },
+    "902": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.902",
+      "index": 902,
+      "owner": "PortGame.source_unit_update_boosting_elevation_state"
+    },
+    "903": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.903",
+      "index": 903,
+      "owner": "PortGame.source_unit_update_boosting_event_state"
+    },
+    "904": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.904",
+      "index": 904,
+      "owner": "PortGame.source_unit_update_boosting_guard_state"
+    },
+    "905": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.905",
+      "index": 905,
+      "owner": "PortGame.source_unit_update_boosting_should_boost_state"
+    },
+    "906": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.906",
+      "index": 906,
+      "owner": "PortGame.source_unit_update_bounds_state"
+    },
+    "907": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.907",
+      "index": 907,
+      "owner": "PortGame.source_unit_update_captured_sector_death_state"
+    },
+    "908": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.908",
+      "index": 908,
+      "owner": "PortGame.source_unit_update_drag_formula_state"
+    },
+    "909": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.909",
+      "index": 909,
+      "owner": "PortGame.source_unit_update_drowning_state"
+    },
+    "910": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.910",
+      "index": 910,
+      "owner": "PortGame.source_unit_update_falling_descent_state"
+    },
+    "911": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.911",
+      "index": 911,
+      "owner": "PortGame.source_unit_update_falling_drag_state"
+    },
+    "912": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.912",
+      "index": 912,
+      "owner": "PortGame.source_unit_update_falling_engine_trail_state"
+    },
+    "913": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.913",
+      "index": 913,
+      "owner": "PortGame.source_unit_update_falling_smoke_state"
+    },
+    "914": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.914",
+      "index": 914,
+      "owner": "PortGame.source_unit_update_floor_damage_state"
+    },
+    "915": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.915",
+      "index": 915,
+      "owner": "PortGame.source_unit_update_flying_transition_state"
+    },
+    "916": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.916",
+      "index": 916,
+      "owner": "PortGame.source_unit_update_heal_time_state"
+    },
+    "917": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.917",
+      "index": 917,
+      "owner": "PortGame.source_unit_update_invalid_controller_reset_state"
+    },
+    "918": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.918",
+      "index": 918,
+      "owner": "PortGame.source_unit_update_nan_health_state"
+    },
+    "919": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.919",
+      "index": 919,
+      "owner": "PortGame.source_unit_update_solid_tile_response_state"
+    },
+    "920": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.920",
+      "index": 920,
+      "owner": "PortGame.source_unit_update_sound_loop_state"
+    },
+    "921": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.921",
+      "index": 921,
+      "owner": "PortGame.source_unit_update_spawn_knockback_state"
+    },
+    "922": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.922",
+      "index": 922,
+      "owner": "PortGame.source_unit_update_spawned_core_despawn_state"
+    },
+    "923": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.923",
+      "index": 923,
+      "owner": "PortGame.source_unit_update_tile_unit_on_any_state"
+    },
+    "924": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.924",
+      "index": 924,
+      "owner": "PortGame.source_unit_update_tile_unit_on_state"
+    },
+    "925": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.925",
+      "index": 925,
+      "owner": "PortGame.source_unit_update_trail_position_state"
+    },
+    "926": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.926",
+      "index": 926,
+      "owner": "PortGame.source_unit_update_type_hook_state"
+    },
+    "927": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.927",
+      "index": 927,
+      "owner": "PortGame.source_unit_update_unsupported_env_state"
+    },
+    "928": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.928",
+      "index": 928,
+      "owner": "PortGame.source_unit_update_walk_effect_state"
+    },
+    "929": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.929",
+      "index": 929,
+      "owner": "PortGame.source_unit_vec2_angle"
+    },
+    "930": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.930",
+      "index": 930,
+      "owner": "PortGame.source_unit_weapon_damage"
+    },
+    "931": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.931",
+      "index": 931,
+      "owner": "PortGame.source_unit_wobble_state"
+    },
+    "932": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.932",
+      "index": 932,
+      "owner": "PortGame.source_unit_world_speed"
+    },
+    "933": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.933",
+      "index": 933,
+      "owner": "PortGame.source_vec2_limit"
+    },
+    "934": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.934",
+      "index": 934,
+      "owner": "PortGame.source_weapon_bullet_angle_life_state"
+    },
+    "935": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.935",
+      "index": 935,
+      "owner": "PortGame.source_weapon_bullet_create_call_state"
+    },
+    "936": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.936",
+      "index": 936,
+      "owner": "PortGame.source_weapon_bullet_effects_state"
+    },
+    "937": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.937",
+      "index": 937,
+      "owner": "PortGame.source_weapon_bullet_geometry_state"
+    },
+    "938": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.938",
+      "index": 938,
+      "owner": "PortGame.source_weapon_bullet_handle_call_state"
+    },
+    "939": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.939",
+      "index": 939,
+      "owner": "PortGame.source_weapon_bullet_heat_state"
+    },
+    "940": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.940",
+      "index": 940,
+      "owner": "PortGame.source_weapon_bullet_initial_guard_state"
+    },
+    "941": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.941",
+      "index": 941,
+      "owner": "PortGame.source_weapon_bullet_mount_recoil_state"
+    },
+    "942": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.942",
+      "index": 942,
+      "owner": "PortGame.source_weapon_bullet_recoil_slots_state"
+    },
+    "943": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.943",
+      "index": 943,
+      "owner": "PortGame.source_weapon_bullet_recoil_velocity_state"
+    },
+    "944": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.944",
+      "index": 944,
+      "owner": "PortGame.source_weapon_bullet_shake_state"
+    },
+    "945": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.945",
+      "index": 945,
+      "owner": "PortGame.source_weapon_bullet_shooter_state"
+    },
+    "946": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.946",
+      "index": 946,
+      "owner": "PortGame.source_weapon_bullet_sound_state"
+    },
+    "947": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.947",
+      "index": 947,
+      "owner": "PortGame.source_weapon_handle_bullet_aim_update_state"
+    },
+    "948": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.948",
+      "index": 948,
+      "owner": "PortGame.source_weapon_handle_bullet_continuous_geometry_state"
+    },
+    "949": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.949",
+      "index": 949,
+      "owner": "PortGame.source_weapon_shoot_charge_start_state"
+    },
+    "950": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.950",
+      "index": 950,
+      "owner": "PortGame.source_weapon_shoot_default_pattern_dispatch_state"
+    },
+    "951": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.951",
+      "index": 951,
+      "owner": "PortGame.source_weapon_update_active_sound_loop_state"
+    },
+    "952": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.952",
+      "index": 952,
+      "owner": "PortGame.source_weapon_update_alternating_side_flip_state"
+    },
+    "953": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.953",
+      "index": 953,
+      "owner": "PortGame.source_weapon_update_always_continuous_keepalive_state"
+    },
+    "954": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.954",
+      "index": 954,
+      "owner": "PortGame.source_weapon_update_always_shooting_state"
+    },
+    "955": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.955",
+      "index": 955,
+      "owner": "PortGame.source_weapon_update_auto_target_invalidation_state"
+    },
+    "956": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.956",
+      "index": 956,
+      "owner": "PortGame.source_weapon_update_auto_target_retarget_state"
+    },
+    "957": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.957",
+      "index": 957,
+      "owner": "PortGame.source_weapon_update_auto_target_shoot_aim_state"
+    },
+    "958": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.958",
+      "index": 958,
+      "owner": "PortGame.source_weapon_update_bullet_origin_state"
+    },
+    "959": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.959",
+      "index": 959,
+      "owner": "PortGame.source_weapon_update_cone_gate_state"
+    },
+    "960": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.960",
+      "index": 960,
+      "owner": "PortGame.source_weapon_update_continuous_idle_heat_sound_state"
+    },
+    "961": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.961",
+      "index": 961,
+      "owner": "PortGame.source_weapon_update_continuous_invalidation_state"
+    },
+    "962": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.962",
+      "index": 962,
+      "owner": "PortGame.source_weapon_update_continuous_laser_aim_state"
+    },
+    "963": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.963",
+      "index": 963,
+      "owner": "PortGame.source_weapon_update_continuous_live_state"
+    },
+    "964": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.964",
+      "index": 964,
+      "owner": "PortGame.source_weapon_update_continuous_sound_state"
+    },
+    "965": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.965",
+      "index": 965,
+      "owner": "PortGame.source_weapon_update_mount_origin_state"
+    },
+    "966": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.966",
+      "index": 966,
+      "owner": "PortGame.source_weapon_update_passive_timers_state"
+    },
+    "967": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.967",
+      "index": 967,
+      "owner": "PortGame.source_weapon_update_reload_gate_state"
+    },
+    "968": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.968",
+      "index": 968,
+      "owner": "PortGame.source_weapon_update_rotate_toward_state"
+    },
+    "969": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.969",
+      "index": 969,
+      "owner": "PortGame.source_weapon_update_shoot_call_reload_state"
+    },
+    "970": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.970",
+      "index": 970,
+      "owner": "PortGame.source_weapon_update_shoot_gate_prefix_state"
+    },
+    "971": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.971",
+      "index": 971,
+      "owner": "PortGame.source_weapon_update_velocity_length_state"
+    },
+    "972": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.972",
+      "index": 972,
+      "owner": "PortGame.source_weapons_aim_position_state"
+    },
+    "973": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.973",
+      "index": 973,
+      "owner": "PortGame.source_weapons_aim_state"
+    },
+    "974": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.974",
+      "index": 974,
+      "owner": "PortGame.source_weapons_can_shoot_state"
+    },
+    "975": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.975",
+      "index": 975,
+      "owner": "PortGame.source_weapons_control_rotate_shoot_state"
+    },
+    "976": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.976",
+      "index": 976,
+      "owner": "PortGame.source_weapons_control_state"
+    },
+    "977": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.977",
+      "index": 977,
+      "owner": "PortGame.source_weapons_remove_continuous_bullet_cleanup_state"
+    },
+    "978": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.978",
+      "index": 978,
+      "owner": "PortGame.source_weapons_remove_sound_stop_state"
+    },
+    "979": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.979",
+      "index": 979,
+      "owner": "PortGame.source_weapons_set_rotation_state"
+    },
+    "980": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.980",
+      "index": 980,
+      "owner": "PortGame.source_weapons_setup_mounts_state"
+    },
+    "981": {
+      "canonical_owner": "source_symbol_audit_report.registeredSourceOwners.981",
+      "index": 981,
+      "owner": "PortGame.source_weapons_update_dispatch_state"
+    }
+  }
+}
