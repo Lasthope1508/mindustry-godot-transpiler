@@ -86,6 +86,8 @@ static func extension_modules() -> Dictionary:
 		if typeof(entry_value) != TYPE_DICTIONARY:
 			continue
 		var entry: Dictionary = entry_value
+		var mirror_fields_value = entry.get("mirror_fields", [])
+		var mirror_fields: Array = mirror_fields_value if typeof(mirror_fields_value) == TYPE_ARRAY else []
 		var relative_path := str(entry.get("path", ""))
 		var resource_path := relative_path
 		if not resource_path.begins_with("res://"):
@@ -96,6 +98,13 @@ static func extension_modules() -> Dictionary:
 			"label": str(entry.get("label", "")),
 			"status": str(entry.get("status", "")),
 			"rule": str(entry.get("rule", "")),
+			"canonical_module": str(entry.get("canonical_module", "")),
+			"canonical_collection_key": str(entry.get("canonical_collection_key", "")),
+			"canonical_key_field": str(entry.get("canonical_key_field", "")),
+			"canonical_value_field": str(entry.get("canonical_value_field", "")),
+			"canonical_reference_key": str(entry.get("canonical_reference_key", "")),
+			"canonical_reference_prefix": str(entry.get("canonical_reference_prefix", "")),
+			"mirror_fields": mirror_fields.duplicate(),
 		}
 	return result
 
