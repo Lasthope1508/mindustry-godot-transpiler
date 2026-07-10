@@ -38263,6 +38263,39 @@
         "Concrete Stats object is represented by explicit booster flag and stats_add_call until Stats runtime object binding is ported.",
         "Concrete LiquidStack[] contents are represented by explicit liquid_ids and liquid_stack_amounts until generated object references are wired."
       ]
+    },
+    "N1538": {
+      "title": "Generated ConsumeLiquids constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquids",
+      "java_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "generated_owner": "ConsumeLiquids.java_constructor_ConsumeLiquids_0",
+      "source_symbols": [
+        "consume_liquids_constructor.constructor",
+        "consume_liquids_constructor.liquids_field",
+        "consume_liquids_constructor.assignment",
+        "consume_liquids_constructor.liquid_stacks",
+        "consume_liquids_constructor.liquid_stack_empty"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_constructor_bridge_state",
+      "exact_exprs": [
+        "public final LiquidStack[] liquids;",
+        "public ConsumeLiquids(LiquidStack[] liquids){",
+        "this.liquids = liquids;",
+        "public static final LiquidStack[] empty = {};"
+      ],
+      "rule": "Generated ConsumeLiquids constructor bridges LiquidStack[] field assignment from the source constructor.",
+      "deferred_exprs": [
+        "Concrete LiquidStack[] object identity is represented by explicit liquid_stacks until generated LiquidStack object references are wired."
+      ]
     }
   },
   "version": 1

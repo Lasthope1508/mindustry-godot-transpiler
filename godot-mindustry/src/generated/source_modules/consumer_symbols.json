@@ -10878,6 +10878,91 @@
         "test_generated_consume_liquids_display_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_display_state"
+    },
+    "consume_liquids_constructor.constructor": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_constructor.constructor",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "java_expr": "public ConsumeLiquids(LiquidStack[] liquids){",
+      "godot_symbol": "source_consume_liquids_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "rule": "ConsumeLiquids public LiquidStack[] constructor declaration.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
+    },
+    "consume_liquids_constructor.liquids_field": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_constructor.liquids_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "java_expr": "public final LiquidStack[] liquids;",
+      "godot_symbol": "source_consume_liquids_constructor_result.liquids_field",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "rule": "ConsumeLiquids.liquids field assigned by constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
+    },
+    "consume_liquids_constructor.assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_constructor.assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "java_expr": "this.liquids = liquids;",
+      "godot_symbol": "source_consume_liquids_constructor_result.liquids_after",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "rule": "ConsumeLiquids constructor assigns incoming LiquidStack[] to field.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
+    },
+    "consume_liquids_constructor.liquid_stacks": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_constructor.liquid_stacks",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "java_expr": "liquids",
+      "godot_symbol": "source_consume_liquids_constructor_input.liquid_stacks",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "rule": "Explicit liquid_stacks input preserves constructor LiquidStack[] argument.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
+    },
+    "consume_liquids_constructor.liquid_stack_empty": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_constructor.liquid_stack_empty",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "java_method": "LiquidStack",
+      "java_expr": "public static final LiquidStack[] empty = {};",
+      "godot_symbol": "source_consume_liquids_constructor_result.liquid_stack_empty_expr",
+      "godot_owner": "PortGame.source_consume_liquids_constructor_state",
+      "rule": "LiquidStack.empty dependency anchor for adjacent default constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state"
     }
   }
 }

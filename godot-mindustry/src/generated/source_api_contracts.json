@@ -42048,6 +42048,38 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_display_state",
       "rule": "Public runtime contract for ConsumeLiquids.display(Stats) booster/input stat selection and per-second liquid display rows."
+    },
+    "PortGame.source_consume_liquids_constructor_state": {
+      "status": "active",
+      "source_slice": "N1538",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "ConsumeLiquids(LiquidStack[] liquids)",
+      "params": [
+        {
+          "name": "liquid_stacks",
+          "type": "Array",
+          "schema": "source_consume_liquids_constructor_input.liquid_stacks",
+          "java_expr": "liquids"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "assignment_expr",
+        "liquids_field",
+        "liquid_stack_empty_expr",
+        "liquid_stacks",
+        "liquids_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_constructor_bridge_state",
+        "test_consume_liquids_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_constructor_state",
+      "rule": "Public runtime contract for ConsumeLiquids(LiquidStack[] liquids) constructor field assignment."
     }
   },
   "policy": {
