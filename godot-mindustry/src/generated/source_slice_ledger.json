@@ -38213,6 +38213,56 @@
         "Concrete Floatf<Building> multiplier invocation is represented by explicit multiplier_get_build until functional interfaces are wired.",
         "Concrete Building.efficiencyScale invocation is represented by explicit build_efficiency_scale until Building object binding is ported."
       ]
+    },
+    "N1537": {
+      "title": "Generated ConsumeLiquids display bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquids",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquids_display_state",
+      "generated_owner": "ConsumeLiquids.java_method_display_4",
+      "source_symbols": [
+        "consume_liquids_display.method",
+        "consume_liquids_display.liquids_field",
+        "consume_liquids_display.stats_add",
+        "consume_liquids_display.booster_field",
+        "consume_liquids_display.stat_input",
+        "consume_liquids_display.stat_booster",
+        "consume_liquids_display.stats_add_method",
+        "consume_liquids_display.stat_values_liquids_method",
+        "consume_liquids_display.display_liquids",
+        "consume_liquids_display.liquid_stack_liquid_field",
+        "consume_liquids_display.liquid_stack_amount_field",
+        "consume_liquids_display.booster",
+        "consume_liquids_display.liquid_ids",
+        "consume_liquids_display.liquid_stack_amounts"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_display_bridge_state",
+        "test_consume_liquids_display_matches_upstream_source",
+        "test_generated_consume_liquids_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_display_bridge_state",
+      "exact_exprs": [
+        "public final LiquidStack[] liquids;",
+        "public void display(Stats stats){",
+        "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));",
+        "public boolean booster;",
+        "input = new Stat(\"input\", StatCat.crafting),",
+        "booster = new Stat(\"booster\", StatCat.optional),",
+        "public void add(Stat stat, StatValue value){",
+        "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){",
+        "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);",
+        "public Liquid liquid;",
+        "public float amount;"
+      ],
+      "rule": "Generated ConsumeLiquids.display bridges booster/input stat selection and StatValues.liquids(1f, true, liquids) display rows.",
+      "deferred_exprs": [
+        "Concrete Stats object is represented by explicit booster flag and stats_add_call until Stats runtime object binding is ported.",
+        "Concrete LiquidStack[] contents are represented by explicit liquid_ids and liquid_stack_amounts until generated object references are wired."
+      ]
     }
   },
   "version": 1

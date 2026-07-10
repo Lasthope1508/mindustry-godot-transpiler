@@ -1992,6 +1992,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquids_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public float efficiency(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquids_field": "public final LiquidStack[] liquids;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "building_liquids_field": "@Nullable LiquidModule liquids;", "building_edelta_method": "public float edelta(){", "building_efficiency_scale_method": "public float efficiencyScale(){", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(var stack : liquids){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)", "return_expr": "return min;", "per_stack_efficiencies": per_stack_efficiencies, "efficiency": min_efficiency}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+        and type_entry.get("name") == "ConsumeLiquids"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar display_liquids: Array = []",
+            "\tfor index in liquid_ids.size():",
+            "\t\tvar liquid_id: int = int(liquid_ids[index])",
+            "\t\tvar stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)",
+            "\t\tvar display_amount_per_second: float = stack_amount * 60.0",
+            '\t\tdisplay_liquids.append({"liquid_id": liquid_id, "stack_amount": stack_amount, "display_amount_per_second": display_amount_per_second, "per_second": true, "display_expr": "displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)", "pad_right": 5.0})',
+            '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(1f, true, liquids)", "time_period": 1.0, "per_second": true, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts}',
+            '\treturn {"source_owner": "PortGame.source_consume_liquids_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void display(Stats stats){", "liquids_field": "public final LiquidStack[] liquids;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_values_liquids_expr": "StatValues.liquids(1f, true, liquids)", "stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){", "display_liquid_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);", "stats_add_method": "public void add(Stat stat, StatValue value){", "booster_field": "public boolean booster;", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "booster": booster, "selected_stat": selected_stat, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "time_period": 1.0, "per_second": true, "stats_add_call": stats_add_call, "display_liquids": display_liquids}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "apply"

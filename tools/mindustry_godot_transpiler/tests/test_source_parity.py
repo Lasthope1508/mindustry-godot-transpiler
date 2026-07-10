@@ -1811,6 +1811,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_display_source"))
+        report = source_parity.verify_consume_liquids_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stats.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/Stat.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final LiquidStack[] liquids;",
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));",
+            "booster_field": "public boolean booster;",
+            "stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+            "stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+            "stats_add_method": "public void add(Stat stat, StatValue value){",
+            "stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){",
+            "stat_values_liquids_display_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+            "liquid_stack_amount_field": "public float amount;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquids_dynamic_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_apply_source"))
         report = source_parity.verify_consume_liquids_dynamic_apply_source(ROOT / "mindustry-upstream")

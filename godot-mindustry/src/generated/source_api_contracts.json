@@ -41988,6 +41988,66 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_efficiency_state",
       "rule": "Public runtime contract for ConsumeLiquids.efficiency(Building) edelta*efficiencyScale guard and per-stack minimum formula."
+    },
+    "PortGame.source_consume_liquids_display_state": {
+      "status": "active",
+      "source_slice": "N1537",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_liquids_display_input.booster",
+          "java_expr": "booster ? Stat.booster : Stat.input"
+        },
+        {
+          "name": "liquid_ids",
+          "type": "Array",
+          "schema": "source_consume_liquids_display_input.liquid_ids",
+          "java_expr": "stack.liquid.id"
+        },
+        {
+          "name": "liquid_stack_amounts",
+          "type": "Array",
+          "schema": "source_consume_liquids_display_input.liquid_stack_amounts",
+          "java_expr": "stack.amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "liquids_field",
+        "stats_add_expr",
+        "stats_add_call_expr",
+        "selected_stat_expr",
+        "stat_values_liquids_expr",
+        "stat_values_liquids_method",
+        "display_liquid_expr",
+        "stats_add_method",
+        "booster_field",
+        "stat_input_expr",
+        "stat_booster_expr",
+        "liquid_stack_liquid_field",
+        "liquid_stack_amount_field",
+        "booster",
+        "selected_stat",
+        "liquid_ids",
+        "liquid_stack_amounts",
+        "time_period",
+        "per_second",
+        "stats_add_call",
+        "display_liquids"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_display_bridge_state",
+        "test_consume_liquids_display_matches_upstream_source",
+        "test_generated_consume_liquids_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_display_state",
+      "rule": "Public runtime contract for ConsumeLiquids.display(Stats) booster/input stat selection and per-second liquid display rows."
     }
   },
   "policy": {

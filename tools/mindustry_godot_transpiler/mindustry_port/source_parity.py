@@ -5746,6 +5746,59 @@ def verify_consume_liquids_efficiency_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_consume_liquids_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_source = "core/src/mindustry/world/consumers/ConsumeLiquids.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    consume_liquids_path = Path(upstream_root) / consume_liquids_source
+    consume_path = Path(upstream_root) / consume_source
+    liquid_stack_path = Path(upstream_root) / liquid_stack_source
+    stats_path = Path(upstream_root) / stats_source
+    stat_path = Path(upstream_root) / stat_source
+    stat_values_path = Path(upstream_root) / stat_values_source
+    source = consume_liquids_path.read_text(encoding="utf-8", errors="replace")
+    consume_text = consume_path.read_text(encoding="utf-8", errors="replace")
+    liquid_stack_text = liquid_stack_path.read_text(encoding="utf-8", errors="replace")
+    stats_text = stats_path.read_text(encoding="utf-8", errors="replace")
+    stat_text = stat_path.read_text(encoding="utf-8", errors="replace")
+    stat_values_text = stat_values_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final LiquidStack[] liquids;",
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));",
+        "booster_field": "public boolean booster;",
+        "stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+        "stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+        "stats_add_method": "public void add(Stat stat, StatValue value){",
+        "stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){",
+        "stat_values_liquids_display_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);",
+        "liquid_stack_liquid_field": "public Liquid liquid;",
+        "liquid_stack_amount_field": "public float amount;",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "stats_add_expr": source,
+        "booster_field": consume_text,
+        "stat_input_expr": stat_text,
+        "stat_booster_expr": stat_text,
+        "stats_add_method": stats_text,
+        "stat_values_liquids_method": stat_values_text,
+        "stat_values_liquids_display_expr": stat_values_text,
+        "liquid_stack_liquid_field": liquid_stack_text,
+        "liquid_stack_amount_field": liquid_stack_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_source,
+        "sources": [consume_source, liquid_stack_source, stats_source, stat_source, stat_values_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     block_source = "core/src/mindustry/world/Block.java"

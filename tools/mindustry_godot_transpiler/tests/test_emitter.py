@@ -19599,6 +19599,53 @@ public class ConsumeLiquids extends Consume{
             self.assertIn('"efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)"', source_text)
             self.assertIn('"efficiency": min_efficiency', source_text)
 
+    def test_emit_bridges_consume_liquids_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.meta.*;
+
+public class ConsumeLiquids extends Consume{
+    public final LiquidStack[] liquids;
+
+    @Override
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var display_amount_per_second: float = stack_amount * 60.0", source_text)
+            self.assertIn('"stat_value_expr": "StatValues.liquids(1f, true, liquids)"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_display_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));"', source_text)
+            self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source_text)
+            self.assertIn('"stat_values_liquids_expr": "StatValues.liquids(1f, true, liquids)"', source_text)
+            self.assertIn('"stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){"', source_text)
+            self.assertIn('"display_liquid_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);"', source_text)
+            self.assertIn('"stats_add_call": stats_add_call', source_text)
+            self.assertIn('"display_liquids": display_liquids', source_text)
+
     def test_emit_bridges_consume_liquids_dynamic_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

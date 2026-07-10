@@ -4098,6 +4098,55 @@ func generated_consume_liquids_efficiency_bridge_state(liquid_ids: Array, liquid
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("per_stack_efficiencies", []) == canonical.get("per_stack_efficiencies", []),
 	}
 
+func source_consume_liquids_display_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
+	var selected_stat: String = "booster" if booster else "input"
+	var display_liquids: Array = []
+	for index in range(liquid_ids.size()):
+		var liquid_id: int = int(liquid_ids[index])
+		var stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
+		var display_amount_per_second: float = stack_amount * 60.0
+		display_liquids.append({"liquid_id": liquid_id, "stack_amount": stack_amount, "display_amount_per_second": display_amount_per_second, "per_second": true, "display_expr": "displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)", "pad_right": 5.0})
+	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(1f, true, liquids)", "time_period": 1.0, "per_second": true, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts}
+	return {
+		"source_owner": "PortGame.source_consume_liquids_display_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+		"method": "public void display(Stats stats){",
+		"liquids_field": "public final LiquidStack[] liquids;",
+		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));",
+		"stats_add_call_expr": "stats.add",
+		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
+		"stat_values_liquids_expr": "StatValues.liquids(1f, true, liquids)",
+		"stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){",
+		"display_liquid_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);",
+		"stats_add_method": "public void add(Stat stat, StatValue value){",
+		"booster_field": "public boolean booster;",
+		"stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+		"stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+		"liquid_stack_liquid_field": "public Liquid liquid;",
+		"liquid_stack_amount_field": "public float amount;",
+		"booster": booster,
+		"selected_stat": selected_stat,
+		"liquid_ids": liquid_ids,
+		"liquid_stack_amounts": liquid_stack_amounts,
+		"time_period": 1.0,
+		"per_second": true,
+		"stats_add_call": stats_add_call,
+		"display_liquids": display_liquids,
+	}
+
+func generated_consume_liquids_display_bridge_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_4([booster, liquid_ids, liquid_stack_amounts])
+	var canonical = source_consume_liquids_display_state(booster, liquid_ids, liquid_stack_amounts)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_display_state",
+		"generated_owner": "ConsumeLiquids.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_liquids", []) == canonical.get("display_liquids", []) and result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),
+	}
+
 func source_consume_liquids_dynamic_constructor_state(liquids: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
