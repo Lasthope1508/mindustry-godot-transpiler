@@ -49728,6 +49728,48 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "building_dump_null_success_handoff.source_method": {
+      "canonical_symbol": "source_symbol_registry.building_dump_null_success_handoff.source_method",
+      "status": "generated",
+      "java_expr": "dump(Item todump) null success handoff",
+      "godot_symbol": "source_building_dump_null_success_handoff_result.source_method",
+      "godot_owner": "PortGame.source_building_dump_null_success_handoff_state",
+      "rule": "N962 source method label.",
+      "tests": [
+        "test_building_dump_null_success_handoff_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_null_success_handoff_state",
+        "test_building_dump_null_success_handoff_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_null_success_handoff_state"
+    },
+    "building_dump_specific_proximity_scan.source_method": {
+      "canonical_symbol": "source_symbol_registry.building_dump_specific_proximity_scan.source_method",
+      "status": "generated",
+      "java_expr": "dump(Item todump) specific proximity scan",
+      "godot_symbol": "source_building_dump_specific_proximity_scan_result.source_method",
+      "godot_owner": "PortGame.source_building_dump_specific_proximity_scan_state",
+      "rule": "N963 source method label.",
+      "tests": [
+        "test_building_dump_specific_proximity_scan_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_specific_proximity_scan_state",
+        "test_building_dump_specific_proximity_scan_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_specific_proximity_scan_state"
+    },
+    "building_dump_terminal_failure.source_method": {
+      "canonical_symbol": "source_symbol_registry.building_dump_terminal_failure.source_method",
+      "status": "generated",
+      "java_expr": "dump(Item todump) terminal failure",
+      "godot_symbol": "source_building_dump_terminal_failure_result.source_method",
+      "godot_owner": "PortGame.source_building_dump_terminal_failure_state",
+      "rule": "N964 source method label.",
+      "tests": [
+        "test_building_dump_terminal_failure_matches_upstream_source",
+        "test_port_game_exposes_source_building_dump_terminal_failure_state",
+        "test_building_dump_terminal_failure_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_building_dump_terminal_failure_state"
     }
   }
 }

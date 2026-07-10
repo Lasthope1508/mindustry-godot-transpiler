@@ -15465,6 +15465,166 @@
         "test_port_game_uses_source_turret_inaccuracy"
       ],
       "runtime_proof": "/root/Main.source_turret_total_inaccuracy"
+    },
+    "turret_set_stats.ammo_per_shot_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.ammo_per_shot_input",
+      "status": "explicit-input",
+      "java_expr": "ammoPerShot",
+      "godot_symbol": "source_turret_set_stats_input.ammo_per_shot",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime ammoPerShot field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.heat_requirement_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.heat_requirement_input",
+      "status": "explicit-input",
+      "java_expr": "heatRequirement",
+      "godot_symbol": "source_turret_set_stats_input.heat_requirement",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime heatRequirement field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.inaccuracy_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.inaccuracy_input",
+      "status": "explicit-input",
+      "java_expr": "inaccuracy",
+      "godot_symbol": "source_turret_set_stats_input.inaccuracy",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime inaccuracy field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.max_heat_efficiency_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.max_heat_efficiency_input",
+      "status": "explicit-input",
+      "java_expr": "maxHeatEfficiency",
+      "godot_symbol": "source_turret_set_stats_input.max_heat_efficiency",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime maxHeatEfficiency field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.reload_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.reload_input",
+      "status": "explicit-input",
+      "java_expr": "reload",
+      "godot_symbol": "source_turret_set_stats_input.reload",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime ReloadTurret.reload field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.reload_while_charging_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.reload_while_charging_input",
+      "status": "explicit-input",
+      "java_expr": "reloadWhileCharging",
+      "godot_symbol": "source_turret_set_stats_input.reload_while_charging",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime reloadWhileCharging field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.shoot_first_shot_delay_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.shoot_first_shot_delay_input",
+      "status": "explicit-input",
+      "java_expr": "shoot.firstShotDelay",
+      "godot_symbol": "source_turret_set_stats_input.shoot_first_shot_delay",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime shoot.firstShotDelay field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.shoot_shots_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.shoot_shots_input",
+      "status": "explicit-input",
+      "java_expr": "shoot.shots",
+      "godot_symbol": "source_turret_set_stats_input.shoot_shots",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime shoot.shots field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.target_air_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.target_air_input",
+      "status": "explicit-input",
+      "java_expr": "targetAir",
+      "godot_symbol": "source_turret_set_stats_input.target_air",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime targetAir field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
+    },
+    "turret_set_stats.target_ground_input": {
+      "canonical_symbol": "source_symbol_registry.turret_set_stats.target_ground_input",
+      "status": "explicit-input",
+      "java_expr": "targetGround",
+      "godot_symbol": "source_turret_set_stats_input.target_ground",
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "rule": "Runtime targetGround field input.",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state"
     }
   }
 }

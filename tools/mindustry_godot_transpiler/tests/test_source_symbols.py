@@ -485,6 +485,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             symbol_name
             for slice_entry in power_slices.values()
             for symbol_name in slice_entry["source_symbols"]
+        } | {
+            symbol_name
+            for symbol_name, symbol_entry in canonical_symbols.items()
+            if symbol_entry.get("godot_owner") in power_contracts
         }
         self.assertEqual(set(power_symbols), expected_symbol_names)
         for symbol_name in sorted(expected_symbol_names):
@@ -583,6 +587,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             symbol_name
             for slice_entry in defense_slices.values()
             for symbol_name in slice_entry["source_symbols"]
+        } | {
+            symbol_name
+            for symbol_name, symbol_entry in canonical_symbols.items()
+            if symbol_entry.get("godot_owner") in defense_contracts
         }
         self.assertEqual(set(defense_symbols), expected_symbol_names)
         for symbol_name in sorted(expected_symbol_names):
@@ -647,7 +655,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         payload_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "payload_api_contracts")["contracts"]
         canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
-        expected_contract_owners = {entry["godot_owner"] for entry in payload_slices.values()}
+        expected_payload_slice_ids = set(payload_slices)
+        expected_contract_owners = {
+            owner
+            for owner, contract in canonical_contracts.items()
+            if contract.get("source_slice") in expected_payload_slice_ids
+        }
         self.assertEqual(set(payload_contracts), expected_contract_owners)
         for owner in sorted(expected_contract_owners):
             with self.subTest(owner=owner):
@@ -681,6 +694,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             symbol_name
             for slice_entry in payload_slices.values()
             for symbol_name in slice_entry["source_symbols"]
+        } | {
+            symbol_name
+            for symbol_name, symbol_entry in canonical_symbols.items()
+            if symbol_entry.get("godot_owner") in payload_contracts
         }
         self.assertEqual(set(payload_symbols), expected_symbol_names)
         for symbol_name in sorted(expected_symbol_names):
@@ -975,6 +992,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             symbol_name
             for slice_entry in comp_slices.values()
             for symbol_name in slice_entry["source_symbols"]
+        } | {
+            symbol_name
+            for symbol_name, symbol_entry in canonical_symbols.items()
+            if symbol_entry.get("godot_owner") in comp_contracts
         }
         self.assertEqual(set(comp_symbols), expected_symbol_names)
         for symbol_name in sorted(expected_symbol_names):

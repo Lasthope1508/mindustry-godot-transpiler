@@ -3418,6 +3418,92 @@
       ],
       "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
       "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source."
+    },
+    "PortGame.source_build_payload_constructor_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_build_payload_constructor_build_state",
+      "status": "source-backed",
+      "source_slice": "N1384",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload(Building build)",
+      "params": [
+        {
+          "java_expr": "build",
+          "name": "build",
+          "schema": "source_build_payload_constructor_build_input.build",
+          "source_symbol": "build_payload_constructor_build.build",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "constructor",
+        "build_assign_expr",
+        "build",
+        "build_after"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_constructors_to_source_state",
+        "test_port_game_exposes_source_build_payload_constructor_state",
+        "test_port_game_exposes_generated_build_payload_constructor_bridge_state",
+        "test_build_payload_constructors_match_upstream_source",
+        "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
+      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract."
+    },
+    "PortGame.source_build_payload_place_default_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_build_payload_place_default_state",
+      "status": "source-backed",
+      "source_slice": "N1381",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload.place(Tile tile)",
+      "params": [
+        {
+          "java_expr": "tile",
+          "name": "tile",
+          "schema": "source_build_payload_place_default_input.tile",
+          "source_symbol": "build_payload_place_default.tile",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "build.block",
+          "name": "build_block",
+          "schema": "source_build_payload_place_default_input.build_block",
+          "source_symbol": "build_payload_place_default.build_block",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "build.team",
+          "name": "build_team",
+          "schema": "source_build_payload_place_default_input.build_team",
+          "source_symbol": "build_payload_place_default.build_team",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "method",
+        "delegate_expr",
+        "tile",
+        "build_block",
+        "build_team",
+        "delegated_rotation"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract."
     }
   }
 }

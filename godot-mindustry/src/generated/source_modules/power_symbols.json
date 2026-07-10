@@ -5730,6 +5730,244 @@
         "test_thermal_generator_update_tile_output_liquid_matches_upstream_source"
       ],
       "runtime_proof": "/root/Main.source_thermal_generator_update_tile_output_liquid_state"
+    },
+    "power_graph_distribute_power.buffered_gate": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.buffered_gate",
+      "status": "source-backed",
+      "java_expr": "if(cons.buffered){",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.buffered",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.capacity_zero_guard": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.capacity_zero_guard",
+      "status": "source-backed",
+      "java_expr": "if(!Mathf.zero(cons.capacity)){",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.capacity",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.charged": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.charged",
+      "status": "explicit-input",
+      "java_expr": "charged",
+      "godot_symbol": "source_power_graph_distribute_power_input.charged",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.cons": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.cons",
+      "status": "source-backed",
+      "java_expr": "var cons = consumer.block.consPower;",
+      "godot_symbol": "source_power_graph_distribute_power_consumer",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.consumer": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.consumer",
+      "status": "source-backed",
+      "java_expr": "var consumer = items[i];",
+      "godot_symbol": "source_power_graph_distribute_power_consumer",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.consumers": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.consumers",
+      "status": "explicit-input",
+      "java_expr": "var items = consumers.items;",
+      "godot_symbol": "source_power_graph_distribute_power_input.consumers",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.loop": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.loop",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < consumers.size; i++){",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.nan_guard": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.nan_guard",
+      "status": "source-backed",
+      "java_expr": "if(Float.isNaN(consumer.power.status)){",
+      "godot_symbol": "source_power_graph_distribute_power_result.consumers",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.needed": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.needed",
+      "status": "explicit-input",
+      "java_expr": "needed",
+      "godot_symbol": "source_power_graph_distribute_power_input.needed",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.produced": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.produced",
+      "status": "explicit-input",
+      "java_expr": "produced",
+      "godot_symbol": "source_power_graph_distribute_power_input.produced",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_distribute_power.unbuffered_gate": {
+      "canonical_symbol": "source_symbol_registry.power_graph_distribute_power.unbuffered_gate",
+      "status": "source-backed",
+      "java_expr": "if(consumer.shouldConsumePower){",
+      "godot_symbol": "source_power_graph_distribute_power_consumer.shouldConsumePower",
+      "godot_owner": "PortGame.source_power_graph_distribute_power_state",
+      "rule": "Source-backed PowerGraph.distributePower consumer power status distribution mapping.",
+      "tests": [
+        "test_power_graph_distribute_power_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_distribute_power_state_for_mcp",
+        "test_power_graph_distribute_power_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_distribute_power_state"
+    },
+    "power_graph_update_balance.batteries": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.batteries",
+      "status": "explicit-input",
+      "java_expr": "batteries.items",
+      "godot_symbol": "source_power_graph_update_balance_input.batteries",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "power_graph_update_balance.consumers": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.consumers",
+      "status": "explicit-input",
+      "java_expr": "consumers.items",
+      "godot_symbol": "source_power_graph_update_balance_input.consumers",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "power_graph_update_balance.energy_delta": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.energy_delta",
+      "status": "explicit-input",
+      "java_expr": "energyDelta",
+      "godot_symbol": "source_power_graph_update_balance_input.energy_delta",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "power_graph_update_balance.method": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.method",
+      "status": "source-backed",
+      "java_expr": "public void update(){",
+      "godot_symbol": "source_power_graph_update_balance_result.method",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "power_graph_update_balance.power_balance_samples": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.power_balance_samples",
+      "status": "explicit-input",
+      "java_expr": "powerBalance",
+      "godot_symbol": "source_power_graph_update_balance_input.power_balance_samples",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
+    },
+    "power_graph_update_balance.producers": {
+      "canonical_symbol": "source_symbol_registry.power_graph_update_balance.producers",
+      "status": "explicit-input",
+      "java_expr": "producers.items",
+      "godot_symbol": "source_power_graph_update_balance_input.producers",
+      "godot_owner": "PortGame.source_power_graph_update_balance_state",
+      "rule": "Source-backed PowerGraph.update balance metrics state before battery adjustment and distribute branch.",
+      "tests": [
+        "test_power_graph_update_balance_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_power_graph_update_balance_state_for_mcp",
+        "test_power_graph_update_balance_matches_upstream_source"
+      ],
+      "runtime_proof": "/root/Main.source_power_graph_update_balance_state"
     }
   }
 }
