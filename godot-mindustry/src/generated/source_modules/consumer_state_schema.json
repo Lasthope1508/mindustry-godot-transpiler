@@ -11669,6 +11669,536 @@
           "java_expr": "this(null, 0f);"
         }
       }
+    },
+    "source_consume_liquid_efficiency_input": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_efficiency_input",
+      "keys": {
+        "build_liquids_get": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "build.liquids.get(liquid)",
+          "godot_symbol": "source_consume_liquid_efficiency_input.build_liquids_get",
+          "rule": "source_consume_liquid_efficiency key build_liquids_get.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_method": "ConsumeLiquidBase fields",
+          "java_expr": "amount",
+          "godot_symbol": "source_consume_liquid_efficiency_input.amount",
+          "rule": "source_consume_liquid_efficiency key amount.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "build_edelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "BuildingComp.edelta()",
+          "java_expr": "build.edelta()",
+          "godot_symbol": "source_consume_liquid_efficiency_input.build_edelta",
+          "rule": "source_consume_liquid_efficiency key build_edelta.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "build_efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "BuildingComp.efficiencyScale()",
+          "java_expr": "build.efficiencyScale()",
+          "godot_symbol": "source_consume_liquid_efficiency_input.build_efficiency_scale",
+          "rule": "source_consume_liquid_efficiency key build_efficiency_scale.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "multiplier_get_build": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume fields",
+          "java_expr": "multiplier.get(build)",
+          "godot_symbol": "source_consume_liquid_efficiency_input.multiplier_get_build",
+          "rule": "source_consume_liquid_efficiency key multiplier_get_build.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        }
+      }
+    },
+    "source_consume_liquid_efficiency_result": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_efficiency_result",
+      "keys": {
+        "build_liquids_get": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_efficiency_input.build_liquids_get",
+          "rule": "source_consume_liquid_efficiency echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ]
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_efficiency_input.amount",
+          "rule": "source_consume_liquid_efficiency echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ]
+        },
+        "build_edelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_efficiency_input.build_edelta",
+          "rule": "source_consume_liquid_efficiency echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ]
+        },
+        "build_efficiency_scale": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_efficiency_input.build_efficiency_scale",
+          "rule": "source_consume_liquid_efficiency echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ]
+        },
+        "multiplier_get_build": {
+          "type": "float",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_efficiency_input.multiplier_get_build",
+          "rule": "source_consume_liquid_efficiency echoed input.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ]
+        },
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "PortGame.source_consume_liquid_efficiency_state",
+          "godot_symbol": "source_consume_liquid_efficiency_result.source_owner",
+          "rule": "source_consume_liquid_efficiency key source_owner.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "godot_symbol": "source_consume_liquid_efficiency_result.source",
+          "rule": "source_consume_liquid_efficiency key source.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "public float efficiency(Building build){",
+          "godot_symbol": "source_consume_liquid_efficiency_result.method",
+          "rule": "source_consume_liquid_efficiency key method.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "liquid_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "ConsumeLiquid fields",
+          "java_expr": "public final Liquid liquid;",
+          "godot_symbol": "source_consume_liquid_efficiency_result.liquid_field",
+          "rule": "source_consume_liquid_efficiency key liquid_field.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "ed_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "godot_symbol": "source_consume_liquid_efficiency_result.ed_expr",
+          "rule": "source_consume_liquid_efficiency key ed_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "ed_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "if(ed <= 0.00000001f) return 0f;",
+          "godot_symbol": "source_consume_liquid_efficiency_result.ed_guard_expr",
+          "rule": "source_consume_liquid_efficiency key ed_guard_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "cap_comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "//there can be more liquid than necessary, so cap at 1",
+          "godot_symbol": "source_consume_liquid_efficiency_result.cap_comment",
+          "rule": "source_consume_liquid_efficiency key cap_comment.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+          "godot_symbol": "source_consume_liquid_efficiency_result.return_expr",
+          "rule": "source_consume_liquid_efficiency key return_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "build_liquids_get_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "build.liquids.get(liquid)",
+          "godot_symbol": "source_consume_liquid_efficiency_result.build_liquids_get_expr",
+          "rule": "source_consume_liquid_efficiency key build_liquids_get_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "amount_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_method": "ConsumeLiquidBase fields",
+          "java_expr": "amount",
+          "godot_symbol": "source_consume_liquid_efficiency_result.amount_expr",
+          "rule": "source_consume_liquid_efficiency key amount_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "build_edelta_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "BuildingComp.edelta()",
+          "java_expr": "build.edelta()",
+          "godot_symbol": "source_consume_liquid_efficiency_result.build_edelta_expr",
+          "rule": "source_consume_liquid_efficiency key build_edelta_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "build_efficiency_scale_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "BuildingComp.efficiencyScale()",
+          "java_expr": "build.efficiencyScale()",
+          "godot_symbol": "source_consume_liquid_efficiency_result.build_efficiency_scale_expr",
+          "rule": "source_consume_liquid_efficiency key build_efficiency_scale_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "multiplier_get_build_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume fields",
+          "java_expr": "multiplier.get(build)",
+          "godot_symbol": "source_consume_liquid_efficiency_result.multiplier_get_build_expr",
+          "rule": "source_consume_liquid_efficiency key multiplier_get_build_expr.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "amount_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_method": "ConsumeLiquidBase fields",
+          "java_expr": "public float amount;",
+          "godot_symbol": "source_consume_liquid_efficiency_result.amount_field",
+          "rule": "source_consume_liquid_efficiency key amount_field.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "multiplier_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume fields",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "godot_symbol": "source_consume_liquid_efficiency_result.multiplier_field",
+          "rule": "source_consume_liquid_efficiency key multiplier_field.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "ed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "float ed = build.edelta() * build.efficiencyScale();",
+          "godot_symbol": "source_consume_liquid_efficiency_result.ed",
+          "rule": "source_consume_liquid_efficiency key ed.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "ed_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "if(ed <= 0.00000001f) return 0f;",
+          "godot_symbol": "source_consume_liquid_efficiency_result.ed_guard",
+          "rule": "source_consume_liquid_efficiency key ed_guard.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "required_liquid_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "amount * ed * multiplier.get(build)",
+          "godot_symbol": "source_consume_liquid_efficiency_result.required_liquid_amount",
+          "rule": "source_consume_liquid_efficiency key required_liquid_amount.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "raw_efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "build.liquids.get(liquid) / (amount * ed * multiplier.get(build))",
+          "godot_symbol": "source_consume_liquid_efficiency_result.raw_efficiency",
+          "rule": "source_consume_liquid_efficiency key raw_efficiency.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        },
+        "efficiency": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "java_method": "efficiency(Building build)",
+          "java_expr": "Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f)",
+          "godot_symbol": "source_consume_liquid_efficiency_result.efficiency",
+          "rule": "source_consume_liquid_efficiency key efficiency.",
+          "used_by": [
+            "PortGame.source_consume_liquid_efficiency_state"
+          ],
+          "tests": [
+            "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+            "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+            "test_consume_liquid_efficiency_matches_upstream_source",
+            "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+          ],
+          "runtime_proof": "/root/Main.source_consume_liquid_efficiency_state"
+        }
+      }
     }
   }
 }

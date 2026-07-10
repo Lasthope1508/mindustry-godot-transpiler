@@ -19562,6 +19562,60 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"liquid_id": liquid_id', source_text)
             self.assertIn('"remove_amount": remove_amount', source_text)
 
+    def test_emit_bridges_consume_liquid_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+
+public class ConsumeLiquid extends ConsumeLiquidBase{
+    public final Liquid liquid;
+
+    @Override
+    public float efficiency(Building build){
+        float ed = build.edelta() * build.efficiencyScale();
+        if(ed <= 0.00000001f) return 0f;
+        //there can be more liquid than necessary, so cap at 1
+        return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var build_liquids_get: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source_text)
+            self.assertIn("var ed_guard: bool = ed <= 0.00000001", source_text)
+            self.assertIn("var required_liquid_amount: float = amount * ed * multiplier_get_build", source_text)
+            self.assertIn("var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0", source_text)
+            self.assertIn("var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_efficiency_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
+            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
+            self.assertIn('"ed_expr": "float ed = build.edelta() * build.efficiencyScale();"', source_text)
+            self.assertIn('"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;"', source_text)
+            self.assertIn('"return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);"', source_text)
+            self.assertIn('"build_liquids_get_expr": "build.liquids.get(liquid)"', source_text)
+            self.assertIn('"build_efficiency_scale_expr": "build.efficiencyScale()"', source_text)
+            self.assertIn('"raw_efficiency": raw_efficiency', source_text)
+            self.assertIn('"efficiency": efficiency', source_text)
+
     def test_emit_bridges_consume_liquids_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

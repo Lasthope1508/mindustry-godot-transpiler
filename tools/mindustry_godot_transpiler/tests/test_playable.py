@@ -1399,6 +1399,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquid.update"', source)
         self.assertIn('"matches": result.get("remove_amount", null) == canonical.get("remove_amount", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_efficiency_state(build_liquids_get: float, amount: float, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_efficiency_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source)
+        self.assertIn('"method": "public float efficiency(Building build){"', source)
+        self.assertIn('"ed_expr": "float ed = build.edelta() * build.efficiencyScale();"', source)
+        self.assertIn('"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;"', source)
+        self.assertIn('"return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);"', source)
+        self.assertIn('"build_liquids_get_expr": "build.liquids.get(liquid)"', source)
+        self.assertIn('"build_efficiency_scale_expr": "build.efficiencyScale()"', source)
+        self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source)
+        self.assertIn("var ed_guard: bool = ed <= 0.00000001", source)
+        self.assertIn("var required_liquid_amount: float = amount * ed * multiplier_get_build", source)
+        self.assertIn("var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0", source)
+        self.assertIn("var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)", source)
+        self.assertIn("func generated_consume_liquid_efficiency_bridge_state(build_liquids_get: float, amount: float, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
+        self.assertIn("var result = instance.java_method_efficiency_3([build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_liquid_efficiency_state(build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_efficiency_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquid.efficiency"', source)
+        self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("raw_efficiency", null) == canonical.get("raw_efficiency", null) and result.get("ed_guard", null) == canonical.get("ed_guard", null)', source)
+
     def test_port_game_exposes_generated_consume_liquids_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

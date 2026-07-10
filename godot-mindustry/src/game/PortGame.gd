@@ -4233,6 +4233,53 @@ func generated_consume_liquids_efficiency_bridge_state(liquid_ids: Array, liquid
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("per_stack_efficiencies", []) == canonical.get("per_stack_efficiencies", []),
 	}
 
+func source_consume_liquid_efficiency_state(build_liquids_get: float, amount: float, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
+	var ed: float = build_edelta * build_efficiency_scale
+	var ed_guard: bool = ed <= 0.00000001
+	var required_liquid_amount: float = amount * ed * multiplier_get_build
+	var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0
+	var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_efficiency_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+		"method": "public float efficiency(Building build){",
+		"liquid_field": "public final Liquid liquid;",
+		"ed_expr": "float ed = build.edelta() * build.efficiencyScale();",
+		"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+		"cap_comment": "//there can be more liquid than necessary, so cap at 1",
+		"return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+		"build_liquids_get_expr": "build.liquids.get(liquid)",
+		"amount_expr": "amount",
+		"build_edelta_expr": "build.edelta()",
+		"build_efficiency_scale_expr": "build.efficiencyScale()",
+		"multiplier_get_build_expr": "multiplier.get(build)",
+		"amount_field": "public float amount;",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"build_liquids_get": build_liquids_get,
+		"amount": amount,
+		"build_edelta": build_edelta,
+		"build_efficiency_scale": build_efficiency_scale,
+		"multiplier_get_build": multiplier_get_build,
+		"ed": ed,
+		"ed_guard": ed_guard,
+		"required_liquid_amount": required_liquid_amount,
+		"raw_efficiency": raw_efficiency,
+		"efficiency": efficiency,
+	}
+
+func generated_consume_liquid_efficiency_bridge_state(build_liquids_get: float, amount: float, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_3([build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build])
+	var canonical = source_consume_liquid_efficiency_state(build_liquids_get, amount, build_edelta, build_efficiency_scale, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_efficiency_state",
+		"generated_owner": "ConsumeLiquid.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("raw_efficiency", null) == canonical.get("raw_efficiency", null) and result.get("ed_guard", null) == canonical.get("ed_guard", null),
+	}
+
 func source_consume_liquids_display_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
 	var selected_stat: String = "booster" if booster else "input"
 	var display_liquids: Array = []

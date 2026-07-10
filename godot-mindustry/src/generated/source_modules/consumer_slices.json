@@ -2069,6 +2069,44 @@
         "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_default_constructor_bridge_state"
+    },
+    "N1543": {
+      "canonical_ledger": "source_slice_ledger.N1543",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_efficiency_state",
+      "generated_owner": "ConsumeLiquid.java_method_efficiency_3",
+      "source_symbols": [
+        "consume_liquid_efficiency.method",
+        "consume_liquid_efficiency.liquid_field",
+        "consume_liquid_efficiency.ed",
+        "consume_liquid_efficiency.ed_guard",
+        "consume_liquid_efficiency.cap_comment",
+        "consume_liquid_efficiency.return",
+        "consume_liquid_efficiency.build_liquids_get",
+        "consume_liquid_efficiency.amount",
+        "consume_liquid_efficiency.build_edelta",
+        "consume_liquid_efficiency.build_efficiency_scale",
+        "consume_liquid_efficiency.multiplier_get_build",
+        "consume_liquid_efficiency.amount_field",
+        "consume_liquid_efficiency.multiplier_field",
+        "consume_liquid_efficiency.required_liquid_amount",
+        "consume_liquid_efficiency.raw_efficiency",
+        "consume_liquid_efficiency.efficiency",
+        "consume_liquid_efficiency.building_liquids_field",
+        "consume_liquid_efficiency.building_edelta_method",
+        "consume_liquid_efficiency.building_efficiency_scale_method",
+        "consume_liquid_efficiency.liquid_module_get",
+        "consume_liquid_efficiency.floatf_get"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+        "test_consume_liquid_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_efficiency_bridge_state"
     }
   }
 }

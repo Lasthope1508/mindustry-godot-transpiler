@@ -48,7 +48,17 @@ func java_method_update_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_liquid_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void update(Building build){", "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));", "liquid_id": liquid_id, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_amount": remove_amount}
 
 func java_method_efficiency_3(_args: Array = []) -> Variant:
-	return null
+	var build_liquids_get: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var ed: float = build_edelta * build_efficiency_scale
+	var ed_guard: bool = ed <= 0.00000001
+	var required_liquid_amount: float = amount * ed * multiplier_get_build
+	var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0
+	var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)
+	return {"source_owner": "PortGame.source_consume_liquid_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public float efficiency(Building build){", "liquid_field": "public final Liquid liquid;", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "cap_comment": "//there can be more liquid than necessary, so cap at 1", "return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);", "build_liquids_get_expr": "build.liquids.get(liquid)", "amount_expr": "amount", "build_edelta_expr": "build.edelta()", "build_efficiency_scale_expr": "build.efficiencyScale()", "multiplier_get_build_expr": "multiplier.get(build)", "amount_field": "public float amount;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "build_liquids_get": build_liquids_get, "amount": amount, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "ed_guard": ed_guard, "required_liquid_amount": required_liquid_amount, "raw_efficiency": raw_efficiency, "efficiency": efficiency}
 
 func java_method_display_4(_args: Array = []) -> Variant:
 	return null

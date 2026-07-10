@@ -38428,6 +38428,67 @@
         "test_consume_liquid_default_constructor_matches_upstream_source",
         "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1543": {
+      "title": "Generated ConsumeLiquid efficiency bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "efficiency(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_efficiency_state",
+      "generated_owner": "ConsumeLiquid.java_method_efficiency_3",
+      "source_symbols": [
+        "consume_liquid_efficiency.method",
+        "consume_liquid_efficiency.liquid_field",
+        "consume_liquid_efficiency.ed",
+        "consume_liquid_efficiency.ed_guard",
+        "consume_liquid_efficiency.cap_comment",
+        "consume_liquid_efficiency.return",
+        "consume_liquid_efficiency.build_liquids_get",
+        "consume_liquid_efficiency.amount",
+        "consume_liquid_efficiency.build_edelta",
+        "consume_liquid_efficiency.build_efficiency_scale",
+        "consume_liquid_efficiency.multiplier_get_build",
+        "consume_liquid_efficiency.amount_field",
+        "consume_liquid_efficiency.multiplier_field",
+        "consume_liquid_efficiency.required_liquid_amount",
+        "consume_liquid_efficiency.raw_efficiency",
+        "consume_liquid_efficiency.efficiency",
+        "consume_liquid_efficiency.building_liquids_field",
+        "consume_liquid_efficiency.building_edelta_method",
+        "consume_liquid_efficiency.building_efficiency_scale_method",
+        "consume_liquid_efficiency.liquid_module_get",
+        "consume_liquid_efficiency.floatf_get"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_efficiency_bridge_state",
+        "test_consume_liquid_efficiency_matches_upstream_source",
+        "test_generated_consume_liquid_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_efficiency_bridge_state",
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public float efficiency(Building build){",
+        "float ed = build.edelta() * build.efficiencyScale();",
+        "if(ed <= 0.00000001f) return 0f;",
+        "//there can be more liquid than necessary, so cap at 1",
+        "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+        "public float amount;",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "float get(T t);",
+        "public float get(Liquid liquid){",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){",
+        "public float efficiencyScale(){"
+      ],
+      "rule": "Generated ConsumeLiquid.efficiency bridges liquid amount ratio, edelta*efficiencyScale guard, multiplier, and clamp formula.",
+      "deferred_exprs": [
+        "Concrete Liquid instance field is represented by build_liquids_get until generated object references are wired.",
+        "Concrete LiquidModule.get storage lookup is represented by explicit build_liquids_get until LiquidModule runtime storage is wired.",
+        "Concrete Floatf<Building> multiplier invocation is represented by explicit multiplier_get_build until functional interfaces are wired.",
+        "Concrete Building.edelta and efficiencyScale invocation is represented by explicit build_edelta and build_efficiency_scale until Building object binding is ported."
+      ]
     }
   },
   "version": 1

@@ -1722,6 +1722,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_efficiency_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_efficiency_source"))
+        report = source_parity.verify_consume_liquid_efficiency_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        for source_path in [
+            "core/src/mindustry/world/consumers/Consume.java",
+            "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+            "core/src/mindustry/world/modules/LiquidModule.java",
+            "core/src/mindustry/entities/comp/BuildingComp.java",
+            "arc-core/src/arc/func/Floatf.java",
+        ]:
+            self.assertIn(source_path, report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquid_field": "public final Liquid liquid;",
+            "method": "public float efficiency(Building build){",
+            "ed_expr": "float ed = build.edelta() * build.efficiencyScale();",
+            "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+            "cap_comment": "//there can be more liquid than necessary, so cap at 1",
+            "return_expr": "return Math.min(build.liquids.get(liquid) / (amount * ed * multiplier.get(build)), 1f);",
+            "amount_field": "public float amount;",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "floatf_get": "float get(T t);",
+            "liquid_module_get": "public float get(Liquid liquid){",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "building_edelta_method": "public float edelta(){",
+            "building_efficiency_scale_method": "public float efficiencyScale(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_default_constructor_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_default_constructor_source"))
         report = source_parity.verify_consume_liquid_default_constructor_source(ROOT / "mindustry-upstream")
