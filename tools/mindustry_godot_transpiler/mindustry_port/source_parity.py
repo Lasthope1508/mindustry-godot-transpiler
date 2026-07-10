@@ -5705,6 +5705,52 @@ def verify_consume_liquid_build_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquid_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    stats_source = "core/src/mindustry/world/meta/Stats.java"
+    stat_source = "core/src/mindustry/world/meta/Stat.java"
+    stat_values_source = "core/src/mindustry/world/meta/StatValues.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_liquid_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    consume_liquid_base_text = (upstream_root / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")
+    stats_text = (upstream_root / stats_source).read_text(encoding="utf-8", errors="replace")
+    stat_text = (upstream_root / stat_source).read_text(encoding="utf-8", errors="replace")
+    stat_values_text = (upstream_root / stat_values_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquid_field": "public final Liquid liquid;",
+        "amount_field": "public float amount;",
+        "booster_field": "public boolean booster;",
+        "method": "public void display(Stats stats){",
+        "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);",
+        "selected_stat_expr": "booster ? Stat.booster : Stat.input",
+        "stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+        "stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+        "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){",
+        "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)",
+    }
+    source_by_key = {
+        "liquid_field": source,
+        "amount_field": consume_liquid_base_text,
+        "booster_field": consume_text,
+        "method": source,
+        "stats_add_expr": source,
+        "selected_stat_expr": source,
+        "stat_input_expr": stat_text,
+        "stat_booster_expr": stat_text,
+        "stats_add_liquid_method": stats_text,
+        "stat_values_liquid_expr": stats_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_source,
+        "sources": [consume_source, stats_source, stat_source, stat_values_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_efficiency_source(upstream_root: Path, arc_root: Path | None = None) -> dict[str, Any]:
     consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

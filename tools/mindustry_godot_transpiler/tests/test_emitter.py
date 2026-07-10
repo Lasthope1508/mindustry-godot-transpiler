@@ -19573,6 +19573,53 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"table_top": true', source_text)
             self.assertIn('"table_left": true', source_text)
 
+    def test_emit_bridges_consume_liquid_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.meta.*;
+
+public class ConsumeLiquid extends ConsumeLiquidBase{
+    public final Liquid liquid;
+
+    @Override
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var liquid_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var amount: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var display_amount_per_second: float = amount * 60.0", source_text)
+            self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_display_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);"', source_text)
+            self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source_text)
+            self.assertIn('"stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){"', source_text)
+            self.assertIn('"stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)"', source_text)
+            self.assertIn('"selected_stat": selected_stat', source_text)
+            self.assertIn('"display_amount_per_second": display_amount_per_second', source_text)
+            self.assertIn('"stats_add_call": stats_add_call', source_text)
+
     def test_emit_bridges_consume_liquid_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

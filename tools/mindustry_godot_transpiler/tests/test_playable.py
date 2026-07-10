@@ -1387,6 +1387,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquid.build"', source)
         self.assertIn('"matches": result.get("req_image", {}) == canonical.get("req_image", {}) and result.get("table_image_size", null) == canonical.get("table_image_size", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_display_state(booster: bool, liquid_id: int, amount: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_display_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);"', source)
+        self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source)
+        self.assertIn('"stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){"', source)
+        self.assertIn("var selected_stat: String = \"booster\" if booster else \"input\"", source)
+        self.assertIn("var display_amount_per_second: float = amount * 60.0", source)
+        self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}', source)
+        self.assertIn("func generated_consume_liquid_display_bridge_state(booster: bool, liquid_id: int, amount: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
+        self.assertIn("var result = instance.java_method_display_4([booster, liquid_id, amount])", source)
+        self.assertIn("var canonical = source_consume_liquid_display_state(booster, liquid_id, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_display_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquid.display"', source)
+        self.assertIn('"matches": result.get("selected_stat", null) == canonical.get("selected_stat", null) and result.get("display_amount_per_second", null) == canonical.get("display_amount_per_second", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

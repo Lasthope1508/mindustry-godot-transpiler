@@ -2141,6 +2141,40 @@
         "test_generated_consume_liquid_build_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_build_bridge_state"
+    },
+    "N1545": {
+      "canonical_ledger": "source_slice_ledger.N1545",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "generated_owner": "ConsumeLiquid.java_method_display_4",
+      "source_symbols": [
+        "consume_liquid_display.method",
+        "consume_liquid_display.stats_add",
+        "consume_liquid_display.selected_stat",
+        "consume_liquid_display.booster",
+        "consume_liquid_display.liquid_id",
+        "consume_liquid_display.amount",
+        "consume_liquid_display.display_amount_per_second",
+        "consume_liquid_display.per_second",
+        "consume_liquid_display.liquid_field",
+        "consume_liquid_display.amount_field",
+        "consume_liquid_display.booster_field",
+        "consume_liquid_display.stat_input",
+        "consume_liquid_display.stat_booster",
+        "consume_liquid_display.stats_add_liquid_method",
+        "consume_liquid_display.stat_values_liquid_expr",
+        "consume_liquid_display.stat_values_liquid_method",
+        "consume_liquid_display.stat_values_display_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_display_bridge_state"
     }
   }
 }

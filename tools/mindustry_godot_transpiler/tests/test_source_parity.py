@@ -1780,6 +1780,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_display_source"))
+        report = source_parity.verify_consume_liquid_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        for source_path in [
+            "core/src/mindustry/world/consumers/Consume.java",
+            "core/src/mindustry/world/meta/Stats.java",
+            "core/src/mindustry/world/meta/Stat.java",
+            "core/src/mindustry/world/meta/StatValues.java",
+        ]:
+            self.assertIn(source_path, report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquid_field": "public final Liquid liquid;",
+            "amount_field": "public float amount;",
+            "booster_field": "public boolean booster;",
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);",
+            "selected_stat_expr": "booster ? Stat.booster : Stat.input",
+            "stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
+            "stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+            "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){",
+            "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_default_constructor_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_default_constructor_source"))
         report = source_parity.verify_consume_liquid_default_constructor_source(ROOT / "mindustry-upstream")

@@ -38544,6 +38544,61 @@
         "Concrete Building.liquids.get(liquid) lookup is represented by explicit build_liquids_get until Building and LiquidModule runtime objects are wired.",
         "Concrete Table.add/Cell chain is represented by canonical state keys until UI node binding is ported."
       ]
+    },
+    "N1545": {
+      "title": "Generated ConsumeLiquid display bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "generated_owner": "ConsumeLiquid.java_method_display_4",
+      "source_symbols": [
+        "consume_liquid_display.method",
+        "consume_liquid_display.stats_add",
+        "consume_liquid_display.selected_stat",
+        "consume_liquid_display.booster",
+        "consume_liquid_display.liquid_id",
+        "consume_liquid_display.amount",
+        "consume_liquid_display.display_amount_per_second",
+        "consume_liquid_display.per_second",
+        "consume_liquid_display.liquid_field",
+        "consume_liquid_display.amount_field",
+        "consume_liquid_display.booster_field",
+        "consume_liquid_display.stat_input",
+        "consume_liquid_display.stat_booster",
+        "consume_liquid_display.stats_add_liquid_method",
+        "consume_liquid_display.stat_values_liquid_expr",
+        "consume_liquid_display.stat_values_liquid_method",
+        "consume_liquid_display.stat_values_display_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_display_bridge_state",
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public float amount;",
+        "public boolean booster;",
+        "public void display(Stats stats){",
+        "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);",
+        "booster ? Stat.booster : Stat.input",
+        "input = new Stat(\"input\", StatCat.crafting),",
+        "booster = new Stat(\"booster\", StatCat.optional),",
+        "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){",
+        "StatValues.liquid(liquid, amount, perSecond)",
+        "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+        "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();"
+      ],
+      "rule": "Generated ConsumeLiquid.display bridges selected input/booster stat and liquid display amount per second through Stats.add(Liquid).",
+      "deferred_exprs": [
+        "Concrete Liquid instance is represented by explicit liquid_id until generated object references are wired.",
+        "Concrete Stats mutation is represented by canonical stats_add_call until world meta UI binding is ported.",
+        "Concrete StatValue table rendering is recorded as source-backed display expressions until Arc scene UI rendering is ported."
+      ]
     }
   },
   "version": 1

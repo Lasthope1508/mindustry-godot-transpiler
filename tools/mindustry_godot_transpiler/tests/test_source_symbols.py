@@ -19606,6 +19606,79 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             "source_state_schema.source_consume_liquid_build_result",
         )
 
+    def test_generated_consume_liquid_display_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        consumer_symbol_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_symbols")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        stats_add_symbol = source_symbols.source_symbol(registry, "consume_liquid_display.stats_add")
+        self.assertEqual(stats_add_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(stats_add_symbol["java_method"], "display(Stats stats)")
+        self.assertEqual(stats_add_symbol["java_expr"], "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);")
+        self.assertEqual(stats_add_symbol["godot_owner"], "PortGame.source_consume_liquid_display_state")
+        self.assertEqual(stats_add_symbol["runtime_proof"], "/root/Main.source_consume_liquid_display_state")
+        self.assertEqual(stats_add_symbol["godot_symbol"], "source_consume_liquid_display_result.stats_add_call")
+
+        amount_symbol = source_symbols.source_symbol(registry, "consume_liquid_display.display_amount_per_second")
+        self.assertEqual(amount_symbol["java_expr"], "amount * 60f")
+        self.assertEqual(amount_symbol["godot_symbol"], "source_consume_liquid_display_result.display_amount_per_second")
+
+        liquid_slice = source_symbols.source_slice(ledger, "N1545")
+        self.assertEqual(liquid_slice["title"], "Generated ConsumeLiquid display bridge state")
+        self.assertEqual(liquid_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(liquid_slice["java_method"], "display(Stats stats)")
+        self.assertEqual(liquid_slice["godot_owner"], "PortGame.source_consume_liquid_display_state")
+        self.assertEqual(liquid_slice["generated_owner"], "ConsumeLiquid.java_method_display_4")
+        self.assertEqual(liquid_slice["runtime_proof"], "/root/Main.generated_consume_liquid_display_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1545"]["canonical_ledger"], "source_slice_ledger.N1545")
+        for expr in [
+            "public final Liquid liquid;",
+            "public float amount;",
+            "public boolean booster;",
+            "public void display(Stats stats){",
+            "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);",
+            "input = new Stat(\"input\", StatCat.crafting),",
+            "booster = new Stat(\"booster\", StatCat.optional),",
+            "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){",
+            "StatValues.liquid(liquid, amount, perSecond)",
+        ]:
+            self.assertIn(expr, liquid_slice["exact_exprs"])
+        self.assertIn("consume_liquid_display.stats_add", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_display.display_amount_per_second", liquid_slice["source_symbols"])
+        self.assertEqual(
+            consumer_symbol_shard["symbols"]["consume_liquid_display.stats_add"]["canonical_symbol"],
+            "source_symbol_registry.consume_liquid_display.stats_add",
+        )
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquid_display_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["booster", "liquid_id", "amount"])
+        self.assertIn("stats_add_call", contract["return_keys"])
+        self.assertIn("display_amount_per_second", contract["return_keys"])
+        self.assertEqual(
+            consumer_contract_shard["contracts"]["PortGame.source_consume_liquid_display_state"]["canonical_contract"],
+            "source_api_contracts.PortGame.source_consume_liquid_display_state",
+        )
+        input_schema = source_symbols.state_schema(schema, "source_consume_liquid_display_input")
+        self.assertEqual(input_schema["keys"]["amount"]["java_expr"], "amount")
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquid_display_result")
+        self.assertEqual(result_schema["keys"]["stats_add_call"]["java_expr"], "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);")
+        self.assertEqual(result_schema["keys"]["display_amount_per_second"]["java_expr"], "amount * 60f")
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquid_display_input"]["canonical_schema"],
+            "source_state_schema.source_consume_liquid_display_input",
+        )
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquid_display_result"]["canonical_schema"],
+            "source_state_schema.source_consume_liquid_display_result",
+        )
+
     def test_generated_consume_liquid_apply_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -27548,10 +27621,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 982)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 976)
+        self.assertEqual(audit["totalSourceFunctions"], 983)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 977)
         self.assertEqual(audit["exemptSourceOwnerCount"], 6)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 982)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 983)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])

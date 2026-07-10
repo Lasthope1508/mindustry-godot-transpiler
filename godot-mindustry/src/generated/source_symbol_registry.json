@@ -129095,6 +129095,295 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_build_state",
       "source_slice": "N1544"
+    },
+    "consume_liquid_display.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_liquid_display_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display method declaration.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stats_add": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);",
+      "godot_symbol": "source_consume_liquid_display_result.stats_add_call",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display Stats.add liquid call.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.selected_stat": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "booster ? Stat.booster : Stat.input",
+      "godot_symbol": "source_consume_liquid_display_result.selected_stat",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display selected stat ternary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.booster": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume fields",
+      "java_expr": "booster",
+      "godot_symbol": "source_consume_liquid_display_input.booster",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display booster flag explicit input.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.liquid_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid fields",
+      "java_expr": "liquid",
+      "godot_symbol": "source_consume_liquid_display_input.liquid_id",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display liquid identity explicit input until object references are wired.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase fields",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_display_input.amount",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display amount explicit input.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.display_amount_per_second": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "amount * 60f",
+      "godot_symbol": "source_consume_liquid_display_result.display_amount_per_second",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display multiplies amount by 60f.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.per_second": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "display(Stats stats)",
+      "java_expr": "true",
+      "godot_symbol": "source_consume_liquid_display_result.per_second",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display passes perSecond true.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.liquid_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid fields",
+      "java_expr": "public final Liquid liquid;",
+      "godot_symbol": "source_consume_liquid_display_result.liquid_field",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquid.display uses final liquid field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.amount_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase fields",
+      "java_expr": "public float amount;",
+      "godot_symbol": "source_consume_liquid_display_result.amount_field",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "ConsumeLiquidBase amount field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.booster_field": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume fields",
+      "java_expr": "public boolean booster;",
+      "godot_symbol": "source_consume_liquid_display_result.booster_field",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "Consume booster field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stat_input": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "Stat static fields",
+      "java_expr": "input = new Stat(\"input\", StatCat.crafting),",
+      "godot_symbol": "source_consume_liquid_display_result.stat_input_expr",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "Stat.input anchor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stat_booster": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stat.java",
+      "java_method": "Stat static fields",
+      "java_expr": "booster = new Stat(\"booster\", StatCat.optional),",
+      "godot_symbol": "source_consume_liquid_display_result.stat_booster_expr",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "Stat.booster anchor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stats_add_liquid_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stats.java",
+      "java_method": "add(Stat stat, Liquid liquid, float amount, boolean perSecond)",
+      "java_expr": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){",
+      "godot_symbol": "source_consume_liquid_display_result.stats_add_liquid_method",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "Stats.add liquid overload anchor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stat_values_liquid_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/Stats.java",
+      "java_method": "add(Stat stat, Liquid liquid, float amount, boolean perSecond)",
+      "java_expr": "StatValues.liquid(liquid, amount, perSecond)",
+      "godot_symbol": "source_consume_liquid_display_result.stat_values_liquid_expr",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "Stats.add delegates to StatValues.liquid.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stat_values_liquid_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "liquid(Liquid liquid, float amount, boolean perSecond)",
+      "java_expr": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
+      "godot_symbol": "source_consume_liquid_display_result.stat_values_liquid_method",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "StatValues.liquid method anchor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
+    },
+    "consume_liquid_display.stat_values_display_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "java_method": "liquid(Liquid liquid, float amount, boolean perSecond)",
+      "java_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();",
+      "godot_symbol": "source_consume_liquid_display_result.stat_values_display_expr",
+      "godot_owner": "PortGame.source_consume_liquid_display_state",
+      "rule": "StatValues.liquid display expression anchor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "source_slice": "N1545"
     }
   },
   "version": 1

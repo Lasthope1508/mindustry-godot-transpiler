@@ -42333,6 +42333,63 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_build_state",
       "rule": "Public runtime contract for ConsumeLiquid.build(Building, Table) ReqImage(liquid.uiIcon), valid lambda, iconMed size, top, and left table state."
+    },
+    "PortGame.source_consume_liquid_display_state": {
+      "status": "active",
+      "source_slice": "N1545",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_liquid_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "liquid_id",
+          "type": "int",
+          "schema": "source_consume_liquid_display_input.liquid_id",
+          "java_expr": "liquid"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_display_input.amount",
+          "java_expr": "amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "liquid_field",
+        "amount_field",
+        "booster_field",
+        "stats_add_expr",
+        "selected_stat_expr",
+        "stat_input_expr",
+        "stat_booster_expr",
+        "stats_add_liquid_method",
+        "stat_values_liquid_expr",
+        "stat_values_liquid_method",
+        "stat_values_display_expr",
+        "booster",
+        "liquid_id",
+        "amount",
+        "selected_stat",
+        "display_amount_per_second",
+        "per_second",
+        "stats_add_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_display_bridge_state",
+        "test_consume_liquid_display_matches_upstream_source",
+        "test_generated_consume_liquid_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_display_state",
+      "rule": "Public runtime contract for ConsumeLiquid.display(Stats) selected stat, liquid amount*60f, and perSecond=true Stats.add call."
     }
   },
   "policy": {

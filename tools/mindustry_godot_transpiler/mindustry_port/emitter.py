@@ -1918,6 +1918,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
         and type_entry.get("name") == "ConsumeLiquid"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar display_amount_per_second: float = amount * 60.0",
+            '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}',
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void display(Stats stats){", "liquid_field": "public final Liquid liquid;", "amount_field": "public float amount;", "booster_field": "public boolean booster;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){", "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)", "stat_values_liquid_method": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){", "stat_values_display_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();", "booster": booster, "liquid_id": liquid_id, "amount": amount, "selected_stat": selected_stat, "display_amount_per_second": display_amount_per_second, "per_second": true, "stats_add_call": stats_add_call}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
         and method.get("name") == "update"
     ):
         return [
