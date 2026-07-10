@@ -471,6 +471,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(source_files_report["canonical_mirror"]["checked"], len(source_files))
 
+    def test_source_ssot_asset_manifest_assets_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        asset_entry = manifest["modules"]["asset_manifest_assets"]
+
+        self.assertEqual(asset_entry["canonical_module"], "asset_manifest")
+        self.assertEqual(asset_entry["canonical_collection_key"], "assets")
+        self.assertEqual(asset_entry["canonical_key_field"], "target")
+        self.assertEqual(asset_entry["canonical_reference_key"], "canonical_asset")
+        self.assertEqual(asset_entry["canonical_reference_prefix"], "asset_manifest.assets.")
+        self.assertEqual(asset_entry["root_key"], "assets")
+        self.assertEqual(asset_entry["mirror_fields"], ["bytes", "sha256", "source", "target"])
+        self.assertIn("asset_manifest.json assets", asset_entry["rule"])
+
+        asset_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "asset_manifest_assets")["assets"]
+        canonical_manifest = source_ssot.load_registered_json(ROOT / "godot-mindustry", "asset_manifest")
+        canonical_assets = {entry["target"]: entry for entry in canonical_manifest["assets"]}
+
+        self.assertEqual(set(asset_files), set(canonical_assets))
+        self.assertEqual(len(asset_files), canonical_manifest["asset_count"])
+        self.assertIn("core/assets/baseparts/1591368647700.msch", asset_files)
+        self.assertIn("core/assets/sprites/error.png", asset_files)
+        for target_path, canonical_entry in sorted(canonical_assets.items()):
+            with self.subTest(target_path=target_path):
+                self.assertEqual(asset_files[target_path]["canonical_asset"], f"asset_manifest.assets.{target_path}")
+                for field in asset_entry["mirror_fields"]:
+                    self.assertEqual(asset_files[target_path][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        asset_report = [entry for entry in report["modules"] if entry["name"] == "asset_manifest_assets"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(asset_report["canonical_mirror"]["checked"], len(asset_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

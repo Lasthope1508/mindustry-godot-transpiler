@@ -13146,6 +13146,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('result[first_key] = first_entry', catalog_source)
         self.assertNotIn("ASSET_MANIFEST_PATH", source)
 
+    def test_port_game_exposes_asset_manifest_assets_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "asset_manifest_assets.json").exists())
+        self.assertIn('"asset_manifest_assets": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func asset_manifest_asset_state(target_path: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)', source)
+
     def test_port_game_exposes_source_manifest_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

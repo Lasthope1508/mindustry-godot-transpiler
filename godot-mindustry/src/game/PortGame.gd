@@ -185,6 +185,9 @@ func ssot_modules_state(module_name: String = "") -> Dictionary:
 func asset_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")
 
+func asset_manifest_asset_state(target_path: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)
+
 func source_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
 
