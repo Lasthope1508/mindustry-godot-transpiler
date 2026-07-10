@@ -1,0 +1,356 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "content_registry.waves.groups",
+    "canonicalKey": "@index",
+    "newGroupRequiresCanonicalWaveGroup": true
+  },
+  "groups": {
+    "0": {
+      "canonical_group": "content_registry.waves.groups.0",
+      "index": 0,
+      "group": {
+        "end": 10,
+        "max": 30,
+        "unit": "dagger",
+        "unitScaling": 2.0
+      }
+    },
+    "1": {
+      "canonical_group": "content_registry.waves.groups.1",
+      "index": 1,
+      "group": {
+        "begin": 4,
+        "end": 13,
+        "unit": "crawler",
+        "unitAmount": 2,
+        "unitScaling": 1.5
+      }
+    },
+    "2": {
+      "canonical_group": "content_registry.waves.groups.2",
+      "index": 2,
+      "group": {
+        "begin": 12,
+        "end": 16,
+        "unit": "flare",
+        "unitScaling": 1.0
+      }
+    },
+    "3": {
+      "canonical_group": "content_registry.waves.groups.3",
+      "index": 3,
+      "group": {
+        "begin": 11,
+        "max": 4,
+        "shieldScaling": 25.0,
+        "spacing": 2,
+        "unit": "dagger",
+        "unitScaling": 1.7
+      }
+    },
+    "4": {
+      "canonical_group": "content_registry.waves.groups.4",
+      "index": 4,
+      "group": {
+        "begin": 13,
+        "max": 25,
+        "spacing": 3,
+        "unit": "pulsar",
+        "unitScaling": 0.5
+      }
+    },
+    "5": {
+      "canonical_group": "content_registry.waves.groups.5",
+      "index": 5,
+      "group": {
+        "begin": 7,
+        "end": 30,
+        "spacing": 3,
+        "unit": "mace",
+        "unitScaling": 2
+      }
+    },
+    "6": {
+      "canonical_group": "content_registry.waves.groups.6",
+      "index": 6,
+      "group": {
+        "begin": 12,
+        "max": 14,
+        "shieldScaling": 20.0,
+        "spacing": 2,
+        "unit": "dagger",
+        "unitAmount": 4,
+        "unitScaling": 1
+      }
+    },
+    "7": {
+      "canonical_group": "content_registry.waves.groups.7",
+      "index": 7,
+      "group": {
+        "begin": 28,
+        "end": 40,
+        "shieldScaling": 20.0,
+        "spacing": 3,
+        "unit": "mace",
+        "unitScaling": 1
+      }
+    },
+    "8": {
+      "canonical_group": "content_registry.waves.groups.8",
+      "index": 8,
+      "group": {
+        "begin": 45,
+        "max": 10,
+        "shieldScaling": 30.0,
+        "shields": 100,
+        "spacing": 3,
+        "unit": "spiroct",
+        "unitScaling": 1
+      }
+    },
+    "9": {
+      "canonical_group": "content_registry.waves.groups.9",
+      "index": 9,
+      "group": {
+        "begin": 120,
+        "spacing": 2,
+        "unit": "pulsar",
+        "unitAmount": 5,
+        "unitScaling": 3
+      }
+    },
+    "10": {
+      "canonical_group": "content_registry.waves.groups.10",
+      "index": 10,
+      "group": {
+        "begin": 16,
+        "max": 20,
+        "shieldScaling": 20.0,
+        "spacing": 2,
+        "unit": "flare",
+        "unitScaling": 1
+      }
+    },
+    "11": {
+      "canonical_group": "content_registry.waves.groups.11",
+      "index": 11,
+      "group": {
+        "begin": 82,
+        "shieldScaling": 30.0,
+        "spacing": 3,
+        "unit": "quasar",
+        "unitAmount": 4,
+        "unitScaling": 3
+      }
+    },
+    "12": {
+      "canonical_group": "content_registry.waves.groups.12",
+      "index": 12,
+      "group": {
+        "begin": 41,
+        "max": 25,
+        "shields": 640.0,
+        "spacing": 5,
+        "unit": "pulsar",
+        "unitAmount": 1,
+        "unitScaling": 3
+      }
+    },
+    "13": {
+      "canonical_group": "content_registry.waves.groups.13",
+      "index": 13,
+      "group": {
+        "begin": 40,
+        "max": 20,
+        "shieldScaling": 30,
+        "spacing": 5,
+        "unit": "fortress",
+        "unitAmount": 2,
+        "unitScaling": 2
+      }
+    },
+    "14": {
+      "canonical_group": "content_registry.waves.groups.14",
+      "index": 14,
+      "group": {
+        "begin": 35,
+        "end": 60,
+        "spacing": 3,
+        "unit": "nova",
+        "unitAmount": 4
+      }
+    },
+    "15": {
+      "canonical_group": "content_registry.waves.groups.15",
+      "index": 15,
+      "group": {
+        "begin": 42,
+        "end": 130,
+        "max": 30,
+        "spacing": 3,
+        "unit": "dagger",
+        "unitAmount": 4
+      }
+    },
+    "16": {
+      "canonical_group": "content_registry.waves.groups.16",
+      "index": 16,
+      "group": {
+        "begin": 40,
+        "shieldScaling": 20,
+        "spacing": 2,
+        "unit": "horizon",
+        "unitAmount": 2,
+        "unitScaling": 2
+      }
+    },
+    "17": {
+      "canonical_group": "content_registry.waves.groups.17",
+      "index": 17,
+      "group": {
+        "begin": 50,
+        "max": 20,
+        "shieldScaling": 10.0,
+        "shields": 100.0,
+        "spacing": 5,
+        "unit": "flare",
+        "unitAmount": 4,
+        "unitScaling": 3
+      }
+    },
+    "18": {
+      "canonical_group": "content_registry.waves.groups.18",
+      "index": 18,
+      "group": {
+        "begin": 50,
+        "max": 16,
+        "shieldScaling": 30,
+        "spacing": 5,
+        "unit": "zenith",
+        "unitAmount": 2,
+        "unitScaling": 3
+      }
+    },
+    "19": {
+      "canonical_group": "content_registry.waves.groups.19",
+      "index": 19,
+      "group": {
+        "begin": 53,
+        "shieldScaling": 30,
+        "spacing": 4,
+        "unit": "nova",
+        "unitAmount": 2,
+        "unitScaling": 3
+      }
+    },
+    "20": {
+      "canonical_group": "content_registry.waves.groups.20",
+      "index": 20,
+      "group": {
+        "begin": 31,
+        "shieldScaling": 10.0,
+        "spacing": 3,
+        "unit": "atrax",
+        "unitAmount": 4,
+        "unitScaling": 1
+      }
+    },
+    "21": {
+      "canonical_group": "content_registry.waves.groups.21",
+      "index": 21,
+      "group": {
+        "begin": 41,
+        "shieldScaling": 30.0,
+        "spacing": 30,
+        "unit": "scepter",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "22": {
+      "canonical_group": "content_registry.waves.groups.22",
+      "index": 22,
+      "group": {
+        "begin": 81,
+        "shieldScaling": 30.0,
+        "spacing": 40,
+        "unit": "reign",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "23": {
+      "canonical_group": "content_registry.waves.groups.23",
+      "index": 23,
+      "group": {
+        "begin": 120,
+        "shieldScaling": 30.0,
+        "spacing": 40,
+        "unit": "antumbra",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "24": {
+      "canonical_group": "content_registry.waves.groups.24",
+      "index": 24,
+      "group": {
+        "begin": 100,
+        "shieldScaling": 30.0,
+        "spacing": 30,
+        "unit": "vela",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "25": {
+      "canonical_group": "content_registry.waves.groups.25",
+      "index": 25,
+      "group": {
+        "begin": 145,
+        "shieldScaling": 30.0,
+        "shields": 100,
+        "spacing": 35,
+        "unit": "corvus",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "26": {
+      "canonical_group": "content_registry.waves.groups.26",
+      "index": 26,
+      "group": {
+        "begin": 90,
+        "shieldScaling": 30.0,
+        "shields": 40.0,
+        "spacing": 4,
+        "unit": "horizon",
+        "unitAmount": 2,
+        "unitScaling": 3
+      }
+    },
+    "27": {
+      "canonical_group": "content_registry.waves.groups.27",
+      "index": 27,
+      "group": {
+        "begin": 210,
+        "shieldScaling": 35.0,
+        "shields": 1000,
+        "spacing": 35,
+        "unit": "toxopid",
+        "unitAmount": 1,
+        "unitScaling": 1
+      }
+    },
+    "28": {
+      "canonical_group": "content_registry.waves.groups.28",
+      "index": 28,
+      "group": {
+        "max": 16,
+        "unit": "mega",
+        "unitAmount": 1
+      }
+    }
+  }
+}

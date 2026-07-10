@@ -17,6 +17,7 @@ class SourceSsotModule:
     canonical_module: str = ""
     canonical_collection_key: str = ""
     canonical_key_field: str = ""
+    canonical_value_field: str = ""
     canonical_reference_key: str = ""
     canonical_reference_prefix: str = ""
     mirror_fields: tuple[str, ...] = ()
@@ -93,6 +94,7 @@ def _extension_module_from_entry(name: str, entry: dict[str, Any]) -> SourceSsot
         str(entry.get("canonical_module", "")),
         str(entry.get("canonical_collection_key", "")),
         str(entry.get("canonical_key_field", "")),
+        str(entry.get("canonical_value_field", "")),
         str(entry.get("canonical_reference_key", "")),
         str(entry.get("canonical_reference_prefix", "")),
         tuple(str(field) for field in mirror_fields),
@@ -209,6 +211,7 @@ def _validate_extension_canonical_mirror(
         "canonical_module": entry.canonical_module,
         "canonical_collection_key": entry.canonical_collection_key,
         "canonical_key_field": entry.canonical_key_field,
+        "canonical_value_field": entry.canonical_value_field,
         "canonical_reference_key": entry.canonical_reference_key,
         "canonical_reference_prefix": entry.canonical_reference_prefix,
         "mirror_fields": list(entry.mirror_fields),
@@ -269,6 +272,14 @@ def _validate_extension_canonical_mirror(
         report["checked"] += 1
     return report
 
+def _nested_value(data: dict[str, Any], dotted_key: str) -> Any:
+    value: Any = data
+    for key in dotted_key.split("."):
+        if not isinstance(value, dict) or key not in value:
+            return None
+        value = value[key]
+    return value
+
 def _validate_extension_canonical_array_mirror(
     godot_root: Path,
     entry: SourceSsotModule,
@@ -282,7 +293,7 @@ def _validate_extension_canonical_array_mirror(
         errors.append(f"{entry.name}: cannot load canonical module {entry.canonical_module}: {exc}")
         return report
     shard_entries = data.get(entry.root_key, {})
-    canonical_values_raw = canonical_data.get(entry.canonical_collection_key, [])
+    canonical_values_raw = _nested_value(canonical_data, entry.canonical_collection_key)
     if not isinstance(shard_entries, dict):
         errors.append(f"{entry.name}: root key {entry.root_key} must be an object")
         return report
@@ -290,8 +301,10 @@ def _validate_extension_canonical_array_mirror(
         errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array")
         return report
     canonical_values: dict[str, Any] = {}
-    for value in canonical_values_raw:
-        if entry.canonical_key_field:
+    for index, value in enumerate(canonical_values_raw):
+        if entry.canonical_key_field == "@index":
+            canonical_values[str(index)] = value
+        elif entry.canonical_key_field:
             if not isinstance(value, dict):
                 errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} entries must be objects")
                 continue
@@ -313,7 +326,12 @@ def _validate_extension_canonical_array_mirror(
                 errors.append(f"{entry.name}.{item_key}: missing mirror field {field}")
                 continue
             canonical_value = canonical_values[item_key]
-            expected_value = canonical_value.get(field) if isinstance(canonical_value, dict) else canonical_value
+            if field == entry.canonical_value_field:
+                expected_value = canonical_value
+            elif entry.canonical_key_field == "@index" and field == "index":
+                expected_value = int(item_key)
+            else:
+                expected_value = canonical_value.get(field) if isinstance(canonical_value, dict) else canonical_value
             if shard_entry[field] != expected_value:
                 errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{entry.canonical_collection_key}.{item_key}")
         report["checked"] += 1

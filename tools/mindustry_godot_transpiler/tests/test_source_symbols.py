@@ -248,6 +248,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
             self.assertIn("source_manifest_files.mindustry/example/Example.java: mirror field bytes differs from source_manifest.files.mindustry/example/Example.java", report["errors"])
 
+    def test_source_ssot_catalog_validates_nested_indexed_canonical_array_value_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "content_registry", {
+                "counts": {},
+                "waves": {
+                    "version": 7,
+                    "groups": [
+                        {"unit": "dagger", "end": 10, "max": 30, "unitScaling": 2.0},
+                    ],
+                },
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"content_registry_wave_groups": {"path": "src/generated/source_modules/content_registry_wave_groups.json", "root_key": "groups", "label": "waveGroup", "canonical_module": "content_registry", "canonical_collection_key": "waves.groups", "canonical_key_field": "@index", "canonical_reference_key": "canonical_group", "canonical_reference_prefix": "content_registry.waves.groups.", "canonical_value_field": "group", "mirror_fields": ["index", "group"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/content_registry_wave_groups.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "groups": {"0": {"canonical_group": "content_registry.waves.groups.0", "index": 0, "group": {"unit": "wrong"}}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("content_registry_wave_groups.0: mirror field group differs from content_registry.waves.groups.0", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -722,6 +761,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         block_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_blocks"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(block_report["canonical_mirror"]["checked"], len(block_files))
+
+    def test_source_ssot_content_registry_wave_groups_shard_declares_canonical_nested_indexed_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        wave_entry = manifest["modules"]["content_registry_wave_groups"]
+
+        self.assertEqual(wave_entry["canonical_module"], "content_registry")
+        self.assertEqual(wave_entry["canonical_collection_key"], "waves.groups")
+        self.assertEqual(wave_entry["canonical_key_field"], "@index")
+        self.assertEqual(wave_entry["canonical_reference_key"], "canonical_group")
+        self.assertEqual(wave_entry["canonical_reference_prefix"], "content_registry.waves.groups.")
+        self.assertEqual(wave_entry["canonical_value_field"], "group")
+        self.assertEqual(wave_entry["root_key"], "groups")
+        self.assertEqual(wave_entry["mirror_fields"], ["index", "group"])
+        self.assertIn("content_registry.json waves.groups", wave_entry["rule"])
+
+        wave_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry_wave_groups")["groups"]
+        canonical_registry = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry")
+        canonical_groups = canonical_registry["waves"]["groups"]
+
+        self.assertEqual(set(wave_files), {str(index) for index in range(len(canonical_groups))})
+        self.assertEqual(len(wave_files), 29)
+        self.assertEqual(canonical_registry["waves"]["version"], 7)
+        self.assertEqual(wave_files["0"]["group"], {"unit": "dagger", "end": 10, "max": 30, "unitScaling": 2.0})
+        self.assertEqual(wave_files["1"]["group"], {"unit": "crawler", "begin": 4, "end": 13, "unitAmount": 2, "unitScaling": 1.5})
+        self.assertEqual(wave_files["28"]["group"], {"unit": "mega", "max": 16, "unitAmount": 1})
+        for index, canonical_entry in enumerate(canonical_groups):
+            item_key = str(index)
+            with self.subTest(item_key=item_key):
+                self.assertEqual(wave_files[item_key]["canonical_group"], f"content_registry.waves.groups.{item_key}")
+                self.assertEqual(wave_files[item_key]["index"], index)
+                self.assertEqual(wave_files[item_key]["group"], canonical_entry)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        wave_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_wave_groups"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(wave_report["canonical_mirror"]["checked"], len(wave_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib

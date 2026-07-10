@@ -1463,6 +1463,23 @@
         "texture"
       ]
     },
+    "content_registry_wave_groups": {
+      "path": "src/generated/source_modules/content_registry_wave_groups.json",
+      "root_key": "groups",
+      "label": "waveGroup",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json waves.groups; canonical wave group metadata remains mirrored from content_registry.waves.groups before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "waves.groups",
+      "canonical_key_field": "@index",
+      "canonical_value_field": "group",
+      "canonical_reference_key": "canonical_group",
+      "canonical_reference_prefix": "content_registry.waves.groups.",
+      "mirror_fields": [
+        "index",
+        "group"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",
