@@ -2261,6 +2261,36 @@ func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:
 		"matches": result.get("ignore", null) == canonical.get("ignore", null),
 	}
 
+func source_consume_power_apply_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_power_apply_state",
+		"source": "core/src/mindustry/world/consumers/ConsumePower.java",
+		"block_source": "core/src/mindustry/world/Block.java",
+		"method": "public void apply(Block block){",
+		"block_has_power_field_expr": "public @NoPatch boolean hasPower;",
+		"block_cons_power_field_expr": "public @Nullable ConsumePower consPower;",
+		"has_power_assignment_expr": "block.hasPower = true;",
+		"cons_power_assignment_expr": "block.consPower = this;",
+		"block_has_power_before": block_has_power_before,
+		"block_cons_power_before": block_cons_power_before,
+		"consume_power_state": consume_power_state,
+		"block_has_power_after": true,
+		"block_cons_power_after": consume_power_state,
+	}
+
+func generated_consume_power_apply_bridge_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_power_before, block_cons_power_before, consume_power_state])
+	var canonical = source_consume_power_apply_state(block_has_power_before, block_cons_power_before, consume_power_state)
+	return {
+		"source_owner": "PortGame.source_consume_power_apply_state",
+		"generated_owner": "ConsumePower.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_power_after", null) == canonical.get("block_has_power_after", null) and result.get("block_cons_power_after", null) == canonical.get("block_cons_power_after", null),
+	}
+
 func source_consume_power_efficiency_state(power_status: float) -> Dictionary:
 	return {
 		"method": "public float efficiency(Building build){",

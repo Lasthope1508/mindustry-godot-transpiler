@@ -17056,6 +17056,48 @@ public class ConsumePower extends Consume{
             self.assertIn('"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"', source_text)
             self.assertIn('"requested_power": requested_power', source_text)
 
+    def test_emit_bridges_consume_power_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumePower.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.*;
+
+public class ConsumePower extends Consume{
+    public void apply(Block block){
+        block.hasPower = true;
+        block.consPower = this;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePower.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_power_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_cons_power_before: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var consume_power_state: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var block_has_power_after: bool = true", source_text)
+            self.assertIn("var block_cons_power_after: Variant = consume_power_state", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_power_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePower.java"', source_text)
+            self.assertIn('"block_source": "core/src/mindustry/world/Block.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"has_power_assignment_expr": "block.hasPower = true;"', source_text)
+            self.assertIn('"cons_power_assignment_expr": "block.consPower = this;"', source_text)
+            self.assertIn('"block_has_power_after": block_has_power_after', source_text)
+            self.assertIn('"block_cons_power_after": block_cons_power_after', source_text)
+
     def test_emit_bridges_consume_power_ignore_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

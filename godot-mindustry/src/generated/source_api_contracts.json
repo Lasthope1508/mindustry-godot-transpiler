@@ -42829,6 +42829,55 @@
       ],
       "runtime_proof": "/root/Main.source_consume_apply_state",
       "rule": "Public source helper exposes Consume.apply(Block) empty body state and echoes block for bridge parity."
+    },
+    "PortGame.source_consume_power_apply_state": {
+      "status": "source-backed",
+      "source_slice": "N1585",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "source_method": "apply(Block block)",
+      "params": [
+        {
+          "name": "block_has_power_before",
+          "type": "bool",
+          "java_expr": "block.hasPower",
+          "schema": "source_consume_power_apply_input.block_has_power_before"
+        },
+        {
+          "name": "block_cons_power_before",
+          "type": "Variant",
+          "java_expr": "block.consPower",
+          "schema": "source_consume_power_apply_input.block_cons_power_before"
+        },
+        {
+          "name": "consume_power_state",
+          "type": "Variant",
+          "java_expr": "this",
+          "schema": "source_consume_power_apply_input.consume_power_state"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "block_source",
+        "method",
+        "block_has_power_field_expr",
+        "block_cons_power_field_expr",
+        "has_power_assignment_expr",
+        "cons_power_assignment_expr",
+        "block_has_power_before",
+        "block_cons_power_before",
+        "consume_power_state",
+        "block_has_power_after",
+        "block_cons_power_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state",
+      "rule": "Public source helper exposes ConsumePower.apply(Block) before/after assignment state and echoes explicit this representation."
     }
   },
   "policy": {

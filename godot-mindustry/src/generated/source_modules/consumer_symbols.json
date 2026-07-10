@@ -13020,6 +13020,125 @@
         "test_generated_consume_apply_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_apply_state"
+    },
+    "consume_power_apply.has_power_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.has_power_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasPower = true;",
+      "godot_symbol": "source_consume_power_apply_result.block_has_power_after",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Exact ConsumePower.apply(Block) assignment enabling block power.",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.cons_power_assignment": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.cons_power_assignment",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.consPower = this;",
+      "godot_symbol": "source_consume_power_apply_result.block_cons_power_after",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Exact ConsumePower.apply(Block) assignment binding this consumer to block.consPower.",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.has_power_field": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.has_power_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.hasPower",
+      "java_expr": "public @NoPatch boolean hasPower;",
+      "godot_symbol": "source_consume_power_apply_result.block_has_power_field_expr",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Exact Block field mutated by ConsumePower.apply(Block).",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.cons_power_field": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.cons_power_field",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.consPower",
+      "java_expr": "public @Nullable ConsumePower consPower;",
+      "godot_symbol": "source_consume_power_apply_result.block_cons_power_field_expr",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Exact Block field receiving this ConsumePower in ConsumePower.apply(Block).",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.block_has_power_input": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.block_has_power_input",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.hasPower",
+      "godot_symbol": "source_consume_power_apply_input.block_has_power_before",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Prior Block.hasPower state is explicit input until live Block mutation is wired.",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.block_cons_power_input": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.block_cons_power_input",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "block.consPower",
+      "godot_symbol": "source_consume_power_apply_input.block_cons_power_before",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Prior Block.consPower state is explicit input until live Block mutation is wired.",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
+    },
+    "consume_power_apply.consume_power_state_input": {
+      "canonical_symbol": "source_symbol_registry.consume_power_apply.consume_power_state_input",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_method": "apply(Block block)",
+      "java_expr": "this",
+      "godot_symbol": "source_consume_power_apply_input.consume_power_state",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "rule": "Represents Java this for block.consPower = this without inventing a concrete ConsumePower instance.",
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_power_apply_state"
     }
   }
 }

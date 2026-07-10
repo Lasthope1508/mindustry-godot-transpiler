@@ -17172,6 +17172,74 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_power_ignore_result")
         self.assertEqual(result_schema["keys"]["ignore"]["java_expr"], "return buffered;")
 
+    def test_generated_consume_power_apply_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_symbol_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_symbols")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        has_power_assignment = source_symbols.source_symbol(registry, "consume_power_apply.has_power_assignment")
+        self.assertEqual(has_power_assignment["java_source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(has_power_assignment["java_method"], "apply(Block block)")
+        self.assertEqual(has_power_assignment["java_expr"], "block.hasPower = true;")
+        self.assertEqual(has_power_assignment["godot_owner"], "PortGame.source_consume_power_apply_state")
+        self.assertEqual(has_power_assignment["runtime_proof"], "/root/Main.source_consume_power_apply_state")
+        self.assertEqual(has_power_assignment["godot_symbol"], "source_consume_power_apply_result.block_has_power_after")
+
+        cons_power_assignment = source_symbols.source_symbol(registry, "consume_power_apply.cons_power_assignment")
+        self.assertEqual(cons_power_assignment["java_expr"], "block.consPower = this;")
+        self.assertEqual(cons_power_assignment["godot_symbol"], "source_consume_power_apply_result.block_cons_power_after")
+
+        has_power_field = source_symbols.source_symbol(registry, "consume_power_apply.has_power_field")
+        self.assertEqual(has_power_field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(has_power_field["java_expr"], "public @NoPatch boolean hasPower;")
+
+        cons_power_field = source_symbols.source_symbol(registry, "consume_power_apply.cons_power_field")
+        self.assertEqual(cons_power_field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(cons_power_field["java_expr"], "public @Nullable ConsumePower consPower;")
+
+        apply_slice = source_symbols.source_slice(ledger, "N1585")
+        self.assertEqual(apply_slice["title"], "Generated ConsumePower apply bridge state")
+        self.assertEqual(apply_slice["java_source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(apply_slice["java_method"], "apply(Block block)")
+        self.assertEqual(apply_slice["godot_owner"], "PortGame.source_consume_power_apply_state")
+        self.assertEqual(apply_slice["generated_owner"], "ConsumePower.java_method_apply_0")
+        self.assertEqual(apply_slice["runtime_proof"], "/root/Main.generated_consume_power_apply_bridge_state")
+        for expr in [
+            "public void apply(Block block){",
+            "block.hasPower = true;",
+            "block.consPower = this;",
+            "public @NoPatch boolean hasPower;",
+            "public @Nullable ConsumePower consPower;",
+        ]:
+            self.assertIn(expr, apply_slice["exact_exprs"])
+        self.assertIn("consume_power_apply.has_power_assignment", apply_slice["source_symbols"])
+        self.assertIn("consume_power_apply.cons_power_assignment", apply_slice["source_symbols"])
+        self.assertEqual(consumer_shard["slices"]["N1585"]["canonical_ledger"], "source_slice_ledger.N1585")
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_power_apply_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["block_has_power_before", "block_cons_power_before", "consume_power_state"])
+        self.assertEqual(contract["params"][0]["schema"], "source_consume_power_apply_input.block_has_power_before")
+        self.assertIn("block_has_power_after", contract["return_keys"])
+        self.assertIn("block_cons_power_after", contract["return_keys"])
+        self.assertEqual(consumer_contract_shard["contracts"]["PortGame.source_consume_power_apply_state"]["canonical_contract"], "source_api_contracts.PortGame.source_consume_power_apply_state")
+
+        input_schema = source_symbols.state_schema(schema, "source_consume_power_apply_input")
+        self.assertEqual(input_schema["keys"]["block_has_power_before"]["java_expr"], "block.hasPower")
+        self.assertEqual(input_schema["keys"]["consume_power_state"]["java_expr"], "this")
+        result_schema = source_symbols.state_schema(schema, "source_consume_power_apply_result")
+        self.assertEqual(result_schema["keys"]["block_has_power_after"]["java_expr"], "block.hasPower = true;")
+        self.assertEqual(result_schema["keys"]["block_cons_power_after"]["java_expr"], "block.consPower = this;")
+        self.assertEqual(consumer_schema_shard["schemas"]["source_consume_power_apply_input"]["canonical_schema"], "source_state_schema.source_consume_power_apply_input")
+        self.assertEqual(consumer_schema_shard["schemas"]["source_consume_power_apply_result"]["canonical_schema"], "source_state_schema.source_consume_power_apply_result")
+        self.assertEqual(consumer_symbol_shard["symbols"]["consume_power_apply.cons_power_assignment"]["canonical_symbol"], "source_symbol_registry.consume_power_apply.cons_power_assignment")
+
     def test_generated_consume_power_efficiency_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -29554,10 +29622,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 998)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 991)
+        self.assertEqual(audit["totalSourceFunctions"], 999)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 992)
         self.assertEqual(audit["exemptSourceOwnerCount"], 7)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 998)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 999)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -29566,6 +29634,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_manifest_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_manifest_file_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_consume_apply_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_power_apply_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_flammable_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_flammable_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_efficiency_default_constructor_state", audit["registeredSourceOwners"])

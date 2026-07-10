@@ -290,6 +290,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePower.requestedPower"', source)
         self.assertIn('"matches": result.get("requested_power", null) == canonical.get("requested_power", null)', source)
 
+    def test_port_game_exposes_generated_consume_power_apply_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_apply_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_apply_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePower.java"', source)
+        self.assertIn('"block_source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void apply(Block block){"', source)
+        self.assertIn('"has_power_assignment_expr": "block.hasPower = true;"', source)
+        self.assertIn('"cons_power_assignment_expr": "block.consPower = this;"', source)
+        self.assertIn('"block_has_power_after": true', source)
+        self.assertIn('"block_cons_power_after": consume_power_state', source)
+        self.assertIn("func generated_consume_power_apply_bridge_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")', source)
+        self.assertIn("var result = instance.java_method_apply_0([block_has_power_before, block_cons_power_before, consume_power_state])", source)
+        self.assertIn("var canonical = source_consume_power_apply_state(block_has_power_before, block_cons_power_before, consume_power_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_apply_state"', source)
+        self.assertIn('"generated_owner": "ConsumePower.apply"', source)
+        self.assertIn('"matches": result.get("block_has_power_after", null) == canonical.get("block_has_power_after", null) and result.get("block_cons_power_after", null) == canonical.get("block_cons_power_after", null)', source)
+
     def test_port_game_exposes_generated_consume_power_ignore_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

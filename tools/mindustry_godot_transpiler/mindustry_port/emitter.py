@@ -1331,6 +1331,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
         and type_entry.get("name") == "ConsumePower"
+        and method.get("name") == "apply"
+    ):
+        return [
+            "\tvar block_has_power_before: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_cons_power_before: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar consume_power_state: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar block_has_power_after: bool = true",
+            "\tvar block_cons_power_after: Variant = consume_power_state",
+            '\treturn {"source_owner": "PortGame.source_consume_power_apply_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "block_source": "core/src/mindustry/world/Block.java", "method": "public void apply(Block block){", "block_has_power_field_expr": "public @NoPatch boolean hasPower;", "block_cons_power_field_expr": "public @Nullable ConsumePower consPower;", "has_power_assignment_expr": "block.hasPower = true;", "cons_power_assignment_expr": "block.consPower = this;", "block_has_power_before": block_has_power_before, "block_cons_power_before": block_cons_power_before, "consume_power_state": consume_power_state, "block_has_power_after": block_has_power_after, "block_cons_power_after": block_cons_power_after}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
         and method.get("name") == "ignore"
     ):
         return [

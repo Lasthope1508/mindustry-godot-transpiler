@@ -800,6 +800,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_power_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_power_apply_source"))
+        report = source_parity.verify_consume_power_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "apply_method": "public void apply(Block block){",
+            "has_power_assignment": "block.hasPower = true;",
+            "cons_power_assignment": "block.consPower = this;",
+            "has_power_field": "public @NoPatch boolean hasPower;",
+            "cons_power_field": "public @Nullable ConsumePower consPower;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_power_efficiency_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_power_efficiency_source"))
         report = source_parity.verify_consume_power_efficiency_source(ROOT / "mindustry-upstream")

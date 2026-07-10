@@ -3998,6 +3998,34 @@ def verify_consume_power_ignore_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_power_apply_source(upstream_root: Path) -> dict[str, Any]:
+    block_source = "core/src/mindustry/world/Block.java"
+    consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
+    block_path = Path(upstream_root) / block_source
+    consume_source_text = consume_power_path.read_text(encoding="utf-8", errors="replace")
+    block_source_text = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "apply_method": "public void apply(Block block){",
+        "has_power_assignment": "block.hasPower = true;",
+        "cons_power_assignment": "block.consPower = this;",
+        "has_power_field": "public @NoPatch boolean hasPower;",
+        "cons_power_field": "public @Nullable ConsumePower consPower;",
+    }
+    source_by_key = {
+        "apply_method": consume_source_text,
+        "has_power_assignment": consume_source_text,
+        "cons_power_assignment": consume_source_text,
+        "has_power_field": block_source_text,
+        "cons_power_field": block_source_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": CONSUME_POWER_SOURCE,
+        "sources": [CONSUME_POWER_SOURCE, block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_power_efficiency_source(upstream_root: Path) -> dict[str, Any]:
     consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
     source = consume_power_path.read_text(encoding="utf-8", errors="replace")

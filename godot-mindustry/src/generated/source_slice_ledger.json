@@ -39018,6 +39018,42 @@
         "Concrete Block filter mutation is absent from this base empty method."
       ],
       "rule": "Generated bridge records Consume.apply(Block) empty base implementation without inventing Block mutation."
+    },
+    "N1585": {
+      "title": "Generated ConsumePower apply bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_class": "ConsumePower",
+      "java_method": "apply(Block block)",
+      "generated_owner": "ConsumePower.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_power_apply_state",
+      "runtime_proof": "/root/Main.generated_consume_power_apply_bridge_state",
+      "exact_exprs": [
+        "public void apply(Block block){",
+        "block.hasPower = true;",
+        "block.consPower = this;",
+        "public @NoPatch boolean hasPower;",
+        "public @Nullable ConsumePower consPower;"
+      ],
+      "source_symbols": [
+        "consume_power_apply.has_power_assignment",
+        "consume_power_apply.cons_power_assignment",
+        "consume_power_apply.has_power_field",
+        "consume_power_apply.cons_power_field",
+        "consume_power_apply.block_has_power_input",
+        "consume_power_apply.block_cons_power_input",
+        "consume_power_apply.consume_power_state_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_power_apply_bridge_state",
+        "test_consume_power_apply_matches_upstream_source",
+        "test_generated_consume_power_apply_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete Block object mutation remains deferred; this slice records canonical before/after state only."
+      ],
+      "rule": "Generated bridge records ConsumePower.apply(Block) power field assignments without inventing live Block object mutation."
     }
   },
   "version": 1
