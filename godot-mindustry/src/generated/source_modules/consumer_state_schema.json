@@ -13245,6 +13245,70 @@
           "rule": "Canonical item/multiplier entries from source put calls."
         }
       }
+    },
+    "source_consume_liquid_base_abstract_consumes_input": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_base_abstract_consumes_input",
+      "keys": {
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "Liquid liquid",
+          "rule": "Explicit Liquid parameter for abstract consumes(Liquid)."
+        }
+      }
+    },
+    "source_consume_liquid_base_abstract_consumes_result": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_base_abstract_consumes_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "rule": "Exact upstream source path."
+        },
+        "class_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract class ConsumeLiquidBase extends Consume{",
+          "rule": "Exact abstract class boundary."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "Exact abstract method declaration."
+        },
+        "abstract_method": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "True because source method has abstract modifier and no body."
+        },
+        "implemented_in_subclass": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "public abstract boolean consumes(Liquid liquid);",
+          "rule": "False for base declaration; subclass implementation is separate source-backed slice."
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "alias_of": "source_consume_liquid_base_abstract_consumes_input.liquid",
+          "rule": "Returned input echo uses canonical input schema."
+        }
+      }
     }
   }
 }

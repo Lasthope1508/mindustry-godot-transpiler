@@ -2218,6 +2218,26 @@
         "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_item_list_set_multipliers_bridge_state"
+    },
+    "N1549": {
+      "canonical_ledger": "source_slice_ledger.N1549",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "consumes(Liquid liquid)",
+      "godot_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+      "generated_owner": "ConsumeLiquidBase.java_method_consumes_1",
+      "source_symbols": [
+        "consume_liquid_base_abstract_consumes.method",
+        "consume_liquid_base_abstract_consumes.liquid",
+        "consume_liquid_base_abstract_consumes.abstract_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquid_base_abstract_consumes_bridge_state"
     }
   }
 }

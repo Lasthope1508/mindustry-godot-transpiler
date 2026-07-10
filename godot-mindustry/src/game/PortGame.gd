@@ -3986,6 +3986,30 @@ func generated_consume_liquid_base_apply_bridge_state(block_has_liquids_before: 
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
 	}
 
+func source_consume_liquid_base_abstract_consumes_state(liquid: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+		"class_expr": "public abstract class ConsumeLiquidBase extends Consume{",
+		"method": "public abstract boolean consumes(Liquid liquid);",
+		"abstract_method": true,
+		"implemented_in_subclass": false,
+		"liquid": liquid,
+	}
+
+func generated_consume_liquid_base_abstract_consumes_bridge_state(liquid: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidBase.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumes_1([liquid])
+	var canonical = source_consume_liquid_base_abstract_consumes_state(liquid)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+		"generated_owner": "ConsumeLiquidBase.consumes",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("abstract_method", null) == canonical.get("abstract_method", null) and result.get("liquid", null) == canonical.get("liquid", null),
+	}
+
 func source_consume_liquid_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:
 	var base_apply_state := source_consume_liquid_base_apply_state(block_has_liquids_before)
 	var liquid_filter_after := liquid_filter_before.duplicate()

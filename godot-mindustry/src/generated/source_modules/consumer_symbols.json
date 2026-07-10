@@ -12493,6 +12493,57 @@
         "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
+    },
+    "consume_liquid_base_abstract_consumes.method": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_base_abstract_consumes.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "consumes(Liquid liquid)",
+      "java_expr": "public abstract boolean consumes(Liquid liquid);",
+      "godot_symbol": "source_consume_liquid_base_abstract_consumes_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+      "rule": "Exact abstract consumes method declaration on ConsumeLiquidBase.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state"
+    },
+    "consume_liquid_base_abstract_consumes.liquid": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_base_abstract_consumes.liquid",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "consumes(Liquid liquid)",
+      "java_expr": "Liquid liquid",
+      "godot_symbol": "source_consume_liquid_base_abstract_consumes_input.liquid",
+      "godot_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+      "rule": "Explicit Liquid parameter for abstract consumes declaration.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state"
+    },
+    "consume_liquid_base_abstract_consumes.abstract_method": {
+      "canonical_symbol": "source_symbol_registry.consume_liquid_base_abstract_consumes.abstract_method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "consumes(Liquid liquid)",
+      "java_expr": "public abstract boolean consumes(Liquid liquid);",
+      "godot_symbol": "source_consume_liquid_base_abstract_consumes_result.abstract_method",
+      "godot_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+      "rule": "Consumes is abstract in base class; concrete return is deferred to subclasses.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state"
     }
   }
 }

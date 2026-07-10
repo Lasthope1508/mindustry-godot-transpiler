@@ -5552,6 +5552,22 @@ def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+
+def verify_consume_liquid_base_abstract_consumes_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    source = (Path(upstream_root) / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public abstract class ConsumeLiquidBase extends Consume{",
+        "method": "public abstract boolean consumes(Liquid liquid);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_base_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_consume_liquid_base_constructor_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     source = (Path(upstream_root) / consume_liquid_base_source).read_text(encoding="utf-8", errors="replace")

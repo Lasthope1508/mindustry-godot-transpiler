@@ -1341,6 +1341,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidBase.apply"', source)
         self.assertIn('"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_base_abstract_consumes_state(liquid: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"', source)
+        self.assertIn('"class_expr": "public abstract class ConsumeLiquidBase extends Consume{"', source)
+        self.assertIn('"method": "public abstract boolean consumes(Liquid liquid);"', source)
+        self.assertIn('"abstract_method": true', source)
+        self.assertIn('"implemented_in_subclass": false', source)
+        self.assertIn('"liquid": liquid', source)
+        self.assertIn("func generated_consume_liquid_base_abstract_consumes_bridge_state(liquid: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_consumes_1([liquid])", source)
+        self.assertIn("var canonical = source_consume_liquid_base_abstract_consumes_state(liquid)", source)
+        self.assertIn('"generated_owner": "ConsumeLiquidBase.consumes"', source)
+        self.assertIn('"matches": result.get("abstract_method", null) == canonical.get("abstract_method", null) and result.get("liquid", null) == canonical.get("liquid", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

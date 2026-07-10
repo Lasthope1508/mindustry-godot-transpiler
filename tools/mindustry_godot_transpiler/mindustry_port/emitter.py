@@ -1916,6 +1916,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquid_base_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
+        and type_entry.get("name") == "ConsumeLiquidBase"
+        and method.get("name") == "consumes"
+    ):
+        return [
+            "\tvar liquid: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java", "class_expr": "public abstract class ConsumeLiquidBase extends Consume{", "method": "public abstract boolean consumes(Liquid liquid);", "abstract_method": true, "implemented_in_subclass": false, "liquid": liquid}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
         and type_entry.get("name") == "ConsumeLiquid"
         and method.get("name") == "apply"

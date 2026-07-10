@@ -42468,6 +42468,38 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state",
       "rule": "Public source helper exposes ConsumeItemList.setMultipliers(Object...) pair loop state."
+    },
+    "PortGame.source_consume_liquid_base_abstract_consumes_state": {
+      "status": "source-backed",
+      "source_slice": "N1549",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "source_method": "consumes(Liquid liquid)",
+      "params": [
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_base_abstract_consumes_input.liquid",
+          "java_expr": "Liquid liquid",
+          "source_symbol": "consume_liquid_base_abstract_consumes.liquid"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "method",
+        "abstract_method",
+        "implemented_in_subclass",
+        "liquid"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_abstract_consumes_state",
+      "rule": "Public source helper exposes only the abstract ConsumeLiquidBase.consumes(Liquid) contract boundary."
     }
   },
   "policy": {

@@ -38667,6 +38667,35 @@
         "Concrete ObjectFloatMap storage remains represented by ordered put_calls and item_multiplier_entries from explicit Object... objects input."
       ],
       "rule": "Generated bridge models exact ConsumeItemList.setMultipliers Object... pair loop into ObjectFloatMap put calls."
+    },
+    "N1549": {
+      "title": "Generated ConsumeLiquidBase abstract consumes bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_class": "ConsumeLiquidBase",
+      "java_method": "consumes(Liquid liquid)",
+      "generated_owner": "ConsumeLiquidBase.java_method_consumes_1",
+      "godot_owner": "PortGame.source_consume_liquid_base_abstract_consumes_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_base_abstract_consumes_bridge_state",
+      "exact_exprs": [
+        "public abstract class ConsumeLiquidBase extends Consume{",
+        "public abstract boolean consumes(Liquid liquid);"
+      ],
+      "source_symbols": [
+        "consume_liquid_base_abstract_consumes.method",
+        "consume_liquid_base_abstract_consumes.liquid",
+        "consume_liquid_base_abstract_consumes.abstract_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_abstract_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_abstract_consumes_bridge_state",
+        "test_consume_liquid_base_abstract_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_base_abstract_consumes_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete consumes(Liquid) behavior remains implemented by subclasses such as ConsumeLiquidFilter and ConsumeLiquid; base class only declares the abstract contract."
+      ],
+      "rule": "Generated bridge records ConsumeLiquidBase abstract consumes(Liquid) declaration without inventing subclass liquid-consumption behavior."
     }
   },
   "version": 1
