@@ -52059,6 +52059,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_add_build_tail_result["keys"]["add_build_called"]["java_expr"], "addBuild(place, true);")
 
     def test_generated_builder_comp_add_build_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -52094,6 +52097,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(add_build_slice["java_method"], "addBuild(BuildPlan place, boolean tail)")
         self.assertEqual(add_build_slice["godot_owner"], "PortGame.source_builder_add_build_state")
         self.assertEqual(add_build_slice["runtime_proof"], "/root/Main.generated_builder_comp_add_build_bridge_state")
+        self.assertEqual(add_build_slice["status"], "done")
         for expr in [
             "/** Add another build plans to the queue, if it doesn't exist there yet. */",
             "void addBuild(BuildPlan place, boolean tail){",
@@ -52108,6 +52112,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             "plans.addFirst(place);",
         ]:
             self.assertIn(expr, add_build_slice["exact_exprs"])
+
+        comp_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]["N1152"]
+        source_slice = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]["N1152"]
+        self.assertEqual(comp_slice["status"], "done")
+        self.assertEqual(source_slice["status"], "done")
+        self.assertEqual(source_slice["slice"]["status"], "done")
 
         contract = source_symbols.api_contract(contracts, "PortGame.source_builder_add_build_state")
         self.assertEqual(contract["params"], [

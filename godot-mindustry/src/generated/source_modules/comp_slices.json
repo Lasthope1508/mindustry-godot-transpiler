@@ -4624,7 +4624,7 @@
         "builder_add_build.plans_after",
         "builder_add_build.place_after"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_builder_comp_add_build_to_source_state",
         "test_port_game_exposes_source_builder_add_build_state",
