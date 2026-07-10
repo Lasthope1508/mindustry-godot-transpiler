@@ -1966,6 +1966,32 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquids_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void update(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "loop_expr": "for(var stack : liquids){", "remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+        and type_entry.get("name") == "ConsumeLiquids"
+        and method.get("name") == "efficiency"
+    ):
+        return [
+            "\tvar liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar liquid_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar build_efficiency_scale: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\tvar multiplier_get_build: float = float(_args[5] if _args.size() > 5 else 1.0)",
+            "\tvar ed: float = build_edelta * build_efficiency_scale",
+            "\tif ed <= 0.00000001:",
+            '\t\treturn {"source_owner": "PortGame.source_consume_liquids_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public float efficiency(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquids_field": "public final LiquidStack[] liquids;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "building_liquids_field": "@Nullable LiquidModule liquids;", "building_edelta_method": "public float edelta(){", "building_efficiency_scale_method": "public float efficiencyScale(){", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(var stack : liquids){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)", "return_expr": "return min;", "per_stack_efficiencies": [], "efficiency": 0.0}',
+            "\tvar min_efficiency: float = 1.0",
+            "\tvar per_stack_efficiencies: Array = []",
+            "\tfor index in liquid_ids.size():",
+            "\t\tvar stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)",
+            "\t\tvar liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
+            "\t\tvar denominator: float = stack_amount * ed * multiplier_get_build",
+            "\t\tvar stack_efficiency: float = liquid_amount / denominator",
+            "\t\tmin_efficiency = min(stack_efficiency, min_efficiency)",
+            '\t\tper_stack_efficiencies.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "stack_amount": stack_amount, "denominator": denominator, "efficiency": stack_efficiency})',
+            '\treturn {"source_owner": "PortGame.source_consume_liquids_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public float efficiency(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquids_field": "public final LiquidStack[] liquids;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "building_liquids_field": "@Nullable LiquidModule liquids;", "building_edelta_method": "public float edelta(){", "building_efficiency_scale_method": "public float efficiencyScale(){", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(var stack : liquids){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)", "return_expr": "return min;", "per_stack_efficiencies": per_stack_efficiencies, "efficiency": min_efficiency}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "apply"

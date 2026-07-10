@@ -19540,6 +19540,65 @@ public class ConsumeLiquids extends Consume{
             self.assertIn('"remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);"', source_text)
             self.assertIn('"remove_calls": remove_calls', source_text)
 
+    def test_emit_bridges_consume_liquids_efficiency_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+
+public class ConsumeLiquids extends Consume{
+    public final LiquidStack[] liquids;
+
+    @Override
+    public float efficiency(Building build){
+        float mult = multiplier.get(build);
+        float ed = build.edelta() * build.efficiencyScale();
+        if(ed <= 0.00000001f) return 0f;
+        float min = 1f;
+        for(var stack : liquids){
+            min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min);
+        }
+        return min;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var liquid_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var build_efficiency_scale: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[5] if _args.size() > 5 else 1.0)", source_text)
+            self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source_text)
+            self.assertIn("if ed <= 0.00000001:", source_text)
+            self.assertIn("var min_efficiency: float = 1.0", source_text)
+            self.assertIn("var denominator: float = stack_amount * ed * multiplier_get_build", source_text)
+            self.assertIn("var stack_efficiency: float = liquid_amount / denominator", source_text)
+            self.assertIn("min_efficiency = min(stack_efficiency, min_efficiency)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_efficiency_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
+            self.assertIn('"method": "public float efficiency(Building build){"', source_text)
+            self.assertIn('"multiplier_expr": "float mult = multiplier.get(build);"', source_text)
+            self.assertIn('"ed_expr": "float ed = build.edelta() * build.efficiencyScale();"', source_text)
+            self.assertIn('"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;"', source_text)
+            self.assertIn('"loop_expr": "for(var stack : liquids){"', source_text)
+            self.assertIn('"efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)"', source_text)
+            self.assertIn('"efficiency": min_efficiency', source_text)
+
     def test_emit_bridges_consume_liquids_dynamic_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

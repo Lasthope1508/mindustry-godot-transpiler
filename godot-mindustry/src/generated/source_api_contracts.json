@@ -41908,6 +41908,86 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_update_state",
       "rule": "Source-backed ConsumeLiquids.update state bridge; parameters are explicit inputs for Java stack/build fields until concrete object binding is ported."
+    },
+    "PortGame.source_consume_liquids_efficiency_state": {
+      "status": "active",
+      "source_slice": "N1536",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "efficiency(Building build)",
+      "params": [
+        {
+          "name": "liquid_ids",
+          "type": "Array",
+          "schema": "source_consume_liquids_efficiency_input.liquid_ids",
+          "java_expr": "stack.liquid.id"
+        },
+        {
+          "name": "liquid_stack_amounts",
+          "type": "Array",
+          "schema": "source_consume_liquids_efficiency_input.liquid_stack_amounts",
+          "java_expr": "stack.amount"
+        },
+        {
+          "name": "liquid_amounts",
+          "type": "Array",
+          "schema": "source_consume_liquids_efficiency_input.liquid_amounts",
+          "java_expr": "build.liquids.get(stack.liquid)"
+        },
+        {
+          "name": "build_edelta",
+          "type": "float",
+          "schema": "source_consume_liquids_efficiency_input.build_edelta",
+          "java_expr": "build.edelta()"
+        },
+        {
+          "name": "build_efficiency_scale",
+          "type": "float",
+          "schema": "source_consume_liquids_efficiency_input.build_efficiency_scale",
+          "java_expr": "build.efficiencyScale()"
+        },
+        {
+          "name": "multiplier_get_build",
+          "type": "float",
+          "schema": "source_consume_liquids_efficiency_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "multiplier_expr",
+        "ed_expr",
+        "ed_guard_expr",
+        "liquids_field",
+        "multiplier_field",
+        "liquid_stack_liquid_field",
+        "liquid_stack_amount_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "building_efficiency_scale_method",
+        "liquid_ids",
+        "liquid_stack_amounts",
+        "liquid_amounts",
+        "build_edelta",
+        "build_efficiency_scale",
+        "multiplier_get_build",
+        "ed",
+        "min_initial_expr",
+        "loop_expr",
+        "efficiency_expr",
+        "return_expr",
+        "per_stack_efficiencies",
+        "efficiency"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_efficiency_bridge_state",
+        "test_consume_liquids_efficiency_matches_upstream_source",
+        "test_generated_consume_liquids_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_efficiency_state",
+      "rule": "Public runtime contract for ConsumeLiquids.efficiency(Building) edelta*efficiencyScale guard and per-stack minimum formula."
     }
   },
   "policy": {

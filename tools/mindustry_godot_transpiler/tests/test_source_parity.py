@@ -1784,6 +1784,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_efficiency_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_efficiency_source"))
+        report = source_parity.verify_consume_liquids_efficiency_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final LiquidStack[] liquids;",
+            "method": "public float efficiency(Building build){",
+            "multiplier_expr": "float mult = multiplier.get(build);",
+            "ed_expr": "float ed = build.edelta() * build.efficiencyScale();",
+            "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+            "min_initial_expr": "float min = 1f;",
+            "loop_expr": "for(var stack : liquids){",
+            "efficiency_expr": "min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min);",
+            "return_expr": "return min;",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+            "liquid_stack_amount_field": "public float amount;",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "building_edelta_method": "public float edelta(){",
+            "building_efficiency_scale_method": "public float efficiencyScale(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquids_dynamic_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_apply_source"))
         report = source_parity.verify_consume_liquids_dynamic_apply_source(ROOT / "mindustry-upstream")
