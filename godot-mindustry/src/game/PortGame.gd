@@ -209,6 +209,9 @@ func content_registry_state() -> Dictionary:
 func content_registry_item_state(item_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("content_registry_items", item_id)
 
+func content_registry_liquid_state(liquid_id: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("content_registry_liquids", liquid_id)
+
 func emitted_classes_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
 

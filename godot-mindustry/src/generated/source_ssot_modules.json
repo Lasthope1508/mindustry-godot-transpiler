@@ -1405,6 +1405,26 @@
         "texture"
       ]
     },
+    "content_registry_liquids": {
+      "path": "src/generated/source_modules/content_registry_liquids.json",
+      "root_key": "liquids",
+      "label": "id",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json liquids; canonical liquid metadata remains mirrored from content_registry.liquids before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "liquids",
+      "canonical_key_field": "id",
+      "canonical_reference_key": "canonical_liquid",
+      "canonical_reference_prefix": "content_registry.liquids.",
+      "mirror_fields": [
+        "color",
+        "field",
+        "id",
+        "implementation",
+        "properties",
+        "texture"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",

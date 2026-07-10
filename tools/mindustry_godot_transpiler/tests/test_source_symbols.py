@@ -615,6 +615,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(item_report["canonical_mirror"]["checked"], len(item_files))
 
+    def test_source_ssot_content_registry_liquids_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        liquid_entry = manifest["modules"]["content_registry_liquids"]
+
+        self.assertEqual(liquid_entry["canonical_module"], "content_registry")
+        self.assertEqual(liquid_entry["canonical_collection_key"], "liquids")
+        self.assertEqual(liquid_entry["canonical_key_field"], "id")
+        self.assertEqual(liquid_entry["canonical_reference_key"], "canonical_liquid")
+        self.assertEqual(liquid_entry["canonical_reference_prefix"], "content_registry.liquids.")
+        self.assertEqual(liquid_entry["root_key"], "liquids")
+        self.assertEqual(liquid_entry["mirror_fields"], ["color", "field", "id", "implementation", "properties", "texture"])
+        self.assertIn("content_registry.json liquids", liquid_entry["rule"])
+
+        liquid_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry_liquids")["liquids"]
+        canonical_registry = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry")
+        canonical_liquids = {entry["id"]: entry for entry in canonical_registry["liquids"]}
+
+        self.assertEqual(set(liquid_files), set(canonical_liquids))
+        self.assertEqual(len(liquid_files), canonical_registry["counts"]["liquids"])
+        self.assertIn("water", liquid_files)
+        self.assertIn("cyanogen", liquid_files)
+        for liquid_id, canonical_entry in sorted(canonical_liquids.items()):
+            with self.subTest(liquid_id=liquid_id):
+                self.assertEqual(liquid_files[liquid_id]["canonical_liquid"], f"content_registry.liquids.{liquid_id}")
+                for field in liquid_entry["mirror_fields"]:
+                    self.assertEqual(liquid_files[liquid_id][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        liquid_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_liquids"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(liquid_report["canonical_mirror"]["checked"], len(liquid_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 
