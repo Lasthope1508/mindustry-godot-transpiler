@@ -180,38 +180,10 @@ func ssot_modules_state(module_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.ssot_modules_state(module_name)
 
 func asset_manifest_state() -> Dictionary:
-	var document := SourceSsotCatalog.load_document("asset_manifest")
-	if not bool(document.get("loaded", false)):
-		return {"loaded": false, "asset_count": 0, "total_bytes": 0, "first_asset": {}}
-	var parsed: Dictionary = document.get("data", {})
-	var assets_value = parsed.get("assets", [])
-	var assets: Array = assets_value if typeof(assets_value) == TYPE_ARRAY else []
-	var first_asset: Dictionary = {}
-	if not assets.is_empty() and typeof(assets[0]) == TYPE_DICTIONARY:
-		first_asset = assets[0]
-	return {
-		"loaded": true,
-		"asset_count": int(parsed.get("asset_count", 0)),
-		"total_bytes": int(parsed.get("total_bytes", 0)),
-		"first_asset": first_asset,
-	}
+	return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")
 
 func source_manifest_state() -> Dictionary:
-	var document := SourceSsotCatalog.load_document("source_manifest")
-	if not bool(document.get("loaded", false)):
-		return {"loaded": false, "java_file_count": 0, "source_root": "", "first_file": {}}
-	var parsed: Dictionary = document.get("data", {})
-	var files_value = parsed.get("files", [])
-	var files: Array = files_value if typeof(files_value) == TYPE_ARRAY else []
-	var first_file: Dictionary = {}
-	if not files.is_empty() and typeof(files[0]) == TYPE_DICTIONARY:
-		first_file = files[0]
-	return {
-		"loaded": true,
-		"java_file_count": int(parsed.get("java_file_count", 0)),
-		"source_root": str(parsed.get("source_root", "")),
-		"first_file": first_file,
-	}
+	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
 
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()

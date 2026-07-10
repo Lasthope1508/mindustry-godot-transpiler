@@ -105,6 +105,30 @@ static func load_document(module_name: String) -> Dictionary:
 		return {"loaded": false, "module": module_name, "data": {}}
 	return {"loaded": true, "module": module_name, "data": parsed}
 
+static func manifest_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_key: String, first_key: String) -> Dictionary:
+	var document := load_document(module_name)
+	var result := {"loaded": false}
+	for field in int_fields:
+		result[str(field)] = 0
+	for field in string_fields:
+		result[str(field)] = ""
+	result[first_key] = {}
+	if not bool(document.get("loaded", false)):
+		return result
+	var parsed: Dictionary = document.get("data", {})
+	result["loaded"] = true
+	for field in int_fields:
+		result[str(field)] = int(parsed.get(str(field), 0))
+	for field in string_fields:
+		result[str(field)] = str(parsed.get(str(field), ""))
+	var entries_value = parsed.get(array_key, [])
+	var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
+	var first_entry: Dictionary = {}
+	if not entries.is_empty() and typeof(entries[0]) == TYPE_DICTIONARY:
+		first_entry = entries[0]
+	result[first_key] = first_entry
+	return result
+
 static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:
 	var metadata := module_metadata(module_name)
 	var label := str(metadata.get("label", "key"))

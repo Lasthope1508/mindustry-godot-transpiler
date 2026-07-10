@@ -12793,10 +12793,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"asset_manifest": {', catalog_source)
         self.assertIn('"path": "res://src/generated/asset_manifest.json"', catalog_source)
         self.assertIn("func asset_manifest_state() -> Dictionary:", source)
-        self.assertIn('var document := SourceSsotCatalog.load_document("asset_manifest")', source)
-        self.assertIn('"asset_count": int(parsed.get("asset_count", 0))', source)
-        self.assertIn('"total_bytes": int(parsed.get("total_bytes", 0))', source)
-        self.assertIn('"first_asset": first_asset', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")', source)
+        self.assertIn('static func manifest_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_key: String, first_key: String) -> Dictionary:', catalog_source)
+        self.assertIn('result[str(field)] = int(parsed.get(str(field), 0))', catalog_source)
+        self.assertIn('result[first_key] = first_entry', catalog_source)
         self.assertNotIn("ASSET_MANIFEST_PATH", source)
 
     def test_port_game_exposes_source_manifest_through_ssot_catalog(self):
@@ -12808,10 +12808,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_manifest": {', catalog_source)
         self.assertIn('"path": "res://src/generated/source_manifest.json"', catalog_source)
         self.assertIn("func source_manifest_state() -> Dictionary:", source)
-        self.assertIn('var document := SourceSsotCatalog.load_document("source_manifest")', source)
-        self.assertIn('"java_file_count": int(parsed.get("java_file_count", 0))', source)
-        self.assertIn('"source_root": str(parsed.get("source_root", ""))', source)
-        self.assertIn('"first_file": first_file', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")', source)
+        self.assertIn('static func manifest_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_key: String, first_key: String) -> Dictionary:', catalog_source)
+        self.assertIn('result[str(field)] = int(parsed.get(str(field), 0))', catalog_source)
+        self.assertIn('result[str(field)] = str(parsed.get(str(field), ""))', catalog_source)
+        self.assertIn('result[first_key] = first_entry', catalog_source)
         self.assertNotIn("SOURCE_MANIFEST_PATH", source)
 
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
