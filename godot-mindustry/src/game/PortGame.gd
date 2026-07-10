@@ -3817,6 +3817,30 @@ func generated_consume_liquid_filter_consumes_bridge_state(filter_get_liquid: bo
 		"matches": result.get("consumes_liquid", null) == canonical.get("consumes_liquid", null),
 	}
 
+func source_consume_liquid_base_constructor_state(amount: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_base_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+		"constructor": "public ConsumeLiquidBase(float amount){",
+		"amount_field": "public float amount;",
+		"assignment_expr": "this.amount = amount;",
+		"amount": amount,
+		"amount_after": amount,
+	}
+
+func generated_consume_liquid_base_constructor_bridge_state(amount: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidBase.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquidBase_0([amount])
+	var canonical = source_consume_liquid_base_constructor_state(amount)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_base_constructor_state",
+		"generated_owner": "ConsumeLiquidBase.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("amount_after", null) == canonical.get("amount_after", null),
+	}
+
 func source_consume_liquid_base_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"method": "public void apply(Block block){",

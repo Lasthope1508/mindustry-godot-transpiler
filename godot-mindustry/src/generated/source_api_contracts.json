@@ -42105,6 +42105,37 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state",
       "rule": "Source state mirrors ConsumeLiquids protected default constructor delegation to LiquidStack.empty."
+    },
+    "PortGame.source_consume_liquid_base_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1540",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "source_method": "ConsumeLiquidBase(float amount)",
+      "params": [
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_base_constructor_input.amount",
+          "java_expr": "float amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "amount_field",
+        "assignment_expr",
+        "amount",
+        "amount_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state",
+      "rule": "Public runtime contract for ConsumeLiquidBase(float amount) constructor field assignment."
     }
   },
   "policy": {

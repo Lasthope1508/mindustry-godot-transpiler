@@ -38325,6 +38325,34 @@
         "test_consume_liquids_default_constructor_matches_upstream_source",
         "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1540": {
+      "title": "Generated ConsumeLiquidBase constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquidBase",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "generated_owner": "ConsumeLiquidBase.java_constructor_ConsumeLiquidBase_0",
+      "godot_owner": "PortGame.source_consume_liquid_base_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_base_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeLiquidBase(float amount) constructor assignment without inventing live object state.",
+      "exact_exprs": [
+        "public float amount;",
+        "public ConsumeLiquidBase(float amount){",
+        "this.amount = amount;"
+      ],
+      "source_symbols": [
+        "consume_liquid_base_constructor.amount_field",
+        "consume_liquid_base_constructor.constructor",
+        "consume_liquid_base_constructor.assignment",
+        "consume_liquid_base_constructor.amount_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

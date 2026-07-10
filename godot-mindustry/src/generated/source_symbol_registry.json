@@ -128075,6 +128075,74 @@
         "test_generated_consume_liquids_default_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquids_default_constructor_state"
+    },
+    "consume_liquid_base_constructor.amount_field": {
+      "status": "source-backed",
+      "source_slice": "N1540",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "public float amount;",
+      "godot_symbol": "source_consume_liquid_base_constructor_result.amount_field",
+      "godot_owner": "PortGame.source_consume_liquid_base_constructor_state",
+      "rule": "Canonical ConsumeLiquidBase amount field assigned by constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state"
+    },
+    "consume_liquid_base_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1540",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "public ConsumeLiquidBase(float amount){",
+      "godot_symbol": "source_consume_liquid_base_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquid_base_constructor_state",
+      "rule": "Canonical public ConsumeLiquidBase amount constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state"
+    },
+    "consume_liquid_base_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1540",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_base_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_base_constructor_state",
+      "rule": "ConsumeLiquidBase constructor assigns amount field from amount parameter.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state"
+    },
+    "consume_liquid_base_constructor.amount_input": {
+      "status": "explicit-input",
+      "source_slice": "N1540",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "float amount",
+      "godot_symbol": "source_consume_liquid_base_constructor_input.amount",
+      "godot_owner": "PortGame.source_consume_liquid_base_constructor_state",
+      "rule": "Explicit constructor amount parameter supplied until live object construction is wired.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_constructor_bridge_state",
+        "test_consume_liquid_base_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_base_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_base_constructor_state"
     }
   },
   "version": 1
