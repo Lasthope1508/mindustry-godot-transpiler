@@ -16,7 +16,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
-        self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content"])
+        self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest"])
         self.assertEqual(source_ssot.extension_manifest_relative_path().as_posix(), "src/generated/source_ssot_modules.json")
         self.assertEqual(source_ssot.relative_path("registry").as_posix(), "src/generated/source_symbol_registry.json")
         self.assertEqual(source_ssot.relative_path("audit_report").as_posix(), "src/generated/source_symbol_audit_report.json")
@@ -24,13 +24,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.relative_path("api_contracts").as_posix(), "src/generated/source_api_contracts.json")
         self.assertEqual(source_ssot.relative_path("state_schema").as_posix(), "src/generated/source_state_schema.json")
         self.assertEqual(source_ssot.relative_path("playable_content").as_posix(), "src/generated/playable_content.json")
+        self.assertEqual(source_ssot.relative_path("asset_manifest").as_posix(), "src/generated/asset_manifest.json")
         self.assertEqual(source_ssot.root_key("registry"), "symbols")
         self.assertEqual(source_ssot.root_key("slice_ledger"), "slices")
         self.assertEqual(source_ssot.root_key("playable_content"), "")
+        self.assertEqual(source_ssot.root_key("asset_manifest"), "")
         self.assertEqual(source_ssot.runtime_label("state_schema"), "schemaName")
         self.assertEqual(source_ssot.runtime_label("playable_content"), "")
+        self.assertEqual(source_ssot.runtime_label("asset_manifest"), "")
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "registry")["version"], 1)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "playable_content")["tile_size"], 32)
+        self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "asset_manifest")["asset_count"], 2970)
         self.assertIn("consumer_slices", source_ssot.registered_module_names(ROOT / "godot-mindustry"))
 
     def test_source_ssot_catalog_loads_and_writes_modules_by_name(self):

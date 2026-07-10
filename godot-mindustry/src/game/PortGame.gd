@@ -179,6 +179,23 @@ func source_state_schema_state(schema_name: String = "") -> Dictionary:
 func ssot_modules_state(module_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.ssot_modules_state(module_name)
 
+func asset_manifest_state() -> Dictionary:
+	var document := SourceSsotCatalog.load_document("asset_manifest")
+	if not bool(document.get("loaded", false)):
+		return {"loaded": false, "asset_count": 0, "total_bytes": 0, "first_asset": {}}
+	var parsed: Dictionary = document.get("data", {})
+	var assets_value = parsed.get("assets", [])
+	var assets: Array = assets_value if typeof(assets_value) == TYPE_ARRAY else []
+	var first_asset: Dictionary = {}
+	if not assets.is_empty() and typeof(assets[0]) == TYPE_DICTIONARY:
+		first_asset = assets[0]
+	return {
+		"loaded": true,
+		"asset_count": int(parsed.get("asset_count", 0)),
+		"total_bytes": int(parsed.get("total_bytes", 0)),
+		"first_asset": first_asset,
+	}
+
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()
