@@ -299,7 +299,10 @@ def _validate_extension_canonical_array_mirror(
         return report
     canonical_values: dict[str, Any] = {}
     if isinstance(canonical_values_raw, dict):
-        canonical_values = {str(key): value for key, value in canonical_values_raw.items()}
+        if entry.canonical_key_field and entry.canonical_key_field in canonical_values_raw:
+            canonical_values = {str(canonical_values_raw[entry.canonical_key_field]): canonical_values_raw}
+        else:
+            canonical_values = {str(key): value for key, value in canonical_values_raw.items()}
     elif isinstance(canonical_values_raw, list):
         for index, value in enumerate(canonical_values_raw):
             if entry.canonical_key_field == "@index":

@@ -328,6 +328,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn("playable_content_blocks.conveyor: mirror field source differs from playable_content.blocks.conveyor", report["errors"])
             self.assertIn("playable_content_blocks.conveyor: mirror field block differs from playable_content.blocks.conveyor", report["errors"])
 
+    def test_source_ssot_catalog_validates_singleton_dict_collection_value_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "playable_content", {
+                "tile_size": 32,
+                "item": {
+                    "id": "copper",
+                    "source": "core/assets-raw/sprites/items/item-copper.png",
+                    "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png",
+                },
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"playable_content_items": {"path": "src/generated/source_modules/playable_content_items.json", "root_key": "items", "label": "item", "canonical_module": "playable_content", "canonical_collection_key": "item", "canonical_key_field": "id", "canonical_reference_key": "canonical_item", "canonical_reference_prefix": "playable_content.item.", "canonical_value_field": "item", "mirror_fields": ["id", "source", "texture", "item"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/playable_content_items.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "items": {"copper": {"canonical_item": "playable_content.item.copper", "id": "copper", "source": "wrong.png", "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png", "item": {"id": "wrong"}}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("playable_content_items.copper: mirror field source differs from playable_content.item.copper", report["errors"])
+            self.assertIn("playable_content_items.copper: mirror field item differs from playable_content.item.copper", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -941,6 +980,44 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         block_report = [entry for entry in report["modules"] if entry["name"] == "playable_content_blocks"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(block_report["canonical_mirror"]["checked"], len(block_files))
+
+    def test_source_ssot_playable_content_items_shard_declares_canonical_singleton_dict_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        item_entry = manifest["modules"]["playable_content_items"]
+
+        self.assertEqual(item_entry["canonical_module"], "playable_content")
+        self.assertEqual(item_entry["canonical_collection_key"], "item")
+        self.assertEqual(item_entry["canonical_key_field"], "id")
+        self.assertEqual(item_entry["canonical_reference_key"], "canonical_item")
+        self.assertEqual(item_entry["canonical_reference_prefix"], "playable_content.item.")
+        self.assertEqual(item_entry["canonical_value_field"], "item")
+        self.assertEqual(item_entry["root_key"], "items")
+        self.assertEqual(item_entry["mirror_fields"], ["id", "source", "texture", "item"])
+        self.assertIn("playable_content.json item", item_entry["rule"])
+
+        item_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content_items")["items"]
+        canonical_playable = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content")
+        canonical_item = canonical_playable["item"]
+
+        self.assertEqual(set(item_files), {canonical_item["id"]})
+        self.assertEqual(len(item_files), 1)
+        self.assertEqual(item_files["copper"]["item"], {
+            "id": "copper",
+            "source": "core/assets-raw/sprites/items/item-copper.png",
+            "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png",
+        })
+        self.assertEqual(item_files["copper"]["canonical_item"], "playable_content.item.copper")
+        for field in ["id", "source", "texture"]:
+            self.assertEqual(item_files["copper"][field], canonical_item[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        item_report = [entry for entry in report["modules"] if entry["name"] == "playable_content_items"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(item_report["canonical_mirror"]["checked"], len(item_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib

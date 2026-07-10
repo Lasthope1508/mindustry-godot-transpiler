@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "playable_content.item",
+    "canonicalKey": "id",
+    "newItemRequiresCanonicalPlayableContentEntry": true
+  },
+  "items": {
+    "copper": {
+      "canonical_item": "playable_content.item.copper",
+      "id": "copper",
+      "source": "core/assets-raw/sprites/items/item-copper.png",
+      "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png",
+      "item": {
+        "id": "copper",
+        "source": "core/assets-raw/sprites/items/item-copper.png",
+        "texture": "res://assets/core/assets-raw/sprites/items/item-copper.png"
+      }
+    }
+  }
+}

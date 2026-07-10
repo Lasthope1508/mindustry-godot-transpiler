@@ -164,6 +164,9 @@ func load_config() -> void:
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
 
+func playable_content_item_state(item_id: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("playable_content_items", item_id)
+
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 
