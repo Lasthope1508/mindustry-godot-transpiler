@@ -1745,6 +1745,29 @@
         "index",
         "owner"
       ]
+    },
+    "source_ssot_module_entries": {
+      "path": "src/generated/source_modules/source_ssot_module_entries.json",
+      "root_key": "modules",
+      "label": "module",
+      "status": "active",
+      "rule": "Extension shard for source_ssot_modules.json modules; canonical module registry entries remain mirrored from module_manifest before use.",
+      "canonical_module": "module_manifest",
+      "canonical_reference_key": "canonical_manifest_entry",
+      "canonical_reference_prefix": "source_ssot_modules.modules.",
+      "canonical_value_field": "entry",
+      "mirror_fields": [
+        "path",
+        "root_key",
+        "label",
+        "status",
+        "rule",
+        "canonical_module",
+        "canonical_reference_key",
+        "canonical_reference_prefix",
+        "mirror_fields",
+        "entry"
+      ]
     }
   },
   "policy": {

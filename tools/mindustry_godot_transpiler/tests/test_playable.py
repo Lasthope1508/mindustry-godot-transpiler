@@ -13447,6 +13447,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func helper_state_schema_state(schema_name: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)', source)
 
+    def test_port_game_exposes_source_ssot_module_entries_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json").exists())
+        self.assertIn('"source_ssot_module_entries": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func ssot_module_entry_state(module_name: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)', source)
+
     def test_port_game_loads_playable_content_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

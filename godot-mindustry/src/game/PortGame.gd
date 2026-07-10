@@ -215,6 +215,9 @@ func helper_state_schema_state(schema_name: String = "") -> Dictionary:
 func ssot_modules_state(module_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.ssot_modules_state(module_name)
 
+func ssot_module_entry_state(module_name: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)
+
 func asset_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")
 
