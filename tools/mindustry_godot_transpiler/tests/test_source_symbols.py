@@ -507,6 +507,42 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(asset_report["canonical_mirror"]["checked"], len(asset_files))
 
+    def test_source_ssot_ast_manifest_files_shard_declares_canonical_object_array_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        ast_entry = manifest["modules"]["ast_manifest_files"]
+
+        self.assertEqual(ast_entry["canonical_module"], "ast_manifest")
+        self.assertEqual(ast_entry["canonical_collection_key"], "files")
+        self.assertEqual(ast_entry["canonical_key_field"], "path")
+        self.assertEqual(ast_entry["canonical_reference_key"], "canonical_file")
+        self.assertEqual(ast_entry["canonical_reference_prefix"], "ast_manifest.files.")
+        self.assertEqual(ast_entry["root_key"], "files")
+        self.assertEqual(ast_entry["mirror_fields"], ["imports", "package", "path", "types"])
+        self.assertIn("ast_manifest.json parsed files", ast_entry["rule"])
+
+        ast_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "ast_manifest_files")["files"]
+        canonical_manifest = source_ssot.load_registered_json(ROOT / "godot-mindustry", "ast_manifest")
+        canonical_files = {entry["path"]: entry for entry in canonical_manifest["files"]}
+
+        self.assertEqual(set(ast_files), set(canonical_files))
+        self.assertEqual(len(ast_files), canonical_manifest["parsed_file_count"])
+        self.assertIn("mindustry/ai/Astar.java", ast_files)
+        self.assertIn("mindustry/ai/types/FlyingAI.java", ast_files)
+        for file_path, canonical_entry in sorted(canonical_files.items()):
+            with self.subTest(file_path=file_path):
+                self.assertEqual(ast_files[file_path]["canonical_file"], f"ast_manifest.files.{file_path}")
+                for field in ast_entry["mirror_fields"]:
+                    self.assertEqual(ast_files[file_path][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        ast_report = [entry for entry in report["modules"] if entry["name"] == "ast_manifest_files"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(ast_report["canonical_mirror"]["checked"], len(ast_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

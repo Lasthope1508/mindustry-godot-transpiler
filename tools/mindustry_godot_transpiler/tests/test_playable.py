@@ -13192,6 +13192,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")', source)
         self.assertNotIn("AST_MANIFEST_PATH", source)
 
+    def test_port_game_exposes_ast_manifest_files_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "ast_manifest_files.json").exists())
+        self.assertIn('"ast_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func ast_manifest_file_state(file_path: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("ast_manifest_files", file_path)', source)
+
     def test_port_game_exposes_content_registry_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

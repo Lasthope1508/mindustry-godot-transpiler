@@ -1350,6 +1350,24 @@
         "target"
       ]
     },
+    "ast_manifest_files": {
+      "path": "src/generated/source_modules/ast_manifest_files.json",
+      "root_key": "files",
+      "label": "path",
+      "status": "active",
+      "rule": "Extension shard for ast_manifest.json parsed files; canonical parsed AST metadata remains mirrored from ast_manifest.files before use.",
+      "canonical_module": "ast_manifest",
+      "canonical_collection_key": "files",
+      "canonical_key_field": "path",
+      "canonical_reference_key": "canonical_file",
+      "canonical_reference_prefix": "ast_manifest.files.",
+      "mirror_fields": [
+        "imports",
+        "package",
+        "path",
+        "types"
+      ]
+    },
     "helper_state_schema": {
       "path": "src/generated/source_modules/helper_state_schema.json",
       "root_key": "schemas",
