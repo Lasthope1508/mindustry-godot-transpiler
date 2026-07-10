@@ -1355,6 +1355,104 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angles_reports["angles_state_schema"]["canonical_mirror"]["checked"], len(angles_schema))
         self.assertEqual(angles_reports["angles_symbols"]["canonical_mirror"]["checked"], len(angles_symbols))
 
+    def test_source_ssot_vec2_json_shards_declare_canonical_mirror_contracts(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        vec2_slices_entry = manifest["modules"]["vec2_slices"]
+        vec2_contracts_entry = manifest["modules"]["vec2_api_contracts"]
+        vec2_schema_entry = manifest["modules"]["vec2_state_schema"]
+        vec2_symbols_entry = manifest["modules"]["vec2_symbols"]
+
+        self.assertEqual(vec2_slices_entry["canonical_module"], "slice_ledger")
+        self.assertEqual(vec2_slices_entry["canonical_reference_key"], "canonical_ledger")
+        self.assertEqual(vec2_slices_entry["canonical_reference_prefix"], "source_slice_ledger.")
+        self.assertIn("java_method", vec2_slices_entry["mirror_fields"])
+
+        self.assertEqual(vec2_contracts_entry["canonical_module"], "api_contracts")
+        self.assertEqual(vec2_contracts_entry["canonical_reference_key"], "canonical_contract")
+        self.assertEqual(vec2_contracts_entry["canonical_reference_prefix"], "source_api_contracts.")
+        self.assertIn("return_keys", vec2_contracts_entry["mirror_fields"])
+
+        self.assertEqual(vec2_schema_entry["canonical_module"], "state_schema")
+        self.assertEqual(vec2_schema_entry["canonical_reference_key"], "canonical_schema")
+        self.assertEqual(vec2_schema_entry["canonical_reference_prefix"], "source_state_schema.")
+        self.assertEqual(vec2_schema_entry["root_key"], "schemas")
+
+        self.assertEqual(vec2_symbols_entry["canonical_module"], "registry")
+        self.assertEqual(vec2_symbols_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(vec2_symbols_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(vec2_symbols_entry["root_key"], "symbols")
+
+        canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
+        vec2_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "vec2_slices")["slices"]
+        expected_slice_ids = {
+            slice_id
+            for slice_id, slice_entry in canonical_slices.items()
+            if slice_entry["java_source"] == "arc-core/src/arc/math/geom/Vec2.java"
+        }
+
+        self.assertEqual(set(vec2_slices), expected_slice_ids)
+        for slice_id in sorted(expected_slice_ids):
+            with self.subTest(slice_id=slice_id):
+                self.assertEqual(vec2_slices[slice_id]["canonical_ledger"], f"source_slice_ledger.{slice_id}")
+                for field in vec2_slices_entry["mirror_fields"]:
+                    self.assertEqual(vec2_slices[slice_id][field], canonical_slices[slice_id][field])
+
+        vec2_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "vec2_api_contracts")["contracts"]
+        canonical_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "api_contracts")["contracts"]
+        expected_contract_owners = {entry["godot_owner"] for entry in vec2_slices.values()}
+        self.assertEqual(set(vec2_contracts), expected_contract_owners)
+        for owner in sorted(expected_contract_owners):
+            with self.subTest(owner=owner):
+                self.assertEqual(vec2_contracts[owner]["canonical_contract"], f"source_api_contracts.{owner}")
+                for field in vec2_contracts_entry["mirror_fields"]:
+                    self.assertEqual(vec2_contracts[owner][field], canonical_contracts[owner][field])
+
+        vec2_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "vec2_state_schema")["schemas"]
+        canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
+        expected_schema_names = set()
+        for owner, contract in sorted(vec2_contracts.items()):
+            for param in contract.get("params", []):
+                schema_name = str(param["schema"]).split(".", 1)[0]
+                if schema_name in canonical_schema:
+                    expected_schema_names.add(schema_name)
+            source_name = owner.split(".")[-1]
+            if source_name.endswith("_state"):
+                result_schema_name = source_name[:-len("_state")] + "_result"
+                if result_schema_name in canonical_schema:
+                    expected_schema_names.add(result_schema_name)
+        self.assertEqual(set(vec2_schema), expected_schema_names)
+        for schema_name in sorted(expected_schema_names):
+            with self.subTest(schema_name=schema_name):
+                self.assertEqual(vec2_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
+                for field in vec2_schema_entry["mirror_fields"]:
+                    self.assertEqual(vec2_schema[schema_name][field], canonical_schema[schema_name][field])
+
+        vec2_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "vec2_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+        expected_symbol_names = {
+            symbol_name
+            for slice_entry in vec2_slices.values()
+            for symbol_name in slice_entry["source_symbols"]
+        }
+        self.assertEqual(set(vec2_symbols), expected_symbol_names)
+        for symbol_name in sorted(expected_symbol_names):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(vec2_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                for field in vec2_symbols_entry["mirror_fields"]:
+                    self.assertEqual(vec2_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        vec2_reports = {entry["name"]: entry for entry in report["modules"] if entry["name"].startswith("vec2_")}
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(vec2_reports["vec2_slices"]["canonical_mirror"]["checked"], len(vec2_slices))
+        self.assertEqual(vec2_reports["vec2_api_contracts"]["canonical_mirror"]["checked"], len(vec2_contracts))
+        self.assertEqual(vec2_reports["vec2_state_schema"]["canonical_mirror"]["checked"], len(vec2_schema))
+        self.assertEqual(vec2_reports["vec2_symbols"]["canonical_mirror"]["checked"], len(vec2_symbols))
+
     def test_source_ssot_catalog_validates_registered_json_modules(self):
         import importlib
 

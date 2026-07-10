@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_arc_vec2_limit_input": {
+      "canonical_schema": "source_state_schema.source_arc_vec2_limit_input",
+      "keys": {
+        "limit": {
+          "godot_symbol": "source_arc_vec2_limit_input.limit",
+          "java_expr": "limit",
+          "java_method": "limit(float limit)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Java limit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ]
+        },
+        "vec": {
+          "godot_symbol": "source_arc_vec2_limit_input.vec",
+          "java_expr": "this",
+          "java_method": "limit(float limit)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Java this Vec2 input.",
+          "status": "explicit-input",
+          "type": "Vector2",
+          "used_by": [
+            "PortGame.source_arc_vec2_limit"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_unit_vec2_angle_input": {
+      "canonical_schema": "source_state_schema.source_unit_vec2_angle_input",
+      "keys": {
+        "vec_x": {
+          "godot_symbol": "source_unit_vec2_angle_input.vec_x",
+          "java_expr": "x",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 x component runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        },
+        "vec_y": {
+          "godot_symbol": "source_unit_vec2_angle_input.vec_y",
+          "java_expr": "y",
+          "java_method": "Vec2.angle()",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Vec2 y component runtime input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_unit_vec2_angle"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_vec2_limit_input": {
+      "canonical_schema": "source_state_schema.source_vec2_limit_input",
+      "keys": {
+        "limit": {
+          "godot_symbol": "source_vec2_limit_input.limit",
+          "java_expr": "limit",
+          "java_method": "limit(float limit)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Java limit input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_vec2_limit"
+          ]
+        },
+        "vector_state": {
+          "godot_symbol": "source_vec2_limit_input.vector_state",
+          "java_expr": "this",
+          "java_method": "limit(float limit)",
+          "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+          "rule": "Dictionary wrapper for Java this Vec2 input.",
+          "status": "explicit-input",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_vec2_limit"
+          ]
+        }
+      },
+      "status": "active"
+    }
+  }
+}
