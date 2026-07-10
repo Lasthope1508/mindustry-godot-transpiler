@@ -12841,6 +12841,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry', catalog_source)
         self.assertNotIn("CONTENT_REGISTRY_PATH", source)
 
+    def test_port_game_exposes_emitted_classes_through_ssot_catalog(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+        manifest_helper_source = catalog_source.split("static func manifest_summary_state", 1)[1].split("static func collection_summary_state", 1)[0]
+
+        self.assertIn('"emitted_classes": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/emitted_classes.json"', catalog_source)
+        self.assertIn("func emitted_classes_state() -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")', source)
+        self.assertIn("var first_entry: Variant = {}", manifest_helper_source)
+        self.assertNotIn("typeof(entries[0]) == TYPE_DICTIONARY", manifest_helper_source)
+        self.assertNotIn("EMITTED_CLASSES_PATH", source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -191,6 +191,9 @@ func ast_manifest_state() -> Dictionary:
 func content_registry_state() -> Dictionary:
 	return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])
 
+func emitted_classes_state() -> Dictionary:
+	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
+
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()

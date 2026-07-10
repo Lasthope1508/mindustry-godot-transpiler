@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceSsotCatalog
 
-const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry"]
+const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry", "emitted_classes"]
 const MODULES := {
 	"registry": {
 		"path": "res://src/generated/source_symbol_registry.json",
@@ -50,6 +50,11 @@ const MODULES := {
 	},
 	"content_registry": {
 		"path": "res://src/generated/content_registry.json",
+		"root_key": "",
+		"label": "",
+	},
+	"emitted_classes": {
+		"path": "res://src/generated/emitted_classes.json",
 		"root_key": "",
 		"label": "",
 	},
@@ -133,8 +138,8 @@ static func manifest_summary_state(module_name: String, int_fields: Array, strin
 		result[str(field)] = str(parsed.get(str(field), ""))
 	var entries_value = parsed.get(array_key, [])
 	var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
-	var first_entry: Dictionary = {}
-	if not entries.is_empty() and typeof(entries[0]) == TYPE_DICTIONARY:
+	var first_entry: Variant = {}
+	if not entries.is_empty():
 		first_entry = entries[0]
 	result[first_key] = first_entry
 	return result
