@@ -42632,6 +42632,42 @@
       "runtime_proof": "/root/Main.source_consume_ignore_state",
       "rule": "Public source helper exposes Consume.ignore() default false return state."
     },
+    "PortGame.source_consume_build_state": {
+      "status": "source-backed",
+      "source_slice": "N1580",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "java_expr": "Building build",
+          "schema": "source_consume_build_input.build"
+        },
+        {
+          "name": "table",
+          "type": "Variant",
+          "java_expr": "Table table",
+          "schema": "source_consume_build_input.table"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "empty_body",
+        "build",
+        "table"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_build_to_source_state",
+        "test_port_game_exposes_generated_consume_build_bridge_state",
+        "test_consume_build_matches_upstream_source",
+        "test_generated_consume_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_build_state",
+      "rule": "Public source helper exposes Consume.build(Building, Table) empty body state and echoes arguments for bridge parity."
+    },
     "PortGame.source_consume_efficiency_state": {
       "status": "source-backed",
       "source_slice": "N1578",

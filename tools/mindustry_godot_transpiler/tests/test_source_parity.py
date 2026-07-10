@@ -1776,6 +1776,16 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_build_source"))
+        report = source_parity.verify_consume_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void build(Building build, Table table){}",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_efficiency_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_efficiency_source"))
         report = source_parity.verify_consume_efficiency_source(ROOT / "mindustry-upstream")

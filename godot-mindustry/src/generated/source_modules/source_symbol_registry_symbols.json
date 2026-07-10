@@ -248875,6 +248875,68 @@
         "runtime_proof": "/root/Main.source_consume_ignore_state"
       }
     },
+    "consume_build.method": {
+      "canonical_symbol": "source_symbol_registry.consume_build.method",
+      "godot_owner": "PortGame.source_consume_build_state",
+      "godot_symbol": "source_consume_build_result.method",
+      "java_expr": "public void build(Building build, Table table){}",
+      "rule": "Exact empty base Consume.build(Building, Table) method boundary.",
+      "runtime_proof": "/root/Main.source_consume_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_build_to_source_state",
+        "test_port_game_exposes_generated_consume_build_bridge_state",
+        "test_consume_build_matches_upstream_source",
+        "test_generated_consume_build_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "build(Building build, Table table)",
+        "java_expr": "public void build(Building build, Table table){}",
+        "godot_symbol": "source_consume_build_result.method",
+        "godot_owner": "PortGame.source_consume_build_state",
+        "rule": "Exact empty base Consume.build(Building, Table) method boundary.",
+        "tests": [
+          "test_emit_bridges_consume_build_to_source_state",
+          "test_port_game_exposes_generated_consume_build_bridge_state",
+          "test_consume_build_matches_upstream_source",
+          "test_generated_consume_build_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_build_state"
+      }
+    },
+    "consume_build.empty_body": {
+      "canonical_symbol": "source_symbol_registry.consume_build.empty_body",
+      "godot_owner": "PortGame.source_consume_build_state",
+      "godot_symbol": "source_consume_build_result.empty_body",
+      "java_expr": "public void build(Building build, Table table){}",
+      "rule": "True because upstream base implementation has an empty inline body.",
+      "runtime_proof": "/root/Main.source_consume_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_build_to_source_state",
+        "test_port_game_exposes_generated_consume_build_bridge_state",
+        "test_consume_build_matches_upstream_source",
+        "test_generated_consume_build_slice_is_registered_with_source_backing"
+      ],
+      "symbol": {
+        "status": "source-backed",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_method": "build(Building build, Table table)",
+        "java_expr": "public void build(Building build, Table table){}",
+        "godot_symbol": "source_consume_build_result.empty_body",
+        "godot_owner": "PortGame.source_consume_build_state",
+        "rule": "True because upstream base implementation has an empty inline body.",
+        "tests": [
+          "test_emit_bridges_consume_build_to_source_state",
+          "test_port_game_exposes_generated_consume_build_bridge_state",
+          "test_consume_build_matches_upstream_source",
+          "test_generated_consume_build_slice_is_registered_with_source_backing"
+        ],
+        "runtime_proof": "/root/Main.source_consume_build_state"
+      }
+    },
     "consume_efficiency.method": {
       "canonical_symbol": "source_symbol_registry.consume_efficiency.method",
       "godot_owner": "PortGame.source_consume_efficiency_state",

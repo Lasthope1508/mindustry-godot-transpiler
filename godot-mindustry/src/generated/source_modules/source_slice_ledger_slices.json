@@ -73910,6 +73910,55 @@
         ],
         "rule": "Generated bridge records Consume.efficiencyMultiplier(Building) default 1f result without inventing subclass multiplier behavior."
       }
+    },
+    "N1580": {
+      "canonical_slice": "source_slice_ledger.N1580",
+      "exact_exprs": [
+        "public void build(Building build, Table table){}"
+      ],
+      "godot_owner": "PortGame.source_consume_build_state",
+      "java_class": "Consume",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "runtime_proof": "/root/Main.generated_consume_build_bridge_state",
+      "source_symbols": [
+        "consume_build.method",
+        "consume_build.empty_body"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_build_to_source_state",
+        "test_port_game_exposes_generated_consume_build_bridge_state",
+        "test_consume_build_matches_upstream_source",
+        "test_generated_consume_build_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated Consume build empty body bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/consumers/Consume.java",
+        "java_class": "Consume",
+        "java_method": "build(Building build, Table table)",
+        "generated_owner": "Consume.java_method_build_5",
+        "godot_owner": "PortGame.source_consume_build_state",
+        "runtime_proof": "/root/Main.generated_consume_build_bridge_state",
+        "exact_exprs": [
+          "public void build(Building build, Table table){}"
+        ],
+        "source_symbols": [
+          "consume_build.method",
+          "consume_build.empty_body"
+        ],
+        "tests": [
+          "test_emit_bridges_consume_build_to_source_state",
+          "test_port_game_exposes_generated_consume_build_bridge_state",
+          "test_consume_build_matches_upstream_source",
+          "test_generated_consume_build_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "Consume.trigger(Building), update(Building), and display(Stats) remain separate base consumer slices."
+        ],
+        "rule": "Generated bridge records Consume.build(Building, Table) empty base implementation without inventing UI behavior."
+      }
     }
   }
 }

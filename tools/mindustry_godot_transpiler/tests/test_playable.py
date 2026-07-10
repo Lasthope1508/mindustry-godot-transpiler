@@ -1425,6 +1425,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Consume.ignore"', source)
         self.assertIn('"matches": result.get("ignored", null) == canonical.get("ignored", null)', source)
 
+    def test_port_game_exposes_generated_consume_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_build_state(build: Variant, table: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_build_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){}"', source)
+        self.assertIn('"empty_body": true', source)
+        self.assertIn('"build": build', source)
+        self.assertIn('"table": table', source)
+        self.assertIn("func generated_consume_build_bridge_state(build: Variant, table: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/Consume.gd")', source)
+        self.assertIn("var result = instance.java_method_build_5([build, table])", source)
+        self.assertIn("var canonical = source_consume_build_state(build, table)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_build_state"', source)
+        self.assertIn('"generated_owner": "Consume.build"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null)', source)
+
     def test_port_game_exposes_generated_consume_efficiency_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

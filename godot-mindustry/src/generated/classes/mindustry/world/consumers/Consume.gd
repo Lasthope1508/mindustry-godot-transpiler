@@ -43,7 +43,10 @@ func java_method_ignore_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_ignore_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public boolean ignore(){", "return_expr": "return false;", "ignored": ignored}
 
 func java_method_build_5(_args: Array = []) -> Variant:
-	return null
+	var build_arg: Variant = _args[0] if _args.size() > 0 else null
+	var table_arg: Variant = _args[1] if _args.size() > 1 else null
+	var empty_body: bool = true
+	return {"source_owner": "PortGame.source_consume_build_state", "source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void build(Building build, Table table){}", "empty_body": empty_body, "build": build_arg, "table": table_arg}
 
 func java_method_trigger_6(_args: Array = []) -> Variant:
 	return null
