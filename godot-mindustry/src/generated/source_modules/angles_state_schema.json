@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "schemas": {
+    "source_angle_distance_input": {
+      "canonical_schema": "source_state_schema.source_angle_distance_input",
+      "keys": {
+        "currentDegrees": {
+          "godot_symbol": "source_angle_distance_input.currentDegrees",
+          "java_expr": "a",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist current angle a.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_distance"
+          ]
+        },
+        "targetDegrees": {
+          "godot_symbol": "source_angle_distance_input.targetDegrees",
+          "java_expr": "b",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist target angle b.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angle_distance"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_angles_angle_dist_input": {
+      "canonical_schema": "source_state_schema.source_angles_angle_dist_input",
+      "keys": {
+        "a": {
+          "godot_symbol": "source_angles_angle_dist_input.a",
+          "java_expr": "a",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist first angle a.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angles_angle_dist"
+          ]
+        },
+        "b": {
+          "godot_symbol": "source_angles_angle_dist_input.b",
+          "java_expr": "b",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist second angle b.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_angles_angle_dist"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_angle_dist_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_angle_dist_input",
+      "keys": {
+        "angleA": {
+          "godot_symbol": "source_arc_angles_angle_dist_input.angleA",
+          "java_expr": "a",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist first angle a.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle_dist"
+          ]
+        },
+        "angleB": {
+          "godot_symbol": "source_arc_angles_angle_dist_input.angleB",
+          "java_expr": "b",
+          "java_method": "angleDist(float a, float b)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java angleDist second angle b.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle_dist"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_angle_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_angle_input",
+      "keys": {
+        "fromX": {
+          "godot_symbol": "source_arc_angles_angle_input.fromX",
+          "java_expr": "x",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java source point x.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ]
+        },
+        "fromY": {
+          "godot_symbol": "source_arc_angles_angle_input.fromY",
+          "java_expr": "y",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java source point y.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ]
+        },
+        "toX": {
+          "godot_symbol": "source_arc_angles_angle_input.toX",
+          "java_expr": "x2",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java target point x2.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ]
+        },
+        "toY": {
+          "godot_symbol": "source_arc_angles_angle_input.toY",
+          "java_expr": "y2",
+          "java_method": "angle(float x, float y, float x2, float y2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java target point y2.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_angle"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_backward_distance_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_backward_distance_input",
+      "keys": {
+        "angle1": {
+          "godot_symbol": "source_arc_angles_backward_distance_input.angle1",
+          "java_expr": "angle1",
+          "java_method": "backwardDistance(float angle1, float angle2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java backwardDistance first angle angle1.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_backward_distance"
+          ]
+        },
+        "angle2": {
+          "godot_symbol": "source_arc_angles_backward_distance_input.angle2",
+          "java_expr": "angle2",
+          "java_method": "backwardDistance(float angle1, float angle2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java backwardDistance second angle angle2.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_backward_distance"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_forward_distance_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_forward_distance_input",
+      "keys": {
+        "angle1": {
+          "godot_symbol": "source_arc_angles_forward_distance_input.angle1",
+          "java_expr": "angle1",
+          "java_method": "forwardDistance(float angle1, float angle2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java forwardDistance first angle angle1.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_forward_distance"
+          ]
+        },
+        "angle2": {
+          "godot_symbol": "source_arc_angles_forward_distance_input.angle2",
+          "java_expr": "angle2",
+          "java_method": "forwardDistance(float angle1, float angle2)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java forwardDistance second angle angle2.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_forward_distance"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_move_toward_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_move_toward_input",
+      "keys": {
+        "angle": {
+          "godot_symbol": "source_arc_angles_move_toward_input.angle",
+          "java_expr": "angle",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward source angle.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_arc_angles_move_toward_input.speed",
+          "java_expr": "speed",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward speed.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ]
+        },
+        "to": {
+          "godot_symbol": "source_arc_angles_move_toward_input.to",
+          "java_expr": "to",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward target angle.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_move_toward"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_arc_angles_trns_vec_input": {
+      "canonical_schema": "source_state_schema.source_arc_angles_trns_vec_input",
+      "keys": {
+        "angleDegrees": {
+          "godot_symbol": "source_arc_angles_trns_vec_input.angleDegrees",
+          "java_expr": "angle",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java trnsx/trnsy angle in degrees.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_arc_angles_trns_vec_input.x",
+          "java_expr": "x",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java trnsx/trnsy x component.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_arc_angles_trns_vec_input.y",
+          "java_expr": "y",
+          "java_method": "trnsx/trnsy(float angle, float x, float y)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java trnsx/trnsy y component.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_arc_angles_trns_vec"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_move_angle_toward_input": {
+      "canonical_schema": "source_state_schema.source_move_angle_toward_input",
+      "keys": {
+        "currentDegrees": {
+          "godot_symbol": "source_move_angle_toward_input.currentDegrees",
+          "java_expr": "angle",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward angle input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ]
+        },
+        "maxDelta": {
+          "godot_symbol": "source_move_angle_toward_input.maxDelta",
+          "java_expr": "speed",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward speed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ]
+        },
+        "targetDegrees": {
+          "godot_symbol": "source_move_angle_toward_input.targetDegrees",
+          "java_expr": "to",
+          "java_method": "moveToward(float angle, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "rule": "Java moveToward to input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_move_angle_toward"
+          ]
+        }
+      },
+      "status": "active"
+    }
+  }
+}
