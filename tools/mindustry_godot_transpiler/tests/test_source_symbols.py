@@ -1277,6 +1277,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(function_report["canonical_mirror"]["checked"], len(function_files))
 
+    def test_source_ssot_source_audit_exempt_owners_shard_declares_indexed_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        exempt_entry = manifest["modules"]["source_audit_exempt_owners"]
+
+        self.assertEqual(exempt_entry["canonical_module"], "audit_report")
+        self.assertEqual(exempt_entry["canonical_collection_key"], "exemptSourceOwners")
+        self.assertEqual(exempt_entry["canonical_key_field"], "@index")
+        self.assertEqual(exempt_entry["canonical_reference_key"], "canonical_owner")
+        self.assertEqual(exempt_entry["canonical_reference_prefix"], "source_symbol_audit_report.exemptSourceOwners.")
+        self.assertEqual(exempt_entry["canonical_value_field"], "owner")
+        self.assertEqual(exempt_entry["root_key"], "owners")
+        self.assertEqual(exempt_entry["mirror_fields"], ["index", "owner"])
+        self.assertIn("source_symbol_audit_report.json exemptSourceOwners", exempt_entry["rule"])
+
+        exempt_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_audit_exempt_owners")["owners"]
+        canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
+        canonical_exempt_owners = canonical_audit["exemptSourceOwners"]
+
+        self.assertEqual(set(exempt_files), {str(index) for index in range(len(canonical_exempt_owners))})
+        self.assertEqual(len(exempt_files), canonical_audit["exemptSourceOwnerCount"])
+        self.assertEqual(exempt_files["0"]["owner"], "PortGame.source_api_contract_state")
+        for index, canonical_owner in enumerate(canonical_exempt_owners):
+            item_key = str(index)
+            with self.subTest(item_key=item_key):
+                self.assertEqual(exempt_files[item_key]["canonical_owner"], f"source_symbol_audit_report.exemptSourceOwners.{item_key}")
+                self.assertEqual(exempt_files[item_key]["index"], index)
+                self.assertEqual(exempt_files[item_key]["owner"], canonical_owner)
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        exempt_report = [entry for entry in report["modules"] if entry["name"] == "source_audit_exempt_owners"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(exempt_report["canonical_mirror"]["checked"], len(exempt_files))
+
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
 

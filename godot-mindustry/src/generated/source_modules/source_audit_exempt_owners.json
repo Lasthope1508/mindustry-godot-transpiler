@@ -1,0 +1,39 @@
+{
+  "owners": {
+    "0": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.0",
+      "index": 0,
+      "owner": "PortGame.source_api_contract_state"
+    },
+    "1": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.1",
+      "index": 1,
+      "owner": "PortGame.source_manifest_file_state"
+    },
+    "2": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.2",
+      "index": 2,
+      "owner": "PortGame.source_manifest_state"
+    },
+    "3": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.3",
+      "index": 3,
+      "owner": "PortGame.source_slice_ledger_state"
+    },
+    "4": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.4",
+      "index": 4,
+      "owner": "PortGame.source_state_schema_state"
+    },
+    "5": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.5",
+      "index": 5,
+      "owner": "PortGame.source_symbol_audit_state"
+    },
+    "6": {
+      "canonical_owner": "source_symbol_audit_report.exemptSourceOwners.6",
+      "index": 6,
+      "owner": "PortGame.source_symbol_registry_state"
+    }
+  }
+}

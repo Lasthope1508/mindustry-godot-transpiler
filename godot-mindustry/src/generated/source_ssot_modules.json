@@ -1662,6 +1662,23 @@
         "index",
         "function_entry"
       ]
+    },
+    "source_audit_exempt_owners": {
+      "path": "src/generated/source_modules/source_audit_exempt_owners.json",
+      "root_key": "owners",
+      "label": "index",
+      "status": "active",
+      "rule": "Extension shard for source_symbol_audit_report.json exemptSourceOwners; canonical exempt source owner coverage remains mirrored from audit_report before use.",
+      "canonical_module": "audit_report",
+      "canonical_collection_key": "exemptSourceOwners",
+      "canonical_key_field": "@index",
+      "canonical_reference_key": "canonical_owner",
+      "canonical_reference_prefix": "source_symbol_audit_report.exemptSourceOwners.",
+      "canonical_value_field": "owner",
+      "mirror_fields": [
+        "index",
+        "owner"
+      ]
     }
   },
   "policy": {
