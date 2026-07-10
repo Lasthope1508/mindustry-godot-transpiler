@@ -1,0 +1,1956 @@
+{
+  "version": 1,
+  "symbols": {
+    "arc_chance_delta_threshold.chance_input": {
+      "canonical_symbol": "source_symbol_registry.arc_chance_delta_threshold.chance_input",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "godot_symbol": "source_arc_chance_delta_threshold_input.chance",
+      "java_expr": "d",
+      "java_method": "chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime chance parameter maps to Java chanceDelta argument d.",
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_chance_delta_threshold.delta_input": {
+      "canonical_symbol": "source_symbol_registry.arc_chance_delta_threshold.delta_input",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "godot_symbol": "source_arc_chance_delta_threshold_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_chance_delta_threshold.method": {
+      "canonical_symbol": "source_symbol_registry.arc_chance_delta_threshold.method",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "godot_symbol": "source_arc_chance_delta_threshold_result.threshold",
+      "java_expr": "public static boolean chanceDelta(double d){\n        return rand.nextFloat() < d * Time.delta;\n    }",
+      "java_method": "chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.chanceDelta compares rand.nextFloat() against chance multiplied by Time.delta; runtime exposes only the deterministic threshold.",
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_chance_delta_threshold.threshold_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_chance_delta_threshold.threshold_expr",
+      "godot_owner": "PortGame.source_arc_chance_delta_threshold",
+      "godot_symbol": "source_arc_chance_delta_threshold_result.threshold",
+      "java_expr": "d * Time.delta",
+      "java_method": "chanceDelta(double d)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Deterministic threshold side of rand.nextFloat() < d * Time.delta.",
+      "runtime_proof": "/root/Main.source_arc_chance_delta_threshold",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_chance_delta_threshold_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_is_power_of_two.bit_test": {
+      "canonical_symbol": "source_symbol_registry.arc_is_power_of_two.bit_test",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "godot_symbol": "source_arc_is_power_of_two_result.bitTest",
+      "java_expr": "(value & value - 1) == 0",
+      "java_method": "isPowerOfTwo(int value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Power-of-two bit test from Java expression value & value - 1.",
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_is_power_of_two.method": {
+      "canonical_symbol": "source_symbol_registry.arc_is_power_of_two.method",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "godot_symbol": "source_arc_is_power_of_two_result.isPowerOfTwo",
+      "java_expr": "public static boolean isPowerOfTwo(int value){\n        return value != 0 && (value & value - 1) == 0;\n    }",
+      "java_method": "isPowerOfTwo(int value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.isPowerOfTwo returns true only for nonzero values whose single-bit mask clears with value - 1.",
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_is_power_of_two.nonzero_guard": {
+      "canonical_symbol": "source_symbol_registry.arc_is_power_of_two.nonzero_guard",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "godot_symbol": "source_arc_is_power_of_two_result.nonzero",
+      "java_expr": "value != 0",
+      "java_method": "isPowerOfTwo(int value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Zero is explicitly not a power of two.",
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_is_power_of_two.value_input": {
+      "canonical_symbol": "source_symbol_registry.arc_is_power_of_two.value_input",
+      "godot_owner": "PortGame.source_arc_is_power_of_two",
+      "godot_symbol": "source_arc_is_power_of_two_input.value",
+      "java_expr": "value",
+      "java_method": "isPowerOfTwo(int value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime value parameter maps to Java isPowerOfTwo value.",
+      "runtime_proof": "/root/Main.source_arc_is_power_of_two",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_is_power_of_two_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.clamp_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.clamp_expr",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_result.clampedProgress",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.clamp(float) clamps scaled progress to [0, 1].",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.delta_input": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.delta_input",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.from_input": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.from_input",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_input.fromValue",
+      "java_expr": "fromValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime from_value maps to Java fromValue.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.lerp_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.lerp_expr",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerp computes fromValue + (toValue - fromValue) * progress.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.method": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.method",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.lerpDelta delegates to lerp using clamp(progress * Time.delta).",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.progress_input": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.progress_input",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_input.progress",
+      "java_expr": "progress",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime progress maps to Java progress.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.scaled_progress": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.scaled_progress",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_result.scaledProgress",
+      "java_expr": "progress * Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Progress multiplied by Java Time.delta before clamping.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_lerp_delta.to_input": {
+      "canonical_symbol": "source_symbol_registry.arc_lerp_delta.to_input",
+      "godot_owner": "PortGame.source_arc_lerp_delta",
+      "godot_symbol": "source_arc_lerp_delta_input.toValue",
+      "java_expr": "toValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime to_value maps to Java toValue.",
+      "runtime_proof": "/root/Main.source_arc_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_absin.formula": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.formula",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_result.absin",
+      "java_expr": "public static float absin(float in, float scl, float mag){\n        return (sin(in, scl * 2f, mag) + mag) / 2f;\n    }",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Three-argument absin returns the scaled sine shifted into a positive half range.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_absin.mag_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.mag_input",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_input.mag",
+      "java_expr": "mag",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime magnitude parameter maps to Java mag.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_absin.scl_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.scl_input",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_input.scl",
+      "java_expr": "scl",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime scale parameter maps to Java scl.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_absin.sin_scaled": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.sin_scaled",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_result.sinScaled",
+      "java_expr": "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.sin(radians, scl, mag) divides radians by scale before multiplying magnitude.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_absin.time_overload": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.time_overload",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_input.value",
+      "java_expr": "public static float absin(float scl, float mag){\n        return absin(Time.time, scl, mag);\n    }",
+      "java_method": "absin(float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Two-argument absin delegates to Time.time and the three-argument overload.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_absin.value_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_absin.value_input",
+      "godot_owner": "PortGame.source_absin",
+      "godot_symbol": "source_absin_input.value",
+      "java_expr": "in",
+      "java_method": "absin(float in, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime value parameter maps to Java absin input named in.",
+      "runtime_proof": "/root/Main.source_absin",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_absin_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_mend_projector_draw_state_like_source_draw"
+      ]
+    },
+    "arc_mathf_approach.clamp_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.clamp_expr",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_result.clampedDelta",
+      "java_expr": "Mathf.clamp(to - from, -speed, speed)",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Approach clamps target delta to negative and positive speed bounds.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach.from_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.from_input",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_input.from",
+      "java_expr": "from",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime from_value parameter maps to Java from.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.method",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_result.approach",
+      "java_expr": "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.approach moves from toward to by clamping the delta to linear speed.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach.result_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.result_expr",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_result.approach",
+      "java_expr": "from + Mathf.clamp(to - from, -speed, speed)",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Approach result adds the clamped delta to from.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach.speed_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.speed_input",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_input.speed",
+      "java_expr": "speed",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime speed parameter maps to Java speed.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach.to_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach.to_input",
+      "godot_owner": "PortGame.source_approach",
+      "godot_symbol": "source_approach_input.to",
+      "java_expr": "to",
+      "java_method": "approach(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime to_value parameter maps to Java to.",
+      "runtime_proof": "/root/Main.source_approach",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.approach_call": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.approach_call",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_result.approachDelta",
+      "java_expr": "approach(from, to, Time.delta * speed)",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "ApproachDelta return value comes from the canonical approach helper with delta-scaled speed.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.delta_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.delta_input",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta parameter supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.from_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.from_input",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_input.from",
+      "java_expr": "from",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime from_value parameter maps to Java from.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.method",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_result.approachDelta",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.approachDelta delegates to approach with speed multiplied by Time.delta.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.scaled_speed": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.scaled_speed",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_result.scaledSpeed",
+      "java_expr": "Time.delta * speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Delta-scaled speed multiplies Java speed by Time.delta.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.speed_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.speed_input",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_input.speed",
+      "java_expr": "speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime speed parameter maps to Java speed.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_approach_delta.to_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_approach_delta.to_input",
+      "godot_owner": "PortGame.source_approach_delta",
+      "godot_symbol": "source_approach_delta_input.to",
+      "java_expr": "to",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime to_value parameter maps to Java to.",
+      "runtime_proof": "/root/Main.source_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_approach_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ]
+    },
+    "arc_mathf_cos_lookup.index_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.index_expr",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.index",
+      "java_expr": "(int)((radians + PI / 2) * radToIndex) & sinMask",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Cosine lookup index with PI / 2 offset and sinMask.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.method",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.cos",
+      "java_expr": "public static float cos(float radians){\n        return sinTable[(int)((radians + PI / 2) * radToIndex) & sinMask];\n    }",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.cos uses the sine lookup table offset by PI / 2.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.rad_to_index": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.rad_to_index",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.radToIndex",
+      "java_expr": "private static final float radToIndex = sinCount / radFull;",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Radians to lookup-table index scale.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.radians_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.radians_input",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_input.radians",
+      "java_expr": "radians",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime radians maps to Java radians parameter.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.sin_bits": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.sin_bits",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinBits",
+      "java_expr": "private static final int sinBits = 14;",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Source lookup table bit count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.sin_count": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.sin_count",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinCount",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Source lookup table count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.sin_mask": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.sin_mask",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.sinMask",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Source lookup table mask.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_lookup.sin_table_init": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_lookup.sin_table_init",
+      "godot_owner": "PortGame.source_arc_mathf_cos_lookup",
+      "godot_symbol": "source_arc_mathf_cos_lookup_result.tableValueSource",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "java_method": "cos(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Default sine table entry formula used by cosine lookup.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.cos_lookup": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.cos_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosLookup",
+      "java_expr": "cos(radians / scl)",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Delegates to Arc Mathf.cos(float radians).",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.mag_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.mag_input",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.mag",
+      "java_expr": "mag",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime mag maps to Java mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.method",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosScaled",
+      "java_expr": "public static float cos(float radians, float scl, float mag){\n        return cos(radians / scl) * mag;\n    }",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.cos scaled overload divides radians by scl, delegates to cos, and multiplies by mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.multiply_mag": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.multiply_mag",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.cosScaled",
+      "java_expr": "cos(radians / scl) * mag",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Cosine lookup multiplied by mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.radians_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.radians_input",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.radians",
+      "java_expr": "radians",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime radians maps to Java radians.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.scaled_radians": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.scaled_radians",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_result.scaledRadians",
+      "java_expr": "radians / scl",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Scaled radians before cosine lookup.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_cos_scaled.scl_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_cos_scaled.scl_input",
+      "godot_owner": "PortGame.source_arc_mathf_cos_scaled",
+      "godot_symbol": "source_arc_mathf_cos_scaled_input.scl",
+      "java_expr": "scl",
+      "java_method": "cos(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime scl maps to Java scl.",
+      "runtime_proof": "/root/Main.source_arc_mathf_cos_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_cos_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.divisor_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.divisor_input",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_input.divisor",
+      "java_expr": "n",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime divisor maps to Java n.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.method",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_result.mod",
+      "java_expr": "public static float mod(float f, float n){\n        return ((f % n) + n) % n;\n    }",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.mod(float,float) normalizes modulo for negative float values.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.normalized_mod": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.normalized_mod",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_result.mod",
+      "java_expr": "return ((f % n) + n) % n;",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Final modulo by divisor returns normalized result.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.offset_mod": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.offset_mod",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_result.offsetMod",
+      "java_expr": "(f % n) + n",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Adds divisor after raw remainder to shift negative values into positive range.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.raw_mod": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.raw_mod",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_result.rawMod",
+      "java_expr": "f % n",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Initial Java float remainder before positive normalization.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_mod_float.value_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_mod_float.value_input",
+      "godot_owner": "PortGame.source_arc_mathf_mod_float",
+      "godot_symbol": "source_arc_mathf_mod_float_input.value",
+      "java_expr": "f",
+      "java_method": "mod(float f, float n)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime value maps to Java f.",
+      "runtime_proof": "/root/Main.source_arc_mathf_mod_float",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_mod_float_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_num.false_value": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_num.false_value",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "godot_symbol": "source_arc_mathf_num_result.falseValue",
+      "java_expr": "0",
+      "java_method": "num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "False branch returns integer 0.",
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_num.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_num.method",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "godot_symbol": "source_arc_mathf_num_result.num",
+      "java_expr": "public static int num(boolean b){\n        return b ? 1 : 0;\n    }",
+      "java_method": "num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.num(boolean) converts true to 1 and false to 0.",
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_num.ternary": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_num.ternary",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "godot_symbol": "source_arc_mathf_num_result.num",
+      "java_expr": "b ? 1 : 0",
+      "java_method": "num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Boolean ternary used by Arc Mathf.num(boolean).",
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_num.true_value": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_num.true_value",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "godot_symbol": "source_arc_mathf_num_result.trueValue",
+      "java_expr": "1",
+      "java_method": "num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "True branch returns integer 1.",
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_num.value_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_num.value_input",
+      "godot_owner": "PortGame.source_arc_mathf_num",
+      "godot_symbol": "source_arc_mathf_num_input.value",
+      "java_expr": "b",
+      "java_method": "num(boolean b)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime value maps to Java b.",
+      "runtime_proof": "/root/Main.source_arc_mathf_num",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_num_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.cardinal_overrides": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.cardinal_overrides",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.cardinalOverrides",
+      "java_expr": "sinTable[0] = 0f;\nsinTable[(int)(90 * degToIndex) & sinMask] = 1f;\nsinTable[(int)(180 * degToIndex) & sinMask] = 0f;\nsinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Static initializer pins cardinal sine table values exactly.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.index_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.index_expr",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.index",
+      "java_expr": "(int)(radians * radToIndex) & sinMask",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine lookup index multiplies radians by radToIndex and masks by sinMask.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.method",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sin",
+      "java_expr": "public static float sin(float radians){\n        return sinTable[(int)(radians * radToIndex) & sinMask];\n    }",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.sin(float) reads radians from the shared sine lookup table.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.rad_to_index": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.rad_to_index",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.radToIndex",
+      "java_expr": "private static final float radToIndex = sinCount / radFull;",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Radians-to-table-index scale.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.radians_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.radians_input",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_input.radians",
+      "java_expr": "radians",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime radians maps to Java radians.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.return_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.return_expr",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sin",
+      "java_expr": "return sinTable[(int)(radians * radToIndex) & sinMask];",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine lookup returns the selected sinTable entry.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.sin_bits": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.sin_bits",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinBits",
+      "java_expr": "private static final int sinBits = 14;",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Shared sine table bit count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.sin_count": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.sin_count",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinCount",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Shared sine table count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.sin_mask": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.sin_mask",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.sinMask",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Shared sine table mask.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_lookup.sin_table_init": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_lookup.sin_table_init",
+      "godot_owner": "PortGame.source_arc_mathf_sin_lookup",
+      "godot_symbol": "source_arc_mathf_sin_lookup_result.tableValueSource",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "java_method": "sin(float radians)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Default sine table sample initialization.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_lookup",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_lookup_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.mag_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.mag_input",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.mag",
+      "java_expr": "mag",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime mag maps to Java mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.method": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.method",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinScaled",
+      "java_expr": "public static float sin(float radians, float scl, float mag){\n        return sin(radians / scl) * mag;\n    }",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc Mathf.sin scaled overload divides radians by scl, delegates to sin, and multiplies by mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.multiply_mag": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.multiply_mag",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinScaled",
+      "java_expr": "sin(radians / scl) * mag",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine lookup multiplied by mag.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.radians_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.radians_input",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.radians",
+      "java_expr": "radians",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime radians maps to Java radians.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.scaled_radians": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.scaled_radians",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.scaledRadians",
+      "java_expr": "radians / scl",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Scaled radians before sine lookup.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.scl_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.scl_input",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_input.scl",
+      "java_expr": "scl",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime scl maps to Java scl.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_scaled.sin_lookup": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_scaled.sin_lookup",
+      "godot_owner": "PortGame.source_arc_mathf_sin_scaled",
+      "godot_symbol": "source_arc_mathf_sin_scaled_result.sinLookup",
+      "java_expr": "sin(radians / scl)",
+      "java_method": "sin(float radians, float scl, float mag)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Delegates to Arc Mathf.sin(float radians).",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_scaled",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_scaled_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.cardinal_loop": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.cardinal_loop",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalLoop",
+      "java_expr": "for(int i = 0; i < 360; i += 90)",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Static initializer visits cardinal degree samples.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.cardinal_ninety": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.cardinal_ninety",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalNinety",
+      "java_expr": "sinTable[(int)(90 * degToIndex) & sinMask] = 1f;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Pins ninety degrees to exact one.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.cardinal_one_eighty": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.cardinal_one_eighty",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalOneEighty",
+      "java_expr": "sinTable[(int)(180 * degToIndex) & sinMask] = 0f;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Pins one-eighty degrees to exact zero.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.cardinal_two_seventy": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.cardinal_two_seventy",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalTwoSeventy",
+      "java_expr": "sinTable[(int)(270 * degToIndex) & sinMask] = -1f;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Pins two-seventy degrees to exact negative one.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.cardinal_zero": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.cardinal_zero",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.cardinalZero",
+      "java_expr": "sinTable[0] = 0f;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Pins zero degrees to exact zero.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.deg_to_index": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.deg_to_index",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.degToIndex",
+      "java_expr": "private static final float degToIndex = sinCount / degFull;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Degree-to-table-index scale for cardinal overrides.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.index_input": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.index_input",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_input.index",
+      "java_expr": "i",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime index maps to static initializer loop variable i.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.loop": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.loop",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.loop",
+      "java_expr": "for(int i = 0; i < sinCount; i++)",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Static initializer iterates every sinTable index.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.rad_full": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.rad_full",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.radFull",
+      "java_expr": "private static final float radFull = PI * 2;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Full radians source constant.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.sin_bits": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.sin_bits",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinBits",
+      "java_expr": "private static final int sinBits = 14;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine table bit count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.sin_count": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.sin_count",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinCount",
+      "java_expr": "private static final int sinCount = sinMask + 1;",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine table entry count.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.sin_mask": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.sin_mask",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.sinMask",
+      "java_expr": "private static final int sinMask = ~(-1 << sinBits);",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Sine table mask.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_mathf_sin_table_value.table_init": {
+      "canonical_symbol": "source_symbol_registry.arc_mathf_sin_table_value.table_init",
+      "godot_owner": "PortGame.source_arc_mathf_sin_table_value",
+      "godot_symbol": "source_arc_mathf_sin_table_value_result.tableValue",
+      "java_expr": "sinTable[i] = (float)Math.sin((i + 0.5f) / sinCount * radFull);",
+      "java_method": "static sinTable initializer",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Default sine table sample formula.",
+      "runtime_proof": "/root/Main.source_arc_mathf_sin_table_value",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_mathf_sin_table_value_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.max_input": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.max_input",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_input.max",
+      "java_expr": "max",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime max_value maps to Java max.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.method": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.method",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_result.method",
+      "java_expr": "public static float randomSeed(long seed, float max){\n        seedr.setSeed(seed * 99999);\n        return seedr.nextFloat() * max;\n    }",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc randomSeed float-max overload body.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.multiply_max": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.multiply_max",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_result.randomSeed",
+      "java_expr": "return seedr.nextFloat() * max;",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Final result multiplies seeded float by max.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.next_float": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.next_float",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_result.nextFloat",
+      "java_expr": "seedr.nextFloat()",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Float sample comes from seeded Rand.nextFloat.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.seed_input": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.seed_input",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_input.seed",
+      "java_expr": "seed",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_seed maps to Java seed.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.seed_scale": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.seed_scale",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_result.scaledSeed",
+      "java_expr": "seed * 99999",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc seeds this overload by multiplying seed by 99999 before Rand.setSeed.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_float_max.set_seed": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_float_max.set_seed",
+      "godot_owner": "PortGame.source_arc_random_seed_float_max",
+      "godot_symbol": "source_arc_random_seed_float_max_result.setSeed",
+      "java_expr": "seedr.setSeed(seed * 99999);",
+      "java_method": "randomSeed(long seed, float max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Shared Arc seed Rand receives the scaled seed.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_float_max",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_float_max_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.bound": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.bound",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.bound",
+      "java_expr": "max - min + 1",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Inclusive integer overload converts min/max to exclusive bound.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.max_input": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.max_input",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_input.max",
+      "java_expr": "max",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime max_value maps to Java max.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.method": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.method",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.method",
+      "java_expr": "public static int randomSeed(long seed, int min, int max){\n        seedr.setSeed(seed);\n        if(isPowerOfTwo(max)){\n            seedr.nextInt();\n        }\n        return seedr.nextInt(max - min + 1) + min;\n    }",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Arc randomSeed integer overload body.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.min_input": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.min_input",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_input.min",
+      "java_expr": "min",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime min_value maps to Java min.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.power_of_two_gate": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.power_of_two_gate",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.powerOfTwoGate",
+      "java_expr": "if(isPowerOfTwo(max))",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Power-of-two gate checks Java max.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.power_of_two_next_int": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.power_of_two_next_int",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.powerOfTwoNextInt",
+      "java_expr": "seedr.nextInt();",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Power-of-two branch advances the Rand sequence once.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.return_expr": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.return_expr",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.randomSeed",
+      "java_expr": "return seedr.nextInt(max - min + 1) + min;",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Final result offsets bounded nextInt by min.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.seed_input": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.seed_input",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_input.seed",
+      "java_expr": "seed",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_seed maps to Java seed.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "explicit-input",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "arc_random_seed_int.set_seed": {
+      "canonical_symbol": "source_symbol_registry.arc_random_seed_int.set_seed",
+      "godot_owner": "PortGame.source_arc_random_seed_int",
+      "godot_symbol": "source_arc_random_seed_int_result.setSeed",
+      "java_expr": "seedr.setSeed(seed);",
+      "java_method": "randomSeed(long seed, int min, int max)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Integer overload seeds Rand with seed directly.",
+      "runtime_proof": "/root/Main.source_arc_random_seed_int",
+      "status": "source-backed",
+      "tests": [
+        "test_arc_random_seed_int_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.clamp_expr": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.clamp_expr",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_result.clampedProgress",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.clamp(float) clamps scaled progress to [0, 1].",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.delta_input": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.delta_input",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.from_input": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.from_input",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_input.fromValue",
+      "java_expr": "fromValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta fromValue input.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.lerp_expr": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.lerp_expr",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerp computes fromValue + (toValue - fromValue) * progress.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.method": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.method",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerpDelta delegates to lerp using clamp(progress * Time.delta).",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.progress_input": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.progress_input",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_input.progress",
+      "java_expr": "progress",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta progress input.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.scaled_progress": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.scaled_progress",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_result.scaledProgress",
+      "java_expr": "progress * Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Progress multiplied by Java Time.delta before clamping.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "lerp_delta.to_input": {
+      "canonical_symbol": "source_symbol_registry.lerp_delta.to_input",
+      "godot_owner": "PortGame.source_lerp_delta",
+      "godot_symbol": "source_lerp_delta_input.toValue",
+      "java_expr": "toValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta toValue input.",
+      "runtime_proof": "/root/Main.source_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.approach_call": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.approach_call",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.approachDelta",
+      "java_expr": "approach(from, to, Time.delta * speed)",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "ApproachDelta delegates to approach(from, to, scaled speed).",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.delta_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.delta_input",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta parameter supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.from_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.from_input",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.from",
+      "java_expr": "from",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta starting value from.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.method": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.method",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.approachDelta",
+      "java_expr": "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.approachDelta delegates to approach with speed multiplied by Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.scaled_speed": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.scaled_speed",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_result.scaledSpeed",
+      "java_expr": "Time.delta * speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Delta-scaled speed multiplies Java speed by Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.speed_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.speed_input",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.speed",
+      "java_expr": "speed",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta linear speed.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_approach_delta.to_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_approach_delta.to_input",
+      "godot_owner": "PortGame.source_mathf_approach_delta",
+      "godot_symbol": "source_mathf_approach_delta_input.to",
+      "java_expr": "to",
+      "java_method": "approachDelta(float from, float to, float speed)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java approachDelta target value to.",
+      "runtime_proof": "/root/Main.source_mathf_approach_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_approach_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.method": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.method",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.dst",
+      "java_expr": "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.dst computes Euclidean distance from coordinate deltas.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.sqrt_expr": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.sqrt_expr",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.dst",
+      "java_expr": "return (float)Math.sqrt(xd * xd + yd * yd);",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Distance is sqrt(xd * xd + yd * yd).",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.x1_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.x1_input",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.x1",
+      "java_expr": "x1",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst x1 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.x2_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.x2_input",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.x2",
+      "java_expr": "x2",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst x2 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.xd_expr": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.xd_expr",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.xd",
+      "java_expr": "final float xd = x2 - x1;",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "X delta subtracts x1 from x2.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.y1_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.y1_input",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.y1",
+      "java_expr": "y1",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst y1 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.y2_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.y2_input",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_input.y2",
+      "java_expr": "y2",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java dst y2 input.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_dst.yd_expr": {
+      "canonical_symbol": "source_symbol_registry.mathf_dst.yd_expr",
+      "godot_owner": "PortGame.source_mathf_dst",
+      "godot_symbol": "source_mathf_dst_result.yd",
+      "java_expr": "final float yd = y2 - y1;",
+      "java_method": "dst(float x1, float y1, float x2, float y2)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Y delta subtracts y1 from y2.",
+      "runtime_proof": "/root/Main.source_mathf_dst",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_dst_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.clamp_expr": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.clamp_expr",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.clampedProgress",
+      "java_expr": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+      "java_method": "clamp(float value)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.clamp(float) clamps scaled progress to [0, 1].",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.delta_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.delta_input",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.sourceDelta",
+      "java_expr": "Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Runtime source_delta supplies Java Time.delta.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.from_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.from_input",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.fromValue",
+      "java_expr": "fromValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta fromValue input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.lerp_expr": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.lerp_expr",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+      "java_method": "lerp(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerp computes fromValue + (toValue - fromValue) * progress.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.method": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.method",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.lerpDelta",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Mathf.lerpDelta delegates to lerp using clamp(progress * Time.delta).",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.progress_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.progress_input",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.progress",
+      "java_expr": "progress",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta progress input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.scaled_progress": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.scaled_progress",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_result.scaledProgress",
+      "java_expr": "progress * Time.delta",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Progress multiplied by Java Time.delta before clamping.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "source-backed",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "mathf_lerp_delta.to_input": {
+      "canonical_symbol": "source_symbol_registry.mathf_lerp_delta.to_input",
+      "godot_owner": "PortGame.source_mathf_lerp_delta",
+      "godot_symbol": "source_mathf_lerp_delta_input.toValue",
+      "java_expr": "toValue",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Java lerpDelta toValue input.",
+      "runtime_proof": "/root/Main.source_mathf_lerp_delta",
+      "status": "explicit-input",
+      "tests": [
+        "test_mathf_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    }
+  }
+}
