@@ -16,7 +16,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
-        self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry", "emitted_classes"])
+        self.assertEqual(source_ssot.module_names(), ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry", "emitted_classes", "port_report"])
         self.assertEqual(source_ssot.extension_manifest_relative_path().as_posix(), "src/generated/source_ssot_modules.json")
         self.assertEqual(source_ssot.relative_path("registry").as_posix(), "src/generated/source_symbol_registry.json")
         self.assertEqual(source_ssot.relative_path("audit_report").as_posix(), "src/generated/source_symbol_audit_report.json")
@@ -29,6 +29,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.relative_path("ast_manifest").as_posix(), "src/generated/ast_manifest.json")
         self.assertEqual(source_ssot.relative_path("content_registry").as_posix(), "src/generated/content_registry.json")
         self.assertEqual(source_ssot.relative_path("emitted_classes").as_posix(), "src/generated/emitted_classes.json")
+        self.assertEqual(source_ssot.relative_path("port_report").as_posix(), "src/generated/port_report.json")
         self.assertEqual(source_ssot.root_key("registry"), "symbols")
         self.assertEqual(source_ssot.root_key("slice_ledger"), "slices")
         self.assertEqual(source_ssot.root_key("playable_content"), "")
@@ -37,6 +38,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.root_key("ast_manifest"), "")
         self.assertEqual(source_ssot.root_key("content_registry"), "")
         self.assertEqual(source_ssot.root_key("emitted_classes"), "")
+        self.assertEqual(source_ssot.root_key("port_report"), "")
         self.assertEqual(source_ssot.runtime_label("state_schema"), "schemaName")
         self.assertEqual(source_ssot.runtime_label("playable_content"), "")
         self.assertEqual(source_ssot.runtime_label("asset_manifest"), "")
@@ -44,6 +46,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.runtime_label("ast_manifest"), "")
         self.assertEqual(source_ssot.runtime_label("content_registry"), "")
         self.assertEqual(source_ssot.runtime_label("emitted_classes"), "")
+        self.assertEqual(source_ssot.runtime_label("port_report"), "")
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "registry")["version"], 1)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "playable_content")["tile_size"], 32)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "asset_manifest")["asset_count"], 2970)
@@ -51,6 +54,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "ast_manifest")["parsed_file_count"], 8)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "content_registry")["counts"]["blocks"], 417)
         self.assertEqual(source_ssot.load_json(ROOT / "godot-mindustry", "emitted_classes")["emitted_file_count"], 801)
+        self.assertEqual(len(source_ssot.load_json(ROOT / "godot-mindustry", "port_report")["unsupported_features"]), 6986)
         self.assertIn("consumer_slices", source_ssot.registered_module_names(ROOT / "godot-mindustry"))
 
     def test_source_ssot_catalog_loads_and_writes_modules_by_name(self):

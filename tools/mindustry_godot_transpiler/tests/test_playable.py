@@ -12856,6 +12856,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("typeof(entries[0]) == TYPE_DICTIONARY", manifest_helper_source)
         self.assertNotIn("EMITTED_CLASSES_PATH", source)
 
+    def test_port_game_exposes_port_report_through_ssot_catalog(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+
+        self.assertIn('"port_report": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/port_report.json"', catalog_source)
+        self.assertIn("func port_report_state() -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])', source)
+        self.assertIn("static func array_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_keys: Array, first_keys: Array) -> Dictionary:", catalog_source)
+        self.assertIn('result["counts"][array_key] = entries.size()', catalog_source)
+        self.assertIn("result[first_key] = first_entry", catalog_source)
+        self.assertNotIn("PORT_REPORT_PATH", source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

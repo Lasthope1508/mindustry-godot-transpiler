@@ -40,6 +40,7 @@ MODULES: tuple[SourceSsotModule, ...] = (
     SourceSsotModule("ast_manifest", Path("src/generated/ast_manifest.json"), "", ""),
     SourceSsotModule("content_registry", Path("src/generated/content_registry.json"), "", ""),
     SourceSsotModule("emitted_classes", Path("src/generated/emitted_classes.json"), "", ""),
+    SourceSsotModule("port_report", Path("src/generated/port_report.json"), "", ""),
 )
 
 _MODULES_BY_NAME = {module.name: module for module in MODULES}

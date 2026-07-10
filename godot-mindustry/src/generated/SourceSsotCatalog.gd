@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceSsotCatalog
 
-const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry", "emitted_classes"]
+const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content", "asset_manifest", "source_manifest", "ast_manifest", "content_registry", "emitted_classes", "port_report"]
 const MODULES := {
 	"registry": {
 		"path": "res://src/generated/source_symbol_registry.json",
@@ -55,6 +55,11 @@ const MODULES := {
 	},
 	"emitted_classes": {
 		"path": "res://src/generated/emitted_classes.json",
+		"root_key": "",
+		"label": "",
+	},
+	"port_report": {
+		"path": "res://src/generated/port_report.json",
 		"root_key": "",
 		"label": "",
 	},
@@ -169,6 +174,35 @@ static func collection_summary_state(module_name: String, string_fields: Array, 
 		if not entries.is_empty() and typeof(entries[0]) == TYPE_DICTIONARY:
 			first_entry = entries[0]
 		result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry
+	return result
+
+static func array_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_keys: Array, first_keys: Array) -> Dictionary:
+	var document := load_document(module_name)
+	var result := {"loaded": false, "counts": {}}
+	for field in int_fields:
+		result[str(field)] = 0
+	for field in string_fields:
+		result[str(field)] = ""
+	for first_key_value in first_keys:
+		result[str(first_key_value)] = {}
+	if not bool(document.get("loaded", false)):
+		return result
+	var parsed: Dictionary = document.get("data", {})
+	result["loaded"] = true
+	for field in int_fields:
+		result[str(field)] = int(parsed.get(str(field), 0))
+	for field in string_fields:
+		result[str(field)] = str(parsed.get(str(field), ""))
+	for i in range(array_keys.size()):
+		var array_key := str(array_keys[i])
+		var first_key := str(first_keys[i]) if i < first_keys.size() else "first_" + array_key
+		var entries_value = parsed.get(array_key, [])
+		var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
+		var first_entry: Variant = {}
+		if not entries.is_empty():
+			first_entry = entries[0]
+		result["counts"][array_key] = entries.size()
+		result[first_key] = first_entry
 	return result
 
 static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:
