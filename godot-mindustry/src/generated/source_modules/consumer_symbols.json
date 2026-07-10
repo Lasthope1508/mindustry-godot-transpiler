@@ -12408,6 +12408,91 @@
         "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state"
+    },
+    "consume_item_list_set_multipliers.method": {
+      "canonical_symbol": "source_symbol_registry.consume_item_list_set_multipliers.method",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "java_expr": "public void setMultipliers(Object... objects){",
+      "godot_symbol": "source_consume_item_list_set_multipliers_result.method",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "rule": "Exact ConsumeItemList.setMultipliers method boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
+    },
+    "consume_item_list_set_multipliers.objects": {
+      "canonical_symbol": "source_symbol_registry.consume_item_list_set_multipliers.objects",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "java_expr": "Object... objects",
+      "godot_symbol": "source_consume_item_list_set_multipliers_input.objects",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "rule": "Explicit Object... varargs array supplied as canonical objects input.",
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
+    },
+    "consume_item_list_set_multipliers.loop_step": {
+      "canonical_symbol": "source_symbol_registry.consume_item_list_set_multipliers.loop_step",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "java_expr": "for(int i = 0; i < objects.length; i += 2){",
+      "godot_symbol": "source_consume_item_list_set_multipliers_result.loop_step",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "rule": "Exact source loop advances object varargs by item/multiplier pairs.",
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
+    },
+    "consume_item_list_set_multipliers.put_call": {
+      "canonical_symbol": "source_symbol_registry.consume_item_list_set_multipliers.put_call",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "java_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+      "godot_symbol": "source_consume_item_list_set_multipliers_result.put_calls",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "rule": "Exact ObjectFloatMap put call for each object pair.",
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
+    },
+    "consume_item_list_set_multipliers.item_multiplier_entries": {
+      "canonical_symbol": "source_symbol_registry.consume_item_list_set_multipliers.item_multiplier_entries",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "java_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+      "godot_symbol": "source_consume_item_list_set_multipliers_result.item_multiplier_entries",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "rule": "Canonical entry list mirrors itemMultipliers.put item/multiplier pairs without modeling ObjectFloatMap internals.",
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state"
     }
   }
 }

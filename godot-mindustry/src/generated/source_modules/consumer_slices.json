@@ -2196,6 +2196,28 @@
         "test_generated_consume_item_list_efficiency_multiplier_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_item_list_efficiency_multiplier_bridge_state"
+    },
+    "N1548": {
+      "canonical_ledger": "source_slice_ledger.N1548",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_method": "setMultipliers(Object... objects)",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "generated_owner": "ConsumeItemList.java_method_setMultipliers_0",
+      "source_symbols": [
+        "consume_item_list_set_multipliers.method",
+        "consume_item_list_set_multipliers.objects",
+        "consume_item_list_set_multipliers.loop_step",
+        "consume_item_list_set_multipliers.put_call",
+        "consume_item_list_set_multipliers.item_multiplier_entries"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_list_set_multipliers_bridge_state"
     }
   }
 }

@@ -13146,6 +13146,105 @@
           "rule": "Result equals item_multiplier_value from itemMultipliers.get(item, 1f)."
         }
       }
+    },
+    "source_consume_item_list_set_multipliers_input": {
+      "canonical_schema": "source_state_schema.source_consume_item_list_set_multipliers_input",
+      "keys": {
+        "objects": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "Object... objects",
+          "rule": "Explicit Object... varargs array for source pair loop."
+        }
+      }
+    },
+    "source_consume_item_list_set_multipliers_result": {
+      "canonical_schema": "source_state_schema.source_consume_item_list_set_multipliers_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_list_set_multipliers_state",
+          "rule": "Canonical Godot owner label for this source helper."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "rule": "Exact upstream source path."
+        },
+        "field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();",
+          "rule": "Exact ObjectFloatMap field."
+        },
+        "comment": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "/** Initializes item efficiency multiplier map. Format: [item1, mult1, item2, mult2...] */",
+          "rule": "Exact upstream format comment."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "public void setMultipliers(Object... objects){",
+          "rule": "Exact method boundary."
+        },
+        "loop_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "for(int i = 0; i < objects.length; i += 2){",
+          "rule": "Exact pair loop expression."
+        },
+        "put_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+          "rule": "Exact ObjectFloatMap put expression."
+        },
+        "objects": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_item_list_set_multipliers_input.objects",
+          "rule": "Returned input echo uses canonical input schema."
+        },
+        "objects_length": {
+          "type": "int",
+          "status": "derived",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "objects.length",
+          "rule": "Length of explicit Object... objects input."
+        },
+        "loop_step": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "for(int i = 0; i < objects.length; i += 2){",
+          "rule": "Source loop increments i by 2."
+        },
+        "put_calls": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+          "rule": "Ordered source put calls generated from object pairs."
+        },
+        "item_multiplier_entries": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+          "java_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+          "rule": "Canonical item/multiplier entries from source put calls."
+        }
+      }
     }
   }
 }

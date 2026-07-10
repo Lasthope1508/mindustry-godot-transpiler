@@ -1003,6 +1003,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemList.efficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("item_multiplier_value", null) == canonical.get("item_multiplier_value", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_list_set_multipliers_state(objects: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_list_set_multipliers_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemList.java"', source)
+        self.assertIn('"method": "public void setMultipliers(Object... objects){"', source)
+        self.assertIn('"loop_expr": "for(int i = 0; i < objects.length; i += 2){"', source)
+        self.assertIn('"put_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);"', source)
+        self.assertIn("var put_calls: Array = []", source)
+        self.assertIn("while i < objects.size():", source)
+        self.assertIn('"objects": objects', source)
+        self.assertIn('"put_calls": put_calls', source)
+        self.assertIn('"item_multiplier_entries": put_calls', source)
+        self.assertIn("func generated_consume_item_list_set_multipliers_bridge_state(objects: Array) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setMultipliers_0([objects])", source)
+        self.assertIn("var canonical = source_consume_item_list_set_multipliers_state(objects)", source)
+        self.assertIn('"generated_owner": "ConsumeItemList.setMultipliers"', source)
+        self.assertIn('"matches": result.get("put_calls", []) == canonical.get("put_calls", []) and result.get("objects_length", null) == canonical.get("objects_length", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

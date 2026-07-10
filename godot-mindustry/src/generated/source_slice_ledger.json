@@ -38633,6 +38633,40 @@
         "Concrete ObjectFloatMap lookup storage remains represented by explicit item_multiplier_value input backed by itemMultipliers.get(item, 1f)."
       ],
       "rule": "Generated bridge models exact ConsumeItemList.efficiencyMultiplier map lookup from local getConsumed result to itemMultipliers.get(item, 1f)."
+    },
+    "N1548": {
+      "title": "Generated ConsumeItemList setMultipliers bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "java_class": "ConsumeItemList",
+      "java_method": "setMultipliers(Object... objects)",
+      "generated_owner": "ConsumeItemList.java_method_setMultipliers_0",
+      "godot_owner": "PortGame.source_consume_item_list_set_multipliers_state",
+      "runtime_proof": "/root/Main.generated_consume_item_list_set_multipliers_bridge_state",
+      "exact_exprs": [
+        "public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();",
+        "/** Initializes item efficiency multiplier map. Format: [item1, mult1, item2, mult2...] */",
+        "public void setMultipliers(Object... objects){",
+        "for(int i = 0; i < objects.length; i += 2){",
+        "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);"
+      ],
+      "source_symbols": [
+        "consume_item_list_set_multipliers.method",
+        "consume_item_list_set_multipliers.objects",
+        "consume_item_list_set_multipliers.loop_step",
+        "consume_item_list_set_multipliers.put_call",
+        "consume_item_list_set_multipliers.item_multiplier_entries"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete ObjectFloatMap storage remains represented by ordered put_calls and item_multiplier_entries from explicit Object... objects input."
+      ],
+      "rule": "Generated bridge models exact ConsumeItemList.setMultipliers Object... pair loop into ObjectFloatMap put calls."
     }
   },
   "version": 1

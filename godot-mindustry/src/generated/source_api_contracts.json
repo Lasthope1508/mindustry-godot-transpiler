@@ -42431,6 +42431,43 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_list_efficiency_multiplier_state",
       "rule": "Public source helper exposes ConsumeItemList.efficiencyMultiplier(Building) ObjectFloatMap lookup state."
+    },
+    "PortGame.source_consume_item_list_set_multipliers_state": {
+      "status": "source-backed",
+      "source_slice": "N1548",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemList.java",
+      "source_method": "setMultipliers(Object... objects)",
+      "params": [
+        {
+          "name": "objects",
+          "type": "Array",
+          "schema": "source_consume_item_list_set_multipliers_input.objects",
+          "java_expr": "Object... objects",
+          "source_symbol": "consume_item_list_set_multipliers.objects"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "field",
+        "comment",
+        "method",
+        "loop_expr",
+        "put_expr",
+        "objects",
+        "objects_length",
+        "loop_step",
+        "put_calls",
+        "item_multiplier_entries"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_list_set_multipliers_to_source_state",
+        "test_port_game_exposes_generated_consume_item_list_set_multipliers_bridge_state",
+        "test_consume_item_list_set_multipliers_matches_upstream_source",
+        "test_generated_consume_item_list_set_multipliers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_list_set_multipliers_state",
+      "rule": "Public source helper exposes ConsumeItemList.setMultipliers(Object...) pair loop state."
     }
   },
   "policy": {

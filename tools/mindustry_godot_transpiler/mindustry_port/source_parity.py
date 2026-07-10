@@ -5099,6 +5099,25 @@ def verify_consume_item_list_efficiency_multiplier_source(upstream_root: Path) -
         "missing": missing,
     }
 
+
+def verify_consume_item_list_set_multipliers_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_list_source = "core/src/mindustry/world/consumers/ConsumeItemList.java"
+    list_text = (Path(upstream_root) / consume_item_list_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();",
+        "comment": "/** Initializes item efficiency multiplier map. Format: [item1, mult1, item2, mult2...] */",
+        "method": "public void setMultipliers(Object... objects){",
+        "loop_expr": "for(int i = 0; i < objects.length; i += 2){",
+        "put_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in list_text]
+    return {
+        "source": consume_item_list_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"

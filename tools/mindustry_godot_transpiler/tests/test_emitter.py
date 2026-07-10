@@ -18703,6 +18703,53 @@ public class ConsumeItemList extends ConsumeItemFilter{
             self.assertIn('"item_multiplier_value": item_multiplier_value', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_item_list_set_multipliers_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemList.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.struct.*;
+import mindustry.type.*;
+
+public class ConsumeItemList extends ConsumeItemFilter{
+    public ObjectFloatMap<Item> itemMultipliers = new ObjectFloatMap<>();
+
+    /** Initializes item efficiency multiplier map. Format: [item1, mult1, item2, mult2...] */
+    public void setMultipliers(Object... objects){
+        for(int i = 0; i < objects.length; i += 2){
+            itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemList.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setMultipliers_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var objects: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("var put_calls: Array = []", source_text)
+            self.assertIn("while i < objects.size():", source_text)
+            self.assertIn("var item: Variant = objects[i]", source_text)
+            self.assertIn("var multiplier: float = float(objects[i + 1])", source_text)
+            self.assertIn('"source_owner": "PortGame.source_consume_item_list_set_multipliers_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemList.java"', source_text)
+            self.assertIn('"method": "public void setMultipliers(Object... objects){"', source_text)
+            self.assertIn('"loop_expr": "for(int i = 0; i < objects.length; i += 2){"', source_text)
+            self.assertIn('"put_expr": "itemMultipliers.put((Item)objects[i], (Float)objects[i + 1]);"', source_text)
+            self.assertIn('"objects": objects', source_text)
+            self.assertIn('"put_calls": put_calls', source_text)
+            self.assertIn('"item_multiplier_entries": put_calls', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
