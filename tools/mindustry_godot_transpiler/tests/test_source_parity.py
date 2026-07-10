@@ -1722,6 +1722,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_default_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_default_constructor_source"))
+        report = source_parity.verify_consume_liquid_default_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeLiquidBase.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquid_field": "public final Liquid liquid;",
+            "constructor": "protected ConsumeLiquid(){",
+            "default_call": "this(null, 0f);",
+            "typed_constructor": "public ConsumeLiquid(Liquid liquid, float amount){",
+            "super_call": "super(amount);",
+            "liquid_assignment": "this.liquid = liquid;",
+            "base_constructor": "public ConsumeLiquidBase(float amount){",
+            "amount_assignment": "this.amount = amount;",
+            "amount_field": "public float amount;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_apply_source"))
         report = source_parity.verify_consume_liquid_apply_source(ROOT / "mindustry-upstream")

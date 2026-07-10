@@ -1340,6 +1340,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquid.constructor"', source)
         self.assertIn('"matches": result.get("amount_after", null) == canonical.get("amount_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_default_constructor_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_default_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source)
+        self.assertIn('"constructor": "protected ConsumeLiquid(){"', source)
+        self.assertIn('"default_call_expr": "this(null, 0f);"', source)
+        self.assertIn('"typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){"', source)
+        self.assertIn('"base_constructor_expr": "public ConsumeLiquidBase(float amount){"', source)
+        self.assertIn('"amount_assignment_expr": "this.amount = amount;"', source)
+        self.assertIn('"liquid_assignment_expr": "this.liquid = liquid;"', source)
+        self.assertIn('"default_liquid": null', source)
+        self.assertIn('"default_amount": 0.0', source)
+        self.assertIn('"liquid_after": null', source)
+        self.assertIn('"amount_after": 0.0', source)
+        self.assertIn("func generated_consume_liquid_default_constructor_bridge_state() -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeLiquid_1([])", source)
+        self.assertIn("var canonical = source_consume_liquid_default_constructor_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_default_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquid.default_constructor"', source)
+        self.assertIn('"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("liquid_after", null) == canonical.get("liquid_after", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

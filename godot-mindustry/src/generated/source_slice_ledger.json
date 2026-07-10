@@ -38389,6 +38389,45 @@
         "test_consume_liquid_constructor_matches_upstream_source",
         "test_generated_consume_liquid_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1542": {
+      "title": "Generated ConsumeLiquid default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_class": "mindustry.world.consumers.ConsumeLiquid",
+      "java_method": "ConsumeLiquid()",
+      "generated_owner": "ConsumeLiquid.java_constructor_ConsumeLiquid_1",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact protected ConsumeLiquid() constructor delegation this(null, 0f) through public constructor and base amount assignment without inventing live Liquid internals.",
+      "exact_exprs": [
+        "protected ConsumeLiquid(){",
+        "this(null, 0f);",
+        "public ConsumeLiquid(Liquid liquid, float amount){",
+        "super(amount);",
+        "this.liquid = liquid;",
+        "public ConsumeLiquidBase(float amount){",
+        "this.amount = amount;",
+        "public float amount;"
+      ],
+      "source_symbols": [
+        "consume_liquid_default_constructor.constructor",
+        "consume_liquid_default_constructor.default_call",
+        "consume_liquid_default_constructor.typed_constructor",
+        "consume_liquid_default_constructor.liquid_field",
+        "consume_liquid_default_constructor.super_call",
+        "consume_liquid_default_constructor.base_constructor",
+        "consume_liquid_default_constructor.default_liquid",
+        "consume_liquid_default_constructor.default_amount",
+        "consume_liquid_default_constructor.amount_assignment",
+        "consume_liquid_default_constructor.liquid_assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

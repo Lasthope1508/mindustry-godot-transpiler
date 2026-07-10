@@ -3870,6 +3870,37 @@ func generated_consume_liquid_constructor_bridge_state(liquid: Variant, amount: 
 		"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("liquid_after", null) == canonical.get("liquid_after", null),
 	}
 
+func source_consume_liquid_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_liquid_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+		"constructor": "protected ConsumeLiquid(){",
+		"default_call_expr": "this(null, 0f);",
+		"typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){",
+		"liquid_field": "public final Liquid liquid;",
+		"super_call_expr": "super(amount);",
+		"base_constructor_expr": "public ConsumeLiquidBase(float amount){",
+		"amount_assignment_expr": "this.amount = amount;",
+		"liquid_assignment_expr": "this.liquid = liquid;",
+		"default_liquid": null,
+		"default_amount": 0.0,
+		"amount_after": 0.0,
+		"liquid_after": null,
+	}
+
+func generated_consume_liquid_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeLiquid_1([])
+	var canonical = source_consume_liquid_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_liquid_default_constructor_state",
+		"generated_owner": "ConsumeLiquid.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("amount_after", null) == canonical.get("amount_after", null) and result.get("liquid_after", null) == canonical.get("liquid_after", null),
+	}
+
 func source_consume_liquid_base_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"method": "public void apply(Block block){",

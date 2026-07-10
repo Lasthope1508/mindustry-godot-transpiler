@@ -128279,6 +128279,176 @@
         "test_generated_consume_liquid_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_constructor_state"
+    },
+    "consume_liquid_default_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid()",
+      "java_expr": "protected ConsumeLiquid(){",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Canonical protected ConsumeLiquid default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.default_call": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid()",
+      "java_expr": "this(null, 0f);",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.default_call_expr",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "ConsumeLiquid default constructor delegates to public constructor with null liquid and 0f amount.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.typed_constructor": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "public ConsumeLiquid(Liquid liquid, float amount){",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Public ConsumeLiquid constructor reached by this(null, 0f).",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.liquid_field": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "public final Liquid liquid;",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.liquid_field",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Canonical ConsumeLiquid liquid field assigned by delegated constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.super_call": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "super(amount);",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.super_call_expr",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Delegated public constructor passes default amount to base constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.base_constructor": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "public ConsumeLiquidBase(float amount){",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.base_constructor_expr",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Base constructor receiving delegated default amount.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.default_liquid": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid()",
+      "java_expr": "this(null, 0f);",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.liquid_after",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Default constructor passes null liquid through delegated public constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.default_amount": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid()",
+      "java_expr": "this(null, 0f);",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Default constructor passes 0f amount through delegated public constructor.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.amount_assignment": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "java_method": "ConsumeLiquidBase(float amount)",
+      "java_expr": "this.amount = amount;",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.amount_after",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Base constructor assigns delegated 0f amount to amount field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
+    },
+    "consume_liquid_default_constructor.liquid_assignment": {
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "java_method": "ConsumeLiquid(Liquid liquid, float amount)",
+      "java_expr": "this.liquid = liquid;",
+      "godot_symbol": "source_consume_liquid_default_constructor_result.liquid_after",
+      "godot_owner": "PortGame.source_consume_liquid_default_constructor_state",
+      "rule": "Public constructor assigns delegated null liquid to liquid field.",
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state"
     }
   },
   "version": 1

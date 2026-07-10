@@ -6293,6 +6293,16 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "\tvar liquid_after: Variant = liquid",
                     '\treturn {"source_owner": "PortGame.source_consume_liquid_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "liquid": liquid, "amount": amount, "amount_after": amount_after, "liquid_after": liquid_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquid_{index}(_args: Array = []) -> Variant:",
+                    "\tvar liquid: Variant = null",
+                    "\tvar amount: float = 0.0",
+                    "\tvar amount_after: float = amount",
+                    "\tvar liquid_after: Variant = liquid",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "protected ConsumeLiquid(){", "default_call_expr": "this(null, 0f);", "typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "default_liquid": null, "default_amount": 0.0, "amount_after": amount_after, "liquid_after": liquid_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"

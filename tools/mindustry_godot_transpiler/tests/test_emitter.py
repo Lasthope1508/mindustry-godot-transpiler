@@ -19426,6 +19426,55 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"liquid_after": liquid_after', source_text)
             self.assertIn('"amount_after": amount_after', source_text)
 
+    def test_emit_bridges_consume_liquid_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquid extends ConsumeLiquidBase{
+    public final Liquid liquid;
+
+    public ConsumeLiquid(Liquid liquid, float amount){
+        super(amount);
+        this.liquid = liquid;
+    }
+
+    protected ConsumeLiquid(){
+        this(null, 0f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquid_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid: Variant = null", source_text)
+            self.assertIn("var amount: float = 0.0", source_text)
+            self.assertIn("var amount_after: float = amount", source_text)
+            self.assertIn("var liquid_after: Variant = liquid", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
+            self.assertIn('"constructor": "protected ConsumeLiquid(){"', source_text)
+            self.assertIn('"default_call_expr": "this(null, 0f);"', source_text)
+            self.assertIn('"typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){"', source_text)
+            self.assertIn('"base_constructor_expr": "public ConsumeLiquidBase(float amount){"', source_text)
+            self.assertIn('"amount_assignment_expr": "this.amount = amount;"', source_text)
+            self.assertIn('"liquid_assignment_expr": "this.liquid = liquid;"', source_text)
+            self.assertIn('"default_liquid": null', source_text)
+            self.assertIn('"default_amount": 0.0', source_text)
+            self.assertIn('"liquid_after": liquid_after', source_text)
+            self.assertIn('"amount_after": amount_after', source_text)
+
     def test_emit_bridges_consume_liquid_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

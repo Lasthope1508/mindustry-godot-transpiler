@@ -3528,6 +3528,38 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_constructor_state",
       "rule": "Public runtime contract for ConsumeLiquid(Liquid liquid, float amount) constructor field assignment and super amount assignment."
+    },
+    "PortGame.source_consume_liquid_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_default_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1542",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "source_method": "ConsumeLiquid()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "typed_constructor_expr",
+        "liquid_field",
+        "super_call_expr",
+        "base_constructor_expr",
+        "amount_assignment_expr",
+        "liquid_assignment_expr",
+        "default_liquid",
+        "default_amount",
+        "amount_after",
+        "liquid_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_default_constructor_bridge_state",
+        "test_consume_liquid_default_constructor_matches_upstream_source",
+        "test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_default_constructor_state",
+      "rule": "Public runtime contract for protected ConsumeLiquid() default constructor delegation state."
     }
   }
 }

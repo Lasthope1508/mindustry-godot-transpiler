@@ -19352,6 +19352,90 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("source_consume_liquid_constructor_result", consumer_schema_shard["schemas"])
         self.assertIn("consume_liquid_constructor.constructor", consumer_symbol_shard["symbols"])
 
+    def test_generated_consume_liquid_default_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        consumer_symbol_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_symbols")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        constructor_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.constructor")
+        self.assertEqual(constructor_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(constructor_symbol["java_method"], "ConsumeLiquid()")
+        self.assertEqual(constructor_symbol["java_expr"], "protected ConsumeLiquid(){")
+        self.assertEqual(constructor_symbol["godot_owner"], "PortGame.source_consume_liquid_default_constructor_state")
+        self.assertEqual(constructor_symbol["runtime_proof"], "/root/Main.source_consume_liquid_default_constructor_state")
+        self.assertEqual(constructor_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.constructor")
+
+        default_call_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.default_call")
+        self.assertEqual(default_call_symbol["java_expr"], "this(null, 0f);")
+        self.assertEqual(default_call_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.default_call_expr")
+
+        typed_constructor_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.typed_constructor")
+        self.assertEqual(typed_constructor_symbol["java_expr"], "public ConsumeLiquid(Liquid liquid, float amount){")
+        self.assertEqual(typed_constructor_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.typed_constructor_expr")
+
+        liquid_default_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.default_liquid")
+        self.assertEqual(liquid_default_symbol["status"], "source-backed")
+        self.assertEqual(liquid_default_symbol["java_expr"], "this(null, 0f);")
+        self.assertEqual(liquid_default_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.liquid_after")
+
+        amount_default_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.default_amount")
+        self.assertEqual(amount_default_symbol["status"], "source-backed")
+        self.assertEqual(amount_default_symbol["java_expr"], "this(null, 0f);")
+        self.assertEqual(amount_default_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.amount_after")
+
+        amount_assignment_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.amount_assignment")
+        self.assertEqual(amount_assignment_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquidBase.java")
+        self.assertEqual(amount_assignment_symbol["java_expr"], "this.amount = amount;")
+        self.assertEqual(amount_assignment_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.amount_after")
+
+        liquid_assignment_symbol = source_symbols.source_symbol(registry, "consume_liquid_default_constructor.liquid_assignment")
+        self.assertEqual(liquid_assignment_symbol["java_expr"], "this.liquid = liquid;")
+        self.assertEqual(liquid_assignment_symbol["godot_symbol"], "source_consume_liquid_default_constructor_result.liquid_after")
+
+        constructor_slice = source_symbols.source_slice(ledger, "N1542")
+        self.assertEqual(constructor_slice["title"], "Generated ConsumeLiquid default constructor bridge state")
+        self.assertEqual(constructor_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(constructor_slice["java_method"], "ConsumeLiquid()")
+        self.assertEqual(constructor_slice["godot_owner"], "PortGame.source_consume_liquid_default_constructor_state")
+        self.assertEqual(constructor_slice["generated_owner"], "ConsumeLiquid.java_constructor_ConsumeLiquid_1")
+        self.assertEqual(constructor_slice["runtime_proof"], "/root/Main.generated_consume_liquid_default_constructor_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1542"]["canonical_ledger"], "source_slice_ledger.N1542")
+        for expr in [
+            "protected ConsumeLiquid(){",
+            "this(null, 0f);",
+            "public ConsumeLiquid(Liquid liquid, float amount){",
+            "super(amount);",
+            "this.liquid = liquid;",
+            "public ConsumeLiquidBase(float amount){",
+            "this.amount = amount;",
+            "public float amount;",
+        ]:
+            self.assertIn(expr, constructor_slice["exact_exprs"])
+        self.assertIn("consume_liquid_default_constructor.constructor", constructor_slice["source_symbols"])
+        self.assertIn("consume_liquid_default_constructor.default_call", constructor_slice["source_symbols"])
+        self.assertIn("consume_liquid_default_constructor.default_liquid", constructor_slice["source_symbols"])
+        self.assertIn("consume_liquid_default_constructor.default_amount", constructor_slice["source_symbols"])
+        self.assertIn("consume_liquid_default_constructor.amount_assignment", constructor_slice["source_symbols"])
+        self.assertIn("consume_liquid_default_constructor.liquid_assignment", constructor_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquid_default_constructor_state")
+        self.assertEqual(contract["params"], [])
+        self.assertIn("amount_after", contract["return_keys"])
+        self.assertIn("liquid_after", contract["return_keys"])
+        self.assertIn("PortGame.source_consume_liquid_default_constructor_state", consumer_contract_shard["contracts"])
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquid_default_constructor_result")
+        self.assertEqual(result_schema["keys"]["liquid_after"]["java_expr"], "this(null, 0f);")
+        self.assertEqual(result_schema["keys"]["amount_after"]["java_expr"], "this(null, 0f);")
+        self.assertIn("source_consume_liquid_default_constructor_result", consumer_schema_shard["schemas"])
+        self.assertIn("consume_liquid_default_constructor.constructor", consumer_symbol_shard["symbols"])
+
     def test_generated_consume_liquid_apply_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -27294,10 +27378,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 979)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 973)
+        self.assertEqual(audit["totalSourceFunctions"], 980)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 974)
         self.assertEqual(audit["exemptSourceOwnerCount"], 6)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 979)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 980)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -27334,6 +27418,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_filter_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_base_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_constructor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_liquid_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_rebuild_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])

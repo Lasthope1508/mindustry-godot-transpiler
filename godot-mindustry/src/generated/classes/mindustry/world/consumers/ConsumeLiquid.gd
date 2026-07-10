@@ -20,6 +20,13 @@ func java_constructor_ConsumeLiquid_0(_args: Array = []) -> Variant:
 	var liquid_after: Variant = liquid
 	return {"source_owner": "PortGame.source_consume_liquid_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "liquid": liquid, "amount": amount, "amount_after": amount_after, "liquid_after": liquid_after}
 
+func java_constructor_ConsumeLiquid_1(_args: Array = []) -> Variant:
+	var liquid: Variant = null
+	var amount: float = 0.0
+	var amount_after: float = amount
+	var liquid_after: Variant = liquid
+	return {"source_owner": "PortGame.source_consume_liquid_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "protected ConsumeLiquid(){", "default_call_expr": "this(null, 0f);", "typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "default_liquid": null, "default_amount": 0.0, "amount_after": amount_after, "liquid_after": liquid_after}
+
 func java_method_apply_0(_args: Array = []) -> Variant:
 	var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)
 	var liquid_filter_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
