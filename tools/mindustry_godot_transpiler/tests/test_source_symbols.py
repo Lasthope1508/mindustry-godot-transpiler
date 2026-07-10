@@ -1094,6 +1094,34 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(item_report["canonical_mirror"]["checked"], len(item_files))
 
+    def test_source_ssot_playable_content_skin_overrides_shard_declares_empty_canonical_dict_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        skin_entry = manifest["modules"]["playable_content_skin_overrides"]
+
+        self.assertEqual(skin_entry["canonical_module"], "playable_content")
+        self.assertEqual(skin_entry["canonical_collection_key"], "skin_overrides")
+        self.assertEqual(skin_entry["canonical_value_field"], "skin_override")
+        self.assertEqual(skin_entry["canonical_reference_key"], "canonical_skin_override")
+        self.assertEqual(skin_entry["canonical_reference_prefix"], "playable_content.skin_overrides.")
+        self.assertEqual(skin_entry["root_key"], "skin_overrides")
+        self.assertEqual(skin_entry["mirror_fields"], ["skin_override"])
+        self.assertIn("playable_content.json skin_overrides", skin_entry["rule"])
+
+        skin_overrides = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content_skin_overrides")["skin_overrides"]
+        canonical_playable = source_ssot.load_registered_json(ROOT / "godot-mindustry", "playable_content")
+
+        self.assertEqual(canonical_playable["skin_overrides"], {})
+        self.assertEqual(skin_overrides, {})
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        skin_report = [entry for entry in report["modules"] if entry["name"] == "playable_content_skin_overrides"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(skin_report["canonical_mirror"]["checked"], 0)
+
     def test_source_ssot_source_symbol_registry_symbols_shard_declares_full_canonical_mirror_contract(self):
         import importlib
 

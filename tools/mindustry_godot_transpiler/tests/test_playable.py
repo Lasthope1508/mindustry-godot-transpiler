@@ -13344,6 +13344,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func playable_content_item_state(item_id: String = \"\") -> Dictionary:", source)
         self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_items", item_id)', source)
 
+    def test_port_game_exposes_playable_content_skin_overrides_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "playable_content_skin_overrides.json").exists())
+        self.assertIn('"playable_content_skin_overrides": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func playable_content_skin_override_state(skin_id: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)', source)
+
     def test_port_game_exposes_content_registry_liquids_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -167,6 +167,9 @@ func playable_content_block_state(block_id: String = "") -> Dictionary:
 func playable_content_item_state(item_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_items", item_id)
 
+func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
+
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 
