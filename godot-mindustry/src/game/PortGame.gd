@@ -170,6 +170,9 @@ func playable_content_item_state(item_id: String = "") -> Dictionary:
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 
+func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)
+
 func source_symbol_audit_state() -> Dictionary:
 	return SourceSsotCatalog.audit_summary_state()
 

@@ -264,10 +264,14 @@ def _validate_extension_canonical_mirror(
             if field not in shard_entry:
                 errors.append(f"{entry.name}.{item_key}: missing mirror field {field}")
                 continue
-            if field not in canonical_entry:
-                errors.append(f"{entry.name}.{item_key}: canonical {entry.canonical_module}.{item_key} missing field {field}")
-                continue
-            if shard_entry[field] != canonical_entry[field]:
+            if field == entry.canonical_value_field:
+                expected_value = canonical_entry
+            else:
+                if field not in canonical_entry:
+                    errors.append(f"{entry.name}.{item_key}: canonical {entry.canonical_module}.{item_key} missing field {field}")
+                    continue
+                expected_value = canonical_entry[field]
+            if shard_entry[field] != expected_value:
                 errors.append(f"{entry.name}.{item_key}: mirror field {field} differs from {entry.canonical_module}.{item_key}")
         report["checked"] += 1
     return report

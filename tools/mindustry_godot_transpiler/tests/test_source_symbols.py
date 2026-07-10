@@ -367,6 +367,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn("playable_content_items.copper: mirror field source differs from playable_content.item.copper", report["errors"])
             self.assertIn("playable_content_items.copper: mirror field item differs from playable_content.item.copper", report["errors"])
 
+    def test_source_ssot_catalog_validates_dict_root_canonical_value_fields(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp)
+            for module_name in source_ssot.module_names():
+                payload = {"version": 1}
+                root_key = source_ssot.root_key(module_name)
+                if root_key:
+                    payload[root_key] = {}
+                source_ssot.write_json(godot_root, module_name, payload)
+            source_ssot.write_json(godot_root, "registry", {
+                "version": 1,
+                "symbols": {
+                    "sample.symbol": {
+                        "godot_owner": "PortGame.sample_state",
+                        "godot_symbol": "sample_result.value",
+                        "java_expr": "sample.value",
+                        "rule": "Sample source-backed symbol.",
+                        "runtime_proof": "/root/Main.sample_state",
+                        "status": "source-backed",
+                        "tests": ["test_sample"],
+                    },
+                },
+            })
+            manifest_path = godot_root / source_ssot.extension_manifest_relative_path()
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            manifest_path.write_text(
+                '{"version": 1, "modules": {"source_symbol_registry_symbols": {"path": "src/generated/source_modules/source_symbol_registry_symbols.json", "root_key": "symbols", "label": "symbol", "canonical_module": "registry", "canonical_reference_key": "canonical_symbol", "canonical_reference_prefix": "source_symbol_registry.", "canonical_value_field": "symbol", "mirror_fields": ["godot_owner", "godot_symbol", "java_expr", "rule", "runtime_proof", "status", "tests", "symbol"]}}}\n',
+                encoding="utf-8",
+            )
+            extension_path = godot_root / "src/generated/source_modules/source_symbol_registry_symbols.json"
+            extension_path.parent.mkdir(parents=True, exist_ok=True)
+            extension_path.write_text(
+                '{"version": 1, "symbols": {"sample.symbol": {"canonical_symbol": "source_symbol_registry.sample.symbol", "godot_owner": "PortGame.sample_state", "godot_symbol": "sample_result.value", "java_expr": "wrong.value", "rule": "Sample source-backed symbol.", "runtime_proof": "/root/Main.sample_state", "status": "source-backed", "tests": ["test_sample"], "symbol": {"godot_owner": "wrong"}}}}\n',
+                encoding="utf-8",
+            )
+
+            report = source_ssot.validate_json_modules(godot_root)
+
+            self.assertIn("source_symbol_registry_symbols.sample.symbol: mirror field java_expr differs from registry.sample.symbol", report["errors"])
+            self.assertIn("source_symbol_registry_symbols.sample.symbol: mirror field symbol differs from registry.sample.symbol", report["errors"])
+
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
 
@@ -1018,6 +1063,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         item_report = [entry for entry in report["modules"] if entry["name"] == "playable_content_items"][0]
         self.assertEqual(report["errors"], [])
         self.assertEqual(item_report["canonical_mirror"]["checked"], len(item_files))
+
+    def test_source_ssot_source_symbol_registry_symbols_shard_declares_full_canonical_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        symbol_entry = manifest["modules"]["source_symbol_registry_symbols"]
+
+        self.assertEqual(symbol_entry["canonical_module"], "registry")
+        self.assertEqual(symbol_entry["canonical_reference_key"], "canonical_symbol")
+        self.assertEqual(symbol_entry["canonical_reference_prefix"], "source_symbol_registry.")
+        self.assertEqual(symbol_entry["canonical_value_field"], "symbol")
+        self.assertEqual(symbol_entry["root_key"], "symbols")
+        self.assertEqual(symbol_entry["mirror_fields"], ["godot_owner", "godot_symbol", "java_expr", "rule", "runtime_proof", "status", "tests", "symbol"])
+        self.assertIn("source_symbol_registry.json symbols", symbol_entry["rule"])
+
+        symbol_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_symbol_registry_symbols")["symbols"]
+        canonical_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "registry")["symbols"]
+
+        self.assertEqual(set(symbol_files), set(canonical_symbols))
+        self.assertEqual(len(symbol_files), len(canonical_symbols))
+        self.assertIn("ability_ability_stat.bundle_key", symbol_files)
+        self.assertEqual(symbol_files["ability_ability_stat.bundle_key"]["canonical_symbol"], "source_symbol_registry.ability_ability_stat.bundle_key")
+        for symbol_name, canonical_entry in sorted(canonical_symbols.items()):
+            with self.subTest(symbol_name=symbol_name):
+                self.assertEqual(symbol_files[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
+                self.assertEqual(symbol_files[symbol_name]["symbol"], canonical_entry)
+                for field in ["godot_owner", "godot_symbol", "java_expr", "rule", "runtime_proof", "status", "tests"]:
+                    self.assertEqual(symbol_files[symbol_name][field], canonical_entry[field])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        symbol_report = [entry for entry in report["modules"] if entry["name"] == "source_symbol_registry_symbols"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(symbol_report["canonical_mirror"]["checked"], len(symbol_files))
 
     def test_source_ssot_consumer_symbol_shard_declares_canonical_mirror_contract(self):
         import importlib
