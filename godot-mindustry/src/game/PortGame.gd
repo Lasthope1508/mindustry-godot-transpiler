@@ -541,6 +541,19 @@ func source_power_generator_displayed_power_production_state(power_production: f
 		"displayed_power_production": displayed_power_production,
 	}
 
+func generated_power_generator_displayed_power_production_bridge_state(power_production: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGenerator.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDisplayedPowerProduction_0([power_production])
+	var canonical = source_power_generator_displayed_power_production_state(power_production)
+	return {
+		"source_owner": "PortGame.source_power_generator_displayed_power_production_state",
+		"generated_owner": "PowerGenerator.getDisplayedPowerProduction",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("displayed_power_production", null) == canonical.get("displayed_power_production", null) and result.get("power_production", null) == canonical.get("power_production", null) and result.get("return_power_production", null) == canonical.get("return_power_production", null),
+	}
+
 func source_power_generator_build_serialization_state(production_efficiency: float, generate_time: float, revision: int, read_production_efficiency_value: float, read_generate_time_value: float) -> Dictionary:
 	var write_values := [production_efficiency, generate_time]
 	var read_generate_time_applied := revision >= 1

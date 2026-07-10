@@ -1999,6 +1999,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_explode_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplode.java", "comment": "//as this consumer doesn\'t actually consume anything, all methods below are empty", "method": "public void build(Building build, Table table){}", "empty_body": empty_body, "build": build_arg, "table": table_arg}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/power/PowerGenerator.java"
+        and type_entry.get("name") == "PowerGenerator"
+        and method.get("name") == "getDisplayedPowerProduction"
+    ):
+        return [
+            "\tvar power_production: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar displayed_power_production: float = power_production",
+            '\treturn {"source_owner": "PortGame.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/Consume.java"
         and type_entry.get("name") == "Consume"
         and method.get("name") == "trigger"

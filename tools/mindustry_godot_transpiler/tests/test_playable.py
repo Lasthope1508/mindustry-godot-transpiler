@@ -1503,6 +1503,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemExplode.build"', source)
         self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("build", null) == canonical.get("build", null) and result.get("table", null) == canonical.get("table", null)', source)
 
+    def test_port_game_exposes_generated_power_generator_displayed_power_production_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_generator_displayed_power_production_state(power_production: float) -> Dictionary:", source)
+        self.assertIn('"field": "public float powerProduction;"', source)
+        self.assertIn('"method": "public float getDisplayedPowerProduction(){"', source)
+        self.assertIn('"return_power_production": "return powerProduction;"', source)
+        self.assertIn("func generated_power_generator_displayed_power_production_bridge_state(power_production: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGenerator.gd")', source)
+        self.assertIn("var result = instance.java_method_getDisplayedPowerProduction_0([power_production])", source)
+        self.assertIn("var canonical = source_power_generator_displayed_power_production_state(power_production)", source)
+        self.assertIn('"generated_owner": "PowerGenerator.getDisplayedPowerProduction"', source)
+        self.assertIn('"matches": result.get("displayed_power_production", null) == canonical.get("displayed_power_production", null) and result.get("power_production", null) == canonical.get("power_production", null) and result.get("return_power_production", null) == canonical.get("return_power_production", null)', source)
+
     def test_port_game_exposes_generated_consume_trigger_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

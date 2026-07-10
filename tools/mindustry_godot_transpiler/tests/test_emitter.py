@@ -19758,6 +19758,43 @@ public class ConsumeItemExplode extends ConsumeItemFilter{
             self.assertIn('"build": build_arg', source_text)
             self.assertIn('"table": table_arg', source_text)
 
+    def test_emit_bridges_power_generator_displayed_power_production_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_path = source_root / "mindustry" / "world" / "blocks" / "power" / "PowerGenerator.java"
+            power_path.parent.mkdir(parents=True, exist_ok=True)
+            power_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class PowerGenerator extends PowerDistributor{
+    public float powerProduction;
+
+    public float getDisplayedPowerProduction(){
+        return powerProduction;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "PowerGenerator.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getDisplayedPowerProduction_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var power_production: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var displayed_power_production: float = power_production", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_generator_displayed_power_production_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/power/PowerGenerator.java"', source_text)
+            self.assertIn('"field": "public float powerProduction;"', source_text)
+            self.assertIn('"method": "public float getDisplayedPowerProduction(){"', source_text)
+            self.assertIn('"return_power_production": "return powerProduction;"', source_text)
+            self.assertIn('"power_production": power_production', source_text)
+            self.assertIn('"displayed_power_production": displayed_power_production', source_text)
+
     def test_emit_bridges_consume_trigger_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

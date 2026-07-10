@@ -14,7 +14,9 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "getDisplayedPowerProdu
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_getDisplayedPowerProduction_0(_args: Array = []) -> Variant:
-	return null
+	var power_production: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var displayed_power_production: float = power_production
+	return {"source_owner": "PortGame.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}
 
 func java_method_icons_1(_args: Array = []) -> Variant:
 	return null

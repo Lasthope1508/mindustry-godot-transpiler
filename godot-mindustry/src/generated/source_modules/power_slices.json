@@ -852,6 +852,25 @@
       ],
       "runtime_proof": "/root/Main.source_power_generator_displayed_power_production_state"
     },
+    "N1589": {
+      "canonical_ledger": "source_slice_ledger.N1589",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "java_method": "getDisplayedPowerProduction()",
+      "godot_owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "source_symbols": [
+        "power_generator_displayed_power_production.power_production",
+        "power_generator_displayed_power_production.return_power_production",
+        "power_generator_displayed_power_production.schematic_sum"
+      ],
+      "tests": [
+        "test_emit_bridges_power_generator_displayed_power_production_to_source_state",
+        "test_port_game_exposes_generated_power_generator_displayed_power_production_bridge_state",
+        "test_power_generator_displayed_power_production_matches_upstream_source",
+        "test_generated_power_generator_displayed_power_production_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_generator_displayed_power_production_bridge_state"
+    },
     "N923": {
       "canonical_ledger": "source_slice_ledger.N923",
       "status": "done",

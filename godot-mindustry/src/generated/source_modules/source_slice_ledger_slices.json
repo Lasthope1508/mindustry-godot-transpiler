@@ -74284,6 +74284,61 @@
         ],
         "rule": "Generated bridge records ConsumeItemExplode.build(Building, Table) empty implementation without inventing consumption behavior."
       }
+    },
+    "N1589": {
+      "canonical_slice": "source_slice_ledger.N1589",
+      "exact_exprs": [
+        "public float powerProduction;",
+        "public float getDisplayedPowerProduction(){",
+        "return powerProduction;"
+      ],
+      "godot_owner": "PortGame.source_power_generator_displayed_power_production_state",
+      "java_class": "PowerGenerator",
+      "java_method": "getDisplayedPowerProduction()",
+      "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+      "runtime_proof": "/root/Main.generated_power_generator_displayed_power_production_bridge_state",
+      "source_symbols": [
+        "power_generator_displayed_power_production.power_production",
+        "power_generator_displayed_power_production.return_power_production",
+        "power_generator_displayed_power_production.schematic_sum"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_power_generator_displayed_power_production_to_source_state",
+        "test_port_game_exposes_generated_power_generator_displayed_power_production_bridge_state",
+        "test_power_generator_displayed_power_production_matches_upstream_source",
+        "test_generated_power_generator_displayed_power_production_slice_is_registered_with_source_backing"
+      ],
+      "slice": {
+        "title": "Generated PowerGenerator displayed power production bridge state",
+        "status": "done",
+        "java_source": "core/src/mindustry/world/blocks/power/PowerGenerator.java",
+        "java_class": "PowerGenerator",
+        "java_method": "getDisplayedPowerProduction()",
+        "generated_owner": "PowerGenerator.java_method_getDisplayedPowerProduction_0",
+        "godot_owner": "PortGame.source_power_generator_displayed_power_production_state",
+        "runtime_proof": "/root/Main.generated_power_generator_displayed_power_production_bridge_state",
+        "exact_exprs": [
+          "public float powerProduction;",
+          "public float getDisplayedPowerProduction(){",
+          "return powerProduction;"
+        ],
+        "source_symbols": [
+          "power_generator_displayed_power_production.power_production",
+          "power_generator_displayed_power_production.return_power_production",
+          "power_generator_displayed_power_production.schematic_sum"
+        ],
+        "tests": [
+          "test_emit_bridges_power_generator_displayed_power_production_to_source_state",
+          "test_port_game_exposes_generated_power_generator_displayed_power_production_bridge_state",
+          "test_power_generator_displayed_power_production_matches_upstream_source",
+          "test_generated_power_generator_displayed_power_production_slice_is_registered_with_source_backing"
+        ],
+        "deferred": [
+          "PowerGenerator.icons(), load(), setStats(), setBars(), drawPlanRegion(BuildPlan, Eachable<BuildPlan>), and outputsItems() remain separate source-backed slices."
+        ],
+        "rule": "Generated bridge records PowerGenerator.getDisplayedPowerProduction() return of powerProduction without inventing live block state."
+      }
     }
   }
 }

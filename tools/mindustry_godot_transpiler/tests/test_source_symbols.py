@@ -21013,6 +21013,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consumer_schema_shard["schemas"]["source_consume_item_explode_build_result"]["canonical_schema"], "source_state_schema.source_consume_item_explode_build_result")
         self.assertEqual(consumer_symbol_shard["symbols"]["consume_item_explode_build.empty_body"]["canonical_symbol"], "source_symbol_registry.consume_item_explode_build.empty_body")
 
+    def test_generated_power_generator_displayed_power_production_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        power_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_slices")
+        complete_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        power_production = source_symbols.source_symbol(registry, "power_generator_displayed_power_production.power_production")
+        self.assertEqual(power_production["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(power_production["java_method"], "getDisplayedPowerProduction()")
+        self.assertEqual(power_production["godot_owner"], "PortGame.source_power_generator_displayed_power_production_state")
+
+        bridge_slice = source_symbols.source_slice(ledger, "N1589")
+        self.assertEqual(bridge_slice["title"], "Generated PowerGenerator displayed power production bridge state")
+        self.assertEqual(bridge_slice["java_source"], "core/src/mindustry/world/blocks/power/PowerGenerator.java")
+        self.assertEqual(bridge_slice["java_method"], "getDisplayedPowerProduction()")
+        self.assertEqual(bridge_slice["godot_owner"], "PortGame.source_power_generator_displayed_power_production_state")
+        self.assertEqual(bridge_slice["generated_owner"], "PowerGenerator.java_method_getDisplayedPowerProduction_0")
+        self.assertEqual(bridge_slice["runtime_proof"], "/root/Main.generated_power_generator_displayed_power_production_bridge_state")
+        self.assertIn("public float powerProduction;", bridge_slice["exact_exprs"])
+        self.assertIn("public float getDisplayedPowerProduction(){", bridge_slice["exact_exprs"])
+        self.assertIn("return powerProduction;", bridge_slice["exact_exprs"])
+        self.assertIn("power_generator_displayed_power_production.power_production", bridge_slice["source_symbols"])
+        self.assertIn("power_generator_displayed_power_production.return_power_production", bridge_slice["source_symbols"])
+        self.assertEqual(power_shard["slices"]["N1589"]["canonical_ledger"], "source_slice_ledger.N1589")
+        self.assertEqual(complete_shard["slices"]["N1589"]["canonical_slice"], "source_slice_ledger.N1589")
+        self.assertEqual(complete_shard["slices"]["N1589"]["slice"], bridge_slice)
+
     def test_generated_consume_trigger_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
