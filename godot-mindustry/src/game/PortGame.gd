@@ -230,6 +230,9 @@ func emitted_class_file_state(file_path: String = "") -> Dictionary:
 func port_report_state() -> Dictionary:
 	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
 
+func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)
+
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
 	content_counts = content_catalog.counts()

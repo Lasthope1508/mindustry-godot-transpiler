@@ -13308,6 +13308,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("result[first_key] = first_entry", catalog_source)
         self.assertNotIn("PORT_REPORT_PATH", source)
 
+    def test_port_game_exposes_port_report_unsupported_features_extension_shard(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported_features.json").exists())
+        self.assertIn('"port_report_unsupported_features": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertIn("func port_report_unsupported_feature_state(feature_index: String = \"\") -> Dictionary:", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)', source)
+
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
