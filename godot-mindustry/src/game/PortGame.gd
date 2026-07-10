@@ -1,7 +1,6 @@
 extends Node2D
 class_name PortGame
 
-const CONFIG_PATH := "res://src/generated/playable_content.json"
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
@@ -155,14 +154,12 @@ func _ready() -> void:
 	build_hud()
 
 func load_config() -> void:
-	var file := FileAccess.open(CONFIG_PATH, FileAccess.READ)
-	if file == null:
-		push_error("Missing playable content manifest: " + CONFIG_PATH)
+	var document := SourceSsotCatalog.load_document("playable_content")
+	if not bool(document.get("loaded", false)):
+		push_error("Missing playable content manifest: playable_content")
 		return
-	var parsed = JSON.parse_string(file.get_as_text())
-	if typeof(parsed) == TYPE_DICTIONARY:
-		config = parsed
-		tile_size = int(config.get("tile_size", 32))
+	config = document.get("data", {})
+	tile_size = int(config.get("tile_size", 32))
 
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
@@ -13556,6 +13553,23 @@ func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 			"mover": null,
 		})
 	return events
+
+func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
+	var instance = script.new()
+	var result = instance.java_method_shoot_1([shots, first_shot_delay, shot_delay])
+	var canonical = source_shoot_pattern_default_events({
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+	})
+	return {
+		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"generated_owner": "ShootPattern.java_method_shoot_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("events", []) == canonical,
+	}
 
 func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
 	var total_shots := int(mount_state.get("totalShots", 0))

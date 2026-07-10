@@ -11168,6 +11168,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"directBulletSource": "bullet(unit, mount, xOffset, yOffset, angle, mover);"', source)
         self.assertIn('"barrelIncrementerSource": "}, () -> mount.barrelCounter++);"', source)
 
+    def test_generated_shoot_pattern_default_events_bridge_matches_source_owner(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_shoot_1(_args: Array = []) -> Variant:", source)
+        method_body = source.split("func java_method_shoot_1(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertNotIn("return null", method_body)
+        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
+        self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
+        self.assertIn('"method": "public void shoot(int totalShots, BulletHandler handler){"', method_body)
+        self.assertIn('"loop": "for(int i = 0; i < shots; i++){"', method_body)
+        self.assertIn('"handler_call": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"', method_body)
+        self.assertIn("var events: Array = []", method_body)
+        self.assertIn("for i in shots:", method_body)
+        self.assertIn('"xOffset": 0.0', method_body)
+        self.assertIn('"delay": first_shot_delay + shot_delay * float(i)', method_body)
+        self.assertIn('"mover": null', method_body)
+
+    def test_port_game_exposes_generated_shoot_pattern_default_events_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
+        self.assertIn("var result = instance.java_method_shoot_1([shots, first_shot_delay, shot_delay])", source)
+        self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
+        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
+        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', source)
+        self.assertIn('"matches": result.get("events", []) == canonical', source)
+
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -12655,6 +12685,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"consumer_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_modules_state(module_name: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.ssot_modules_state(module_name)', source)
+
+    def test_port_game_loads_playable_content_through_ssot_catalog(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
+
+        self.assertIn('"playable_content": {', catalog_source)
+        self.assertIn('"path": "res://src/generated/playable_content.json"', catalog_source)
+        self.assertIn('var document := SourceSsotCatalog.load_document("playable_content")', source)
+        self.assertIn('config = document.get("data", {})', source)
+        self.assertNotIn("const CONFIG_PATH", source)
+        self.assertNotIn("FileAccess.open(CONFIG_PATH", source)
 
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

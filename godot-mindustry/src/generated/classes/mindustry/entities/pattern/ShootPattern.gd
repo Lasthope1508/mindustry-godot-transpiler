@@ -17,7 +17,30 @@ func java_method_shoot_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_shoot_1(_args: Array = []) -> Variant:
-	return null
+	var shots: int = int(_args[0] if _args.size() > 0 else 1)
+	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var events: Array = []
+	for i in shots:
+		events.append({
+			"xOffset": 0.0,
+			"yOffset": 0.0,
+			"angleOffset": 0.0,
+			"delay": first_shot_delay + shot_delay * float(i),
+			"mover": null,
+		})
+	return {
+		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"source": "core/src/mindustry/entities/pattern/ShootPattern.java",
+		"method": "public void shoot(int totalShots, BulletHandler handler){",
+		"loop": "for(int i = 0; i < shots; i++){",
+		"handler_call": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",
+		"mover_null": "shoot(x, y, rotation, delay, null);",
+		"shots": shots,
+		"firstShotDelay": first_shot_delay,
+		"shotDelay": shot_delay,
+		"events": events,
+	}
 
 func java_method_flip_2(_args: Array = []) -> Variant:
 	return null

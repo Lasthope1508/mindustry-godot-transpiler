@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceSsotCatalog
 
-const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema"]
+const MODULE_NAMES := ["registry", "audit_report", "slice_ledger", "api_contracts", "state_schema", "playable_content"]
 const MODULES := {
 	"registry": {
 		"path": "res://src/generated/source_symbol_registry.json",
@@ -27,6 +27,11 @@ const MODULES := {
 		"path": "res://src/generated/source_state_schema.json",
 		"root_key": "schemas",
 		"label": "schemaName",
+	},
+	"playable_content": {
+		"path": "res://src/generated/playable_content.json",
+		"root_key": "",
+		"label": "",
 	},
 }
 const EXTENSION_MANIFEST_PATH := "res://src/generated/source_ssot_modules.json"
