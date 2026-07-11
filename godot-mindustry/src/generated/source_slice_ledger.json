@@ -5370,7 +5370,7 @@
         "item_turret_limit_range_entries.dispatch_expr",
         "item_turret_limit_range_entries.margin"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
         "test_port_game_exposes_source_item_turret_limit_range_entries_state",

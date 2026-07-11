@@ -63482,6 +63482,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(limit_range_slice["java_method"], "ItemTurret.limitRange(float margin)")
         self.assertEqual(limit_range_slice["godot_owner"], "PortGame.source_item_turret_limit_range_entries_state")
         self.assertEqual(limit_range_slice["runtime_proof"], "/root/Main.generated_item_turret_limit_range_entries_bridge_state")
+        self.assertEqual(limit_range_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1174"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1174"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1174"]["slice"]["status"], "done")
         for expr in [
             "/** Limits bullet range to this turret's range value. */",
             "public void limitRange(float margin){",
