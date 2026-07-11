@@ -5278,7 +5278,7 @@
         "power_turret_build_has_ammo.comment",
         "power_turret_build_has_ammo.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
         "test_port_game_exposes_source_power_turret_build_has_ammo_state",
