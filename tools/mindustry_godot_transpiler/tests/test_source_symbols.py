@@ -65115,6 +65115,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(get_ammo_content_slice["java_method"], "ContinuousLiquidTurretBuild.getAmmoContent()")
         self.assertEqual(get_ammo_content_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state")
         self.assertEqual(get_ammo_content_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_build_get_ammo_content_bridge_state")
+        self.assertEqual(get_ammo_content_slice["status"], "done")
         for expr in [
             "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
             "boolean activated;",

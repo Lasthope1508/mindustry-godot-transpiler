@@ -13628,7 +13628,7 @@
         "continuous_liquid_turret_build_get_ammo_content.current_amount",
         "continuous_liquid_turret_build_get_ammo_content.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
@@ -13660,7 +13660,7 @@
           "continuous_liquid_turret_build_get_ammo_content.current_amount",
           "continuous_liquid_turret_build_get_ammo_content.return_expr"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
           "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
