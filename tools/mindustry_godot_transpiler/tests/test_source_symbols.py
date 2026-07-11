@@ -64432,6 +64432,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(item_entry_slice["java_method"], "ItemEntry(Item, int)")
         self.assertEqual(item_entry_slice["godot_owner"], "PortGame.source_item_entry_constructor_state")
         self.assertEqual(item_entry_slice["runtime_proof"], "/root/Main.generated_item_entry_constructor_bridge_state")
+        self.assertEqual(item_entry_slice["status"], "done")
         for expr in [
             "public class ItemEntry extends AmmoEntry{",
             "public Item item;",

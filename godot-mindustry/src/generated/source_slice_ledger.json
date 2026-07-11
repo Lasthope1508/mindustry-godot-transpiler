@@ -6027,7 +6027,7 @@
         "item_entry_constructor.item_after",
         "item_entry_constructor.amount_after"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_entry_constructor_to_source_state",
         "test_port_game_exposes_source_item_entry_constructor_state",
