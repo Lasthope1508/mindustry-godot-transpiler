@@ -64645,6 +64645,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ammo_slice["java_method"], "ContinuousLiquidTurret.ammo(Object...)")
         self.assertEqual(ammo_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_ammo_state")
         self.assertEqual(ammo_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state")
+        self.assertEqual(ammo_slice["status"], "done")
         for expr in [
             "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
             "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
