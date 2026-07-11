@@ -10370,7 +10370,7 @@
         "item_turret_set_stats.stats_ammo_add",
         "item_turret_set_stats.stats_ammo_capacity_add"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_item_turret_set_stats_state",
@@ -10408,7 +10408,7 @@
           "item_turret_set_stats.stats_ammo_add",
           "item_turret_set_stats.stats_ammo_capacity_add"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_turret_set_stats_to_source_state",
           "test_port_game_exposes_source_item_turret_set_stats_state",
