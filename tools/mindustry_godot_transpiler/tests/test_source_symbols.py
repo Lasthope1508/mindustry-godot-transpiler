@@ -60906,6 +60906,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_load_result["keys"]["drawer_load_called"]["java_expr"], "drawer.load(this);")
 
     def test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -60929,6 +60932,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_plan_slice["java_method"], "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
         self.assertEqual(draw_plan_slice["godot_owner"], "PortGame.source_turret_draw_plan_region_state")
         self.assertEqual(draw_plan_slice["runtime_proof"], "/root/Main.generated_turret_draw_plan_region_bridge_state")
+        self.assertEqual(draw_plan_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1158"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1158"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1158"]["slice"]["status"], "done")
         for expr in [
             "@Override",
             "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",

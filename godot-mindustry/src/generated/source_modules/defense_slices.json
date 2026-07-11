@@ -90,7 +90,7 @@
     },
     "N1158": {
       "canonical_ledger": "source_slice_ledger.N1158",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
       "godot_owner": "PortGame.source_turret_draw_plan_region_state",
