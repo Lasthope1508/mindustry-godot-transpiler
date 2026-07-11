@@ -63925,6 +63925,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ammo_fraction_slice["java_method"], "ItemTurretBuild.getAmmoFraction()")
         self.assertEqual(ammo_fraction_slice["godot_owner"], "PortGame.source_item_turret_build_get_ammo_fraction_state")
         self.assertEqual(ammo_fraction_slice["runtime_proof"], "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state")
+        self.assertEqual(ammo_fraction_slice["status"], "done")
         for expr in [
             "public class ItemTurretBuild extends TurretBuild{",
             "@Override",
