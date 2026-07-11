@@ -11705,7 +11705,7 @@
         "item_entry_to_string.amount",
         "item_entry_to_string.to_string"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_entry_to_string_to_source_state",
         "test_port_game_exposes_source_item_entry_to_string_state",
@@ -11742,7 +11742,7 @@
           "item_entry_to_string.amount",
           "item_entry_to_string.to_string"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_entry_to_string_to_source_state",
           "test_port_game_exposes_source_item_entry_to_string_state",
