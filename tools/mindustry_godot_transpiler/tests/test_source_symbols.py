@@ -65898,6 +65898,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(super_call["godot_symbol"], "source_liquid_turret_build_find_target_extinguish_result.super_find_target_called")
 
         find_target_slice = source_symbols.source_slice(ledger, "N1200")
+        self.assertEqual(find_target_slice["status"], "done")
         self.assertEqual(find_target_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(find_target_slice["java_method"], "LiquidTurretBuild.findTarget()")
         self.assertEqual(find_target_slice["godot_owner"], "PortGame.source_liquid_turret_build_find_target_extinguish_state")
