@@ -9874,7 +9874,7 @@
         "power_turret_limit_range.margin",
         "power_turret_limit_range.dispatch"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_power_turret_limit_range_to_source_state",
         "test_port_game_exposes_source_power_turret_limit_range_state",
@@ -9904,7 +9904,7 @@
           "power_turret_limit_range.margin",
           "power_turret_limit_range.dispatch"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_power_turret_limit_range_to_source_state",
           "test_port_game_exposes_source_power_turret_limit_range_state",
