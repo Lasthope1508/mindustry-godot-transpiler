@@ -13898,7 +13898,7 @@
         "continuous_liquid_turret_build_can_consume.super_can_consume",
         "continuous_liquid_turret_build_can_consume.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
@@ -13930,7 +13930,7 @@
           "continuous_liquid_turret_build_can_consume.super_can_consume",
           "continuous_liquid_turret_build_can_consume.return_expr"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
           "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
