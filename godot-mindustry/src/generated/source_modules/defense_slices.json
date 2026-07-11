@@ -154,7 +154,7 @@
     },
     "N1161": {
       "canonical_ledger": "source_slice_ledger.N1161",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "limitRange(BulletType bullet, float margin)",
       "godot_owner": "PortGame.source_turret_limit_range_state",

@@ -9441,7 +9441,7 @@
         "turret_limit_range.lifetime",
         "turret_limit_range.updated_bullet"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_limit_range_to_source_state",
         "test_port_game_exposes_source_turret_limit_range_state",
@@ -9478,7 +9478,7 @@
           "turret_limit_range.lifetime",
           "turret_limit_range.updated_bullet"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_limit_range_to_source_state",
           "test_port_game_exposes_source_turret_limit_range_state",
