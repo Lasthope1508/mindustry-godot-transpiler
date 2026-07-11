@@ -7201,7 +7201,7 @@
         "continuous_liquid_turret_build_sense_object.current_ammo_type_case",
         "continuous_liquid_turret_build_sense_object.sense_object_value"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
