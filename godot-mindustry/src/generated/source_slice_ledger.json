@@ -5826,7 +5826,7 @@
         "item_turret_build_handle_item.entry_added",
         "item_turret_build_handle_item.swapped"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_build_handle_item_to_source_state",
         "test_port_game_exposes_source_item_turret_build_handle_item_state",
