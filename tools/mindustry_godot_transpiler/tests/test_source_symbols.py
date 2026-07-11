@@ -60640,6 +60640,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consume_guard["godot_symbol"], "source_base_turret_check_init_coolant_result.consume_called")
 
         check_slice = source_symbols.source_slice(ledger, "N1207")
+        self.assertEqual(check_slice["status"], "done")
         self.assertEqual(check_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
         self.assertEqual(check_slice["java_method"], "checkInitCoolant()")
         self.assertEqual(check_slice["godot_owner"], "PortGame.source_base_turret_check_init_coolant_state")

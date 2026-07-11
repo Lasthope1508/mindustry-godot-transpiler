@@ -12672,7 +12672,7 @@
         "base_turret_check_init_coolant.json_comment",
         "base_turret_check_init_coolant.consume_guard"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_check_init_coolant_to_source_state",
         "test_port_game_exposes_source_base_turret_check_init_coolant_state",
@@ -12706,7 +12706,7 @@
           "base_turret_check_init_coolant.json_comment",
           "base_turret_check_init_coolant.consume_guard"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_base_turret_check_init_coolant_to_source_state",
           "test_port_game_exposes_source_base_turret_check_init_coolant_state",
