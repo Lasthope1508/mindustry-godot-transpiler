@@ -1494,7 +1494,7 @@
     },
     "N1214": {
       "canonical_ledger": "source_slice_ledger.N1214",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
       "java_method": "ItemTurret.ammo(Object...)",
       "godot_owner": "PortGame.source_item_turret_ammo_state",

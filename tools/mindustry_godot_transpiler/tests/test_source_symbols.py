@@ -64747,6 +64747,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(ammo_slice["java_method"], "ItemTurret.ammo(Object...)")
         self.assertEqual(ammo_slice["godot_owner"], "PortGame.source_item_turret_ammo_state")
         self.assertEqual(ammo_slice["runtime_proof"], "/root/Main.generated_item_turret_ammo_bridge_state")
+        self.assertEqual(ammo_slice["status"], "done")
         for expr in [
             "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
             "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",

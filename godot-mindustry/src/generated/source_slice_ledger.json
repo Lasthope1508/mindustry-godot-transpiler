@@ -6874,7 +6874,7 @@
         "item_turret_ammo.objects",
         "item_turret_ammo.ammo_types_after"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_ammo_to_source_state",
         "test_port_game_exposes_source_item_turret_ammo_state",
