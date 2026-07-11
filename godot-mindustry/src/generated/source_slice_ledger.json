@@ -7164,7 +7164,7 @@
         "continuous_liquid_turret_build_update_tile.activate_guard",
         "continuous_liquid_turret_build_update_tile.deactivate_guard"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
