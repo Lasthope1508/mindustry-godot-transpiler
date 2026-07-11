@@ -52149,6 +52149,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_add_build_result["keys"]["add_first_call"]["java_expr"], "plans.addFirst(place);")
 
     def test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -52181,6 +52184,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_building_slice["java_method"], "drawBuilding()")
         self.assertEqual(draw_building_slice["godot_owner"], "PortGame.source_builder_draw_building_state")
         self.assertEqual(draw_building_slice["runtime_proof"], "/root/Main.generated_builder_comp_draw_building_bridge_state")
+        self.assertEqual(draw_building_slice["status"], "done")
+        comp_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(comp_slices["N1153"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1153"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1153"]["slice"]["status"], "done")
         for expr in [
             "public void drawBuilding(){",
             "//TODO make this more generic so it works with builder \"weapons\"",

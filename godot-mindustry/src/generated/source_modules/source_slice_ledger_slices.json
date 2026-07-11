@@ -8764,7 +8764,7 @@
         "builder_draw_building.remote_plan_draw",
         "builder_draw_building.draw_building_beam_call"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_builder_comp_draw_building_to_source_state",
         "test_port_game_exposes_source_builder_draw_building_state",
@@ -8848,7 +8848,7 @@
           "builder_draw_building.remote_plan_draw",
           "builder_draw_building.draw_building_beam_call"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_builder_comp_draw_building_to_source_state",
           "test_port_game_exposes_source_builder_draw_building_state",
