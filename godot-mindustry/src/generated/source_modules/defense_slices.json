@@ -1262,7 +1262,7 @@
     },
     "N1205": {
       "canonical_ledger": "source_slice_ledger.N1205",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
       "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
       "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",

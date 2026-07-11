@@ -66191,6 +66191,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["godot_symbol"], "source_liquid_turret_build_accept_liquid_result.accept_liquid")
 
         accept_liquid_slice = source_symbols.source_slice(ledger, "N1205")
+        self.assertEqual(accept_liquid_slice["status"], "done")
         self.assertEqual(accept_liquid_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(accept_liquid_slice["java_method"], "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)")
         self.assertEqual(accept_liquid_slice["godot_owner"], "PortGame.source_liquid_turret_build_accept_liquid_state")
