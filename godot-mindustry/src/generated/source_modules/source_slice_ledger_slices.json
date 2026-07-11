@@ -12826,7 +12826,7 @@
         "base_turret_draw_place.fog_guard",
         "base_turret_draw_place.fog_dash_circle"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_draw_place_to_source_state",
         "test_port_game_exposes_source_base_turret_draw_place_state",
@@ -12870,7 +12870,7 @@
           "base_turret_draw_place.fog_guard",
           "base_turret_draw_place.fog_dash_circle"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_base_turret_draw_place_to_source_state",
           "test_port_game_exposes_source_base_turret_draw_place_state",

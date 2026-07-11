@@ -60701,6 +60701,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fog_dash_circle["godot_symbol"], "source_base_turret_draw_place_result.fog_dash_circle_call")
 
         draw_place_slice = source_symbols.source_slice(ledger, "N1209")
+        self.assertEqual(draw_place_slice["status"], "done")
         self.assertEqual(draw_place_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
         self.assertEqual(draw_place_slice["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
         self.assertEqual(draw_place_slice["godot_owner"], "PortGame.source_base_turret_draw_place_state")
