@@ -64833,6 +64833,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consume_filter["godot_symbol"], "source_liquid_turret_init_result.consume_call")
 
         init_slice = source_symbols.source_slice(ledger, "N1195")
+        self.assertEqual(init_slice["status"], "done")
         self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(init_slice["java_method"], "LiquidTurret.init()")
         self.assertEqual(init_slice["godot_owner"], "PortGame.source_liquid_turret_init_state")
