@@ -62952,6 +62952,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["heat_bar_fraction"]["java_expr"], "entity.heatReq / heatRequirement")
 
     def test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -62987,6 +62990,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(set_stats_slice["java_method"], "setStats()")
         self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_reload_turret_set_stats_state")
         self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_reload_turret_set_stats_bridge_state")
+        self.assertEqual(set_stats_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1165"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1165"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1165"]["slice"]["status"], "done")
         for expr in [
             "@Override",
             "public void setStats(){",

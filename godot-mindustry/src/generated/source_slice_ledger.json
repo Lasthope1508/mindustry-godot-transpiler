@@ -5078,7 +5078,7 @@
         "reload_turret_set_stats.coolant_gate",
         "reload_turret_set_stats.booster_replace"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_reload_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_reload_turret_set_stats_state",

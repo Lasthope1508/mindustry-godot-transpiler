@@ -265,7 +265,7 @@
     },
     "N1165": {
       "canonical_ledger": "source_slice_ledger.N1165",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
       "java_method": "setStats()",
       "godot_owner": "PortGame.source_reload_turret_set_stats_state",
