@@ -9030,7 +9030,7 @@
         "turret_outputs_items.override",
         "turret_outputs_items.return_false"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_outputs_items_to_source_state",
         "test_port_game_exposes_source_turret_outputs_items_state",
@@ -9058,7 +9058,7 @@
           "turret_outputs_items.override",
           "turret_outputs_items.return_false"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_outputs_items_to_source_state",
           "test_port_game_exposes_source_turret_outputs_items_state",

@@ -7,7 +7,7 @@
   "slices": {
     "N1155": {
       "canonical_ledger": "source_slice_ledger.N1155",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "outputsItems()",
       "godot_owner": "PortGame.source_turret_outputs_items_state",

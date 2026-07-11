@@ -52351,6 +52351,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_draw_building_beam_result["keys"]["focus_square_call"]["java_expr"], "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);")
 
     def test_generated_turret_outputs_items_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -52374,6 +52377,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(outputs_items_slice["java_method"], "outputsItems()")
         self.assertEqual(outputs_items_slice["godot_owner"], "PortGame.source_turret_outputs_items_state")
         self.assertEqual(outputs_items_slice["runtime_proof"], "/root/Main.generated_turret_outputs_items_bridge_state")
+        self.assertEqual(outputs_items_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1155"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1155"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1155"]["slice"]["status"], "done")
         self.assertIn("@Override", outputs_items_slice["exact_exprs"])
         self.assertIn("public boolean outputsItems(){", outputs_items_slice["exact_exprs"])
         self.assertIn("return false;", outputs_items_slice["exact_exprs"])
