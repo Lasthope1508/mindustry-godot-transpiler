@@ -6640,7 +6640,7 @@
         "base_turret_init.fog_radius",
         "base_turret_init.super_init"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_init_to_source_state",
         "test_port_game_exposes_source_base_turret_init_state",

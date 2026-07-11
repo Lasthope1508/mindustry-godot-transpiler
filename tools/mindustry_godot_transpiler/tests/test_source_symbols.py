@@ -60522,6 +60522,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(fog["godot_symbol"], "source_base_turret_init_result.fog_radius_after")
 
         init_slice = source_symbols.source_slice(ledger, "N1208")
+        self.assertEqual(init_slice["status"], "done")
         self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
         self.assertEqual(init_slice["java_method"], "init()")
         self.assertEqual(init_slice["godot_owner"], "PortGame.source_base_turret_init_state")
