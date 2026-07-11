@@ -6286,7 +6286,7 @@
         "liquid_turret_build_get_ammo_fraction.liquid_capacity",
         "liquid_turret_build_get_ammo_fraction.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
         "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
