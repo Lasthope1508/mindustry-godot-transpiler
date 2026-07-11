@@ -1755,7 +1755,7 @@
     },
     "N1225": {
       "canonical_ledger": "source_slice_ledger.N1225",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
       "java_method": "ContinuousLiquidTurretBuild.shouldConsume()",
       "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
