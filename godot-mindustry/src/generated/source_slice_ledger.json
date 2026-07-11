@@ -7301,7 +7301,7 @@
         "continuous_liquid_turret_build_use_ammo.comment",
         "continuous_liquid_turret_build_use_ammo.return_expr"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_use_ammo_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_use_ammo_state",
