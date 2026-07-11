@@ -1466,7 +1466,7 @@
     },
     "N1213": {
       "canonical_ledger": "source_slice_ledger.N1213",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "setBars()",
       "godot_owner": "PortGame.source_turret_set_bars_state",

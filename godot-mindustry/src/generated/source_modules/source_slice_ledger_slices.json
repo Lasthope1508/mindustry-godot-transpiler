@@ -13139,7 +13139,7 @@
         "turret_set_bars.bar_color",
         "turret_set_bars.bar_progress"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_set_bars_to_source_state",
         "test_port_game_exposes_source_turret_set_bars_state",
@@ -13178,7 +13178,7 @@
           "turret_set_bars.bar_color",
           "turret_set_bars.bar_progress"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_set_bars_to_source_state",
           "test_port_game_exposes_source_turret_set_bars_state",

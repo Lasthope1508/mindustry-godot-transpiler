@@ -62927,6 +62927,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(set_bars_slice["java_method"], "setBars()")
         self.assertEqual(set_bars_slice["godot_owner"], "PortGame.source_turret_set_bars_state")
         self.assertEqual(set_bars_slice["runtime_proof"], "/root/Main.generated_turret_set_bars_bridge_state")
+        self.assertEqual(set_bars_slice["status"], "done")
         for expr in [
             "@Override",
             "public void setBars(){",
