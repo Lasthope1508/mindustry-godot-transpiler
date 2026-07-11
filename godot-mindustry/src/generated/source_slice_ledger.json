@@ -6763,7 +6763,7 @@
         "base_turret_set_bars.bar_color",
         "base_turret_set_bars.bar_progress"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_set_bars_to_source_state",
         "test_port_game_exposes_source_base_turret_set_bars_state",
