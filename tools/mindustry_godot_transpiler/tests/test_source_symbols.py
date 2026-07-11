@@ -62583,6 +62583,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_limit_range_result["keys"]["updated_bullet"]["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
 
     def test_generated_turret_draw_place_slice_is_registered_with_source_backing(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
@@ -62615,6 +62618,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw_place_slice["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
         self.assertEqual(draw_place_slice["godot_owner"], "PortGame.source_turret_draw_place_state")
         self.assertEqual(draw_place_slice["runtime_proof"], "/root/Main.generated_turret_draw_place_bridge_state")
+        self.assertEqual(draw_place_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1162"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1162"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1162"]["slice"]["status"], "done")
         for expr in [
             "@Override",
             "public void drawPlace(int x, int y, int rotation, boolean valid){",

@@ -9521,7 +9521,7 @@
         "turret_draw_place.dash_circle",
         "turret_draw_place.pal_placing"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_draw_place_to_source_state",
         "test_port_game_exposes_source_turret_draw_place_state",
@@ -9565,7 +9565,7 @@
           "turret_draw_place.dash_circle",
           "turret_draw_place.pal_placing"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_draw_place_to_source_state",
           "test_port_game_exposes_source_turret_draw_place_state",

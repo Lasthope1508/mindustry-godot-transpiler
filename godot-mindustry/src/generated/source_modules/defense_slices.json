@@ -182,7 +182,7 @@
     },
     "N1162": {
       "canonical_ledger": "source_slice_ledger.N1162",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
       "godot_owner": "PortGame.source_turret_draw_place_state",
