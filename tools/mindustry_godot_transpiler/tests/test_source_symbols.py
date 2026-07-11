@@ -65014,6 +65014,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(active_sound_slice["java_method"], "ContinuousLiquidTurretBuild.shouldActiveSound()")
         self.assertEqual(active_sound_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_build_should_active_sound_state")
         self.assertEqual(active_sound_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_build_should_active_sound_bridge_state")
+        self.assertEqual(active_sound_slice["status"], "done")
         for expr in [
             "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
             "boolean activated;",
