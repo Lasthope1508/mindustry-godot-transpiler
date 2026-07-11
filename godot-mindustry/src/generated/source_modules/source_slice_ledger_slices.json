@@ -13059,7 +13059,7 @@
         "turret_set_stats.input_heat_stat",
         "turret_set_stats.max_efficiency_stat"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_turret_set_stats_state",
@@ -13098,7 +13098,7 @@
           "turret_set_stats.input_heat_stat",
           "turret_set_stats.max_efficiency_stat"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_set_stats_to_source_state",
           "test_port_game_exposes_source_turret_set_stats_state",
