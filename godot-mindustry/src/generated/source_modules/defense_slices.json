@@ -1016,7 +1016,7 @@
     },
     "N1194": {
       "canonical_ledger": "source_slice_ledger.N1194",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
       "java_method": "LiquidTurret.setStats()",
       "godot_owner": "PortGame.source_liquid_turret_set_stats_state",
