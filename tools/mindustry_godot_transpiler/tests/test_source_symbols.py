@@ -66073,6 +66073,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["godot_symbol"], "source_liquid_turret_build_has_ammo_result.has_ammo")
 
         has_ammo_slice = source_symbols.source_slice(ledger, "N1203")
+        self.assertEqual(has_ammo_slice["status"], "done")
         self.assertEqual(has_ammo_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(has_ammo_slice["java_method"], "LiquidTurretBuild.hasAmmo()")
         self.assertEqual(has_ammo_slice["godot_owner"], "PortGame.source_liquid_turret_build_has_ammo_state")

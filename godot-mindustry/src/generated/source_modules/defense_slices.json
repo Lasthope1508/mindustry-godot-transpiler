@@ -1218,7 +1218,7 @@
     },
     "N1203": {
       "canonical_ledger": "source_slice_ledger.N1203",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
       "java_method": "LiquidTurretBuild.hasAmmo()",
       "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
