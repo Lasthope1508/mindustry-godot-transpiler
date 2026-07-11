@@ -10677,7 +10677,7 @@
         "item_turret_build_sense_object.super_sense_object_value",
         "item_turret_build_sense_object.sense_object_value"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_build_sense_object_to_source_state",
         "test_port_game_exposes_source_item_turret_build_sense_object_state",
@@ -10716,7 +10716,7 @@
           "item_turret_build_sense_object.super_sense_object_value",
           "item_turret_build_sense_object.sense_object_value"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_turret_build_sense_object_to_source_state",
           "test_port_game_exposes_source_item_turret_build_sense_object_state",
