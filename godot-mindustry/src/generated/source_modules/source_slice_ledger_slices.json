@@ -11480,7 +11480,7 @@
         "item_turret_build_read.ammo_entries_after",
         "item_turret_build_read.read_calls"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_build_read_to_source_state",
         "test_port_game_exposes_source_item_turret_build_read_state",
@@ -11535,7 +11535,7 @@
           "item_turret_build_read.ammo_entries_after",
           "item_turret_build_read.read_calls"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_turret_build_read_to_source_state",
           "test_port_game_exposes_source_item_turret_build_read_state",
