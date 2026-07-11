@@ -27,7 +27,7 @@
     },
     "N1156": {
       "canonical_ledger": "source_slice_ledger.N1156",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "init()",
       "godot_owner": "PortGame.source_turret_init_state",

@@ -4761,7 +4761,7 @@
         "turret_init.range",
         "turret_init.tracking_range_input"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_init_to_source_state",
         "test_port_game_exposes_source_turret_init_state",
