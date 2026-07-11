@@ -826,7 +826,7 @@
     },
     "N1187": {
       "canonical_ledger": "source_slice_ledger.N1187",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
       "java_method": "ItemTurretBuild.version()",
       "godot_owner": "PortGame.source_item_turret_build_version_state",

@@ -11310,7 +11310,7 @@
         "item_turret_build_version.return_expr",
         "item_turret_build_version.version"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_build_version_to_source_state",
         "test_port_game_exposes_source_item_turret_build_version_state",
@@ -11339,7 +11339,7 @@
           "item_turret_build_version.return_expr",
           "item_turret_build_version.version"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_turret_build_version_to_source_state",
           "test_port_game_exposes_source_item_turret_build_version_state",
