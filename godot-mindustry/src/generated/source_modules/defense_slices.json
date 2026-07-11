@@ -213,7 +213,7 @@
     },
     "N1163": {
       "canonical_ledger": "source_slice_ledger.N1163",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "rotatedOutput(int x, int y)",
       "godot_owner": "PortGame.source_turret_rotated_output_state",

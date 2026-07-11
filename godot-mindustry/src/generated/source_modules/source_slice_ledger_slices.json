@@ -9594,7 +9594,7 @@
         "turret_rotated_output.y",
         "turret_rotated_output.return_false"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_rotated_output_to_source_state",
         "test_port_game_exposes_source_turret_rotated_output_state",
@@ -9624,7 +9624,7 @@
           "turret_rotated_output.y",
           "turret_rotated_output.return_false"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_rotated_output_to_source_state",
           "test_port_game_exposes_source_turret_rotated_output_state",
