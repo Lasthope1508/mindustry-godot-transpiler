@@ -9376,7 +9376,7 @@
         "turret_get_regions_to_outline.out",
         "turret_get_regions_to_outline.drawer_get_regions_to_outline"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
         "test_port_game_exposes_source_turret_get_regions_to_outline_state",
@@ -9405,7 +9405,7 @@
           "turret_get_regions_to_outline.out",
           "turret_get_regions_to_outline.drawer_get_regions_to_outline"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
           "test_port_game_exposes_source_turret_get_regions_to_outline_state",

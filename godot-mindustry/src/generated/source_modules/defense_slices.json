@@ -133,7 +133,7 @@
     },
     "N1160": {
       "canonical_ledger": "source_slice_ledger.N1160",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
       "godot_owner": "PortGame.source_turret_get_regions_to_outline_state",
