@@ -13273,7 +13273,7 @@
         "continuous_turret_set_stats.remove_reload",
         "continuous_turret_set_stats.remove_inaccuracy"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_continuous_turret_set_stats_state",
@@ -13306,7 +13306,7 @@
           "continuous_turret_set_stats.remove_reload",
           "continuous_turret_set_stats.remove_inaccuracy"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_continuous_turret_set_stats_to_source_state",
           "test_port_game_exposes_source_continuous_turret_set_stats_state",
