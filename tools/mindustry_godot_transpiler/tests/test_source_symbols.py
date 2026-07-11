@@ -63738,6 +63738,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(on_proximity_slice["java_method"], "ItemTurretBuild.onProximityAdded()")
         self.assertEqual(on_proximity_slice["godot_owner"], "PortGame.source_item_turret_build_on_proximity_added_state")
         self.assertEqual(on_proximity_slice["runtime_proof"], "/root/Main.generated_item_turret_build_on_proximity_added_bridge_state")
+        self.assertEqual(on_proximity_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1178"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1178"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1178"]["slice"]["status"], "done")
         for expr in [
             "public class ItemTurretBuild extends TurretBuild{",
             "@Override",
