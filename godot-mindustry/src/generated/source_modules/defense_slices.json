@@ -1061,7 +1061,7 @@
     },
     "N1196": {
       "canonical_ledger": "source_slice_ledger.N1196",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
       "java_method": "LiquidTurretBuild.shouldActiveSound()",
       "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",

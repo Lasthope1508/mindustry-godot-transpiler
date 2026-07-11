@@ -64947,6 +64947,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["godot_symbol"], "source_liquid_turret_build_should_active_sound_result.should_active_sound")
 
         active_sound_slice = source_symbols.source_slice(ledger, "N1196")
+        self.assertEqual(active_sound_slice["status"], "done")
         self.assertEqual(active_sound_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(active_sound_slice["java_method"], "LiquidTurretBuild.shouldActiveSound()")
         self.assertEqual(active_sound_slice["godot_owner"], "PortGame.source_liquid_turret_build_should_active_sound_state")
