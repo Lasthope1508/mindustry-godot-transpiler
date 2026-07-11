@@ -6493,7 +6493,7 @@
         "liquid_turret_build_accept_item.item",
         "liquid_turret_build_accept_item.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
         "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
