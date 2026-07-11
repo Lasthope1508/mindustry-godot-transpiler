@@ -4853,7 +4853,7 @@
         "turret_icons.drawer_final_icons",
         "turret_icons.icons"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_icons_to_source_state",
         "test_port_game_exposes_source_turret_icons_state",
