@@ -9202,7 +9202,7 @@
         "turret_load.super_load",
         "turret_load.drawer_load"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_load_to_source_state",
         "test_port_game_exposes_source_turret_load_state",
@@ -9232,7 +9232,7 @@
           "turret_load.super_load",
           "turret_load.drawer_load"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_load_to_source_state",
           "test_port_game_exposes_source_turret_load_state",
