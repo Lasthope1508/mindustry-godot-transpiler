@@ -9663,7 +9663,7 @@
         "turret_place_ended.place_ended_gate",
         "turret_place_ended.rotation_assign"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_turret_place_ended_to_source_state",
         "test_port_game_exposes_source_turret_place_ended_state",
@@ -9704,7 +9704,7 @@
           "turret_place_ended.place_ended_gate",
           "turret_place_ended.rotation_assign"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_turret_place_ended_to_source_state",
           "test_port_game_exposes_source_turret_place_ended_state",

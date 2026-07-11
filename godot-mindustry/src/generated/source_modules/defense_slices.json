@@ -235,7 +235,7 @@
     },
     "N1164": {
       "canonical_ledger": "source_slice_ledger.N1164",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
       "godot_owner": "PortGame.source_turret_place_ended_state",
