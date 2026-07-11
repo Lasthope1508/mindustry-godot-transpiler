@@ -11244,7 +11244,7 @@
         "item_turret_build_accept_item.ammo_type_null",
         "item_turret_build_accept_item.accept_item"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_turret_build_accept_item_to_source_state",
         "test_port_game_exposes_source_item_turret_build_accept_item_state",
@@ -11280,7 +11280,7 @@
           "item_turret_build_accept_item.ammo_type_null",
           "item_turret_build_accept_item.accept_item"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_item_turret_build_accept_item_to_source_state",
           "test_port_game_exposes_source_item_turret_build_accept_item_state",
