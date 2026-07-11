@@ -60585,6 +60585,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(super_call["godot_symbol"], "source_base_turret_reinitialize_consumers_result.super_reinitialize_consumers_called")
 
         reinitialize_slice = source_symbols.source_slice(ledger, "N1206")
+        self.assertEqual(reinitialize_slice["status"], "done")
         self.assertEqual(reinitialize_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
         self.assertEqual(reinitialize_slice["java_method"], "reinitializeConsumers()")
         self.assertEqual(reinitialize_slice["godot_owner"], "PortGame.source_base_turret_reinitialize_consumers_state")

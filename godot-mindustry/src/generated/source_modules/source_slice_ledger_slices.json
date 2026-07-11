@@ -12606,7 +12606,7 @@
         "base_turret_reinitialize_consumers.check_init_coolant",
         "base_turret_reinitialize_consumers.super_reinitialize_consumers"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
         "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
@@ -12636,7 +12636,7 @@
           "base_turret_reinitialize_consumers.check_init_coolant",
           "base_turret_reinitialize_consumers.super_reinitialize_consumers"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
           "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
