@@ -60769,6 +60769,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(activation["godot_symbol"], "source_base_turret_set_stats_result.activation_time_stat_call")
 
         set_stats_slice = source_symbols.source_slice(ledger, "N1210")
+        self.assertEqual(set_stats_slice["status"], "done")
         self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
         self.assertEqual(set_stats_slice["java_method"], "setStats()")
         self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_base_turret_set_stats_state")

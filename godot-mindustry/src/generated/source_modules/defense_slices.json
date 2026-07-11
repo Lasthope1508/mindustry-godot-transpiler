@@ -1389,7 +1389,7 @@
     },
     "N1210": {
       "canonical_ledger": "source_slice_ledger.N1210",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
       "java_method": "setStats()",
       "godot_owner": "PortGame.source_base_turret_set_stats_state",

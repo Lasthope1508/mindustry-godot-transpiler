@@ -12903,7 +12903,7 @@
         "base_turret_set_stats.shoot_range_stat",
         "base_turret_set_stats.activation_time_stat"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_base_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_base_turret_set_stats_state",
@@ -12938,7 +12938,7 @@
           "base_turret_set_stats.shoot_range_stat",
           "base_turret_set_stats.activation_time_stat"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_base_turret_set_stats_to_source_state",
           "test_port_game_exposes_source_base_turret_set_stats_state",
