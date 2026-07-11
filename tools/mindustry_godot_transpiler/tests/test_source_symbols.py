@@ -63278,6 +63278,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(use_ammo_slice["java_method"], "PowerTurretBuild.useAmmo()")
         self.assertEqual(use_ammo_slice["godot_owner"], "PortGame.source_power_turret_build_use_ammo_state")
         self.assertEqual(use_ammo_slice["runtime_proof"], "/root/Main.generated_power_turret_build_use_ammo_bridge_state")
+        self.assertEqual(use_ammo_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1170"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1170"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1170"]["slice"]["status"], "done")
         for expr in [
             "public class PowerTurretBuild extends TurretBuild{",
             "@Override",
