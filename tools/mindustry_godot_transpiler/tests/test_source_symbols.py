@@ -65840,6 +65840,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(value["godot_symbol"], "source_liquid_turret_build_sense_object_result.sense_object_value")
 
         sense_object_slice = source_symbols.source_slice(ledger, "N1199")
+        self.assertEqual(sense_object_slice["status"], "done")
         self.assertEqual(sense_object_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
         self.assertEqual(sense_object_slice["java_method"], "LiquidTurretBuild.senseObject(LAccess sensor)")
         self.assertEqual(sense_object_slice["godot_owner"], "PortGame.source_liquid_turret_build_sense_object_state")
