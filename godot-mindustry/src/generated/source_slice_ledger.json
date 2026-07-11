@@ -5114,7 +5114,7 @@
         "power_turret_set_stats.ammo_values",
         "power_turret_set_stats.stats_add"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_power_turret_set_stats_to_source_state",
         "test_port_game_exposes_source_power_turret_set_stats_state",

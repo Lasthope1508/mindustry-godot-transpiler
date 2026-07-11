@@ -7,7 +7,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
 
-from mindustry_port import source_symbols
+from mindustry_port import source_symbols, source_ssot
 
 
 class SourceSymbolRegistryTests(unittest.TestCase):
@@ -63050,6 +63050,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(set_stats_slice["java_method"], "setStats()")
         self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_power_turret_set_stats_state")
         self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_power_turret_set_stats_bridge_state")
+        self.assertEqual(set_stats_slice["status"], "done")
+        defense_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "defense_slices")["slices"]
+        source_slice_shard = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_slice_ledger_slices")["slices"]
+        self.assertEqual(defense_slices["N1166"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1166"]["status"], "done")
+        self.assertEqual(source_slice_shard["N1166"]["slice"]["status"], "done")
         for expr in [
             "@Override",
             "public void setStats(){",
