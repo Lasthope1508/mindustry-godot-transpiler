@@ -64907,6 +64907,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(init_slice["java_method"], "ContinuousLiquidTurret.init()")
         self.assertEqual(init_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_init_state")
         self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_init_bridge_state")
+        self.assertEqual(init_slice["status"], "done")
         for expr in [
             "@Override",
             "public void init(){",
