@@ -6059,7 +6059,7 @@
         "item_entry_type.ammo_type",
         "item_entry_type.type"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_item_entry_type_to_source_state",
         "test_port_game_exposes_source_item_entry_type_state",
