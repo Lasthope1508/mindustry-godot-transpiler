@@ -357,7 +357,7 @@
     },
     "N1169": {
       "canonical_ledger": "source_slice_ledger.N1169",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
       "java_method": "PowerTurretBuild.sense(LAccess sensor)",
       "godot_owner": "PortGame.source_power_turret_build_sense_state",

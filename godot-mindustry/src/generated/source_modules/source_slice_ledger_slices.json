@@ -9999,7 +9999,7 @@
         "power_turret_build_sense.ammo_capacity_case",
         "power_turret_build_sense.default_case"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_power_turret_build_sense_to_source_state",
         "test_port_game_exposes_source_power_turret_build_sense_state",
@@ -10036,7 +10036,7 @@
           "power_turret_build_sense.ammo_capacity_case",
           "power_turret_build_sense.default_case"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_power_turret_build_sense_to_source_state",
           "test_port_game_exposes_source_power_turret_build_sense_state",
