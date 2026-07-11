@@ -64046,6 +64046,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(handle_stack_slice["java_method"], "ItemTurretBuild.handleStack(Item,int,Teamc)")
         self.assertEqual(handle_stack_slice["godot_owner"], "PortGame.source_item_turret_build_handle_stack_state")
         self.assertEqual(handle_stack_slice["runtime_proof"], "/root/Main.generated_item_turret_build_handle_stack_bridge_state")
+        self.assertEqual(handle_stack_slice["status"], "done")
         for expr in [
             "public class ItemTurretBuild extends TurretBuild{",
             "@Override",
