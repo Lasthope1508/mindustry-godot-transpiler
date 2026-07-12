@@ -54320,6 +54320,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_building_default_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_initBuilding_117")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_building_default_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "protected void initBuilding(){",
             "try{",
