@@ -53589,6 +53589,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         consume_power_dynamic_displayed_slice = source_symbols.source_slice(ledger, "N1296")
         self.assertEqual(consume_power_dynamic_displayed_slice["title"], "Generated Block consumePowerDynamic displayed bridge state")
+        self.assertEqual(consume_power_dynamic_displayed_slice["status"], "done")
         self.assertEqual(consume_power_dynamic_displayed_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(consume_power_dynamic_displayed_slice["java_method"], "Block.consumePowerDynamic(float,Floatf)")
         self.assertEqual(consume_power_dynamic_displayed_slice["godot_owner"], "PortGame.source_block_consume_power_dynamic_displayed_state")

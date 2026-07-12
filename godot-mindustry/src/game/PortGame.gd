@@ -21150,12 +21150,26 @@ func generated_block_consume_power_dynamic_displayed_bridge_state(displayed: flo
 	var instance = script.new()
 	var result = instance.java_method_consumePowerDynamic_104([displayed, usage])
 	var canonical = source_block_consume_power_dynamic_displayed_state(displayed, usage)
+	var block_consume_power_dynamic_displayed_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"comment": result.get("comment", ""),
+		"method": result.get("method", ""),
+		"return_expr": result.get("return_expr", ""),
+		"constructor_expr": result.get("constructor_expr", ""),
+		"usage_cast_expr": result.get("usage_cast_expr", ""),
+		"consume_call_expr": result.get("consume_call_expr", ""),
+		"displayed": result.get("displayed", 0.0),
+		"usage": result.get("usage", null),
+		"constructed_consume": result.get("constructed_consume", {}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
 		"generated_owner": "Block.java_method_consumePowerDynamic_104",
-		"result": result,
+		"result": block_consume_power_dynamic_displayed_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_power_dynamic_displayed_result == canonical,
 	}
 
 func source_block_consume_power_buffered_state(power_capacity: float) -> Dictionary:
