@@ -18944,7 +18944,7 @@
         "block_setup_requirements_simple.cat",
         "block_setup_requirements_simple.stacks"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_setup_requirements_simple_to_source_state",
         "test_port_game_exposes_source_block_setup_requirements_simple_state",
@@ -18972,7 +18972,7 @@
           "block_setup_requirements_simple.cat",
           "block_setup_requirements_simple.stacks"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_setup_requirements_simple_to_source_state",
           "test_port_game_exposes_source_block_setup_requirements_simple_state",

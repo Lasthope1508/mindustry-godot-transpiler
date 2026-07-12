@@ -54053,6 +54053,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1304")
         self.assertEqual(setup_slice["title"], "Generated Block setupRequirements simple bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.setupRequirements(Category,ItemStack[])")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_setup_requirements_simple_state")

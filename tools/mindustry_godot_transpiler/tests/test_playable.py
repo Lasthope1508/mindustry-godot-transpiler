@@ -19290,9 +19290,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
         self.assertIn("var result = instance.java_method_setupRequirements_112([cat, stacks])", source)
         self.assertIn("var canonical = source_block_setup_requirements_simple_state(cat, stacks)", source)
+        self.assertIn("var block_setup_requirements_simple_result := {", source)
+        self.assertIn('"delegate_call_expr": result.get("delegate_call_expr", ""),', source)
+        self.assertIn('"cat": result.get("cat", null),', source)
+        self.assertIn('"stacks": result.get("stacks", null),', source)
+        self.assertIn('"delegate_called": result.get("delegate_called", false),', source)
         self.assertIn('"source_owner": "PortGame.source_block_setup_requirements_simple_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_setupRequirements_112"', source)
-        self.assertIn('"matches": result == canonical', source)
+        self.assertIn('"result": block_setup_requirements_simple_result,', source)
+        self.assertIn('"matches": block_setup_requirements_simple_result == canonical', source)
 
     def test_port_game_exposes_source_block_setup_requirements_visible_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

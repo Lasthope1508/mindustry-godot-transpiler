@@ -21495,12 +21495,21 @@ func generated_block_setup_requirements_simple_bridge_state(cat: Variant, stacks
 	var instance = script.new()
 	var result = instance.java_method_setupRequirements_112([cat, stacks])
 	var canonical = source_block_setup_requirements_simple_state(cat, stacks)
+	var block_setup_requirements_simple_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"delegate_call_expr": result.get("delegate_call_expr", ""),
+		"cat": result.get("cat", null),
+		"stacks": result.get("stacks", null),
+		"delegate_called": result.get("delegate_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_setup_requirements_simple_state",
 		"generated_owner": "Block.java_method_setupRequirements_112",
-		"result": result,
+		"result": block_setup_requirements_simple_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_setup_requirements_simple_result == canonical,
 	}
 
 func source_block_setup_requirements_visible_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:
