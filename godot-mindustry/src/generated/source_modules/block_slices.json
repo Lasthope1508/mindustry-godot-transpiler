@@ -1568,7 +1568,7 @@
         "block_logic_visible.logic_visible_return_expr",
         "block_logic_visible.build_visibility"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_logic_visible_to_source_state",
         "test_port_game_exposes_source_block_logic_visible_state",

@@ -54819,6 +54819,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1320")
         self.assertEqual(setup_slice["title"], "Generated Block logicVisible bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.logicVisible()")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_logic_visible_state")
