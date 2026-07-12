@@ -21235,12 +21235,22 @@ func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictiona
 	var instance = script.new()
 	var result = instance.java_method_consumeItem_106([item])
 	var canonical = source_block_consume_item_single_state(item)
+	var block_consume_item_single_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"return_expr": result.get("return_expr", ""),
+		"delegate_call_expr": result.get("delegate_call_expr", ""),
+		"item": result.get("item", null),
+		"amount": result.get("amount", 0),
+		"delegate_called": result.get("delegate_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_item_single_state",
 		"generated_owner": "Block.java_method_consumeItem_106",
-		"result": result,
+		"result": block_consume_item_single_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_item_single_result == canonical,
 	}
 
 func source_block_consume_item_amount_state(item: Variant, amount: int) -> Dictionary:
