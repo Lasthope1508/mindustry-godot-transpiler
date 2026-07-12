@@ -54873,6 +54873,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(category_name["godot_symbol"], "source_block_post_init_database_tag_input.category_name")
 
         setup_slice = source_symbols.source_slice(ledger, "N1321")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["title"], "Generated Block postInit databaseTag bridge state")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.postInit()")
