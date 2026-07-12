@@ -26778,13 +26778,20 @@ func generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity])
+	var coolant_remove_result := {
+		"coolant_guard": result.get("coolant_guard", false),
+		"liquid": result.get("liquid", null),
+		"used": result.get("used", 0.0),
+		"remove_called": result.get("remove_called", false),
+		"remove_call": result.get("remove_call", {}),
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_coolant_remove_state(result.get("coolant_guard", false), result.get("liquid", null), result.get("used", 0.0))
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_remove",
-		"result": result,
+		"result": coolant_remove_result,
 		"canonical": canonical,
-		"matches": result.get("remove_called", null) == canonical.get("remove_called", null) and result.get("remove_call", null) == canonical.get("remove_call", null),
+		"matches": coolant_remove_result.get("remove_called", null) == canonical.get("remove_called", null) and coolant_remove_result.get("remove_call", null) == canonical.get("remove_call", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_coolant_effect_state(coolant_guard: bool, used: float, chance_result: bool, x: float, y: float, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:

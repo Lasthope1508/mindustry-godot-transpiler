@@ -8005,7 +8005,7 @@
         "tractor_beam_turret_build_update_tile_coolant_remove.method",
         "tractor_beam_turret_build_update_tile_coolant_remove.remove"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
         "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
