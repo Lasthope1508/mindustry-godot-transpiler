@@ -7475,7 +7475,7 @@
         "continuous_liquid_turret_build_accept_liquid.current_ammo_multiplier",
         "continuous_liquid_turret_build_accept_liquid.return_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_continuous_liquid_turret_build_accept_liquid_to_source_state",
         "test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state",
