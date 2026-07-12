@@ -789,7 +789,7 @@
         "block_consume_power_buffered.power_per_tick",
         "block_consume_power_buffered.buffered"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_power_buffered_to_source_state",
         "test_port_game_exposes_source_block_consume_power_buffered_state",
