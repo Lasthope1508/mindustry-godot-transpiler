@@ -19922,7 +19922,7 @@
         "block_get_content_type.method",
         "block_get_content_type.content_type_return_expr"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_get_content_type_to_source_state",
         "test_port_game_exposes_source_block_get_content_type_state",
@@ -19945,7 +19945,7 @@
           "block_get_content_type.method",
           "block_get_content_type.content_type_return_expr"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_get_content_type_to_source_state",
           "test_port_game_exposes_source_block_get_content_type_state",

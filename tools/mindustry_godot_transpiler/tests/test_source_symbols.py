@@ -54774,6 +54774,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1319")
         self.assertEqual(setup_slice["title"], "Generated Block getContentType bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.getContentType()")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_get_content_type_state")
