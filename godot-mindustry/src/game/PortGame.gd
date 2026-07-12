@@ -21064,12 +21064,26 @@ func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant
 	var instance = script.new()
 	var result = instance.java_method_consumePowerCond_102([usage, cons])
 	var canonical = source_block_consume_power_cond_state(usage, cons)
+	var block_consume_power_cond_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_block_consume_power_cond_state"),
+		"source": result.get("source", "core/src/mindustry/world/Block.java"),
+		"comment": result.get("comment", "Creates a consumer which only consumes power when the condition is met."),
+		"method": result.get("method", "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){"),
+		"return_expr": result.get("return_expr", "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));"),
+		"constructor_expr": result.get("constructor_expr", "new ConsumePowerCondition(usage, (Boolf<Building>)cons)"),
+		"condition_cast_expr": result.get("condition_cast_expr", "(Boolf<Building>)cons"),
+		"consume_call_expr": result.get("consume_call_expr", "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))"),
+		"usage": result.get("usage", usage),
+		"condition": result.get("condition", cons),
+		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_power_cond_state",
 		"generated_owner": "Block.java_method_consumePowerCond_102",
-		"result": result,
+		"result": block_consume_power_cond_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_power_cond_result == canonical,
 	}
 
 func source_block_consume_power_dynamic_state(usage: Variant) -> Dictionary:
