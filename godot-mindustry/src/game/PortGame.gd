@@ -21568,12 +21568,26 @@ func generated_block_requirements_unlocked_bridge_state(cat: Variant, stacks: Va
 	var instance = script.new()
 	var result = instance.java_method_requirements_114([cat, stacks, unlocked])
 	var canonical = source_block_requirements_unlocked_state(cat, stacks, unlocked)
+	var block_requirements_unlocked_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"delegate_call_expr": result.get("delegate_call_expr", ""),
+		"always_unlocked_assignment_expr": result.get("always_unlocked_assignment_expr", ""),
+		"cat": result.get("cat", null),
+		"build_visibility": result.get("build_visibility", ""),
+		"stacks": result.get("stacks", null),
+		"unlocked": result.get("unlocked", false),
+		"delegate_called": result.get("delegate_called", false),
+		"always_unlocked_assigned": result.get("always_unlocked_assigned", false),
+		"always_unlocked_after": result.get("always_unlocked_after", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_requirements_unlocked_state",
 		"generated_owner": "Block.java_method_requirements_114",
-		"result": result,
+		"result": block_requirements_unlocked_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_requirements_unlocked_result == canonical,
 	}
 
 func source_block_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:
