@@ -4867,10 +4867,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(vec2_rotate["java_expr"], "return rotateRad(degrees * Mathf.degreesToRadians);")
 
     def test_bullet_type_update_weaving_circle_shooter_symbols_are_registered_with_source_backing(self):
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
 
         self.assertEqual(errors, [])
+        self.assertEqual(source_symbols.source_slice(ledger, "N462")["status"], "done")
 
         gate = source_symbols.source_symbol(registry, "update_weaving_circle_shooter.gate")
         self.assertEqual(gate["java_expr"], "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){")
@@ -31031,6 +31033,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(circleShooter && b.owner instanceof Healthc h && h.isValid()){", update_weaving_rotate_speed["deferred_exprs"])
 
         update_weaving_circle_shooter = source_symbols.source_slice(ledger, "N462")
+        self.assertEqual(update_weaving_circle_shooter["status"], "done")
         self.assertEqual(update_weaving_circle_shooter["java_method"], "updateWeaving(Bullet b)")
         self.assertEqual(update_weaving_circle_shooter["godot_owner"], "PortGame.source_bullet_type_update_weaving_circle_shooter_state")
         self.assertIn("if(circleShooter && b.owner instanceof Healthc h && h.isValid()){", update_weaving_circle_shooter["exact_exprs"])
