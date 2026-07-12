@@ -18109,7 +18109,7 @@
         "block_consume_liquids.consume_call_expr",
         "block_consume_liquids.stacks"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_liquids_to_source_state",
         "test_port_game_exposes_source_block_consume_liquids_state",
@@ -18138,7 +18138,7 @@
           "block_consume_liquids.consume_call_expr",
           "block_consume_liquids.stacks"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_consume_liquids_to_source_state",
           "test_port_game_exposes_source_block_consume_liquids_state",
