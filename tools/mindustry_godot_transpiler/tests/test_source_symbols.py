@@ -10636,6 +10636,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(no_op["godot_symbol"], "source_ability_init_result.no_op")
 
         init_slice = source_symbols.source_slice(ledger, "N1265")
+        self.assertEqual(init_slice["status"], "done")
         self.assertEqual(init_slice["title"], "Generated Ability init bridge state")
         self.assertEqual(init_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
         self.assertEqual(init_slice["java_method"], "Ability.init(UnitType type)")

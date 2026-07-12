@@ -18874,13 +18874,20 @@ func generated_ability_init_bridge_state(type_value: Variant) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_init_4([type_value])
 	var canonical = source_ability_init_state(type_value)
+	var ability_init_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_ability_init_state"),
+		"source": result.get("source", "core/src/mindustry/entities/abilities/Ability.java"),
+		"method": result.get("method", "public void init(UnitType type){}"),
+		"type": result.get("type", type_value),
+		"no_op": result.get("no_op", false),
+	}
 	return {
 		"source_owner": "PortGame.source_ability_init_state",
 		"generated_owner": "Ability.java_method_init_4",
-		"result": result,
+		"result": ability_init_result,
 		"canonical": canonical,
-		"matches": result.get("no_op", null) == canonical.get("no_op", null)
-			and result.get("type", null) == canonical.get("type", null),
+		"matches": ability_init_result.get("no_op", null) == canonical.get("no_op", null)
+			and ability_init_result.get("type", null) == canonical.get("type", null),
 	}
 
 func source_ability_display_bars_state(unit: Variant, bars: Variant) -> Dictionary:
