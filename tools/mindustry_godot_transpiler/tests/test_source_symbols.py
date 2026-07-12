@@ -61096,6 +61096,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(damage_per_second["godot_symbol"], "source_tractor_beam_turret_set_stats_result.damage_per_second")
 
         set_stats_slice = source_symbols.source_slice(ledger, "N1233")
+        self.assertEqual(set_stats_slice["status"], "done")
         self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(set_stats_slice["java_method"], "TractorBeamTurret.setStats()")
         self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_tractor_beam_turret_set_stats_state")
