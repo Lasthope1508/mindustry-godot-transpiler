@@ -4901,10 +4901,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return Math.max(Math.min(value, 1f), 0f);", mathf_clamp["java_expr"])
 
     def test_bullet_type_update_trail_effects_chance_symbols_are_registered_with_source_backing(self):
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
 
         self.assertEqual(errors, [])
+        self.assertEqual(source_symbols.source_slice(ledger, "N463")["status"], "done")
 
         can_spawn = source_symbols.source_symbol(registry, "update_trail_effects_chance.can_spawn")
         self.assertEqual(can_spawn["java_expr"], "boolean canSpawn = trailMinVelocity <= 0f || b.vel.len2() >= trailMinVelocity * trailMinVelocity;")
