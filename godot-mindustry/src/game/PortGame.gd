@@ -27404,15 +27404,29 @@ func generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state(
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage])
 	var canonical = source_tractor_beam_turret_build_update_tile_damage_pierce_state(result.get("shoot_within_guard", false), result.get("target_after", null), damage, result.get("eff", 0.0), time_scale, rules_block_damage, team)
+	var damage_pierce_result := {
+		"shoot_within_guard": result.get("shoot_within_guard", false),
+		"target_after": result.get("target_after", null),
+		"damage": damage,
+		"eff": result.get("eff", 0.0),
+		"time_scale": time_scale,
+		"rules_block_damage": rules_block_damage,
+		"team": team,
+		"damage_gate_evaluated": result.get("damage_gate_evaluated", false),
+		"damage_gate": result.get("damage_gate", false),
+		"damage_amount": result.get("damage_amount", 0.0) if result.get("damage_gate", false) else 0.0,
+		"block_damage_call": result.get("block_damage_call", {}) if result.get("damage_gate", false) else {},
+		"damage_continuous_pierce_call": result.get("damage_continuous_pierce_call", {}) if result.get("damage_gate", false) else {},
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.damage_pierce",
-		"result": result,
+		"result": damage_pierce_result,
 		"canonical": canonical,
-		"matches": result.get("damage_amount", null) == canonical.get("damage_amount", null)
-			and result.get("damage_gate", null) == canonical.get("damage_gate", null)
-			and result.get("block_damage_call", null) == canonical.get("block_damage_call", null)
-			and result.get("damage_continuous_pierce_call", null) == canonical.get("damage_continuous_pierce_call", null),
+		"matches": damage_pierce_result.get("damage_amount", null) == canonical.get("damage_amount", null)
+			and damage_pierce_result.get("damage_gate", null) == canonical.get("damage_gate", null)
+			and damage_pierce_result.get("block_damage_call", null) == canonical.get("block_damage_call", null)
+			and damage_pierce_result.get("damage_continuous_pierce_call", null) == canonical.get("damage_continuous_pierce_call", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_status_apply_state(shoot_within_guard: bool, target_after: Variant, status: Variant, status_duration: float) -> Dictionary:

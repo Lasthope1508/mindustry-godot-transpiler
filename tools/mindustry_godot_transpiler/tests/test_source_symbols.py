@@ -62324,6 +62324,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(block_damage["java_expr"], "public float blockDamage(Team team){")
 
         damage_slice = source_symbols.source_slice(ledger, "N1256")
+        self.assertEqual(damage_slice["status"], "done")
         self.assertEqual(damage_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(damage_slice["java_method"], "TractorBeamBuild.updateTile() damage pierce")
         self.assertEqual(damage_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state")
