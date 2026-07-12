@@ -16038,10 +16038,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool) -> Dictionary:", source)
         self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before])", source)
+        self.assertIn("var any_reset_result := {", source)
+        self.assertIn('"result": any_reset_result,', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_any_reset_state(result.get(\"activation_returned_early\", false), any_before)", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset"', source)
-        self.assertIn('"matches": result.get("any_after", null) == canonical.get("any_after", null) and result.get("any_reset_call", null) == canonical.get("any_reset_call", null)', source)
+        self.assertIn('"matches": any_reset_result.get("any_after", null) == canonical.get("any_after", null) and any_reset_result.get("any_reset_call", null) == canonical.get("any_reset_call", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

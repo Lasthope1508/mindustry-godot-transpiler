@@ -26924,13 +26924,21 @@ func generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state(acti
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before])
 	var canonical = source_tractor_beam_turret_build_update_tile_any_reset_state(result.get("activation_returned_early", false), any_before)
+	var any_reset_result := {
+		"activation_returned_early": result.get("activation_returned_early", false),
+		"any_before": any_before,
+		"any_reset_evaluated": result.get("any_reset_evaluated", false),
+		"any_reset_called": result.get("any_reset_called", false),
+		"any_after": result.get("any_after", any_before),
+		"any_reset_call": result.get("any_reset_call", {}),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset",
-		"result": result,
+		"result": any_reset_result,
 		"canonical": canonical,
-		"matches": result.get("any_after", null) == canonical.get("any_after", null) and result.get("any_reset_call", null) == canonical.get("any_reset_call", null)
-			and result.get("any_reset_called", null) == canonical.get("any_reset_called", null),
+		"matches": any_reset_result.get("any_after", null) == canonical.get("any_after", null) and any_reset_result.get("any_reset_call", null) == canonical.get("any_reset_call", null)
+			and any_reset_result.get("any_reset_called", null) == canonical.get("any_reset_called", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_look_target_guard_state(activation_returned_early: bool, target_after: Variant, range_value: float, target_hit_size: float, target_within_result: bool, target_team: Variant, team: Variant, target_air: bool, target_ground: bool, target_check_result: bool, efficiency: float) -> Dictionary:
