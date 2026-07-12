@@ -54217,6 +54217,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_requirements_simple_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_requirements_115")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_requirements_simple_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "public void requirements(Category cat, ItemStack[] stacks){",
             "requirements(cat, BuildVisibility.shown, stacks);",
