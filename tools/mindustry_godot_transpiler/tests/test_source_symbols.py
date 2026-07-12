@@ -54609,6 +54609,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_research_requirements_output_fill_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_researchRequirements_118")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_research_requirements_output_fill_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
             "requirements[i].item",
