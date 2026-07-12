@@ -26552,17 +26552,26 @@ func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value])
+	var eff_result := {
+		"returned_early": result.get("returned_early", false),
+		"eff_calculated": result.get("eff_calculated", false),
+		"efficiency": result.get("efficiency", efficiency),
+		"coolant_multiplier": result.get("coolant_multiplier", coolant_multiplier),
+		"delta_value": result.get("delta_value", delta_value),
+		"eff": result.get("eff", 0.0),
+		"edelta": result.get("edelta", 0.0),
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_eff_state(result.get("returned_early", false), efficiency, coolant_multiplier, delta_value)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.eff",
-		"result": result,
+		"result": eff_result,
 		"canonical": canonical,
-		"matches": result.get("eff", null) == canonical.get("eff", null) and result.get("edelta", null) == canonical.get("edelta", null)
-			and result.get("eff_calculated", null) == canonical.get("eff_calculated", null)
-			and result.get("efficiency", null) == canonical.get("efficiency", null)
-			and result.get("coolant_multiplier", null) == canonical.get("coolant_multiplier", null)
-			and result.get("delta_value", null) == canonical.get("delta_value", null),
+		"matches": eff_result.get("eff", null) == canonical.get("eff", null) and eff_result.get("edelta", null) == canonical.get("edelta", null)
+			and eff_result.get("eff_calculated", null) == canonical.get("eff_calculated", null)
+			and eff_result.get("efficiency", null) == canonical.get("efficiency", null)
+			and eff_result.get("coolant_multiplier", null) == canonical.get("coolant_multiplier", null)
+			and eff_result.get("delta_value", null) == canonical.get("delta_value", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_retarget_state(activation_returned_early: bool, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool) -> Dictionary:

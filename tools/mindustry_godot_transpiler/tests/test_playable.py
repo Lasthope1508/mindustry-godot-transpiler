@@ -15847,10 +15847,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float) -> Dictionary:", source)
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
         self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value])", source)
+        self.assertIn("var eff_result := {", source)
+        self.assertIn('"result": eff_result,', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_eff_state(result.get(\"returned_early\", false), efficiency, coolant_multiplier, delta_value)", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.eff"', source)
-        self.assertIn('"matches": result.get("eff", null) == canonical.get("eff", null) and result.get("edelta", null) == canonical.get("edelta", null)', source)
+        self.assertIn('"matches": eff_result.get("eff", null) == canonical.get("eff", null) and eff_result.get("edelta", null) == canonical.get("edelta", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

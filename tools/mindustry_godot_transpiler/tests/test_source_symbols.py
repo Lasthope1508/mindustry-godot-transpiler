@@ -61543,6 +61543,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(eff_slice["java_method"], "TractorBeamBuild.updateTile() eff/edelta")
         self.assertEqual(eff_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_eff_state")
         self.assertEqual(eff_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state")
+        self.assertEqual(eff_slice["status"], "done")
         for expr in [
             "public class TractorBeamBuild extends BaseTurretBuild{",
             "@Override",
