@@ -9720,7 +9720,7 @@
         "block_consume_coolant_single.consume_call_expr",
         "block_consume_coolant_single.amount"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_coolant_single_to_source_state",
         "test_port_game_exposes_source_block_consume_coolant_single_state",
