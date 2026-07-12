@@ -62141,6 +62141,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(last_y["godot_symbol"], "source_tractor_beam_turret_build_update_tile_last_target_position_result.last_y_after")
 
         position_slice = source_symbols.source_slice(ledger, "N1253")
+        self.assertEqual(position_slice["status"], "done")
         self.assertEqual(position_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(position_slice["java_method"], "TractorBeamBuild.updateTile() last target position")
         self.assertEqual(position_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state")

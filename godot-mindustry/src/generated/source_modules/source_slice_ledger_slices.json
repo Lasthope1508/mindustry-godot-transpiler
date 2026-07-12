@@ -15826,7 +15826,7 @@
         "tractor_beam_turret_build_update_tile_last_target_position.last_x",
         "tractor_beam_turret_build_update_tile_last_target_position.last_y"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
         "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
@@ -15853,7 +15853,7 @@
           "tractor_beam_turret_build_update_tile_last_target_position.last_x",
           "tractor_beam_turret_build_update_tile_last_target_position.last_y"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
           "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
