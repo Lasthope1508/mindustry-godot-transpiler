@@ -2371,7 +2371,7 @@
     },
     "N1251": {
       "canonical_ledger": "source_slice_ledger.N1251",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() angle to target",
       "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",

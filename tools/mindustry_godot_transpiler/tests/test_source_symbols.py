@@ -62052,6 +62052,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angle_call["godot_symbol"], "source_tractor_beam_turret_build_update_tile_angle_to_target_result.dest")
 
         angle_slice = source_symbols.source_slice(ledger, "N1251")
+        self.assertEqual(angle_slice["status"], "done")
         self.assertEqual(angle_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(angle_slice["java_method"], "TractorBeamBuild.updateTile() angle to target")
         self.assertEqual(angle_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state")
