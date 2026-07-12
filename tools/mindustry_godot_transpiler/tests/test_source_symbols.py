@@ -54001,6 +54001,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         consume_slice = source_symbols.source_slice(ledger, "N1303")
         self.assertEqual(consume_slice["title"], "Generated Block consume generic bridge state")
+        self.assertEqual(consume_slice["status"], "done")
         self.assertEqual(consume_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(consume_slice["java_method"], "Block.consume(T)")
         self.assertEqual(consume_slice["godot_owner"], "PortGame.source_block_consume_generic_state")

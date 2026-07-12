@@ -21450,12 +21450,33 @@ func generated_block_consume_generic_bridge_state(consume: Variant, consume_is_p
 	var instance = script.new()
 	var result = instance.java_method_consume_111([consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before])
 	var canonical = source_block_consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
+	var block_consume_generic_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"power_guard_expr": result.get("power_guard_expr", ""),
+		"comment": result.get("comment", ""),
+		"remove_power_expr": result.get("remove_power_expr", ""),
+		"cons_power_expr": result.get("cons_power_expr", ""),
+		"add_expr": result.get("add_expr", ""),
+		"return_expr": result.get("return_expr", ""),
+		"consume": result.get("consume", null),
+		"consume_is_power": result.get("consume_is_power", false),
+		"consume_builder_before": result.get("consume_builder_before", []),
+		"consume_builder_without_power": result.get("consume_builder_without_power", []),
+		"consume_builder_after": result.get("consume_builder_after", []),
+		"cons_power_before": result.get("cons_power_before", null),
+		"cons_power_after": result.get("cons_power_after", null),
+		"remove_power_called": result.get("remove_power_called", false),
+		"add_called": result.get("add_called", false),
+		"returned_consume": result.get("returned_consume", null),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_generic_state",
 		"generated_owner": "Block.java_method_consume_111",
-		"result": result,
+		"result": block_consume_generic_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_generic_result == canonical,
 	}
 
 func source_block_setup_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:

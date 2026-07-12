@@ -1001,7 +1001,7 @@
         "block_consume_generic.consume_builder_without_power",
         "block_consume_generic.cons_power_before"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_generic_to_source_state",
         "test_port_game_exposes_source_block_consume_generic_state",
