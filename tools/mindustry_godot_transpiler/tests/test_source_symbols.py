@@ -55139,6 +55139,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(size_value["godot_symbol"], "source_block_init_break_sound_input.size_value")
 
         setup_slice = source_symbols.source_slice(ledger, "N1325")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["title"], "Generated Block init breakSound bridge state")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.init()")
