@@ -10438,6 +10438,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(update_slice["godot_owner"], "PortGame.source_ability_update_state")
         self.assertEqual(update_slice["generated_owner"], "Ability.java_method_update_0")
         self.assertEqual(update_slice["runtime_proof"], "/root/Main.generated_ability_update_bridge_state")
+        self.assertEqual(update_slice["status"], "done")
         for expr in [
             "public abstract class Ability implements Cloneable{",
             "import mindustry.gen.*;",
