@@ -859,7 +859,7 @@
         "block_consume_item_amount.item",
         "block_consume_item_amount.amount"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_item_amount_to_source_state",
         "test_port_game_exposes_source_block_consume_item_amount_state",

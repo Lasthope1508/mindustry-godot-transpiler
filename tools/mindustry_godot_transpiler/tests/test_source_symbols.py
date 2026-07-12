@@ -53768,6 +53768,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         amount_slice = source_symbols.source_slice(ledger, "N1299")
         self.assertEqual(amount_slice["title"], "Generated Block consumeItem amount bridge state")
+        self.assertEqual(amount_slice["status"], "done")
         self.assertEqual(amount_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(amount_slice["java_method"], "Block.consumeItem(Item,int)")
         self.assertEqual(amount_slice["godot_owner"], "PortGame.source_block_consume_item_amount_state")

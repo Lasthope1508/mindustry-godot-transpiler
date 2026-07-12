@@ -21277,12 +21277,27 @@ func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int
 	var instance = script.new()
 	var result = instance.java_method_consumeItem_107([item, amount])
 	var canonical = source_block_consume_item_amount_state(item, amount)
+	var block_consume_item_amount_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"return_expr": result.get("return_expr", ""),
+		"item_stack_expr": result.get("item_stack_expr", ""),
+		"item_stack_array_expr": result.get("item_stack_array_expr", ""),
+		"constructor_expr": result.get("constructor_expr", ""),
+		"consume_call_expr": result.get("consume_call_expr", ""),
+		"item": result.get("item", null),
+		"amount": result.get("amount", 0),
+		"item_stack": result.get("item_stack", {}),
+		"constructed_consume": result.get("constructed_consume", {}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_item_amount_state",
 		"generated_owner": "Block.java_method_consumeItem_107",
-		"result": result,
+		"result": block_consume_item_amount_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_item_amount_result == canonical,
 	}
 
 func source_block_consume_items_varargs_state(items: Array) -> Dictionary:
