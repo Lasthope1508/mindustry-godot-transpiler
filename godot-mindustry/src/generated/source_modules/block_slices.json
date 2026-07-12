@@ -1316,7 +1316,7 @@
         "block_research_requirements_loop_shape.research_cost_multiplier",
         "block_research_requirements_loop_shape.requirements"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
         "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
