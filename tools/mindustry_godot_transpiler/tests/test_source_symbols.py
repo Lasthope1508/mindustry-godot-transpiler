@@ -61663,6 +61663,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(coolant_slice["java_method"], "TractorBeamBuild.updateTile() coolant guard")
         self.assertEqual(coolant_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state")
         self.assertEqual(coolant_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state")
+        self.assertEqual(coolant_slice["status"], "done")
         for expr in [
             "public class TractorBeamBuild extends BaseTurretBuild{",
             "@Override",

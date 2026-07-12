@@ -26676,18 +26676,29 @@ func generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state(
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid])
+	var coolant_guard_result := {
+		"returned_early": result.get("returned_early", false),
+		"target_after": result.get("target_after", null),
+		"coolant_present": result.get("coolant_present", coolant_present),
+		"coolant_amount": result.get("coolant_amount", coolant_amount),
+		"current_liquid": result.get("current_liquid", current_liquid),
+		"coolant_evaluated": result.get("coolant_evaluated", false),
+		"coolant_guard": result.get("coolant_guard", false),
+		"max_used": result.get("max_used", 0.0),
+		"liquid": result.get("liquid", null),
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_coolant_guard_state(result.get("returned_early", false), result.get("target_after", null), coolant_present, coolant_amount, current_liquid)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_guard",
-		"result": result,
+		"result": coolant_guard_result,
 		"canonical": canonical,
-		"matches": result.get("coolant_guard", null) == canonical.get("coolant_guard", null) and result.get("max_used", null) == canonical.get("max_used", null)
-			and result.get("liquid", null) == canonical.get("liquid", null)
-			and result.get("coolant_present", null) == canonical.get("coolant_present", null)
-			and result.get("coolant_amount", null) == canonical.get("coolant_amount", null)
-			and result.get("current_liquid", null) == canonical.get("current_liquid", null)
-			and result.get("target_after", null) == canonical.get("target_after", null),
+		"matches": coolant_guard_result.get("coolant_guard", null) == canonical.get("coolant_guard", null) and coolant_guard_result.get("max_used", null) == canonical.get("max_used", null)
+			and coolant_guard_result.get("liquid", null) == canonical.get("liquid", null)
+			and coolant_guard_result.get("coolant_present", null) == canonical.get("coolant_present", null)
+			and coolant_guard_result.get("coolant_amount", null) == canonical.get("coolant_amount", null)
+			and coolant_guard_result.get("current_liquid", null) == canonical.get("current_liquid", null)
+			and coolant_guard_result.get("target_after", null) == canonical.get("target_after", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_coolant_used_state(coolant_guard: bool, liquid_amount: float, max_used: float, time_delta: float, coolant_multiplier: float, liquid_heat_capacity: float) -> Dictionary:
