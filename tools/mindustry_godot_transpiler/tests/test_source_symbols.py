@@ -53938,6 +53938,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         filtered_slice = source_symbols.source_slice(ledger, "N1302")
         self.assertEqual(filtered_slice["title"], "Generated Block consumeCoolant filtered bridge state")
+        self.assertEqual(filtered_slice["status"], "done")
         self.assertEqual(filtered_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(filtered_slice["java_method"], "Block.consumeCoolant(float,boolean,boolean)")
         self.assertEqual(filtered_slice["godot_owner"], "PortGame.source_block_consume_coolant_filtered_state")

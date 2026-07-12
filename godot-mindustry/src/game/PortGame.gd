@@ -21397,12 +21397,25 @@ func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_
 	var instance = script.new()
 	var result = instance.java_method_consumeCoolant_110([amount, allow_liquid, allow_gas])
 	var canonical = source_block_consume_coolant_filtered_state(amount, allow_liquid, allow_gas)
+	var block_consume_coolant_filtered_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"return_expr": result.get("return_expr", ""),
+		"constructor_expr": result.get("constructor_expr", ""),
+		"consume_call_expr": result.get("consume_call_expr", ""),
+		"amount": result.get("amount", 0.0),
+		"allowLiquid": result.get("allowLiquid", false),
+		"allowGas": result.get("allowGas", false),
+		"constructed_consume": result.get("constructed_consume", {}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_coolant_filtered_state",
 		"generated_owner": "Block.java_method_consumeCoolant_110",
-		"result": result,
+		"result": block_consume_coolant_filtered_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_coolant_filtered_result == canonical,
 	}
 
 func source_block_consume_generic_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:

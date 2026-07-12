@@ -9755,7 +9755,7 @@
         "block_consume_coolant_filtered.allow_liquid",
         "block_consume_coolant_filtered.allow_gas"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
         "test_port_game_exposes_source_block_consume_coolant_filtered_state",
