@@ -61150,6 +61150,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(clip_radius["godot_symbol"], "source_tractor_beam_turret_init_result.clip_radius")
 
         init_slice = source_symbols.source_slice(ledger, "N1234")
+        self.assertEqual(init_slice["status"], "done")
         self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(init_slice["java_method"], "TractorBeamTurret.init()")
         self.assertEqual(init_slice["godot_owner"], "PortGame.source_tractor_beam_turret_init_state")
