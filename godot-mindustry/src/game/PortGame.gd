@@ -18948,12 +18948,30 @@ func generated_ability_display_bridge_state(table_state: Variant, localized_valu
 	var instance = script.new()
 	var result = instance.java_method_display_6([table_state, localized_value])
 	var canonical = source_ability_display_state(table_state, localized_value)
+	var ability_display_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_ability_display_state"),
+		"source": result.get("source", "core/src/mindustry/entities/abilities/Ability.java"),
+		"method": result.get("method", "public void display(Table t){"),
+		"table": result.get("table", table_state),
+		"style_expr": result.get("style_expr", "Styles.grayPanel"),
+		"table_call": result.get("table_call", "t.table(Styles.grayPanel, a -> {"),
+		"localized_call": result.get("localized_call", "localized()"),
+		"title_expr": result.get("title_expr", "\"[accent]\" + localized()"),
+		"localized_value": result.get("localized_value", localized_value),
+		"title_text": result.get("title_text", "[accent]" + localized_value),
+		"add_call": result.get("add_call", "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();"),
+		"row_call": result.get("row_call", "a.row();"),
+		"defaults_call": result.get("defaults_call", "a.left().top().defaults().left();"),
+		"add_stats_call": result.get("add_stats_call", "addStats(a);"),
+		"outer_chain": result.get("outer_chain", "}).pad(5).margin(10).growX().top().uniformX();"),
+		"table_mutation": result.get("table_mutation", false),
+	}
 	return {
 		"source_owner": "PortGame.source_ability_display_state",
 		"generated_owner": "Ability.java_method_display_6",
-		"result": result,
+		"result": ability_display_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": ability_display_result == canonical,
 	}
 
 func source_ability_add_stats_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:

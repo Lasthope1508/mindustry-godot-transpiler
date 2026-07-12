@@ -16643,7 +16643,7 @@
         "ability_display.title_expr",
         "ability_display.outer_chain"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_ability_display_to_source_state",
         "test_port_game_exposes_source_ability_display_state",
@@ -16679,7 +16679,7 @@
           "ability_display.title_expr",
           "ability_display.outer_chain"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_ability_display_to_source_state",
           "test_port_game_exposes_source_ability_display_state",
