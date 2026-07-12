@@ -61966,6 +61966,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(guard["godot_symbol"], "source_tractor_beam_turret_build_update_tile_look_target_guard_result.look_target_guard")
 
         guard_slice = source_symbols.source_slice(ledger, "N1249")
+        self.assertEqual(guard_slice["status"], "done")
         self.assertEqual(guard_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(guard_slice["java_method"], "TractorBeamBuild.updateTile() look target guard")
         self.assertEqual(guard_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state")

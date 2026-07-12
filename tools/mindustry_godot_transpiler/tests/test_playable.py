@@ -16063,10 +16063,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float) -> Dictionary:", source)
         self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size])", source)
+        self.assertIn("var look_target_guard_result := {", source)
+        self.assertIn('"result": look_target_guard_result,', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_look_target_guard_state(result.get(\"activation_returned_early\", false), result.get(\"target_after\", null), range_value, target_hit_size, target_within_result, target_team, team, target_air, target_ground, target_check_result, efficiency)", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.look_target_guard"', source)
-        self.assertIn('"matches": result.get("look_target_guard", null) == canonical.get("look_target_guard", null)', source)
+        self.assertIn('"matches": look_target_guard_result.get("look_target_guard", null) == canonical.get("look_target_guard", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

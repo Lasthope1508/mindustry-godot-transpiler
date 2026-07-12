@@ -26991,14 +26991,38 @@ func generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_st
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size])
 	var canonical = source_tractor_beam_turret_build_update_tile_look_target_guard_state(result.get("activation_returned_early", false), result.get("target_after", null), range_value, target_hit_size, target_within_result, target_team, team, target_air, target_ground, target_check_result, efficiency)
+	var look_target_guard_result := {
+		"activation_returned_early": result.get("activation_returned_early", false),
+		"target_after": result.get("target_after", null),
+		"range_value": range_value,
+		"target_hit_size": target_hit_size,
+		"target_within_result": target_within_result,
+		"target_team": target_team,
+		"team": team,
+		"target_air": target_air,
+		"target_ground": target_ground,
+		"target_check_result": target_check_result,
+		"efficiency": efficiency,
+		"look_target_evaluated": result.get("look_target_evaluated", false),
+		"target_exists_for_look": result.get("target_exists_for_look", false),
+		"target_within_radius": result.get("target_within_radius", 0.0),
+		"target_within_evaluated": result.get("target_within_evaluated", false),
+		"target_within_call": result.get("target_within_call", {}),
+		"target_team_evaluated": result.get("target_team_evaluated", false),
+		"target_enemy": result.get("target_enemy", false),
+		"target_check_evaluated": result.get("target_check_evaluated", false),
+		"target_check_call": result.get("target_check_call", {}),
+		"efficiency_gate_evaluated": result.get("efficiency_gate_evaluated", false),
+		"look_target_guard": result.get("look_target_guard", false),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.look_target_guard",
-		"result": result,
+		"result": look_target_guard_result,
 		"canonical": canonical,
-		"matches": result.get("look_target_guard", null) == canonical.get("look_target_guard", null)
-			and result.get("target_within_call", null) == canonical.get("target_within_call", null)
-			and result.get("target_check_call", null) == canonical.get("target_check_call", null),
+		"matches": look_target_guard_result.get("look_target_guard", null) == canonical.get("look_target_guard", null)
+			and look_target_guard_result.get("target_within_call", null) == canonical.get("target_within_call", null)
+			and look_target_guard_result.get("target_check_call", null) == canonical.get("target_check_call", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_sound_loop_state(look_target_guard: bool, headless: bool, shoot_sound: Variant, shoot_sound_volume: float) -> Dictionary:
