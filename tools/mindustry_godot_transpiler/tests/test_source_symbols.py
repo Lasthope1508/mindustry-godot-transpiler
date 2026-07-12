@@ -54650,6 +54650,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_get_dependencies_requirements_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_getDependencies_119")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_get_dependencies_requirements_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "public void getDependencies(Cons<UnlockableContent> cons){",
             "//just requires items",
