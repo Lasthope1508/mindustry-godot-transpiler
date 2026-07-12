@@ -27051,14 +27051,23 @@ func generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state(act
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume])
 	var canonical = source_tractor_beam_turret_build_update_tile_sound_loop_state(result.get("look_target_guard", false), headless, shoot_sound, shoot_sound_volume)
+	var sound_loop_result := {
+		"look_target_guard": result.get("look_target_guard", false),
+		"headless": headless,
+		"shoot_sound": shoot_sound,
+		"shoot_sound_volume": shoot_sound_volume,
+		"sound_loop_evaluated": result.get("sound_loop_evaluated", false),
+		"sound_loop_called": result.get("sound_loop_called", false),
+		"shoot_sound_loop_call": result.get("shoot_sound_loop_call", {}),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.sound_loop",
-		"result": result,
+		"result": sound_loop_result,
 		"canonical": canonical,
-		"matches": result.get("shoot_sound_loop_call", null) == canonical.get("shoot_sound_loop_call", null)
-			and result.get("sound_loop_called", null) == canonical.get("sound_loop_called", null)
-			and result.get("sound_loop_evaluated", null) == canonical.get("sound_loop_evaluated", null),
+		"matches": sound_loop_result.get("shoot_sound_loop_call", null) == canonical.get("shoot_sound_loop_call", null)
+			and sound_loop_result.get("sound_loop_called", null) == canonical.get("sound_loop_called", null)
+			and sound_loop_result.get("sound_loop_evaluated", null) == canonical.get("sound_loop_evaluated", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_angle_to_target_state(look_target_guard: bool, x: float, y: float, target_after: Variant) -> Dictionary:

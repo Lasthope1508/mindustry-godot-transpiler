@@ -62009,6 +62009,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(sound_loop["godot_symbol"], "source_tractor_beam_turret_build_update_tile_sound_loop_result.shoot_sound_loop_call")
 
         sound_slice = source_symbols.source_slice(ledger, "N1250")
+        self.assertEqual(sound_slice["status"], "done")
         self.assertEqual(sound_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(sound_slice["java_method"], "TractorBeamBuild.updateTile() sound loop")
         self.assertEqual(sound_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state")
