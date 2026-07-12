@@ -20897,12 +20897,25 @@ func generated_block_remove_consumers_bridge_state(consume_builder_contains_powe
 	var instance = script.new()
 	var result = instance.java_method_removeConsumers_98([consume_builder_contains_power_after_remove, b])
 	var canonical = source_block_remove_consumers_state(consume_builder_contains_power_after_remove, b)
+	var block_remove_consumers_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_block_remove_consumers_state"),
+		"source": result.get("source", "core/src/mindustry/world/Block.java"),
+		"method": result.get("method", "public void removeConsumers(Boolf<Consume> b){"),
+		"remove_all_expr": result.get("remove_all_expr", "consumeBuilder.removeAll(b);"),
+		"comment": result.get("comment", "//the power was removed, unassign it"),
+		"power_guard_expr": result.get("power_guard_expr", "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){"),
+		"cons_power_expr": result.get("cons_power_expr", "consPower = null;"),
+		"consumeBuilder_contains_power_after_remove": result.get("consumeBuilder_contains_power_after_remove", consume_builder_contains_power_after_remove),
+		"b": result.get("b", b),
+		"consume_builder_remove_all_called": result.get("consume_builder_remove_all_called", true),
+		"cons_power_cleared": result.get("cons_power_cleared", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_remove_consumers_state",
 		"generated_owner": "Block.java_method_removeConsumers_98",
-		"result": result,
+		"result": block_remove_consumers_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_remove_consumers_result == canonical,
 	}
 
 func source_block_consume_liquid_state(liquid: Variant, amount: float) -> Dictionary:

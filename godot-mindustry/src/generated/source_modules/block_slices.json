@@ -531,7 +531,7 @@
         "block_remove_consumers.consume_builder_contains_power_after_remove",
         "block_remove_consumers.b"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_remove_consumers_to_source_state",
         "test_port_game_exposes_source_block_remove_consumers_state",

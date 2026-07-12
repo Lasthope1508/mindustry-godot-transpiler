@@ -53229,6 +53229,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(cons_power_expr["godot_symbol"], "source_block_remove_consumers_result.cons_power_cleared")
 
         remove_consumers_slice = source_symbols.source_slice(ledger, "N1290")
+        self.assertEqual(remove_consumers_slice["status"], "done")
         self.assertEqual(remove_consumers_slice["title"], "Generated Block removeConsumers bridge state")
         self.assertEqual(remove_consumers_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(remove_consumers_slice["java_method"], "Block.removeConsumers(Boolf<Consume>)")
