@@ -10139,7 +10139,7 @@
         "block_research_requirements_quantity_formula.requirements",
         "block_research_requirements_quantity_formula.research_cost_multipliers"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
         "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",

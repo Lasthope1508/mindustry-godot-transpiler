@@ -54511,6 +54511,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_research_requirements_quantity_formula_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_researchRequirements_118")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_research_requirements_quantity_formula_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
             "60 * researchCostMultiplier",
