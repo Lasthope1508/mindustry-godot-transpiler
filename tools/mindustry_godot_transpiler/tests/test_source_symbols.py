@@ -61321,6 +61321,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(write_rotation["godot_symbol"], "source_tractor_beam_turret_build_write_result.write_f_call")
 
         write_slice = source_symbols.source_slice(ledger, "N1237")
+        self.assertEqual(write_slice["status"], "done")
         self.assertEqual(write_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(write_slice["java_method"], "TractorBeamBuild.write(Writes write)")
         self.assertEqual(write_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_write_state")

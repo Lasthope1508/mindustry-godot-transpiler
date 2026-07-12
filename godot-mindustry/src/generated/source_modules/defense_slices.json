@@ -2021,7 +2021,7 @@
     },
     "N1237": {
       "canonical_ledger": "source_slice_ledger.N1237",
-      "status": "active",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.write(Writes write)",
       "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
