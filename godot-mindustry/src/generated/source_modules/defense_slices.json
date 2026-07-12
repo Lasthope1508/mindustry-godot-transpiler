@@ -2108,7 +2108,7 @@
     },
     "N1240": {
       "canonical_ledger": "source_slice_ledger.N1240",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() activation timer",
       "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",

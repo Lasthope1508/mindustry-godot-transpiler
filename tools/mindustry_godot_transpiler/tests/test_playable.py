@@ -15819,10 +15819,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_activation_bridge_state(activation_timer: float, time_delta: float) -> Dictionary:", source)
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
         self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta])", source)
+        self.assertIn("var activation_result := {", source)
+        self.assertIn('"result": activation_result,', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_activation_state(activation_timer, time_delta)", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.activation"', source)
-        self.assertIn('"matches": result.get("activation_timer_after", null) == canonical.get("activation_timer_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', source)
+        self.assertIn('"matches": activation_result.get("activation_timer_after", null) == canonical.get("activation_timer_after", null) and activation_result.get("returned_early", null) == canonical.get("returned_early", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
