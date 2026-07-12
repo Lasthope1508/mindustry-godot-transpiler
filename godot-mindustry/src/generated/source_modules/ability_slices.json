@@ -161,7 +161,7 @@
         "ability_display_bars.bars",
         "ability_display_bars.no_op"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_ability_display_bars_to_source_state",
         "test_port_game_exposes_source_ability_display_bars_state",

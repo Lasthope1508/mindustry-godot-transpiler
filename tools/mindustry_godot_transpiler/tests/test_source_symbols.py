@@ -10692,6 +10692,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(no_op["godot_symbol"], "source_ability_display_bars_result.no_op")
 
         display_bars_slice = source_symbols.source_slice(ledger, "N1266")
+        self.assertEqual(display_bars_slice["status"], "done")
         self.assertEqual(display_bars_slice["title"], "Generated Ability displayBars bridge state")
         self.assertEqual(display_bars_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
         self.assertEqual(display_bars_slice["java_method"], "Ability.displayBars(Unit unit, Table bars)")

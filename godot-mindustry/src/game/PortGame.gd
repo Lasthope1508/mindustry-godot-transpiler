@@ -18905,14 +18905,22 @@ func generated_ability_display_bars_bridge_state(unit: Variant, bars: Variant) -
 	var instance = script.new()
 	var result = instance.java_method_displayBars_5([unit, bars])
 	var canonical = source_ability_display_bars_state(unit, bars)
+	var ability_display_bars_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_ability_display_bars_state"),
+		"source": result.get("source", "core/src/mindustry/entities/abilities/Ability.java"),
+		"method": result.get("method", "public void displayBars(Unit unit, Table bars){}"),
+		"unit": result.get("unit", unit),
+		"bars": result.get("bars", bars),
+		"no_op": result.get("no_op", false),
+	}
 	return {
 		"source_owner": "PortGame.source_ability_display_bars_state",
 		"generated_owner": "Ability.java_method_displayBars_5",
-		"result": result,
+		"result": ability_display_bars_result,
 		"canonical": canonical,
-		"matches": result.get("no_op", null) == canonical.get("no_op", null)
-			and result.get("unit", null) == canonical.get("unit", null)
-			and result.get("bars", null) == canonical.get("bars", null),
+		"matches": ability_display_bars_result.get("no_op", null) == canonical.get("no_op", null)
+			and ability_display_bars_result.get("unit", null) == canonical.get("unit", null)
+			and ability_display_bars_result.get("bars", null) == canonical.get("bars", null),
 	}
 
 func source_ability_display_state(table_state: Variant, localized_value: String) -> Dictionary:
