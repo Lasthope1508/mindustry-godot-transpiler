@@ -19008,12 +19008,29 @@ func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_v
 	var instance = script.new()
 	var result = instance.java_method_addStats_7([table_state, get_bundle_value, bundle_has_description, bundle_description])
 	var canonical = source_ability_add_stats_state(table_state, get_bundle_value, bundle_has_description, bundle_description)
+	var ability_add_stats_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_ability_add_stats_state"),
+		"source": result.get("source", "core/src/mindustry/entities/abilities/Ability.java"),
+		"method": result.get("method", "public void addStats(Table t){"),
+		"table": result.get("table", table_state),
+		"field_expr": result.get("field_expr", "protected static final float descriptionWidth = 350f;"),
+		"description_width": result.get("description_width", 350.0),
+		"get_bundle_call": result.get("get_bundle_call", "getBundle()"),
+		"get_bundle_value": result.get("get_bundle_value", get_bundle_value),
+		"description_key_expr": result.get("description_key_expr", "getBundle() + \".description\""),
+		"description_key": result.get("description_key", get_bundle_value + ".description"),
+		"guard_expr": result.get("guard_expr", "if(Core.bundle.has(getBundle() + \".description\")){"),
+		"guard_passed": result.get("guard_passed", false),
+		"bundle_description": result.get("bundle_description", bundle_description),
+		"add_description_call": result.get("add_description_call", null),
+		"row_call": result.get("row_call", null),
+	}
 	return {
 		"source_owner": "PortGame.source_ability_add_stats_state",
 		"generated_owner": "Ability.java_method_addStats_7",
-		"result": result,
+		"result": ability_add_stats_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": ability_add_stats_result == canonical,
 	}
 
 func source_ability_ability_stat_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:

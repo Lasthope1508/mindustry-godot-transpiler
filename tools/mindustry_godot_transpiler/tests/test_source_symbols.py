@@ -10808,6 +10808,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(add_description["godot_symbol"], "source_ability_add_stats_result.add_description_call")
 
         add_stats_slice = source_symbols.source_slice(ledger, "N1268")
+        self.assertEqual(add_stats_slice["status"], "done")
         self.assertEqual(add_stats_slice["title"], "Generated Ability addStats bridge state")
         self.assertEqual(add_stats_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
         self.assertEqual(add_stats_slice["java_method"], "Ability.addStats(Table t)")

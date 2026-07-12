@@ -18241,9 +18241,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
         self.assertIn("var result = instance.java_method_addStats_7([table_state, get_bundle_value, bundle_has_description, bundle_description])", source)
         self.assertIn("var canonical = source_ability_add_stats_state(table_state, get_bundle_value, bundle_has_description, bundle_description)", source)
+        self.assertIn("var ability_add_stats_result := {", source)
+        self.assertIn('"guard_passed": result.get("guard_passed", false),', source)
         self.assertIn('"source_owner": "PortGame.source_ability_add_stats_state"', source)
         self.assertIn('"generated_owner": "Ability.java_method_addStats_7"', source)
-        self.assertIn('"matches": result == canonical', source)
+        self.assertIn('"result": ability_add_stats_result,', source)
+        self.assertIn('"matches": ability_add_stats_result == canonical', source)
 
     def test_port_game_exposes_source_ability_ability_stat_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
