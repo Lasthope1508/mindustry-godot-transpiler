@@ -62187,6 +62187,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(mathf_lerp_delta["java_expr"], "public static float lerpDelta(float fromValue, float toValue, float progress){")
 
         strength_slice = source_symbols.source_slice(ledger, "N1254")
+        self.assertEqual(strength_slice["status"], "done")
         self.assertEqual(strength_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(strength_slice["java_method"], "TractorBeamBuild.updateTile() active strength")
         self.assertEqual(strength_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state")

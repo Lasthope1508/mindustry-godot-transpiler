@@ -27249,14 +27249,25 @@ func generated_tractor_beam_turret_build_update_tile_active_strength_bridge_stat
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before])
 	var canonical = source_tractor_beam_turret_build_update_tile_active_strength_state(result.get("last_target_position_evaluated", false), strength_before, time_delta)
+	var active_strength_result := {
+		"last_target_position_evaluated": result.get("last_target_position_evaluated", false),
+		"strength_before": strength_before,
+		"time_delta": time_delta,
+		"strength_lerp_evaluated": result.get("strength_lerp_evaluated", false),
+		"strength_lerp_progress": result.get("strength_lerp_progress", 0.1),
+		"strength_lerp_scaled_progress": result.get("strength_lerp_scaled_progress", 0.0),
+		"strength_lerp_clamped_progress": result.get("strength_lerp_clamped_progress", 0.0),
+		"strength_after": result.get("strength_after", strength_before) if result.get("strength_lerp_evaluated", false) else strength_before,
+		"strength_lerp_call": result.get("strength_lerp_call", {}),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.active_strength",
-		"result": result,
+		"result": active_strength_result,
 		"canonical": canonical,
-		"matches": result.get("strength_after", null) == canonical.get("strength_after", null)
-			and result.get("strength_lerp_call", null) == canonical.get("strength_lerp_call", null)
-			and result.get("strength_lerp_clamped_progress", null) == canonical.get("strength_lerp_clamped_progress", null),
+		"matches": active_strength_result.get("strength_after", null) == canonical.get("strength_after", null)
+			and active_strength_result.get("strength_lerp_call", null) == canonical.get("strength_lerp_call", null)
+			and active_strength_result.get("strength_lerp_clamped_progress", null) == canonical.get("strength_lerp_clamped_progress", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_inactive_strength_state(activation_returned_early: bool, look_target_guard: bool, strength_before: float, time_delta: float) -> Dictionary:
