@@ -10483,6 +10483,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(no_op["godot_symbol"], "source_ability_draw_result.no_op")
 
         draw_slice = source_symbols.source_slice(ledger, "N1262")
+        self.assertEqual(draw_slice["status"], "done")
         self.assertEqual(draw_slice["title"], "Generated Ability draw bridge state")
         self.assertEqual(draw_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
         self.assertEqual(draw_slice["java_method"], "Ability.draw(Unit unit)")

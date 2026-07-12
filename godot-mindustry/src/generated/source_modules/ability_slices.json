@@ -47,7 +47,7 @@
         "ability_draw.unit",
         "ability_draw.no_op"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_ability_draw_to_source_state",
         "test_port_game_exposes_source_ability_draw_state",
