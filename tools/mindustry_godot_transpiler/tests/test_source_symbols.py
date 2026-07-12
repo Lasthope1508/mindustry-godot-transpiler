@@ -61427,6 +61427,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(laser["godot_symbol"], "source_tractor_beam_turret_build_draw_result.laser_call")
 
         draw_slice = source_symbols.source_slice(ledger, "N1239")
+        self.assertEqual(draw_slice["status"], "done")
         self.assertEqual(draw_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(draw_slice["java_method"], "TractorBeamBuild.draw()")
         self.assertEqual(draw_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_draw_state")
