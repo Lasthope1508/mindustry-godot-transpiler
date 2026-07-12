@@ -27143,14 +27143,25 @@ func generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state(
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed])
 	var canonical = source_tractor_beam_turret_build_update_tile_rotation_move_state(result.get("angle_to_target_evaluated", false), rotation_before, result.get("dest", 0.0), rotate_speed, result.get("edelta", 0.0))
+	var rotation_move_result := {
+		"angle_to_target_evaluated": result.get("angle_to_target_evaluated", false),
+		"rotation_before": rotation_before,
+		"dest": result.get("dest", 0.0),
+		"rotate_speed": rotate_speed,
+		"edelta": result.get("edelta", 0.0),
+		"rotation_move_evaluated": result.get("rotation_move_evaluated", false),
+		"rotation_max_delta": result.get("rotation_max_delta", 0.0),
+		"rotation_after": result.get("rotation_after", rotation_before),
+		"rotation_move_call": result.get("rotation_move_call", {}),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.rotation_move",
-		"result": result,
+		"result": rotation_move_result,
 		"canonical": canonical,
-		"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null)
-			and result.get("rotation_move_call", null) == canonical.get("rotation_move_call", null)
-			and result.get("rotation_max_delta", null) == canonical.get("rotation_max_delta", null),
+		"matches": rotation_move_result.get("rotation_after", null) == canonical.get("rotation_after", null)
+			and rotation_move_result.get("rotation_move_call", null) == canonical.get("rotation_move_call", null)
+			and rotation_move_result.get("rotation_max_delta", null) == canonical.get("rotation_max_delta", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_last_target_position_state(rotation_move_evaluated: bool, target_after: Variant, last_x_before: float, last_y_before: float) -> Dictionary:
