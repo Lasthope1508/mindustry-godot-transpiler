@@ -1320,7 +1320,7 @@
     },
     "N464": {
       "canonical_ledger": "source_slice_ledger.N464",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "updateTrailEffects(Bullet b)",
       "godot_owner": "PortGame.source_bullet_type_update_trail_effects_interval_state",

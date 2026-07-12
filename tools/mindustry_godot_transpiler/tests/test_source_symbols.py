@@ -4940,10 +4940,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("return x * x + y * y;", vec2_len2["java_expr"])
 
     def test_bullet_type_update_trail_effects_interval_symbols_are_registered_with_source_backing(self):
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
 
         self.assertEqual(errors, [])
+        self.assertEqual(source_symbols.source_slice(ledger, "N464")["status"], "done")
 
         interval_gate = source_symbols.source_symbol(registry, "update_trail_effects_interval.interval_gate")
         self.assertEqual(interval_gate["java_expr"], "if(trailInterval > 0f && canSpawn){")

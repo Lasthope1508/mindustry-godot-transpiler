@@ -33060,7 +33060,7 @@
         "update_trail_effects_interval.vec2_set_zero",
         "update_trail_effects_interval.effect_at_color"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
@@ -33097,7 +33097,7 @@
           "update_trail_effects_interval.vec2_set_zero",
           "update_trail_effects_interval.effect_at_color"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_bullet_type_update_trail_effects_interval_state_matches_upstream_source",
           "test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state",
