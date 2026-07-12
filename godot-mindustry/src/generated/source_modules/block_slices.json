@@ -565,7 +565,7 @@
         "block_consume_liquid.liquid",
         "block_consume_liquid.amount"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_liquid_to_source_state",
         "test_port_game_exposes_source_block_consume_liquid_state",

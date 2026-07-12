@@ -20938,12 +20938,24 @@ func generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float)
 	var instance = script.new()
 	var result = instance.java_method_consumeLiquid_99([liquid, amount])
 	var canonical = source_block_consume_liquid_state(liquid, amount)
+	var block_consume_liquid_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_block_consume_liquid_state"),
+		"source": result.get("source", "core/src/mindustry/world/Block.java"),
+		"method": result.get("method", "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){"),
+		"return_expr": result.get("return_expr", "return consume(new ConsumeLiquid(liquid, amount));"),
+		"constructor_expr": result.get("constructor_expr", "new ConsumeLiquid(liquid, amount)"),
+		"consume_call_expr": result.get("consume_call_expr", "consume(new ConsumeLiquid(liquid, amount))"),
+		"liquid": result.get("liquid", liquid),
+		"amount": result.get("amount", amount),
+		"constructed_consume": result.get("constructed_consume", {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_liquid_state",
 		"generated_owner": "Block.java_method_consumeLiquid_99",
-		"result": result,
+		"result": block_consume_liquid_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_liquid_result == canonical,
 	}
 
 func source_block_consume_liquids_state(stacks: Variant) -> Dictionary:

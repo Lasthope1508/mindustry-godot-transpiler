@@ -53285,6 +53285,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(consume_call_expr["godot_symbol"], "source_block_consume_liquid_result.consume_called")
 
         consume_liquid_slice = source_symbols.source_slice(ledger, "N1291")
+        self.assertEqual(consume_liquid_slice["status"], "done")
         self.assertEqual(consume_liquid_slice["title"], "Generated Block consumeLiquid bridge state")
         self.assertEqual(consume_liquid_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(consume_liquid_slice["java_method"], "Block.consumeLiquid(Liquid,float)")
