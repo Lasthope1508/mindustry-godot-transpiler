@@ -21019,12 +21019,27 @@ func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictio
 	var instance = script.new()
 	var result = instance.java_method_consumePower_101([power_per_tick])
 	var canonical = source_block_consume_power_state(power_per_tick)
+	var block_consume_power_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_block_consume_power_state"),
+		"source": result.get("source", "core/src/mindustry/world/Block.java"),
+		"comment": result.get("comment", "Creates a consumer which directly uses power without buffering it."),
+		"param": result.get("param", "@param powerPerTick The amount of power which is required each tick for 100% efficiency."),
+		"method": result.get("method", "public ConsumePower consumePower(float powerPerTick){"),
+		"return_expr": result.get("return_expr", "return consume(new ConsumePower(powerPerTick, 0.0f, false));"),
+		"constructor_expr": result.get("constructor_expr", "new ConsumePower(powerPerTick, 0.0f, false)"),
+		"consume_call_expr": result.get("consume_call_expr", "consume(new ConsumePower(powerPerTick, 0.0f, false))"),
+		"powerPerTick": result.get("powerPerTick", power_per_tick),
+		"capacity": result.get("capacity", 0.0),
+		"buffered": result.get("buffered", false),
+		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_power_state",
 		"generated_owner": "Block.java_method_consumePower_101",
-		"result": result,
+		"result": block_consume_power_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_power_result == canonical,
 	}
 
 func source_block_consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:

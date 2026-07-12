@@ -9442,7 +9442,7 @@
         "block_consume_power.capacity",
         "block_consume_power.buffered"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_power_to_source_state",
         "test_port_game_exposes_source_block_consume_power_state",
