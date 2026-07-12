@@ -16352,10 +16352,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, shoot_cone: float, damage: float, time_scale: float, rules_block_damage: float, status: Variant, status_duration: float, force_value: float, scaled_force: float) -> Dictionary:", source)
+        self.assertIn("var impulse_net_result := {", source)
+        self.assertIn('"impulse_net_call": result.get("impulse_net_call", {}) if result.get("impulse_net_called", false) else {},', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_impulse_net_state(result.get(\"shoot_within_guard\", false), result.get(\"target_after\", null), result.get(\"x\", 0.0), result.get(\"y\", 0.0), result.get(\"range_value\", 0.0), result.get(\"edelta\", 0.0), force_value, scaled_force)", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.impulse_net"', source)
-        self.assertIn('"matches": result.get("impulse_net_call", null) == canonical.get("impulse_net_call", null)', source)
+        self.assertIn('"result": impulse_net_result,', source)
+        self.assertIn('"matches": impulse_net_result.get("impulse_net_call", null) == canonical.get("impulse_net_call", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_draw_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

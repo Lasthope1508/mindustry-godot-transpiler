@@ -27571,14 +27571,32 @@ func generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state(ac
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage, status, status_duration, force_value, scaled_force])
+	var impulse_net_result := {
+		"shoot_within_guard": result.get("shoot_within_guard", false),
+		"target_after": result.get("target_after", null),
+		"x": result.get("x", 0.0),
+		"y": result.get("y", 0.0),
+		"range_value": result.get("range_value", 0.0),
+		"edelta": result.get("edelta", 0.0),
+		"force_value": force_value,
+		"scaled_force": scaled_force,
+		"target_x_for_impulse": result.get("target_x_for_impulse", result.get("x", 0.0)),
+		"target_y_for_impulse": result.get("target_y_for_impulse", result.get("y", 0.0)),
+		"target_dst_to_building": result.get("target_dst_to_building", 0.0),
+		"impulse_limit": result.get("impulse_limit", 0.0),
+		"impulse_vector_x": result.get("impulse_vector_x", 0.0),
+		"impulse_vector_y": result.get("impulse_vector_y", 0.0),
+		"impulse_net_called": result.get("impulse_net_called", false),
+		"impulse_net_call": result.get("impulse_net_call", {}) if result.get("impulse_net_called", false) else {},
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_impulse_net_state(result.get("shoot_within_guard", false), result.get("target_after", null), result.get("x", 0.0), result.get("y", 0.0), result.get("range_value", 0.0), result.get("edelta", 0.0), force_value, scaled_force)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.impulse_net",
-		"result": result,
+		"result": impulse_net_result,
 		"canonical": canonical,
-		"matches": result.get("impulse_net_call", null) == canonical.get("impulse_net_call", null)
-			and result.get("impulse_net_called", null) == canonical.get("impulse_net_called", null),
+		"matches": impulse_net_result.get("impulse_net_call", null) == canonical.get("impulse_net_call", null)
+			and impulse_net_result.get("impulse_net_called", null) == canonical.get("impulse_net_called", null),
 	}
 
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:

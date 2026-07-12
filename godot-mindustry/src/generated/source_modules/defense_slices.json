@@ -2529,7 +2529,7 @@
     },
     "N1259": {
       "canonical_ledger": "source_slice_ledger.N1259",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() impulse net",
       "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
