@@ -21107,12 +21107,25 @@ func generated_block_consume_power_dynamic_bridge_state(usage: Variant) -> Dicti
 	var instance = script.new()
 	var result = instance.java_method_consumePowerDynamic_103([usage])
 	var canonical = source_block_consume_power_dynamic_state(usage)
+	var block_consume_power_dynamic_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_block_consume_power_dynamic_state"),
+		"source": result.get("source", "core/src/mindustry/world/Block.java"),
+		"comment": result.get("comment", "Creates a consumer that consumes a dynamic amount of power."),
+		"method": result.get("method", "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){"),
+		"return_expr": result.get("return_expr", "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));"),
+		"constructor_expr": result.get("constructor_expr", "new ConsumePowerDynamic((Floatf<Building>)usage)"),
+		"usage_cast_expr": result.get("usage_cast_expr", "(Floatf<Building>)usage"),
+		"consume_call_expr": result.get("consume_call_expr", "consume(new ConsumePowerDynamic((Floatf<Building>)usage))"),
+		"usage": result.get("usage", usage),
+		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePowerDynamic", "usage": usage}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_power_dynamic_state",
 		"generated_owner": "Block.java_method_consumePowerDynamic_103",
-		"result": result,
+		"result": block_consume_power_dynamic_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_power_dynamic_result == canonical,
 	}
 
 func source_block_consume_power_dynamic_displayed_state(displayed: float, usage: Variant) -> Dictionary:
