@@ -13092,6 +13092,7 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"status_apply_expr": "target.apply(status, statusDuration);"', source_text)
             self.assertIn('"any_next_expr": "any = true;"', source_text)
             self.assertIn('"status": status', source_text)
+            self.assertIn('"status_is_none": status_is_none', source_text)
             self.assertIn('"status_apply_call": status_apply_call', source_text)
 
     def test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state(self):

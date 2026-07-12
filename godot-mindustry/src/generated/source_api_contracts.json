@@ -30227,6 +30227,7 @@
         "target_after",
         "status",
         "status_duration",
+        "status_is_none",
         "status_gate_evaluated",
         "status_gate",
         "status_apply_call"

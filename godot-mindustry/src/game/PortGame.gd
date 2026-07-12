@@ -27460,14 +27460,24 @@ func generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state(a
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage, status, status_duration])
+	var status_apply_result := {
+		"shoot_within_guard": result.get("shoot_within_guard", false),
+		"target_after": result.get("target_after", null),
+		"status": status,
+		"status_duration": status_duration,
+		"status_is_none": result.get("status_is_none", false),
+		"status_gate_evaluated": result.get("status_gate_evaluated", false),
+		"status_gate": result.get("status_gate", false),
+		"status_apply_call": result.get("status_apply_call", {}) if result.get("status_gate", false) else {},
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_status_apply_state(result.get("shoot_within_guard", false), result.get("target_after", null), status, status_duration)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.status_apply",
-		"result": result,
+		"result": status_apply_result,
 		"canonical": canonical,
-		"matches": result.get("status_gate", null) == canonical.get("status_gate", null)
-			and result.get("status_apply_call", null) == canonical.get("status_apply_call", null),
+		"matches": status_apply_result.get("status_gate", null) == canonical.get("status_gate", null)
+			and status_apply_result.get("status_apply_call", null) == canonical.get("status_apply_call", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_any_true_state(shoot_within_guard: bool, any_before_shoot: bool) -> Dictionary:

@@ -62371,6 +62371,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(apply_call["godot_symbol"], "source_tractor_beam_turret_build_update_tile_status_apply_result.status_apply_call")
 
         status_slice = source_symbols.source_slice(ledger, "N1257")
+        self.assertEqual(status_slice["status"], "done")
         self.assertEqual(status_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(status_slice["java_method"], "TractorBeamBuild.updateTile() status apply")
         self.assertEqual(status_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state")
@@ -62383,13 +62384,14 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             [param["name"] for param in contract["params"]],
             ["shoot_within_guard", "target_after", "status", "status_duration"],
         )
-        for key in ["source_owner", "method", "status_gate_expr", "status_apply_expr", "status_field_expr", "status_duration_field_expr", "status_apply_method", "shoot_within_guard", "target_after", "status", "status_duration", "status_gate_evaluated", "status_gate", "status_apply_call"]:
+        for key in ["source_owner", "method", "status_gate_expr", "status_apply_expr", "status_field_expr", "status_duration_field_expr", "status_apply_method", "shoot_within_guard", "target_after", "status", "status_duration", "status_is_none", "status_gate_evaluated", "status_gate", "status_apply_call"]:
             self.assertIn(key, contract["return_keys"])
 
         input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_status_apply_input")
         self.assertEqual(input_schema["keys"]["status"]["java_expr"], "status")
         self.assertEqual(input_schema["keys"]["status_duration"]["java_expr"], "statusDuration")
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_status_apply_result")
+        self.assertEqual(result_schema["keys"]["status_is_none"]["java_expr"], "status == StatusEffects.none")
         self.assertEqual(result_schema["keys"]["status_gate"]["java_expr"], "status != StatusEffects.none")
         self.assertEqual(result_schema["keys"]["status_apply_call"]["java_expr"], "target.apply(status, statusDuration);")
 

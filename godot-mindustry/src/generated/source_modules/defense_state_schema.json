@@ -13639,6 +13639,13 @@
           "status": "source-backed",
           "type": "String"
         },
+        "status_is_none": {
+          "java_expr": "status == StatusEffects.none",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "status": "source-backed",
+          "type": "bool"
+        },
         "status_gate": {
           "java_expr": "status != StatusEffects.none",
           "java_method": "TractorBeamBuild.updateTile() status apply",
