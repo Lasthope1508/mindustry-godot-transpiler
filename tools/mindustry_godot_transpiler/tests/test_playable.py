@@ -16326,10 +16326,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_any_true_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, shoot_cone: float, damage: float, time_scale: float, rules_block_damage: float, status: Variant, status_duration: float) -> Dictionary:", source)
+        self.assertIn("var any_true_result := {", source)
+        self.assertIn('"any_true_call": result.get("any_true_call", {}) if result.get("any_true_evaluated", false) else {},', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_any_true_state(result.get(\"shoot_within_guard\", false), result.get(\"any_before_shoot\", false))", source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_true"', source)
-        self.assertIn('"matches": result.get("any_after", null) == canonical.get("any_after", null)', source)
+        self.assertIn('"result": any_true_result,', source)
+        self.assertIn('"matches": any_true_result.get("any_after", null) == canonical.get("any_after", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -62417,6 +62417,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(impulse_boundary["java_expr"], "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));")
 
         any_slice = source_symbols.source_slice(ledger, "N1258")
+        self.assertEqual(any_slice["status"], "done")
         self.assertEqual(any_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(any_slice["java_method"], "TractorBeamBuild.updateTile() any true")
         self.assertEqual(any_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state")

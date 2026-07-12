@@ -16133,7 +16133,7 @@
         "tractor_beam_turret_build_update_tile_any_true.assignment",
         "tractor_beam_turret_build_update_tile_any_true.impulse_boundary"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
         "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",
@@ -16160,7 +16160,7 @@
           "tractor_beam_turret_build_update_tile_any_true.assignment",
           "tractor_beam_turret_build_update_tile_any_true.impulse_boundary"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
           "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",

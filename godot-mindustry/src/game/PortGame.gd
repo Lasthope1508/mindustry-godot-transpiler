@@ -27504,14 +27504,21 @@ func generated_tractor_beam_turret_build_update_tile_any_true_bridge_state(activ
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage, status, status_duration])
+	var any_true_result := {
+		"shoot_within_guard": result.get("shoot_within_guard", false),
+		"any_before_shoot": result.get("any_before_shoot", false),
+		"any_true_evaluated": result.get("any_true_evaluated", false),
+		"any_after": result.get("any_after", false),
+		"any_true_call": result.get("any_true_call", {}) if result.get("any_true_evaluated", false) else {},
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_any_true_state(result.get("shoot_within_guard", false), result.get("any_before_shoot", false))
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_true",
-		"result": result,
+		"result": any_true_result,
 		"canonical": canonical,
-		"matches": result.get("any_after", null) == canonical.get("any_after", null)
-			and result.get("any_true_call", null) == canonical.get("any_true_call", null),
+		"matches": any_true_result.get("any_after", null) == canonical.get("any_after", null)
+			and any_true_result.get("any_true_call", null) == canonical.get("any_true_call", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_impulse_net_state(shoot_within_guard: bool, target_after: Variant, x: float, y: float, range_value: float, edelta: float, force_value: float, scaled_force: float) -> Dictionary:
