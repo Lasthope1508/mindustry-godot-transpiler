@@ -16416,7 +16416,7 @@
         "ability_death.unit",
         "ability_death.no_op"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_ability_death_to_source_state",
         "test_port_game_exposes_source_ability_death_state",
@@ -16441,7 +16441,7 @@
           "ability_death.unit",
           "ability_death.no_op"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_ability_death_to_source_state",
           "test_port_game_exposes_source_ability_death_state",

@@ -18103,9 +18103,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
         self.assertIn("var result = instance.java_method_death_2([unit])", source)
         self.assertIn("var canonical = source_ability_death_state(unit)", source)
+        self.assertIn("var ability_death_result := {", source)
+        self.assertIn('"no_op": result.get("no_op", false),', source)
         self.assertIn('"source_owner": "PortGame.source_ability_death_state"', source)
         self.assertIn('"generated_owner": "Ability.java_method_death_2"', source)
-        self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null)', source)
+        self.assertIn('"result": ability_death_result,', source)
+        self.assertIn('"matches": ability_death_result.get("no_op", null) == canonical.get("no_op", null)', source)
 
     def test_port_game_exposes_source_ability_created_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -18814,13 +18814,20 @@ func generated_ability_death_bridge_state(unit: Variant) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_death_2([unit])
 	var canonical = source_ability_death_state(unit)
+	var ability_death_result := {
+		"source_owner": result.get("source_owner", "PortGame.source_ability_death_state"),
+		"source": result.get("source", "core/src/mindustry/entities/abilities/Ability.java"),
+		"method": result.get("method", "public void death(Unit unit){}"),
+		"unit": result.get("unit", unit),
+		"no_op": result.get("no_op", false),
+	}
 	return {
 		"source_owner": "PortGame.source_ability_death_state",
 		"generated_owner": "Ability.java_method_death_2",
-		"result": result,
+		"result": ability_death_result,
 		"canonical": canonical,
-		"matches": result.get("no_op", null) == canonical.get("no_op", null)
-			and result.get("unit", null) == canonical.get("unit", null),
+		"matches": ability_death_result.get("no_op", null) == canonical.get("no_op", null)
+			and ability_death_result.get("unit", null) == canonical.get("unit", null),
 	}
 
 func source_ability_created_state(unit: Variant) -> Dictionary:

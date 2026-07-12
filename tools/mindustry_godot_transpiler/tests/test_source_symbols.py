@@ -10534,6 +10534,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(no_op["godot_symbol"], "source_ability_death_result.no_op")
 
         death_slice = source_symbols.source_slice(ledger, "N1263")
+        self.assertEqual(death_slice["status"], "done")
         self.assertEqual(death_slice["title"], "Generated Ability death bridge state")
         self.assertEqual(death_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
         self.assertEqual(death_slice["java_method"], "Ability.death(Unit unit)")
