@@ -62277,6 +62277,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(angles_within["java_expr"], "public static boolean within(float a, float b, float margin){")
 
         guard_slice = source_symbols.source_slice(ledger, "N1255")
+        self.assertEqual(guard_slice["status"], "done")
         self.assertEqual(guard_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(guard_slice["java_method"], "TractorBeamBuild.updateTile() shoot when possible guard")
         self.assertEqual(guard_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state")

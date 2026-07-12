@@ -27346,14 +27346,24 @@ func generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_b
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone])
 	var canonical = source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state(result.get("strength_lerp_evaluated", false), result.get("rotation_after", 0.0), result.get("dest", 0.0), shoot_cone)
+	var shoot_when_possible_guard_result := {
+		"strength_lerp_evaluated": result.get("strength_lerp_evaluated", false),
+		"rotation_after": result.get("rotation_after", 0.0),
+		"dest": result.get("dest", 0.0),
+		"shoot_cone": shoot_cone,
+		"shoot_when_possible_evaluated": result.get("shoot_when_possible_evaluated", false),
+		"shoot_within_angle_dist": result.get("shoot_within_angle_dist", 0.0) if result.get("shoot_when_possible_evaluated", false) else 0.0,
+		"shoot_within_guard": result.get("shoot_within_guard", false) if result.get("shoot_when_possible_evaluated", false) else false,
+		"shoot_within_call": result.get("shoot_within_call", {}) if result.get("shoot_when_possible_evaluated", false) else {},
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.shoot_when_possible_guard",
-		"result": result,
+		"result": shoot_when_possible_guard_result,
 		"canonical": canonical,
-		"matches": result.get("shoot_within_guard", null) == canonical.get("shoot_within_guard", null)
-			and result.get("shoot_within_call", null) == canonical.get("shoot_within_call", null)
-			and result.get("shoot_within_angle_dist", null) == canonical.get("shoot_within_angle_dist", null),
+		"matches": shoot_when_possible_guard_result.get("shoot_within_guard", null) == canonical.get("shoot_within_guard", null)
+			and shoot_when_possible_guard_result.get("shoot_within_call", null) == canonical.get("shoot_within_call", null)
+			and shoot_when_possible_guard_result.get("shoot_within_angle_dist", null) == canonical.get("shoot_within_angle_dist", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_damage_pierce_state(shoot_within_guard: bool, target_after: Variant, damage: float, eff: float, time_scale: float, rules_block_damage: float, team: Variant) -> Dictionary:
