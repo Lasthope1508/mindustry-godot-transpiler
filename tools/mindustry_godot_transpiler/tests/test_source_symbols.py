@@ -61875,6 +61875,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(multiplier["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_multiplier_result.coolant_multiplier_after")
 
         multiplier_slice = source_symbols.source_slice(ledger, "N1247")
+        self.assertEqual(multiplier_slice["status"], "done")
         self.assertEqual(multiplier_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(multiplier_slice["java_method"], "TractorBeamBuild.updateTile() coolant multiplier")
         self.assertEqual(multiplier_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state")

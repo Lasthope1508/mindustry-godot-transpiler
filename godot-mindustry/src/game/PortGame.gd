@@ -26880,13 +26880,22 @@ func generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_s
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y])
 	var canonical = source_tractor_beam_turret_build_update_tile_coolant_multiplier_state(result.get("coolant_guard", false), result.get("used", 0.0), liquid_heat_capacity, coolant_multiplier)
+	var coolant_multiplier_result := {
+		"coolant_guard": result.get("coolant_guard", false),
+		"used": result.get("used", 0.0),
+		"liquid_heat_capacity": liquid_heat_capacity,
+		"coolant_multiplier": coolant_multiplier,
+		"coolant_multiplier_assign_called": result.get("coolant_multiplier_assign_called", false),
+		"coolant_multiplier_after": result.get("coolant_multiplier_after", coolant_multiplier),
+		"coolant_multiplier_assign_call": result.get("coolant_multiplier_assign_call", {}),
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_multiplier",
-		"result": result,
+		"result": coolant_multiplier_result,
 		"canonical": canonical,
-		"matches": result.get("coolant_multiplier_after", null) == canonical.get("coolant_multiplier_after", null) and result.get("coolant_multiplier_assign_call", null) == canonical.get("coolant_multiplier_assign_call", null)
-			and result.get("coolant_multiplier_assign_called", null) == canonical.get("coolant_multiplier_assign_called", null),
+		"matches": coolant_multiplier_result.get("coolant_multiplier_after", null) == canonical.get("coolant_multiplier_after", null) and coolant_multiplier_result.get("coolant_multiplier_assign_call", null) == canonical.get("coolant_multiplier_assign_call", null)
+			and coolant_multiplier_result.get("coolant_multiplier_assign_called", null) == canonical.get("coolant_multiplier_assign_called", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_any_reset_state(activation_returned_early: bool, any_before: bool) -> Dictionary:
