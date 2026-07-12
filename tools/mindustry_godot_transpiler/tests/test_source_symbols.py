@@ -61375,6 +61375,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(read_rotation["godot_symbol"], "source_tractor_beam_turret_build_read_result.rotation_after")
 
         read_slice = source_symbols.source_slice(ledger, "N1238")
+        self.assertEqual(read_slice["status"], "done")
         self.assertEqual(read_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(read_slice["java_method"], "TractorBeamBuild.read(Reads read, byte revision)")
         self.assertEqual(read_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_read_state")

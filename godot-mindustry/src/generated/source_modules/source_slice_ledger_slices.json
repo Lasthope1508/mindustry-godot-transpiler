@@ -14798,7 +14798,7 @@
         "tractor_beam_turret_build_read.super_read",
         "tractor_beam_turret_build_read.read_rotation"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
         "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
@@ -14831,7 +14831,7 @@
           "tractor_beam_turret_build_read.super_read",
           "tractor_beam_turret_build_read.read_rotation"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
           "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
