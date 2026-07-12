@@ -61825,6 +61825,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_effect_result.cool_effect_call")
 
         effect_slice = source_symbols.source_slice(ledger, "N1246")
+        self.assertEqual(effect_slice["status"], "done")
         self.assertEqual(effect_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(effect_slice["java_method"], "TractorBeamBuild.updateTile() coolant effect")
         self.assertEqual(effect_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state")

@@ -8032,7 +8032,7 @@
         "tractor_beam_turret_build_update_tile_coolant_effect.chance",
         "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
         "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
