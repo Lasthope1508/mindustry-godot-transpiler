@@ -9858,7 +9858,7 @@
         "block_setup_requirements_visible.visible",
         "block_setup_requirements_visible.stacks"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_setup_requirements_visible_to_source_state",
         "test_port_game_exposes_source_block_setup_requirements_visible_state",
