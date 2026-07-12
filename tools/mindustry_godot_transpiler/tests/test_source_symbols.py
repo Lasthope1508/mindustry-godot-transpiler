@@ -61603,6 +61603,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(retarget_slice["java_method"], "TractorBeamBuild.updateTile() retarget")
         self.assertEqual(retarget_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state")
         self.assertEqual(retarget_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_retarget_bridge_state")
+        self.assertEqual(retarget_slice["status"], "done")
         for expr in [
             "public class TractorBeamBuild extends BaseTurretBuild{",
             "@Override",
