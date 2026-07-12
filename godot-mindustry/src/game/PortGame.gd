@@ -21319,12 +21319,23 @@ func generated_block_consume_items_varargs_bridge_state(items: Array) -> Diction
 	var instance = script.new()
 	var result = instance.java_method_consumeItems_108(items)
 	var canonical = source_block_consume_items_varargs_state(items)
+	var block_consume_items_varargs_result := {
+		"source_owner": result.get("source_owner", ""),
+		"source": result.get("source", ""),
+		"method": result.get("method", ""),
+		"return_expr": result.get("return_expr", ""),
+		"constructor_expr": result.get("constructor_expr", ""),
+		"consume_call_expr": result.get("consume_call_expr", ""),
+		"items": result.get("items", []),
+		"constructed_consume": result.get("constructed_consume", {}),
+		"consume_called": result.get("consume_called", false),
+	}
 	return {
 		"source_owner": "PortGame.source_block_consume_items_varargs_state",
 		"generated_owner": "Block.java_method_consumeItems_108",
-		"result": result,
+		"result": block_consume_items_varargs_result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": block_consume_items_varargs_result == canonical,
 	}
 
 func source_block_consume_coolant_single_state(amount: float) -> Dictionary:

@@ -53828,6 +53828,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         varargs_slice = source_symbols.source_slice(ledger, "N1300")
         self.assertEqual(varargs_slice["title"], "Generated Block consumeItems varargs bridge state")
+        self.assertEqual(varargs_slice["status"], "done")
         self.assertEqual(varargs_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(varargs_slice["java_method"], "Block.consumeItems(ItemStack...)")
         self.assertEqual(varargs_slice["godot_owner"], "PortGame.source_block_consume_items_varargs_state")

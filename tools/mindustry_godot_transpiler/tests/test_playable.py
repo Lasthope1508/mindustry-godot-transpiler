@@ -19161,9 +19161,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
         self.assertIn("var result = instance.java_method_consumeItems_108(items)", source)
         self.assertIn("var canonical = source_block_consume_items_varargs_state(items)", source)
+        self.assertIn("var block_consume_items_varargs_result := {", source)
+        self.assertIn('"consume_called": result.get("consume_called", false),', source)
         self.assertIn('"source_owner": "PortGame.source_block_consume_items_varargs_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_consumeItems_108"', source)
-        self.assertIn('"matches": result == canonical', source)
+        self.assertIn('"result": block_consume_items_varargs_result,', source)
+        self.assertIn('"matches": block_consume_items_varargs_result == canonical', source)
 
     def test_port_game_exposes_source_block_consume_coolant_single_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

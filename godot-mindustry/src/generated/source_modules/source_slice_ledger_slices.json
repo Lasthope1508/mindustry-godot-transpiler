@@ -18673,7 +18673,7 @@
         "block_consume_items_varargs.consume_call_expr",
         "block_consume_items_varargs.items"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_consume_items_varargs_to_source_state",
         "test_port_game_exposes_source_block_consume_items_varargs_state",
@@ -18702,7 +18702,7 @@
           "block_consume_items_varargs.consume_call_expr",
           "block_consume_items_varargs.items"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_consume_items_varargs_to_source_state",
           "test_port_game_exposes_source_block_consume_items_varargs_state",
