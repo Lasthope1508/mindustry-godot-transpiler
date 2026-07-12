@@ -62237,6 +62237,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(strength_slice["java_method"], "TractorBeamBuild.updateTile() inactive strength")
         self.assertEqual(strength_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state")
         self.assertEqual(strength_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state")
+        self.assertEqual(strength_slice["status"], "done")
         for expr in ["}else{", "strength = Mathf.lerpDelta(strength, 0, 0.1f);", "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"]:
             self.assertIn(expr, strength_slice["exact_exprs"])
 

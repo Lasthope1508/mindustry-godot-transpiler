@@ -27305,15 +27305,26 @@ func generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_st
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before])
 	var canonical = source_tractor_beam_turret_build_update_tile_inactive_strength_state(result.get("activation_returned_early", false), result.get("look_target_guard", false), strength_before, time_delta)
+	var inactive_strength_result := {
+		"activation_returned_early": result.get("activation_returned_early", false),
+		"look_target_guard": result.get("look_target_guard", false),
+		"strength_before": strength_before,
+		"time_delta": time_delta,
+		"inactive_strength_evaluated": result.get("inactive_strength_evaluated", false),
+		"inactive_strength_lerp_progress": result.get("inactive_strength_lerp_progress", 0.1),
+		"inactive_strength_lerp_scaled_progress": result.get("inactive_strength_lerp_scaled_progress", 0.0),
+		"inactive_strength_lerp_clamped_progress": result.get("inactive_strength_lerp_clamped_progress", 0.0),
+		"inactive_strength_after": result.get("inactive_strength_after", strength_before) if result.get("inactive_strength_evaluated", false) else strength_before,
+		"inactive_strength_lerp_call": result.get("inactive_strength_lerp_call", {}) if result.get("inactive_strength_evaluated", false) else {},
+	}
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength",
-		"result": result,
+		"result": inactive_strength_result,
 		"canonical": canonical,
-		"matches": result.get("inactive_strength_after", null) == canonical.get("inactive_strength_after", null)
-			and result.get("inactive_strength_lerp_call", null) == canonical.get("inactive_strength_lerp_call", null)
-			and result.get("inactive_strength_lerp_clamped_progress", null) == canonical.get("inactive_strength_lerp_clamped_progress", null)
-			or not result.get("inactive_strength_evaluated", false),
+		"matches": inactive_strength_result.get("inactive_strength_after", null) == canonical.get("inactive_strength_after", null)
+			and inactive_strength_result.get("inactive_strength_lerp_call", null) == canonical.get("inactive_strength_lerp_call", null)
+			and inactive_strength_result.get("inactive_strength_lerp_clamped_progress", null) == canonical.get("inactive_strength_lerp_clamped_progress", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state(strength_lerp_evaluated: bool, rotation_after: float, dest: float, shoot_cone: float) -> Dictionary:

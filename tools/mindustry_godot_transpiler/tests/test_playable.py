@@ -16216,10 +16216,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float) -> Dictionary:", source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_inactive_strength_state(result.get(\"activation_returned_early\", false), result.get(\"look_target_guard\", false), strength_before, time_delta)", source)
+        self.assertIn("var inactive_strength_result := {", source)
+        self.assertIn('"inactive_strength_lerp_call": result.get("inactive_strength_lerp_call", {}) if result.get("inactive_strength_evaluated", false) else {},', source)
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state"', source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength"', source)
-        self.assertIn('"matches": result.get("inactive_strength_after", null) == canonical.get("inactive_strength_after", null)', source)
-        self.assertIn("or not result.get(\"inactive_strength_evaluated\", false)", source)
+        self.assertIn('"result": inactive_strength_result,', source)
+        self.assertIn('"matches": inactive_strength_result.get("inactive_strength_after", null) == canonical.get("inactive_strength_after", null)', source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
