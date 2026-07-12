@@ -61204,6 +61204,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(return_expr["godot_symbol"], "source_tractor_beam_turret_build_should_consume_result.should_consume")
 
         should_consume_slice = source_symbols.source_slice(ledger, "N1235")
+        self.assertEqual(should_consume_slice["status"], "done")
         self.assertEqual(should_consume_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(should_consume_slice["java_method"], "TractorBeamBuild.shouldConsume()")
         self.assertEqual(should_consume_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_should_consume_state")
