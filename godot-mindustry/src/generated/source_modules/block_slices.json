@@ -1277,7 +1277,7 @@
         "block_research_requirements_empty.research_cost",
         "block_research_requirements_empty.research_cost_multiplier"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_research_requirements_empty_to_source_state",
         "test_port_game_exposes_source_block_research_requirements_empty_state",
