@@ -61721,6 +61721,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         used_slice = source_symbols.source_slice(ledger, "N1244")
         self.assertEqual(used_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
         self.assertEqual(used_slice["java_method"], "TractorBeamBuild.updateTile() coolant used")
+        self.assertEqual(used_slice["status"], "done")
         self.assertEqual(used_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state")
         self.assertEqual(used_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state")
         for expr in [

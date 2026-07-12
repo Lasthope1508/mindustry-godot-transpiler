@@ -26731,17 +26731,29 @@ func generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state(a
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
 	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity])
+	var coolant_used_result := {
+		"coolant_guard": result.get("coolant_guard", false),
+		"liquid_amount": result.get("liquid_amount", liquid_amount),
+		"max_used": result.get("max_used", 0.0),
+		"time_delta": time_delta,
+		"coolant_multiplier": coolant_multiplier,
+		"liquid_heat_capacity": result.get("liquid_heat_capacity", liquid_heat_capacity),
+		"max_used_time_delta": result.get("max_used_time_delta", 0.0),
+		"heat_capacity_limit": result.get("heat_capacity_limit", 0.0),
+		"nonnegative_heat_capacity_limit": result.get("nonnegative_heat_capacity_limit", 0.0),
+		"used": result.get("used", 0.0),
+	}
 	var canonical = source_tractor_beam_turret_build_update_tile_coolant_used_state(result.get("coolant_guard", false), liquid_amount, result.get("max_used", 0.0), time_delta, coolant_multiplier, liquid_heat_capacity)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state",
 		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_used",
-		"result": result,
+		"result": coolant_used_result,
 		"canonical": canonical,
-		"matches": result.get("used", null) == canonical.get("used", null) and result.get("max_used_time_delta", null) == canonical.get("max_used_time_delta", null)
-			and result.get("heat_capacity_limit", null) == canonical.get("heat_capacity_limit", null)
-			and result.get("nonnegative_heat_capacity_limit", null) == canonical.get("nonnegative_heat_capacity_limit", null)
-			and result.get("liquid_amount", null) == canonical.get("liquid_amount", null)
-			and result.get("liquid_heat_capacity", null) == canonical.get("liquid_heat_capacity", null),
+		"matches": coolant_used_result.get("used", null) == canonical.get("used", null) and coolant_used_result.get("max_used_time_delta", null) == canonical.get("max_used_time_delta", null)
+			and coolant_used_result.get("heat_capacity_limit", null) == canonical.get("heat_capacity_limit", null)
+			and coolant_used_result.get("nonnegative_heat_capacity_limit", null) == canonical.get("nonnegative_heat_capacity_limit", null)
+			and coolant_used_result.get("liquid_amount", null) == canonical.get("liquid_amount", null)
+			and coolant_used_result.get("liquid_heat_capacity", null) == canonical.get("liquid_heat_capacity", null),
 	}
 
 func source_tractor_beam_turret_build_update_tile_coolant_remove_state(coolant_guard: bool, liquid: Variant, used: float) -> Dictionary:
