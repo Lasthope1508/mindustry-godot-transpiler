@@ -27911,7 +27911,7 @@
         "arc_mathf_num.method",
         "building_delta.method"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
         "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
@@ -27962,7 +27962,7 @@
           "arc_mathf_num.method",
           "building_delta.method"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
           "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",

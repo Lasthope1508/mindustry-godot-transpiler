@@ -58555,6 +58555,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heat_after["godot_symbol"], "source_block_producer_build_update_tile_heat_time_result.heat_after")
 
         heat_slice = source_symbols.source_slice(ledger, "N1422")
+        self.assertEqual(heat_slice["status"], "done")
         self.assertEqual(heat_slice["title"], "Generated BlockProducerBuild updateTile heat/time bridge state")
         self.assertEqual(heat_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(heat_slice["java_method"], "BlockProducerBuild.updateTile() heat/time")
