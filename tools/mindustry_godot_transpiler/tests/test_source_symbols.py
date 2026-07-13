@@ -56737,6 +56737,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(flip_rotation_slice["godot_owner"], "PortGame.source_block_flip_rotation_state")
         self.assertEqual(flip_rotation_slice["generated_owner"], "Block.java_method_flipRotation_130")
         self.assertEqual(flip_rotation_slice["runtime_proof"], "/root/Main.generated_block_flip_rotation_bridge_state")
+        self.assertEqual(flip_rotation_slice["status"], "done")
         for expr in [
             "public void flipRotation(BuildPlan req, boolean x){",
             "if((x == (req.rotation % 2 == 0)) != invertFlip){",

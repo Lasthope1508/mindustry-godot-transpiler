@@ -22767,7 +22767,7 @@
         "block_flip_rotation.mathf_mod_call",
         "block_flip_rotation.plan_rotation_call"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_flip_rotation_to_source_state",
         "test_port_game_exposes_source_block_flip_rotation_state",
@@ -22800,7 +22800,7 @@
           "block_flip_rotation.mathf_mod_call",
           "block_flip_rotation.plan_rotation_call"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_flip_rotation_to_source_state",
           "test_port_game_exposes_source_block_flip_rotation_state",
