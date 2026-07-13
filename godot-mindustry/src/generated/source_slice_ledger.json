@@ -13980,7 +13980,7 @@
         "unit_payload_draw_overlay_warning.draw_z_before",
         "unit_payload_draw_overlay_warning.interp_exp5_out_overlay_time"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state",
         "test_port_game_exposes_source_unit_payload_draw_overlay_warning_state",

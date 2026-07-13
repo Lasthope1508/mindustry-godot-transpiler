@@ -59837,6 +59837,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(overlay_update["godot_symbol"], "source_unit_payload_draw_overlay_warning_result.overlay_time_after")
 
         payload_slice = source_symbols.source_slice(ledger, "N1408")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated UnitPayload draw overlay warning bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
         self.assertEqual(payload_slice["java_method"], "UnitPayload.draw()")
