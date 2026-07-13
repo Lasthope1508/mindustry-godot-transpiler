@@ -74,6 +74,8 @@ Ninth audit found PowerGraph producer/consumer math was source-backed and indivi
 
 Tenth audit found PowerGraph battery storage math was source-backed and individually exposed, but runtime still lacked one MCP-friendly proof package for live placed battery charge and discharge. Runtime summary now exposes `placed_power_battery_runtime` so MCP can prove source-backed `chargeBatteries` and `useBatteries` behavior directly.
 
+Eleventh audit found PowerGraph distribution status math was source-backed and individually exposed, but runtime still lacked one MCP-friendly proof package for live consumer coverage and `power.status`. Runtime summary now exposes `placed_power_distribution_runtime` so MCP can prove source-backed `update` and `distributePower` behavior directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -102,6 +104,8 @@ Fix:
 - Added `placed_power_runtime_state()` and `"placed_power_runtime": placed_power_runtime_state()` to runtime summary. The wrapper only packages source-backed `placed_power_graph_role_counts()`, `placed_power_needed_state()`, `placed_power_produced_state()`, and `placed_power_battery_state()`.
 - Added RED test that requires a PowerGraph battery runtime proof wrapper.
 - Added `placed_power_battery_runtime_state()` and `"placed_power_battery_runtime": placed_power_battery_runtime_state()` to runtime summary. The wrapper only packages source-backed `source_power_graph_charge_batteries_state()` and `source_power_graph_use_batteries_state()` over placed battery blocks.
+- Added RED test that requires a PowerGraph distribution runtime proof wrapper.
+- Added `placed_power_distribution_runtime_state()` and `"placed_power_distribution_runtime": placed_power_distribution_runtime_state()` to runtime summary. The wrapper only packages source-backed `source_power_graph_update_balance_state()` and `source_power_graph_update_battery_distribute_state()` over placed consumer, producer, and battery blocks.
 
 ## Runtime Proof
 
@@ -255,6 +259,28 @@ Fresh MCP PowerGraph battery runtime proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP PowerGraph distribution runtime proof on the restarted runtime:
+
+- Seeded source-backed requirements through `/root/Main.set_core_item_count`.
+- Placed `combustion-generator` through `/root/Main.select_build_block_by_id` and `/root/Main.place_selected_block_at_cell(1, 1)`.
+- Placed `multi-press` through `/root/Main.select_build_block_by_id` and `/root/Main.place_selected_block_at_cell(4, 1)`.
+- TCP proof:
+  - `placed_generator=true`
+  - `placed_consumer=true`
+  - `producer_count=1`
+  - `consumer_count=1`
+  - `battery_count=0`
+  - `power_needed=108.0`
+  - `power_produced=60.0`
+  - `coverage=0.555555555555556`
+  - `first_consumer_power_status=0.555555555555556`
+  - `power_battery_used=0.0`
+  - `power_battery_charged=0.0`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
 Fresh MCP turret proof on the restarted runtime:
 
 - TCP `/root/Main.get_runtime_summary` initial:
@@ -328,6 +354,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_power_graph_battery_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `placed_power_battery_runtime_state()`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_power_graph_distribution_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `placed_power_distribution_runtime_state()`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -352,12 +381,15 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_power_graph_battery_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_power_graph_distribution_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4025 passed, 39290 subtests passed in 365.87s (0:06:05)`.
+  - Result: `4026 passed, 39290 subtests passed in 362.07s (0:06:02)`.
 
 ## Remaining Gates
 
@@ -376,10 +408,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] Wave spawn loop proven: `last_spawned_wave_index=4`, `last_spawned_wave_count=3`, `spawned_sum=3`, `enemy_count_after_live_turret_updates=0`.
 - [x] PowerGraph runtime loop proven: `producer_count=1`, `consumer_count=1`, `power_produced=60.0`, `power_needed=108.0`.
 - [x] PowerGraph battery runtime loop proven: `battery_count=1`, `charge_excess=60.0`, `charged=60.0`, `used=60.0`, `used_battery_stored=0.0`.
+- [x] PowerGraph distribution runtime loop proven: `coverage=0.555555555555556`, `first_consumer_power_status=0.555555555555556`, `power_needed=108.0`, `power_produced=60.0`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, and PowerGraph battery runtime paths now proven.
-- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, or PowerGraph battery runtime.
+- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, and PowerGraph distribution runtime paths now proven.
+- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, or PowerGraph distribution runtime.

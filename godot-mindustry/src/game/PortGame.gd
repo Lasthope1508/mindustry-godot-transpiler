@@ -6100,6 +6100,73 @@ func placed_power_battery_runtime_state() -> Dictionary:
 		"use_state": use_state,
 	}
 
+func placed_power_distribution_runtime_state() -> Dictionary:
+	var consumers: Array = []
+	var producers: Array = []
+	var batteries: Array = []
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		if block == null:
+			continue
+		var role_state := power_graph_role_for_block(block)
+		if bool(role_state.get("add_consumer", false)):
+			var consumer_state := {
+				"shouldConsumePower": true,
+				"buffered": bool(block.properties.get("powerBuffered", false)),
+				"usage": float(block.properties.get("powerUsage", 0.0)),
+				"capacity": float(block.properties.get("powerCapacity", 0.0)),
+				"power_status": 0.0,
+				"should_consume": true,
+				"delta": SOURCE_TICK_RATE,
+			}
+			var requested := source_consume_power_requested_power_state(
+				bool(consumer_state.get("buffered", false)),
+				float(consumer_state.get("usage", 0.0)),
+				float(consumer_state.get("capacity", 0.0)),
+				float(consumer_state.get("power_status", 0.0)),
+				bool(consumer_state.get("should_consume", false))
+			)
+			consumer_state["requested_power"] = float(requested.get("requested_power", 0.0))
+			consumers.append(consumer_state)
+		if bool(role_state.get("add_producer", false)):
+			producers.append({
+				"power_production": float(block.properties.get("powerProduction", 0.0)),
+				"delta": SOURCE_TICK_RATE,
+			})
+		if bool(role_state.get("add_battery", false)):
+			batteries.append({
+				"enabled": true,
+				"power_status": 0.0,
+				"capacity": float(block.properties.get("powerCapacity", 0.0)),
+			})
+	var balance := source_power_graph_update_balance_state(consumers, producers, batteries, 0.0, SOURCE_TICK_RATE)
+	var distribution := source_power_graph_update_battery_distribute_state(
+		consumers,
+		producers,
+		batteries,
+		float(balance.get("power_needed", 0.0)),
+		float(balance.get("power_produced", 0.0)),
+		float(balance.get("last_power_produced", 0.0)),
+		float(balance.get("last_power_stored", 0.0))
+	)
+	var distributed_consumers: Array = distribution.get("consumers", [])
+	var first_consumer_power_status := 0.0
+	if not distributed_consumers.is_empty() and typeof(distributed_consumers[0]) == TYPE_DICTIONARY:
+		first_consumer_power_status = float(distributed_consumers[0].get("power_status", 0.0))
+	return {
+		"balance": balance,
+		"distribution": distribution,
+		"consumer_count": consumers.size(),
+		"producer_count": producers.size(),
+		"battery_count": batteries.size(),
+		"power_needed": float(balance.get("power_needed", 0.0)),
+		"power_produced": float(balance.get("power_produced", 0.0)),
+		"coverage": float(distribution.get("coverage", 0.0)),
+		"first_consumer_power_status": first_consumer_power_status,
+		"power_battery_used": float(distribution.get("power_battery_used", 0.0)),
+		"power_battery_charged": float(distribution.get("power_battery_charged", 0.0)),
+	}
+
 func placed_power_runtime_state() -> Dictionary:
 	var roles := placed_power_graph_role_counts()
 	var needed := placed_power_needed_state()
@@ -30958,6 +31025,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_produced": placed_power_produced_state(),
 		"placed_power_battery": placed_power_battery_state(),
 		"placed_power_battery_runtime": placed_power_battery_runtime_state(),
+		"placed_power_distribution_runtime": placed_power_distribution_runtime_state(),
 		"placed_power_runtime": placed_power_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,

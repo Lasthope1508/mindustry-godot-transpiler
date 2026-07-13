@@ -314,6 +314,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"used_battery_stored": float(used_summary.get("stored", 0.0))', proof_body)
         self.assertIn('"placed_power_battery_runtime": placed_power_battery_runtime_state()', summary_body)
 
+    def test_port_game_exposes_power_graph_distribution_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        self.assertIn("func placed_power_distribution_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func placed_power_distribution_runtime_state() -> Dictionary:", 1)[1].split("func placed_power_runtime_state() -> Dictionary:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var balance := source_power_graph_update_balance_state(consumers, producers, batteries, 0.0, SOURCE_TICK_RATE)", proof_body)
+        self.assertIn("var distribution := source_power_graph_update_battery_distribute_state(", proof_body)
+        self.assertIn('"coverage": float(distribution.get("coverage", 0.0))', proof_body)
+        self.assertIn('"first_consumer_power_status": first_consumer_power_status', proof_body)
+        self.assertIn('"power_battery_used": float(distribution.get("power_battery_used", 0.0))', proof_body)
+        self.assertIn('"power_battery_charged": float(distribution.get("power_battery_charged", 0.0))', proof_body)
+        self.assertIn('"placed_power_distribution_runtime": placed_power_distribution_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
