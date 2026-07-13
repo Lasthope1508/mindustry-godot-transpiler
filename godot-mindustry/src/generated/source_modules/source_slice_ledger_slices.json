@@ -21574,7 +21574,7 @@
         "block_init_item_liquid_filters.content_items_size",
         "block_init_item_liquid_filters.content_liquids_size"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
         "test_port_game_exposes_source_block_init_item_liquid_filters_state",
@@ -21604,7 +21604,7 @@
           "block_init_item_liquid_filters.content_items_size",
           "block_init_item_liquid_filters.content_liquids_size"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
           "test_port_game_exposes_source_block_init_item_liquid_filters_state",
