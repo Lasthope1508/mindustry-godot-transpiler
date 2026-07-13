@@ -17508,7 +17508,7 @@
         "calculate_range_spawn_unit.unit_type_lifetime_field",
         "calculate_range_spawn_unit.unit_type_speed_field"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
