@@ -59901,6 +59901,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_symbol["java_expr"], "unit.type.fullIcon")
 
         payload_slice = source_symbols.source_slice(ledger, "N1409")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated UnitPayload icon bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
         self.assertEqual(payload_slice["java_method"], "UnitPayload.icon()")

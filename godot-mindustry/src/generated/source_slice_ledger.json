@@ -14015,7 +14015,7 @@
         "unit_payload_icon.return_expr",
         "unit_payload_icon.unit_type_full_icon"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_unit_payload_icon_to_source_state",
         "test_port_game_exposes_source_unit_payload_icon_state",
