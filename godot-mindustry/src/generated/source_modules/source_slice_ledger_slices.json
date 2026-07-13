@@ -20876,7 +20876,7 @@
         "block_init_light_clip_size.light_clip_size",
         "block_init_light_clip_size.clip_size"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_light_clip_size_to_source_state",
         "test_port_game_exposes_source_block_init_light_clip_size_state",
@@ -20906,7 +20906,7 @@
           "block_init_light_clip_size.light_clip_size",
           "block_init_light_clip_size.clip_size"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_light_clip_size_to_source_state",
           "test_port_game_exposes_source_block_init_light_clip_size_state",
