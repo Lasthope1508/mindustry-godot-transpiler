@@ -26579,7 +26579,7 @@
         "unit_payload_draw_shadow_type_null.alpha",
         "unit_payload_draw_shadow_type_null.unit_id"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
         "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
@@ -26618,7 +26618,7 @@
           "unit_payload_draw_shadow_type_null.alpha",
           "unit_payload_draw_shadow_type_null.unit_id"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
           "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",

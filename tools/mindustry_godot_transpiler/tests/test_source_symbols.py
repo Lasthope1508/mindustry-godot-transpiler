@@ -59658,6 +59658,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(draw["godot_symbol"], "source_unit_payload_draw_shadow_type_null_result.draw_soft_shadow_call")
 
         payload_slice = source_symbols.source_slice(ledger, "N1405")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated UnitPayload drawShadow type-null guard bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
         self.assertEqual(payload_slice["java_method"], "UnitPayload.drawShadow(float alpha)")
