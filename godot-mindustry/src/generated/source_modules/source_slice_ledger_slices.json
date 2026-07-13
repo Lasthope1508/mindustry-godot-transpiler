@@ -20723,7 +20723,7 @@
         "block_init_health_requirements_scaling.scaled_health",
         "block_init_health_requirements_scaling.requirements"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
         "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
@@ -20774,7 +20774,7 @@
           "block_init_health_requirements_scaling.scaled_health",
           "block_init_health_requirements_scaling.requirements"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
           "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
