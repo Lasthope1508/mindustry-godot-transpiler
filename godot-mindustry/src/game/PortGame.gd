@@ -6063,6 +6063,43 @@ func placed_power_battery_state() -> Dictionary:
 		})
 	return source_power_graph_battery_state(batteries)
 
+func placed_power_battery_runtime_state() -> Dictionary:
+	var batteries: Array = []
+	for key in placed_block_origins.keys():
+		var block = block_from_sprite(placed_block_origins.get(key))
+		if block == null:
+			continue
+		var role_state := power_graph_role_for_block(block)
+		if not bool(role_state.get("add_battery", false)):
+			continue
+		batteries.append({
+			"enabled": true,
+			"power_status": 0.0,
+			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+		})
+	var needed := placed_power_needed_state()
+	var produced := placed_power_produced_state()
+	var charge_excess: float = max(0.0, float(produced.get("power_produced", 0.0)) - float(needed.get("power_needed", 0.0)))
+	var charge_state := source_power_graph_charge_batteries_state(batteries, charge_excess)
+	var charged_batteries: Array = charge_state.get("batteries", batteries)
+	var charged_summary := source_power_graph_battery_state(charged_batteries)
+	var use_needed: float = float(charged_summary.get("stored", 0.0))
+	var use_state := source_power_graph_use_batteries_state(charged_batteries, use_needed)
+	var used_batteries: Array = use_state.get("batteries", charged_batteries)
+	var used_summary := source_power_graph_battery_state(used_batteries)
+	return {
+		"charge_excess": charge_excess,
+		"use_needed": use_needed,
+		"charged": float(charge_state.get("charged", 0.0)),
+		"used": float(use_state.get("used", 0.0)),
+		"charged_battery_stored": float(charged_summary.get("stored", 0.0)),
+		"used_battery_stored": float(used_summary.get("stored", 0.0)),
+		"charged_battery_capacity": float(charged_summary.get("capacity", 0.0)),
+		"used_battery_capacity": float(used_summary.get("capacity", 0.0)),
+		"charge_state": charge_state,
+		"use_state": use_state,
+	}
+
 func placed_power_runtime_state() -> Dictionary:
 	var roles := placed_power_graph_role_counts()
 	var needed := placed_power_needed_state()
@@ -30920,6 +30957,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_needed": placed_power_needed_state(),
 		"placed_power_produced": placed_power_produced_state(),
 		"placed_power_battery": placed_power_battery_state(),
+		"placed_power_battery_runtime": placed_power_battery_runtime_state(),
 		"placed_power_runtime": placed_power_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
