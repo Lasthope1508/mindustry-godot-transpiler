@@ -2964,6 +2964,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("apply_overdrive_boost_to_sprite(target, last_overdrive_projector_boost, last_overdrive_projector_boost_duration)", source)
         self.assertIn('"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id', source)
 
+    def test_port_game_exposes_overdrive_projector_boost_target_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        step_body = source.split("func step_overdrive_projectors(seconds: float) -> Dictionary:", 1)[1].split("func selected_enemy_unit():", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn('"last_overdrive_projector_boosted_time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', step_body)
+        self.assertIn('"last_overdrive_projector_boosted_time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', step_body)
+        self.assertIn('"last_overdrive_projector_boosted_time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', summary_body)
+        self.assertIn('"last_overdrive_projector_boosted_time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', summary_body)
+
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -12893,6 +12893,8 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 			state["last_overdrive_projector_boost_duration"] = last_overdrive_projector_boost_duration
 			state["last_overdrive_projector_boosted_block_id"] = last_overdrive_projector_boosted_block_id
 			state["last_overdrive_projector_boosted_cell"] = {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y}
+			state["last_overdrive_projector_boosted_time_scale"] = source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)
+			state["last_overdrive_projector_boosted_time_scale_duration"] = source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)
 			return state
 	return {
 		"heat": 0.0,
@@ -12905,6 +12907,8 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
 		"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id,
 		"last_overdrive_projector_boosted_cell": {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y},
+		"last_overdrive_projector_boosted_time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
+		"last_overdrive_projector_boosted_time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
 	}
 
 func selected_enemy_unit():
@@ -30921,6 +30925,8 @@ func get_runtime_summary() -> Dictionary:
 		"last_overdrive_projector_boost_duration": last_overdrive_projector_boost_duration,
 		"last_overdrive_projector_boosted_block_id": last_overdrive_projector_boosted_block_id,
 		"last_overdrive_projector_boosted_cell": {"x": last_overdrive_projector_boosted_cell.x, "y": last_overdrive_projector_boosted_cell.y},
+		"last_overdrive_projector_boosted_time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
+		"last_overdrive_projector_boosted_time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y),
 		"selected_build_booster_item": selected_build_booster_item(),
 		"selected_build_booster_use_time": selected_build_booster_use_time(),
 		"selected_build_repair_amount": selected_build_repair_amount(),
