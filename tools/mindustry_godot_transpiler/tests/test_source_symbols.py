@@ -56783,6 +56783,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         get_plan_configs_slice = source_symbols.source_slice(ledger, "N1362")
         self.assertEqual(get_plan_configs_slice["title"], "Generated Block getPlanConfigs bridge state")
+        self.assertEqual(get_plan_configs_slice["status"], "done")
         self.assertEqual(get_plan_configs_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(get_plan_configs_slice["java_method"], "Block.getPlanConfigs(Seq<UnlockableContent> options)")
         self.assertEqual(get_plan_configs_slice["godot_owner"], "PortGame.source_block_get_plan_configs_state")

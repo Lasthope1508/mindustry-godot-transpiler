@@ -11830,7 +11830,7 @@
         "block_get_plan_configs.content_items",
         "block_get_plan_configs.content_liquids"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_get_plan_configs_to_source_state",
         "test_port_game_exposes_source_block_get_plan_configs_state",
