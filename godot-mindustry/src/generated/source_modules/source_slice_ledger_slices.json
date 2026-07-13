@@ -21637,7 +21637,7 @@
         "block_init_consumer_apply_loop.consume_apply_method_expr",
         "block_init_consumer_apply_loop.consumers"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_consumer_apply_loop_to_source_state",
         "test_port_game_exposes_source_block_init_consumer_apply_loop_state",
@@ -21671,7 +21671,7 @@
           "block_init_consumer_apply_loop.consume_apply_method_expr",
           "block_init_consumer_apply_loop.consumers"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_consumer_apply_loop_to_source_state",
           "test_port_game_exposes_source_block_init_consumer_apply_loop_state",
