@@ -58627,6 +58627,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(payload_after["godot_symbol"], "source_block_producer_build_update_tile_move_out_payload_result.payload_after_present")
 
         move_out_slice = source_symbols.source_slice(ledger, "N1423")
+        self.assertEqual(move_out_slice["status"], "done")
         self.assertEqual(move_out_slice["title"], "Generated BlockProducerBuild updateTile moveOutPayload bridge state")
         self.assertEqual(move_out_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(move_out_slice["java_method"], "BlockProducerBuild.updateTile() moveOutPayload")
