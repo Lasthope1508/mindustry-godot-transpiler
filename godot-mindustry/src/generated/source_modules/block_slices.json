@@ -2845,7 +2845,7 @@
         "block_load_base_regions.content_regions_expr",
         "block_load_base_regions.name"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_load_base_regions_to_source_state",
         "test_port_game_exposes_source_block_load_base_regions_state",
