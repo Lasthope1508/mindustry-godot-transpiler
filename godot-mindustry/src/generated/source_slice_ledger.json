@@ -11035,7 +11035,7 @@
         "block_init_build_time_requirements.build_time",
         "block_init_build_time_requirements.requirements"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_build_time_requirements_to_source_state",
         "test_port_game_exposes_source_block_init_build_time_requirements_state",
