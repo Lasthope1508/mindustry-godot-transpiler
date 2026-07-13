@@ -3363,6 +3363,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"core_damage_taken_total": core_damage_taken_total', proof_body)
         self.assertIn('"enemy_runtime": enemy_runtime_state()', summary_body)
 
+    def test_port_game_exposes_playthrough_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func playthrough_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func playthrough_runtime_state() -> Dictionary:", 1)[1].split("func enemy_runtime_state() -> Dictionary:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn('"source_update_owner": "core/src/mindustry/core/Logic.java"', proof_body)
+        self.assertIn('"source_update_method": "public void update(){"', proof_body)
+        self.assertIn('"loaded_generated_load_failures": all_generated_load_failures.duplicate()', proof_body)
+        self.assertIn('"loaded_generated_instance_failures": all_generated_instance_failures.duplicate()', proof_body)
+        self.assertIn('"content_counts": content_counts.duplicate()', proof_body)
+        self.assertIn('"initial_world_block_count": initial_world_block_count', proof_body)
+        self.assertIn('"initial_occupied_cell_count": initial_occupied_cell_count', proof_body)
+        self.assertIn('"player_placed_block_count": player_placed_block_count', proof_body)
+        self.assertIn('"factory_runtime": factory_runtime_state()', proof_body)
+        self.assertIn('"enemy_runtime": enemy_runtime_state()', proof_body)
+        self.assertIn('"placed_power_runtime": placed_power_runtime_state()', proof_body)
+        self.assertIn('"placed_power_battery_runtime": placed_power_battery_runtime_state()', proof_body)
+        self.assertIn('"placed_power_distribution_runtime": placed_power_distribution_runtime_state()', proof_body)
+        self.assertIn('"selected_turret_total_ammo": selected_turret_total_ammo()', proof_body)
+        self.assertIn('"selected_mend_projector_target_health": last_mend_projector_target_health', proof_body)
+        self.assertIn('"selected_overdrive_projector_boosted_time_scale": last_overdrive_projector_boosted_time_scale', proof_body)
+        self.assertIn('"playthrough_runtime": playthrough_runtime_state()', summary_body)
+
     def test_port_game_uses_source_unit_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

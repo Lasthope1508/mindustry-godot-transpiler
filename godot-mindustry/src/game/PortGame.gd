@@ -13148,6 +13148,44 @@ func simulate_enemy_units(delta: float) -> void:
 	else:
 		wave_cooldown = 0.0
 
+func playthrough_runtime_state() -> Dictionary:
+	var last_overdrive_projector_boosted_time_scale := source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)
+	return {
+		"source_update_owner": "core/src/mindustry/core/Logic.java",
+		"source_update_method": "public void update(){",
+		"source_update_order": [
+			"Events.fire(Trigger.update)",
+			"Time.update()",
+			"updateEntities()",
+			"Events.fire(Trigger.afterGameUpdate)",
+		],
+		"loaded_generated_load_failures": all_generated_load_failures.duplicate(),
+		"loaded_generated_instance_failures": all_generated_instance_failures.duplicate(),
+		"content_counts": content_counts.duplicate(),
+		"initial_world_block_count": initial_world_block_count,
+		"initial_occupied_cell_count": initial_occupied_cell_count,
+		"placed_block_count": placed_block_origins.size(),
+		"occupied_cell_count": placed_blocks.size(),
+		"player_placed_block_count": player_placed_block_count,
+		"factory_runtime": factory_runtime_state(),
+		"enemy_runtime": enemy_runtime_state(),
+		"placed_power_runtime": placed_power_runtime_state(),
+		"placed_power_battery_runtime": placed_power_battery_runtime_state(),
+		"placed_power_distribution_runtime": placed_power_distribution_runtime_state(),
+		"bootstrapped_selected_turret_ammo_load_count": bootstrapped_selected_turret_ammo_load_count,
+		"selected_turret_total_ammo": selected_turret_total_ammo(),
+		"turret_shot_count": turret_shot_count,
+		"bullet_hit_count": bullet_hit_count,
+		"last_bullet_hit_damage": last_bullet_hit_damage,
+		"selected_mend_projector_healed_amount": last_mend_projector_healed_amount,
+		"selected_mend_projector_target_health": last_mend_projector_target_health,
+		"selected_mend_projector_target_max_health": last_mend_projector_target_max_health,
+		"selected_overdrive_projector_boost": last_overdrive_projector_boost,
+		"selected_overdrive_projector_boosted_time_scale": last_overdrive_projector_boosted_time_scale,
+		"core_health": core_health,
+		"core_damage_taken_total": core_damage_taken_total,
+	}
+
 func enemy_runtime_state() -> Dictionary:
 	var unit_type = selected_enemy_unit()
 	var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}
@@ -31058,6 +31096,7 @@ func get_runtime_summary() -> Dictionary:
 		"all_generated_instance_failures": all_generated_instance_failures.duplicate(),
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
+		"playthrough_runtime": playthrough_runtime_state(),
 		"content_counts": content_counts.duplicate(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,

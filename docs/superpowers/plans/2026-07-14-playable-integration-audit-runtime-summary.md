@@ -80,6 +80,8 @@ Twelfth audit found the factory loop advanced in the broader runtime proof, but 
 
 Thirteenth audit found enemy unit source fields and core damage were exposed as separate summary values, but runtime still lacked one MCP-friendly proof package tying selected enemy health, speed, hit size, weapon damage, live enemy count, and core damage together. Runtime summary now exposes `enemy_runtime` so MCP can prove the source-backed enemy/core loop directly.
 
+Fourteenth audit found all major runtime slices had MCP proof packages, but runtime still lacked one broader playthrough proof package tying generated load health, content/world initialization, factory, enemy/core, power, turret, bullet, mend, and overdrive telemetry together. Runtime summary now exposes `playthrough_runtime` so MCP can prove a source-backed end-to-end runtime package directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -114,6 +116,8 @@ Fix:
 - Added `factory_runtime_state()` and `"factory_runtime": factory_runtime_state()` to runtime summary. The wrapper only packages source-backed `source_drill_delay()`, `source_drill_output_delta_for_cell()`, `source_conveyor_path_progress_delta_for_cell()`, and live drill/core counters.
 - Added RED test that requires an enemy runtime proof wrapper.
 - Added `enemy_runtime_state()` and `"enemy_runtime": enemy_runtime_state()` to runtime summary. The wrapper only packages source-backed `source_unit_weapon_damage()`, `source_unit_world_speed()`, `source_unit_hit_size()`, `source_unit_health()`, and live enemy/core counters.
+- Added RED test that requires a playthrough runtime proof wrapper.
+- Added `playthrough_runtime_state()` and `"playthrough_runtime": playthrough_runtime_state()` to runtime summary. The wrapper only packages the existing source-backed runtime proof packages and live counters, with `core/src/mindustry/core/Logic.java` as the source update owner.
 
 ## Runtime Proof
 
@@ -327,6 +331,34 @@ Fresh MCP enemy runtime proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP playthrough runtime proof on the restarted runtime:
+
+- TCP `/root/Main.get_runtime_summary` with `playthrough_runtime`.
+- TCP proof:
+  - `source_update_owner="core/src/mindustry/core/Logic.java"`
+  - `source_update_method="public void update(){"`
+  - `loaded_generated_load_failures=[]`
+  - `loaded_generated_instance_failures=[]`
+  - `content_counts={"items":22,"liquids":11,"blocks":417,"units":56}`
+  - `initial_world_block_count=12`
+  - `initial_occupied_cell_count=22`
+  - `factory_runtime.produced_total=1`
+  - `factory_runtime.core_inventory=1`
+  - `enemy_runtime.selected_enemy_weapon_damage=9.0`
+  - `enemy_runtime.selected_enemy_world_speed=30.0`
+  - `enemy_runtime.enemy_count=1`
+  - `turret_shot_count=20`
+  - `bullet_hit_count=5`
+  - `core_damage_taken_total=9.0`
+  - `core_health=1091.0`
+- Live power exercise through TCP:
+  - `select_build_block_by_id("power-source")=true`
+  - `place_selected_block_at_cell(1,14)=true`
+  - `placed_power_runtime.producer_count=1`
+  - `player_placed_block_count=2`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
 Fresh MCP turret proof on the restarted runtime:
 
 - TCP `/root/Main.get_runtime_summary` initial:
@@ -412,6 +444,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_enemy_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with untyped `first_enemy` proof variable after Godot parser rejected inference.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_playthrough_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `playthrough_runtime_state()`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -445,12 +480,15 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_enemy_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_playthrough_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4028 passed, 39290 subtests passed in 372.27s (0:06:12)`.
+  - Result: `4029 passed, 39290 subtests passed in 355.21s (0:05:55)`.
 
 ## Remaining Gates
 
@@ -472,10 +510,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] PowerGraph distribution runtime loop proven: `coverage=0.555555555555556`, `first_consumer_power_status=0.555555555555556`, `power_needed=108.0`, `power_produced=60.0`.
 - [x] Factory runtime loop proven: `drill_delay=650.0`, `conveyor_path_progress_rate=0.183333333333333`, `produced_total 2 -> 8`, `core_inventory 2 -> 8`.
 - [x] Enemy runtime package proven: `selected_enemy_weapon_damage=9.0`, `selected_enemy_world_speed=30.0`, `selected_enemy_health=150.0`, `core_damage_taken_total=9.0`.
+- [x] Playthrough runtime package proven: generated load failures `[]`, generated instance failures `[]`, content/world initialized, factory/enemy/power/turret/bullet/core telemetry visible through `playthrough_runtime`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, and PowerGraph distribution runtime paths now proven.
-- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, or PowerGraph distribution runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, and PowerGraph distribution runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, or PowerGraph distribution runtime.
