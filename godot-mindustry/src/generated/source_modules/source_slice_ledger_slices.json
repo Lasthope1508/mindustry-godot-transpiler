@@ -21228,7 +21228,7 @@
         "block_init_offset.size",
         "block_init_offset.tilesize"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_offset_to_source_state",
         "test_port_game_exposes_source_block_init_offset_state",
@@ -21260,7 +21260,7 @@
           "block_init_offset.size",
           "block_init_offset.tilesize"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_offset_to_source_state",
           "test_port_game_exposes_source_block_init_offset_state",
