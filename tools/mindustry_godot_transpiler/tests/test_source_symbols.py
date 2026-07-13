@@ -57917,6 +57917,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(top_region["godot_symbol"], "source_block_producer_icons_input.top_region")
 
         payload_slice = source_symbols.source_slice(ledger, "N1410")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducer icons bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducer.icons()")

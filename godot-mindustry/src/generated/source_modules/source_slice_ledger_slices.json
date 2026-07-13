@@ -27033,7 +27033,7 @@
         "block_producer_icons.out_region",
         "block_producer_icons.top_region"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_icons_to_source_state",
         "test_port_game_exposes_source_block_producer_icons_state",
@@ -27069,7 +27069,7 @@
           "block_producer_icons.out_region",
           "block_producer_icons.top_region"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_icons_to_source_state",
           "test_port_game_exposes_source_block_producer_icons_state",
