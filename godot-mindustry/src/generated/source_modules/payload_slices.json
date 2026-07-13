@@ -1534,7 +1534,7 @@
     },
     "N1421": {
       "canonical_ledger": "source_slice_ledger.N1421",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
       "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
       "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",

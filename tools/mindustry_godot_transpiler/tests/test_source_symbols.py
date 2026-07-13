@@ -58499,6 +58499,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(progress_after["godot_symbol"], "source_block_producer_build_update_tile_pay_vector_progress_reset_result.progress_after")
 
         reset_slice = source_symbols.source_slice(ledger, "N1421")
+        self.assertEqual(reset_slice["status"], "done")
         self.assertEqual(reset_slice["title"], "Generated BlockProducerBuild updateTile payVector/progress reset bridge state")
         self.assertEqual(reset_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(reset_slice["java_method"], "BlockProducerBuild.updateTile() payVector/progress reset")

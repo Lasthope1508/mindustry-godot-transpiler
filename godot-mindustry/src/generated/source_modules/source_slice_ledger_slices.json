@@ -27819,7 +27819,7 @@
         "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_after",
         "block_producer_build_update_tile_pay_vector_progress_reset.progress_after"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
         "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
@@ -27863,7 +27863,7 @@
           "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_after",
           "block_producer_build_update_tile_pay_vector_progress_reset.progress_after"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
           "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
