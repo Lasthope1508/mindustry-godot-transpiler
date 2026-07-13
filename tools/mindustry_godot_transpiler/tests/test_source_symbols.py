@@ -55205,6 +55205,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(has_shadow["godot_symbol"], "source_block_init_custom_shadow_input.has_shadow_before")
 
         setup_slice = source_symbols.source_slice(ledger, "N1326")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["title"], "Generated Block init customShadow bridge state")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.init()")

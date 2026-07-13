@@ -10553,7 +10553,7 @@
         "block_init_custom_shadow.custom_shadow",
         "block_init_custom_shadow.has_shadow"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_custom_shadow_to_source_state",
         "test_port_game_exposes_source_block_init_custom_shadow_state",
