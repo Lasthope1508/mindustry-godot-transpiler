@@ -56072,6 +56072,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1341")
         self.assertEqual(setup_slice["title"], "Generated Block init build time multiplier bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.init()")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_build_time_multiplier_state")

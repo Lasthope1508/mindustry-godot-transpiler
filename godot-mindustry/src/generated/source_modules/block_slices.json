@@ -2340,7 +2340,7 @@
         "block_init_build_time_multiplier.build_time_multiplier_expr",
         "block_init_build_time_multiplier.build_time"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
         "test_port_game_exposes_source_block_init_build_time_multiplier_state",
