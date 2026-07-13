@@ -94,6 +94,7 @@ var core_incinerates := true
 var core_incinerate_non_buildable := false
 var core_max_health := 0.0
 var core_health := 0.0
+var core_damage_taken_total := 0.0
 var drill_output_item_id := "copper"
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
@@ -12953,7 +12954,9 @@ func simulate_enemy_units(delta: float) -> void:
 		var direction: Vector2 = target - sprite.position
 		var unit_type = enemy.get("type")
 		if direction.length() <= float(tile_size) * 0.35:
-			core_health = max(0.0, core_health - source_unit_weapon_damage(unit_type))
+			var core_damage: float = min(core_health, source_unit_weapon_damage(unit_type))
+			core_damage_taken_total += core_damage
+			core_health = max(0.0, core_health - core_damage)
 			sprite.queue_free()
 			continue
 		var speed := source_unit_world_speed(unit_type)
@@ -30968,6 +30971,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_enemy_health": source_unit_health(selected_enemy_unit()),
 		"core_max_health": core_max_health,
 		"core_health": core_health,
+		"core_damage_taken_total": core_damage_taken_total,
 	}
 
 func update_hud() -> void:

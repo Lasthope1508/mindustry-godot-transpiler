@@ -3204,13 +3204,17 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
+        self.assertIn("var core_damage_taken_total := 0.0", source)
         self.assertIn("func source_unit_weapon_damage(unit_type) -> float:", source)
         self.assertIn('var weapons: Array = unit_type.properties.get("weapons", [])', source)
         self.assertIn('var bullet: Dictionary = weapon.get("bullet", {})', source)
         self.assertIn('return float(bullet.get("damage", 0.0))', source)
-        self.assertIn('core_health = max(0.0, core_health - source_unit_weapon_damage(unit_type))', source)
+        self.assertIn('var core_damage: float = min(core_health, source_unit_weapon_damage(unit_type))', source)
+        self.assertIn('core_damage_taken_total += core_damage', source)
+        self.assertIn('core_health = max(0.0, core_health - core_damage)', source)
         self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
+        self.assertIn('"core_damage_taken_total": core_damage_taken_total', source)
 
     def test_port_game_uses_source_unit_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
