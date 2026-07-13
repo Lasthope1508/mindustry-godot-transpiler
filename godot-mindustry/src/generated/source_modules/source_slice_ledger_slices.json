@@ -27111,7 +27111,7 @@
         "block_producer_draw_plan_region.out_region_rotation",
         "block_producer_draw_plan_region.draw_calls"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
         "test_port_game_exposes_source_block_producer_draw_plan_region_state",
@@ -27157,7 +27157,7 @@
           "block_producer_draw_plan_region.out_region_rotation",
           "block_producer_draw_plan_region.draw_calls"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
           "test_port_game_exposes_source_block_producer_draw_plan_region_state",

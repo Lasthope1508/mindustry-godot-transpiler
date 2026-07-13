@@ -57967,6 +57967,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(plan_rotation["godot_symbol"], "source_block_producer_draw_plan_region_input.plan_rotation")
 
         payload_slice = source_symbols.source_slice(ledger, "N1411")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducer drawPlanRegion bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
