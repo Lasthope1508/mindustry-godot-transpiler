@@ -31157,6 +31157,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange);", calculate_range_despawn_unit["deferred_exprs"])
 
         calculate_range_fallback = source_symbols.source_slice(ledger, "N474")
+        self.assertEqual(calculate_range_fallback["status"], "done")
         self.assertEqual(calculate_range_fallback["java_method"], "calculateRange()")
         self.assertEqual(calculate_range_fallback["godot_owner"], "PortGame.source_bullet_type_calculate_range_fallback_state")
         self.assertIn("public float speed = 1f;", calculate_range_fallback["exact_exprs"])
