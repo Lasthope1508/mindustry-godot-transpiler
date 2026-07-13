@@ -2813,7 +2813,7 @@
         "block_check_content_array_capacity.item_filter_before",
         "block_check_content_array_capacity.liquid_filter_before"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_check_content_array_capacity_to_source_state",
         "test_port_game_exposes_source_block_check_content_array_capacity_state",
