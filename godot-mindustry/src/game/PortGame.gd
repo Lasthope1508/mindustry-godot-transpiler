@@ -84,6 +84,8 @@ var last_place_blocked := false
 var last_mend_projector_healed_amount := 0.0
 var last_mend_projector_healed_block_id := ""
 var last_mend_projector_healed_cell := Vector2i.ZERO
+var last_mend_projector_target_health := 0.0
+var last_mend_projector_target_max_health := 0.0
 var last_overdrive_projector_boost_range := 0.0
 var last_overdrive_projector_boost := 0.0
 var last_overdrive_projector_boost_duration := 0.0
@@ -12801,6 +12803,8 @@ func simulate_mend_projectors(delta: float) -> void:
 		last_mend_projector_healed_amount = healed
 		last_mend_projector_healed_block_id = str(target.get_meta("source_block_id", ""))
 		last_mend_projector_healed_cell = target.get_meta("origin_cell", Vector2i.ZERO)
+		last_mend_projector_target_health = float(target.get_meta("source_block_health", 0.0))
+		last_mend_projector_target_max_health = float(target.get_meta("source_block_max_health", 0.0))
 
 func step_mend_projectors(seconds: float) -> Dictionary:
 	simulate_mend_projectors(seconds)
@@ -12808,6 +12812,8 @@ func step_mend_projectors(seconds: float) -> Dictionary:
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
+		"last_mend_projector_target_health": last_mend_projector_target_health,
+		"last_mend_projector_target_max_health": last_mend_projector_target_max_health,
 	}
 
 func find_overdrive_boost_target(overdrive_cell: Vector2i, overdrive_projector, phase_heat := 0.0):
@@ -30910,6 +30916,8 @@ func get_runtime_summary() -> Dictionary:
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
+		"last_mend_projector_target_health": last_mend_projector_target_health,
+		"last_mend_projector_target_max_health": last_mend_projector_target_max_health,
 		"core_inventory": core_inventory,
 		"core_items": core_items.duplicate(),
 		"core_item_capacity": core_item_capacity,

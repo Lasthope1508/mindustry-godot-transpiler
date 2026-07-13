@@ -2708,6 +2708,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_placed_block_requirements": last_placed_block_requirements.duplicate(true)', summary_body)
         self.assertNotIn('last_placed_block_requirements = [{"item": "copper"', source)
 
+    def test_port_game_exposes_mend_projector_heal_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        mend_body = source.split("func simulate_mend_projectors(delta: float) -> void:", 1)[1].split("func step_mend_projectors(seconds: float) -> Dictionary:", 1)[0]
+        step_body = source.split("func step_mend_projectors(seconds: float) -> Dictionary:", 1)[1].split("func find_overdrive_boost_target", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var last_mend_projector_target_health := 0.0", source)
+        self.assertIn("var last_mend_projector_target_max_health := 0.0", source)
+        self.assertIn("var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block, phase_heat))", mend_body)
+        self.assertIn("last_mend_projector_target_health = float(target.get_meta(\"source_block_health\", 0.0))", mend_body)
+        self.assertIn("last_mend_projector_target_max_health = float(target.get_meta(\"source_block_max_health\", 0.0))", mend_body)
+        self.assertIn('"last_mend_projector_target_health": last_mend_projector_target_health', step_body)
+        self.assertIn('"last_mend_projector_target_max_health": last_mend_projector_target_max_health', step_body)
+        self.assertIn('"last_mend_projector_target_health": last_mend_projector_target_health', summary_body)
+        self.assertIn('"last_mend_projector_target_max_health": last_mend_projector_target_max_health', summary_body)
+
     def test_port_game_initializes_core_health_from_source_block(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

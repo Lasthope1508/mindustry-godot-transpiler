@@ -62,6 +62,8 @@ Third audit found core damage was asserted in the checklist but not explicitly t
 
 Fourth audit found player placement cost was still only implied by shared occupancy and inventory state. The playable placement path already called `can_afford(block)` and `spend_requirements(block)` from source-backed `block.properties.requirements`; runtime summary now exposes `player_placed_block_count` and `last_placed_block_requirements` so MCP can prove the player placement loop directly.
 
+Fifth audit found the MendProjector heal loop had source-backed formulas and static tests, but no MCP proof that a placed projector repairs a damaged block in runtime. Runtime summary now exposes the healed target health and max health so MCP can prove the heal side effect directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -78,6 +80,8 @@ Fix:
 - Added `"core_damage_taken_total": core_damage_taken_total` to `get_runtime_summary()`.
 - Added RED test that requires `player_placed_block_count` and `last_placed_block_requirements` to be exposed in runtime summary.
 - Added `player_placed_block_count` and `last_placed_block_requirements` to `PortGame.gd` so placement telemetry tracks player-built blocks and source-backed costs separately from initial world blocks.
+- Added RED test that requires the MendProjector runtime proof to expose target health after healing and target max health.
+- Added `last_mend_projector_target_health` and `last_mend_projector_target_max_health` to `PortGame.gd` and runtime summary.
 
 ## Runtime Proof
 
@@ -110,6 +114,27 @@ Godot MCP runtime on TCP port `7777`:
   - `enemy_count -1`
   - `turret_shot_count +0`
   - `bullet_count +0`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
+Fresh MCP MendProjector heal proof on the restarted runtime:
+
+- Seeded core inventory for `mender` requirements through `/root/Main.set_core_item_count`.
+- Selected `mender` through `/root/Main.select_build_block_by_id`.
+- Placed `mender` through `/root/Main.place_selected_block_at_cell(8, 7)`.
+- Damaged conveyor target through `/root/Main.damage_block_at_cell(8, 8, 20.0)`.
+- Stepped heal loop through `/root/Main.step_mend_projectors(5.0)`.
+- TCP proof:
+  - `target_health_max=45.0`
+  - `before_health=25.0`
+  - `after_health=26.8`
+  - `last_mend_projector_healed_amount=1.8`
+  - `last_mend_projector_healed_block_id="conveyor"`
+  - `last_mend_projector_healed_cell={"x":8,"y":8}`
+  - `last_mend_projector_target_health=26.8`
+  - `last_mend_projector_target_max_health=45.0`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
@@ -168,18 +193,24 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_player_placement_cost_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `player_placed_block_count` and `last_placed_block_requirements`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_mend_projector_heal_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `last_mend_projector_target_health` and `last_mend_projector_target_max_health`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_player_placement_cost_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_mend_projector_heal_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
-  - Result: `{'errors': [], 'module_count': 112}`.
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4019 passed, 39290 subtests passed in 383.72s (0:06:23)`.
+  - Result: `4020 passed, 39290 subtests passed in 388.93s (0:06:28)`.
 
 ## Remaining Gates
 
@@ -192,10 +223,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] Enemy loop advances: enemies move/waves progress/core takes damage: `core_damage_taken_total +9.0`, `core_health -9.0`.
 - [x] Live turret ammo loop proven: `bootstrapped_selected_turret_ammo_load_count=15`, `turret_shot_count=30`, `last_turret_fired_ammo_item="copper"`.
 - [x] Player placement cost loop proven: `player_placed_block_count=1`, `last_placed_block_requirements=[{"item":"copper","amount":1}]`, `core_items.copper 25 -> 24`.
+- [x] MendProjector heal loop proven: damaged conveyor `25.0 -> 26.8`, healed amount `1.8`, max health `45.0`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire and placement-cost paths now proven.
-- Current blocker for completion claim: broader playthrough coverage, not placement-cost or turret ammo/fire.
+- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, and MendProjector heal paths now proven.
+- Current blocker for completion claim: broader playthrough coverage, not MendProjector heal, placement-cost, or turret ammo/fire.
