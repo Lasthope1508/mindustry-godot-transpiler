@@ -17299,7 +17299,7 @@
         "init_type_defaults.status_effects_none",
         "init_type_defaults.status_effects_shocked"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_type_defaults_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_type_defaults_state",

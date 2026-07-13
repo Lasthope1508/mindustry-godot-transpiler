@@ -31066,6 +31066,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public void init(){", update_trail_effects_interval["deferred_exprs"])
 
         init_type_defaults = source_symbols.source_slice(ledger, "N465")
+        self.assertEqual(init_type_defaults["status"], "done")
         self.assertEqual(init_type_defaults["java_method"], "init()")
         self.assertEqual(init_type_defaults["godot_owner"], "PortGame.source_bullet_type_init_type_defaults_state")
         self.assertIn("if(pierceCap >= 1){", init_type_defaults["exact_exprs"])
