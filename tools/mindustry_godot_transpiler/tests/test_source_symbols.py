@@ -58340,6 +58340,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(progress_expr["godot_symbol"], "source_block_producer_build_update_tile_progress_accumulation_result.progress_after")
 
         payload_slice = source_symbols.source_slice(ledger, "N1418")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild updateTile progress accumulation bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.updateTile() progress accumulation")

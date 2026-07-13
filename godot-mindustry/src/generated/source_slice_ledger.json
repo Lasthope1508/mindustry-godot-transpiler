@@ -14362,7 +14362,7 @@
         "block_producer_build_update_tile_progress_accumulation.edelta",
         "block_producer_build_update_tile_progress_accumulation.progress_expr"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
         "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
