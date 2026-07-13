@@ -22583,7 +22583,7 @@
         "block_load_variant_shadow_regions.variants",
         "block_load_variant_shadow_regions.custom_shadow"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
         "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
@@ -22618,7 +22618,7 @@
           "block_load_variant_shadow_regions.variants",
           "block_load_variant_shadow_regions.custom_shadow"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
           "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
