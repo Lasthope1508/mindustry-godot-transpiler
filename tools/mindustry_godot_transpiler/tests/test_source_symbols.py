@@ -58023,6 +58023,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(progress_fraction["godot_symbol"], "source_block_producer_set_bars_result.progress_bar_fraction")
 
         payload_slice = source_symbols.source_slice(ledger, "N1412")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducer setBars bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducer.setBars()")

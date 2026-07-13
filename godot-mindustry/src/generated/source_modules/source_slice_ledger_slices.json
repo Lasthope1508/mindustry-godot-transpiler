@@ -27195,7 +27195,7 @@
         "block_producer_set_bars.recipe_build_time",
         "block_producer_set_bars.progress_bar_fraction"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_set_bars_to_source_state",
         "test_port_game_exposes_source_block_producer_set_bars_state",
@@ -27236,7 +27236,7 @@
           "block_producer_set_bars.recipe_build_time",
           "block_producer_set_bars.progress_bar_fraction"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_set_bars_to_source_state",
           "test_port_game_exposes_source_block_producer_set_bars_state",

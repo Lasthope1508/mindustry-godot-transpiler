@@ -1326,7 +1326,7 @@
     },
     "N1412": {
       "canonical_ledger": "source_slice_ledger.N1412",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
       "java_method": "BlockProducer.setBars()",
       "godot_owner": "PortGame.source_block_producer_set_bars_state",
