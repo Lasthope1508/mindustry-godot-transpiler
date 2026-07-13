@@ -1567,7 +1567,7 @@
     },
     "N476": {
       "canonical_ledger": "source_slice_ledger.N476",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "heals()",
       "godot_owner": "PortGame.source_bullet_type_heals_state",

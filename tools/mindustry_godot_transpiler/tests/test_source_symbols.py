@@ -31179,6 +31179,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(continuous_damage_default["deferred_exprs"], [])
 
         heals = source_symbols.source_slice(ledger, "N476")
+        self.assertEqual(heals["status"], "done")
         self.assertEqual(heals["java_method"], "heals()")
         self.assertEqual(heals["godot_owner"], "PortGame.source_bullet_type_heals_state")
         self.assertIn("public float healPercent = 0f;", heals["exact_exprs"])
