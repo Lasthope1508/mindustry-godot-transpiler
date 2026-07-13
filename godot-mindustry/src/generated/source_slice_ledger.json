@@ -10893,7 +10893,7 @@
         "block_init_liquid_capacity_default.consume_amount",
         "block_init_liquid_capacity_default.liquid_capacity_assigned"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
         "test_port_game_exposes_source_block_init_liquid_capacity_default_state",

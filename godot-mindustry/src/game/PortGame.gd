@@ -22597,7 +22597,7 @@ func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liqu
 func source_block_init_liquid_capacity_default_state(liquid_capacity_before: float) -> Dictionary:
 	var liquid_capacity_assigned: bool = liquid_capacity_before < 0.0
 	var consume_amount: float = 1.0
-	var liquid_capacity_after: int = int(10.0 * consume_amount + 16384.5) - 16384 if liquid_capacity_assigned else int(liquid_capacity_before)
+	var liquid_capacity_after: float = float(int(10.0 * consume_amount + 16384.5) - 16384) if liquid_capacity_assigned else liquid_capacity_before
 	return {
 		"source_owner": "PortGame.source_block_init_liquid_capacity_default_state",
 		"source": "core/src/mindustry/world/Block.java",

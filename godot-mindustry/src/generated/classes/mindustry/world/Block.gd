@@ -707,7 +707,7 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var liquid_capacity_before: float = float(_args[0] if _args.size() > 0 else -1.0)
 		var liquid_capacity_assigned: bool = liquid_capacity_before < 0.0
 		var consume_amount: float = 1.0
-		var liquid_capacity_after: int = int(10.0 * consume_amount + 16384.5) - 16384 if liquid_capacity_assigned else int(liquid_capacity_before)
+		var liquid_capacity_after: float = float(int(10.0 * consume_amount + 16384.5) - 16384) if liquid_capacity_assigned else liquid_capacity_before
 		return {"source_owner": "PortGame.source_block_init_liquid_capacity_default_state", "source": "core/src/mindustry/world/Block.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_capacity_comment": "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity", "liquid_capacity_guard_expr": "if(liquidCapacity < 0){", "consume_amount_default_expr": "float consumeAmount = 1f;", "consume_builder_loop_expr": "for(var cons : consumeBuilder){", "liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);", "mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;", "liquid_capacity_before": liquid_capacity_before, "consume_amount": consume_amount, "liquid_capacity_assigned": liquid_capacity_assigned, "liquid_capacity_after": liquid_capacity_after}
 	if init_bridge_mode == "emit_light_radius":
 		var emit_light: bool = bool(_args[0] if _args.size() > 0 else false)

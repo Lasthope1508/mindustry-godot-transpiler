@@ -55751,6 +55751,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1335")
         self.assertEqual(setup_slice["title"], "Generated Block init liquid capacity default bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.init()")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_liquid_capacity_default_state")

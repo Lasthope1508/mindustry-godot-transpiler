@@ -20173,6 +20173,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"consume_amount_default_expr": "float consumeAmount = 1f;"', source)
         self.assertIn('"liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);"', source)
         self.assertIn('"mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"', source)
+        self.assertIn("var liquid_capacity_after: float = float(int(10.0 * consume_amount + 16384.5) - 16384) if liquid_capacity_assigned else liquid_capacity_before", source)
         self.assertIn('"liquid_capacity_after": liquid_capacity_after', source)
 
     def test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state(self):
