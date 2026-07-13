@@ -1612,7 +1612,7 @@
     },
     "N478": {
       "canonical_ledger": "source_slice_ledger.N478",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)",
       "godot_owner": "PortGame.source_bullet_type_create_spawn_unit_state",

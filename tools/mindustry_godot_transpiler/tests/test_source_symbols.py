@@ -31204,6 +31204,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(spawnUnit != null){", create_initial_gate["deferred_exprs"])
 
         create_spawn_unit = source_symbols.source_slice(ledger, "N478")
+        self.assertEqual(create_spawn_unit["status"], "done")
         self.assertEqual(create_spawn_unit["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
         self.assertEqual(create_spawn_unit["godot_owner"], "PortGame.source_bullet_type_create_spawn_unit_state")
         self.assertIn("if(spawnUnit != null){", create_spawn_unit["exact_exprs"])

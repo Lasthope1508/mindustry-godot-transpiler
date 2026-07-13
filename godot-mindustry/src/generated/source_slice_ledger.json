@@ -17725,7 +17725,7 @@
         "create_spawn_unit.control_unit",
         "create_spawn_unit.bullet_create_boundary"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_create_spawn_unit_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_create_spawn_unit_state",
