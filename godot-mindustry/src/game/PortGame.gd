@@ -13148,6 +13148,28 @@ func simulate_enemy_units(delta: float) -> void:
 	else:
 		wave_cooldown = 0.0
 
+func enemy_runtime_state() -> Dictionary:
+	var unit_type = selected_enemy_unit()
+	var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}
+	var first_enemy_sprite = first_enemy.get("sprite", null)
+	var first_enemy_position := {}
+	if is_instance_valid(first_enemy_sprite):
+		first_enemy_position = {"x": first_enemy_sprite.position.x, "y": first_enemy_sprite.position.y}
+	return {
+		"enemy_count": enemy_units.size(),
+		"wave_index": wave_index,
+		"last_spawned_wave_index": last_spawned_wave_index,
+		"last_spawned_wave_count": last_spawned_wave_count,
+		"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type),
+		"selected_enemy_world_speed": source_unit_world_speed(unit_type),
+		"selected_enemy_hit_size": source_unit_hit_size(unit_type),
+		"selected_enemy_health": source_unit_health(unit_type),
+		"first_enemy_health": float(first_enemy.get("health", 0.0)),
+		"first_enemy_position": first_enemy_position,
+		"core_health": core_health,
+		"core_damage_taken_total": core_damage_taken_total,
+	}
+
 func source_unit_weapon_damage(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
@@ -31166,6 +31188,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_recoil": selected_turret_recoil(),
 		"selected_turret_recoils": selected_turret_recoils(),
 		"selected_turret_limit_range_margin": selected_turret_limit_range_margin(),
+		"enemy_runtime": enemy_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

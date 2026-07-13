@@ -3343,6 +3343,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
         self.assertIn('"core_damage_taken_total": core_damage_taken_total', source)
 
+    def test_port_game_exposes_enemy_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func enemy_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func enemy_runtime_state() -> Dictionary:", 1)[1].split("func source_unit_weapon_damage", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_type = selected_enemy_unit()", proof_body)
+        self.assertIn("var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}", proof_body)
+        self.assertIn('"enemy_count": enemy_units.size()', proof_body)
+        self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', proof_body)
+        self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(unit_type)', proof_body)
+        self.assertIn('"selected_enemy_hit_size": source_unit_hit_size(unit_type)', proof_body)
+        self.assertIn('"selected_enemy_health": source_unit_health(unit_type)', proof_body)
+        self.assertIn('"first_enemy_health": float(first_enemy.get("health", 0.0))', proof_body)
+        self.assertIn('"core_health": core_health', proof_body)
+        self.assertIn('"core_damage_taken_total": core_damage_taken_total', proof_body)
+        self.assertIn('"enemy_runtime": enemy_runtime_state()', summary_body)
+
     def test_port_game_uses_source_unit_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
