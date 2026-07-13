@@ -2165,7 +2165,7 @@
         "block_init_emit_light_radius.light_radius",
         "block_init_emit_light_radius.light_radius_clip_size"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_emit_light_radius_to_source_state",
         "test_port_game_exposes_source_block_init_emit_light_radius_state",
