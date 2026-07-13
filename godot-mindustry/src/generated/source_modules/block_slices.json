@@ -2015,7 +2015,7 @@
         "block_init_clip_size.tilesize",
         "block_init_clip_size.size_tilesize"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_clip_size_to_source_state",
         "test_port_game_exposes_source_block_init_clip_size_state",
