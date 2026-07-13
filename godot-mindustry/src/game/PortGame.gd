@@ -30889,6 +30889,7 @@ func get_runtime_summary() -> Dictionary:
 		"drill_dump_timer": drill_dump_timer,
 		"drill_dump_cursor": drill_dump_cursor,
 		"building_dump_accum": building_dump_accum,
+		"produced_total": produced_total,
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,

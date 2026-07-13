@@ -55,11 +55,13 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
 
         self.assertIn("func get_runtime_summary() -> Dictionary:", source)
-        self.assertIn('"generated_class_count": generated_class_count', source)
-        self.assertIn('"loaded_generated_class_names": loaded_generated_class_names.duplicate()', source)
-        self.assertIn('"content_counts": content_counts.duplicate()', source)
+        self.assertIn('"generated_class_count": generated_class_count', summary_body)
+        self.assertIn('"loaded_generated_class_names": loaded_generated_class_names.duplicate()', summary_body)
+        self.assertIn('"content_counts": content_counts.duplicate()', summary_body)
+        self.assertIn('"produced_total": produced_total', summary_body)
 
     def test_port_game_exposes_selected_build_power_metadata_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
