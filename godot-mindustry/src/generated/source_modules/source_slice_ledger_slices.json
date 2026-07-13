@@ -21162,7 +21162,7 @@
         "block_init_accepts_items.accepts_items",
         "block_init_accepts_items.accepts_items_gate"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_accepts_items_to_source_state",
         "test_port_game_exposes_source_block_init_accepts_items_state",
@@ -21194,7 +21194,7 @@
           "block_init_accepts_items.accepts_items",
           "block_init_accepts_items.accepts_items_gate"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_accepts_items_to_source_state",
           "test_port_game_exposes_source_block_init_accepts_items_state",
