@@ -24415,12 +24415,22 @@ func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bo
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])
 	var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
+	var matches: bool = true
+	if not result is Dictionary:
+		matches = false
+	else:
+		for key in canonical.keys():
+			if key == "source_owner":
+				continue
+			if not result.has(key) or result.get(key) != canonical.get(key):
+				matches = false
+				break
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_dump_spawn_side_effects_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:

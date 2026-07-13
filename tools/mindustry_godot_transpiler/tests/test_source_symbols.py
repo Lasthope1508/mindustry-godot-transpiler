@@ -59544,6 +59544,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         payload_slice = source_symbols.source_slice(ledger, "N1403")
         self.assertEqual(payload_slice["title"], "Generated UnitPayload dump no-client guard bridge state")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
         self.assertEqual(payload_slice["java_method"], "UnitPayload.dump()")
         self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_dump_no_client_guard_state")

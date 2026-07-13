@@ -21465,9 +21465,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:", source)
         self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])", source)
         self.assertIn("var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)", source)
+        self.assertIn("var matches: bool = true", source)
+        self.assertIn("for key in canonical.keys():", source)
+        self.assertIn('if key == "source_owner":', source)
+        self.assertIn("matches = false", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
-        self.assertIn('"matches": result == canonical', source)
+        self.assertIn('"matches": matches', source)
 
     def test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
