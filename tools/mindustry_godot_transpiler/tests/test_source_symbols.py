@@ -58131,6 +58131,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(final_return["java_expr"], "return 0;")
 
         payload_slice = source_symbols.source_slice(ledger, "N1414")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild getMaximumAccepted bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.getMaximumAccepted(Item item)")

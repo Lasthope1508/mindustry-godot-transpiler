@@ -14219,7 +14219,7 @@
         "block_producer_build_get_maximum_accepted.stack_amount",
         "block_producer_build_get_maximum_accepted.final_return"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
         "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
