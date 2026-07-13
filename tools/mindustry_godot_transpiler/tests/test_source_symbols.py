@@ -31169,6 +31169,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(calculate_range_fallback["deferred_exprs"], [])
 
         continuous_damage_default = source_symbols.source_slice(ledger, "N475")
+        self.assertEqual(continuous_damage_default["status"], "done")
         self.assertEqual(continuous_damage_default["java_method"], "continuousDamage()")
         self.assertEqual(continuous_damage_default["godot_owner"], "PortGame.source_bullet_type_continuous_damage_default_state")
         self.assertIn("/** @return continuous damage in damage/sec, or -1 if not continuous. */", continuous_damage_default["exact_exprs"])

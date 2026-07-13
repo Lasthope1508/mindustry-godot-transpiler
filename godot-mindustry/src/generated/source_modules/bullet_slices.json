@@ -1550,7 +1550,7 @@
     },
     "N475": {
       "canonical_ledger": "source_slice_ledger.N475",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "continuousDamage()",
       "godot_owner": "PortGame.source_bullet_type_continuous_damage_default_state",
