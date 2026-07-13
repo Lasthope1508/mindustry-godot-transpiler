@@ -31148,6 +31148,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed;", calculate_range_spawn_unit["deferred_exprs"])
 
         calculate_range_despawn_unit = source_symbols.source_slice(ledger, "N473")
+        self.assertEqual(calculate_range_despawn_unit["status"], "done")
         self.assertEqual(calculate_range_despawn_unit["java_method"], "calculateRange()")
         self.assertEqual(calculate_range_despawn_unit["godot_owner"], "PortGame.source_bullet_type_calculate_range_despawn_unit_state")
         self.assertIn("public @Nullable UnitType despawnUnit;", calculate_range_despawn_unit["exact_exprs"])
