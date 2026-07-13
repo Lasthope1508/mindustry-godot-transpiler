@@ -12870,6 +12870,29 @@ func step_factory_drill(seconds: float) -> Dictionary:
 		"produced_total": produced_total,
 	}
 
+func factory_runtime_state() -> Dictionary:
+	var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
+	var drill_output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, 1.0, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
+	var conveyor_progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, 1.0)
+	return {
+		"drill_output_item_id": drill_output_item_id,
+		"drill_ore_cell_count": drill_ore_cell_count,
+		"drill_delay": drill_delay,
+		"drill_output_rate": drill_output_rate,
+		"drill_warmup": drill_warmup_at_cell(drill_pos.x, drill_pos.y),
+		"drill_last_speed": drill_last_speed_at_cell(drill_pos.x, drill_pos.y),
+		"drill_time_drilled": drill_time_drilled_at_cell(drill_pos.x, drill_pos.y),
+		"drill_items_total": drill_items_total(),
+		"drill_output_delta_per_second": drill_output_delta,
+		"conveyor_world_speed": conveyor_world_speed,
+		"conveyor_path_progress_rate": conveyor_path_progress_rate,
+		"conveyor_progress_delta_per_second": conveyor_progress_delta,
+		"transport_progress": transport_progress,
+		"item_progress": item_progress,
+		"produced_total": produced_total,
+		"core_inventory": core_inventory,
+	}
+
 func source_block_is_damaged(sprite) -> bool:
 	if not is_instance_valid(sprite):
 		return false
@@ -31085,6 +31108,7 @@ func get_runtime_summary() -> Dictionary:
 		"drill_dump_cursor": drill_dump_cursor,
 		"building_dump_accum": building_dump_accum,
 		"produced_total": produced_total,
+		"factory_runtime": factory_runtime_state(),
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,

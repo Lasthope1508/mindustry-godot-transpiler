@@ -2757,6 +2757,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_placed_block_requirements": last_placed_block_requirements.duplicate(true)', summary_body)
         self.assertNotIn('last_placed_block_requirements = [{"item": "copper"', source)
 
+    def test_port_game_exposes_factory_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        self.assertIn("func factory_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func factory_runtime_state() -> Dictionary:", 1)[1].split("func source_block_is_damaged", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn('var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)', proof_body)
+        self.assertIn("var drill_output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, 1.0, drill_warmup_at_cell(drill_pos.x, drill_pos.y))", proof_body)
+        self.assertIn("var conveyor_progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, 1.0)", proof_body)
+        self.assertIn('"drill_output_rate": drill_output_rate', proof_body)
+        self.assertIn('"drill_output_delta_per_second": drill_output_delta', proof_body)
+        self.assertIn('"conveyor_progress_delta_per_second": conveyor_progress_delta', proof_body)
+        self.assertIn('"produced_total": produced_total', proof_body)
+        self.assertIn('"core_inventory": core_inventory', proof_body)
+        self.assertIn('"factory_runtime": factory_runtime_state()', summary_body)
+
     def test_port_game_exposes_mend_projector_heal_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
