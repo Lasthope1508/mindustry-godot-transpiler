@@ -10619,7 +10619,7 @@
         "block_init_fog_radius_flag.fog_radius",
         "block_init_fog_radius_flag.flags"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_fog_radius_flag_to_source_state",
         "test_port_game_exposes_source_block_init_fog_radius_flag_state",
