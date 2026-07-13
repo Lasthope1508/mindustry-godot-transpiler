@@ -68,6 +68,8 @@ Sixth audit found bullet hit damage was source-backed and turret fire was proven
 
 Seventh audit found overdrive projector boost application was source-backed, but runtime still lacked MCP-visible target boost telemetry. Runtime summary now exposes boosted target time scale and duration so MCP can prove boost side effect directly.
 
+Eighth audit found wave spawning was source-backed, but runtime still lacked MCP-visible spawn telemetry. Runtime summary now exposes last spawned wave index, count, and group proof list so MCP can prove wave spawn formula directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -90,6 +92,8 @@ Fix:
 - Added `bullet_hit_count`, `last_bullet_hit_damage`, `last_bullet_target_health_before`, `last_bullet_target_health_after`, and `last_bullet_target_destroyed` to `PortGame.gd` and runtime summary.
 - Added RED test that requires overdrive projector runtime proof to expose boosted target time scale and duration.
 - Added `last_overdrive_projector_boosted_time_scale` and `last_overdrive_projector_boosted_time_scale_duration` to `PortGame.gd`, `step_overdrive_projectors()`, and runtime summary.
+- Added RED test that requires wave spawn runtime proof to expose last spawned wave index, count, and group proof list.
+- Added `last_spawned_wave_index`, `last_spawned_wave_count`, and `last_spawned_wave_groups` to `PortGame.gd`, `spawn_enemy_wave()`, and runtime summary.
 
 ## Runtime Proof
 
@@ -187,6 +191,22 @@ Fresh MCP overdrive boost proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP wave spawn proof on the restarted runtime:
+
+- Observed live spawn telemetry through `/root/Main.get_runtime_summary`.
+- TCP proof:
+  - `wave_index=4`
+  - `last_spawned_wave_index=4`
+  - `last_spawned_wave_count=3`
+  - `spawned_sum=3`
+  - `first_spawned_wave_group={"begin":0,"end":10,"max":30,"spacing":1,"spawned":2,"unit":"dagger","unitAmount":1,"unitScaling":2.0}`
+  - `spawned_wave_group_count=29`
+  - `enemy_count_after_live_turret_updates=0`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
 Fresh MCP turret proof on the restarted runtime:
 
 - TCP `/root/Main.get_runtime_summary` initial:
@@ -251,6 +271,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_overdrive_projector_boost_target_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `last_overdrive_projector_boosted_time_scale` in `step_overdrive_projectors()`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_wave_spawn_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `last_spawned_wave_index`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -266,12 +289,15 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_overdrive_projector_boost_target_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_wave_spawn_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4022 passed, 39290 subtests passed in 368.01s (0:06:08)`.
+  - Result: `4023 passed, 39290 subtests passed in 373.92s (0:06:13)`.
 
 ## Remaining Gates
 
@@ -287,10 +313,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] MendProjector heal loop proven: damaged conveyor `25.0 -> 26.8`, healed amount `1.8`, max health `45.0`.
 - [x] Bullet hit loop proven: `bullet_hit_count=10`, `last_bullet_hit_damage=9.0`, `last_bullet_target_health_before=150.0`, `last_bullet_target_health_after=141.0`.
 - [x] Overdrive boost loop proven: `step_last_overdrive_projector_boost=1.5`, `step_last_overdrive_projector_boosted_block_id="mechanical-drill"`, `step_last_overdrive_projector_boosted_time_scale=1.5`, `drill_time_scale=1.5`.
+- [x] Wave spawn loop proven: `last_spawned_wave_index=4`, `last_spawned_wave_count=3`, `spawned_sum=3`, `enemy_count_after_live_turret_updates=0`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, MendProjector heal, bullet-hit, and overdrive boost paths now proven.
-- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, turret ammo/fire, or overdrive boost.
+- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, MendProjector heal, bullet-hit, overdrive boost, and wave spawn paths now proven.
+- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, turret ammo/fire, overdrive boost, or wave spawn.

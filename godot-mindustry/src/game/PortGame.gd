@@ -147,6 +147,9 @@ var last_turret_recoils := 0
 var last_turret_cur_recoil := 0.0
 var last_turret_recoil_offset := Vector2.ZERO
 var wave_index := 1
+var last_spawned_wave_index := 0
+var last_spawned_wave_count := 0
+var last_spawned_wave_groups: Array = []
 var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
 var hud_label: Label
@@ -12922,8 +12925,14 @@ func selected_enemy_unit():
 
 func spawn_enemy_wave() -> void:
 	var spawned := 0
+	last_spawned_wave_index = wave_index
+	last_spawned_wave_count = 0
+	last_spawned_wave_groups = []
+	var wave_zero := wave_index - 1
 	for group in ContentRegistry.WAVES.get("groups", []):
-		var count := spawned_for_wave(group, wave_index - 1)
+		var count := spawned_for_wave(group, wave_zero)
+		var group_proof := {"unit": str(group.get("unit", "")), "begin": int(group.get("begin", 0)), "end": int(group.get("end", 2147483647)), "spacing": max(1, int(group.get("spacing", 1))), "unitAmount": int(group.get("unitAmount", 1)), "unitScaling": float(group.get("unitScaling", 2147483647.0)), "max": int(group.get("max", 40)), "spawned": count}
+		last_spawned_wave_groups.append(group_proof)
 		if count <= 0:
 			continue
 		var unit_type = content_catalog.get_by_id(str(group.get("unit", "")))
@@ -12936,6 +12945,8 @@ func spawn_enemy_wave() -> void:
 		var fallback = selected_enemy_unit()
 		if fallback != null:
 			spawn_enemy_unit(fallback, 0)
+			spawned = 1
+	last_spawned_wave_count = spawned
 
 func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:
 	var begin := int(group.get("begin", 0))
@@ -30951,6 +30962,9 @@ func get_runtime_summary() -> Dictionary:
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,
+		"last_spawned_wave_index": last_spawned_wave_index,
+		"last_spawned_wave_count": last_spawned_wave_count,
+		"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true),
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
 		"bullet_hit_count": bullet_hit_count,

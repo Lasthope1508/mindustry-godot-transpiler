@@ -2975,6 +2975,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_overdrive_projector_boosted_time_scale": source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', summary_body)
         self.assertIn('"last_overdrive_projector_boosted_time_scale_duration": source_block_time_scale_duration_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)', summary_body)
 
+    def test_port_game_exposes_wave_spawn_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        wave_body = source.split("func spawn_enemy_wave() -> void:", 1)[1].split("func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var last_spawned_wave_index := 0", source)
+        self.assertIn("var last_spawned_wave_count := 0", source)
+        self.assertIn("var last_spawned_wave_groups: Array = []", source)
+        self.assertIn("last_spawned_wave_index = wave_index", wave_body)
+        self.assertIn("var wave_zero := wave_index - 1", wave_body)
+        self.assertIn('var group_proof := {"unit": str(group.get("unit", "")), "begin": int(group.get("begin", 0)), "end": int(group.get("end", 2147483647)), "spacing": max(1, int(group.get("spacing", 1))), "unitAmount": int(group.get("unitAmount", 1)), "unitScaling": float(group.get("unitScaling", 2147483647.0)), "max": int(group.get("max", 40)), "spawned": count}', wave_body)
+        self.assertIn("last_spawned_wave_groups.append(group_proof)", wave_body)
+        self.assertIn("last_spawned_wave_count = spawned", wave_body)
+        self.assertIn('"last_spawned_wave_index": last_spawned_wave_index', summary_body)
+        self.assertIn('"last_spawned_wave_count": last_spawned_wave_count', summary_body)
+        self.assertIn('"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true)', summary_body)
+
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
