@@ -21703,7 +21703,7 @@
         "block_init_set_bars_call.set_bars_method_expr",
         "block_init_set_bars_call.health_bar_expr"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_set_bars_call_to_source_state",
         "test_port_game_exposes_source_block_init_set_bars_call_state",
@@ -21736,7 +21736,7 @@
           "block_init_set_bars_call.set_bars_method_expr",
           "block_init_set_bars_call.health_bar_expr"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_set_bars_call_to_source_state",
           "test_port_game_exposes_source_block_init_set_bars_call_state",
