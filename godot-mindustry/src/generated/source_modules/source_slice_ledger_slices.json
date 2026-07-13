@@ -26655,7 +26655,7 @@
         "unit_payload_draw_type_null.next_expr",
         "unit_payload_draw_type_null.unit_type_null"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
         "test_port_game_exposes_source_unit_payload_draw_type_null_state",
@@ -26698,7 +26698,7 @@
           "unit_payload_draw_type_null.next_expr",
           "unit_payload_draw_type_null.unit_type_null"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
           "test_port_game_exposes_source_unit_payload_draw_type_null_state",
