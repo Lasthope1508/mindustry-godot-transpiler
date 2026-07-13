@@ -3472,6 +3472,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_turret_fired_ammo_item": last_turret_fired_ammo_item', source)
         self.assertIn('"last_turret_fired_damage": last_turret_fired_damage', source)
 
+    def test_port_game_bootstraps_playable_turret_from_source_first_ammo(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        build_world_body = source.split("func build_world() -> void:", 1)[1].split("func _unhandled_input", 1)[0]
+
+        self.assertIn('add_source_block(blocks, "duo", duo_pos)\n\tbootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()', build_world_body)
+        self.assertIn("var bootstrapped_selected_turret_ammo_load_count := 0", source)
+        self.assertIn("bootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()", source)
+        self.assertIn("func bootstrap_selected_turret_ammo() -> int:", source)
+        self.assertIn('const SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO := "handleItem(this, ammoTypes.keys().next());"', source)
+        self.assertIn('var ammo_entries: Array = duo.properties.get("ammo", [])', source)
+        self.assertIn("var first_ammo: Dictionary = ammo_entries[0]", source)
+        self.assertIn('var item_id := str(first_ammo.get("item", ""))', source)
+        self.assertIn("while handle_turret_item(duo_pos, duo, item_id):", source)
+        self.assertIn("loaded += 1", source)
+        self.assertIn('"bootstrapped_selected_turret_ammo_load_count": bootstrapped_selected_turret_ammo_load_count', source)
+        self.assertNotIn('load_selected_turret_ammo("copper"', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

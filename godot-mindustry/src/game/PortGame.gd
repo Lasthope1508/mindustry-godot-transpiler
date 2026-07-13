@@ -119,6 +119,7 @@ var turret_total_ammo: Dictionary = {}
 var turret_barrel_counters: Dictionary = {}
 var turret_rotations: Dictionary = {}
 var turret_recoils: Dictionary = {}
+var bootstrapped_selected_turret_ammo_load_count := 0
 var turret_shot_count := 0
 var last_turret_fired_ammo_item := ""
 var last_turret_fired_damage := 0.0
@@ -393,6 +394,7 @@ func build_world() -> void:
 	core_item_capacity = source_block_item_capacity("core-shard")
 	core_health = core_max_health
 	add_source_block(blocks, "duo", duo_pos)
+	bootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()
 	initial_world_block_count = placed_block_origins.size()
 	initial_occupied_cell_count = placed_blocks.size()
 	path_points.clear()
@@ -20411,6 +20413,7 @@ const SOURCE_TURRET_AMMO_DATA_METHOD := "public void ammo(Object... objects){"
 const SOURCE_TURRET_AMMO_DATA_ORDERED_MAP := "ammoTypes = OrderedMap.of(objects);"
 const SOURCE_TURRET_AMMO_DATA_DUO_AMMO_CALL := "ammo("
 const SOURCE_TURRET_AMMO_DATA_DUO_COPPER_ENTRY := "Items.copper,  new BasicBulletType(2.5f, 9){{"
+const SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO := "handleItem(this, ammoTypes.keys().next());"
 
 func source_turret_outputs_items_state() -> Dictionary:
 	return {
@@ -30315,6 +30318,26 @@ func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:
 	turret_total_ammo[key] = maxi(0, int(turret_total_ammo.get(key, 0)) - ammo_per_shot)
 	return data
 
+func bootstrap_selected_turret_ammo() -> int:
+	if content_catalog == null:
+		return 0
+	var duo = content_catalog.get_by_id("duo")
+	if duo == null:
+		return 0
+	var ammo_entries: Array = duo.properties.get("ammo", [])
+	if ammo_entries.is_empty():
+		return 0
+	var first_ammo: Dictionary = ammo_entries[0]
+	if source_bullet_ammo_multiplier(first_ammo) <= 0.0:
+		return 0
+	var item_id := str(first_ammo.get("item", ""))
+	if item_id.is_empty():
+		return 0
+	var loaded := 0
+	while handle_turret_item(duo_pos, duo, item_id):
+		loaded += 1
+	return loaded
+
 func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 	if content_catalog == null:
 		return 0
@@ -30924,6 +30947,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_max_ammo": selected_turret_max_ammo(),
 		"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot(),
 		"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once(),
+		"bootstrapped_selected_turret_ammo_load_count": bootstrapped_selected_turret_ammo_load_count,
 		"selected_turret_total_ammo": selected_turret_total_ammo(),
 		"selected_turret_cooldown_seconds": selected_turret_cooldown_seconds(),
 		"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count(),

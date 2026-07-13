@@ -45,10 +45,16 @@
   - Selected enemy health: `150.0`
   - Selected enemy speed: `30.0`
   - Selected enemy weapon damage: `9.0`
+  - Bootstrapped selected turret ammo load count: `15`
+  - Turret shot count: `30`
+  - Last turret fired ammo item: `copper`
+  - Last turret fired damage: `9.0`
 
 ## Finding
 
-Runtime audit found `get_runtime_summary()` did not expose `produced_total`, even though the playable HUD and factory loop already tracked it. This blocked reliable MCP proof that factory output advanced over time.
+Runtime audit first found `get_runtime_summary()` did not expose `produced_total`, even though the playable HUD and factory loop already tracked it. That gap is fixed.
+
+Second audit found live turret ammo started empty even though `duo` was placed in `build_world()`. Java `ItemTurret` only fires after `hasAmmo()`/`peekAmmo()` succeed, so the playable runtime needed a source-backed bootstrap. That gap is fixed too.
 
 Root cause:
 
@@ -60,6 +66,8 @@ Fix:
 
 - Added RED test that checks `produced_total` inside the `get_runtime_summary()` body.
 - Added `"produced_total": produced_total` to `get_runtime_summary()`.
+- Added RED test that checks `build_world()` bootstraps `duo` ammo from source ammo metadata and exposes the bootstrap load count in runtime summary.
+- Added `bootstrap_selected_turret_ammo()` and `bootstrapped_selected_turret_ammo_load_count` to seed turret ammo from first source ammo entry without hardcoding item ids.
 
 ## Runtime Proof
 
@@ -95,6 +103,21 @@ Godot MCP runtime on TCP port `7777`:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP turret proof on the restarted runtime:
+
+- TCP `/root/Main.get_runtime_summary` initial:
+  - `bootstrapped_selected_turret_ammo_load_count=15`
+  - `selected_turret_total_ammo=0` after full firing cycle
+  - `selected_turret_loaded_ammo_item=""`
+  - `turret_shot_count=30`
+  - `last_turret_fired_ammo_item="copper"`
+  - `last_turret_fired_damage=9.0`
+  - `last_turret_fired_range=160.0`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
 ## Verification
 
 - RED:
@@ -119,11 +142,11 @@ Godot MCP runtime on TCP port `7777`:
 - [x] World initializes with terrain, blocks, core, drill, conveyors, turret, and enemies.
 - [x] Factory loop advances: `produced_total` and `core_inventory` increase.
 - [x] Enemy loop advances: enemies move/waves progress/core takes damage.
-- [ ] Live turret ammo loop not yet proven in audit: `selected_turret_total_ammo=0`, `turret_shot_count` did not increase, `bullet_count` did not increase.
-- [ ] Full playable completion not claimed until live turret ammo/fire path is proven or fixed.
+- [x] Live turret ammo loop proven: `bootstrapped_selected_turret_ammo_load_count=15`, `turret_shot_count=30`, `last_turret_fired_ammo_item="copper"`.
+- [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: partially proven.
-- Current blocker for completion claim: live turret ammo/fire loop proof missing.
+- Playable audit: broader runtime still under audit, but turret ammo/fire path now proven.
+- Current blocker for completion claim: broader playthrough coverage, not turret ammo/fire.
