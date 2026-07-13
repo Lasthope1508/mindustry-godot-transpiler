@@ -14179,7 +14179,7 @@
         "block_producer_build_accept_item.item_count",
         "block_producer_build_accept_item.maximum_accepted"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_accept_item_to_source_state",
         "test_port_game_exposes_source_block_producer_build_accept_item_state",
