@@ -22198,7 +22198,7 @@
         "block_reinitialize_consumers_outputs_power.outputs_power",
         "block_reinitialize_consumers_outputs_power.has_power_before"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
         "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
@@ -22224,7 +22224,7 @@
           "block_reinitialize_consumers_outputs_power.outputs_power",
           "block_reinitialize_consumers_outputs_power.has_power_before"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
           "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
