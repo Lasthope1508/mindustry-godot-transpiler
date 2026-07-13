@@ -117,6 +117,11 @@ var conveyor_path_progress_rate := 0.0
 var item_sprites: Array[Sprite2D] = []
 var enemy_units: Array = []
 var bullets: Array = []
+var bullet_hit_count := 0
+var last_bullet_hit_damage := 0.0
+var last_bullet_target_health_before := 0.0
+var last_bullet_target_health_after := 0.0
+var last_bullet_target_destroyed := false
 var turret_cells: Array = []
 var turret_cooldowns: Dictionary = {}
 var turret_ammo_stacks: Dictionary = {}
@@ -30825,8 +30830,15 @@ func simulate_bullets(delta: float) -> void:
 			continue
 		var target_direction: Vector2 = target_sprite.position - sprite.position
 		if target_direction.length() <= float(bullet.get("hit_size", 4.0)):
-			target["health"] = float(target.get("health", 0.0)) - float(bullet.get("damage", 1.0))
-			if float(target.get("health", 0.0)) <= 0.0:
+			var target_health_before := float(target.get("health", 0.0))
+			var hit_damage := float(bullet.get("damage", 1.0))
+			target["health"] = target_health_before - hit_damage
+			bullet_hit_count += 1
+			last_bullet_hit_damage = hit_damage
+			last_bullet_target_health_before = target_health_before
+			last_bullet_target_health_after = float(target.get("health", 0.0))
+			last_bullet_target_destroyed = last_bullet_target_health_after <= 0.0
+			if last_bullet_target_destroyed:
 				target_sprite.queue_free()
 			sprite.queue_free()
 			continue
@@ -30935,6 +30947,11 @@ func get_runtime_summary() -> Dictionary:
 		"wave_index": wave_index,
 		"enemy_count": enemy_units.size(),
 		"bullet_count": bullets.size(),
+		"bullet_hit_count": bullet_hit_count,
+		"last_bullet_hit_damage": last_bullet_hit_damage,
+		"last_bullet_target_health_before": last_bullet_target_health_before,
+		"last_bullet_target_health_after": last_bullet_target_health_after,
+		"last_bullet_target_destroyed": last_bullet_target_destroyed,
 		"turret_shot_count": turret_shot_count,
 		"last_turret_fired_ammo_item": last_turret_fired_ammo_item,
 		"last_turret_fired_damage": last_turret_fired_damage,

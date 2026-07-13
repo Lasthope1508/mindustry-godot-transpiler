@@ -64,6 +64,8 @@ Fourth audit found player placement cost was still only implied by shared occupa
 
 Fifth audit found the MendProjector heal loop had source-backed formulas and static tests, but no MCP proof that a placed projector repairs a damaged block in runtime. Runtime summary now exposes the healed target health and max health so MCP can prove the heal side effect directly.
 
+Sixth audit found bullet hit damage was source-backed and turret fire was proven, but runtime still lacked MCP-visible hit telemetry. Runtime summary now exposes bullet hit count and target health before/after so MCP can prove bullet damage directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -82,6 +84,8 @@ Fix:
 - Added `player_placed_block_count` and `last_placed_block_requirements` to `PortGame.gd` so placement telemetry tracks player-built blocks and source-backed costs separately from initial world blocks.
 - Added RED test that requires the MendProjector runtime proof to expose target health after healing and target max health.
 - Added `last_mend_projector_target_health` and `last_mend_projector_target_max_health` to `PortGame.gd` and runtime summary.
+- Added RED test that requires bullet hit runtime proof to expose hit count, hit damage, and target health before/after.
+- Added `bullet_hit_count`, `last_bullet_hit_damage`, `last_bullet_target_health_before`, `last_bullet_target_health_after`, and `last_bullet_target_destroyed` to `PortGame.gd` and runtime summary.
 
 ## Runtime Proof
 
@@ -133,6 +137,25 @@ Fresh MCP MendProjector heal proof on the restarted runtime:
   - `last_mend_projector_healed_cell={"x":8,"y":8}`
   - `last_mend_projector_target_health=26.8`
   - `last_mend_projector_target_max_health=45.0`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
+Fresh MCP bullet-hit proof on the restarted runtime:
+
+- Topped up selected turret ammo through `/root/Main.load_selected_turret_ammo("copper", 15)`.
+- Waited for live turret fire in runtime.
+- TCP proof:
+  - `start_bullet_hit_count=9`
+  - `bullet_hit_count=10`
+  - `last_bullet_hit_damage=9.0`
+  - `last_bullet_target_health_before=150.0`
+  - `last_bullet_target_health_after=141.0`
+  - `last_bullet_target_destroyed=false`
+  - `last_turret_fired_ammo_item="copper"`
+  - `selected_turret_ammo_damage=9.0`
+  - `turret_shot_count=33`
   - `all_generated_load_failures=[]`
   - `all_generated_instance_failures=[]`
 - Godot debug output: `errors=[]`
@@ -196,6 +219,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_mend_projector_heal_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `last_mend_projector_target_health` and `last_mend_projector_target_max_health`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_bullet_hit_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `bullet_hit_count` and related hit telemetry.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -205,12 +231,15 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_mend_projector_heal_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_bullet_hit_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4020 passed, 39290 subtests passed in 388.93s (0:06:28)`.
+  - Result: `4021 passed, 39290 subtests passed in 377.46s (0:06:17)`.
 
 ## Remaining Gates
 
@@ -224,10 +253,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] Live turret ammo loop proven: `bootstrapped_selected_turret_ammo_load_count=15`, `turret_shot_count=30`, `last_turret_fired_ammo_item="copper"`.
 - [x] Player placement cost loop proven: `player_placed_block_count=1`, `last_placed_block_requirements=[{"item":"copper","amount":1}]`, `core_items.copper 25 -> 24`.
 - [x] MendProjector heal loop proven: damaged conveyor `25.0 -> 26.8`, healed amount `1.8`, max health `45.0`.
+- [x] Bullet hit loop proven: `bullet_hit_count=10`, `last_bullet_hit_damage=9.0`, `last_bullet_target_health_before=150.0`, `last_bullet_target_health_after=141.0`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, and MendProjector heal paths now proven.
-- Current blocker for completion claim: broader playthrough coverage, not MendProjector heal, placement-cost, or turret ammo/fire.
+- Playable audit: broader runtime still under audit, but turret ammo/fire, placement-cost, MendProjector heal, and bullet-hit paths now proven.
+- Current blocker for completion claim: broader playthrough coverage, not bullet-hit, MendProjector heal, placement-cost, or turret ammo/fire.

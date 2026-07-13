@@ -3405,6 +3405,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func selected_turret_ammo_damage() -> float:", source)
         self.assertIn('"selected_turret_ammo_damage": selected_turret_ammo_damage()', source)
 
+    def test_port_game_exposes_bullet_hit_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        bullet_body = source.split("func simulate_bullets(delta: float) -> void:", 1)[1].split("func update_camera", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var bullet_hit_count := 0", source)
+        self.assertIn("var last_bullet_hit_damage := 0.0", source)
+        self.assertIn("var last_bullet_target_health_before := 0.0", source)
+        self.assertIn("var last_bullet_target_health_after := 0.0", source)
+        self.assertIn("var last_bullet_target_destroyed := false", source)
+        self.assertIn('var target_health_before := float(target.get("health", 0.0))', bullet_body)
+        self.assertIn('var hit_damage := float(bullet.get("damage", 1.0))', bullet_body)
+        self.assertIn('target["health"] = target_health_before - hit_damage', bullet_body)
+        self.assertIn("bullet_hit_count += 1", bullet_body)
+        self.assertIn("last_bullet_hit_damage = hit_damage", bullet_body)
+        self.assertIn("last_bullet_target_health_before = target_health_before", bullet_body)
+        self.assertIn('last_bullet_target_health_after = float(target.get("health", 0.0))', bullet_body)
+        self.assertIn("last_bullet_target_destroyed = last_bullet_target_health_after <= 0.0", bullet_body)
+        self.assertIn('"bullet_hit_count": bullet_hit_count', summary_body)
+        self.assertIn('"last_bullet_hit_damage": last_bullet_hit_damage', summary_body)
+        self.assertIn('"last_bullet_target_health_before": last_bullet_target_health_before', summary_body)
+        self.assertIn('"last_bullet_target_health_after": last_bullet_target_health_after', summary_body)
+        self.assertIn('"last_bullet_target_destroyed": last_bullet_target_destroyed', summary_body)
+        self.assertNotIn('target["health"] = float(target.get("health", 0.0)) - 15.0', source)
+
     def test_port_game_exposes_source_turret_ammo_count(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
