@@ -58446,6 +58446,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(effect_radius["godot_symbol"], "source_block_producer_build_update_tile_payload_creation_result.effect_radius")
 
         payload_slice = source_symbols.source_slice(ledger, "N1420")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild updateTile payload creation bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
         self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.updateTile() payload creation")

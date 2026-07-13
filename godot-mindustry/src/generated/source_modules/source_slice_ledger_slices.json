@@ -27737,7 +27737,7 @@
         "block_producer_build_update_tile_payload_creation.tilesize",
         "block_producer_build_update_tile_payload_creation.effect_radius"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
         "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
@@ -27778,7 +27778,7 @@
           "block_producer_build_update_tile_payload_creation.tilesize",
           "block_producer_build_update_tile_payload_creation.effect_radius"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
           "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
