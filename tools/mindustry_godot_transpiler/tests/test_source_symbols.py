@@ -31089,6 +31089,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(lightningType == null){", init_frag_velocity["deferred_exprs"])
 
         init_lightning_type = source_symbols.source_slice(ledger, "N467")
+        self.assertEqual(init_lightning_type["status"], "done")
         self.assertEqual(init_lightning_type["java_method"], "init()")
         self.assertEqual(init_lightning_type["godot_owner"], "PortGame.source_bullet_type_init_lightning_type_state")
         self.assertIn("if(lightningType == null){", init_lightning_type["exact_exprs"])

@@ -33270,7 +33270,7 @@
         "init_lightning_type.damage_lightning_air_collides_ground",
         "init_lightning_type.damage_lightning_air_collides_tiles"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_lightning_type_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
@@ -33308,7 +33308,7 @@
           "init_lightning_type.damage_lightning_air_collides_ground",
           "init_lightning_type.damage_lightning_air_collides_tiles"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_bullet_type_init_lightning_type_state_matches_upstream_source",
           "test_port_game_exposes_source_bullet_type_init_lightning_type_state",
