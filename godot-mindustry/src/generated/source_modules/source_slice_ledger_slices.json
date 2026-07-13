@@ -20433,7 +20433,7 @@
         "block_init_under_bullets.under_bullets",
         "block_init_under_bullets.priority"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_under_bullets_to_source_state",
         "test_port_game_exposes_source_block_init_under_bullets_state",
@@ -20464,7 +20464,7 @@
           "block_init_under_bullets.under_bullets",
           "block_init_under_bullets.priority"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_init_under_bullets_to_source_state",
           "test_port_game_exposes_source_block_init_under_bullets_state",
