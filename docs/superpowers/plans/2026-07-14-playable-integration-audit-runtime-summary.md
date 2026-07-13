@@ -60,6 +60,8 @@ Second audit found live turret ammo started empty even though `duo` was placed i
 
 Third audit found core damage was asserted in the checklist but not explicitly tracked as a runtime proof counter. The playable enemy loop already subtracted `source_unit_weapon_damage(unit_type)` from `core_health`; runtime summary now exposes `core_damage_taken_total` so MCP can prove damage application directly.
 
+Fourth audit found player placement cost was still only implied by shared occupancy and inventory state. The playable placement path already called `can_afford(block)` and `spend_requirements(block)` from source-backed `block.properties.requirements`; runtime summary now exposes `player_placed_block_count` and `last_placed_block_requirements` so MCP can prove the player placement loop directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -74,6 +76,8 @@ Fix:
 - Added `bootstrap_selected_turret_ammo()` and `bootstrapped_selected_turret_ammo_load_count` to seed turret ammo from first source ammo entry without hardcoding item ids.
 - Added RED test that requires `core_damage_taken_total` and an explicitly typed `core_damage: float` derived from `source_unit_weapon_damage(unit_type)`.
 - Added `"core_damage_taken_total": core_damage_taken_total` to `get_runtime_summary()`.
+- Added RED test that requires `player_placed_block_count` and `last_placed_block_requirements` to be exposed in runtime summary.
+- Added `player_placed_block_count` and `last_placed_block_requirements` to `PortGame.gd` so placement telemetry tracks player-built blocks and source-backed costs separately from initial world blocks.
 
 ## Runtime Proof
 
@@ -138,20 +142,44 @@ Fresh MCP core damage proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP placement-cost proof on the restarted runtime:
+
+- TCP `/root/Main.get_runtime_summary` before placement:
+  - `player_placed_block_count=0`
+  - `core_items.copper=25`
+- Selected `conveyor` through `/root/Main.select_build_block_by_id`.
+- Placed block through `/root/Main.place_selected_block_at_cell(2, 2)`.
+- TCP `/root/Main.get_runtime_summary` after placement:
+  - `player_placed_block_count=1`
+  - `last_placed_block_id="conveyor"`
+  - `last_placed_block_requirements=[{"item":"copper","amount":1}]`
+  - `core_items.copper=24`
+  - `last_place_blocked=false`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot debug output: `errors=[]`
+- Godot stop: `finalErrors=[]`
+
 ## Verification
 
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: failed as expected with missing `"produced_total": produced_total` inside `get_runtime_summary()`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_player_placement_cost_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `player_placed_block_count` and `last_placed_block_requirements`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_player_placement_cost_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4018 passed, 39290 subtests passed in 375.49s (0:06:15)`.
+  - Result: `4019 passed, 39290 subtests passed in 383.72s (0:06:23)`.
 
 ## Remaining Gates
 
@@ -163,10 +191,11 @@ Fresh MCP core damage proof on the restarted runtime:
 - [x] Factory loop advances: `produced_total` and `core_inventory` increase.
 - [x] Enemy loop advances: enemies move/waves progress/core takes damage: `core_damage_taken_total +9.0`, `core_health -9.0`.
 - [x] Live turret ammo loop proven: `bootstrapped_selected_turret_ammo_load_count=15`, `turret_shot_count=30`, `last_turret_fired_ammo_item="copper"`.
+- [x] Player placement cost loop proven: `player_placed_block_count=1`, `last_placed_block_requirements=[{"item":"copper","amount":1}]`, `core_items.copper 25 -> 24`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but turret ammo/fire path now proven.
-- Current blocker for completion claim: broader playthrough coverage, not turret ammo/fire.
+- Playable audit: broader runtime still under audit, but turret ammo/fire and placement-cost paths now proven.
+- Current blocker for completion claim: broader playthrough coverage, not placement-cost or turret ammo/fire.

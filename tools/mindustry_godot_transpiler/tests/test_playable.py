@@ -2693,6 +2693,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))', source)
         self.assertIn('"core_items": core_items.duplicate()', source)
 
+    def test_port_game_exposes_player_placement_cost_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        placement_body = source.split("func place_selected_block_at_world(world_pos: Vector2) -> bool:", 1)[1].split("func add_source_block", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var player_placed_block_count := 0", source)
+        self.assertIn("var last_placed_block_requirements: Array = []", source)
+        self.assertIn('last_placed_block_requirements = block.properties.get("requirements", []).duplicate(true)', placement_body)
+        self.assertIn("player_placed_block_count += 1", placement_body)
+        self.assertIn("spend_requirements(block)", placement_body)
+        self.assertIn('"player_placed_block_count": player_placed_block_count', summary_body)
+        self.assertIn('"last_placed_block_requirements": last_placed_block_requirements.duplicate(true)', summary_body)
+        self.assertNotIn('last_placed_block_requirements = [{"item": "copper"', source)
+
     def test_port_game_initializes_core_health_from_source_block(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

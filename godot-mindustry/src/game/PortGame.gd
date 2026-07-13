@@ -74,8 +74,10 @@ var overdrive_projector_booster_items: Dictionary = {}
 var overdrive_projector_use_progress: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
+var player_placed_block_count := 0
 var last_placed_block_id := ""
 var last_placed_block_size := 0
+var last_placed_block_requirements: Array = []
 var last_placed_cell := Vector2i.ZERO
 var last_placed_occupied_cell_count := 0
 var last_place_blocked := false
@@ -6075,8 +6077,10 @@ func place_selected_block_at_world(world_pos: Vector2) -> bool:
 	configure_block_sprite(sprite, block, cell)
 	blocks.add_child(sprite)
 	record_placed_block(sprite, block, cell)
+	player_placed_block_count += 1
 	last_placed_block_id = block.id
 	last_placed_block_size = block_size(block)
+	last_placed_block_requirements = block.properties.get("requirements", []).duplicate(true)
 	last_placed_cell = cell
 	last_placed_occupied_cell_count = block_size(block) * block_size(block)
 	last_place_blocked = false
@@ -30858,6 +30862,7 @@ func get_runtime_summary() -> Dictionary:
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,
 		"placed_block_count": placed_block_origins.size(),
+		"player_placed_block_count": player_placed_block_count,
 		"occupied_cell_count": placed_blocks.size(),
 		"placed_power_graph_roles": placed_power_graph_role_counts(),
 		"placed_power_needed": placed_power_needed_state(),
@@ -30865,6 +30870,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_battery": placed_power_battery_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
+		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
 		"last_placed_cell": {"x": last_placed_cell.x, "y": last_placed_cell.y},
 		"last_placed_occupied_cell_count": last_placed_occupied_cell_count,
 		"last_place_blocked": last_place_blocked,
