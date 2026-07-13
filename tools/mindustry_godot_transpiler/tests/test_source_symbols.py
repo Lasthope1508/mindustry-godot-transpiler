@@ -56688,6 +56688,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(plan_rotation_slice["godot_owner"], "PortGame.source_block_plan_rotation_state")
         self.assertEqual(plan_rotation_slice["generated_owner"], "Block.java_method_planRotation_129")
         self.assertEqual(plan_rotation_slice["runtime_proof"], "/root/Main.generated_block_plan_rotation_bridge_state")
+        self.assertEqual(plan_rotation_slice["status"], "done")
         for expr in [
             "public int planRotation(int rot){",
             "return !rotate && lockRotation ? 0 : rot;",
