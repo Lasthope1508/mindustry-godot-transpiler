@@ -22648,7 +22648,7 @@
         "block_is_hidden.build_visibility_visible",
         "block_is_hidden.revealed_blocks_contains_self"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_is_hidden_to_source_state",
         "test_port_game_exposes_source_block_is_hidden_state",
@@ -22676,7 +22676,7 @@
           "block_is_hidden.build_visibility_visible",
           "block_is_hidden.revealed_blocks_contains_self"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_is_hidden_to_source_state",
           "test_port_game_exposes_source_block_is_hidden_state",

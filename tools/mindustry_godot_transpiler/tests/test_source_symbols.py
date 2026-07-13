@@ -56643,6 +56643,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(is_hidden_slice["godot_owner"], "PortGame.source_block_is_hidden_state")
         self.assertEqual(is_hidden_slice["generated_owner"], "Block.java_method_isHidden_127")
         self.assertEqual(is_hidden_slice["runtime_proof"], "/root/Main.generated_block_is_hidden_bridge_state")
+        self.assertEqual(is_hidden_slice["status"], "done")
         for expr in [
             "@Override",
             "public boolean isHidden(){",
