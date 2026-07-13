@@ -6063,6 +6063,25 @@ func placed_power_battery_state() -> Dictionary:
 		})
 	return source_power_graph_battery_state(batteries)
 
+func placed_power_runtime_state() -> Dictionary:
+	var roles := placed_power_graph_role_counts()
+	var needed := placed_power_needed_state()
+	var produced := placed_power_produced_state()
+	var battery := placed_power_battery_state()
+	return {
+		"roles": roles,
+		"needed": needed,
+		"produced": produced,
+		"battery": battery,
+		"producer_count": int(roles.get("producers", 0)),
+		"consumer_count": int(roles.get("consumers", 0)),
+		"battery_count": int(roles.get("batteries", 0)),
+		"power_needed": float(needed.get("power_needed", 0.0)),
+		"power_produced": float(produced.get("power_produced", 0.0)),
+		"battery_stored": float(battery.get("stored", 0.0)),
+		"battery_capacity": float(battery.get("capacity", 0.0)),
+	}
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -30901,6 +30920,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_needed": placed_power_needed_state(),
 		"placed_power_produced": placed_power_produced_state(),
 		"placed_power_battery": placed_power_battery_state(),
+		"placed_power_runtime": placed_power_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

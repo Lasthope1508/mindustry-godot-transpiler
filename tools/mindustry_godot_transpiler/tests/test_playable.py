@@ -280,6 +280,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if bool(consumer.get("shouldConsumePower", false)):', source)
         self.assertIn('"placed_power_needed": placed_power_needed_state()', source)
 
+    def test_port_game_exposes_power_graph_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        self.assertIn("func placed_power_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func placed_power_runtime_state() -> Dictionary:", 1)[1].split("func place_selected_block_at_mouse() -> void:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var roles := placed_power_graph_role_counts()", proof_body)
+        self.assertIn("var needed := placed_power_needed_state()", proof_body)
+        self.assertIn("var produced := placed_power_produced_state()", proof_body)
+        self.assertIn("var battery := placed_power_battery_state()", proof_body)
+        self.assertIn('"producer_count": int(roles.get("producers", 0))', proof_body)
+        self.assertIn('"consumer_count": int(roles.get("consumers", 0))', proof_body)
+        self.assertIn('"power_needed": float(needed.get("power_needed", 0.0))', proof_body)
+        self.assertIn('"power_produced": float(produced.get("power_produced", 0.0))', proof_body)
+        self.assertIn('"placed_power_runtime": placed_power_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
