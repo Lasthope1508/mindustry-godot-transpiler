@@ -27526,7 +27526,7 @@
         "block_producer_build_update_tile_produce_gate.payload_null",
         "block_producer_build_update_tile_produce_gate.produce_expr"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
         "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
@@ -27563,7 +27563,7 @@
           "block_producer_build_update_tile_produce_gate.payload_null",
           "block_producer_build_update_tile_produce_gate.produce_expr"
         ],
-        "status": "source-backed",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
           "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
