@@ -31100,6 +31100,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("if(lightRadius <= -1){", init_lightning_type["deferred_exprs"])
 
         init_light_radius = source_symbols.source_slice(ledger, "N468")
+        self.assertEqual(init_light_radius["status"], "done")
         self.assertEqual(init_light_radius["java_method"], "init()")
         self.assertEqual(init_light_radius["godot_owner"], "PortGame.source_bullet_type_init_light_radius_state")
         self.assertIn("if(lightRadius <= -1){", init_light_radius["exact_exprs"])

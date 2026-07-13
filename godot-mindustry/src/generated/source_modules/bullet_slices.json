@@ -1419,7 +1419,7 @@
     },
     "N468": {
       "canonical_ledger": "source_slice_ledger.N468",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "init()",
       "godot_owner": "PortGame.source_bullet_type_init_light_radius_state",

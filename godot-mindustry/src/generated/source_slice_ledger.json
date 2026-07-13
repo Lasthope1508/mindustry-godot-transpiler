@@ -17399,7 +17399,7 @@
         "init_light_radius.hit_size_field",
         "init_light_radius.light_radius_field"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_light_radius_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_light_radius_state",
