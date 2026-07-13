@@ -31110,6 +31110,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_light_radius["deferred_exprs"])
 
         init_draw_size = source_symbols.source_slice(ledger, "N469")
+        self.assertEqual(init_draw_size["status"], "done")
         self.assertEqual(init_draw_size["java_method"], "init()")
         self.assertEqual(init_draw_size["godot_owner"], "PortGame.source_bullet_type_init_draw_size_state")
         self.assertIn("drawSize = Math.max(drawSize, trailLength * speed * 2f);", init_draw_size["exact_exprs"])

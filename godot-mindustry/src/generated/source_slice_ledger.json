@@ -17426,7 +17426,7 @@
         "init_draw_size.trail_length_field",
         "init_draw_size.speed_field"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_draw_size_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_draw_size_state",
