@@ -82,6 +82,8 @@ Thirteenth audit found enemy unit source fields and core damage were exposed as 
 
 Fourteenth audit found all major runtime slices had MCP proof packages, but runtime still lacked one broader playthrough proof package tying generated load health, content/world initialization, factory, enemy/core, power, turret, bullet, mend, and overdrive telemetry together. Runtime summary now exposes `playthrough_runtime` so MCP can prove a source-backed end-to-end runtime package directly.
 
+Fifteenth audit found core destruction could reduce `core_health` to zero but did not expose the source-backed `Logic.checkGameState()` game-over branch through a dedicated MCP proof package. Runtime summary now exposes `game_over_runtime`, and core damage now routes through `apply_core_damage()` so MCP can prove `state.gameOver = true` and `GameOverEvent(state.rules.waveTeam)` semantics from `core/src/mindustry/core/Logic.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -118,6 +120,9 @@ Fix:
 - Added `enemy_runtime_state()` and `"enemy_runtime": enemy_runtime_state()` to runtime summary. The wrapper only packages source-backed `source_unit_weapon_damage()`, `source_unit_world_speed()`, `source_unit_hit_size()`, `source_unit_health()`, and live enemy/core counters.
 - Added RED test that requires a playthrough runtime proof wrapper.
 - Added `playthrough_runtime_state()` and `"playthrough_runtime": playthrough_runtime_state()` to runtime summary. The wrapper only packages the existing source-backed runtime proof packages and live counters, with `core/src/mindustry/core/Logic.java` as the source update owner.
+- Added RED test that requires a source-backed game-over runtime proof wrapper.
+- Added `source_game_over_core_destroyed_state()`, `apply_core_damage()`, `game_over_runtime_state()`, and `"game_over_runtime": game_over_runtime_state()` to runtime summary. The wrapper only packages the `Logic.checkGameState()` core-destroyed branch and live core/game-over counters.
+- Registered `PortGame.source_game_over_core_destroyed_state` in source-symbol SSOT, API contracts, state schemas, audit report, and canonical mirror shards so the new source owner is not unregistered.
 
 ## Runtime Proof
 
@@ -359,6 +364,30 @@ Fresh MCP playthrough runtime proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+Fresh MCP game-over runtime proof on the restarted runtime:
+
+- TCP `/root/Main.get_runtime_summary` before damage:
+  - `core_health=1091.0`
+- TCP `/root/Main.apply_core_damage(1091.0)`:
+  - `applied=1091.0`
+  - `core_health=0.0`
+  - `core_damage_taken_total=1100.0`
+  - `game_over=true`
+  - `winner="waveTeam"`
+- TCP `/root/Main.get_runtime_summary` after damage:
+  - `game_over_runtime.game_over=true`
+  - `game_over_runtime.last_game_over_winner="waveTeam"`
+  - `game_over_runtime.core_health=0.0`
+  - `game_over_runtime.core_damage_taken_total=1100.0`
+  - `game_over_runtime.source_game_over.source_owner="core/src/mindustry/core/Logic.java"`
+  - `game_over_runtime.source_game_over.method="private void checkGameState(){"`
+  - `game_over_runtime.source_game_over.core_destroyed_expr="state.teams.playerCores().size == 0"`
+  - `game_over_runtime.source_game_over.game_over_expr="state.gameOver = true;"`
+  - `game_over_runtime.source_game_over.event_expr="Events.fire(new GameOverEvent(state.rules.waveTeam));"`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+- Godot stop: `finalErrors=[]`
+
 Fresh MCP turret proof on the restarted runtime:
 
 - TCP `/root/Main.get_runtime_summary` initial:
@@ -447,6 +476,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_playthrough_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `playthrough_runtime_state()`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var game_over := false`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -483,12 +515,18 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_playthrough_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed`.
+- Focused regression:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
+  - Result: `5 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
-  - Result: `4029 passed, 39290 subtests passed in 355.21s (0:05:55)`.
+  - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
 
 ## Remaining Gates
 
@@ -511,10 +549,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] Factory runtime loop proven: `drill_delay=650.0`, `conveyor_path_progress_rate=0.183333333333333`, `produced_total 2 -> 8`, `core_inventory 2 -> 8`.
 - [x] Enemy runtime package proven: `selected_enemy_weapon_damage=9.0`, `selected_enemy_world_speed=30.0`, `selected_enemy_health=150.0`, `core_damage_taken_total=9.0`.
 - [x] Playthrough runtime package proven: generated load failures `[]`, generated instance failures `[]`, content/world initialized, factory/enemy/power/turret/bullet/core telemetry visible through `playthrough_runtime`.
+- [x] Game-over runtime package proven: core drained `1091.0 -> 0.0`, `game_over=true`, `last_game_over_winner="waveTeam"`, source proof references `Logic.checkGameState()`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, and PowerGraph distribution runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, or PowerGraph distribution runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, or game-over runtime.

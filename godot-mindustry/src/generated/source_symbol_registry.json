@@ -130188,6 +130188,81 @@
       "java_expr": "public void build(Building build, Table table){}",
       "godot_symbol": "source_consume_item_explode_build_result.empty_body",
       "rule": "True because upstream ConsumeItemExplode.build(Building, Table) body is empty."
+    },
+    "game_over_core_destroyed.method": {
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "java_method": "Logic.checkGameState()",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "source_slice": "playable_game_over_runtime",
+      "status": "source-backed",
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_game_over_core_destroyed_result.method",
+      "java_expr": "private void checkGameState(){",
+      "rule": "Logic.checkGameState method boundary for core-destroyed game-over evaluation."
+    },
+    "game_over_core_destroyed.core_destroyed_expr": {
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "java_method": "Logic.checkGameState()",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "source_slice": "playable_game_over_runtime",
+      "status": "source-backed",
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_game_over_core_destroyed_result.core_destroyed_expr",
+      "java_expr": "state.teams.playerCores().size == 0",
+      "rule": "Player-core absence is the source trigger for non-attack game-over."
+    },
+    "game_over_core_destroyed.game_over_expr": {
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "java_method": "Logic.checkGameState()",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "source_slice": "playable_game_over_runtime",
+      "status": "source-backed",
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_game_over_core_destroyed_result.game_over",
+      "java_expr": "state.gameOver = true;",
+      "rule": "Source sets gameOver true when the player core list is empty and game is not already over."
+    },
+    "game_over_core_destroyed.event_expr": {
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "java_method": "Logic.checkGameState()",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "source_slice": "playable_game_over_runtime",
+      "status": "source-backed",
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_game_over_core_destroyed_result.winner",
+      "java_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));",
+      "rule": "Source fires GameOverEvent with waveTeam winner for core-destroyed loss."
+    },
+    "game_over_core_destroyed.attack_mode_guard": {
+      "godot_owner": "PortGame.source_game_over_core_destroyed_state",
+      "java_method": "Logic.checkGameState()",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "source_slice": "playable_game_over_runtime",
+      "status": "explicit-input",
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_game_over_core_destroyed_input.attack_mode",
+      "java_expr": "!state.rules.attackMode",
+      "rule": "This playable proof covers the non-attack core-destroyed branch; attack mode winner logic stays separate."
     }
   },
   "version": 1

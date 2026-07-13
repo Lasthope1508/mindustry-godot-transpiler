@@ -42916,6 +42916,47 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_explode_build_state",
       "rule": "Public source helper exposes ConsumeItemExplode.build(Building, Table) empty body state and echoes arguments for bridge parity."
+    },
+    "PortGame.source_game_over_core_destroyed_state": {
+      "status": "source-backed",
+      "source_slice": "playable_game_over_runtime",
+      "java_source": "core/src/mindustry/core/Logic.java",
+      "source_method": "Logic.checkGameState()",
+      "params": [
+        {
+          "name": "core_health_value",
+          "type": "float",
+          "schema": "source_game_over_core_destroyed_input.core_health_value"
+        },
+        {
+          "name": "game_over_value",
+          "type": "bool",
+          "schema": "source_game_over_core_destroyed_input.game_over_value"
+        },
+        {
+          "name": "attack_mode",
+          "type": "bool",
+          "schema": "source_game_over_core_destroyed_input.attack_mode"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "core_destroyed_expr",
+        "game_over_expr",
+        "event_expr",
+        "player_cores_size",
+        "attack_mode",
+        "core_destroyed",
+        "game_over",
+        "winner"
+      ],
+      "tests": [
+        "test_port_game_exposes_source_game_over_runtime_proof",
+        "test_playable_game_over_core_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_game_over_core_destroyed_state",
+      "rule": "API package for Logic.checkGameState non-attack player-core destroyed game-over branch."
     }
   },
   "policy": {

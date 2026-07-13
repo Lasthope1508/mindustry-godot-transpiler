@@ -99,6 +99,8 @@ var core_incinerate_non_buildable := false
 var core_max_health := 0.0
 var core_health := 0.0
 var core_damage_taken_total := 0.0
+var game_over := false
+var last_game_over_winner := ""
 var drill_output_item_id := "copper"
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
@@ -13131,8 +13133,7 @@ func simulate_enemy_units(delta: float) -> void:
 		var unit_type = enemy.get("type")
 		if direction.length() <= float(tile_size) * 0.35:
 			var core_damage: float = min(core_health, source_unit_weapon_damage(unit_type))
-			core_damage_taken_total += core_damage
-			core_health = max(0.0, core_health - core_damage)
+			apply_core_damage(core_damage)
 			sprite.queue_free()
 			continue
 		var speed := source_unit_world_speed(unit_type)
@@ -13147,6 +13148,38 @@ func simulate_enemy_units(delta: float) -> void:
 			spawn_enemy_wave()
 	else:
 		wave_cooldown = 0.0
+
+func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:
+	var core_destroyed := core_health_value <= 0.0
+	return {
+		"source_owner": "core/src/mindustry/core/Logic.java",
+		"method": "private void checkGameState(){",
+		"core_destroyed_expr": "state.teams.playerCores().size == 0",
+		"game_over_expr": "state.gameOver = true;",
+		"event_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));",
+		"player_cores_size": 0 if core_destroyed else 1,
+		"attack_mode": attack_mode,
+		"core_destroyed": core_destroyed,
+		"game_over": game_over_value or core_destroyed,
+		"winner": "waveTeam" if core_destroyed and not attack_mode else "",
+	}
+
+func apply_core_damage(amount: float) -> Dictionary:
+	var applied: float = min(core_health, max(0.0, amount))
+	var core_damage: float = applied
+	core_damage_taken_total += core_damage
+	core_health = max(0.0, core_health - core_damage)
+	var game_over_state := source_game_over_core_destroyed_state(core_health, game_over)
+	if bool(game_over_state.get("game_over", false)):
+		game_over = true
+		last_game_over_winner = str(game_over_state.get("winner", ""))
+	return {
+		"applied": applied,
+		"core_health": core_health,
+		"core_damage_taken_total": core_damage_taken_total,
+		"game_over": game_over,
+		"winner": last_game_over_winner,
+	}
 
 func playthrough_runtime_state() -> Dictionary:
 	var last_overdrive_projector_boosted_time_scale := source_block_time_scale_at_cell(last_overdrive_projector_boosted_cell.x, last_overdrive_projector_boosted_cell.y)
@@ -13184,6 +13217,15 @@ func playthrough_runtime_state() -> Dictionary:
 		"selected_overdrive_projector_boosted_time_scale": last_overdrive_projector_boosted_time_scale,
 		"core_health": core_health,
 		"core_damage_taken_total": core_damage_taken_total,
+	}
+
+func game_over_runtime_state() -> Dictionary:
+	return {
+		"game_over": game_over,
+		"last_game_over_winner": last_game_over_winner,
+		"core_health": core_health,
+		"core_damage_taken_total": core_damage_taken_total,
+		"source_game_over": source_game_over_core_destroyed_state(core_health, game_over),
 	}
 
 func enemy_runtime_state() -> Dictionary:
@@ -31227,6 +31269,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_recoil": selected_turret_recoil(),
 		"selected_turret_recoils": selected_turret_recoils(),
 		"selected_turret_limit_range_margin": selected_turret_limit_range_margin(),
+		"game_over_runtime": game_over_runtime_state(),
 		"enemy_runtime": enemy_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),

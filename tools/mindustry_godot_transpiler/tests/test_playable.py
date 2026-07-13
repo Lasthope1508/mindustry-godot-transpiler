@@ -3343,6 +3343,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit())', source)
         self.assertIn('"core_damage_taken_total": core_damage_taken_total', source)
 
+    def test_port_game_exposes_source_game_over_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var game_over := false", source)
+        self.assertIn('var last_game_over_winner := ""', source)
+        self.assertIn("func source_game_over_core_destroyed_state(core_health_value: float, game_over_value: bool, attack_mode := false) -> Dictionary:", source)
+        self.assertIn('"source_owner": "core/src/mindustry/core/Logic.java"', source)
+        self.assertIn('"method": "private void checkGameState(){"', source)
+        self.assertIn('"core_destroyed_expr": "state.teams.playerCores().size == 0"', source)
+        self.assertIn('"game_over_expr": "state.gameOver = true;"', source)
+        self.assertIn('"event_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));"', source)
+        self.assertIn("func apply_core_damage(amount: float) -> Dictionary:", source)
+        damage_body = source.split("func apply_core_damage(amount: float) -> Dictionary:", 1)[1].split("func game_over_runtime_state() -> Dictionary:", 1)[0]
+        enemy_body = source.split("func simulate_enemy_units(delta: float) -> void:", 1)[1].split("func playthrough_runtime_state() -> Dictionary:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var applied: float = min(core_health, max(0.0, amount))", damage_body)
+        self.assertIn("core_health = max(0.0, core_health - core_damage)", damage_body)
+        self.assertIn("var game_over_state := source_game_over_core_destroyed_state(core_health, game_over)", damage_body)
+        self.assertIn("game_over = true", damage_body)
+        self.assertIn('last_game_over_winner = str(game_over_state.get("winner", ""))', damage_body)
+        self.assertIn('var core_damage: float = min(core_health, source_unit_weapon_damage(unit_type))', enemy_body)
+        self.assertIn("apply_core_damage(core_damage)", enemy_body)
+        self.assertIn("func game_over_runtime_state() -> Dictionary:", source)
+        self.assertIn('"game_over_runtime": game_over_runtime_state()', summary_body)
+
     def test_port_game_exposes_enemy_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

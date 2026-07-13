@@ -29922,10 +29922,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 1000)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 993)
+        self.assertEqual(audit["totalSourceFunctions"], 1001)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 994)
         self.assertEqual(audit["exemptSourceOwnerCount"], 7)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 1000)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 1001)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -29958,6 +29958,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_items_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_game_over_core_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_trigger_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_efficiency_state", audit["registeredSourceOwners"])
@@ -66934,6 +66935,35 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         self.assertIn("bad_state.madeUp: source-backed requires java_source", errors)
         self.assertIn("bad_state.madeUp: source-backed requires java_expr", errors)
+
+    def test_game_over_core_destroyed_symbol_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+
+        method = source_symbols.source_symbol(registry, "game_over_core_destroyed.method")
+        self.assertEqual(method["godot_owner"], "PortGame.source_game_over_core_destroyed_state")
+        self.assertEqual(method["java_source"], "core/src/mindustry/core/Logic.java")
+        self.assertEqual(method["java_expr"], "private void checkGameState(){")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_game_over_core_destroyed_state")
+
+        core_destroyed = source_symbols.source_symbol(registry, "game_over_core_destroyed.core_destroyed_expr")
+        self.assertEqual(core_destroyed["godot_symbol"], "source_game_over_core_destroyed_result.core_destroyed_expr")
+        self.assertEqual(core_destroyed["java_expr"], "state.teams.playerCores().size == 0")
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_game_over_core_destroyed_state")
+        self.assertEqual(contract["source_slice"], "playable_game_over_runtime")
+        self.assertEqual([param["name"] for param in contract["params"]], ["core_health_value", "game_over_value", "attack_mode"])
+        self.assertIn("winner", contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_game_over_core_destroyed_input")
+        self.assertEqual(input_schema["keys"]["core_health_value"]["java_expr"], "state.teams.playerCores().size")
+        self.assertEqual(input_schema["keys"]["game_over_value"]["java_expr"], "!state.gameOver")
+
+        result_schema = source_symbols.state_schema(schema, "source_game_over_core_destroyed_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "private void checkGameState(){")
+        self.assertEqual(result_schema["keys"]["game_over_expr"]["java_expr"], "state.gameOver = true;")
+        self.assertEqual(result_schema["keys"]["event_expr"]["java_expr"], "Events.fire(new GameOverEvent(state.rules.waveTeam));")
 
 
 if __name__ == "__main__":

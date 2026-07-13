@@ -163840,6 +163840,92 @@
           "rule": "Echoed table argument for bridge parity."
         }
       }
+    },
+    "source_game_over_core_destroyed_input": {
+      "keys": {
+        "core_health_value": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.teams.playerCores().size"
+        },
+        "game_over_value": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "!state.gameOver"
+        },
+        "attack_mode": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "!state.rules.attackMode"
+        }
+      }
+    },
+    "source_game_over_core_destroyed_result": {
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Logic.checkGameState()"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "private void checkGameState(){"
+        },
+        "core_destroyed_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.teams.playerCores().size == 0"
+        },
+        "game_over_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.gameOver = true;"
+        },
+        "event_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));"
+        },
+        "player_cores_size": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.teams.playerCores().size"
+        },
+        "attack_mode": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "!state.rules.attackMode"
+        },
+        "core_destroyed": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.teams.playerCores().size == 0"
+        },
+        "game_over": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.gameOver = true;"
+        },
+        "winner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/core/Logic.java",
+          "java_expr": "state.rules.waveTeam"
+        }
+      }
     }
   },
   "version": 1
