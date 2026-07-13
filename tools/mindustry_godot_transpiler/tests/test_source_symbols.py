@@ -55465,6 +55465,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(scaled_health["godot_symbol"], "source_block_init_health_scaled_input.scaled_health")
 
         setup_slice = source_symbols.source_slice(ledger, "N1330")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["title"], "Generated Block init scaled health bridge state")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.init()")
