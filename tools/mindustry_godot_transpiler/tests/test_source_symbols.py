@@ -31130,6 +31130,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("protected float calculateRange(){", init_range_assignment["deferred_exprs"])
 
         calculate_range_override = source_symbols.source_slice(ledger, "N471")
+        self.assertEqual(calculate_range_override["status"], "done")
         self.assertEqual(calculate_range_override["java_method"], "calculateRange()")
         self.assertEqual(calculate_range_override["godot_owner"], "PortGame.source_bullet_type_calculate_range_override_state")
         self.assertIn("public float rangeOverride = -1f;", calculate_range_override["exact_exprs"])

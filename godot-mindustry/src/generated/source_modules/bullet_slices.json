@@ -1475,7 +1475,7 @@
     },
     "N471": {
       "canonical_ledger": "source_slice_ledger.N471",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "calculateRange()",
       "godot_owner": "PortGame.source_bullet_type_calculate_range_override_state",
