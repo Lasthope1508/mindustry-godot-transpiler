@@ -1457,7 +1457,7 @@
     },
     "N470": {
       "canonical_ledger": "source_slice_ledger.N470",
-      "status": "source-backed",
+      "status": "done",
       "java_source": "core/src/mindustry/entities/bullet/BulletType.java",
       "java_method": "init()",
       "godot_owner": "PortGame.source_bullet_type_init_range_assignment_state",

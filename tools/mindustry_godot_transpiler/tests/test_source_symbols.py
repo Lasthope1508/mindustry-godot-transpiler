@@ -31121,6 +31121,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertNotIn("range = calculateRange();", init_draw_size["deferred_exprs"])
 
         init_range_assignment = source_symbols.source_slice(ledger, "N470")
+        self.assertEqual(init_range_assignment["status"], "done")
         self.assertEqual(init_range_assignment["java_method"], "init()")
         self.assertEqual(init_range_assignment["godot_owner"], "PortGame.source_bullet_type_init_range_assignment_state")
         self.assertIn("public float range = 0f;", init_range_assignment["exact_exprs"])

@@ -17451,7 +17451,7 @@
         "init_range_assignment.range_field",
         "init_range_assignment.calculate_range_method"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_range_assignment_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_range_assignment_state",
