@@ -31190,6 +31190,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(heals["deferred_exprs"], [])
 
         create_initial_gate = source_symbols.source_slice(ledger, "N477")
+        self.assertEqual(create_initial_gate["status"], "done")
         self.assertEqual(create_initial_gate["java_method"], "create(Entityc owner, Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY, Teamc target)")
         self.assertEqual(create_initial_gate["godot_owner"], "PortGame.source_bullet_type_create_initial_gate_state")
         self.assertIn("angle += angleOffset + Mathf.range(randomAngleOffset);", create_initial_gate["exact_exprs"])

@@ -17663,7 +17663,7 @@
         "create_initial_gate.mathf_range",
         "create_initial_gate.mathf_chance"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_create_initial_gate_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_create_initial_gate_state",
