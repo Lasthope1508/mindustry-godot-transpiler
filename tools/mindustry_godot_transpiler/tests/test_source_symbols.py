@@ -56541,6 +56541,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_load_variant_regions_state")
         self.assertEqual(setup_slice["generated_owner"], "Block.java_method_load_126")
         self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_load_variant_regions_bridge_state")
+        self.assertEqual(setup_slice["status"], "done")
         for expr in [
             "public void load(){",
             "if(variants != 0){",

@@ -2919,7 +2919,7 @@
         "block_load_variant_regions.name",
         "block_load_variant_regions.variants"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_load_variant_regions_to_source_state",
         "test_port_game_exposes_source_block_load_variant_regions_state",
