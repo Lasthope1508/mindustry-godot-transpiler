@@ -2882,7 +2882,7 @@
         "block_load_team_regions.team_region",
         "block_load_team_regions.teams"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_load_team_regions_to_source_state",
         "test_port_game_exposes_source_block_load_team_regions_state",
