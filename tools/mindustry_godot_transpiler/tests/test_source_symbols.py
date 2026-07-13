@@ -56185,6 +56185,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         setup_slice = source_symbols.source_slice(ledger, "N1350")
         self.assertEqual(setup_slice["title"], "Generated Block reinitializeConsumers consumer arrays bridge state")
+        self.assertEqual(setup_slice["status"], "done")
         self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(setup_slice["java_method"], "Block.reinitializeConsumers()")
         self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_reinitialize_consumers_arrays_state")

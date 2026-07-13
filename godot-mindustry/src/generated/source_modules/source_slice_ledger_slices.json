@@ -22069,7 +22069,7 @@
         "block_reinitialize_consumers_arrays.consume_is_power",
         "block_reinitialize_consumers_arrays.consume_builder"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
         "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
@@ -22112,7 +22112,7 @@
           "block_reinitialize_consumers_arrays.consume_is_power",
           "block_reinitialize_consumers_arrays.consume_builder"
         ],
-        "status": "active",
+        "status": "done",
         "tests": [
           "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
           "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
