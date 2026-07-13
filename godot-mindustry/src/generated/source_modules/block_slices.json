@@ -2522,7 +2522,7 @@
         "block_init_stats_categories.stats_use_categories_field_expr",
         "block_init_stats_categories.stats_use_categories_before"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_init_stats_categories_to_source_state",
         "test_port_game_exposes_source_block_init_stats_categories_state",
