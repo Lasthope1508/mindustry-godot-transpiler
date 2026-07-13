@@ -59598,6 +59598,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(final_return["godot_symbol"], "source_unit_payload_dump_spawn_side_effects_result.dump")
 
         payload_slice = source_symbols.source_slice(ledger, "N1404")
+        self.assertEqual(payload_slice["status"], "done")
         self.assertEqual(payload_slice["title"], "Generated UnitPayload dump spawn side effects bridge state")
         self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
         self.assertEqual(payload_slice["java_method"], "UnitPayload.dump()")
