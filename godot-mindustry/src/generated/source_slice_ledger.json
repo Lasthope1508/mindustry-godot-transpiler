@@ -11887,7 +11887,7 @@
         "block_sense_laccess.cons_power_capacity",
         "block_sense_laccess.logic_id"
       ],
-      "status": "active",
+      "status": "done",
       "tests": [
         "test_emit_bridges_block_sense_laccess_to_source_state",
         "test_port_game_exposes_source_block_sense_laccess_state",

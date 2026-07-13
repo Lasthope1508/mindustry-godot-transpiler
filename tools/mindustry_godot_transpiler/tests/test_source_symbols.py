@@ -56836,6 +56836,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         sense_slice = source_symbols.source_slice(ledger, "N1363")
         self.assertEqual(sense_slice["title"], "Generated Block sense LAccess bridge state")
+        self.assertEqual(sense_slice["status"], "done")
         self.assertEqual(sense_slice["java_source"], "core/src/mindustry/world/Block.java")
         self.assertEqual(sense_slice["java_method"], "Block.sense(LAccess sensor)")
         self.assertEqual(sense_slice["godot_owner"], "PortGame.source_block_sense_laccess_state")
