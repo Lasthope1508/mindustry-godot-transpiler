@@ -17331,7 +17331,7 @@
         "init_frag_velocity.keep_velocity_field",
         "init_frag_velocity.scale_keep_velocity_field"
       ],
-      "status": "source-backed",
+      "status": "done",
       "tests": [
         "test_bullet_type_init_frag_velocity_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_init_frag_velocity_state",

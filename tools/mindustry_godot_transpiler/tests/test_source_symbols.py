@@ -31080,6 +31080,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(fragBullet != null){", init_type_defaults["deferred_exprs"])
 
         init_frag_velocity = source_symbols.source_slice(ledger, "N466")
+        self.assertEqual(init_frag_velocity["status"], "done")
         self.assertEqual(init_frag_velocity["java_method"], "init()")
         self.assertEqual(init_frag_velocity["godot_owner"], "PortGame.source_bullet_type_init_frag_velocity_state")
         self.assertIn("if(fragBullet != null){", init_frag_velocity["exact_exprs"])
