@@ -124,6 +124,7 @@ var payload_runtime_move_last_state: Dictionary = {}
 var payload_runtime_dump_last_state: Dictionary = {}
 var payload_default_last_state: Dictionary = {}
 var unit_payload_targeting_last_state: Dictionary = {}
+var unit_player_controllable_last_state: Dictionary = {}
 var unit_killable_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
@@ -19651,6 +19652,7 @@ func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_s
 
 const SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD := "public boolean playerControllable(){"
 const SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN := "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);"
+const SOURCE_UNIT_PLAYER_CONTROLLABLE_DEFAULT := "playerControllable = true,"
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
@@ -19660,6 +19662,28 @@ func source_unit_player_controllable_state(type_player_controllable: bool, contr
 		"playerControllable": type_player_controllable and not logic_privileged_blocked,
 		"logicPrivilegedBlocked": logic_privileged_blocked,
 		"call": "playerControllable()",
+	}
+
+func reset_unit_player_controllable_runtime() -> Dictionary:
+	unit_player_controllable_last_state = {}
+	return unit_player_controllable_runtime_state()
+
+func step_unit_player_controllable_runtime(type_player_controllable: bool = true, controller_is_logic_ai: bool = false, logic_controller_exists: bool = false, logic_controller_block_privileged: bool = false) -> Dictionary:
+	var controllable_state := source_unit_player_controllable_state(type_player_controllable, controller_is_logic_ai, logic_controller_exists, logic_controller_block_privileged)
+	unit_player_controllable_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"type_source_owner": "core/src/mindustry/type/UnitType.java",
+		"player_controllable": controllable_state,
+		"return_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN,
+		"default_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_DEFAULT,
+	}
+	return unit_player_controllable_runtime_state()
+
+func unit_player_controllable_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"type_source_owner": "core/src/mindustry/type/UnitType.java",
+		"last_state": unit_player_controllable_last_state.duplicate(true),
 	}
 
 const SOURCE_UNIT_TARGETABLE_METHOD := "public boolean targetable(Team targeter){"
@@ -32284,6 +32308,7 @@ func get_runtime_summary() -> Dictionary:
 		"game_over_runtime": game_over_runtime_state(),
 		"enemy_runtime": enemy_runtime_state(),
 		"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state(),
+		"unit_player_controllable_runtime": unit_player_controllable_runtime_state(),
 		"unit_killable_runtime": unit_killable_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),

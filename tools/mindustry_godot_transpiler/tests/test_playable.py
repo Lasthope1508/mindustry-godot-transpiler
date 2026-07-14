@@ -10960,6 +10960,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"logicPrivilegedBlocked": logic_privileged_blocked', source)
         self.assertIn('"call": "playerControllable()"', source)
 
+    def test_port_game_exposes_unit_player_controllable_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_player_controllable_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_player_controllable_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_player_controllable_runtime(type_player_controllable: bool = true, controller_is_logic_ai: bool = false, logic_controller_exists: bool = false, logic_controller_block_privileged: bool = false) -> Dictionary:", source)
+        self.assertIn("func unit_player_controllable_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_player_controllable_state(type_player_controllable, controller_is_logic_ai, logic_controller_exists, logic_controller_block_privileged)", source)
+        self.assertIn('"player_controllable": controllable_state', source)
+        self.assertIn('"return_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN', source)
+        self.assertIn('"default_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_DEFAULT', source)
+        self.assertIn('"unit_player_controllable_runtime": unit_player_controllable_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_targetable_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
