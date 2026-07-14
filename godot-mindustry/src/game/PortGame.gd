@@ -131,6 +131,7 @@ var unit_after_read_last_state: Dictionary = {}
 var unit_after_read_all_last_state: Dictionary = {}
 var unit_add_last_state: Dictionary = {}
 var unit_remove_last_state: Dictionary = {}
+var unit_landed_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20034,6 +20035,26 @@ func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
 	}
 
+func reset_unit_landed_runtime() -> Dictionary:
+	unit_landed_last_state = {}
+	return unit_landed_runtime_state()
+
+func step_unit_landed_runtime(type_mech_land_shake: float = 3.0) -> Dictionary:
+	var landed_state := source_unit_landed_state(type_mech_land_shake)
+	unit_landed_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_landed": landed_state,
+		"shake_call": SOURCE_UNIT_LANDED_SHAKE_CALL,
+		"type_landed_call": SOURCE_UNIT_LANDED_TYPE_CALL,
+	}
+	return unit_landed_runtime_state()
+
+func unit_landed_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_landed_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_HEAL_OVERRIDE := "@Override\n    public void heal(float amount){"
 const SOURCE_UNIT_HEAL_GUARD := "if(health < maxHealth && amount > 0){"
 const SOURCE_UNIT_HEAL_WAS_HEALED := "wasHealed = true;"
@@ -32419,6 +32440,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_after_read_all_runtime": unit_after_read_all_runtime_state(),
 		"unit_add_runtime": unit_add_runtime_state(),
 		"unit_remove_runtime": unit_remove_runtime_state(),
+		"unit_landed_runtime": unit_landed_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

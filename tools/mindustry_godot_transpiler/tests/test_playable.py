@@ -11234,6 +11234,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"typeLanded": {"call": SOURCE_UNIT_LANDED_TYPE_CALL.trim_suffix(";"), "arg": "self()"}', source)
         self.assertIn('"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"]', source)
 
+    def test_port_game_exposes_unit_landed_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_landed_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_landed_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_landed_runtime(type_mech_land_shake: float = 3.0) -> Dictionary:", source)
+        self.assertIn("func unit_landed_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_landed_state(type_mech_land_shake)", source)
+        self.assertIn('"unit_landed": landed_state', source)
+        self.assertIn('"shake_call": SOURCE_UNIT_LANDED_SHAKE_CALL', source)
+        self.assertIn('"type_landed_call": SOURCE_UNIT_LANDED_TYPE_CALL', source)
+        self.assertIn('"unit_landed_runtime": unit_landed_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_heal_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
