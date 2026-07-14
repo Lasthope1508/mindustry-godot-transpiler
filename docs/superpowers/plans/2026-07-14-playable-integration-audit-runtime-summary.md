@@ -480,6 +480,28 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - Godot debug output after rotation arg fix: `errors=[]`
 - Godot stop after rotation arg fix: `finalErrors=[]`
 
+Fresh MCP builder skip/range runtime proof on the restarted runtime:
+
+- Source facts used:
+  - `BuilderComp.shouldSkip(...)` guard returns false for infinite resources, breaking plans, null core, rotation, or derelict repair.
+  - `shouldSkip(...)` returns true for stuck plans missing all block requirements or when `Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)`.
+  - `BuilderComp.updateBuildLogic()` rotates skipped plans with `plans.removeFirst(); plans.addLast(plan);`.
+  - `BuilderComp.activelyBuilding()` returns false when not editor, plan exists, and `within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)` is false.
+- TCP proof:
+  - Clean `prePlanCount=0`.
+  - Set `/root/Main.set_core_item_count("copper", 1)`.
+  - Queued `/root/Main.queue_builder_plan("router", 2, 2, 0)` and `/root/Main.queue_builder_plan("conveyor", 3, 2, 0)`.
+  - `queuedPlanCount=2`.
+  - Before step, live first plan `block_id="router"`, `should_skip=true`, `structs_contains_missing_requirement=true`.
+  - After `/root/Main.step_builder_runtime(5.0)`, active plan rotated to `block_id="conveyor"`, `progressAfter=0.125`, `stepPlanCount=2`.
+  - After step, live first plan `block_id="conveyor"`, `should_skip=false`.
+  - Source range proof: `outOfRangeActive=false`, `outOfRangeBlocked=true`.
+  - Source skip guard proof: `breakingSkip=false`, `stuckMissingSkip=true`, `missingRequirementSkip=true`.
+  - `all_generated_load_failures=[]`.
+  - `all_generated_instance_failures=[]`.
+- Godot debug output: `errors=[]`.
+- Godot stop output: `finalErrors=[]`.
+
 ## Verification
 
 - RED:
@@ -533,6 +555,9 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected when the test required `rotation_value` instead of shadowing `Node2D.rotation`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_skip_range_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `func builder_plan_requirement_state(block) -> Dictionary:`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -578,9 +603,15 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed in 0.40s`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_skip_range_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.40s`.
 - Focused regression after deconstruct slice and rotation warning fix:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof -q -p no:cacheprovider`
   - Result: `2 passed in 0.42s`.
+- Focused regression after builder skip/range slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_skip_range_runtime_proof -q -p no:cacheprovider`
+  - Result: `3 passed in 0.24s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -593,6 +624,9 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - SSOT validator after builder deconstruct slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after builder skip/range slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -602,6 +636,9 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - Full Python suite after builder deconstruct slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4033 passed, 39303 subtests passed in 390.26s (0:06:30)`.
+- Full Python suite after builder skip/range slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4034 passed, 39303 subtests passed in 417.07s (0:06:57)`.
 
 ## Remaining Gates
 
@@ -627,10 +664,11 @@ Fresh MCP builder deconstruct runtime proof on the restarted runtime:
 - [x] Game-over runtime package proven: core drained `1091.0 -> 0.0`, `game_over=true`, `last_game_over_winner="waveTeam"`, source proof references `Logic.checkGameState()`.
 - [x] Builder construction queue runtime proven: `queue_builder_plan("conveyor", 2, 2, 0)`, `step_builder_runtime(5.0)`, `construct_progress=0.125`, `last_construct_block_id="conveyor"`, generated load/instance failures `[]`.
 - [x] Builder deconstruct/removal runtime proven: `queue_builder_deconstruct_plan(8, 8)`, four `step_builder_deconstruct_runtime(40.0)` calls, progress `1.0 -> 0.0`, `last_deconstruct_removed=true`, refund `[{"amount":1,"item":"copper"}]`, occupied cells `22 -> 21`, generated load/instance failures `[]`.
+- [x] Builder skip/range runtime proven: queued `router` with insufficient copper ahead of affordable `conveyor`, live `router.should_skip=true`, step rotated active plan to `conveyor`, source out-of-range `activelyBuilding=false`, generated load/instance failures `[]`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, or game-over runtime.

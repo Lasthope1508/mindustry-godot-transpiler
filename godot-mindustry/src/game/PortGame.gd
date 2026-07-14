@@ -6288,12 +6288,86 @@ func step_builder_deconstruct_runtime(delta: float) -> Dictionary:
 		}
 	return step_builder_runtime(delta)
 
+func builder_plan_requirement_state(block) -> Dictionary:
+	var requirements = block.properties.get("requirements", []) if block != null else []
+	var core_items_has_plan_block_requirements := true
+	var structs_contains_missing_requirement := false
+	for requirement in requirements:
+		var item_id := str(requirement.get("item", ""))
+		var amount := int(requirement.get("amount", 0))
+		var min_amount := mini(int(requirement.get("amount", 0)), 15)
+		var rounded_cost := roundi(float(amount) * 1.0)
+		if item_id != "" and core_item_count(item_id) < amount:
+			core_items_has_plan_block_requirements = false
+		if item_id != "" and core_item_count(item_id) < min_amount and rounded_cost > 0:
+			structs_contains_missing_requirement = true
+	return {
+		"core_items_has_plan_block_requirements_expr": "core.items.has(plan.block.requirements)",
+		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
+		"requirements": requirements,
+		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
+		"structs_contains_missing_requirement": structs_contains_missing_requirement,
+	}
+
+func builder_plan_gate_runtime_state(plan: Variant = null, block_id: String = "") -> Dictionary:
+	var plan_value: Dictionary = plan if plan is Dictionary else {}
+	var resolved_block_id := block_id if block_id != "" else str(plan_value.get("block_id", ""))
+	var block = content_catalog.get_by_id(resolved_block_id) if content_catalog != null and resolved_block_id != "" else null
+	var requirements := builder_plan_requirement_state(block)
+	var plan_breaking := bool(plan_value.get("breaking", false))
+	var plan_stuck := bool(plan_value.get("stuck", false))
+	var core_items_has_plan_block_requirements := bool(requirements.get("core_items_has_plan_block_requirements", true))
+	var structs_contains_missing_requirement := bool(requirements.get("structs_contains_missing_requirement", false))
+	var should_skip := source_builder_should_skip_state(false, false, plan_breaking, false, false, false, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
+	return {
+		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
+		"should_skip_method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+		"should_skip_guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+		"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
+		"plan": plan_value,
+		"block_id": resolved_block_id,
+		"requirement_state": requirements,
+		"plan_breaking": plan_breaking,
+		"plan_stuck": plan_stuck,
+		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
+		"structs_contains_missing_requirement": structs_contains_missing_requirement,
+		"should_skip_state": should_skip,
+		"should_skip": bool(should_skip.get("should_skip", false)),
+	}
+
+func select_next_unskipped_builder_plan() -> Dictionary:
+	var inspected: Array = []
+	var rotations := 0
+	var plan_count := builder_plans.size()
+	if plan_count > 1:
+		while rotations < plan_count:
+			var candidate: Variant = builder_plans[0]
+			var gate := builder_plan_gate_runtime_state(candidate)
+			inspected.append(gate)
+			if not bool(gate.get("should_skip", false)):
+				break
+			builder_plans.remove_at(0)
+			builder_plans.append(candidate)
+			rotations += 1
+	return {
+		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
+		"find_next_plan_comment": "//find the next build plan",
+		"skip_gate_expr": "if(within && !shouldSkip(plan, core)){",
+		"rotate_expr": "plans.removeFirst(); plans.addLast(plan);",
+		"inspected": inspected,
+		"rotations": rotations,
+		"plan_count": builder_plans.size(),
+		"active_plan": builder_plans[0] if builder_plans.size() > 0 else null,
+	}
+
 func step_builder_runtime(delta: float) -> Dictionary:
 	var progress_before := builder_construct_progress
 	var completed := false
 	builder_build_counter = min(builder_build_counter + delta, 10.0)
 	while builder_build_counter >= 1.0 and builder_plans.size() > 0:
 		builder_build_counter -= 1.0
+		select_next_unskipped_builder_plan()
 		var current: Dictionary = builder_plans[0] if builder_plans[0] is Dictionary else {}
 		var block = content_catalog.get_by_id(str(current.get("block_id", ""))) if content_catalog != null else null
 		if block == null:
@@ -6402,6 +6476,30 @@ func builder_deconstruct_runtime_state() -> Dictionary:
 		"last_deconstruct_refund_items": builder_last_deconstruct_refund_items.duplicate(true),
 		"deconstruct_finished_count": builder_deconstruct_finished_count,
 		"last_deconstruct_removed": builder_last_deconstruct_removed,
+	}
+
+func builder_skip_range_runtime_state() -> Dictionary:
+	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
+	var live_plan_gate := builder_plan_gate_runtime_state(first_plan)
+	var out_of_range_active := source_builder_actively_building_state(1, {"block_id": "conveyor", "x": 23, "y": 15, "breaking": false}, false, false, source_builder_unit_build_range(), false, true)
+	var breaking_should_skip := source_builder_should_skip_state(false, false, true, false, false, false, true, false, true)
+	var stuck_missing_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, true, false, false)
+	var missing_requirement_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, false, true, true)
+	var all_clear_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, false, true, false)
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
+		"plan_dst_expr": "float dst = plan.dst2(this);",
+		"within_expr": "boolean within = dst <= finalPlaceDst*finalPlaceDst;",
+		"skip_gate_expr": "if(within && !shouldSkip(plan, core)){",
+		"tile_range_continue_expr": "if(!within(tile, finalPlaceDst)) continue;",
+		"should_skip_guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
+		"out_of_range_active": out_of_range_active,
+		"breaking_should_skip": breaking_should_skip,
+		"stuck_missing_should_skip": stuck_missing_should_skip,
+		"missing_requirement_should_skip": missing_requirement_should_skip,
+		"all_clear_should_skip": all_clear_should_skip,
+		"live_plan_gate": live_plan_gate,
 	}
 
 func builder_runtime_state() -> Dictionary:
@@ -31445,6 +31543,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_runtime": placed_power_runtime_state(),
 		"builder_runtime": builder_runtime_state(),
 		"builder_deconstruct_runtime": builder_deconstruct_runtime_state(),
+		"builder_skip_range_runtime": builder_skip_range_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

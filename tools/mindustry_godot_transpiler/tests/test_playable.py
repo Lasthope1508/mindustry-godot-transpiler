@@ -391,6 +391,35 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"builder_deconstruct_runtime": builder_deconstruct_runtime_state()', summary_body)
 
+    def test_port_game_exposes_builder_skip_range_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func builder_plan_requirement_state(block) -> Dictionary:", source)
+        self.assertIn("var min_amount := mini(int(requirement.get(\"amount\", 0)), 15)", source)
+        self.assertIn("func builder_plan_gate_runtime_state(plan: Variant = null, block_id: String = \"\") -> Dictionary:", source)
+        self.assertIn("var should_skip := source_builder_should_skip_state(false, false, plan_breaking, false, false, false, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)", source)
+        self.assertIn("func select_next_unskipped_builder_plan() -> Dictionary:", source)
+        self.assertIn("var gate := builder_plan_gate_runtime_state(candidate)", source)
+        self.assertIn("builder_plans.remove_at(0)", source)
+        self.assertIn("builder_plans.append(candidate)", source)
+        self.assertIn("func builder_skip_range_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func builder_skip_range_runtime_state() -> Dictionary:", 1)[1].split("func builder_runtime_state() -> Dictionary:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn('"plan_dst_expr": "float dst = plan.dst2(this);"', proof_body)
+        self.assertIn('"within_expr": "boolean within = dst <= finalPlaceDst*finalPlaceDst;"', proof_body)
+        self.assertIn('"skip_gate_expr": "if(within && !shouldSkip(plan, core)){"', proof_body)
+        self.assertIn('"tile_range_continue_expr": "if(!within(tile, finalPlaceDst)) continue;"', proof_body)
+        self.assertIn('"should_skip_guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;"', proof_body)
+        self.assertIn('"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)"', proof_body)
+        self.assertIn('"out_of_range_active": out_of_range_active', proof_body)
+        self.assertIn('"breaking_should_skip": breaking_should_skip', proof_body)
+        self.assertIn('"stuck_missing_should_skip": stuck_missing_should_skip', proof_body)
+        self.assertIn('"missing_requirement_should_skip": missing_requirement_should_skip', proof_body)
+        self.assertIn('"live_plan_gate": live_plan_gate', proof_body)
+        self.assertIn('"builder_skip_range_runtime": builder_skip_range_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
