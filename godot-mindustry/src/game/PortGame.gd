@@ -157,6 +157,7 @@ var unit_destroy_initial_payload_last_state: Dictionary = {}
 var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
 var unit_destroy_visual_effects_last_state: Dictionary = {}
 var unit_destroy_sound_and_event_last_state: Dictionary = {}
+var unit_destroy_suicide_bomb_trigger_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21474,6 +21475,35 @@ func unit_destroy_sound_and_event_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_sound_and_event_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_suicide_bomb_trigger_runtime() -> Dictionary:
+	unit_destroy_suicide_bomb_trigger_last_state = {}
+	return unit_destroy_suicide_bomb_trigger_runtime_state()
+
+func step_unit_destroy_suicide_bomb_trigger_runtime(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:
+	var suicide_bomb_state := source_unit_destroy_suicide_bomb_trigger_state(explosiveness, is_local_value, was_player_value)
+	unit_destroy_suicide_bomb_trigger_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_suicide_bomb_trigger": suicide_bomb_state,
+		"method": suicide_bomb_state.get("method"),
+		"guard": suicide_bomb_state.get("guard"),
+		"trigger": suicide_bomb_state.get("trigger"),
+		"event": suicide_bomb_state.get("event"),
+		"events_fire": suicide_bomb_state.get("eventsFire"),
+		"events_fire_body": suicide_bomb_state.get("eventsFireBody"),
+		"trigger_enum": suicide_bomb_state.get("triggerEnum"),
+		"trigger_member": suicide_bomb_state.get("triggerMember"),
+		"explosiveness": suicide_bomb_state.get("explosiveness"),
+		"is_local": suicide_bomb_state.get("isLocal"),
+		"was_player": suicide_bomb_state.get("wasPlayer"),
+	}
+	return unit_destroy_suicide_bomb_trigger_runtime_state()
+
+func unit_destroy_suicide_bomb_trigger_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_suicide_bomb_trigger_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33046,6 +33076,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state(),
 		"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state(),
 		"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state(),
+		"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

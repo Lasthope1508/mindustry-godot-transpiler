@@ -12003,6 +12003,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": event_call.get("unit")', source)
         self.assertIn('"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_suicide_bomb_trigger_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_suicide_bomb_trigger_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_suicide_bomb_trigger_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_suicide_bomb_trigger_runtime(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_suicide_bomb_trigger_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_suicide_bomb_trigger_state(explosiveness, is_local_value, was_player_value)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_suicide_bomb_trigger": suicide_bomb_state', source)
+        self.assertIn('"method": suicide_bomb_state.get("method")', source)
+        self.assertIn('"guard": suicide_bomb_state.get("guard")', source)
+        self.assertIn('"trigger": suicide_bomb_state.get("trigger")', source)
+        self.assertIn('"event": suicide_bomb_state.get("event")', source)
+        self.assertIn('"events_fire": suicide_bomb_state.get("eventsFire")', source)
+        self.assertIn('"events_fire_body": suicide_bomb_state.get("eventsFireBody")', source)
+        self.assertIn('"trigger_enum": suicide_bomb_state.get("triggerEnum")', source)
+        self.assertIn('"trigger_member": suicide_bomb_state.get("triggerMember")', source)
+        self.assertIn('"explosiveness": suicide_bomb_state.get("explosiveness")', source)
+        self.assertIn('"is_local": suicide_bomb_state.get("isLocal")', source)
+        self.assertIn('"was_player": suicide_bomb_state.get("wasPlayer")', source)
+        self.assertIn('"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
