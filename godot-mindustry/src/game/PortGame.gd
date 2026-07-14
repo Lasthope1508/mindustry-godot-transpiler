@@ -159,6 +159,7 @@ var unit_destroy_visual_effects_last_state: Dictionary = {}
 var unit_destroy_sound_and_event_last_state: Dictionary = {}
 var unit_destroy_suicide_bomb_trigger_last_state: Dictionary = {}
 var unit_destroy_shoot_on_death_mounts_last_state: Dictionary = {}
+var unit_destroy_crash_landing_damage_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21527,6 +21528,32 @@ func unit_destroy_shoot_on_death_mounts_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_shoot_on_death_mounts_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_crash_landing_damage_runtime() -> Dictionary:
+	unit_destroy_crash_landing_damage_last_state = {}
+	return unit_destroy_crash_landing_damage_runtime_state()
+
+func step_unit_destroy_crash_landing_damage_runtime(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:
+	var crash_landing_damage_state := source_unit_destroy_crash_landing_damage_state(type_flying, spawned_by_core_value, type_create_wreck, rules_unit_crash_damage, hit_size, type_crash_damage_multiplier, shields_empty, shield_absorbed, team_id, source_x, source_y)
+	unit_destroy_crash_landing_damage_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_crash_landing_damage": crash_landing_damage_state,
+		"guard": crash_landing_damage_state.get("guard"),
+		"should_check_crash": crash_landing_damage_state.get("shouldCheckCrash"),
+		"shield_lookup": crash_landing_damage_state.get("shieldLookup"),
+		"crash_damage": crash_landing_damage_state.get("crashDamage"),
+		"shield_guard": crash_landing_damage_state.get("shieldGuard"),
+		"shield_absorbed": crash_landing_damage_state.get("shieldAbsorbed"),
+		"damage_radius": crash_landing_damage_state.get("damageRadius"),
+		"damage_call": crash_landing_damage_state.get("damageCall"),
+	}
+	return unit_destroy_crash_landing_damage_runtime_state()
+
+func unit_destroy_crash_landing_damage_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_crash_landing_damage_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33101,6 +33128,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state(),
 		"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state(),
 		"unit_destroy_shoot_on_death_mounts_runtime": unit_destroy_shoot_on_death_mounts_runtime_state(),
+		"unit_destroy_crash_landing_damage_runtime": unit_destroy_crash_landing_damage_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

@@ -12046,6 +12046,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"actions": shoot_on_death_mounts_state.get("actions")', source)
         self.assertIn('"unit_destroy_shoot_on_death_mounts_runtime": unit_destroy_shoot_on_death_mounts_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_crash_landing_damage_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_crash_landing_damage_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_crash_landing_damage_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_crash_landing_damage_runtime(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_crash_landing_damage_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_crash_landing_damage_state(type_flying, spawned_by_core_value, type_create_wreck, rules_unit_crash_damage, hit_size, type_crash_damage_multiplier, shields_empty, shield_absorbed, team_id, source_x, source_y)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_crash_landing_damage": crash_landing_damage_state', source)
+        self.assertIn('"guard": crash_landing_damage_state.get("guard")', source)
+        self.assertIn('"should_check_crash": crash_landing_damage_state.get("shouldCheckCrash")', source)
+        self.assertIn('"shield_lookup": crash_landing_damage_state.get("shieldLookup")', source)
+        self.assertIn('"crash_damage": crash_landing_damage_state.get("crashDamage")', source)
+        self.assertIn('"shield_guard": crash_landing_damage_state.get("shieldGuard")', source)
+        self.assertIn('"shield_absorbed": crash_landing_damage_state.get("shieldAbsorbed")', source)
+        self.assertIn('"damage_radius": crash_landing_damage_state.get("damageRadius")', source)
+        self.assertIn('"damage_call": crash_landing_damage_state.get("damageCall")', source)
+        self.assertIn('"unit_destroy_crash_landing_damage_runtime": unit_destroy_crash_landing_damage_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
