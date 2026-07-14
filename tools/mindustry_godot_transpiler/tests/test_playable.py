@@ -11443,6 +11443,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "trail.update(cx, cy)"', source)
         self.assertIn('"lengthSet": {"call": "trail.length = type.trailLength", "length": type_trail_length}', source)
 
+    def test_port_game_exposes_unit_update_trail_position_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_trail_position_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_trail_position_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_trail_position_runtime(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_trail_position_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_trail_position_state(trail_exists, type_trail_length, type_use_engine_elevation, elevation_value, type_engine_offset, x_value, y_value, source_rotation_degrees)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_trail_position": trail_position_state', source)
+        self.assertIn('"trail_update": trail_position_state.get("trailUpdate")', source)
+        self.assertIn('"length_set": trail_position_state.get("lengthSet")', source)
+        self.assertIn('"unit_update_trail_position_runtime": unit_update_trail_position_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_drag_formula_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

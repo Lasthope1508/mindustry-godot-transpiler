@@ -138,6 +138,7 @@ var unit_update_captured_sector_death_last_state: Dictionary = {}
 var unit_update_sound_loop_last_state: Dictionary = {}
 var unit_update_unsupported_env_last_state: Dictionary = {}
 var unit_update_abilities_loop_last_state: Dictionary = {}
+var unit_update_trail_position_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20741,6 +20742,26 @@ func source_unit_update_trail_position_state(trail_exists: bool, type_trail_leng
 		"trailUpdate": {"call": "trail.update(cx, cy)", "x": cx, "y": cy},
 	}
 
+func reset_unit_update_trail_position_runtime() -> Dictionary:
+	unit_update_trail_position_last_state = {}
+	return unit_update_trail_position_runtime_state()
+
+func step_unit_update_trail_position_runtime(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
+	var trail_position_state := source_unit_update_trail_position_state(trail_exists, type_trail_length, type_use_engine_elevation, elevation_value, type_engine_offset, x_value, y_value, source_rotation_degrees)
+	unit_update_trail_position_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_trail_position": trail_position_state,
+		"trail_update": trail_position_state.get("trailUpdate"),
+		"length_set": trail_position_state.get("lengthSet"),
+	}
+	return unit_update_trail_position_runtime_state()
+
+func unit_update_trail_position_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_trail_position_last_state.duplicate(true),
+	}
+
 func source_unit_update_drag_formula_state(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:
 	var floor_factor := floor_drag_multiplier if grounded_value else 1.0
 	var unit_drag := type_drag * floor_factor * unit_drag_multiplier * rules_drag_multiplier
@@ -32572,6 +32593,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state(),
 		"unit_update_unsupported_env_runtime": unit_update_unsupported_env_runtime_state(),
 		"unit_update_abilities_loop_runtime": unit_update_abilities_loop_runtime_state(),
+		"unit_update_trail_position_runtime": unit_update_trail_position_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
