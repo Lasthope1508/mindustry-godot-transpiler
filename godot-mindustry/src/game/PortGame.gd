@@ -110,6 +110,8 @@ var liquid_transfer_destination_capacity := 10.0
 var liquid_transfer_pressure := 1.0
 var liquid_transfer_last_move_state: Dictionary = {}
 var liquid_transfer_last_transfer_state: Dictionary = {}
+var item_dump_item := "copper"
+var item_dump_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -6846,6 +6848,55 @@ func liquid_transfer_runtime_state() -> Dictionary:
 		"pressure": liquid_transfer_pressure,
 		"move_state": liquid_transfer_last_move_state,
 		"transfer_state": liquid_transfer_last_transfer_state,
+	}
+
+func reset_item_dump_runtime(source_count: int = 3, core_count: int = 2, capacity: int = 10) -> Dictionary:
+	drill_items[item_dump_item] = source_count
+	core_item_capacity = capacity
+	set_core_item_count(item_dump_item, core_count)
+	set_drill_dump_cursor(0)
+	item_dump_last_state = {}
+	return item_dump_runtime_state()
+
+func step_item_dump_runtime() -> Dictionary:
+	var before_source_count := drill_item_count(item_dump_item)
+	var before_core_count := core_item_count(item_dump_item)
+	var before_dump_cursor := drill_dump_cursor
+	var remove_stack_state := source_building_remove_stack_state(true, before_source_count, 1)
+	var can_dump_state := source_building_can_dump_item_default_state({"block": "core"}, item_dump_item)
+	var move_forward_accept_state := source_move_forward_accept_state(true, true, source_core_accept_item(item_dump_item))
+	var dumped := source_dump_drill_item_to_core(item_dump_item)
+	item_dump_last_state = {
+		"source_owner": "core/src/mindustry/gen/Building.java",
+		"method": SOURCE_DUMP_DRILL_ITEM_TO_CORE_METHOD,
+		"initial_guard": SOURCE_DUMP_DRILL_ITEM_TO_CORE_INITIAL_GUARD,
+		"accept_can_dump_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_ACCEPT_CAN_DUMP,
+		"handle_item_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_HANDLE_ITEM,
+		"remove_item_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_REMOVE_ITEM,
+		"increment_dump_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_INCREMENT_DUMP,
+		"item": item_dump_item,
+		"source_count_before": before_source_count,
+		"core_count_before": before_core_count,
+		"dump_cursor_before": before_dump_cursor,
+		"can_dump_state": can_dump_state,
+		"move_forward_accept_state": move_forward_accept_state,
+		"remove_stack_state": remove_stack_state,
+		"dumped": dumped,
+		"source_count_after": drill_item_count(item_dump_item),
+		"core_count_after": core_item_count(item_dump_item),
+		"dump_cursor_after": drill_dump_cursor,
+	}
+	return item_dump_runtime_state()
+
+func item_dump_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/gen/Building.java",
+		"item": item_dump_item,
+		"source_count": drill_item_count(item_dump_item),
+		"core_count": core_item_count(item_dump_item),
+		"core_capacity": core_item_capacity,
+		"dump_cursor": drill_dump_cursor,
+		"last_dump": item_dump_last_state,
 	}
 
 func builder_skip_range_runtime_state() -> Dictionary:
@@ -31918,6 +31969,7 @@ func get_runtime_summary() -> Dictionary:
 		"runtime_save_slot_file": runtime_save_slot_file_state(),
 		"runtime_save_slots": runtime_list_save_slots(),
 		"liquid_transfer_runtime": liquid_transfer_runtime_state(),
+		"item_dump_runtime": item_dump_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

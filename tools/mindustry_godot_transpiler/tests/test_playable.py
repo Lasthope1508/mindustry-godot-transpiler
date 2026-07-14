@@ -501,6 +501,26 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"liquid_transfer_runtime": liquid_transfer_runtime_state()', summary_body)
 
+    def test_port_game_exposes_item_dump_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('var item_dump_item := "copper"', source)
+        self.assertIn("var item_dump_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_item_dump_runtime(source_count: int = 3, core_count: int = 2, capacity: int = 10) -> Dictionary:", source)
+        self.assertIn("func step_item_dump_runtime() -> Dictionary:", source)
+        self.assertIn("func item_dump_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_dump_drill_item_to_core(item_dump_item)", source)
+        self.assertIn("source_building_remove_stack_state(true, before_source_count, 1)", source)
+        self.assertIn("source_building_can_dump_item_default_state", source)
+        self.assertIn("source_move_forward_accept_state(true, true, source_core_accept_item(item_dump_item))", source)
+        self.assertIn('SOURCE_DUMP_DRILL_ITEM_TO_CORE_METHOD', source)
+        self.assertIn('SOURCE_DUMP_DRILL_ITEM_TO_CORE_HANDLE_ITEM', source)
+        self.assertIn('SOURCE_DUMP_DRILL_ITEM_TO_CORE_REMOVE_ITEM', source)
+        self.assertIn('SOURCE_DUMP_DRILL_ITEM_TO_CORE_INCREMENT_DUMP', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"item_dump_runtime": item_dump_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
