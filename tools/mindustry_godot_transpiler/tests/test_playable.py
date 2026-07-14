@@ -11526,6 +11526,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drag": next_drag', source)
         self.assertIn('"call": "drag = 0.01f" if guard else ""', source)
 
+    def test_port_game_exposes_unit_update_falling_drag_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_falling_drag_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_falling_drag_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_falling_drag_runtime(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_falling_drag_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_falling_drag_state(dead_value, health_value, current_drag)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_falling_drag": falling_drag_state', source)
+        self.assertIn('"guard": falling_drag_state.get("guard")', source)
+        self.assertIn('"drag": falling_drag_state.get("drag")', source)
+        self.assertIn('"unit_update_falling_drag_runtime": unit_update_falling_drag_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_falling_smoke_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

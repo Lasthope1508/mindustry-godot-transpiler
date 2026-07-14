@@ -141,6 +141,7 @@ var unit_update_abilities_loop_last_state: Dictionary = {}
 var unit_update_trail_position_last_state: Dictionary = {}
 var unit_update_drag_formula_last_state: Dictionary = {}
 var unit_update_spawn_knockback_last_state: Dictionary = {}
+var unit_update_falling_drag_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20859,6 +20860,26 @@ func source_unit_update_falling_drag_state(dead_value: bool, health_value: float
 		"source": "if(dead || health <= 0){",
 	}
 
+func reset_unit_update_falling_drag_runtime() -> Dictionary:
+	unit_update_falling_drag_last_state = {}
+	return unit_update_falling_drag_runtime_state()
+
+func step_unit_update_falling_drag_runtime(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:
+	var falling_drag_state := source_unit_update_falling_drag_state(dead_value, health_value, current_drag)
+	unit_update_falling_drag_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_falling_drag": falling_drag_state,
+		"guard": falling_drag_state.get("guard"),
+		"drag": falling_drag_state.get("drag"),
+	}
+	return unit_update_falling_drag_runtime_state()
+
+func unit_update_falling_drag_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_falling_drag_last_state.duplicate(true),
+	}
+
 func source_unit_update_falling_smoke_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:
 	var falling_guard := dead_value or health_value <= 0.0
 	var effect_call: Variant = null
@@ -32638,6 +32659,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_trail_position_runtime": unit_update_trail_position_runtime_state(),
 		"unit_update_drag_formula_runtime": unit_update_drag_formula_runtime_state(),
 		"unit_update_spawn_knockback_runtime": unit_update_spawn_knockback_runtime_state(),
+		"unit_update_falling_drag_runtime": unit_update_falling_drag_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
