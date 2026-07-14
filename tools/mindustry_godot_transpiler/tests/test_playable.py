@@ -11672,6 +11672,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"unitOn": callback', source)
 
+    def test_port_game_exposes_unit_update_tile_unit_on_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_tile_unit_on_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_tile_unit_on_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_tile_unit_on_runtime(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_update_tile_unit_on_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_tile_unit_on_state(tile_exists, is_grounded_value, type_hovering, tile_build_exists, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_tile_unit_on": tile_unit_on_state', source)
+        self.assertIn('"guard": tile_unit_on_state.get("guard")', source)
+        self.assertIn('"unit_on": tile_unit_on_state.get("unitOn")', source)
+        self.assertIn('"is_grounded": tile_unit_on_state.get("isGrounded")', source)
+        self.assertIn('"type_hovering": tile_unit_on_state.get("typeHovering")', source)
+        self.assertIn('"tile_build_exists": tile_unit_on_state.get("tileBuildExists")', source)
+        self.assertIn('"unit_update_tile_unit_on_runtime": unit_update_tile_unit_on_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_floor_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
