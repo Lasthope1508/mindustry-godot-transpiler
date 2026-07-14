@@ -11201,6 +11201,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controllerRemoved": {"call": "controller.removed(self())", "arg": "self()"}', source)
         self.assertIn('"trailFade": fade_trail', source)
 
+    def test_port_game_exposes_unit_remove_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_remove_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_remove_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_remove_runtime(trail_exists: bool = true, trail_size: int = 3, trail_width: float = 2.0, type_trail_color_exists: bool = false, team_color: String = \"blue\", type_trail_color: String = \"green\") -> Dictionary:", source)
+        self.assertIn("func unit_remove_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_remove_state(trail_exists, trail_size, trail_width, type_trail_color_exists, team_color, type_trail_color)", source)
+        self.assertIn('"unit_remove": remove_state', source)
+        self.assertIn('"controller_removed_call": SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED', source)
+        self.assertIn('"trail_fade_call": SOURCE_UNIT_REMOVE_TRAIL_FADE', source)
+        self.assertIn('"unit_remove_runtime": unit_remove_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_landed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

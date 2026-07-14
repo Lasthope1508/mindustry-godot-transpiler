@@ -130,6 +130,7 @@ var unit_after_sync_last_state: Dictionary = {}
 var unit_after_read_last_state: Dictionary = {}
 var unit_after_read_all_last_state: Dictionary = {}
 var unit_add_last_state: Dictionary = {}
+var unit_remove_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19991,6 +19992,26 @@ func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: 
 		"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"],
 	}
 
+func reset_unit_remove_runtime() -> Dictionary:
+	unit_remove_last_state = {}
+	return unit_remove_runtime_state()
+
+func step_unit_remove_runtime(trail_exists: bool = true, trail_size: int = 3, trail_width: float = 2.0, type_trail_color_exists: bool = false, team_color: String = "blue", type_trail_color: String = "green") -> Dictionary:
+	var remove_state := source_unit_remove_state(trail_exists, trail_size, trail_width, type_trail_color_exists, team_color, type_trail_color)
+	unit_remove_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_remove": remove_state,
+		"controller_removed_call": SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED,
+		"trail_fade_call": SOURCE_UNIT_REMOVE_TRAIL_FADE,
+	}
+	return unit_remove_runtime_state()
+
+func unit_remove_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_remove_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_LANDED_METHOD := "@Override\n    public void landed(){"
 const SOURCE_UNIT_LANDED_SHAKE_GUARD := "if(type.mechLandShake > 0f){"
 const SOURCE_UNIT_LANDED_SHAKE_CALL := "Effect.shake(type.mechLandShake, type.mechLandShake, this);"
@@ -32397,6 +32418,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_after_read_runtime": unit_after_read_runtime_state(),
 		"unit_after_read_all_runtime": unit_after_read_all_runtime_state(),
 		"unit_add_runtime": unit_add_runtime_state(),
+		"unit_remove_runtime": unit_remove_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
