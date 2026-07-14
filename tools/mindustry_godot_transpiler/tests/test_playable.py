@@ -11133,6 +11133,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controller_exists": controller_exists', source)
         self.assertIn('"afterReadArg": SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG', source)
 
+    def test_port_game_exposes_unit_after_read_all_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_after_read_all_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_after_read_all_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_after_read_all_runtime(controller_exists: bool = true) -> Dictionary:", source)
+        self.assertIn("func unit_after_read_all_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_after_read_all_state(controller_exists)", source)
+        self.assertIn('"after_read_all": after_read_all_state', source)
+        self.assertIn('"controller_after_read_call": SOURCE_UNIT_AFTER_READ_ALL_CALL', source)
+        self.assertIn('"unit_after_read_all_runtime": unit_after_read_all_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_add_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

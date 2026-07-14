@@ -128,6 +128,7 @@ var unit_player_controllable_last_state: Dictionary = {}
 var unit_killable_last_state: Dictionary = {}
 var unit_after_sync_last_state: Dictionary = {}
 var unit_after_read_last_state: Dictionary = {}
+var unit_after_read_all_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19879,6 +19880,25 @@ func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
 		"afterReadArg": SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG,
 	}
 
+func reset_unit_after_read_all_runtime() -> Dictionary:
+	unit_after_read_all_last_state = {}
+	return unit_after_read_all_runtime_state()
+
+func step_unit_after_read_all_runtime(controller_exists: bool = true) -> Dictionary:
+	var after_read_all_state := source_unit_after_read_all_state(controller_exists)
+	unit_after_read_all_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"after_read_all": after_read_all_state,
+		"controller_after_read_call": SOURCE_UNIT_AFTER_READ_ALL_CALL,
+	}
+	return unit_after_read_all_runtime_state()
+
+func unit_after_read_all_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_after_read_all_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_ADD_METHOD := "public void add(){"
 const SOURCE_UNIT_ADD_INITIAL_UPDATE_COUNT := "team.data().updateCount(type, 1);"
 const SOURCE_UNIT_ADD_CAP_GUARD := "if(type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor){"
@@ -32354,6 +32374,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_killable_runtime": unit_killable_runtime_state(),
 		"unit_after_sync_runtime": unit_after_sync_runtime_state(),
 		"unit_after_read_runtime": unit_after_read_runtime_state(),
+		"unit_after_read_all_runtime": unit_after_read_all_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
