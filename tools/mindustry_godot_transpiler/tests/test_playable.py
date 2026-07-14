@@ -11583,6 +11583,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"range": {"call": "Mathf.range(type.engineSize)", "value": engine_range_value, "type.engineSize": type_engine_size}', source)
         self.assertIn('"offset": offset', source)
 
+    def test_port_game_exposes_unit_update_falling_engine_trail_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_falling_engine_trail_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_falling_engine_trail_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_falling_engine_trail_runtime(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_falling_engine_trail_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_falling_engine_trail_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, source_rotation_degrees, elevation_value, type_engine_offset, type_engine_size, engine_range_value, x_range_value, y_range_value, random_rotation_value)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_falling_engine_trail": falling_engine_trail_state', source)
+        self.assertIn('"falling_guard": falling_engine_trail_state.get("fallingGuard")', source)
+        self.assertIn('"effect": falling_engine_trail_state.get("effect")', source)
+        self.assertIn('"offset": falling_engine_trail_state.get("offset")', source)
+        self.assertIn('"angle": falling_engine_trail_state.get("angle")', source)
+        self.assertIn('"unit_update_falling_engine_trail_runtime": unit_update_falling_engine_trail_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_falling_descent_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

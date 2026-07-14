@@ -143,6 +143,7 @@ var unit_update_drag_formula_last_state: Dictionary = {}
 var unit_update_spawn_knockback_last_state: Dictionary = {}
 var unit_update_falling_drag_last_state: Dictionary = {}
 var unit_update_falling_smoke_last_state: Dictionary = {}
+var unit_update_falling_engine_trail_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20942,6 +20943,28 @@ func source_unit_update_falling_engine_trail_state(dead_value: bool, health_valu
 		"effect": effect_call,
 	}
 
+func reset_unit_update_falling_engine_trail_runtime() -> Dictionary:
+	unit_update_falling_engine_trail_last_state = {}
+	return unit_update_falling_engine_trail_runtime_state()
+
+func step_unit_update_falling_engine_trail_runtime(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:
+	var falling_engine_trail_state := source_unit_update_falling_engine_trail_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, source_rotation_degrees, elevation_value, type_engine_offset, type_engine_size, engine_range_value, x_range_value, y_range_value, random_rotation_value)
+	unit_update_falling_engine_trail_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_falling_engine_trail": falling_engine_trail_state,
+		"falling_guard": falling_engine_trail_state.get("fallingGuard"),
+		"effect": falling_engine_trail_state.get("effect"),
+		"offset": falling_engine_trail_state.get("offset"),
+		"angle": falling_engine_trail_state.get("angle"),
+	}
+	return unit_update_falling_engine_trail_runtime_state()
+
+func unit_update_falling_engine_trail_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_falling_engine_trail_last_state.duplicate(true),
+	}
+
 func source_unit_update_falling_descent_state(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
 	var falling_guard := dead_value or health_value <= 0.0
 	var next_elevation := elevation_value
@@ -32682,6 +32705,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_spawn_knockback_runtime": unit_update_spawn_knockback_runtime_state(),
 		"unit_update_falling_drag_runtime": unit_update_falling_drag_runtime_state(),
 		"unit_update_falling_smoke_runtime": unit_update_falling_smoke_runtime_state(),
+		"unit_update_falling_engine_trail_runtime": unit_update_falling_engine_trail_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
