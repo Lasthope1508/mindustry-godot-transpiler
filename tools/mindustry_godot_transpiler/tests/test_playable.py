@@ -12189,6 +12189,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mounts": weapons_setup_mounts_state.get("mounts")', source)
         self.assertIn('"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapons_set_rotation_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapons_set_rotation_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapons_set_rotation_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapons_set_rotation_runtime(mount_states: Array, source_rotation: float) -> Dictionary:", source)
+        self.assertIn("func weapons_set_rotation_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapons_set_rotation_state(mount_states, source_rotation)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java"', source)
+        self.assertIn('"weapons_set_rotation": weapons_set_rotation_state', source)
+        self.assertIn('"method": weapons_set_rotation_state.get("method")', source)
+        self.assertIn('"loop": weapons_set_rotation_state.get("loop")', source)
+        self.assertIn('"mounts": weapons_set_rotation_state.get("mounts")', source)
+        self.assertIn('"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
