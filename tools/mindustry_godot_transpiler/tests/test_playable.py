@@ -13115,6 +13115,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"invalidConditionSource": "if(!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet)"', source)
         self.assertIn('"clearSource": "mount.bullet = null"', source)
 
+    def test_port_game_exposes_weapon_update_continuous_invalidation_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_continuous_invalidation_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_continuous_invalidation_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_continuous_invalidation_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_continuous_invalidation_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_continuous_invalidation_state(mount_state, weapon_state, bullet_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_continuous_invalidation": weapon_update_continuous_invalidation_state', source)
+        self.assertIn('"gate": weapon_update_continuous_invalidation_state.get("gate")', source)
+        self.assertIn('"invalid": weapon_update_continuous_invalidation_state.get("invalid")', source)
+        self.assertIn('"bullet_exists": weapon_update_continuous_invalidation_state.get("bulletExists")', source)
+        self.assertIn('"bullet_is_added": weapon_update_continuous_invalidation_state.get("bulletIsAdded")', source)
+        self.assertIn('"bullet_time": weapon_update_continuous_invalidation_state.get("bulletTime")', source)
+        self.assertIn('"bullet_lifetime": weapon_update_continuous_invalidation_state.get("bulletLifetime")', source)
+        self.assertIn('"bullet_type_matches": weapon_update_continuous_invalidation_state.get("bulletTypeMatches")', source)
+        self.assertIn('"guard_source": weapon_update_continuous_invalidation_state.get("guardSource")', source)
+        self.assertIn('"invalid_condition_source": weapon_update_continuous_invalidation_state.get("invalidConditionSource")', source)
+        self.assertIn('"clear_source": weapon_update_continuous_invalidation_state.get("clearSource")', source)
+        self.assertIn('"weapon_update_continuous_invalidation_runtime": weapon_update_continuous_invalidation_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_continuous_live_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
