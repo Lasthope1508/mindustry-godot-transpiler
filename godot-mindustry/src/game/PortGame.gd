@@ -163,6 +163,7 @@ var unit_destroy_crash_landing_damage_last_state: Dictionary = {}
 var unit_destroy_wreck_decal_last_state: Dictionary = {}
 var unit_destroy_ability_death_last_state: Dictionary = {}
 var unit_destroy_type_killed_remove_last_state: Dictionary = {}
+var unit_killed_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21631,6 +21632,31 @@ func unit_destroy_type_killed_remove_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_type_killed_remove_last_state.duplicate(true),
 	}
 
+func reset_unit_killed_runtime() -> Dictionary:
+	unit_killed_last_state = {}
+	return unit_killed_runtime_state()
+
+func step_unit_killed_runtime(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:
+	var unit_killed_state := source_unit_killed_state(is_local_value, current_health, type_flying, type_create_wreck, wreck_sound, wreck_sound_volume, unit_id)
+	unit_killed_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_killed": unit_killed_state,
+		"was_player": unit_killed_state.get("wasPlayer"),
+		"health": unit_killed_state.get("health"),
+		"dead": unit_killed_state.get("dead"),
+		"guard": unit_killed_state.get("guard"),
+		"destroy_called": unit_killed_state.get("destroyCalled"),
+		"destroy_call": unit_killed_state.get("destroyCall"),
+		"wreck_sound_call": unit_killed_state.get("wreckSoundCall"),
+	}
+	return unit_killed_runtime_state()
+
+func unit_killed_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_killed_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33209,6 +33235,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_wreck_decal_runtime": unit_destroy_wreck_decal_runtime_state(),
 		"unit_destroy_ability_death_runtime": unit_destroy_ability_death_runtime_state(),
 		"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state(),
+		"unit_killed_runtime": unit_killed_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
