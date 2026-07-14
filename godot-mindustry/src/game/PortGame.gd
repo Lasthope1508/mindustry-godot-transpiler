@@ -149,6 +149,7 @@ var unit_update_tile_unit_on_any_last_state: Dictionary = {}
 var unit_update_tile_unit_on_last_state: Dictionary = {}
 var unit_update_floor_damage_last_state: Dictionary = {}
 var unit_update_solid_tile_response_last_state: Dictionary = {}
+var unit_update_ai_controller_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21215,6 +21216,29 @@ func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, 
 		"controllerUpdate": controller_update,
 	}
 
+func reset_unit_update_ai_controller_runtime() -> Dictionary:
+	unit_update_ai_controller_last_state = {}
+	return unit_update_ai_controller_runtime_state()
+
+func step_unit_update_ai_controller_runtime(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
+	var ai_controller_state := source_unit_update_ai_controller_server_gate_state(net_client_value, dead_value, should_update_controller_value, unit_id)
+	unit_update_ai_controller_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_ai_controller": ai_controller_state,
+		"guard": ai_controller_state.get("guard"),
+		"controller_update": ai_controller_state.get("controllerUpdate"),
+		"net_client": ai_controller_state.get("netClient"),
+		"dead": ai_controller_state.get("dead"),
+		"should_update_controller": ai_controller_state.get("shouldUpdateController"),
+	}
+	return unit_update_ai_controller_runtime_state()
+
+func unit_update_ai_controller_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_ai_controller_last_state.duplicate(true),
+	}
+
 func source_unit_update_invalid_controller_reset_state(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
 	var guard := not controller_is_valid_value
 	var reset_controller: Variant = null
@@ -32827,6 +32851,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_tile_unit_on_runtime": unit_update_tile_unit_on_runtime_state(),
 		"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state(),
 		"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state(),
+		"unit_update_ai_controller_runtime": unit_update_ai_controller_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
