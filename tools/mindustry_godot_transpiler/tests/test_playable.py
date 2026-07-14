@@ -11073,6 +11073,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"controller_exists": controller_exists', source)
         self.assertIn('"type_id": type_id', source)
 
+    def test_port_game_exposes_unit_after_sync_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_after_sync_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_after_sync_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_after_sync_runtime(type_id: int = 1, controller_exists: bool = true) -> Dictionary:", source)
+        self.assertIn("func unit_after_sync_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_after_sync_state(type_id, controller_exists)", source)
+        self.assertIn('"after_sync": after_sync_state', source)
+        self.assertIn('"set_type_call": SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL', source)
+        self.assertIn('"controller_unit_call": SOURCE_UNIT_AFTER_SYNC_CONTROLLER_UNIT_CALL', source)
+        self.assertIn('"unit_after_sync_runtime": unit_after_sync_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_after_read_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
