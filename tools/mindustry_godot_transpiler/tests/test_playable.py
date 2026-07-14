@@ -11935,6 +11935,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power": initial_payload_state.get("power")', source)
         self.assertIn('"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_explosion_dispatch_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_explosion_dispatch_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_explosion_dispatch_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_explosion_dispatch_runtime(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_explosion_dispatch_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_explosion_dispatch_state(spawned_by_core_value, source_x, source_y, flammability, explosiveness, power, bounds_value, type_leg_length, rules_damage_explosions, rules_unit_crash_damage, item_flammability, team_id, death_explosion_effect)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_explosion_dispatch": dispatch_state', source)
+        self.assertIn('"call": dispatch_state.get("call")', source)
+        self.assertIn('"source_call": dispatch_state.get("sourceCall")', source)
+        self.assertIn('"guard": dispatch_state.get("guard")', source)
+        self.assertIn('"else_branch": dispatch_state.get("elseBranch")', source)
+        self.assertIn('"radius": dispatch_state.get("radius")', source)
+        self.assertIn('"damage": dispatch_state.get("damage")', source)
+        self.assertIn('"fire": dispatch_state.get("fire")', source)
+        self.assertIn('"rotation": dispatch_state.get("rotation")', source)
+        self.assertIn('"effect": dispatch_state.get("effect")', source)
+        self.assertIn('"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

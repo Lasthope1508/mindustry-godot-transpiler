@@ -154,6 +154,7 @@ var unit_update_invalid_controller_reset_last_state: Dictionary = {}
 var unit_update_spawned_core_despawn_last_state: Dictionary = {}
 var unit_icon_last_state: Dictionary = {}
 var unit_destroy_initial_payload_last_state: Dictionary = {}
+var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21381,6 +21382,41 @@ func unit_destroy_initial_payload_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_initial_payload_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_explosion_dispatch_runtime() -> Dictionary:
+	unit_destroy_explosion_dispatch_last_state = {}
+	return unit_destroy_explosion_dispatch_runtime_state()
+
+func step_unit_destroy_explosion_dispatch_runtime(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:
+	var dispatch_state := source_unit_destroy_explosion_dispatch_state(spawned_by_core_value, source_x, source_y, flammability, explosiveness, power, bounds_value, type_leg_length, rules_damage_explosions, rules_unit_crash_damage, item_flammability, team_id, death_explosion_effect)
+	unit_destroy_explosion_dispatch_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_explosion_dispatch": dispatch_state,
+		"call": dispatch_state.get("call"),
+		"source_call": dispatch_state.get("sourceCall"),
+		"guard": dispatch_state.get("guard"),
+		"else_branch": dispatch_state.get("elseBranch"),
+		"x": dispatch_state.get("x"),
+		"y": dispatch_state.get("y"),
+		"flammability": dispatch_state.get("flammability"),
+		"explosiveness": dispatch_state.get("explosiveness"),
+		"power": dispatch_state.get("power"),
+		"radius": dispatch_state.get("radius"),
+		"damage": dispatch_state.get("damage"),
+		"fire": dispatch_state.get("fire"),
+		"team": dispatch_state.get("team"),
+		"explosion_fx": dispatch_state.get("explosionFx"),
+		"base_shake": dispatch_state.get("baseShake"),
+		"rotation": dispatch_state.get("rotation"),
+		"effect": dispatch_state.get("effect"),
+	}
+	return unit_destroy_explosion_dispatch_runtime_state()
+
+func unit_destroy_explosion_dispatch_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_explosion_dispatch_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -32950,6 +32986,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state(),
 		"unit_icon_runtime": unit_icon_runtime_state(),
 		"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state(),
+		"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
