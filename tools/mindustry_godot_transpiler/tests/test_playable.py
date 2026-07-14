@@ -11554,6 +11554,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"tmp": {"call": "Tmp.v1.rnd(Mathf.range(hitSize))", "x": tmp_v1_x, "y": tmp_v1_y}', source)
         self.assertIn('"range": {"call": "Mathf.range(hitSize)", "hitSize": hit_size}', source)
 
+    def test_port_game_exposes_unit_update_falling_smoke_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_falling_smoke_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_falling_smoke_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_falling_smoke_runtime(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_falling_smoke_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_falling_smoke_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, hit_size, tmp_v1_x, tmp_v1_y)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_falling_smoke": falling_smoke_state', source)
+        self.assertIn('"falling_guard": falling_smoke_state.get("fallingGuard")', source)
+        self.assertIn('"effect": falling_smoke_state.get("effect")', source)
+        self.assertIn('"unit_update_falling_smoke_runtime": unit_update_falling_smoke_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_falling_engine_trail_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
