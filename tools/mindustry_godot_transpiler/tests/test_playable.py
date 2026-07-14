@@ -468,6 +468,21 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"runtime_save_slot_file": runtime_save_slot_file_state()', summary_body)
 
+    def test_port_game_exposes_runtime_save_slot_listing_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func runtime_save_slot_valid_state(snapshot: Dictionary) -> Dictionary:", source)
+        self.assertIn("func runtime_list_save_slots() -> Array:", source)
+        self.assertIn("DirAccess.open(RUNTIME_SAVE_SLOT_DIR)", source)
+        self.assertIn("if file_name.contains(\"backup\"):", source)
+        self.assertIn("runtime_read_save_slot(slot_name)", source)
+        self.assertIn('"saves_load_walk_expr": "saveDirectory.walk(file -> {"', source)
+        self.assertIn('"saves_load_backup_filter_expr": "if(!file.name().contains(\\"backup\\") && SaveIO.isSaveValid(file)){"', source)
+        self.assertIn('"saves_load_meta_expr": "slot.meta = SaveIO.getMeta(file);"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"runtime_save_slots": runtime_list_save_slots()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -6690,6 +6690,8 @@ func runtime_read_save_slot(slot_name: String = "runtime") -> Dictionary:
 			"path": save_path,
 			"parse_failed": true,
 		}
+	var parsed_snapshot: Dictionary = parsed
+	parsed_snapshot["path"] = save_path
 	return {
 		"loaded": true,
 		"source_owner": "core/src/mindustry/game/Saves.java",
@@ -6699,7 +6701,7 @@ func runtime_read_save_slot(slot_name: String = "runtime") -> Dictionary:
 		"read_expr": "readHeader(stream); int version = stream.readInt(); ver.read(stream, counter, context);",
 		"path": save_path,
 		"payload_size": payload.length(),
-		"snapshot": parsed,
+		"snapshot": parsed_snapshot,
 	}
 
 func runtime_load_save_slot(slot_name: String = "runtime") -> Dictionary:
@@ -6718,6 +6720,47 @@ func runtime_load_save_slot(slot_name: String = "runtime") -> Dictionary:
 		"load": load_result,
 	}
 
+func runtime_save_slot_valid_state(snapshot: Dictionary) -> Dictionary:
+	var runtime: Dictionary = snapshot.get("runtime", {}) if snapshot.get("runtime", {}) is Dictionary else {}
+	return {
+		"source_owner": "core/src/mindustry/game/Saves.java",
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"saves_load_walk_expr": "saveDirectory.walk(file -> {",
+		"saves_load_backup_filter_expr": "if(!file.name().contains(\"backup\") && SaveIO.isSaveValid(file)){",
+		"saves_load_meta_expr": "slot.meta = SaveIO.getMeta(file);",
+		"slot_name": str(snapshot.get("slot_name", "")),
+		"path": str(snapshot.get("path", "")),
+		"valid": true,
+		"header": str(snapshot.get("header", "")),
+		"version": int(snapshot.get("version", 0)),
+		"core_inventory": int(runtime.get("core_inventory", 0)),
+		"wave_index": int(runtime.get("wave_index", 0)),
+	}
+
+func runtime_list_save_slots() -> Array:
+	var slots: Array = []
+	var dir := DirAccess.open(RUNTIME_SAVE_SLOT_DIR)
+	if dir == null:
+		return slots
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name.contains("backup"):
+			file_name = dir.get_next()
+			continue
+		if not dir.current_is_dir() and file_name.ends_with(".json"):
+			var slot_name := file_name.trim_suffix(".json")
+			var read_result := runtime_read_save_slot(slot_name)
+			if bool(read_result.get("loaded", false)):
+				var snapshot: Dictionary = read_result.get("snapshot", {}) if read_result.get("snapshot", {}) is Dictionary else {}
+				slots.append(runtime_save_slot_valid_state(snapshot))
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	slots.sort_custom(func(left, right):
+		return str(left.get("path", "")) < str(right.get("path", ""))
+	)
+	return slots
+
 func runtime_save_slot_file_state() -> Dictionary:
 	var save_path := runtime_save_slot_path("runtime")
 	return {
@@ -6730,6 +6773,7 @@ func runtime_save_slot_file_state() -> Dictionary:
 		"path": save_path,
 		"exists": FileAccess.file_exists(save_path),
 		"snapshot": runtime_save_snapshot("runtime"),
+		"runtime_save_slots": runtime_list_save_slots(),
 	}
 
 func runtime_persistence_state() -> Dictionary:
@@ -31814,6 +31858,7 @@ func get_runtime_summary() -> Dictionary:
 		"builder_skip_range_runtime": builder_skip_range_runtime_state(),
 		"runtime_persistence": runtime_persistence_state(),
 		"runtime_save_slot_file": runtime_save_slot_file_state(),
+		"runtime_save_slots": runtime_list_save_slots(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
