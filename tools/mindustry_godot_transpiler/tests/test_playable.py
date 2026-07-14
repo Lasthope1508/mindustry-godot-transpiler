@@ -12347,6 +12347,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"warmup": weapon_update_passive_timers_state.get("warmup")', source)
         self.assertIn('"weapon_update_passive_timers_runtime": weapon_update_passive_timers_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapon_update_mount_origin_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapon_update_mount_origin_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_mount_origin_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_mount_origin_runtime(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_mount_origin_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_mount_origin_state(unit_state, weapon_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_mount_origin": weapon_update_mount_origin_state', source)
+        self.assertIn('"method_source": weapon_update_mount_origin_state.get("methodSource")', source)
+        self.assertIn('"angle": weapon_update_mount_origin_state.get("angle")', source)
+        self.assertIn('"trnsx": weapon_update_mount_origin_state.get("trnsx")', source)
+        self.assertIn('"trnsy": weapon_update_mount_origin_state.get("trnsy")', source)
+        self.assertIn('"mount_x": weapon_update_mount_origin_state.get("mountX")', source)
+        self.assertIn('"mount_y": weapon_update_mount_origin_state.get("mountY")', source)
+        self.assertIn('"mount_x_source": weapon_update_mount_origin_state.get("mountXSource")', source)
+        self.assertIn('"mount_y_source": weapon_update_mount_origin_state.get("mountYSource")', source)
+        self.assertIn('"weapon_update_mount_origin_runtime": weapon_update_mount_origin_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
