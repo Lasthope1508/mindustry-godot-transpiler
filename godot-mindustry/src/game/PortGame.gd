@@ -184,6 +184,7 @@ var weapon_update_always_shooting_last_state: Dictionary = {}
 var weapon_update_continuous_invalidation_last_state: Dictionary = {}
 var weapon_update_continuous_live_last_state: Dictionary = {}
 var weapon_update_continuous_sound_last_state: Dictionary = {}
+var weapon_update_continuous_laser_aim_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22237,6 +22238,43 @@ func weapon_update_continuous_sound_runtime_state() -> Dictionary:
 		"last_state": weapon_update_continuous_sound_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_continuous_laser_aim_runtime() -> Dictionary:
+	weapon_update_continuous_laser_aim_last_state = {}
+	return weapon_update_continuous_laser_aim_runtime_state()
+
+func step_weapon_update_continuous_laser_aim_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
+	var weapon_update_continuous_laser_aim_state := source_weapon_update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle)
+	weapon_update_continuous_laser_aim_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_continuous_laser_aim": weapon_update_continuous_laser_aim_state,
+		"gate": weapon_update_continuous_laser_aim_state.get("gate"),
+		"invalid": weapon_update_continuous_laser_aim_state.get("invalid"),
+		"live": weapon_update_continuous_laser_aim_state.get("live"),
+		"shoot_length": weapon_update_continuous_laser_aim_state.get("shootLength"),
+		"cur_length": weapon_update_continuous_laser_aim_state.get("curLength"),
+		"result_length": weapon_update_continuous_laser_aim_state.get("resultLength"),
+		"last_length": weapon_update_continuous_laser_aim_state.get("lastLength"),
+		"bullet_aim_x": weapon_update_continuous_laser_aim_state.get("bulletAimX"),
+		"bullet_aim_y": weapon_update_continuous_laser_aim_state.get("bulletAimY"),
+		"weapon_range": weapon_update_continuous_laser_aim_state.get("weaponRange"),
+		"aim_change_speed": weapon_update_continuous_laser_aim_state.get("aimChangeSpeed"),
+		"shoot_length_source": weapon_update_continuous_laser_aim_state.get("shootLengthSource"),
+		"cur_length_source": weapon_update_continuous_laser_aim_state.get("curLengthSource"),
+		"result_length_source": weapon_update_continuous_laser_aim_state.get("resultLengthSource"),
+		"aim_endpoint_source": weapon_update_continuous_laser_aim_state.get("aimEndpointSource"),
+		"bullet_aim_x_source": weapon_update_continuous_laser_aim_state.get("bulletAimXSource"),
+		"bullet_aim_y_source": weapon_update_continuous_laser_aim_state.get("bulletAimYSource"),
+		"range_source": weapon_update_continuous_laser_aim_state.get("rangeSource"),
+		"always_continuous_reserved_source": weapon_update_continuous_laser_aim_state.get("alwaysContinuousReservedSource"),
+	}
+	return weapon_update_continuous_laser_aim_runtime_state()
+
+func weapon_update_continuous_laser_aim_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_continuous_laser_aim_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33836,6 +33874,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_continuous_invalidation_runtime": weapon_update_continuous_invalidation_runtime_state(),
 		"weapon_update_continuous_live_runtime": weapon_update_continuous_live_runtime_state(),
 		"weapon_update_continuous_sound_runtime": weapon_update_continuous_sound_runtime_state(),
+		"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

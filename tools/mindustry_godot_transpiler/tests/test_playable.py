@@ -13237,6 +13237,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"aimEndpointSource": "Tmp.v1.trns(shootAngle, mount.lastLength = resultLength).add(bulletX, bulletY);"', source)
         self.assertIn('"alwaysContinuousReservedSource": "if(alwaysContinuous && mount.shoot){"', source)
 
+    def test_port_game_exposes_weapon_update_continuous_laser_aim_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_continuous_laser_aim_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_continuous_laser_aim_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_continuous_laser_aim_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_continuous_laser_aim_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_continuous_laser_aim": weapon_update_continuous_laser_aim_state', source)
+        self.assertIn('"live": weapon_update_continuous_laser_aim_state.get("live")', source)
+        self.assertIn('"shoot_length": weapon_update_continuous_laser_aim_state.get("shootLength")', source)
+        self.assertIn('"cur_length": weapon_update_continuous_laser_aim_state.get("curLength")', source)
+        self.assertIn('"result_length": weapon_update_continuous_laser_aim_state.get("resultLength")', source)
+        self.assertIn('"last_length": weapon_update_continuous_laser_aim_state.get("lastLength")', source)
+        self.assertIn('"bullet_aim_x": weapon_update_continuous_laser_aim_state.get("bulletAimX")', source)
+        self.assertIn('"bullet_aim_y": weapon_update_continuous_laser_aim_state.get("bulletAimY")', source)
+        self.assertIn('"weapon_range": weapon_update_continuous_laser_aim_state.get("weaponRange")', source)
+        self.assertIn('"aim_change_speed": weapon_update_continuous_laser_aim_state.get("aimChangeSpeed")', source)
+        self.assertIn('"shoot_length_source": weapon_update_continuous_laser_aim_state.get("shootLengthSource")', source)
+        self.assertIn('"cur_length_source": weapon_update_continuous_laser_aim_state.get("curLengthSource")', source)
+        self.assertIn('"result_length_source": weapon_update_continuous_laser_aim_state.get("resultLengthSource")', source)
+        self.assertIn('"aim_endpoint_source": weapon_update_continuous_laser_aim_state.get("aimEndpointSource")', source)
+        self.assertIn('"bullet_aim_x_source": weapon_update_continuous_laser_aim_state.get("bulletAimXSource")', source)
+        self.assertIn('"bullet_aim_y_source": weapon_update_continuous_laser_aim_state.get("bulletAimYSource")', source)
+        self.assertIn('"always_continuous_reserved_source": weapon_update_continuous_laser_aim_state.get("alwaysContinuousReservedSource")', source)
+        self.assertIn('"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_always_continuous_keepalive_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
