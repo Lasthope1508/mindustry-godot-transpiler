@@ -12068,6 +12068,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"damage_call": crash_landing_damage_state.get("damageCall")', source)
         self.assertIn('"unit_destroy_crash_landing_damage_runtime": unit_destroy_crash_landing_damage_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_wreck_decal_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_wreck_decal_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_wreck_decal_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_wreck_decal_runtime(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_wreck_decal_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_wreck_decal_state(headless_value, type_create_scorch, wreck_regions, tmp_offsets, source_x, source_y, source_rotation_degrees, type_hit_size)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_wreck_decal": wreck_decal_state', source)
+        self.assertIn('"method": wreck_decal_state.get("method")', source)
+        self.assertIn('"guard": wreck_decal_state.get("guard")', source)
+        self.assertIn('"should_create_decals": wreck_decal_state.get("shouldCreateDecals")', source)
+        self.assertIn('"loop": wreck_decal_state.get("loop")', source)
+        self.assertIn('"found_guard": wreck_decal_state.get("foundGuard")', source)
+        self.assertIn('"range_formula": wreck_decal_state.get("rangeFormula")', source)
+        self.assertIn('"random_call": wreck_decal_state.get("randomCall")', source)
+        self.assertIn('"decal_call": wreck_decal_state.get("decalCall")', source)
+        self.assertIn('"range": wreck_decal_state.get("range")', source)
+        self.assertIn('"decals": wreck_decal_state.get("decals")', source)
+        self.assertIn('"unit_destroy_wreck_decal_runtime": unit_destroy_wreck_decal_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
