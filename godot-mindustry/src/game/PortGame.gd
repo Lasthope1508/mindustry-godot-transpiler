@@ -135,6 +135,7 @@ var unit_landed_last_state: Dictionary = {}
 var unit_heal_last_state: Dictionary = {}
 var unit_update_heal_time_last_state: Dictionary = {}
 var unit_update_captured_sector_death_last_state: Dictionary = {}
+var unit_update_sound_loop_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20193,6 +20194,26 @@ func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: 
 		"moveSound": move_sound_call,
 	}
 
+func reset_unit_update_sound_loop_runtime() -> Dictionary:
+	unit_update_sound_loop_last_state = {}
+	return unit_update_sound_loop_runtime_state()
+
+func step_unit_update_sound_loop_runtime(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
+	var sound_loop_state := source_unit_update_sound_loop_state(headless_value, type_loop_sound, type_loop_sound_volume, type_move_sound, type_move_sound_volume, type_move_sound_pitch_min, type_move_sound_pitch_max, velocity_x, velocity_y, type_speed)
+	unit_update_sound_loop_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_sound_loop": sound_loop_state,
+		"loop_sound_call": sound_loop_state.get("loopSound"),
+		"move_sound_call": sound_loop_state.get("moveSound"),
+	}
+	return unit_update_sound_loop_runtime_state()
+
+func unit_update_sound_loop_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_sound_loop_last_state.duplicate(true),
+	}
+
 func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_value: bool) -> Dictionary:
 	var env_death := not type_supports_env and not dead_value
 	var unit_env_death_call: Variant = null
@@ -32506,6 +32527,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_heal_runtime": unit_heal_runtime_state(),
 		"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state(),
 		"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state(),
+		"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

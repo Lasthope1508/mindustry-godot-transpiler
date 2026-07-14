@@ -11353,6 +11353,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"volume": type_move_sound_volume * progress', source)
         self.assertIn('"pitch": pitch', source)
 
+    def test_port_game_exposes_unit_update_sound_loop_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_sound_loop_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_sound_loop_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_sound_loop_runtime(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_sound_loop_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_sound_loop_state(headless_value, type_loop_sound, type_loop_sound_volume, type_move_sound, type_move_sound_volume, type_move_sound_pitch_min, type_move_sound_pitch_max, velocity_x, velocity_y, type_speed)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_sound_loop": sound_loop_state', source)
+        self.assertIn('"loop_sound_call": sound_loop_state.get("loopSound")', source)
+        self.assertIn('"move_sound_call": sound_loop_state.get("moveSound")', source)
+        self.assertIn('"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_unsupported_env_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
