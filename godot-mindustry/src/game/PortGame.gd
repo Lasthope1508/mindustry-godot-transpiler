@@ -122,6 +122,7 @@ var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 
 var payload_runtime_dump_cursor := 0
 var payload_runtime_move_last_state: Dictionary = {}
 var payload_runtime_dump_last_state: Dictionary = {}
+var payload_default_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -7019,6 +7020,28 @@ func payload_runtime_state() -> Dictionary:
 		"dump_cursor": payload_runtime_dump_cursor,
 		"move_last": payload_runtime_move_last_state.duplicate(true),
 		"dump_last": payload_runtime_dump_last_state.duplicate(true),
+	}
+
+func reset_payload_default_runtime() -> Dictionary:
+	payload_default_last_state = {}
+	return payload_default_runtime_state()
+
+func step_payload_default_runtime() -> Dictionary:
+	var get_payload_state := source_building_get_payload_default_state()
+	var take_payload_state := source_building_take_payload_default_state()
+	var get_payloads_state := source_building_get_payloads_default_state()
+	payload_default_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"get_payload": get_payload_state,
+		"take_payload": take_payload_state,
+		"get_payloads": get_payloads_state,
+	}
+	return payload_default_runtime_state()
+
+func payload_default_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"last_state": payload_default_last_state.duplicate(true),
 	}
 
 func builder_skip_range_runtime_state() -> Dictionary:
@@ -32095,6 +32118,7 @@ func get_runtime_summary() -> Dictionary:
 		"item_dump_runtime": item_dump_runtime_state(),
 		"put_item_runtime": put_item_runtime_state(),
 		"payload_runtime": payload_runtime_state(),
+		"payload_default_runtime": payload_default_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

@@ -4791,6 +4791,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"payloads": null', source)
         self.assertIn('"has_payloads": false', source)
 
+    def test_port_game_exposes_payload_default_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var payload_default_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_payload_default_runtime() -> Dictionary:", source)
+        self.assertIn("func step_payload_default_runtime() -> Dictionary:", source)
+        self.assertIn("func payload_default_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_building_get_payload_default_state()", source)
+        self.assertIn("source_building_take_payload_default_state()", source)
+        self.assertIn("source_building_get_payloads_default_state()", source)
+        self.assertIn('"get_payload": get_payload_state', source)
+        self.assertIn('"take_payload": take_payload_state', source)
+        self.assertIn('"get_payloads": get_payloads_state', source)
+        self.assertIn('"payload_default_runtime": payload_default_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_building_put_item_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
