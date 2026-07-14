@@ -13532,6 +13532,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"reloadGateSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon"', source)
         self.assertIn('"coneGateReservedSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone"', source)
 
+    def test_port_game_exposes_weapon_update_reload_gate_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_reload_gate_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_reload_gate_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_reload_gate_runtime(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_reload_gate_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_reload_gate_state(mount_state, weapon_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_reload_gate": weapon_update_reload_gate_state', source)
+        self.assertIn('"reload_gate": weapon_update_reload_gate_state.get("reloadGate")', source)
+        self.assertIn('"reload_ready": weapon_update_reload_gate_state.get("reloadReady")', source)
+        self.assertIn('"always_continuous_ready": weapon_update_reload_gate_state.get("alwaysContinuousReady")', source)
+        self.assertIn('"mount_reload": weapon_update_reload_gate_state.get("mountReload")', source)
+        self.assertIn('"always_continuous": weapon_update_reload_gate_state.get("alwaysContinuous")', source)
+        self.assertIn('"mount_bullet_null": weapon_update_reload_gate_state.get("mountBulletNull")', source)
+        self.assertIn('"reload_gate_source": weapon_update_reload_gate_state.get("reloadGateSource")', source)
+        self.assertIn('"cone_gate_reserved_source": weapon_update_reload_gate_state.get("coneGateReservedSource")', source)
+        self.assertIn('"weapon_update_reload_gate_runtime": weapon_update_reload_gate_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_cone_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
