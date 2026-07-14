@@ -152,6 +152,7 @@ var unit_update_solid_tile_response_last_state: Dictionary = {}
 var unit_update_ai_controller_last_state: Dictionary = {}
 var unit_update_invalid_controller_reset_last_state: Dictionary = {}
 var unit_update_spawned_core_despawn_last_state: Dictionary = {}
+var unit_icon_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21333,6 +21334,27 @@ func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 		"uiIcon": type_ui_icon,
 	}
 
+func reset_unit_icon_runtime() -> Dictionary:
+	unit_icon_last_state = {}
+	return unit_icon_runtime_state()
+
+func step_unit_icon_runtime(type_ui_icon: String) -> Dictionary:
+	var unit_icon_state := source_unit_icon_state(type_ui_icon)
+	unit_icon_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_icon": unit_icon_state,
+		"call": unit_icon_state.get("call"),
+		"return": unit_icon_state.get("return"),
+		"ui_icon": unit_icon_state.get("uiIcon"),
+	}
+	return unit_icon_runtime_state()
+
+func unit_icon_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_icon_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -32900,6 +32922,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_ai_controller_runtime": unit_update_ai_controller_runtime_state(),
 		"unit_update_invalid_controller_reset_runtime": unit_update_invalid_controller_reset_runtime_state(),
 		"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state(),
+		"unit_icon_runtime": unit_icon_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

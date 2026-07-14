@@ -11872,6 +11872,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return": SOURCE_UNIT_ICON_RETURN_VALUE', source)
         self.assertIn('"uiIcon": type_ui_icon', source)
 
+    def test_port_game_exposes_unit_icon_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_icon_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_icon_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_icon_runtime(type_ui_icon: String) -> Dictionary:", source)
+        self.assertIn("func unit_icon_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_icon_state(type_ui_icon)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_icon": unit_icon_state', source)
+        self.assertIn('"call": unit_icon_state.get("call")', source)
+        self.assertIn('"return": unit_icon_state.get("return")', source)
+        self.assertIn('"ui_icon": unit_icon_state.get("uiIcon")', source)
+        self.assertIn('"unit_icon_runtime": unit_icon_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_initial_payload_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
