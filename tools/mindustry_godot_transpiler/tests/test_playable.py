@@ -52,6 +52,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("loaded_generated_class_names.append(java_name)", source)
         self.assertIn("Loaded generated scripts: %d (%s)", source)
 
+    def test_port_game_binds_wasd_camera_input_on_ready(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func ensure_camera_input_bindings() -> void:", source)
+        self.assertIn("ensure_camera_input_bindings()", source)
+        self.assertIn('InputMap.action_add_event("ui_left"', source)
+        self.assertIn('InputMap.action_add_event("ui_right"', source)
+        self.assertIn('InputMap.action_add_event("ui_up"', source)
+        self.assertIn('InputMap.action_add_event("ui_down"', source)
+        self.assertIn("KEY_A", source)
+        self.assertIn("KEY_D", source)
+        self.assertIn("KEY_W", source)
+        self.assertIn("KEY_S", source)
+        self.assertIn("WASD/arrows move camera", source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

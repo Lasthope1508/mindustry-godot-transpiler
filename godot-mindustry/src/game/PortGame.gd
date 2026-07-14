@@ -280,6 +280,7 @@ var core_pos := Vector2i(17, 8)
 var duo_pos := Vector2i(18, 7)
 
 func _ready() -> void:
+	ensure_camera_input_bindings()
 	load_config()
 	load_content_registry()
 	load_textures()
@@ -287,6 +288,42 @@ func _ready() -> void:
 	build_block_palette()
 	build_world()
 	build_hud()
+
+func ensure_camera_input_bindings() -> void:
+	if not InputMap.has_action("ui_left"):
+		InputMap.add_action("ui_left")
+	if not InputMap.has_action("ui_right"):
+		InputMap.add_action("ui_right")
+	if not InputMap.has_action("ui_up"):
+		InputMap.add_action("ui_up")
+	if not InputMap.has_action("ui_down"):
+		InputMap.add_action("ui_down")
+	if not input_action_has_key("ui_left", KEY_A):
+		var left_event := InputEventKey.new()
+		left_event.keycode = KEY_A
+		left_event.physical_keycode = KEY_A
+		InputMap.action_add_event("ui_left", left_event)
+	if not input_action_has_key("ui_right", KEY_D):
+		var right_event := InputEventKey.new()
+		right_event.keycode = KEY_D
+		right_event.physical_keycode = KEY_D
+		InputMap.action_add_event("ui_right", right_event)
+	if not input_action_has_key("ui_up", KEY_W):
+		var up_event := InputEventKey.new()
+		up_event.keycode = KEY_W
+		up_event.physical_keycode = KEY_W
+		InputMap.action_add_event("ui_up", up_event)
+	if not input_action_has_key("ui_down", KEY_S):
+		var down_event := InputEventKey.new()
+		down_event.keycode = KEY_S
+		down_event.physical_keycode = KEY_S
+		InputMap.action_add_event("ui_down", down_event)
+
+func input_action_has_key(action_name: String, keycode: Key) -> bool:
+	for existing_event in InputMap.action_get_events(action_name):
+		if existing_event is InputEventKey and (existing_event.keycode == keycode or existing_event.physical_keycode == keycode):
+			return true
+	return false
 
 func load_config() -> void:
 	var document := SourceSsotCatalog.load_document("playable_content")
@@ -34184,4 +34221,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nArrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nWASD/arrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
