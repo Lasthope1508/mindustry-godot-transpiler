@@ -12392,6 +12392,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"interval_source": weapon_update_auto_target_retarget_state.get("intervalSource")', source)
         self.assertIn('"weapon_update_auto_target_retarget_runtime": weapon_update_auto_target_retarget_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapon_update_auto_target_invalidation_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapon_update_auto_target_invalidation_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_auto_target_invalidation_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_auto_target_invalidation_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:", source)
+        self.assertIn("func weapon_update_auto_target_invalidation_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_auto_target_invalidation_state(mount_state, weapon_state, bullet_state, mount_x, mount_y, check_target_result)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_auto_target_invalidation": weapon_update_auto_target_invalidation_state', source)
+        self.assertIn('"gate": weapon_update_auto_target_invalidation_state.get("gate")', source)
+        self.assertIn('"check_target_called": weapon_update_auto_target_invalidation_state.get("checkTargetCalled")', source)
+        self.assertIn('"check_target_call": weapon_update_auto_target_invalidation_state.get("checkTargetCall")', source)
+        self.assertIn('"check_target_result": weapon_update_auto_target_invalidation_state.get("checkTargetResult")', source)
+        self.assertIn('"target_exists": weapon_update_auto_target_invalidation_state.get("targetExists")', source)
+        self.assertIn('"target_cleared": weapon_update_auto_target_invalidation_state.get("targetCleared")', source)
+        self.assertIn('"guard_source": weapon_update_auto_target_invalidation_state.get("guardSource")', source)
+        self.assertIn('"clear_source": weapon_update_auto_target_invalidation_state.get("clearSource")', source)
+        self.assertIn('"check_target_source": weapon_update_auto_target_invalidation_state.get("checkTargetSource")', source)
+        self.assertIn('"weapon_update_auto_target_invalidation_runtime": weapon_update_auto_target_invalidation_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
