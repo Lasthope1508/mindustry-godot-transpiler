@@ -483,6 +483,24 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"runtime_save_slots": runtime_list_save_slots()', summary_body)
 
+    def test_port_game_exposes_liquid_transfer_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var liquid_transfer_source_amount := 8.0", source)
+        self.assertIn("var liquid_transfer_destination_amount := 1.0", source)
+        self.assertIn("func reset_liquid_transfer_runtime(source_amount: float = 8.0, destination_amount: float = 1.0) -> Dictionary:", source)
+        self.assertIn("func step_liquid_transfer_runtime() -> Dictionary:", source)
+        self.assertIn("func liquid_transfer_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_building_move_liquid_state(liquid_transfer_liquid", source)
+        self.assertIn("source_building_transfer_liquid_state(liquid_transfer_liquid", source)
+        self.assertIn('"method": "public float moveLiquid(Building next, Liquid liquid){"', source)
+        self.assertIn('"flow_capacity_clamp": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));"', source)
+        self.assertIn("liquid_transfer_source_amount = float(move_state.get(\"current_liquid_amount_after\", liquid_transfer_source_amount))", source)
+        self.assertIn("liquid_transfer_destination_amount = float(move_state.get(\"destination_liquid_amount_after\", liquid_transfer_destination_amount))", source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"liquid_transfer_runtime": liquid_transfer_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -102,6 +102,14 @@ var builder_last_deconstruct_removed := false
 var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
 var builder_build_speed_multiplier := 1.0
 var builder_rules_build_speed := 1.0
+var liquid_transfer_liquid := "water"
+var liquid_transfer_source_amount := 8.0
+var liquid_transfer_destination_amount := 1.0
+var liquid_transfer_source_capacity := 10.0
+var liquid_transfer_destination_capacity := 10.0
+var liquid_transfer_pressure := 1.0
+var liquid_transfer_last_move_state: Dictionary = {}
+var liquid_transfer_last_transfer_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -6788,6 +6796,56 @@ func runtime_persistence_state() -> Dictionary:
 		"occupied_cell_count": int(snapshot.get("occupied_cell_count", 0)),
 		"core_inventory": int(snapshot.get("runtime", {}).get("core_inventory", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
 		"produced_total": int(snapshot.get("runtime", {}).get("produced_total", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
+	}
+
+func reset_liquid_transfer_runtime(source_amount: float = 8.0, destination_amount: float = 1.0) -> Dictionary:
+	liquid_transfer_source_amount = source_amount
+	liquid_transfer_destination_amount = destination_amount
+	liquid_transfer_last_move_state = {}
+	liquid_transfer_last_transfer_state = source_building_transfer_liquid_state(liquid_transfer_liquid,
+		source_amount,
+		liquid_transfer_destination_capacity,
+		destination_amount,
+		true,
+		source_amount
+	)
+	return liquid_transfer_runtime_state()
+
+func step_liquid_transfer_runtime() -> Dictionary:
+	var move_state := source_building_move_liquid_state(liquid_transfer_liquid,
+		true,
+		true,
+		true,
+		liquid_transfer_source_amount,
+		liquid_transfer_destination_amount,
+		liquid_transfer_source_capacity,
+		liquid_transfer_pressure,
+		liquid_transfer_destination_capacity,
+		true
+	)
+	liquid_transfer_last_move_state = move_state
+	liquid_transfer_source_amount = float(move_state.get("current_liquid_amount_after", liquid_transfer_source_amount))
+	liquid_transfer_destination_amount = float(move_state.get("destination_liquid_amount_after", liquid_transfer_destination_amount))
+	liquid_transfer_last_transfer_state = source_building_transfer_liquid_state(liquid_transfer_liquid,
+		float(move_state.get("flow_value", 0.0)),
+		liquid_transfer_destination_capacity,
+		liquid_transfer_destination_amount - float(move_state.get("flow_value", 0.0)),
+		true,
+		liquid_transfer_source_amount + float(move_state.get("flow_value", 0.0))
+	)
+	return liquid_transfer_runtime_state()
+
+func liquid_transfer_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/gen/Building.java",
+		"liquid": liquid_transfer_liquid,
+		"source_amount": liquid_transfer_source_amount,
+		"destination_amount": liquid_transfer_destination_amount,
+		"source_capacity": liquid_transfer_source_capacity,
+		"destination_capacity": liquid_transfer_destination_capacity,
+		"pressure": liquid_transfer_pressure,
+		"move_state": liquid_transfer_last_move_state,
+		"transfer_state": liquid_transfer_last_transfer_state,
 	}
 
 func builder_skip_range_runtime_state() -> Dictionary:
@@ -31859,6 +31917,7 @@ func get_runtime_summary() -> Dictionary:
 		"runtime_persistence": runtime_persistence_state(),
 		"runtime_save_slot_file": runtime_save_slot_file_state(),
 		"runtime_save_slots": runtime_list_save_slots(),
+		"liquid_transfer_runtime": liquid_transfer_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
