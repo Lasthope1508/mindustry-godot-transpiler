@@ -12254,6 +12254,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mounts": weapons_aim_state.get("mounts")', source)
         self.assertIn('"weapons_aim_runtime": weapons_aim_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapons_can_shoot_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapons_can_shoot_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapons_can_shoot_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapons_can_shoot_runtime(disarmed_value: bool) -> Dictionary:", source)
+        self.assertIn("func weapons_can_shoot_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapons_can_shoot_state(disarmed_value)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java"', source)
+        self.assertIn('"weapons_can_shoot": weapons_can_shoot_state', source)
+        self.assertIn('"can_shoot_method": weapons_can_shoot_state.get("canShootMethod")', source)
+        self.assertIn('"return_expr": weapons_can_shoot_state.get("return")', source)
+        self.assertIn('"disarmed": weapons_can_shoot_state.get("disarmed")', source)
+        self.assertIn('"can_shoot": weapons_can_shoot_state.get("canShoot")', source)
+        self.assertIn('"weapons_can_shoot_runtime": weapons_can_shoot_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

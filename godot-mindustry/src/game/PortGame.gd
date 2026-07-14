@@ -169,6 +169,7 @@ var weapons_setup_mounts_last_state: Dictionary = {}
 var weapons_set_rotation_last_state: Dictionary = {}
 var weapons_control_last_state: Dictionary = {}
 var weapons_aim_last_state: Dictionary = {}
+var weapons_can_shoot_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21813,6 +21814,28 @@ func weapons_aim_runtime_state() -> Dictionary:
 		"last_state": weapons_aim_last_state.duplicate(true),
 	}
 
+func reset_weapons_can_shoot_runtime() -> Dictionary:
+	weapons_can_shoot_last_state = {}
+	return weapons_can_shoot_runtime_state()
+
+func step_weapons_can_shoot_runtime(disarmed_value: bool) -> Dictionary:
+	var weapons_can_shoot_state := source_weapons_can_shoot_state(disarmed_value)
+	weapons_can_shoot_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_can_shoot": weapons_can_shoot_state,
+		"can_shoot_method": weapons_can_shoot_state.get("canShootMethod"),
+		"return_expr": weapons_can_shoot_state.get("return"),
+		"disarmed": weapons_can_shoot_state.get("disarmed"),
+		"can_shoot": weapons_can_shoot_state.get("canShoot"),
+	}
+	return weapons_can_shoot_runtime_state()
+
+func weapons_can_shoot_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_can_shoot_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33397,6 +33420,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state(),
 		"weapons_control_runtime": weapons_control_runtime_state(),
 		"weapons_aim_runtime": weapons_aim_runtime_state(),
+		"weapons_can_shoot_runtime": weapons_can_shoot_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
