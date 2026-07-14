@@ -153,6 +153,7 @@ var unit_update_ai_controller_last_state: Dictionary = {}
 var unit_update_invalid_controller_reset_last_state: Dictionary = {}
 var unit_update_spawned_core_despawn_last_state: Dictionary = {}
 var unit_icon_last_state: Dictionary = {}
+var unit_destroy_initial_payload_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21355,6 +21356,31 @@ func unit_icon_runtime_state() -> Dictionary:
 		"last_state": unit_icon_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_initial_payload_runtime() -> Dictionary:
+	unit_destroy_initial_payload_last_state = {}
+	return unit_destroy_initial_payload_runtime_state()
+
+func step_unit_destroy_initial_payload_runtime(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:
+	var initial_payload_state := source_unit_destroy_initial_payload_state(is_added_value, killable_value, item_explosiveness, item_flammability, item_charge, stack_amount)
+	unit_destroy_initial_payload_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_initial_payload": initial_payload_state,
+		"return_guard": initial_payload_state.get("returnGuard"),
+		"source_guard": initial_payload_state.get("sourceGuard"),
+		"is_added": initial_payload_state.get("isAdded"),
+		"killable": initial_payload_state.get("killable"),
+		"explosiveness": initial_payload_state.get("explosiveness"),
+		"flammability": initial_payload_state.get("flammability"),
+		"power": initial_payload_state.get("power"),
+	}
+	return unit_destroy_initial_payload_runtime_state()
+
+func unit_destroy_initial_payload_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_initial_payload_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -32923,6 +32949,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_invalid_controller_reset_runtime": unit_update_invalid_controller_reset_runtime_state(),
 		"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state(),
 		"unit_icon_runtime": unit_icon_runtime_state(),
+		"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

@@ -11914,6 +11914,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"flammability": flammability', source)
         self.assertIn('"power": power', source)
 
+    def test_port_game_exposes_unit_destroy_initial_payload_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_initial_payload_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_initial_payload_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_initial_payload_runtime(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_initial_payload_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_initial_payload_state(is_added_value, killable_value, item_explosiveness, item_flammability, item_charge, stack_amount)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_initial_payload": initial_payload_state', source)
+        self.assertIn('"return_guard": initial_payload_state.get("returnGuard")', source)
+        self.assertIn('"source_guard": initial_payload_state.get("sourceGuard")', source)
+        self.assertIn('"is_added": initial_payload_state.get("isAdded")', source)
+        self.assertIn('"killable": initial_payload_state.get("killable")', source)
+        self.assertIn('"explosiveness": initial_payload_state.get("explosiveness")', source)
+        self.assertIn('"flammability": initial_payload_state.get("flammability")', source)
+        self.assertIn('"power": initial_payload_state.get("power")', source)
+        self.assertIn('"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
