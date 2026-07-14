@@ -13284,6 +13284,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"keepAliveSource": "mount.bullet.keepAlive = true;"', source)
         self.assertIn('"unitApplySource": "unit.apply(shootStatus, shootStatusDuration);"', source)
 
+    def test_port_game_exposes_weapon_update_always_continuous_keepalive_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_always_continuous_keepalive_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_always_continuous_keepalive_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_always_continuous_keepalive_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_always_continuous_keepalive": weapon_update_always_continuous_keepalive_state', source)
+        self.assertIn('"live": weapon_update_always_continuous_keepalive_state.get("live")', source)
+        self.assertIn('"always_continuous": weapon_update_always_continuous_keepalive_state.get("alwaysContinuous")', source)
+        self.assertIn('"mount_shoot": weapon_update_always_continuous_keepalive_state.get("mountShoot")', source)
+        self.assertIn('"keepalive_gate": weapon_update_always_continuous_keepalive_state.get("keepaliveGate")', source)
+        self.assertIn('"bullet_time": weapon_update_always_continuous_keepalive_state.get("bulletTime")', source)
+        self.assertIn('"keep_alive": weapon_update_always_continuous_keepalive_state.get("keepAlive")', source)
+        self.assertIn('"shoot_status": weapon_update_always_continuous_keepalive_state.get("shootStatus")', source)
+        self.assertIn('"shoot_status_duration": weapon_update_always_continuous_keepalive_state.get("shootStatusDuration")', source)
+        self.assertIn('"status_immune": weapon_update_always_continuous_keepalive_state.get("statusImmune")', source)
+        self.assertIn('"status_applied": weapon_update_always_continuous_keepalive_state.get("statusApplied")', source)
+        self.assertIn('"status_application": weapon_update_always_continuous_keepalive_state.get("statusApplication")', source)
+        self.assertIn('"guard_source": weapon_update_always_continuous_keepalive_state.get("guardSource")', source)
+        self.assertIn('"time_source": weapon_update_always_continuous_keepalive_state.get("timeSource")', source)
+        self.assertIn('"keep_alive_source": weapon_update_always_continuous_keepalive_state.get("keepAliveSource")', source)
+        self.assertIn('"unit_apply_source": weapon_update_always_continuous_keepalive_state.get("unitApplySource")', source)
+        self.assertIn('"status_apply_guard_source": weapon_update_always_continuous_keepalive_state.get("statusApplyGuardSource")', source)
+        self.assertIn('"weapon_update_always_continuous_keepalive_runtime": weapon_update_always_continuous_keepalive_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_continuous_idle_heat_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

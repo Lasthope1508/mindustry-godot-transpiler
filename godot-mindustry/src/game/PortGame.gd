@@ -185,6 +185,7 @@ var weapon_update_continuous_invalidation_last_state: Dictionary = {}
 var weapon_update_continuous_live_last_state: Dictionary = {}
 var weapon_update_continuous_sound_last_state: Dictionary = {}
 var weapon_update_continuous_laser_aim_last_state: Dictionary = {}
+var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22275,6 +22276,42 @@ func weapon_update_continuous_laser_aim_runtime_state() -> Dictionary:
 		"last_state": weapon_update_continuous_laser_aim_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_always_continuous_keepalive_runtime() -> Dictionary:
+	weapon_update_always_continuous_keepalive_last_state = {}
+	return weapon_update_always_continuous_keepalive_runtime_state()
+
+func step_weapon_update_always_continuous_keepalive_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	var weapon_update_always_continuous_keepalive_state := source_weapon_update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state)
+	weapon_update_always_continuous_keepalive_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_always_continuous_keepalive": weapon_update_always_continuous_keepalive_state,
+		"gate": weapon_update_always_continuous_keepalive_state.get("gate"),
+		"invalid": weapon_update_always_continuous_keepalive_state.get("invalid"),
+		"live": weapon_update_always_continuous_keepalive_state.get("live"),
+		"always_continuous": weapon_update_always_continuous_keepalive_state.get("alwaysContinuous"),
+		"mount_shoot": weapon_update_always_continuous_keepalive_state.get("mountShoot"),
+		"keepalive_gate": weapon_update_always_continuous_keepalive_state.get("keepaliveGate"),
+		"bullet_time": weapon_update_always_continuous_keepalive_state.get("bulletTime"),
+		"keep_alive": weapon_update_always_continuous_keepalive_state.get("keepAlive"),
+		"shoot_status": weapon_update_always_continuous_keepalive_state.get("shootStatus"),
+		"shoot_status_duration": weapon_update_always_continuous_keepalive_state.get("shootStatusDuration"),
+		"status_immune": weapon_update_always_continuous_keepalive_state.get("statusImmune"),
+		"status_applied": weapon_update_always_continuous_keepalive_state.get("statusApplied"),
+		"status_application": weapon_update_always_continuous_keepalive_state.get("statusApplication"),
+		"guard_source": weapon_update_always_continuous_keepalive_state.get("guardSource"),
+		"time_source": weapon_update_always_continuous_keepalive_state.get("timeSource"),
+		"keep_alive_source": weapon_update_always_continuous_keepalive_state.get("keepAliveSource"),
+		"unit_apply_source": weapon_update_always_continuous_keepalive_state.get("unitApplySource"),
+		"status_apply_guard_source": weapon_update_always_continuous_keepalive_state.get("statusApplyGuardSource"),
+	}
+	return weapon_update_always_continuous_keepalive_runtime_state()
+
+func weapon_update_always_continuous_keepalive_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_always_continuous_keepalive_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33875,6 +33912,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_continuous_live_runtime": weapon_update_continuous_live_runtime_state(),
 		"weapon_update_continuous_sound_runtime": weapon_update_continuous_sound_runtime_state(),
 		"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state(),
+		"weapon_update_always_continuous_keepalive_runtime": weapon_update_always_continuous_keepalive_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
