@@ -147,6 +147,7 @@ var unit_update_falling_engine_trail_last_state: Dictionary = {}
 var unit_update_falling_descent_last_state: Dictionary = {}
 var unit_update_tile_unit_on_any_last_state: Dictionary = {}
 var unit_update_tile_unit_on_last_state: Dictionary = {}
+var unit_update_floor_damage_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21110,6 +21111,28 @@ func source_unit_update_floor_damage_state(tile_exists: bool, is_grounded_value:
 		"damage": damage_call,
 	}
 
+func reset_unit_update_floor_damage_runtime() -> Dictionary:
+	unit_update_floor_damage_last_state = {}
+	return unit_update_floor_damage_runtime_state()
+
+func step_unit_update_floor_damage_runtime(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:
+	var floor_damage_state := source_unit_update_floor_damage_state(tile_exists, is_grounded_value, type_hovering, floor_damage_taken, source_delta, hit_time, hit_duration)
+	unit_update_floor_damage_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_floor_damage": floor_damage_state,
+		"guard": floor_damage_state.get("guard"),
+		"damage": floor_damage_state.get("damage"),
+		"is_grounded": floor_damage_state.get("isGrounded"),
+		"type_hovering": floor_damage_state.get("typeHovering"),
+	}
+	return unit_update_floor_damage_runtime_state()
+
+func unit_update_floor_damage_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_floor_damage_last_state.duplicate(true),
+	}
+
 func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
 	var guard := tile_exists and not can_pass_on_value
 	var next_elevation := current_elevation
@@ -32779,6 +32802,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_falling_descent_runtime": unit_update_falling_descent_runtime_state(),
 		"unit_update_tile_unit_on_any_runtime": unit_update_tile_unit_on_any_runtime_state(),
 		"unit_update_tile_unit_on_runtime": unit_update_tile_unit_on_runtime_state(),
+		"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

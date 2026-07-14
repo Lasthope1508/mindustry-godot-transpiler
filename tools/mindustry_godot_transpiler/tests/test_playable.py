@@ -11704,6 +11704,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"scaledDamage": scaled_damage', source)
         self.assertIn('"withEffect": with_effect', source)
 
+    def test_port_game_exposes_unit_update_floor_damage_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_floor_damage_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_floor_damage_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_floor_damage_runtime(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_floor_damage_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_floor_damage_state(tile_exists, is_grounded_value, type_hovering, floor_damage_taken, source_delta, hit_time, hit_duration)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_floor_damage": floor_damage_state', source)
+        self.assertIn('"guard": floor_damage_state.get("guard")', source)
+        self.assertIn('"damage": floor_damage_state.get("damage")', source)
+        self.assertIn('"is_grounded": floor_damage_state.get("isGrounded")', source)
+        self.assertIn('"type_hovering": floor_damage_state.get("typeHovering")', source)
+        self.assertIn('"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_solid_tile_response_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
