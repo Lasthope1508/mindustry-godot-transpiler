@@ -13326,6 +13326,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"heatSource": "mount.heat = Math.max(mount.heat - Time.delta * unit.reloadMultiplier / cooldownTime, 0)"', source)
         self.assertIn('"soundUpdateSource": "mount.sound.update(bulletX, bulletY, false)"', source)
 
+    def test_port_game_exposes_weapon_update_continuous_idle_heat_sound_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_continuous_idle_heat_sound_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_continuous_idle_heat_sound_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_continuous_idle_heat_sound_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_continuous_idle_heat_sound_state(mount_state, weapon_state, unit_state, source_delta, bullet_x, bullet_y)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_continuous_idle_heat_sound": weapon_update_continuous_idle_heat_sound_state', source)
+        self.assertIn('"continuous": weapon_update_continuous_idle_heat_sound_state.get("continuous")', source)
+        self.assertIn('"bullet_exists": weapon_update_continuous_idle_heat_sound_state.get("bulletExists")', source)
+        self.assertIn('"continuous_live_gate": weapon_update_continuous_idle_heat_sound_state.get("continuousLiveGate")', source)
+        self.assertIn('"idle_gate": weapon_update_continuous_idle_heat_sound_state.get("idleGate")', source)
+        self.assertIn('"heat": weapon_update_continuous_idle_heat_sound_state.get("heat")', source)
+        self.assertIn('"reload_multiplier": weapon_update_continuous_idle_heat_sound_state.get("reloadMultiplier")', source)
+        self.assertIn('"cooldown_time": weapon_update_continuous_idle_heat_sound_state.get("cooldownTime")', source)
+        self.assertIn('"has_sound": weapon_update_continuous_idle_heat_sound_state.get("hasSound")', source)
+        self.assertIn('"sound_update_call": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateCall")', source)
+        self.assertIn('"heat_source": weapon_update_continuous_idle_heat_sound_state.get("heatSource")', source)
+        self.assertIn('"sound_guard_source": weapon_update_continuous_idle_heat_sound_state.get("soundGuardSource")', source)
+        self.assertIn('"sound_update_source": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateSource")', source)
+        self.assertIn('"weapon_update_continuous_idle_heat_sound_runtime": weapon_update_continuous_idle_heat_sound_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_alternating_side_flip_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

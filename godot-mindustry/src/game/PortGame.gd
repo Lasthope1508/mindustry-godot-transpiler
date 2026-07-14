@@ -186,6 +186,7 @@ var weapon_update_continuous_live_last_state: Dictionary = {}
 var weapon_update_continuous_sound_last_state: Dictionary = {}
 var weapon_update_continuous_laser_aim_last_state: Dictionary = {}
 var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}
+var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22312,6 +22313,36 @@ func weapon_update_always_continuous_keepalive_runtime_state() -> Dictionary:
 		"last_state": weapon_update_always_continuous_keepalive_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_continuous_idle_heat_sound_runtime() -> Dictionary:
+	weapon_update_continuous_idle_heat_sound_last_state = {}
+	return weapon_update_continuous_idle_heat_sound_runtime_state()
+
+func step_weapon_update_continuous_idle_heat_sound_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
+	var weapon_update_continuous_idle_heat_sound_state := source_weapon_update_continuous_idle_heat_sound_state(mount_state, weapon_state, unit_state, source_delta, bullet_x, bullet_y)
+	weapon_update_continuous_idle_heat_sound_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_continuous_idle_heat_sound": weapon_update_continuous_idle_heat_sound_state,
+		"continuous": weapon_update_continuous_idle_heat_sound_state.get("continuous"),
+		"bullet_exists": weapon_update_continuous_idle_heat_sound_state.get("bulletExists"),
+		"continuous_live_gate": weapon_update_continuous_idle_heat_sound_state.get("continuousLiveGate"),
+		"idle_gate": weapon_update_continuous_idle_heat_sound_state.get("idleGate"),
+		"heat": weapon_update_continuous_idle_heat_sound_state.get("heat"),
+		"reload_multiplier": weapon_update_continuous_idle_heat_sound_state.get("reloadMultiplier"),
+		"cooldown_time": weapon_update_continuous_idle_heat_sound_state.get("cooldownTime"),
+		"has_sound": weapon_update_continuous_idle_heat_sound_state.get("hasSound"),
+		"sound_update_call": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateCall"),
+		"heat_source": weapon_update_continuous_idle_heat_sound_state.get("heatSource"),
+		"sound_guard_source": weapon_update_continuous_idle_heat_sound_state.get("soundGuardSource"),
+		"sound_update_source": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateSource"),
+	}
+	return weapon_update_continuous_idle_heat_sound_runtime_state()
+
+func weapon_update_continuous_idle_heat_sound_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_continuous_idle_heat_sound_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33913,6 +33944,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_continuous_sound_runtime": weapon_update_continuous_sound_runtime_state(),
 		"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state(),
 		"weapon_update_always_continuous_keepalive_runtime": weapon_update_always_continuous_keepalive_runtime_state(),
+		"weapon_update_continuous_idle_heat_sound_runtime": weapon_update_continuous_idle_heat_sound_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
