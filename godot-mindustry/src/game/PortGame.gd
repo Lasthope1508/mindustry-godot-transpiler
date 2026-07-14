@@ -133,6 +133,7 @@ var unit_add_last_state: Dictionary = {}
 var unit_remove_last_state: Dictionary = {}
 var unit_landed_last_state: Dictionary = {}
 var unit_heal_last_state: Dictionary = {}
+var unit_update_heal_time_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20114,6 +20115,25 @@ func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_tim
 		"order": ["updateDrowning", "healTime gate", "healTime decay", "wasHealed reset"],
 	}
 
+func reset_unit_update_heal_time_runtime() -> Dictionary:
+	unit_update_heal_time_last_state = {}
+	return unit_update_heal_time_runtime_state()
+
+func step_unit_update_heal_time_runtime(was_healed_value: bool = true, current_heal_time: float = -1.0, source_delta: float = 1.0) -> Dictionary:
+	var heal_time_state := source_unit_update_heal_time_state(was_healed_value, current_heal_time, source_delta)
+	unit_update_heal_time_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_heal_time": heal_time_state,
+		"update_order": heal_time_state.get("order", []),
+	}
+	return unit_update_heal_time_runtime_state()
+
+func unit_update_heal_time_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_heal_time_last_state.duplicate(true),
+	}
+
 func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state_is_campaign: bool, sector_is_captured: bool) -> Dictionary:
 	var kill_unit := team_is_only_ai and state_is_campaign and sector_is_captured
 	return {
@@ -32463,6 +32483,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_remove_runtime": unit_remove_runtime_state(),
 		"unit_landed_runtime": unit_landed_runtime_state(),
 		"unit_heal_runtime": unit_heal_runtime_state(),
+		"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

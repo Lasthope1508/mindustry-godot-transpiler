@@ -11298,6 +11298,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"decay": source_delta / 20.0', source)
         self.assertIn('"order": ["updateDrowning", "healTime gate", "healTime decay", "wasHealed reset"]', source)
 
+    def test_port_game_exposes_unit_update_heal_time_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_heal_time_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_heal_time_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_heal_time_runtime(was_healed_value: bool = true, current_heal_time: float = -1.0, source_delta: float = 1.0) -> Dictionary:", source)
+        self.assertIn("func unit_update_heal_time_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_heal_time_state(was_healed_value, current_heal_time, source_delta)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_heal_time": heal_time_state', source)
+        self.assertIn('"update_order": heal_time_state.get("order", [])', source)
+        self.assertIn('"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_captured_sector_death_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
