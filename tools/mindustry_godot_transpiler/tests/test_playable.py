@@ -447,6 +447,27 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"runtime_persistence": runtime_persistence_state()', summary_body)
 
+    def test_port_game_exposes_runtime_save_slot_file_persistence_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("const RUNTIME_SAVE_SLOT_DIR := \"user://runtime-save-slots\"", source)
+        self.assertIn("func runtime_save_slot_path(slot_name: String = \"runtime\") -> String:", source)
+        self.assertIn("func runtime_write_save_slot(slot_name: String = \"runtime\") -> Dictionary:", source)
+        self.assertIn("func runtime_read_save_slot(slot_name: String = \"runtime\") -> Dictionary:", source)
+        self.assertIn("func runtime_load_save_slot(slot_name: String = \"runtime\") -> Dictionary:", source)
+        self.assertIn("func runtime_save_slot_file_state() -> Dictionary:", source)
+        self.assertIn("DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(RUNTIME_SAVE_SLOT_DIR))", source)
+        self.assertIn("FileAccess.open(save_path, FileAccess.WRITE)", source)
+        self.assertIn("file.store_string(JSON.stringify(snapshot))", source)
+        self.assertIn("FileAccess.open(save_path, FileAccess.READ)", source)
+        self.assertIn("runtime_load_snapshot(read_result.get(\"snapshot\", {}))", source)
+        self.assertIn('"save_slot_save_expr": "SaveIO.save(file);"', source)
+        self.assertIn('"save_slot_load_expr": "SaveIO.load(file, context);"', source)
+        self.assertIn('"save_slot_meta_expr": "meta = SaveIO.getMeta(file);"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"runtime_save_slot_file": runtime_save_slot_file_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

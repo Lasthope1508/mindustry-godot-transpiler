@@ -25,6 +25,7 @@ const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
 const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5
 const SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
+const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
 const SOURCE_ARC_PI := 3.1415927
@@ -6613,6 +6614,122 @@ func runtime_load_snapshot(snapshot: Dictionary) -> Dictionary:
 		"current": runtime_save_snapshot(str(snapshot.get("slot_name", "runtime"))),
 		"restored_block_count": placed_block_origins.size(),
 		"restored_occupied_cell_count": placed_blocks.size(),
+	}
+
+func runtime_save_slot_path(slot_name: String = "runtime") -> String:
+	var safe_slot := slot_name.strip_edges()
+	if safe_slot.is_empty():
+		safe_slot = "runtime"
+	safe_slot = safe_slot.replace("\\", "_").replace("/", "_")
+	return "%s/%s.json" % [RUNTIME_SAVE_SLOT_DIR, safe_slot]
+
+func runtime_write_save_slot(slot_name: String = "runtime") -> Dictionary:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(RUNTIME_SAVE_SLOT_DIR))
+	var save_path := runtime_save_slot_path(slot_name)
+	var snapshot := runtime_save_snapshot(slot_name)
+	var payload := JSON.stringify(snapshot)
+	var file := FileAccess.open(save_path, FileAccess.WRITE)
+	if file == null:
+		return {
+			"saved": false,
+			"source_owner": "core/src/mindustry/game/Saves.java",
+			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+			"save_slot_save_expr": "SaveIO.save(file);",
+			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+			"path": save_path,
+			"open_error": FileAccess.get_open_error(),
+		}
+	file.store_string(JSON.stringify(snapshot))
+	file.close()
+	return {
+		"saved": true,
+		"source_owner": "core/src/mindustry/game/Saves.java",
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"save_slot_save_expr": "SaveIO.save(file);",
+		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+		"write_expr": "stream.write(header); stream.writeInt(ver.version); ver.write(stream, options);",
+		"path": save_path,
+		"exists": FileAccess.file_exists(save_path),
+		"payload_size": payload.length(),
+		"snapshot": snapshot,
+	}
+
+func runtime_read_save_slot(slot_name: String = "runtime") -> Dictionary:
+	var save_path := runtime_save_slot_path(slot_name)
+	if not FileAccess.file_exists(save_path):
+		return {
+			"loaded": false,
+			"source_owner": "core/src/mindustry/game/Saves.java",
+			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+			"save_slot_load_expr": "SaveIO.load(file, context);",
+			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+			"path": save_path,
+			"missing": true,
+		}
+	var file := FileAccess.open(save_path, FileAccess.READ)
+	if file == null:
+		return {
+			"loaded": false,
+			"source_owner": "core/src/mindustry/game/Saves.java",
+			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+			"save_slot_load_expr": "SaveIO.load(file, context);",
+			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+			"path": save_path,
+			"open_error": FileAccess.get_open_error(),
+		}
+	var payload := file.get_as_text()
+	file.close()
+	var parsed: Variant = JSON.parse_string(payload)
+	if not parsed is Dictionary:
+		return {
+			"loaded": false,
+			"source_owner": "core/src/mindustry/game/Saves.java",
+			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+			"save_slot_load_expr": "SaveIO.load(file, context);",
+			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+			"path": save_path,
+			"parse_failed": true,
+		}
+	return {
+		"loaded": true,
+		"source_owner": "core/src/mindustry/game/Saves.java",
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"save_slot_load_expr": "SaveIO.load(file, context);",
+		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+		"read_expr": "readHeader(stream); int version = stream.readInt(); ver.read(stream, counter, context);",
+		"path": save_path,
+		"payload_size": payload.length(),
+		"snapshot": parsed,
+	}
+
+func runtime_load_save_slot(slot_name: String = "runtime") -> Dictionary:
+	var read_result := runtime_read_save_slot(slot_name)
+	if not bool(read_result.get("loaded", false)):
+		return read_result
+	var load_result := runtime_load_snapshot(read_result.get("snapshot", {}))
+	return {
+		"loaded": true,
+		"source_owner": "core/src/mindustry/game/Saves.java",
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"save_slot_load_expr": "SaveIO.load(file, context);",
+		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+		"path": read_result.get("path", runtime_save_slot_path(slot_name)),
+		"read": read_result,
+		"load": load_result,
+	}
+
+func runtime_save_slot_file_state() -> Dictionary:
+	var save_path := runtime_save_slot_path("runtime")
+	return {
+		"source_owner": "core/src/mindustry/game/Saves.java",
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"save_slot_save_expr": "SaveIO.save(file);",
+		"save_slot_load_expr": "SaveIO.load(file, context);",
+		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
+		"backup_expr": "if(exists) file.moveTo(backupFileFor(file));",
+		"path": save_path,
+		"exists": FileAccess.file_exists(save_path),
+		"snapshot": runtime_save_snapshot("runtime"),
 	}
 
 func runtime_persistence_state() -> Dictionary:
@@ -31696,6 +31813,7 @@ func get_runtime_summary() -> Dictionary:
 		"builder_deconstruct_runtime": builder_deconstruct_runtime_state(),
 		"builder_skip_range_runtime": builder_skip_range_runtime_state(),
 		"runtime_persistence": runtime_persistence_state(),
+		"runtime_save_slot_file": runtime_save_slot_file_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
