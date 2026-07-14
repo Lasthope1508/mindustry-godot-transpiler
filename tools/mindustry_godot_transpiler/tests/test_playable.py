@@ -13196,6 +13196,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"soundLoopConstructorSource": "public SoundLoop(Sound sound, float baseVolume){"', source)
         self.assertIn('"laserLengthReservedSource": "//target length of laser"', source)
 
+    def test_port_game_exposes_weapon_update_continuous_sound_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_continuous_sound_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_continuous_sound_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_continuous_sound_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_continuous_sound_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_continuous_sound_state(mount_state, weapon_state, bullet_state, runtime_state, bullet_x, bullet_y)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_continuous_sound": weapon_update_continuous_sound_state', source)
+        self.assertIn('"live": weapon_update_continuous_sound_state.get("live")', source)
+        self.assertIn('"sound_gate": weapon_update_continuous_sound_state.get("soundGate")', source)
+        self.assertIn('"has_sound": weapon_update_continuous_sound_state.get("hasSound")', source)
+        self.assertIn('"created_sound": weapon_update_continuous_sound_state.get("createdSound")', source)
+        self.assertIn('"sound_update_call": weapon_update_continuous_sound_state.get("soundUpdateCall")', source)
+        self.assertIn('"shoot_sound_is_none": weapon_update_continuous_sound_state.get("shootSoundIsNone")', source)
+        self.assertIn('"headless": weapon_update_continuous_sound_state.get("headless")', source)
+        self.assertIn('"sound_guard_source": weapon_update_continuous_sound_state.get("soundGuardSource")', source)
+        self.assertIn('"sound_create_source": weapon_update_continuous_sound_state.get("soundCreateSource")', source)
+        self.assertIn('"sound_update_source": weapon_update_continuous_sound_state.get("soundUpdateSource")', source)
+        self.assertIn('"sound_loop_constructor_source": weapon_update_continuous_sound_state.get("soundLoopConstructorSource")', source)
+        self.assertIn('"laser_length_reserved_source": weapon_update_continuous_sound_state.get("laserLengthReservedSource")', source)
+        self.assertIn('"weapon_update_continuous_sound_runtime": weapon_update_continuous_sound_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_continuous_laser_aim_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
