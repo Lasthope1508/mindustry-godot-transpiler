@@ -11414,6 +11414,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"abilityUpdateMethod": SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD', source)
         self.assertIn('"updateCount": updates.size()', source)
 
+    def test_port_game_exposes_unit_update_abilities_loop_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_abilities_loop_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_abilities_loop_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_abilities_loop_runtime(ability_ids: Array) -> Dictionary:", source)
+        self.assertIn("func unit_update_abilities_loop_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_abilities_loop_state(ability_ids)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_abilities_loop": abilities_loop_state', source)
+        self.assertIn('"updates": abilities_loop_state.get("updates", [])', source)
+        self.assertIn('"update_count": abilities_loop_state.get("updateCount")', source)
+        self.assertIn('"unit_update_abilities_loop_runtime": unit_update_abilities_loop_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_trail_position_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

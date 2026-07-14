@@ -137,6 +137,7 @@ var unit_update_heal_time_last_state: Dictionary = {}
 var unit_update_captured_sector_death_last_state: Dictionary = {}
 var unit_update_sound_loop_last_state: Dictionary = {}
 var unit_update_unsupported_env_last_state: Dictionary = {}
+var unit_update_abilities_loop_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20276,6 +20277,26 @@ func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:
 		"updateCount": updates.size(),
 	}
 
+func reset_unit_update_abilities_loop_runtime() -> Dictionary:
+	unit_update_abilities_loop_last_state = {}
+	return unit_update_abilities_loop_runtime_state()
+
+func step_unit_update_abilities_loop_runtime(ability_ids: Array) -> Dictionary:
+	var abilities_loop_state := source_unit_update_abilities_loop_state(ability_ids)
+	unit_update_abilities_loop_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_abilities_loop": abilities_loop_state,
+		"updates": abilities_loop_state.get("updates", []),
+		"update_count": abilities_loop_state.get("updateCount"),
+	}
+	return unit_update_abilities_loop_runtime_state()
+
+func unit_update_abilities_loop_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_abilities_loop_last_state.duplicate(true),
+	}
+
 func source_ability_update_state(unit: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_ability_update_state",
@@ -32550,6 +32571,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state(),
 		"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state(),
 		"unit_update_unsupported_env_runtime": unit_update_unsupported_env_runtime_state(),
+		"unit_update_abilities_loop_runtime": unit_update_abilities_loop_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
