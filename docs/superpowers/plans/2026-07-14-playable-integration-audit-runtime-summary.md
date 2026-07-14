@@ -162,6 +162,8 @@ Fifty-third audit found `UnitComp.update()` AI controller server gate was source
 
 Fifty-fourth audit found `UnitComp.update()` invalid controller reset was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_invalid_controller_reset_runtime`, `reset_unit_update_invalid_controller_reset_runtime()`, and `step_unit_update_invalid_controller_reset_runtime(...)` so MCP can prove `if(!controller.isValidController())`, `resetController();`, `controller(type.createController(self()));`, `UnitController.isValidController()` default `return true;`, and `UnitType.createController(Unit unit)` return state from `core/src/mindustry/entities/comp/UnitComp.java`, `core/src/mindustry/entities/units/UnitController.java`, and `core/src/mindustry/type/UnitType.java`.
 
+Fifty-fifth audit found `UnitComp.update()` spawned-core despawn was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_spawned_core_despawn_runtime`, `reset_unit_update_spawned_core_despawn_runtime()`, and `step_unit_update_spawned_core_despawn_runtime(...)` so MCP can prove `if(spawnedByCore && !isPlayer() && !dead)`, `Call.unitDespawn(self());`, `Fx.unitDespawn.at(unit.x, unit.y, 0, unit);`, and `unit.remove();` state from `core/src/mindustry/entities/comp/UnitComp.java`, `core/src/mindustry/entities/Units.java`, and `core/src/mindustry/content/Fx.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -735,6 +737,22 @@ Godot MCP runtime on TCP port `7777`:
   - `valid_guard=false`
   - `valid_reset=null`
   - `summary_has_invalid_controller_reset=true`
+  - `generated_load_failures=0`
+  - `generated_instance_failures=0`
+- TCP unit update spawned-core despawn proof:
+  - `reset_empty=true`
+  - `active_guard=true`
+  - `active_call="Call.unitDespawn(self())"`
+  - `active_effect="Fx.unitDespawn.at(unit.x, unit.y, 0, unit)"`
+  - `active_remove="unit.remove()"`
+  - `active_unit=401`
+  - `not_spawned_guard=false`
+  - `not_spawned_despawn=null`
+  - `player_guard=false`
+  - `player_despawn=null`
+  - `dead_guard=false`
+  - `dead_despawn=null`
+  - `summary_has_spawned_core_despawn=true`
   - `generated_load_failures=0`
   - `generated_instance_failures=0`
 - Godot debug output: `errors=[]`
@@ -1556,6 +1574,15 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after unit update invalid-controller reset runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_invalid_controller_reset_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_invalid_controller_reset_state tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_invalid_controller_reset_symbols_are_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `3 passed in 0.47s`.
+- Focused RED for unit update spawned-core despawn runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_spawned_core_despawn_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var unit_update_spawned_core_despawn_last_state: Dictionary = {}`.
+- Focused GREEN for unit update spawned-core despawn runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_spawned_core_despawn_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.42s`.
+- Focused regression after unit update spawned-core despawn runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_spawned_core_despawn_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_spawned_core_despawn_state tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_spawned_core_despawn_symbols_are_registered_with_source_backing -q -p no:cacheprovider`
+  - Result: `3 passed in 0.49s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -1682,6 +1709,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after unit update invalid-controller reset runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit update spawned-core despawn runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -1805,6 +1835,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after unit update invalid-controller reset runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4071 passed, 39303 subtests passed in 399.70s (0:06:39)`.
+- Full Python suite after unit update spawned-core despawn runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4072 passed, 39303 subtests passed in 394.98s (0:06:34)`.
 
 ## Remaining Gates
 
@@ -1868,10 +1901,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Unit update solid-tile response runtime proven: `reset_unit_update_solid_tile_response_runtime()`, boost path sets elevation `1.0`, kill path records `kill()` for unit id `102`, passable and missing-tile paths skip the guard, client and remote-GUI guards skip kill, and summary exposes `unit_update_solid_tile_response_runtime`.
 - [x] Unit update AI-controller runtime proven: `reset_unit_update_ai_controller_runtime()`, server/alive/should-update path calls `controller.updateUnit();` for unit id `201`, client/dead/should-update-false paths skip controller update, and summary exposes `unit_update_ai_controller_runtime`.
 - [x] Unit update invalid-controller reset runtime proven: `reset_unit_update_invalid_controller_reset_runtime()`, invalid path calls `resetController()` for unit id `301` with effect `controller(type.createController(self()))`, valid path skips reset, and summary exposes `unit_update_invalid_controller_reset_runtime`.
+- [x] Unit update spawned-core despawn runtime proven: `reset_unit_update_spawned_core_despawn_runtime()`, spawned-core non-player alive path calls `Call.unitDespawn(self())` for unit id `401` with effect `Fx.unitDespawn.at(unit.x, unit.y, 0, unit)` and remove `unit.remove()`, not-spawned/player/dead paths skip despawn, and summary exposes `unit_update_spawned_core_despawn_runtime`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, unit update spawned-core despawn runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, unit update spawned-core despawn runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.

@@ -151,6 +151,7 @@ var unit_update_floor_damage_last_state: Dictionary = {}
 var unit_update_solid_tile_response_last_state: Dictionary = {}
 var unit_update_ai_controller_last_state: Dictionary = {}
 var unit_update_invalid_controller_reset_last_state: Dictionary = {}
+var unit_update_spawned_core_despawn_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21294,6 +21295,29 @@ func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, 
 		"despawn": despawn_call,
 	}
 
+func reset_unit_update_spawned_core_despawn_runtime() -> Dictionary:
+	unit_update_spawned_core_despawn_last_state = {}
+	return unit_update_spawned_core_despawn_runtime_state()
+
+func step_unit_update_spawned_core_despawn_runtime(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
+	var spawned_core_despawn_state := source_unit_update_spawned_core_despawn_state(spawned_by_core_value, is_player_value, dead_value, unit_id)
+	unit_update_spawned_core_despawn_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_spawned_core_despawn": spawned_core_despawn_state,
+		"guard": spawned_core_despawn_state.get("guard"),
+		"spawned_by_core": spawned_core_despawn_state.get("spawnedByCore"),
+		"is_player": spawned_core_despawn_state.get("isPlayer"),
+		"dead": spawned_core_despawn_state.get("dead"),
+		"despawn": spawned_core_despawn_state.get("despawn"),
+	}
+	return unit_update_spawned_core_despawn_runtime_state()
+
+func unit_update_spawned_core_despawn_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_spawned_core_despawn_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_ICON_COMMENT := "/** @return a preview UI icon for this unit. */"
 const SOURCE_UNIT_ICON_METHOD := "public TextureRegion icon(){"
 const SOURCE_UNIT_ICON_RETURN := "return type.uiIcon;"
@@ -32875,6 +32899,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state(),
 		"unit_update_ai_controller_runtime": unit_update_ai_controller_runtime_state(),
 		"unit_update_invalid_controller_reset_runtime": unit_update_invalid_controller_reset_runtime_state(),
+		"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

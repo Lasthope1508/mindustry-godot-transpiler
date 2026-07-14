@@ -11839,6 +11839,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"despawn": despawn_call', source)
 
+    def test_port_game_exposes_unit_update_spawned_core_despawn_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_spawned_core_despawn_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_spawned_core_despawn_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_spawned_core_despawn_runtime(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_update_spawned_core_despawn_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_spawned_core_despawn_state(spawned_by_core_value, is_player_value, dead_value, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_spawned_core_despawn": spawned_core_despawn_state', source)
+        self.assertIn('"guard": spawned_core_despawn_state.get("guard")', source)
+        self.assertIn('"spawned_by_core": spawned_core_despawn_state.get("spawnedByCore")', source)
+        self.assertIn('"is_player": spawned_core_despawn_state.get("isPlayer")', source)
+        self.assertIn('"dead": spawned_core_despawn_state.get("dead")', source)
+        self.assertIn('"despawn": spawned_core_despawn_state.get("despawn")', source)
+        self.assertIn('"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_icon_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
