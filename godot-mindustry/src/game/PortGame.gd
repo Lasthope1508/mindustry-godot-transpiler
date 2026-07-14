@@ -19,6 +19,9 @@ const SOURCE_TICK_RATE := 60.0
 const SOURCE_TILESIZE := 8.0
 const SOURCE_UNIT_WARP_DST := 8.0
 const SOURCE_FINAL_WORLD_BOUNDS := 250.0
+const SOURCE_BUILDING_RANGE := 220.0
+const SOURCE_ALPHA_BUILD_SPEED := 0.5
+const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
@@ -75,6 +78,19 @@ var overdrive_projector_use_progress: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var player_placed_block_count := 0
+var builder_plans: Array = []
+var builder_build_counter := 0.0
+var builder_last_active: Variant = null
+var builder_build_alpha := 0.0
+var builder_construct_progress := 0.0
+var builder_last_construct_block_id := ""
+var builder_last_construct_cell := Vector2i.ZERO
+var builder_last_build_cost := 0.0
+var builder_last_build_speed_delta := 0.0
+var builder_finished_count := 0
+var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
+var builder_build_speed_multiplier := 1.0
+var builder_rules_build_speed := 1.0
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -6188,6 +6204,128 @@ func placed_power_runtime_state() -> Dictionary:
 		"battery_capacity": float(battery.get("capacity", 0.0)),
 	}
 
+func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> Dictionary:
+	if content_catalog == null:
+		return {"queued": false, "reason": "content_catalog_null", "runtime": builder_runtime_state()}
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return {"queued": false, "reason": "block_null", "runtime": builder_runtime_state()}
+	var cell := Vector2i(x, y)
+	if not can_place_block_at_cell(block, cell):
+		return {"queued": false, "reason": "invalid_place", "runtime": builder_runtime_state()}
+	var plan := {
+		"block_id": block_id,
+		"x": x,
+		"y": y,
+		"rotation": rotation,
+		"breaking": false,
+		"initialized": false,
+		"progress": builder_construct_progress,
+		"stuck": false,
+	}
+	var can_build := bool(source_builder_can_build_state(builder_type_build_speed, builder_build_speed_multiplier).get("can_build", false))
+	var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_construct_progress)
+	builder_plans = add_state.get("plans_after", [])
+	builder_last_active = source_builder_build_plan_state(builder_plans.size(), builder_plans[0] if builder_plans.size() > 0 else null).get("build_plan", null)
+	return {
+		"queued": builder_plans.size() > 0,
+		"add_build": add_state,
+		"runtime": builder_runtime_state(),
+	}
+
+func step_builder_runtime(delta: float) -> Dictionary:
+	var progress_before := builder_construct_progress
+	var completed := false
+	builder_build_counter = min(builder_build_counter + delta, 10.0)
+	while builder_build_counter >= 1.0 and builder_plans.size() > 0:
+		builder_build_counter -= 1.0
+		var current: Dictionary = builder_plans[0] if builder_plans[0] is Dictionary else {}
+		var block = content_catalog.get_by_id(str(current.get("block_id", ""))) if content_catalog != null else null
+		if block == null:
+			builder_plans.remove_at(0)
+			continue
+		builder_last_active = current
+		builder_build_alpha = 1.0
+		builder_last_construct_block_id = str(current.get("block_id", ""))
+		builder_last_construct_cell = Vector2i(int(current.get("x", 0)), int(current.get("y", 0)))
+		builder_last_build_cost = construct_block_build_cost(block)
+		builder_last_build_speed_delta = 1.0 / builder_last_build_cost * builder_type_build_speed * builder_build_speed_multiplier * builder_rules_build_speed
+		if not can_afford(block):
+			current["stuck"] = true
+			builder_plans[0] = current
+			break
+		var max_progress := builder_last_build_speed_delta
+		builder_construct_progress = clamp(builder_construct_progress + max_progress, 0.0, 1.0)
+		current["initialized"] = true
+		current["progress"] = builder_construct_progress
+		current["stuck"] = false
+		builder_plans[0] = current
+		if builder_construct_progress >= 1.0:
+			var blocks := get_node("World/BlockLayer")
+			spend_requirements(block)
+			var sprite := Sprite2D.new()
+			configure_block_sprite(sprite, block, builder_last_construct_cell)
+			blocks.add_child(sprite)
+			record_placed_block(sprite, block, builder_last_construct_cell)
+			register_turret_cell(builder_last_construct_cell, block)
+			builder_plans.remove_at(0)
+			builder_construct_progress = 0.0
+			builder_finished_count += 1
+			last_placed_block_id = block.id
+			last_placed_block_size = block_size(block)
+			last_placed_block_requirements = block.properties.get("requirements", []).duplicate(true)
+			last_placed_cell = builder_last_construct_cell
+			last_placed_occupied_cell_count = block_size(block) * block_size(block)
+			last_place_blocked = false
+			completed = true
+			break
+	return {
+		"progress_before": progress_before,
+		"progress_after": builder_construct_progress,
+		"completed": completed,
+		"plan_count": builder_plans.size(),
+		"active_plan": builder_last_active,
+		"runtime": builder_runtime_state(),
+	}
+
+func builder_runtime_state() -> Dictionary:
+	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
+	var build_plan_state := source_builder_build_plan_state(builder_plans.size(), first_plan)
+	var active_state := source_builder_actively_building_state(builder_plans.size(), first_plan, false, false, source_builder_unit_build_range(), true, true)
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
+		"construct_source_owner": "core/src/mindustry/world/blocks/ConstructBlock.java",
+		"unit_type_source_owner": "core/src/mindustry/type/UnitType.java",
+		"vars_source_owner": "core/src/mindustry/Vars.java",
+		"rules_source_owner": "core/src/mindustry/game/Rules.java",
+		"plans_field": "@SyncLocal Queue<BuildPlan> plans = new Queue<>(1);",
+		"update_building_field": "@SyncLocal boolean updateBuilding = true;",
+		"build_counter_field": "private transient float buildCounter;",
+		"last_active_field": "private transient BuildPlan lastActive;",
+		"build_alpha_field": "transient float buildAlpha = 0f;",
+		"build_speed_formula": "1f / entity.buildCost * type.buildSpeed * buildSpeedMultiplier * state.rules.buildSpeed(team)",
+		"construct_progress_expr": "progress = Mathf.clamp(progress + maxProgress);",
+		"construct_finish_expr": "if(progress >= 1f || state.rules.infiniteResources){",
+		"construct_build_cost_expr": "this.buildCost = block.buildTime * state.rules.buildCostMultiplier;",
+		"unit_build_range_expr": "buildRange = Vars.buildingRange",
+		"vars_building_range_expr": "public static final float buildingRange = 220f;",
+		"rules_build_cost_multiplier_expr": "public float buildCostMultiplier = 1f;",
+		"rules_build_speed_multiplier_expr": "public float buildSpeedMultiplier = 1f;",
+		"alpha_build_speed_expr": "buildSpeed = 0.5f;",
+		"plan_count": builder_plans.size(),
+		"build_counter": builder_build_counter,
+		"build_alpha": builder_build_alpha,
+		"last_active": builder_last_active,
+		"construct_progress": builder_construct_progress,
+		"last_construct_block_id": builder_last_construct_block_id,
+		"last_construct_cell": {"x": builder_last_construct_cell.x, "y": builder_last_construct_cell.y},
+		"last_build_cost": builder_last_build_cost,
+		"last_build_speed_delta": builder_last_build_speed_delta,
+		"finished_count": builder_finished_count,
+		"build_plan": build_plan_state,
+		"actively_building": active_state,
+	}
+
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -6498,6 +6636,14 @@ func source_block_dump_time(block_id: String) -> float:
 	if block == null:
 		return SOURCE_BLOCK_DUMP_TIME
 	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
+
+func source_builder_unit_build_range() -> float:
+	return SOURCE_BUILDING_RANGE
+
+func construct_block_build_cost(block) -> float:
+	if block == null:
+		return SOURCE_DEFAULT_BLOCK_BUILD_TIME
+	return float(block.properties.get("buildTime", SOURCE_DEFAULT_BLOCK_BUILD_TIME))
 
 const SOURCE_DRILL_DUMP_INTERVAL_TIMER_GATE := "if(timer(timerDump, dumpTime / timeScale)){"
 const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
@@ -31153,6 +31299,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_battery_runtime": placed_power_battery_runtime_state(),
 		"placed_power_distribution_runtime": placed_power_distribution_runtime_state(),
 		"placed_power_runtime": placed_power_runtime_state(),
+		"builder_runtime": builder_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

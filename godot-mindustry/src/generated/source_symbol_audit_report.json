@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 1001,
-  "registeredSourceOwnerCount": 994,
+  "totalSourceFunctions": 1002,
+  "registeredSourceOwnerCount": 995,
   "exemptSourceOwnerCount": 7,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -214,6 +214,7 @@
     "PortGame.source_builder_is_building_state",
     "PortGame.source_builder_remove_build_state",
     "PortGame.source_builder_should_skip_state",
+    "PortGame.source_builder_unit_build_range",
     "PortGame.source_builder_update_state",
     "PortGame.source_building_absorb_lasers_state",
     "PortGame.source_building_accept_item_state",
@@ -1943,6 +1944,11 @@
     {
       "owner": "PortGame.source_block_dump_time",
       "function": "source_block_dump_time",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_builder_unit_build_range",
+      "function": "source_builder_unit_build_range",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {

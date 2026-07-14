@@ -84,6 +84,8 @@ Fourteenth audit found all major runtime slices had MCP proof packages, but runt
 
 Fifteenth audit found core destruction could reduce `core_health` to zero but did not expose the source-backed `Logic.checkGameState()` game-over branch through a dedicated MCP proof package. Runtime summary now exposes `game_over_runtime`, and core damage now routes through `apply_core_damage()` so MCP can prove `state.gameOver = true` and `GameOverEvent(state.rules.waveTeam)` semantics from `core/src/mindustry/core/Logic.java`.
 
+Sixteenth audit found player placement was proven as direct placement, but Java-style builder queued construction progress was not MCP-visible. Runtime now exposes `builder_runtime`, `queue_builder_plan()`, and `step_builder_runtime()` so MCP can prove `BuilderComp` plan state, `ConstructBlock` progress, and source-backed build speed/cost formulas.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -123,6 +125,9 @@ Fix:
 - Added RED test that requires a source-backed game-over runtime proof wrapper.
 - Added `source_game_over_core_destroyed_state()`, `apply_core_damage()`, `game_over_runtime_state()`, and `"game_over_runtime": game_over_runtime_state()` to runtime summary. The wrapper only packages the `Logic.checkGameState()` core-destroyed branch and live core/game-over counters.
 - Registered `PortGame.source_game_over_core_destroyed_state` in source-symbol SSOT, API contracts, state schemas, audit report, and canonical mirror shards so the new source owner is not unregistered.
+- Added RED test that requires a source-backed builder construction queue runtime proof.
+- Added `builder_plans`, `builder_build_counter`, `builder_build_alpha`, `builder_last_active`, `builder_construct_progress`, `queue_builder_plan()`, `step_builder_runtime()`, `builder_runtime_state()`, and `"builder_runtime": builder_runtime_state()` to runtime summary.
+- Added source-backed `source_builder_unit_build_range()` using `Vars.buildingRange = 220f`, and registered `PortGame.source_builder_unit_build_range` in source-symbol SSOT and canonical audit mirror shards.
 
 ## Runtime Proof
 
@@ -435,6 +440,20 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - Godot debug output: `errors=[]`
 - Godot stop: `finalErrors=[]`
 
+MCP builder construction queue proof captured for the current slice:
+
+- Seeded source-backed cost path through `/root/Main.set_core_item_count("copper", 100)`.
+- Queued `conveyor` through `/root/Main.queue_builder_plan("conveyor", 2, 2, 0)`.
+- Stepped builder runtime through `/root/Main.step_builder_runtime(5.0)`.
+- TCP proof:
+  - `plan_count=1`
+  - `construct_progress=0.125`
+  - `last_construct_block_id="conveyor"`
+  - `build_speed_formula="1f / entity.buildCost * type.buildSpeed * buildSpeedMultiplier * state.rules.buildSpeed(team)"`
+  - `construct_progress_expr="progress = Mathf.clamp(progress + maxProgress);"`
+  - `all_generated_load_failures=[]`
+  - `all_generated_instance_failures=[]`
+
 ## Verification
 
 - RED:
@@ -479,6 +498,9 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `var game_over := false`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected before implementation with missing builder queue runtime state and APIs.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -518,15 +540,24 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.18s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
 - SSOT validator:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count']})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after builder queue slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
+- Full Python suite after builder queue slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4032 passed, 39303 subtests passed in 381.43s (0:06:21)`.
 
 ## Remaining Gates
 
@@ -550,10 +581,11 @@ Fresh MCP placement-cost proof on the restarted runtime:
 - [x] Enemy runtime package proven: `selected_enemy_weapon_damage=9.0`, `selected_enemy_world_speed=30.0`, `selected_enemy_health=150.0`, `core_damage_taken_total=9.0`.
 - [x] Playthrough runtime package proven: generated load failures `[]`, generated instance failures `[]`, content/world initialized, factory/enemy/power/turret/bullet/core telemetry visible through `playthrough_runtime`.
 - [x] Game-over runtime package proven: core drained `1091.0 -> 0.0`, `game_over=true`, `last_game_over_winner="waveTeam"`, source proof references `Logic.checkGameState()`.
+- [x] Builder construction queue runtime proven: `queue_builder_plan("conveyor", 2, 2, 0)`, `step_builder_runtime(5.0)`, `construct_progress=0.125`, `last_construct_block_id="conveyor"`, generated load/instance failures `[]`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, enemy runtime, factory, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, enemy runtime, factory, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, or game-over runtime.

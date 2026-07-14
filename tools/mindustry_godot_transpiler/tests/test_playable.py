@@ -329,6 +329,47 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power_battery_charged": float(distribution.get("power_battery_charged", 0.0))', proof_body)
         self.assertIn('"placed_power_distribution_runtime": placed_power_distribution_runtime_state()', summary_body)
 
+    def test_port_game_exposes_builder_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var builder_plans: Array = []", source)
+        self.assertIn("var builder_build_counter := 0.0", source)
+        self.assertIn('var builder_last_active: Variant = null', source)
+        self.assertIn("var builder_construct_progress := 0.0", source)
+        self.assertIn("var builder_finished_count := 0", source)
+        self.assertIn("func source_builder_unit_build_range() -> float:", source)
+        self.assertIn("return SOURCE_BUILDING_RANGE", source)
+        self.assertIn("func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> Dictionary:", source)
+        self.assertIn("var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_construct_progress)", source)
+        self.assertIn('builder_plans = add_state.get("plans_after", [])', source)
+        self.assertIn("func step_builder_runtime(delta: float) -> Dictionary:", source)
+        self.assertIn("builder_build_counter = min(builder_build_counter + delta, 10.0)", source)
+        self.assertIn("builder_last_active = current", source)
+        self.assertIn("builder_last_build_speed_delta = 1.0 / builder_last_build_cost * builder_type_build_speed * builder_build_speed_multiplier * builder_rules_build_speed", source)
+        self.assertIn("builder_construct_progress = clamp(builder_construct_progress + max_progress, 0.0, 1.0)", source)
+        self.assertIn("func builder_runtime_state() -> Dictionary:", source)
+        proof_body = source.split("func builder_runtime_state() -> Dictionary:", 1)[1].split("func get_runtime_summary() -> Dictionary:", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var build_plan_state := source_builder_build_plan_state(builder_plans.size(), first_plan)", proof_body)
+        self.assertIn("var active_state := source_builder_actively_building_state(builder_plans.size(), first_plan, false, false, source_builder_unit_build_range(), true, true)", proof_body)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/BuilderComp.java"', proof_body)
+        self.assertIn('"construct_source_owner": "core/src/mindustry/world/blocks/ConstructBlock.java"', proof_body)
+        self.assertIn('"unit_type_source_owner": "core/src/mindustry/type/UnitType.java"', proof_body)
+        self.assertIn('"vars_source_owner": "core/src/mindustry/Vars.java"', proof_body)
+        self.assertIn('"rules_source_owner": "core/src/mindustry/game/Rules.java"', proof_body)
+        self.assertIn('"plans_field": "@SyncLocal Queue<BuildPlan> plans = new Queue<>(1);"', proof_body)
+        self.assertIn('"build_speed_formula": "1f / entity.buildCost * type.buildSpeed * buildSpeedMultiplier * state.rules.buildSpeed(team)"', proof_body)
+        self.assertIn('"construct_progress_expr": "progress = Mathf.clamp(progress + maxProgress);"', proof_body)
+        self.assertIn('"construct_finish_expr": "if(progress >= 1f || state.rules.infiniteResources){"', proof_body)
+        self.assertIn('"construct_build_cost_expr": "this.buildCost = block.buildTime * state.rules.buildCostMultiplier;"', proof_body)
+        self.assertIn('"unit_build_range_expr": "buildRange = Vars.buildingRange"', proof_body)
+        self.assertIn('"vars_building_range_expr": "public static final float buildingRange = 220f;"', proof_body)
+        self.assertIn('"rules_build_cost_multiplier_expr": "public float buildCostMultiplier = 1f;"', proof_body)
+        self.assertIn('"rules_build_speed_multiplier_expr": "public float buildSpeedMultiplier = 1f;"', proof_body)
+        self.assertIn('"builder_runtime": builder_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

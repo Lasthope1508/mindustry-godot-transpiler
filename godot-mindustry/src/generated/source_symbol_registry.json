@@ -130263,6 +130263,19 @@
       "godot_symbol": "source_game_over_core_destroyed_input.attack_mode",
       "java_expr": "!state.rules.attackMode",
       "rule": "This playable proof covers the non-attack core-destroyed branch; attack mode winner logic stays separate."
+    },
+    "builder_unit_build_range.vars_building_range": {
+      "godot_owner": "PortGame.source_builder_unit_build_range",
+      "godot_symbol": "source_builder_unit_build_range_result.buildRange",
+      "java_expr": "public static final float buildingRange = 220f;",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Source-backed builder runtime build range mirrors UnitType.buildRange = Vars.buildingRange.",
+      "runtime_proof": "/root/Main.source_builder_unit_build_range",
+      "status": "source-backed",
+      "tests": [
+        "test_port_game_exposes_builder_runtime_proof"
+      ]
     }
   },
   "version": 1
