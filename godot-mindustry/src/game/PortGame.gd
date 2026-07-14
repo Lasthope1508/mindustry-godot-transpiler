@@ -110,6 +110,9 @@ var liquid_transfer_destination_capacity := 10.0
 var liquid_transfer_pressure := 1.0
 var liquid_transfer_last_move_state: Dictionary = {}
 var liquid_transfer_last_transfer_state: Dictionary = {}
+var liquid_leak_liquid := "water"
+var liquid_leak_amount := 6.0
+var liquid_leak_last_state: Dictionary = {}
 var item_dump_item := "copper"
 var item_dump_last_state: Dictionary = {}
 var last_placed_block_id := ""
@@ -6848,6 +6851,32 @@ func liquid_transfer_runtime_state() -> Dictionary:
 		"pressure": liquid_transfer_pressure,
 		"move_state": liquid_transfer_last_move_state,
 		"transfer_state": liquid_transfer_last_transfer_state,
+	}
+
+func reset_liquid_leak_runtime(amount: float = 6.0) -> Dictionary:
+	liquid_leak_amount = amount
+	liquid_leak_last_state = {}
+	return liquid_leak_runtime_state()
+
+func step_liquid_leak_runtime() -> Dictionary:
+	var leak_state := source_building_move_liquid_forward_state(true, liquid_leak_liquid,
+		true,
+		false,
+		false,
+		false,
+		liquid_leak_amount,
+		0.0
+	)
+	liquid_leak_last_state = leak_state
+	liquid_leak_amount = float(leak_state.get("current_liquid_amount_after", liquid_leak_amount))
+	return liquid_leak_runtime_state()
+
+func liquid_leak_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/gen/Building.java",
+		"liquid": liquid_leak_liquid,
+		"amount": liquid_leak_amount,
+		"last_leak": liquid_leak_last_state,
 	}
 
 func reset_item_dump_runtime(source_count: int = 3, core_count: int = 2, capacity: int = 10) -> Dictionary:
@@ -31969,6 +31998,7 @@ func get_runtime_summary() -> Dictionary:
 		"runtime_save_slot_file": runtime_save_slot_file_state(),
 		"runtime_save_slots": runtime_list_save_slots(),
 		"liquid_transfer_runtime": liquid_transfer_runtime_state(),
+		"liquid_leak_runtime": liquid_leak_runtime_state(),
 		"item_dump_runtime": item_dump_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,

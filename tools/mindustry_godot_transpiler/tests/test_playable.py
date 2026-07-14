@@ -501,6 +501,23 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"liquid_transfer_runtime": liquid_transfer_runtime_state()', summary_body)
 
+    def test_port_game_exposes_liquid_leak_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var liquid_leak_amount := 6.0", source)
+        self.assertIn("var liquid_leak_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_liquid_leak_runtime(amount: float = 6.0) -> Dictionary:", source)
+        self.assertIn("func step_liquid_leak_runtime() -> Dictionary:", source)
+        self.assertIn("func liquid_leak_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_building_move_liquid_forward_state(true, liquid_leak_liquid", source)
+        self.assertIn("liquid_leak_amount = float(leak_state.get(\"current_liquid_amount_after\", liquid_leak_amount))", source)
+        self.assertIn('"method": "public float moveLiquidForward(boolean leaks, Liquid liquid){"', source)
+        self.assertIn('"puddles_deposit_call": "Puddles.deposit(next, tile, liquid, leakAmount, true, true);"', source)
+        self.assertIn('"remove_liquid_call": "liquids.remove(liquid, leakAmount);"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"liquid_leak_runtime": liquid_leak_runtime_state()', summary_body)
+
     def test_port_game_exposes_item_dump_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
