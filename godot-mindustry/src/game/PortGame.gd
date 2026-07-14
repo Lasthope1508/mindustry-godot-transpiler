@@ -150,6 +150,7 @@ var unit_update_tile_unit_on_last_state: Dictionary = {}
 var unit_update_floor_damage_last_state: Dictionary = {}
 var unit_update_solid_tile_response_last_state: Dictionary = {}
 var unit_update_ai_controller_last_state: Dictionary = {}
+var unit_update_invalid_controller_reset_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21254,6 +21255,27 @@ func source_unit_update_invalid_controller_reset_state(controller_is_valid_value
 		"resetController": reset_controller,
 	}
 
+func reset_unit_update_invalid_controller_reset_runtime() -> Dictionary:
+	unit_update_invalid_controller_reset_last_state = {}
+	return unit_update_invalid_controller_reset_runtime_state()
+
+func step_unit_update_invalid_controller_reset_runtime(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
+	var invalid_controller_reset_state := source_unit_update_invalid_controller_reset_state(controller_is_valid_value, unit_id)
+	unit_update_invalid_controller_reset_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_invalid_controller_reset": invalid_controller_reset_state,
+		"guard": invalid_controller_reset_state.get("guard"),
+		"controller_is_valid": invalid_controller_reset_state.get("controllerIsValid"),
+		"reset_controller": invalid_controller_reset_state.get("resetController"),
+	}
+	return unit_update_invalid_controller_reset_runtime_state()
+
+func unit_update_invalid_controller_reset_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_invalid_controller_reset_last_state.duplicate(true),
+	}
+
 func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
 	var guard := spawned_by_core_value and (not is_player_value) and (not dead_value)
 	var despawn_call: Variant = null
@@ -32852,6 +32874,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state(),
 		"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state(),
 		"unit_update_ai_controller_runtime": unit_update_ai_controller_runtime_state(),
+		"unit_update_invalid_controller_reset_runtime": unit_update_invalid_controller_reset_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
