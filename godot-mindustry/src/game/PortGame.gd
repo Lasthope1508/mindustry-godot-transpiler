@@ -118,6 +118,10 @@ var item_dump_last_state: Dictionary = {}
 var put_item_item := "copper"
 var put_item_dump_cursor := 0
 var put_item_last_state: Dictionary = {}
+var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}
+var payload_runtime_dump_cursor := 0
+var payload_runtime_move_last_state: Dictionary = {}
+var payload_runtime_dump_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -6951,6 +6955,70 @@ func put_item_runtime_state() -> Dictionary:
 		"item": put_item_item,
 		"dump_cursor": put_item_dump_cursor,
 		"last_put": put_item_last_state,
+	}
+
+func reset_payload_runtime(dump_cursor: int = 0) -> Dictionary:
+	payload_runtime_dump_cursor = dump_cursor
+	payload_runtime_move_last_state = {}
+	payload_runtime_dump_last_state = {}
+	return payload_runtime_state()
+
+func step_payload_move_runtime(has_next_tile: bool = true, has_next_build: bool = true, same_team: bool = true, accepts_payload: bool = true) -> Dictionary:
+	var forward_offset := source_payload_forward_offset(int(payload_runtime_payload.get("size", 1)))
+	var moved := source_move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)
+	payload_runtime_move_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"move_method": SOURCE_MOVE_PAYLOAD_STATE_METHOD,
+		"forward_offset_expr": SOURCE_MOVE_PAYLOAD_STATE_TRNS,
+		"next_tile_expr": SOURCE_MOVE_PAYLOAD_STATE_NEXT,
+		"move_gate": SOURCE_MOVE_PAYLOAD_STATE_GATE,
+		"move_handle_deferred": SOURCE_MOVE_PAYLOAD_STATE_HANDLE_DEFERRED,
+		"return_true": SOURCE_MOVE_PAYLOAD_STATE_RETURN_TRUE,
+		"return_false": SOURCE_MOVE_PAYLOAD_STATE_RETURN_FALSE,
+		"payload": payload_runtime_payload.duplicate(true),
+		"forward_offset": forward_offset,
+		"has_next_tile": has_next_tile,
+		"has_next_build": has_next_build,
+		"same_team": same_team,
+		"accepts_payload": accepts_payload,
+		"handle_payload_called": moved,
+		"moved": moved,
+		"return_value": moved,
+	}
+	return payload_runtime_state()
+
+func step_payload_dump_runtime() -> Dictionary:
+	var dump_state := source_dump_payload_state(3, payload_runtime_dump_cursor, [false, true, false])
+	payload_runtime_dump_cursor = int(dump_state.get("cdump", payload_runtime_dump_cursor))
+	payload_runtime_dump_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"dump_method": SOURCE_DUMP_PAYLOAD_STATE_METHOD,
+		"dump_field": SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD,
+		"proximity_get": SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET,
+		"index_expr": SOURCE_DUMP_PAYLOAD_INDEX_EXPR,
+		"empty_proximity_guard": SOURCE_DUMP_PAYLOAD_STATE_EMPTY_PROXIMITY_GUARD,
+		"dump_accept_payload": SOURCE_DUMP_PAYLOAD_STATE_ACCEPT_PAYLOAD,
+		"dump_handle_payload": SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD,
+		"dump_increment": SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP,
+		"payload": payload_runtime_payload.duplicate(true),
+		"proximity_size": 3,
+		"accepts_payload_by_index": [false, true, false],
+		"result": dump_state,
+		"handled_index": int(dump_state.get("handled_index", -1)),
+		"handle_payload_called": bool(dump_state.get("moved", false)),
+		"moved": bool(dump_state.get("moved", false)),
+		"return_value": bool(dump_state.get("moved", false)),
+		"cdump": payload_runtime_dump_cursor,
+	}
+	return payload_runtime_state()
+
+func payload_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"payload": payload_runtime_payload.duplicate(true),
+		"dump_cursor": payload_runtime_dump_cursor,
+		"move_last": payload_runtime_move_last_state.duplicate(true),
+		"dump_last": payload_runtime_dump_last_state.duplicate(true),
 	}
 
 func builder_skip_range_runtime_state() -> Dictionary:
@@ -32026,6 +32094,7 @@ func get_runtime_summary() -> Dictionary:
 		"liquid_leak_runtime": liquid_leak_runtime_state(),
 		"item_dump_runtime": item_dump_runtime_state(),
 		"put_item_runtime": put_item_runtime_state(),
+		"payload_runtime": payload_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

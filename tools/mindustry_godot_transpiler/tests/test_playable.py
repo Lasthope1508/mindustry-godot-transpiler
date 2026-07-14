@@ -5098,6 +5098,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"moved": true, "cdump": next_dump, "handled_index": other_index}', source)
         self.assertIn('return {"moved": false, "cdump": next_dump, "handled_index": -1}', source)
 
+    def test_port_game_exposes_move_dump_payload_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn('var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}', source)
+        self.assertIn("var payload_runtime_dump_cursor := 0", source)
+        self.assertIn("var payload_runtime_move_last_state: Dictionary = {}", source)
+        self.assertIn("var payload_runtime_dump_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_payload_runtime(dump_cursor: int = 0) -> Dictionary:", source)
+        self.assertIn("func step_payload_move_runtime(has_next_tile: bool = true, has_next_build: bool = true, same_team: bool = true, accepts_payload: bool = true) -> Dictionary:", source)
+        self.assertIn("func step_payload_dump_runtime() -> Dictionary:", source)
+        self.assertIn("func payload_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_payload_forward_offset(int(payload_runtime_payload.get(\"size\", 1)))", source)
+        self.assertIn("source_move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)", source)
+        self.assertIn("source_dump_payload_state(3, payload_runtime_dump_cursor, [false, true, false])", source)
+        self.assertIn("payload_runtime_dump_cursor = int(dump_state.get(\"cdump\", payload_runtime_dump_cursor))", source)
+        self.assertIn('"move_method": SOURCE_MOVE_PAYLOAD_STATE_METHOD', source)
+        self.assertIn('"move_gate": SOURCE_MOVE_PAYLOAD_STATE_GATE', source)
+        self.assertIn('"move_handle_deferred": SOURCE_MOVE_PAYLOAD_STATE_HANDLE_DEFERRED', source)
+        self.assertIn('"dump_method": SOURCE_DUMP_PAYLOAD_STATE_METHOD', source)
+        self.assertIn('"dump_accept_payload": SOURCE_DUMP_PAYLOAD_STATE_ACCEPT_PAYLOAD', source)
+        self.assertIn('"dump_handle_payload": SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD', source)
+        self.assertIn('"dump_increment": SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP', source)
+        self.assertIn('"payload_runtime": payload_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_building_can_be_replaced_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
