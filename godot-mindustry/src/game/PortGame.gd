@@ -156,6 +156,7 @@ var unit_icon_last_state: Dictionary = {}
 var unit_destroy_initial_payload_last_state: Dictionary = {}
 var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
 var unit_destroy_visual_effects_last_state: Dictionary = {}
+var unit_destroy_sound_and_event_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21445,6 +21446,34 @@ func unit_destroy_visual_effects_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_visual_effects_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_sound_and_event_runtime() -> Dictionary:
+	unit_destroy_sound_and_event_last_state = {}
+	return unit_destroy_sound_and_event_runtime_state()
+
+func step_unit_destroy_sound_and_event_runtime(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
+	var sound_event_state := source_unit_destroy_sound_and_event_state(death_sound, death_sound_volume, unit_id)
+	var sound_call: Dictionary = sound_event_state.get("soundCall", {})
+	var event_call: Dictionary = sound_event_state.get("eventCall", {})
+	unit_destroy_sound_and_event_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_sound_and_event": sound_event_state,
+		"method": sound_event_state.get("method"),
+		"sound_call": sound_event_state.get("soundCall"),
+		"event_call": sound_event_state.get("eventCall"),
+		"sound": sound_call.get("sound"),
+		"pitch": sound_call.get("pitch"),
+		"volume": sound_call.get("volume"),
+		"event_class": event_call.get("eventClass"),
+		"unit": event_call.get("unit"),
+	}
+	return unit_destroy_sound_and_event_runtime_state()
+
+func unit_destroy_sound_and_event_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_sound_and_event_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33016,6 +33045,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state(),
 		"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state(),
 		"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state(),
+		"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

@@ -172,6 +172,8 @@ Fifty-eighth audit found `UnitComp.destroy()` explosion dispatch was source-back
 
 Fifty-ninth audit found `UnitComp.destroy()` visual effects were source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_destroy_visual_effects_runtime`, `reset_unit_destroy_visual_effects_runtime()`, and `step_unit_destroy_visual_effects_runtime(...)` so MCP can prove `float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;`, optional `Effect.scorch(...)`, and `Effect.shake(shake, shake, this);` from `core/src/mindustry/entities/comp/UnitComp.java`.
 
+Sixtieth audit found `UnitComp.destroy()` death sound and destroy event were source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_destroy_sound_and_event_runtime`, `reset_unit_destroy_sound_and_event_runtime()`, and `step_unit_destroy_sound_and_event_runtime(...)` so MCP can prove `type.deathSound.at(this, 1f, type.deathSoundVolume);` and `Events.fire(new UnitDestroyEvent(self()));` from `core/src/mindustry/entities/comp/UnitComp.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -802,6 +804,15 @@ Godot MCP runtime on TCP port `7777`:
   - explicit branch `shake=2.5`, `shake_effect.intensity=2.5`, `shake_effect.duration=2.5`, `shake_effect.unit=45`
   - explicit branch `scorch=null`
   - `summary_has_unit_destroy_visual_effects=true`
+  - `generated_load_failures=0`
+  - `generated_instance_failures=0`
+- TCP unit destroy sound and event proof:
+  - `reset_empty=true`
+  - `sound_call.call="type.deathSound.at(this, 1f, type.deathSoundVolume);"`
+  - `sound="unitExplode2"`, `pitch=1.0`, `volume=0.65`, `unit=51`
+  - `event_call.event="Events.fire(new UnitDestroyEvent(self()));"`
+  - `event_class="UnitDestroyEvent"`
+  - `summary_has_unit_destroy_sound_and_event_runtime=true`
   - `generated_load_failures=0`
   - `generated_instance_failures=0`
 - Godot debug output: `errors=[]`
@@ -1668,6 +1679,15 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after unit destroy visual effects runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_destroy_visual_effects_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_destroy_visual_effects_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_destroy_visual_effects_symbols_are_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `3 passed in 0.58s`.
+- Focused RED for unit destroy sound and event runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_destroy_sound_and_event_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var unit_destroy_sound_and_event_last_state: Dictionary = {}`.
+- Focused GREEN for unit destroy sound and event runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_destroy_sound_and_event_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.43s`.
+- Focused regression after unit destroy sound and event runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_destroy_sound_and_event_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_destroy_sound_and_event_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_destroy_sound_and_event_symbols_are_registered_with_source_backing tools/mindustry_godot_transpiler/tests/test_source_parity.py::SourceParityTests::test_unit_destroy_sound_and_event_matches_upstream_source -q -p no:cacheprovider`
+  - Result: `4 passed in 0.56s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -1809,6 +1829,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after unit destroy visual effects runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit destroy sound and event runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -1947,6 +1970,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after unit destroy visual effects runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4076 passed, 39303 subtests passed in 397.41s (0:06:37)`.
+- Full Python suite after unit destroy sound and event runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4077 passed, 39303 subtests passed in 362.16s (0:06:02)`.
 
 ## Remaining Gates
 
@@ -2015,10 +2041,12 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Unit destroy initial payload runtime proven: `reset_unit_destroy_initial_payload_runtime()`, `step_unit_destroy_initial_payload_runtime(true, true, 1.5, 0.8, 0.25, 4)` returns `return_guard=false`, `explosiveness=11.18`, `flammability=1.68421052631579`, `power=186.357373834953`; not-added and not-killable guards return null payload fields; summary exposes `unit_destroy_initial_payload_runtime`.
 - [x] Unit destroy explosion dispatch runtime proven: `reset_unit_destroy_explosion_dispatch_runtime()`, dynamic branch returns `call="Damage.dynamicExplosion"`, `radius=10.9411764705882`, `damage=true`, `fire=true`, `team=7`, `explosion_fx="Fx.dynamicExplosion"`, `base_shake=0`; blocked dynamic branch returns `damage=false` and `fire=false`; spawned-core branch returns `call="type.deathExplosionEffect.at"`, `rotation=1`, `effect="Fx.dynamicExplosion"`; summary exposes `unit_destroy_explosion_dispatch_runtime`.
 - [x] Unit destroy visual effects runtime proven: `reset_unit_destroy_visual_effects_runtime()`, fallback branch `step_unit_destroy_visual_effects_runtime(10, 20, 15, -1, true, 44)` returns `shake=8`, `scorch.size=3`, and `shake_effect.intensity=8`; explicit branch `step_unit_destroy_visual_effects_runtime(10, 20, 15, 2.5, false, 45)` returns `shake=2.5` and `scorch=null`; summary exposes `unit_destroy_visual_effects_runtime`.
+- [x] Unit destroy sound and event runtime proven: `reset_unit_destroy_sound_and_event_runtime()`, `step_unit_destroy_sound_and_event_runtime("unitExplode2", 0.65, 51)` returns `sound_call.call="type.deathSound.at(this, 1f, type.deathSoundVolume);"`, `sound="unitExplode2"`, `pitch=1.0`, `volume=0.65`, `event_call.event="Events.fire(new UnitDestroyEvent(self()));"`, `event_class="UnitDestroyEvent"`, `unit=51`; summary exposes `unit_destroy_sound_and_event_runtime`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit icon runtime, unit destroy initial payload runtime, unit destroy explosion dispatch runtime, unit destroy visual effects runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, unit update spawned-core despawn runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Playable checklist: `66/67 = 98.51%` done; open `1/67 = 1.49%`.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit icon runtime, unit destroy initial payload runtime, unit destroy explosion dispatch runtime, unit destroy visual effects runtime, unit destroy sound and event runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, unit update spawned-core despawn runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
 - Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit icon runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, unit update tile-unitOn runtime, unit update floor-damage runtime, unit update solid-tile response runtime, unit update AI-controller runtime, unit update invalid-controller reset runtime, unit update spawned-core despawn runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.

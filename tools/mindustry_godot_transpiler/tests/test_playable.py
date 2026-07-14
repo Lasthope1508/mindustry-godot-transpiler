@@ -11981,6 +11981,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": visual_effects_state.get("unit")', source)
         self.assertIn('"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_sound_and_event_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_sound_and_event_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_sound_and_event_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_sound_and_event_runtime(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_sound_and_event_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_sound_and_event_state(death_sound, death_sound_volume, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_sound_and_event": sound_event_state', source)
+        self.assertIn('"method": sound_event_state.get("method")', source)
+        self.assertIn('"sound_call": sound_event_state.get("soundCall")', source)
+        self.assertIn('"event_call": sound_event_state.get("eventCall")', source)
+        self.assertIn('"sound": sound_call.get("sound")', source)
+        self.assertIn('"pitch": sound_call.get("pitch")', source)
+        self.assertIn('"volume": sound_call.get("volume")', source)
+        self.assertIn('"event_class": event_call.get("eventClass")', source)
+        self.assertIn('"unit": event_call.get("unit")', source)
+        self.assertIn('"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
