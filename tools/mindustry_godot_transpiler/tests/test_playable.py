@@ -11106,6 +11106,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"createControllerArg": SOURCE_UNIT_AFTER_READ_SELF_ARG', source)
         self.assertIn('"type_id": type_id', source)
 
+    def test_port_game_exposes_unit_after_read_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_after_read_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_after_read_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_after_read_runtime(type_id: int = 1, controller_is_ai_controller: bool = false, ai_keep_state: bool = false, controller_exists: bool = true) -> Dictionary:", source)
+        self.assertIn("func unit_after_read_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_after_read_state(type_id, controller_is_ai_controller, ai_keep_state, controller_exists)", source)
+        self.assertIn('"after_read": after_read_state', source)
+        self.assertIn('"reset_guard": SOURCE_UNIT_AFTER_READ_RESET_GUARD', source)
+        self.assertIn('"create_controller_call": SOURCE_UNIT_AFTER_READ_CREATE_CONTROLLER_CALL', source)
+        self.assertIn('"unit_after_read_runtime": unit_after_read_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_after_read_all_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

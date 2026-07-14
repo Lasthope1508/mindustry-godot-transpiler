@@ -127,6 +127,7 @@ var unit_payload_targeting_last_state: Dictionary = {}
 var unit_player_controllable_last_state: Dictionary = {}
 var unit_killable_last_state: Dictionary = {}
 var unit_after_sync_last_state: Dictionary = {}
+var unit_after_read_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19845,6 +19846,26 @@ func source_unit_after_read_state(type_id: int, controller_is_ai_controller: boo
 		"createControllerArg": SOURCE_UNIT_AFTER_READ_SELF_ARG,
 	}
 
+func reset_unit_after_read_runtime() -> Dictionary:
+	unit_after_read_last_state = {}
+	return unit_after_read_runtime_state()
+
+func step_unit_after_read_runtime(type_id: int = 1, controller_is_ai_controller: bool = false, ai_keep_state: bool = false, controller_exists: bool = true) -> Dictionary:
+	var after_read_state := source_unit_after_read_state(type_id, controller_is_ai_controller, ai_keep_state, controller_exists)
+	unit_after_read_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"after_read": after_read_state,
+		"reset_guard": SOURCE_UNIT_AFTER_READ_RESET_GUARD,
+		"create_controller_call": SOURCE_UNIT_AFTER_READ_CREATE_CONTROLLER_CALL,
+	}
+	return unit_after_read_runtime_state()
+
+func unit_after_read_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_after_read_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_AFTER_READ_ALL_OVERRIDE := "@Override"
 const SOURCE_UNIT_AFTER_READ_ALL_METHOD := "public void afterReadAll(){"
 const SOURCE_UNIT_AFTER_READ_ALL_CALL := "controller.afterRead(self());"
@@ -32332,6 +32353,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_player_controllable_runtime": unit_player_controllable_runtime_state(),
 		"unit_killable_runtime": unit_killable_runtime_state(),
 		"unit_after_sync_runtime": unit_after_sync_runtime_state(),
+		"unit_after_read_runtime": unit_after_read_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
