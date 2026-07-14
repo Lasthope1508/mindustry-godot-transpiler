@@ -13447,6 +13447,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"timeDeltaSource": "public static float delta = 1f;"', source)
         self.assertIn('"shootGateSource": "velLen >= minShootVelocity && //check velocity requirements"', source)
 
+    def test_port_game_exposes_weapon_update_velocity_length_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_velocity_length_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_velocity_length_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_velocity_length_runtime(unit_state: Dictionary, source_delta: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_velocity_length_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_velocity_length_state(unit_state, source_delta)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_velocity_length": weapon_update_velocity_length_state', source)
+        self.assertIn('"vel_len": weapon_update_velocity_length_state.get("velLen")', source)
+        self.assertIn('"is_remote": weapon_update_velocity_length_state.get("isRemote")', source)
+        self.assertIn('"remote_vel_len": weapon_update_velocity_length_state.get("remoteVelLen")', source)
+        self.assertIn('"local_delta_len": weapon_update_velocity_length_state.get("localDeltaLen")', source)
+        self.assertIn('"source_delta": weapon_update_velocity_length_state.get("sourceDelta")', source)
+        self.assertIn('"branch": weapon_update_velocity_length_state.get("branch")', source)
+        self.assertIn('"vel_len_source": weapon_update_velocity_length_state.get("velLenSource")', source)
+        self.assertIn('"is_remote_source": weapon_update_velocity_length_state.get("isRemoteSource")', source)
+        self.assertIn('"delta_len_source": weapon_update_velocity_length_state.get("deltaLenSource")', source)
+        self.assertIn('"vec2_len_source": weapon_update_velocity_length_state.get("vec2LenSource")', source)
+        self.assertIn('"time_delta_source": weapon_update_velocity_length_state.get("timeDeltaSource")', source)
+        self.assertIn('"shoot_gate_source": weapon_update_velocity_length_state.get("shootGateSource")', source)
+        self.assertIn('"weapon_update_velocity_length_runtime": weapon_update_velocity_length_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

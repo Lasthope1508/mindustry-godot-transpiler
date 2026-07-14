@@ -189,6 +189,7 @@ var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}
 var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}
 var weapon_update_alternating_side_flip_last_state: Dictionary = {}
 var weapon_update_active_sound_loop_last_state: Dictionary = {}
+var weapon_update_velocity_length_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22404,6 +22405,36 @@ func weapon_update_active_sound_loop_runtime_state() -> Dictionary:
 		"last_state": weapon_update_active_sound_loop_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_velocity_length_runtime() -> Dictionary:
+	weapon_update_velocity_length_last_state = {}
+	return weapon_update_velocity_length_runtime_state()
+
+func step_weapon_update_velocity_length_runtime(unit_state: Dictionary, source_delta: float) -> Dictionary:
+	var weapon_update_velocity_length_state := source_weapon_update_velocity_length_state(unit_state, source_delta)
+	weapon_update_velocity_length_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_velocity_length": weapon_update_velocity_length_state,
+		"vel_len": weapon_update_velocity_length_state.get("velLen"),
+		"is_remote": weapon_update_velocity_length_state.get("isRemote"),
+		"remote_vel_len": weapon_update_velocity_length_state.get("remoteVelLen"),
+		"local_delta_len": weapon_update_velocity_length_state.get("localDeltaLen"),
+		"source_delta": weapon_update_velocity_length_state.get("sourceDelta"),
+		"branch": weapon_update_velocity_length_state.get("branch"),
+		"vel_len_source": weapon_update_velocity_length_state.get("velLenSource"),
+		"is_remote_source": weapon_update_velocity_length_state.get("isRemoteSource"),
+		"delta_len_source": weapon_update_velocity_length_state.get("deltaLenSource"),
+		"vec2_len_source": weapon_update_velocity_length_state.get("vec2LenSource"),
+		"time_delta_source": weapon_update_velocity_length_state.get("timeDeltaSource"),
+		"shoot_gate_source": weapon_update_velocity_length_state.get("shootGateSource"),
+	}
+	return weapon_update_velocity_length_runtime_state()
+
+func weapon_update_velocity_length_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_velocity_length_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -34008,6 +34039,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_continuous_idle_heat_sound_runtime": weapon_update_continuous_idle_heat_sound_runtime_state(),
 		"weapon_update_alternating_side_flip_runtime": weapon_update_alternating_side_flip_runtime_state(),
 		"weapon_update_active_sound_loop_runtime": weapon_update_active_sound_loop_runtime_state(),
+		"weapon_update_velocity_length_runtime": weapon_update_velocity_length_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
