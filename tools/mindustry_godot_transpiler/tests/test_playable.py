@@ -12921,6 +12921,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shootRotateSource": "mount.shoot = mount.rotate = shoot;"', source)
         self.assertIn('"logicNoteSource": "//note that shooting state is not affected, as these cannot be controlled"', source)
 
+    def test_port_game_exposes_weapon_update_auto_target_shoot_aim_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_auto_target_shoot_aim_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_auto_target_shoot_aim_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_auto_target_shoot_aim_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, mount_x: float, mount_y: float, target_within_result: bool, predicted_aim: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_auto_target_shoot_aim_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_auto_target_shoot_aim_state(mount_state, weapon_state, bullet_state, can_shoot, mount_x, mount_y, target_within_result, predicted_aim)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_auto_target_shoot_aim": weapon_update_auto_target_shoot_aim_state', source)
+        self.assertIn('"shoot": weapon_update_auto_target_shoot_aim_state.get("shoot")', source)
+        self.assertIn('"rotate": weapon_update_auto_target_shoot_aim_state.get("rotate")', source)
+        self.assertIn('"aim_x": weapon_update_auto_target_shoot_aim_state.get("aimX")', source)
+        self.assertIn('"aim_y": weapon_update_auto_target_shoot_aim_state.get("aimY")', source)
+        self.assertIn('"target_exists": weapon_update_auto_target_shoot_aim_state.get("targetExists")', source)
+        self.assertIn('"target_within": weapon_update_auto_target_shoot_aim_state.get("targetWithin")', source)
+        self.assertIn('"within_range": weapon_update_auto_target_shoot_aim_state.get("withinRange")', source)
+        self.assertIn('"predict_target": weapon_update_auto_target_shoot_aim_state.get("predictTarget")', source)
+        self.assertIn('"shoot_source": weapon_update_auto_target_shoot_aim_state.get("shootSource")', source)
+        self.assertIn('"predict_source": weapon_update_auto_target_shoot_aim_state.get("predictSource")', source)
+        self.assertIn('"direct_aim_x_source": weapon_update_auto_target_shoot_aim_state.get("directAimXSource")', source)
+        self.assertIn('"shoot_rotate_source": weapon_update_auto_target_shoot_aim_state.get("shootRotateSource")', source)
+        self.assertIn('"weapon_update_auto_target_shoot_aim_runtime": weapon_update_auto_target_shoot_aim_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_rotate_toward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
