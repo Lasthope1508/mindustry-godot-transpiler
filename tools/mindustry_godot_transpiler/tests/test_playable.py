@@ -13405,6 +13405,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"soundControlGuardSource": "if(Vars.headless || sound == Sounds.none || volume <= 0.00001f) return;"', source)
         self.assertIn('"velLenReservedSource": "float velLen = unit.isRemote() ? unit.vel.len() : unit.deltaLen() / Time.delta;"', source)
 
+    def test_port_game_exposes_weapon_update_active_sound_loop_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_active_sound_loop_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_active_sound_loop_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_active_sound_loop_runtime(mount_state: Dictionary, weapon_state: Dictionary, runtime_state: Dictionary, can_shoot: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func weapon_update_active_sound_loop_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_active_sound_loop_state(mount_state, weapon_state, runtime_state, can_shoot, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_active_sound_loop": weapon_update_active_sound_loop_state', source)
+        self.assertIn('"active_sound_gate": weapon_update_active_sound_loop_state.get("activeSoundGate")', source)
+        self.assertIn('"headless": weapon_update_active_sound_loop_state.get("headless")', source)
+        self.assertIn('"active_sound": weapon_update_active_sound_loop_state.get("activeSound")', source)
+        self.assertIn('"mount_shoot": weapon_update_active_sound_loop_state.get("mountShoot")', source)
+        self.assertIn('"can_shoot": weapon_update_active_sound_loop_state.get("canShoot")', source)
+        self.assertIn('"mount_warmup": weapon_update_active_sound_loop_state.get("mountWarmup")', source)
+        self.assertIn('"min_warmup": weapon_update_active_sound_loop_state.get("minWarmup")', source)
+        self.assertIn('"active_sound_volume": weapon_update_active_sound_loop_state.get("activeSoundVolume")', source)
+        self.assertIn('"sound_loop_call": weapon_update_active_sound_loop_state.get("soundLoopCall")', source)
+        self.assertIn('"guard_source": weapon_update_active_sound_loop_state.get("guardSource")', source)
+        self.assertIn('"loop_source": weapon_update_active_sound_loop_state.get("loopSource")', source)
+        self.assertIn('"sound_control_guard_source": weapon_update_active_sound_loop_state.get("soundControlGuardSource")', source)
+        self.assertIn('"vel_len_reserved_source": weapon_update_active_sound_loop_state.get("velLenReservedSource")', source)
+        self.assertIn('"weapon_update_active_sound_loop_runtime": weapon_update_active_sound_loop_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_velocity_length_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
