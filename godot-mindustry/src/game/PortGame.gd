@@ -144,6 +144,7 @@ var unit_update_spawn_knockback_last_state: Dictionary = {}
 var unit_update_falling_drag_last_state: Dictionary = {}
 var unit_update_falling_smoke_last_state: Dictionary = {}
 var unit_update_falling_engine_trail_last_state: Dictionary = {}
+var unit_update_falling_descent_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20987,6 +20988,28 @@ func source_unit_update_falling_descent_state(dead_value: bool, health_value: fl
 		"destroy": destroy_call,
 	}
 
+func reset_unit_update_falling_descent_runtime() -> Dictionary:
+	unit_update_falling_descent_last_state = {}
+	return unit_update_falling_descent_runtime_state()
+
+func step_unit_update_falling_descent_runtime(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
+	var falling_descent_state := source_unit_update_falling_descent_state(dead_value, health_value, elevation_value, type_fall_speed, source_delta, is_grounded_value, max_health, type_wreck_health_multiplier, unit_id)
+	unit_update_falling_descent_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_falling_descent": falling_descent_state,
+		"falling_guard": falling_descent_state.get("fallingGuard"),
+		"elevation": falling_descent_state.get("elevation"),
+		"destroy": falling_descent_state.get("destroy"),
+		"wreck_health_threshold": falling_descent_state.get("wreckHealthThreshold"),
+	}
+	return unit_update_falling_descent_runtime_state()
+
+func unit_update_falling_descent_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_falling_descent_last_state.duplicate(true),
+	}
+
 func source_unit_update_tile_unit_on_any_state(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
 	var guard := tile_exists and tile_build_exists
 	var callback: Variant = null
@@ -32706,6 +32729,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_falling_drag_runtime": unit_update_falling_drag_runtime_state(),
 		"unit_update_falling_smoke_runtime": unit_update_falling_smoke_runtime_state(),
 		"unit_update_falling_engine_trail_runtime": unit_update_falling_engine_trail_runtime_state(),
+		"unit_update_falling_descent_runtime": unit_update_falling_descent_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

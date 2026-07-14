@@ -11614,6 +11614,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"elevation": next_elevation', source)
         self.assertIn('"wreckHealthThreshold": wreck_health_threshold', source)
 
+    def test_port_game_exposes_unit_update_falling_descent_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_falling_descent_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_falling_descent_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_falling_descent_runtime(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_update_falling_descent_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_falling_descent_state(dead_value, health_value, elevation_value, type_fall_speed, source_delta, is_grounded_value, max_health, type_wreck_health_multiplier, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_falling_descent": falling_descent_state', source)
+        self.assertIn('"falling_guard": falling_descent_state.get("fallingGuard")', source)
+        self.assertIn('"elevation": falling_descent_state.get("elevation")', source)
+        self.assertIn('"destroy": falling_descent_state.get("destroy")', source)
+        self.assertIn('"wreck_health_threshold": falling_descent_state.get("wreckHealthThreshold")', source)
+        self.assertIn('"unit_update_falling_descent_runtime": unit_update_falling_descent_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_tile_unit_on_any_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
