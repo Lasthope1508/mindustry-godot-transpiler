@@ -124,6 +124,7 @@ var payload_runtime_move_last_state: Dictionary = {}
 var payload_runtime_dump_last_state: Dictionary = {}
 var payload_default_last_state: Dictionary = {}
 var unit_payload_targeting_last_state: Dictionary = {}
+var unit_killable_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19694,6 +19695,25 @@ func source_unit_killable_state(type_killable: bool) -> Dictionary:
 		"call": "type.killable(self())",
 	}
 
+func reset_unit_killable_runtime() -> Dictionary:
+	unit_killable_last_state = {}
+	return unit_killable_runtime_state()
+
+func step_unit_killable_runtime(type_killable: bool = true) -> Dictionary:
+	var killable_state := source_unit_killable_state(type_killable)
+	unit_killable_last_state = {
+		"source_owner": "core/src/mindustry/type/UnitType.java",
+		"killable": killable_state,
+		"return_expr": SOURCE_UNIT_KILLABLE_TYPE_RETURN,
+	}
+	return unit_killable_runtime_state()
+
+func unit_killable_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/UnitType.java",
+		"last_state": unit_killable_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_HITTABLE_METHOD := "public boolean hittable(){"
 const SOURCE_UNIT_HITTABLE_UNIT_RETURN := "return type.hittable(self());"
 const SOURCE_UNIT_HITTABLE_TYPE_METHOD := "public boolean hittable(Unit unit){"
@@ -32264,6 +32284,7 @@ func get_runtime_summary() -> Dictionary:
 		"game_over_runtime": game_over_runtime_state(),
 		"enemy_runtime": enemy_runtime_state(),
 		"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state(),
+		"unit_killable_runtime": unit_killable_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

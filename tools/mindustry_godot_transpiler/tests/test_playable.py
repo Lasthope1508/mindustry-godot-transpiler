@@ -10995,6 +10995,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"killable": type_killable', source)
         self.assertIn('"call": "type.killable(self())"', source)
 
+    def test_port_game_exposes_unit_killable_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_killable_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_killable_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_killable_runtime(type_killable: bool = true) -> Dictionary:", source)
+        self.assertIn("func unit_killable_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_killable_state(type_killable)", source)
+        self.assertIn('"killable": killable_state', source)
+        self.assertIn('"return_expr": SOURCE_UNIT_KILLABLE_TYPE_RETURN', source)
+        self.assertIn('"unit_killable_runtime": unit_killable_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_hittable_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
