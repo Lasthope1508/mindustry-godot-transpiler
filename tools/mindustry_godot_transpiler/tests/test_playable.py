@@ -12963,6 +12963,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"targetRotationSource": "mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;"', source)
         self.assertIn('"rotationSource": "mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);"', source)
 
+    def test_port_game_exposes_weapon_update_rotate_toward_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_rotate_toward_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_rotate_toward_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_rotate_toward_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_rotate_toward_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_rotate_toward": weapon_update_rotate_toward_state', source)
+        self.assertIn('"gate": weapon_update_rotate_toward_state.get("gate")', source)
+        self.assertIn('"axis_angle": weapon_update_rotate_toward_state.get("axisAngle")', source)
+        self.assertIn('"axis_x": weapon_update_rotate_toward_state.get("axisX")', source)
+        self.assertIn('"axis_y": weapon_update_rotate_toward_state.get("axisY")', source)
+        self.assertIn('"target_rotation": weapon_update_rotate_toward_state.get("targetRotation")', source)
+        self.assertIn('"rotation": weapon_update_rotate_toward_state.get("rotation")', source)
+        self.assertIn('"rotation_limit": weapon_update_rotate_toward_state.get("rotationLimit")', source)
+        self.assertIn('"base_rotation": weapon_update_rotate_toward_state.get("baseRotation")', source)
+        self.assertIn('"limit_distance": weapon_update_rotate_toward_state.get("limitDistance")', source)
+        self.assertIn('"rotation_limit_applied": weapon_update_rotate_toward_state.get("rotationLimitApplied")', source)
+        self.assertIn('"non_rotate_applied": weapon_update_rotate_toward_state.get("nonRotateApplied")', source)
+        self.assertIn('"can_shoot": weapon_update_rotate_toward_state.get("canShoot")', source)
+        self.assertIn('"mount_rotate": weapon_update_rotate_toward_state.get("mountRotate")', source)
+        self.assertIn('"mount_shoot": weapon_update_rotate_toward_state.get("mountShoot")', source)
+        self.assertIn('"rotation_source": weapon_update_rotate_toward_state.get("rotationSource")', source)
+        self.assertIn('"limit_move_source": weapon_update_rotate_toward_state.get("limitMoveSource")', source)
+        self.assertIn('"non_rotate_source": weapon_update_rotate_toward_state.get("nonRotateSource")', source)
+        self.assertIn('"weapon_update_rotate_toward_runtime": weapon_update_rotate_toward_runtime_state()', source)
+
     def test_port_game_applies_source_weapon_update_rotation_limit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

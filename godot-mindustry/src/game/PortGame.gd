@@ -178,6 +178,7 @@ var weapon_update_mount_origin_last_state: Dictionary = {}
 var weapon_update_auto_target_retarget_last_state: Dictionary = {}
 var weapon_update_auto_target_invalidation_last_state: Dictionary = {}
 var weapon_update_auto_target_shoot_aim_last_state: Dictionary = {}
+var weapon_update_rotate_toward_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22045,6 +22046,41 @@ func weapon_update_auto_target_shoot_aim_runtime_state() -> Dictionary:
 		"last_state": weapon_update_auto_target_shoot_aim_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_rotate_toward_runtime() -> Dictionary:
+	weapon_update_rotate_toward_last_state = {}
+	return weapon_update_rotate_toward_runtime_state()
+
+func step_weapon_update_rotate_toward_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:
+	var weapon_update_rotate_toward_state := source_weapon_update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta)
+	weapon_update_rotate_toward_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_rotate_toward": weapon_update_rotate_toward_state,
+		"gate": weapon_update_rotate_toward_state.get("gate"),
+		"axis_angle": weapon_update_rotate_toward_state.get("axisAngle"),
+		"axis_x": weapon_update_rotate_toward_state.get("axisX"),
+		"axis_y": weapon_update_rotate_toward_state.get("axisY"),
+		"target_rotation": weapon_update_rotate_toward_state.get("targetRotation"),
+		"rotation": weapon_update_rotate_toward_state.get("rotation"),
+		"rotation_limit": weapon_update_rotate_toward_state.get("rotationLimit"),
+		"base_rotation": weapon_update_rotate_toward_state.get("baseRotation"),
+		"limit_distance": weapon_update_rotate_toward_state.get("limitDistance"),
+		"rotation_limit_applied": weapon_update_rotate_toward_state.get("rotationLimitApplied"),
+		"non_rotate_applied": weapon_update_rotate_toward_state.get("nonRotateApplied"),
+		"can_shoot": weapon_update_rotate_toward_state.get("canShoot"),
+		"mount_rotate": weapon_update_rotate_toward_state.get("mountRotate"),
+		"mount_shoot": weapon_update_rotate_toward_state.get("mountShoot"),
+		"rotation_source": weapon_update_rotate_toward_state.get("rotationSource"),
+		"limit_move_source": weapon_update_rotate_toward_state.get("limitMoveSource"),
+		"non_rotate_source": weapon_update_rotate_toward_state.get("nonRotateSource"),
+	}
+	return weapon_update_rotate_toward_runtime_state()
+
+func weapon_update_rotate_toward_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_rotate_toward_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33638,6 +33674,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_auto_target_retarget_runtime": weapon_update_auto_target_retarget_runtime_state(),
 		"weapon_update_auto_target_invalidation_runtime": weapon_update_auto_target_invalidation_runtime_state(),
 		"weapon_update_auto_target_shoot_aim_runtime": weapon_update_auto_target_shoot_aim_runtime_state(),
+		"weapon_update_rotate_toward_runtime": weapon_update_rotate_toward_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
