@@ -148,6 +148,7 @@ var unit_update_falling_descent_last_state: Dictionary = {}
 var unit_update_tile_unit_on_any_last_state: Dictionary = {}
 var unit_update_tile_unit_on_last_state: Dictionary = {}
 var unit_update_floor_damage_last_state: Dictionary = {}
+var unit_update_solid_tile_response_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21155,6 +21156,28 @@ func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on
 		"kill": kill_call,
 	}
 
+func reset_unit_update_solid_tile_response_runtime() -> Dictionary:
+	unit_update_solid_tile_response_last_state = {}
+	return unit_update_solid_tile_response_runtime_state()
+
+func step_unit_update_solid_tile_response_runtime(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
+	var solid_tile_state := source_unit_update_solid_tile_response_state(tile_exists, can_pass_on_value, type_can_boost, current_elevation, net_client_value, headless_value, is_remote_value, unit_id)
+	unit_update_solid_tile_response_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_solid_tile_response": solid_tile_state,
+		"guard": solid_tile_state.get("guard"),
+		"elevation": solid_tile_state.get("elevation"),
+		"kill": solid_tile_state.get("kill"),
+		"can_pass_on": solid_tile_state.get("canPassOn"),
+	}
+	return unit_update_solid_tile_response_runtime_state()
+
+func unit_update_solid_tile_response_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_solid_tile_response_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_UPDATE_AI_CONTROLLER_FIELD := "private UnitController controller;"
 const SOURCE_UNIT_UPDATE_AI_DEAD_IMPORT := "@Import boolean dead, disarmed;"
 const SOURCE_UNIT_UPDATE_AI_COMMENT := "//AI only updates on the server"
@@ -32803,6 +32826,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_tile_unit_on_any_runtime": unit_update_tile_unit_on_any_runtime_state(),
 		"unit_update_tile_unit_on_runtime": unit_update_tile_unit_on_runtime_state(),
 		"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state(),
+		"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

@@ -11736,6 +11736,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"elevation": next_elevation', source)
         self.assertIn('"kill": kill_call', source)
 
+    def test_port_game_exposes_unit_update_solid_tile_response_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_solid_tile_response_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_solid_tile_response_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_solid_tile_response_runtime(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_update_solid_tile_response_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_solid_tile_response_state(tile_exists, can_pass_on_value, type_can_boost, current_elevation, net_client_value, headless_value, is_remote_value, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_solid_tile_response": solid_tile_state', source)
+        self.assertIn('"guard": solid_tile_state.get("guard")', source)
+        self.assertIn('"elevation": solid_tile_state.get("elevation")', source)
+        self.assertIn('"kill": solid_tile_state.get("kill")', source)
+        self.assertIn('"can_pass_on": solid_tile_state.get("canPassOn")', source)
+        self.assertIn('"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_ai_controller_server_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
