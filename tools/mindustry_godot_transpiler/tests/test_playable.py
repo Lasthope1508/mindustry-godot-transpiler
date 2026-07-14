@@ -12229,6 +12229,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mounts": weapons_control_state.get("mounts")', source)
         self.assertIn('"weapons_control_runtime": weapons_control_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapons_aim_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapons_aim_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapons_aim_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapons_aim_runtime(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:", source)
+        self.assertIn("func step_weapons_aim_position_runtime(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:", source)
+        self.assertIn("func weapons_aim_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapons_aim_state(mount_states, unit_x, unit_y, target_x, target_y, aim_dst)", source)
+        self.assertIn("source_weapons_aim_position_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java"', source)
+        self.assertIn('"weapons_aim": weapons_aim_state', source)
+        self.assertIn('"float_method": weapons_aim_state.get("floatMethod")', source)
+        self.assertIn('"position_method": weapons_aim_state.get("positionMethod")', source)
+        self.assertIn('"position_delegate": weapons_aim_state.get("positionDelegate")', source)
+        self.assertIn('"tmp": weapons_aim_state.get("tmp")', source)
+        self.assertIn('"min_distance": weapons_aim_state.get("minDistance")', source)
+        self.assertIn('"zero_vector_set_length": weapons_aim_state.get("zeroVectorSetLength")', source)
+        self.assertIn('"aim_x": weapons_aim_state.get("aimX")', source)
+        self.assertIn('"aim_y": weapons_aim_state.get("aimY")', source)
+        self.assertIn('"mounts": weapons_aim_state.get("mounts")', source)
+        self.assertIn('"weapons_aim_runtime": weapons_aim_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

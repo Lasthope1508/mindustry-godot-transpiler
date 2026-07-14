@@ -168,6 +168,7 @@ var unit_kill_sync_last_state: Dictionary = {}
 var weapons_setup_mounts_last_state: Dictionary = {}
 var weapons_set_rotation_last_state: Dictionary = {}
 var weapons_control_last_state: Dictionary = {}
+var weapons_aim_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21768,6 +21769,50 @@ func weapons_control_runtime_state() -> Dictionary:
 		"last_state": weapons_control_last_state.duplicate(true),
 	}
 
+func reset_weapons_aim_runtime() -> Dictionary:
+	weapons_aim_last_state = {}
+	return weapons_aim_runtime_state()
+
+func step_weapons_aim_runtime(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:
+	var weapons_aim_state := source_weapons_aim_state(mount_states, unit_x, unit_y, target_x, target_y, aim_dst)
+	weapons_aim_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_aim": weapons_aim_state,
+		"float_method": weapons_aim_state.get("floatMethod"),
+		"position_method": weapons_aim_state.get("positionMethod"),
+		"position_delegate": weapons_aim_state.get("positionDelegate"),
+		"tmp": weapons_aim_state.get("tmp"),
+		"min_distance": weapons_aim_state.get("minDistance"),
+		"zero_vector_set_length": weapons_aim_state.get("zeroVectorSetLength"),
+		"aim_x": weapons_aim_state.get("aimX"),
+		"aim_y": weapons_aim_state.get("aimY"),
+		"mounts": weapons_aim_state.get("mounts"),
+	}
+	return weapons_aim_runtime_state()
+
+func step_weapons_aim_position_runtime(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
+	var weapons_aim_state := source_weapons_aim_position_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
+	weapons_aim_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_aim": weapons_aim_state,
+		"float_method": weapons_aim_state.get("floatMethod"),
+		"position_method": weapons_aim_state.get("positionMethod"),
+		"position_delegate": weapons_aim_state.get("positionDelegate"),
+		"tmp": weapons_aim_state.get("tmp"),
+		"min_distance": weapons_aim_state.get("minDistance"),
+		"zero_vector_set_length": weapons_aim_state.get("zeroVectorSetLength"),
+		"aim_x": weapons_aim_state.get("aimX"),
+		"aim_y": weapons_aim_state.get("aimY"),
+		"mounts": weapons_aim_state.get("mounts"),
+	}
+	return weapons_aim_runtime_state()
+
+func weapons_aim_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_aim_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33351,6 +33396,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state(),
 		"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state(),
 		"weapons_control_runtime": weapons_control_runtime_state(),
+		"weapons_aim_runtime": weapons_aim_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
