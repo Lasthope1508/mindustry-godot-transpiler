@@ -11499,6 +11499,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"relativeSize": relative_size', source)
         self.assertIn('"knockbacks": knockbacks', source)
 
+    def test_port_game_exposes_unit_update_spawn_knockback_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_spawn_knockback_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_spawn_knockback_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_spawn_knockback_runtime(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_spawn_knockback_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_spawn_knockback_state(team_is_wave_team, state_has_spawns_value, net_client_value, is_local_value, hittable_value, drop_zone_radius, hit_size, unit_x, unit_y, spawns, source_delta)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_spawn_knockback": spawn_knockback_state', source)
+        self.assertIn('"relative_size": spawn_knockback_state.get("relativeSize")', source)
+        self.assertIn('"knockbacks": spawn_knockback_state.get("knockbacks", [])', source)
+        self.assertIn('"unit_update_spawn_knockback_runtime": unit_update_spawn_knockback_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_falling_drag_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

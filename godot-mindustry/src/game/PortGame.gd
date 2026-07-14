@@ -140,6 +140,7 @@ var unit_update_unsupported_env_last_state: Dictionary = {}
 var unit_update_abilities_loop_last_state: Dictionary = {}
 var unit_update_trail_position_last_state: Dictionary = {}
 var unit_update_drag_formula_last_state: Dictionary = {}
+var unit_update_spawn_knockback_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20799,6 +20800,26 @@ func unit_update_drag_formula_runtime_state() -> Dictionary:
 		"last_state": unit_update_drag_formula_last_state.duplicate(true),
 	}
 
+func reset_unit_update_spawn_knockback_runtime() -> Dictionary:
+	unit_update_spawn_knockback_last_state = {}
+	return unit_update_spawn_knockback_runtime_state()
+
+func step_unit_update_spawn_knockback_runtime(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
+	var spawn_knockback_state := source_unit_update_spawn_knockback_state(team_is_wave_team, state_has_spawns_value, net_client_value, is_local_value, hittable_value, drop_zone_radius, hit_size, unit_x, unit_y, spawns, source_delta)
+	unit_update_spawn_knockback_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_spawn_knockback": spawn_knockback_state,
+		"relative_size": spawn_knockback_state.get("relativeSize"),
+		"knockbacks": spawn_knockback_state.get("knockbacks", []),
+	}
+	return unit_update_spawn_knockback_runtime_state()
+
+func unit_update_spawn_knockback_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_spawn_knockback_last_state.duplicate(true),
+	}
+
 func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
 	var guard := (not team_is_wave_team) and state_has_spawns_value and ((not net_client_value) or is_local_value) and hittable_value
 	var relative_size := drop_zone_radius + hit_size / 2.0 + 1.0
@@ -32616,6 +32637,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_abilities_loop_runtime": unit_update_abilities_loop_runtime_state(),
 		"unit_update_trail_position_runtime": unit_update_trail_position_runtime_state(),
 		"unit_update_drag_formula_runtime": unit_update_drag_formula_runtime_state(),
+		"unit_update_spawn_knockback_runtime": unit_update_spawn_knockback_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
