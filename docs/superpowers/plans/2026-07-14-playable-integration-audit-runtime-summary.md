@@ -150,6 +150,8 @@ Forty-seventh audit found `UnitComp.update()` falling engine trail was source-ba
 
 Forty-eighth audit found `UnitComp.update()` falling descent and destroy trigger were source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_falling_descent_runtime`, `reset_unit_update_falling_descent_runtime()`, and `step_unit_update_falling_descent_runtime(...)` so MCP can prove `elevation -= type.fallSpeed * Time.delta`, wreck-health threshold `-maxHealth * type.wreckHealthMultiplier`, grounded destroy, wreck-health destroy, and alive no-op paths from `core/src/mindustry/entities/comp/UnitComp.java`.
 
+Forty-ninth audit found `UnitComp.update()` tile `unitOnAny` callback was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_tile_unit_on_any_runtime`, `reset_unit_update_tile_unit_on_any_runtime()`, and `step_unit_update_tile_unit_on_any_runtime(...)` so MCP can prove `if(tile != null && tile.build != null)` and `tile.build.unitOnAny(self())` callback state from `core/src/mindustry/entities/comp/UnitComp.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -625,6 +627,21 @@ Godot MCP runtime on TCP port `7777`:
   - `alive_elevation=1.0`
   - `alive_destroy=null`
   - `summary_has_falling_descent=true`
+  - `generated_load_failures=0`
+  - `generated_instance_failures=0`
+- TCP unit update tile-unitOnAny proof:
+  - `initial_summary_has_tile_unit_on_any=true`
+  - `reset_empty=true`
+  - `active_guard=true`
+  - `active_call="tile.build.unitOnAny(self())"`
+  - `active_unit=77`
+  - `active_tile_exists=true`
+  - `active_tile_build_exists=true`
+  - `no_tile_guard=false`
+  - `no_tile_call=null`
+  - `no_build_guard=false`
+  - `no_build_call=null`
+  - `summary_has_tile_unit_on_any=true`
   - `generated_load_failures=0`
   - `generated_instance_failures=0`
 - Godot debug output: `errors=[]`
@@ -1392,6 +1409,15 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after unit update falling-descent runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_falling_descent_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_falling_descent_state tools/mindustry_godot_transpiler/tests/test_source_parity.py::SourceParityTests::test_unit_update_falling_descent_matches_upstream_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_falling_descent_symbols_are_registered_with_source_backing tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_falling_engine_trail_runtime_proof -q -p no:cacheprovider`
   - Result: `5 passed in 0.61s`.
+- Focused RED for unit update tile-unitOnAny runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_tile_unit_on_any_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var unit_update_tile_unit_on_any_last_state: Dictionary = {}`.
+- Focused GREEN for unit update tile-unitOnAny runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_tile_unit_on_any_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.43s`.
+- Focused regression after unit update tile-unitOnAny runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_tile_unit_on_any_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_tile_unit_on_any_state tools/mindustry_godot_transpiler/tests/test_source_parity.py::SourceParityTests::test_unit_update_tile_unit_on_any_matches_upstream_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_tile_unit_on_any_symbols_are_registered_with_source_backing tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_falling_descent_runtime_proof -q -p no:cacheprovider`
+  - Result: `5 passed in 0.57s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -1500,6 +1526,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after unit update falling-descent runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit update tile-unitOnAny runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -1605,6 +1634,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after unit update falling-descent runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4065 passed, 39303 subtests passed in 392.31s (0:06:32)`.
+- Full Python suite after unit update tile-unitOnAny runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4066 passed, 39303 subtests passed in 360.65s (0:06:00)`.
 
 ## Remaining Gates
 
@@ -1662,10 +1694,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Unit update falling-smoke runtime proven: `reset_unit_update_falling_smoke_runtime()`, falling/chance path emits `type.fallEffect.at` at `(11.5,18.0)` from `(x,y)=(10,20)` plus `Tmp.v1=(1.5,-2.0)`, no-chance and alive paths skip effect, and summary exposes `unit_update_falling_smoke_runtime`.
 - [x] Unit update falling-engine-trail runtime proven: `reset_unit_update_falling_engine_trail_runtime()`, falling/chance path emits `type.fallEngineEffect.at` at `(6.5,19.25)` from `(x,y)=(10,20)`, angle `180`, offset `3.75`, engine range `1.25`, position ranges `(0.25,-0.75)`, random rotation `0.33`, no-chance and alive paths skip effect, and summary exposes `unit_update_falling_engine_trail_runtime`.
 - [x] Unit update falling-descent runtime proven: `reset_unit_update_falling_descent_runtime()`, falling path descends elevation `1.0 -> -0.0799999999999998` without destroy, grounded path calls `Call.unitDestroy(id)` for id `42`, wreck-health path calls destroy for id `99`, alive path leaves elevation `1.0` and skips destroy, and summary exposes `unit_update_falling_descent_runtime`.
+- [x] Unit update tile-unitOnAny runtime proven: `reset_unit_update_tile_unit_on_any_runtime()`, active tile/build path calls `tile.build.unitOnAny(self())` for unit id `77`, missing tile and missing build paths skip callback, and summary exposes `unit_update_tile_unit_on_any_runtime`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, unit update abilities-loop runtime, unit update trail-position runtime, unit update drag-formula runtime, unit update spawn-knockback runtime, unit update falling-drag runtime, unit update falling-smoke runtime, unit update falling-engine-trail runtime, unit update falling-descent runtime, unit update tile-unitOnAny runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.

@@ -11643,6 +11643,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unit": unit_id', source)
         self.assertIn('"unitOnAny": callback', source)
 
+    def test_port_game_exposes_unit_update_tile_unit_on_any_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_tile_unit_on_any_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_tile_unit_on_any_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_tile_unit_on_any_runtime(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_update_tile_unit_on_any_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_tile_unit_on_any_state(tile_exists, tile_build_exists, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_tile_unit_on_any": tile_unit_on_any_state', source)
+        self.assertIn('"guard": tile_unit_on_any_state.get("guard")', source)
+        self.assertIn('"unit_on_any": tile_unit_on_any_state.get("unitOnAny")', source)
+        self.assertIn('"tile_exists": tile_unit_on_any_state.get("tileExists")', source)
+        self.assertIn('"tile_build_exists": tile_unit_on_any_state.get("tileBuildExists")', source)
+        self.assertIn('"unit_update_tile_unit_on_any_runtime": unit_update_tile_unit_on_any_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_tile_unit_on_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
