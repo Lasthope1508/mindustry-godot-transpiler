@@ -11958,6 +11958,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"effect": dispatch_state.get("effect")', source)
         self.assertIn('"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_visual_effects_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_visual_effects_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_visual_effects_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_visual_effects_runtime(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_visual_effects_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_visual_effects_state(source_x, source_y, hit_size, type_death_shake, type_create_scorch, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_visual_effects": visual_effects_state', source)
+        self.assertIn('"method": visual_effects_state.get("method")', source)
+        self.assertIn('"shake_formula": visual_effects_state.get("shakeFormula")', source)
+        self.assertIn('"scorch_guard": visual_effects_state.get("scorchGuard")', source)
+        self.assertIn('"scorch_call": visual_effects_state.get("scorchCall")', source)
+        self.assertIn('"shake_call": visual_effects_state.get("shakeCall")', source)
+        self.assertIn('"shake": visual_effects_state.get("shake")', source)
+        self.assertIn('"scorch": visual_effects_state.get("scorch")', source)
+        self.assertIn('"shake_effect": visual_effects_state.get("shakeEffect")', source)
+        self.assertIn('"unit": visual_effects_state.get("unit")', source)
+        self.assertIn('"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

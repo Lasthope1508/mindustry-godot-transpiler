@@ -155,6 +155,7 @@ var unit_update_spawned_core_despawn_last_state: Dictionary = {}
 var unit_icon_last_state: Dictionary = {}
 var unit_destroy_initial_payload_last_state: Dictionary = {}
 var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
+var unit_destroy_visual_effects_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21417,6 +21418,33 @@ func unit_destroy_explosion_dispatch_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_explosion_dispatch_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_visual_effects_runtime() -> Dictionary:
+	unit_destroy_visual_effects_last_state = {}
+	return unit_destroy_visual_effects_runtime_state()
+
+func step_unit_destroy_visual_effects_runtime(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
+	var visual_effects_state := source_unit_destroy_visual_effects_state(source_x, source_y, hit_size, type_death_shake, type_create_scorch, unit_id)
+	unit_destroy_visual_effects_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_visual_effects": visual_effects_state,
+		"method": visual_effects_state.get("method"),
+		"shake_formula": visual_effects_state.get("shakeFormula"),
+		"scorch_guard": visual_effects_state.get("scorchGuard"),
+		"scorch_call": visual_effects_state.get("scorchCall"),
+		"shake_call": visual_effects_state.get("shakeCall"),
+		"shake": visual_effects_state.get("shake"),
+		"scorch": visual_effects_state.get("scorch"),
+		"shake_effect": visual_effects_state.get("shakeEffect"),
+		"unit": visual_effects_state.get("unit"),
+	}
+	return unit_destroy_visual_effects_runtime_state()
+
+func unit_destroy_visual_effects_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_visual_effects_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -32987,6 +33015,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_icon_runtime": unit_icon_runtime_state(),
 		"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state(),
 		"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state(),
+		"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
