@@ -165,6 +165,7 @@ var unit_destroy_ability_death_last_state: Dictionary = {}
 var unit_destroy_type_killed_remove_last_state: Dictionary = {}
 var unit_killed_last_state: Dictionary = {}
 var unit_kill_sync_last_state: Dictionary = {}
+var weapons_setup_mounts_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21682,6 +21683,28 @@ func unit_kill_sync_runtime_state() -> Dictionary:
 		"last_state": unit_kill_sync_last_state.duplicate(true),
 	}
 
+func reset_weapons_setup_mounts_runtime() -> Dictionary:
+	weapons_setup_mounts_last_state = {}
+	return weapons_setup_mounts_runtime_state()
+
+func step_weapons_setup_mounts_runtime(weapon_states: Array) -> Dictionary:
+	var weapons_setup_mounts_state := source_weapons_setup_mounts_state(weapon_states)
+	weapons_setup_mounts_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_setup_mounts": weapons_setup_mounts_state,
+		"method": weapons_setup_mounts_state.get("method"),
+		"array": weapons_setup_mounts_state.get("array"),
+		"loop": weapons_setup_mounts_state.get("loop"),
+		"mounts": weapons_setup_mounts_state.get("mounts"),
+	}
+	return weapons_setup_mounts_runtime_state()
+
+func weapons_setup_mounts_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_setup_mounts_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33262,6 +33285,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state(),
 		"unit_killed_runtime": unit_killed_runtime_state(),
 		"unit_kill_sync_runtime": unit_kill_sync_runtime_state(),
+		"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

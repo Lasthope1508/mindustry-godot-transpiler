@@ -12171,6 +12171,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"remote_call": unit_kill_sync_state.get("remoteCall")', source)
         self.assertIn('"unit_kill_sync_runtime": unit_kill_sync_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapons_setup_mounts_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapons_setup_mounts_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapons_setup_mounts_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapons_setup_mounts_runtime(weapon_states: Array) -> Dictionary:", source)
+        self.assertIn("func weapons_setup_mounts_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapons_setup_mounts_state(weapon_states)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java"', source)
+        self.assertIn('"weapons_setup_mounts": weapons_setup_mounts_state', source)
+        self.assertIn('"method": weapons_setup_mounts_state.get("method")', source)
+        self.assertIn('"array": weapons_setup_mounts_state.get("array")', source)
+        self.assertIn('"loop": weapons_setup_mounts_state.get("loop")', source)
+        self.assertIn('"mounts": weapons_setup_mounts_state.get("mounts")', source)
+        self.assertIn('"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
