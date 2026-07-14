@@ -340,7 +340,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var builder_finished_count := 0", source)
         self.assertIn("func source_builder_unit_build_range() -> float:", source)
         self.assertIn("return SOURCE_BUILDING_RANGE", source)
-        self.assertIn("func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> Dictionary:", source)
+        self.assertIn("func queue_builder_plan(block_id: String, x: int, y: int, rotation_value: int = 0) -> Dictionary:", source)
         self.assertIn("var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_construct_progress)", source)
         self.assertIn('builder_plans = add_state.get("plans_after", [])', source)
         self.assertIn("func step_builder_runtime(delta: float) -> Dictionary:", source)
@@ -369,6 +369,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rules_build_cost_multiplier_expr": "public float buildCostMultiplier = 1f;"', proof_body)
         self.assertIn('"rules_build_speed_multiplier_expr": "public float buildSpeedMultiplier = 1f;"', proof_body)
         self.assertIn('"builder_runtime": builder_runtime_state()', summary_body)
+
+    def test_port_game_exposes_builder_deconstruct_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var builder_deconstruct_progress := 1.0", source)
+        self.assertIn('var builder_last_deconstruct_block_id := ""', source)
+        self.assertIn("var builder_last_deconstruct_cell := Vector2i.ZERO", source)
+        self.assertIn("var builder_last_deconstruct_build_cost := 0.0", source)
+        self.assertIn("var builder_last_deconstruct_speed_delta := 0.0", source)
+        self.assertIn("var builder_deconstruct_finished_count := 0", source)
+        self.assertIn("func queue_builder_deconstruct_plan(x: int, y: int) -> Dictionary:", source)
+        self.assertIn("func step_builder_deconstruct_runtime(delta: float) -> Dictionary:", source)
+        self.assertIn("func builder_deconstruct_runtime_state() -> Dictionary:", source)
+        self.assertIn('"deconstruct_progress_expr": "progress = Mathf.clamp(progress - amount);"', source)
+        self.assertIn('"deconstruct_finish_expr": "if(progress <= current.deconstructThreshold || state.rules.infiniteResources){"', source)
+        self.assertIn('"deconstruct_threshold_expr": "public float deconstructThreshold = 0f;"', source)
+        self.assertIn('"deconstruct_refund_multiplier_expr": "public float deconstructRefundMultiplier = 0.5f;"', source)
+        self.assertIn('"tile_remove_expr": "tile.remove();"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"builder_deconstruct_runtime": builder_deconstruct_runtime_state()', summary_body)
 
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

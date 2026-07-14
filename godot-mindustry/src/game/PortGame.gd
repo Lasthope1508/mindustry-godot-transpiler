@@ -22,6 +22,8 @@ const SOURCE_FINAL_WORLD_BOUNDS := 250.0
 const SOURCE_BUILDING_RANGE := 220.0
 const SOURCE_ALPHA_BUILD_SPEED := 0.5
 const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
+const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5
+const SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_PI2 := PI * 2.0
@@ -88,6 +90,14 @@ var builder_last_construct_cell := Vector2i.ZERO
 var builder_last_build_cost := 0.0
 var builder_last_build_speed_delta := 0.0
 var builder_finished_count := 0
+var builder_deconstruct_progress := 1.0
+var builder_last_deconstruct_block_id := ""
+var builder_last_deconstruct_cell := Vector2i.ZERO
+var builder_last_deconstruct_build_cost := 0.0
+var builder_last_deconstruct_speed_delta := 0.0
+var builder_last_deconstruct_refund_items: Array = []
+var builder_deconstruct_finished_count := 0
+var builder_last_deconstruct_removed := false
 var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
 var builder_build_speed_multiplier := 1.0
 var builder_rules_build_speed := 1.0
@@ -6204,7 +6214,7 @@ func placed_power_runtime_state() -> Dictionary:
 		"battery_capacity": float(battery.get("capacity", 0.0)),
 	}
 
-func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> Dictionary:
+func queue_builder_plan(block_id: String, x: int, y: int, rotation_value: int = 0) -> Dictionary:
 	if content_catalog == null:
 		return {"queued": false, "reason": "content_catalog_null", "runtime": builder_runtime_state()}
 	var block = content_catalog.get_by_id(block_id)
@@ -6217,7 +6227,7 @@ func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> 
 		"block_id": block_id,
 		"x": x,
 		"y": y,
-		"rotation": rotation,
+		"rotation": rotation_value,
 		"breaking": false,
 		"initialized": false,
 		"progress": builder_construct_progress,
@@ -6232,6 +6242,51 @@ func queue_builder_plan(block_id: String, x: int, y: int, rotation: int = 0) -> 
 		"add_build": add_state,
 		"runtime": builder_runtime_state(),
 	}
+
+func queue_builder_deconstruct_plan(x: int, y: int) -> Dictionary:
+	var cell := Vector2i(x, y)
+	var sprite = block_sprite_at_cell(cell)
+	if not is_instance_valid(sprite):
+		return {"queued": false, "reason": "missing_block", "runtime": builder_deconstruct_runtime_state()}
+	var block = block_from_sprite(sprite)
+	if block == null:
+		return {"queued": false, "reason": "block_null", "runtime": builder_deconstruct_runtime_state()}
+	builder_deconstruct_progress = 1.0
+	builder_last_deconstruct_block_id = block.id
+	builder_last_deconstruct_cell = cell
+	builder_last_deconstruct_build_cost = construct_block_build_cost(block)
+	builder_last_deconstruct_speed_delta = 0.0
+	builder_last_deconstruct_refund_items = []
+	builder_last_deconstruct_removed = false
+	var plan := {
+		"block_id": block.id,
+		"x": x,
+		"y": y,
+		"rotation": 0,
+		"breaking": true,
+		"initialized": false,
+		"progress": builder_deconstruct_progress,
+		"stuck": false,
+	}
+	var can_build := bool(source_builder_can_build_state(builder_type_build_speed, builder_build_speed_multiplier).get("can_build", false))
+	var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_deconstruct_progress)
+	builder_plans = add_state.get("plans_after", [])
+	builder_last_active = source_builder_build_plan_state(builder_plans.size(), builder_plans[0] if builder_plans.size() > 0 else null).get("build_plan", null)
+	return {
+		"queued": builder_plans.size() > 0,
+		"add_build": add_state,
+		"runtime": builder_deconstruct_runtime_state(),
+	}
+
+func step_builder_deconstruct_runtime(delta: float) -> Dictionary:
+	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
+	if not (first_plan is Dictionary) or not bool(first_plan.get("breaking", false)):
+		return {
+			"stepped": false,
+			"reason": "no_deconstruct_plan",
+			"runtime": builder_deconstruct_runtime_state(),
+		}
+	return step_builder_runtime(delta)
 
 func step_builder_runtime(delta: float) -> Dictionary:
 	var progress_before := builder_construct_progress
@@ -6250,6 +6305,32 @@ func step_builder_runtime(delta: float) -> Dictionary:
 		builder_last_construct_cell = Vector2i(int(current.get("x", 0)), int(current.get("y", 0)))
 		builder_last_build_cost = construct_block_build_cost(block)
 		builder_last_build_speed_delta = 1.0 / builder_last_build_cost * builder_type_build_speed * builder_build_speed_multiplier * builder_rules_build_speed
+		if bool(current.get("breaking", false)):
+			var sprite = block_sprite_at_cell(builder_last_construct_cell)
+			if not is_instance_valid(sprite):
+				builder_plans.remove_at(0)
+				continue
+			var deconstruct_progress_before := builder_deconstruct_progress
+			builder_deconstruct_progress = clamp(float(current.get("progress", builder_deconstruct_progress)) - builder_last_build_speed_delta, 0.0, 1.0)
+			builder_last_deconstruct_block_id = str(current.get("block_id", ""))
+			builder_last_deconstruct_cell = builder_last_construct_cell
+			builder_last_deconstruct_build_cost = builder_last_build_cost
+			builder_last_deconstruct_speed_delta = builder_last_build_speed_delta
+			builder_last_active = current
+			builder_build_alpha = 1.0
+			current["initialized"] = true
+			current["progress"] = builder_deconstruct_progress
+			current["stuck"] = abs(deconstruct_progress_before - builder_deconstruct_progress) <= SOURCE_FLOAT_ROUNDING_ERROR
+			builder_plans[0] = current
+			if builder_deconstruct_progress <= deconstruct_threshold_for_block(block):
+				builder_last_deconstruct_refund_items = refund_deconstruct_requirements(block)
+				remove_placed_block_sprite(sprite)
+				builder_plans.remove_at(0)
+				builder_deconstruct_finished_count += 1
+				builder_last_deconstruct_removed = true
+				completed = true
+				break
+			continue
 		if not can_afford(block):
 			current["stuck"] = true
 			builder_plans[0] = current
@@ -6286,6 +6367,41 @@ func step_builder_runtime(delta: float) -> Dictionary:
 		"plan_count": builder_plans.size(),
 		"active_plan": builder_last_active,
 		"runtime": builder_runtime_state(),
+	}
+
+func builder_deconstruct_runtime_state() -> Dictionary:
+	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
+	var build_plan_state := source_builder_build_plan_state(builder_plans.size(), first_plan)
+	return {
+		"source_owner": "core/src/mindustry/world/blocks/ConstructBlock.java",
+		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
+		"block_source_owner": "core/src/mindustry/world/Block.java",
+		"rules_source_owner": "core/src/mindustry/game/Rules.java",
+		"set_deconstruct_method": "public void setDeconstruct(Block previous){",
+		"set_deconstruct_progress_expr": "this.progress = 1f;",
+		"set_deconstruct_current_expr": "this.current = previous;",
+		"set_deconstruct_build_cost_expr": "this.buildCost = previous.buildTime * state.rules.buildCostMultiplier;",
+		"builder_breaking_branch_expr": "if(current.breaking){",
+		"builder_deconstruct_call_expr": "entity.deconstruct(self(), core, bs);",
+		"deconstruct_method": "public void deconstruct(Unit builder, @Nullable CoreBuild core, float amount){",
+		"deconstruct_progress_expr": "progress = Mathf.clamp(progress - amount);",
+		"deconstruct_finish_expr": "if(progress <= current.deconstructThreshold || state.rules.infiniteResources){",
+		"deconstruct_refund_target_expr": "int target = Mathf.round(requirements[i].amount * state.rules.buildCostMultiplier * state.rules.deconstructRefundMultiplier);",
+		"deconstruct_finish_call_expr": "Call.deconstructFinish(tile, this.current, lastBuilder);",
+		"deconstruct_finish_method": "public static void deconstructFinish(Tile tile, Block block, Unit builder){",
+		"tile_remove_expr": "tile.remove();",
+		"deconstruct_threshold_expr": "public float deconstructThreshold = 0f;",
+		"deconstruct_refund_multiplier_expr": "public float deconstructRefundMultiplier = 0.5f;",
+		"plan_count": builder_plans.size(),
+		"build_plan": build_plan_state,
+		"deconstruct_progress": builder_deconstruct_progress,
+		"last_deconstruct_block_id": builder_last_deconstruct_block_id,
+		"last_deconstruct_cell": {"x": builder_last_deconstruct_cell.x, "y": builder_last_deconstruct_cell.y},
+		"last_deconstruct_build_cost": builder_last_deconstruct_build_cost,
+		"last_deconstruct_speed_delta": builder_last_deconstruct_speed_delta,
+		"last_deconstruct_refund_items": builder_last_deconstruct_refund_items.duplicate(true),
+		"deconstruct_finished_count": builder_deconstruct_finished_count,
+		"last_deconstruct_removed": builder_last_deconstruct_removed,
 	}
 
 func builder_runtime_state() -> Dictionary:
@@ -6411,6 +6527,34 @@ func block_from_sprite(sprite):
 	if content_catalog == null or not is_instance_valid(sprite):
 		return null
 	return content_catalog.get_by_id(str(sprite.get_meta("source_block_id", "")))
+
+func deconstruct_threshold_for_block(block) -> float:
+	if block == null:
+		return SOURCE_DECONSTRUCT_THRESHOLD
+	return float(block.properties.get("deconstructThreshold", SOURCE_DECONSTRUCT_THRESHOLD))
+
+func refund_deconstruct_requirements(block) -> Array:
+	var refunds: Array = []
+	if block == null:
+		return refunds
+	for requirement in block.properties.get("requirements", []):
+		var item_id := str(requirement.get("item", ""))
+		var amount := int(floor(float(requirement.get("amount", 0)) * SOURCE_DECONSTRUCT_REFUND_MULTIPLIER + 0.5))
+		if item_id == "" or amount <= 0:
+			continue
+		add_core_item(item_id, amount)
+		refunds.append({"item": item_id, "amount": amount})
+	return refunds
+
+func remove_placed_block_sprite(sprite) -> void:
+	if not is_instance_valid(sprite):
+		return
+	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+	for occupied_key in sprite.get_meta("occupied_cells", []):
+		placed_blocks.erase(str(occupied_key))
+	placed_block_origins.erase(cell_key(origin_cell))
+	turret_cells.erase(origin_cell)
+	sprite.queue_free()
 
 func source_block_health_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -31300,6 +31444,7 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_distribution_runtime": placed_power_distribution_runtime_state(),
 		"placed_power_runtime": placed_power_runtime_state(),
 		"builder_runtime": builder_runtime_state(),
+		"builder_deconstruct_runtime": builder_deconstruct_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
