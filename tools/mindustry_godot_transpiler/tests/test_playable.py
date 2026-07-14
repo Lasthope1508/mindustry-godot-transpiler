@@ -13084,6 +13084,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"alwaysShootingSource": "if(alwaysShooting) mount.shoot = true;"', source)
         self.assertIn('"continuousReservedSource": "if(continuous && mount.bullet != null){"', source)
 
+    def test_port_game_exposes_weapon_update_always_shooting_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_always_shooting_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_always_shooting_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_always_shooting_runtime(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_always_shooting_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_always_shooting_state(mount_state, weapon_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_always_shooting": weapon_update_always_shooting_state', source)
+        self.assertIn('"shoot": weapon_update_always_shooting_state.get("shoot")', source)
+        self.assertIn('"always_shooting": weapon_update_always_shooting_state.get("alwaysShooting")', source)
+        self.assertIn('"always_shooting_source": weapon_update_always_shooting_state.get("alwaysShootingSource")', source)
+        self.assertIn('"continuous_reserved_source": weapon_update_always_shooting_state.get("continuousReservedSource")', source)
+        self.assertIn('"weapon_update_always_shooting_runtime": weapon_update_always_shooting_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_continuous_invalidation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
