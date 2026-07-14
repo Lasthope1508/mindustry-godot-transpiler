@@ -115,6 +115,9 @@ var liquid_leak_amount := 6.0
 var liquid_leak_last_state: Dictionary = {}
 var item_dump_item := "copper"
 var item_dump_last_state: Dictionary = {}
+var put_item_item := "copper"
+var put_item_dump_cursor := 0
+var put_item_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -6926,6 +6929,28 @@ func item_dump_runtime_state() -> Dictionary:
 		"core_capacity": core_item_capacity,
 		"dump_cursor": drill_dump_cursor,
 		"last_dump": item_dump_last_state,
+	}
+
+func reset_put_item_runtime(dump_cursor: int = 0) -> Dictionary:
+	put_item_dump_cursor = dump_cursor
+	put_item_last_state = {}
+	return put_item_runtime_state()
+
+func step_put_item_runtime() -> Dictionary:
+	var put_state := source_building_put_item_state(put_item_item, 3, put_item_dump_cursor,
+		[false, true, false],
+		[true, true, true]
+	)
+	put_item_last_state = put_state
+	put_item_dump_cursor = int(put_state.get("cdump", put_item_dump_cursor))
+	return put_item_runtime_state()
+
+func put_item_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/gen/Building.java",
+		"item": put_item_item,
+		"dump_cursor": put_item_dump_cursor,
+		"last_put": put_item_last_state,
 	}
 
 func builder_skip_range_runtime_state() -> Dictionary:
@@ -32000,6 +32025,7 @@ func get_runtime_summary() -> Dictionary:
 		"liquid_transfer_runtime": liquid_transfer_runtime_state(),
 		"liquid_leak_runtime": liquid_leak_runtime_state(),
 		"item_dump_runtime": item_dump_runtime_state(),
+		"put_item_runtime": put_item_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

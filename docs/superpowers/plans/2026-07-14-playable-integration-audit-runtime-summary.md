@@ -100,6 +100,8 @@ Twenty-second audit found the factory loop used source-backed drill item dumping
 
 Twenty-third audit found liquid transfer was MCP-visible for building-to-building flow, but the `Building.moveLiquidForward(...)` leak branch that deposits puddles and removes leaked liquid was not MCP-visible. Runtime now exposes `liquid_leak_runtime`, `reset_liquid_leak_runtime()`, and `step_liquid_leak_runtime()` so MCP can prove leak amount, `Puddles.deposit(...)`, liquid removal, and remaining source liquid directly.
 
+Twenty-fourth audit found item dumping into the core was MCP-visible, but `Building.put(Item)` proximity handoff was not separately MCP-visible. Runtime now exposes `put_item_runtime`, `reset_put_item_runtime()`, and `step_put_item_runtime()` so MCP can prove proximity scan order, `incrementDump(...)`, accept/canDump guard, `handleItem(...)`, and resulting `cdump` directly.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -158,6 +160,8 @@ Fix:
 - Added `item_dump_item`, `item_dump_last_state`, `reset_item_dump_runtime()`, `step_item_dump_runtime()`, `item_dump_runtime_state()`, and `"item_dump_runtime": item_dump_runtime_state()` to runtime summary. The wrapper packages the existing source-backed `source_dump_drill_item_to_core()` path and exposes `dump(Item)` source expressions, core accept/handle state, source removal state, and live drill/core item counts.
 - Added RED test that requires a source-backed liquid leak runtime proof package.
 - Added `liquid_leak_liquid`, `liquid_leak_amount`, `liquid_leak_last_state`, `reset_liquid_leak_runtime()`, `step_liquid_leak_runtime()`, `liquid_leak_runtime_state()`, and `"liquid_leak_runtime": liquid_leak_runtime_state()` to runtime summary. The wrapper packages `source_building_move_liquid_forward_state(...)` and exposes leak branch source strings for `Puddles.deposit(...)` and `liquids.remove(...)`.
+- Added RED test that requires a source-backed `Building.put(Item)` runtime proof package.
+- Added `put_item_item`, `put_item_dump_cursor`, `put_item_last_state`, `reset_put_item_runtime()`, `step_put_item_runtime()`, `put_item_runtime_state()`, and `"put_item_runtime": put_item_runtime_state()` to runtime summary. The wrapper packages `source_building_put_item_state(...)` and exposes proximity scan indices, handled index, handle call, return value, and resulting dump cursor.
 
 ## Runtime Proof
 
@@ -220,6 +224,17 @@ Godot MCP runtime on TCP port `7777`:
   - `puddles_deposit_called=true`
   - `remove_liquid_called=true`
   - `return_value=0`
+  - `generated_load_failures=[]`
+  - `generated_instance_failures=[]`
+- TCP put item proof:
+  - `item="copper"`
+  - `proximity_size=3`
+  - `checked_indices=[0, 1]`
+  - `handled_index=1`
+  - `handle_item_called=true`
+  - `put=true`
+  - `return_value=true`
+  - `cdump=2`
   - `generated_load_failures=[]`
   - `generated_instance_failures=[]`
 - Godot debug output: `errors=[]`
@@ -696,6 +711,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_liquid_leak_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `var liquid_leak_amount := 6.0`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_put_item_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var put_item_item := "copper"`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -762,6 +780,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_liquid_leak_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed in 0.42s`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_put_item_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.44s`.
 - Focused regression after deconstruct slice and rotation warning fix:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof -q -p no:cacheprovider`
   - Result: `2 passed in 0.42s`.
@@ -786,6 +807,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after liquid leak runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_liquid_leak_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_liquid_transfer_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_item_dump_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_factory_runtime_proof -q -p no:cacheprovider`
   - Result: `4 passed in 0.23s`.
+- Focused regression after put item runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_put_item_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_item_dump_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_liquid_leak_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_factory_runtime_proof -q -p no:cacheprovider`
+  - Result: `4 passed in 0.24s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -819,6 +843,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after liquid leak runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after put item runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -849,6 +876,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after liquid leak runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4040 passed, 39303 subtests passed in 411.47s (0:06:51)`.
+- Full Python suite after put item runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4041 passed, 39303 subtests passed in 399.13s (0:06:39)`.
 
 ## Remaining Gates
 
@@ -881,10 +911,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Liquid transfer runtime proven: `reset_liquid_transfer_runtime(8.0, 1.0)`, `step_liquid_transfer_runtime()`, `source_amount=0.999999999999999`, `destination_amount=8`, `move_flow=7`, `move_return=7`, `transfer_guard_passed=true`, `handle_liquid_called=true`, `remove_liquid_called=true`.
 - [x] Item dump runtime proven: `reset_item_dump_runtime(3, 2, 10)`, `step_item_dump_runtime()`, source `3 -> 2`, core `2 -> 3`, `dumped=true`, `remove_removed=1`, `can_dump=true`, `move_forward_accept_state=true`.
 - [x] Liquid leak runtime proven: `reset_liquid_leak_runtime(6.0)`, `step_liquid_leak_runtime()`, amount `6 -> 2`, `leak_amount=4`, `leak_guard_passed=true`, `puddles_deposit_called=true`, `remove_liquid_called=true`.
+- [x] Put item runtime proven: `reset_put_item_runtime(0)`, `step_put_item_runtime()`, checked indices `[0, 1]`, `handled_index=1`, `handle_item_called=true`, `put=true`, `cdump=2`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.

@@ -538,6 +538,24 @@ class PlayableManifestTests(unittest.TestCase):
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
         self.assertIn('"item_dump_runtime": item_dump_runtime_state()', summary_body)
 
+    def test_port_game_exposes_put_item_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('var put_item_item := "copper"', source)
+        self.assertIn("var put_item_dump_cursor := 0", source)
+        self.assertIn("var put_item_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_put_item_runtime(dump_cursor: int = 0) -> Dictionary:", source)
+        self.assertIn("func step_put_item_runtime() -> Dictionary:", source)
+        self.assertIn("func put_item_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_building_put_item_state(put_item_item, 3, put_item_dump_cursor", source)
+        self.assertIn("put_item_dump_cursor = int(put_state.get(\"cdump\", put_item_dump_cursor))", source)
+        self.assertIn('"method": "public boolean put(Item item){"', source)
+        self.assertIn('"accept_can_dump_guard": "if(other.acceptItem(self(), item) && canDump(other, item)){"', source)
+        self.assertIn('"handle_item": "other.handleItem(self(), item);"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"put_item_runtime": put_item_runtime_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
