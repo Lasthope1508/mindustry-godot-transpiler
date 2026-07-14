@@ -12369,6 +12369,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mount_y_source": weapon_update_mount_origin_state.get("mountYSource")', source)
         self.assertIn('"weapon_update_mount_origin_runtime": weapon_update_mount_origin_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapon_update_auto_target_retarget_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapon_update_auto_target_retarget_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_auto_target_retarget_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_auto_target_retarget_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:", source)
+        self.assertIn("func weapon_update_auto_target_retarget_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_auto_target_retarget_state(mount_state, weapon_state, bullet_state, source_delta, mount_x, mount_y, find_target_result_exists)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_auto_target_retarget": weapon_update_auto_target_retarget_state', source)
+        self.assertIn('"gate": weapon_update_auto_target_retarget_state.get("gate")', source)
+        self.assertIn('"retarget": weapon_update_auto_target_retarget_state.get("retarget")', source)
+        self.assertIn('"retarget_after_decrement": weapon_update_auto_target_retarget_state.get("retargetAfterDecrement")', source)
+        self.assertIn('"find_target_called": weapon_update_auto_target_retarget_state.get("findTargetCalled")', source)
+        self.assertIn('"find_target_call": weapon_update_auto_target_retarget_state.get("findTargetCall")', source)
+        self.assertIn('"target_exists": weapon_update_auto_target_retarget_state.get("targetExists")', source)
+        self.assertIn('"retarget_source": weapon_update_auto_target_retarget_state.get("retargetSource")', source)
+        self.assertIn('"find_target_source": weapon_update_auto_target_retarget_state.get("findTargetSource")', source)
+        self.assertIn('"interval_source": weapon_update_auto_target_retarget_state.get("intervalSource")', source)
+        self.assertIn('"weapon_update_auto_target_retarget_runtime": weapon_update_auto_target_retarget_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
