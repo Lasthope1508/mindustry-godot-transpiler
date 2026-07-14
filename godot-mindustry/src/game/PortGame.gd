@@ -182,6 +182,7 @@ var weapon_update_rotate_toward_last_state: Dictionary = {}
 var weapon_update_bullet_origin_last_state: Dictionary = {}
 var weapon_update_always_shooting_last_state: Dictionary = {}
 var weapon_update_continuous_invalidation_last_state: Dictionary = {}
+var weapon_update_continuous_live_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22165,6 +22166,42 @@ func weapon_update_continuous_invalidation_runtime_state() -> Dictionary:
 		"last_state": weapon_update_continuous_invalidation_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_continuous_live_runtime() -> Dictionary:
+	weapon_update_continuous_live_last_state = {}
+	return weapon_update_continuous_live_runtime_state()
+
+func step_weapon_update_continuous_live_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
+	var weapon_update_continuous_live_state := source_weapon_update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation)
+	weapon_update_continuous_live_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_continuous_live": weapon_update_continuous_live_state,
+		"gate": weapon_update_continuous_live_state.get("gate"),
+		"invalid": weapon_update_continuous_live_state.get("invalid"),
+		"live": weapon_update_continuous_live_state.get("live"),
+		"bullet_rotation": weapon_update_continuous_live_state.get("bulletRotation"),
+		"bullet_x": weapon_update_continuous_live_state.get("bulletX"),
+		"bullet_y": weapon_update_continuous_live_state.get("bulletY"),
+		"reload": weapon_update_continuous_live_state.get("reload"),
+		"recoil": weapon_update_continuous_live_state.get("recoil"),
+		"vel_x": weapon_update_continuous_live_state.get("velX"),
+		"vel_y": weapon_update_continuous_live_state.get("velY"),
+		"vel_add_x": weapon_update_continuous_live_state.get("velAddX"),
+		"vel_add_y": weapon_update_continuous_live_state.get("velAddY"),
+		"bullet_rotation_source": weapon_update_continuous_live_state.get("bulletRotationSource"),
+		"bullet_set_source": weapon_update_continuous_live_state.get("bulletSetSource"),
+		"reload_source": weapon_update_continuous_live_state.get("reloadSource"),
+		"recoil_source": weapon_update_continuous_live_state.get("recoilSource"),
+		"velocity_add_source": weapon_update_continuous_live_state.get("velocityAddSource"),
+		"sound_reserved_source": weapon_update_continuous_live_state.get("soundReservedSource"),
+	}
+	return weapon_update_continuous_live_runtime_state()
+
+func weapon_update_continuous_live_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_continuous_live_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33762,6 +33799,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_bullet_origin_runtime": weapon_update_bullet_origin_runtime_state(),
 		"weapon_update_always_shooting_runtime": weapon_update_always_shooting_runtime_state(),
 		"weapon_update_continuous_invalidation_runtime": weapon_update_continuous_invalidation_runtime_state(),
+		"weapon_update_continuous_live_runtime": weapon_update_continuous_live_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

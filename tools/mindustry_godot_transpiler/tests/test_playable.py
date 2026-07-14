@@ -13154,6 +13154,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"velocityAddSource": "unit.vel.add(Tmp.v1.trns(mount.bullet.rotation() + 180f, mount.bullet.type.recoil * Time.delta));"', source)
         self.assertIn('"soundReservedSource": "if(shootSound != Sounds.none && !headless){"', source)
 
+    def test_port_game_exposes_weapon_update_continuous_live_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_continuous_live_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_continuous_live_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_continuous_live_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_continuous_live_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_continuous_live": weapon_update_continuous_live_state', source)
+        self.assertIn('"live": weapon_update_continuous_live_state.get("live")', source)
+        self.assertIn('"bullet_rotation": weapon_update_continuous_live_state.get("bulletRotation")', source)
+        self.assertIn('"bullet_x": weapon_update_continuous_live_state.get("bulletX")', source)
+        self.assertIn('"bullet_y": weapon_update_continuous_live_state.get("bulletY")', source)
+        self.assertIn('"reload": weapon_update_continuous_live_state.get("reload")', source)
+        self.assertIn('"recoil": weapon_update_continuous_live_state.get("recoil")', source)
+        self.assertIn('"vel_x": weapon_update_continuous_live_state.get("velX")', source)
+        self.assertIn('"vel_y": weapon_update_continuous_live_state.get("velY")', source)
+        self.assertIn('"vel_add_x": weapon_update_continuous_live_state.get("velAddX")', source)
+        self.assertIn('"vel_add_y": weapon_update_continuous_live_state.get("velAddY")', source)
+        self.assertIn('"bullet_rotation_source": weapon_update_continuous_live_state.get("bulletRotationSource")', source)
+        self.assertIn('"bullet_set_source": weapon_update_continuous_live_state.get("bulletSetSource")', source)
+        self.assertIn('"velocity_add_source": weapon_update_continuous_live_state.get("velocityAddSource")', source)
+        self.assertIn('"weapon_update_continuous_live_runtime": weapon_update_continuous_live_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_continuous_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
