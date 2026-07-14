@@ -162,6 +162,7 @@ var unit_destroy_shoot_on_death_mounts_last_state: Dictionary = {}
 var unit_destroy_crash_landing_damage_last_state: Dictionary = {}
 var unit_destroy_wreck_decal_last_state: Dictionary = {}
 var unit_destroy_ability_death_last_state: Dictionary = {}
+var unit_destroy_type_killed_remove_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21604,6 +21605,32 @@ func unit_destroy_ability_death_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_ability_death_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_type_killed_remove_runtime() -> Dictionary:
+	unit_destroy_type_killed_remove_last_state = {}
+	return unit_destroy_type_killed_remove_runtime_state()
+
+func step_unit_destroy_type_killed_remove_runtime(unit_id: int) -> Dictionary:
+	var type_killed_remove_state := source_unit_destroy_type_killed_remove_state(unit_id)
+	unit_destroy_type_killed_remove_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_type_killed_remove": type_killed_remove_state,
+		"method": type_killed_remove_state.get("method"),
+		"order": type_killed_remove_state.get("order"),
+		"type_killed_call": type_killed_remove_state.get("typeKilledCall"),
+		"remove_call": type_killed_remove_state.get("removeCall"),
+		"unit_type_default": type_killed_remove_state.get("unitTypeDefault"),
+		"unit_remove_override": type_killed_remove_state.get("unitRemoveOverride"),
+		"self_method": type_killed_remove_state.get("selfMethod"),
+		"unit": type_killed_remove_state.get("unit"),
+	}
+	return unit_destroy_type_killed_remove_runtime_state()
+
+func unit_destroy_type_killed_remove_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_type_killed_remove_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33181,6 +33208,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_crash_landing_damage_runtime": unit_destroy_crash_landing_damage_runtime_state(),
 		"unit_destroy_wreck_decal_runtime": unit_destroy_wreck_decal_runtime_state(),
 		"unit_destroy_ability_death_runtime": unit_destroy_ability_death_runtime_state(),
+		"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

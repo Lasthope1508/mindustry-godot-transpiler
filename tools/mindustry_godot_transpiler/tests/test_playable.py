@@ -12108,6 +12108,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"calls": ability_death_state.get("calls")', source)
         self.assertIn('"unit_destroy_ability_death_runtime": unit_destroy_ability_death_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_type_killed_remove_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_type_killed_remove_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_type_killed_remove_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_type_killed_remove_runtime(unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_type_killed_remove_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_type_killed_remove_state(unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_type_killed_remove": type_killed_remove_state', source)
+        self.assertIn('"method": type_killed_remove_state.get("method")', source)
+        self.assertIn('"order": type_killed_remove_state.get("order")', source)
+        self.assertIn('"type_killed_call": type_killed_remove_state.get("typeKilledCall")', source)
+        self.assertIn('"remove_call": type_killed_remove_state.get("removeCall")', source)
+        self.assertIn('"unit_type_default": type_killed_remove_state.get("unitTypeDefault")', source)
+        self.assertIn('"unit_remove_override": type_killed_remove_state.get("unitRemoveOverride")', source)
+        self.assertIn('"self_method": type_killed_remove_state.get("selfMethod")', source)
+        self.assertIn('"unit": type_killed_remove_state.get("unit")', source)
+        self.assertIn('"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
