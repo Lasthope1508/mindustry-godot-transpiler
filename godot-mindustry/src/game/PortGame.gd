@@ -123,6 +123,7 @@ var payload_runtime_dump_cursor := 0
 var payload_runtime_move_last_state: Dictionary = {}
 var payload_runtime_dump_last_state: Dictionary = {}
 var payload_default_last_state: Dictionary = {}
+var unit_payload_targeting_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19712,6 +19713,31 @@ func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloa
 		"call": SOURCE_UNIT_HITTABLE_CALL,
 	}
 
+func reset_unit_payload_targeting_runtime() -> Dictionary:
+	unit_payload_targeting_last_state = {}
+	return unit_payload_targeting_runtime_state()
+
+func step_unit_payload_targeting_runtime() -> Dictionary:
+	var targetable_state := source_unit_targetable_state(false, true, true, true, 1)
+	var hittable_state := source_unit_hittable_state(false, true, true, true)
+	unit_payload_targeting_last_state = {
+		"source_owner": "core/src/mindustry/type/UnitType.java",
+		"payload_source_owner": "core/src/mindustry/entities/comp/PayloadComp.java",
+		"targetable": targetable_state,
+		"hittable": hittable_state,
+		"targetable_payload_path": bool(targetable_state.get("payloadTargetable", false)),
+		"hittable_payload_path": bool(hittable_state.get("payloadHittable", false)),
+		"payload_has_payload_expr": SOURCE_UNIT_TARGETABLE_PAYLOAD_HAS_PAYLOAD_RETURN,
+	}
+	return unit_payload_targeting_runtime_state()
+
+func unit_payload_targeting_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/UnitType.java",
+		"payload_source_owner": "core/src/mindustry/entities/comp/PayloadComp.java",
+		"last_state": unit_payload_targeting_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_AFTER_SYNC_METHOD := "public void afterSync(){"
 const SOURCE_UNIT_AFTER_SYNC_COMMENT := "set up type info after reading"
 const SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL := "setType(this.type);"
@@ -32237,6 +32263,7 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_limit_range_margin": selected_turret_limit_range_margin(),
 		"game_over_runtime": game_over_runtime_state(),
 		"enemy_runtime": enemy_runtime_state(),
+		"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

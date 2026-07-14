@@ -106,6 +106,8 @@ Twenty-fifth audit found `Building.movePayload(Payload)` and `Building.dumpPaylo
 
 Twenty-sixth audit found the default `Building.getPayload()`, `takePayload()`, and `getPayloads()` null-return methods were source-backed and statically tested, but not visible as a grouped runtime proof. Runtime now exposes `payload_default_runtime`, `reset_payload_default_runtime()`, and `step_payload_default_runtime()` so MCP can prove default payload absence, nullable contract, no take side effect, and `return null;` behavior directly.
 
+Twenty-seventh audit found `UnitType.targetable(...)` and `UnitType.hittable(...)` payload-vulnerability paths were source-backed and statically tested, but not visible as a grouped runtime proof. Runtime now exposes `unit_payload_targeting_runtime`, `reset_unit_payload_targeting_runtime()`, and `step_unit_payload_targeting_runtime()` so MCP can prove `vulnerableWithPayloads && unit instanceof Payloadc p && p.hasPayload()` makes otherwise non-targetable/non-hittable units targetable and hittable.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -170,6 +172,8 @@ Fix:
 - Added `payload_runtime_payload`, `payload_runtime_dump_cursor`, `payload_runtime_move_last_state`, `payload_runtime_dump_last_state`, `reset_payload_runtime()`, `step_payload_move_runtime()`, `step_payload_dump_runtime()`, `payload_runtime_state()`, and `"payload_runtime": payload_runtime_state()` to runtime summary. The wrapper packages `source_move_payload_state(...)`, `source_payload_forward_offset(...)`, and `source_dump_payload_state(...)` with source strings from `BuildingComp.java`.
 - Added RED test that requires a source-backed default payload runtime proof package.
 - Added `payload_default_last_state`, `reset_payload_default_runtime()`, `step_payload_default_runtime()`, `payload_default_runtime_state()`, and `"payload_default_runtime": payload_default_runtime_state()` to runtime summary. The wrapper packages `source_building_get_payload_default_state()`, `source_building_take_payload_default_state()`, and `source_building_get_payloads_default_state()`.
+- Added RED test that requires a source-backed unit payload targeting runtime proof package.
+- Added `unit_payload_targeting_last_state`, `reset_unit_payload_targeting_runtime()`, `step_unit_payload_targeting_runtime()`, `unit_payload_targeting_runtime_state()`, and `"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state()` to runtime summary. The wrapper packages `source_unit_targetable_state(...)` and `source_unit_hittable_state(...)` over the payload-vulnerability branch.
 
 ## Runtime Proof
 
@@ -267,6 +271,15 @@ Godot MCP runtime on TCP port `7777`:
   - `get_payloads_has_payloads=false`
   - `get_payloads_return_null="return null;"`
   - `summary_has_payload_default_runtime=true`
+  - `generated_load_failures=[]`
+  - `generated_instance_failures=[]`
+- TCP unit payload targeting proof:
+  - `targetable=true`
+  - `targetable_payload_path=true`
+  - `hittable=true`
+  - `hittable_payload_path=true`
+  - `payload_has_payload_expr="return payloads.size > 0;"`
+  - `summary_has_unit_payload_targeting_runtime=true`
   - `generated_load_failures=[]`
   - `generated_instance_failures=[]`
 - Godot debug output: `errors=[]`
@@ -752,6 +765,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - RED:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_payload_default_runtime_proof -q -p no:cacheprovider`
   - Result: failed as expected with missing `var payload_default_last_state: Dictionary = {}`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_payload_targeting_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected with missing `var unit_payload_targeting_last_state: Dictionary = {}`.
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py -q -k test_port_game_exposes_runtime_summary_for_mcp`
   - Result: `1 passed, 1544 deselected`.
@@ -827,6 +843,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_payload_default_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed in 0.45s`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_payload_targeting_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.42s`.
 - Focused regression after deconstruct slice and rotation warning fix:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof -q -p no:cacheprovider`
   - Result: `2 passed in 0.42s`.
@@ -860,6 +879,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after payload default runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_payload_default_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_building_get_payload_default_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_building_take_payload_default_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_building_get_payloads_default_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_move_dump_payload_runtime_proof -q -p no:cacheprovider`
   - Result: `5 passed in 0.26s`.
+- Focused regression after unit payload targeting runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_payload_targeting_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_targetable_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_hittable_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_enemy_runtime_proof -q -p no:cacheprovider`
+  - Result: `4 passed in 0.22s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -902,6 +924,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after payload default runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit payload targeting runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -941,6 +966,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after payload default runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4043 passed, 39303 subtests passed in 400.06s (0:06:40)`.
+- Full Python suite after unit payload targeting runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4044 passed, 39303 subtests passed in 400.11s (0:06:40)`.
 
 ## Remaining Gates
 
@@ -976,10 +1004,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Put item runtime proven: `reset_put_item_runtime(0)`, `step_put_item_runtime()`, checked indices `[0, 1]`, `handled_index=1`, `handle_item_called=true`, `put=true`, `cdump=2`.
 - [x] Payload move/dump runtime proven: `reset_payload_runtime(0)`, `step_payload_move_runtime(true, true, true, true)`, `step_payload_dump_runtime()`, `move_moved=true`, `move_forward_offset=1`, `dump_handled_index=1`, `dump_handle_payload_called=true`, `dump_cdump=2`.
 - [x] Payload default runtime proven: `reset_payload_default_runtime()`, `step_payload_default_runtime()`, `get_payload_has_payload=false`, `take_payload_taken=false`, `get_payloads_has_payloads=false`, all default returns `"return null;"`.
+- [x] Unit payload targeting runtime proven: `reset_unit_payload_targeting_runtime()`, `step_unit_payload_targeting_runtime()`, `targetable_payload_path=true`, `hittable_payload_path=true`, `targetable=true`, `hittable=true`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.

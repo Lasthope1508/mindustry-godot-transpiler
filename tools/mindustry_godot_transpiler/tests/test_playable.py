@@ -11012,6 +11012,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"payloadHittable": payload_hittable', source)
         self.assertIn('"call": SOURCE_UNIT_HITTABLE_CALL', source)
 
+    def test_port_game_exposes_unit_payload_targeting_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_payload_targeting_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_payload_targeting_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_payload_targeting_runtime() -> Dictionary:", source)
+        self.assertIn("func unit_payload_targeting_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_targetable_state(false, true, true, true, 1)", source)
+        self.assertIn("source_unit_hittable_state(false, true, true, true)", source)
+        self.assertIn('"targetable": targetable_state', source)
+        self.assertIn('"hittable": hittable_state', source)
+        self.assertIn('"targetable_payload_path": bool(targetable_state.get("payloadTargetable", false))', source)
+        self.assertIn('"hittable_payload_path": bool(hittable_state.get("payloadHittable", false))', source)
+        self.assertIn('"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_after_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
