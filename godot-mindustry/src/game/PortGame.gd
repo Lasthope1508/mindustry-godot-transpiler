@@ -134,6 +134,7 @@ var unit_remove_last_state: Dictionary = {}
 var unit_landed_last_state: Dictionary = {}
 var unit_heal_last_state: Dictionary = {}
 var unit_update_heal_time_last_state: Dictionary = {}
+var unit_update_captured_sector_death_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20142,6 +20143,26 @@ func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state
 		"call": "kill()" if kill_unit else "",
 	}
 
+func reset_unit_update_captured_sector_death_runtime() -> Dictionary:
+	unit_update_captured_sector_death_last_state = {}
+	return unit_update_captured_sector_death_runtime_state()
+
+func step_unit_update_captured_sector_death_runtime(team_is_only_ai: bool = true, state_is_campaign: bool = true, sector_is_captured: bool = true) -> Dictionary:
+	var captured_sector_death_state := source_unit_update_captured_sector_death_state(team_is_only_ai, state_is_campaign, sector_is_captured)
+	unit_update_captured_sector_death_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_captured_sector_death": captured_sector_death_state,
+		"guard": captured_sector_death_state.get("guard", {}),
+		"kill_call": captured_sector_death_state.get("call", ""),
+	}
+	return unit_update_captured_sector_death_runtime_state()
+
+func unit_update_captured_sector_death_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_captured_sector_death_last_state.duplicate(true),
+	}
+
 func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
 	var sound_enabled := not headless_value
 	var velocity_len := sqrt(velocity_x * velocity_x + velocity_y * velocity_y)
@@ -32484,6 +32505,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_landed_runtime": unit_landed_runtime_state(),
 		"unit_heal_runtime": unit_heal_runtime_state(),
 		"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state(),
+		"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

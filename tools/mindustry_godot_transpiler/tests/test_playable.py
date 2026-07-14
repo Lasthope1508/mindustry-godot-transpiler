@@ -11323,6 +11323,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "kill()" if kill_unit else ""', source)
         self.assertIn('"guard": {"team.isOnlyAI()": team_is_only_ai, "state.isCampaign()": state_is_campaign, "state.getSector().isCaptured()": sector_is_captured}', source)
 
+    def test_port_game_exposes_unit_update_captured_sector_death_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_captured_sector_death_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_captured_sector_death_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_captured_sector_death_runtime(team_is_only_ai: bool = true, state_is_campaign: bool = true, sector_is_captured: bool = true) -> Dictionary:", source)
+        self.assertIn("func unit_update_captured_sector_death_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_captured_sector_death_state(team_is_only_ai, state_is_campaign, sector_is_captured)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_captured_sector_death": captured_sector_death_state', source)
+        self.assertIn('"guard": captured_sector_death_state.get("guard", {})', source)
+        self.assertIn('"kill_call": captured_sector_death_state.get("call", "")', source)
+        self.assertIn('"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_sound_loop_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
