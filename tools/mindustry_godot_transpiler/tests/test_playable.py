@@ -13611,6 +13611,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shootMethodReservedSource": "protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){"', source)
         self.assertIn('"shootStatusApplyReservedSource": "unit.apply(shootStatus, shootStatusDuration);"', source)
 
+    def test_port_game_exposes_weapon_update_shoot_call_reload_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_shoot_call_reload_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_shoot_call_reload_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_shoot_call_reload_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:", source)
+        self.assertIn("func weapon_update_shoot_call_reload_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_shoot_call_reload_state(mount_state, weapon_state, unit_id, bullet_x, bullet_y, shoot_angle, shoot_gate)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_shoot_call_reload": weapon_update_shoot_call_reload_state', source)
+        self.assertIn('"shoot_gate": weapon_update_shoot_call_reload_state.get("shootGate")', source)
+        self.assertIn('"mount_reload": weapon_update_shoot_call_reload_state.get("mountReload")', source)
+        self.assertIn('"previous_reload": weapon_update_shoot_call_reload_state.get("previousReload")', source)
+        self.assertIn('"weapon_reload": weapon_update_shoot_call_reload_state.get("weaponReload")', source)
+        self.assertIn('"shoot_call": weapon_update_shoot_call_reload_state.get("shootCall")', source)
+        self.assertIn('"shoot_call_source": weapon_update_shoot_call_reload_state.get("shootCallSource")', source)
+        self.assertIn('"reload_reset_source": weapon_update_shoot_call_reload_state.get("reloadResetSource")', source)
+        self.assertIn('"shoot_method_reserved_source": weapon_update_shoot_call_reload_state.get("shootMethodReservedSource")', source)
+        self.assertIn('"shoot_status_apply_reserved_source": weapon_update_shoot_call_reload_state.get("shootStatusApplyReservedSource")', source)
+        self.assertIn('"weapon_update_shoot_call_reload_runtime": weapon_update_shoot_call_reload_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_shoot_charge_start_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

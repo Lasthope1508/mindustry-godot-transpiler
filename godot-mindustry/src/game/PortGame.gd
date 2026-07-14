@@ -193,6 +193,7 @@ var weapon_update_velocity_length_last_state: Dictionary = {}
 var weapon_update_shoot_gate_prefix_last_state: Dictionary = {}
 var weapon_update_reload_gate_last_state: Dictionary = {}
 var weapon_update_cone_gate_last_state: Dictionary = {}
+var weapon_update_shoot_call_reload_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22530,6 +22531,33 @@ func weapon_update_cone_gate_runtime_state() -> Dictionary:
 		"last_state": weapon_update_cone_gate_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_shoot_call_reload_runtime() -> Dictionary:
+	weapon_update_shoot_call_reload_last_state = {}
+	return weapon_update_shoot_call_reload_runtime_state()
+
+func step_weapon_update_shoot_call_reload_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
+	var weapon_update_shoot_call_reload_state := source_weapon_update_shoot_call_reload_state(mount_state, weapon_state, unit_id, bullet_x, bullet_y, shoot_angle, shoot_gate)
+	weapon_update_shoot_call_reload_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_shoot_call_reload": weapon_update_shoot_call_reload_state,
+		"shoot_gate": weapon_update_shoot_call_reload_state.get("shootGate"),
+		"mount_reload": weapon_update_shoot_call_reload_state.get("mountReload"),
+		"previous_reload": weapon_update_shoot_call_reload_state.get("previousReload"),
+		"weapon_reload": weapon_update_shoot_call_reload_state.get("weaponReload"),
+		"shoot_call": weapon_update_shoot_call_reload_state.get("shootCall"),
+		"shoot_call_source": weapon_update_shoot_call_reload_state.get("shootCallSource"),
+		"reload_reset_source": weapon_update_shoot_call_reload_state.get("reloadResetSource"),
+		"shoot_method_reserved_source": weapon_update_shoot_call_reload_state.get("shootMethodReservedSource"),
+		"shoot_status_apply_reserved_source": weapon_update_shoot_call_reload_state.get("shootStatusApplyReservedSource"),
+	}
+	return weapon_update_shoot_call_reload_runtime_state()
+
+func weapon_update_shoot_call_reload_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_shoot_call_reload_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -34138,6 +34166,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_shoot_gate_prefix_runtime": weapon_update_shoot_gate_prefix_runtime_state(),
 		"weapon_update_reload_gate_runtime": weapon_update_reload_gate_runtime_state(),
 		"weapon_update_cone_gate_runtime": weapon_update_cone_gate_runtime_state(),
+		"weapon_update_shoot_call_reload_runtime": weapon_update_shoot_call_reload_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
