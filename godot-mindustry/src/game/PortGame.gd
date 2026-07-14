@@ -6478,6 +6478,157 @@ func builder_deconstruct_runtime_state() -> Dictionary:
 		"last_deconstruct_removed": builder_last_deconstruct_removed,
 	}
 
+func runtime_block_snapshot() -> Array:
+	var blocks_snapshot: Array = []
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		if not is_instance_valid(sprite):
+			continue
+		var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+		blocks_snapshot.append({
+			"block_id": str(sprite.get_meta("source_block_id", "")),
+			"x": origin_cell.x,
+			"y": origin_cell.y,
+			"health": float(sprite.get_meta("source_block_health", 0.0)),
+			"max_health": float(sprite.get_meta("source_block_max_health", 0.0)),
+			"time_scale": float(sprite.get_meta("source_block_time_scale", 1.0)),
+			"time_scale_duration": float(sprite.get_meta("source_block_time_scale_duration", 0.0)),
+		})
+	blocks_snapshot.sort_custom(func(left, right):
+		var left_y := int(left.get("y", 0))
+		var right_y := int(right.get("y", 0))
+		if left_y == right_y:
+			return int(left.get("x", 0)) < int(right.get("x", 0))
+		return left_y < right_y
+	)
+	return blocks_snapshot
+
+func restore_runtime_blocks(blocks_snapshot: Array) -> void:
+	var block_layer := get_node_or_null("World/BlockLayer")
+	if block_layer == null:
+		return
+	for child in block_layer.get_children():
+		block_layer.remove_child(child)
+		child.queue_free()
+	placed_blocks.clear()
+	placed_block_origins.clear()
+	turret_cells.clear()
+	turret_cooldowns.clear()
+	turret_ammo_stacks.clear()
+	turret_total_ammo.clear()
+	turret_barrel_counters.clear()
+	turret_rotations.clear()
+	turret_recoils.clear()
+	for block_state in blocks_snapshot:
+		var block_value: Dictionary = block_state if block_state is Dictionary else {}
+		var block_id := str(block_value.get("block_id", ""))
+		var cell := Vector2i(int(block_value.get("x", 0)), int(block_value.get("y", 0)))
+		add_source_block(block_layer, block_id, cell)
+		var sprite = block_sprite_at_cell(cell)
+		if is_instance_valid(sprite):
+			sprite.set_meta("source_block_health", float(block_value.get("health", sprite.get_meta("source_block_health", 0.0))))
+			sprite.set_meta("source_block_max_health", float(block_value.get("max_health", sprite.get_meta("source_block_max_health", 0.0))))
+			sprite.set_meta("source_block_time_scale", float(block_value.get("time_scale", 1.0)))
+			sprite.set_meta("source_block_time_scale_duration", float(block_value.get("time_scale_duration", 0.0)))
+
+func runtime_save_snapshot(slot_name: String = "runtime") -> Dictionary:
+	return {
+		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
+		"save_version_source_owner": "core/src/mindustry/io/SaveVersion.java",
+		"save_meta_source_owner": "core/src/mindustry/io/SaveMeta.java",
+		"world_context_source_owner": "core/src/mindustry/world/WorldContext.java",
+		"save_slot_source_owner": "core/src/mindustry/game/Saves.java",
+		"header_expr": "public static final byte[] header = {'M', 'S', 'A', 'V'};",
+		"write_header_expr": "stream.write(header);",
+		"write_version_expr": "stream.writeInt(ver.version);",
+		"latest_writer_expr": "return versionArray.peek();",
+		"latest_writer_version": 13,
+		"write_meta_region_expr": "writeRegion(\"meta\", stream, out -> writeMeta(out, options.extraTags));",
+		"read_meta_region_expr": "readRegion(\"meta\", stream, counter, in -> readMeta(in, context));",
+		"write_map_region_expr": "writeRegion(\"map\", stream, this::writeMap);",
+		"read_map_region_expr": "readRegion(\"map\", stream, counter, in -> readMap(in, context));",
+		"write_entities_region_expr": "writeRegion(\"entities\", stream, this::writeEntities);",
+		"read_entities_region_expr": "readRegion(\"entities\", stream, counter, this::readEntities);",
+		"save_slot_save_expr": "SaveIO.save(file);",
+		"save_slot_load_expr": "SaveIO.load(file, context);",
+		"world_context_resize_expr": "void resize(int width, int height);",
+		"world_context_create_expr": "Tile create(int x, int y, int floorID, int overlayID, int wallID);",
+		"slot_name": slot_name,
+		"header": "MSAV",
+		"version": 13,
+		"meta": {
+			"mapname": "GodotRuntime",
+			"wave": wave_index,
+			"width": WORLD_W,
+			"height": WORLD_H,
+			"build": 0,
+			"rules": {"waves": true},
+		},
+		"runtime": {
+			"core_inventory": core_inventory,
+			"core_items": core_items.duplicate(true),
+			"core_health": core_health,
+			"core_damage_taken_total": core_damage_taken_total,
+			"produced_total": produced_total,
+			"wave_index": wave_index,
+			"game_over": game_over,
+			"last_game_over_winner": last_game_over_winner,
+			"builder_plans": builder_plans.duplicate(true),
+			"builder_construct_progress": builder_construct_progress,
+			"builder_deconstruct_progress": builder_deconstruct_progress,
+			"builder_finished_count": builder_finished_count,
+			"builder_deconstruct_finished_count": builder_deconstruct_finished_count,
+		},
+		"blocks": runtime_block_snapshot(),
+		"placed_block_count": placed_block_origins.size(),
+		"occupied_cell_count": placed_blocks.size(),
+	}
+
+func runtime_load_snapshot(snapshot: Dictionary) -> Dictionary:
+	var runtime: Dictionary = snapshot.get("runtime", {}) if snapshot.get("runtime", {}) is Dictionary else {}
+	var blocks_snapshot: Array = snapshot.get("blocks", []) if snapshot.get("blocks", []) is Array else []
+	var core_items_value = runtime.get("core_items", {})
+	core_items = core_items_value.duplicate(true) if core_items_value is Dictionary else {}
+	core_inventory = int(runtime.get("core_inventory", int(core_items.get("copper", core_inventory))))
+	core_health = float(runtime.get("core_health", core_health))
+	core_damage_taken_total = float(runtime.get("core_damage_taken_total", core_damage_taken_total))
+	produced_total = int(runtime.get("produced_total", produced_total))
+	wave_index = int(runtime.get("wave_index", wave_index))
+	game_over = bool(runtime.get("game_over", game_over))
+	last_game_over_winner = str(runtime.get("last_game_over_winner", last_game_over_winner))
+	var plans_value = runtime.get("builder_plans", [])
+	builder_plans = plans_value.duplicate(true) if plans_value is Array else []
+	builder_construct_progress = float(runtime.get("builder_construct_progress", builder_construct_progress))
+	builder_deconstruct_progress = float(runtime.get("builder_deconstruct_progress", builder_deconstruct_progress))
+	builder_finished_count = int(runtime.get("builder_finished_count", builder_finished_count))
+	builder_deconstruct_finished_count = int(runtime.get("builder_deconstruct_finished_count", builder_deconstruct_finished_count))
+	restore_runtime_blocks(blocks_snapshot)
+	return {
+		"loaded": true,
+		"source_owner": "core/src/mindustry/io/SaveIO.java",
+		"load_expr": "SaveIO.load(file, context);",
+		"read_expr": "ver.read(stream, counter, context);",
+		"save_load_event_expr": "Events.fire(new SaveLoadEvent(context.isMap()));",
+		"snapshot": snapshot,
+		"current": runtime_save_snapshot(str(snapshot.get("slot_name", "runtime"))),
+		"restored_block_count": placed_block_origins.size(),
+		"restored_occupied_cell_count": placed_blocks.size(),
+	}
+
+func runtime_persistence_state() -> Dictionary:
+	var snapshot := runtime_save_snapshot("runtime")
+	return {
+		"source_owner": "core/src/mindustry/io/SaveIO.java",
+		"snapshot": snapshot,
+		"header": snapshot.get("header", ""),
+		"version": int(snapshot.get("version", 0)),
+		"meta": snapshot.get("meta", {}),
+		"placed_block_count": int(snapshot.get("placed_block_count", 0)),
+		"occupied_cell_count": int(snapshot.get("occupied_cell_count", 0)),
+		"core_inventory": int(snapshot.get("runtime", {}).get("core_inventory", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
+		"produced_total": int(snapshot.get("runtime", {}).get("produced_total", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
+	}
+
 func builder_skip_range_runtime_state() -> Dictionary:
 	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
 	var live_plan_gate := builder_plan_gate_runtime_state(first_plan)
@@ -31544,6 +31695,7 @@ func get_runtime_summary() -> Dictionary:
 		"builder_runtime": builder_runtime_state(),
 		"builder_deconstruct_runtime": builder_deconstruct_runtime_state(),
 		"builder_skip_range_runtime": builder_skip_range_runtime_state(),
+		"runtime_persistence": runtime_persistence_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),

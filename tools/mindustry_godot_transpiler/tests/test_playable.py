@@ -420,6 +420,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"live_plan_gate": live_plan_gate', proof_body)
         self.assertIn('"builder_skip_range_runtime": builder_skip_range_runtime_state()', summary_body)
 
+    def test_port_game_exposes_runtime_save_load_persistence_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func runtime_block_snapshot() -> Array:", source)
+        self.assertIn("func restore_runtime_blocks(blocks_snapshot: Array) -> void:", source)
+        self.assertIn("func runtime_save_snapshot(slot_name: String = \"runtime\") -> Dictionary:", source)
+        self.assertIn("func runtime_load_snapshot(snapshot: Dictionary) -> Dictionary:", source)
+        self.assertIn("func runtime_persistence_state() -> Dictionary:", source)
+        self.assertIn("var snapshot := runtime_save_snapshot(\"runtime\")", source)
+        self.assertIn("restore_runtime_blocks(blocks_snapshot)", source)
+        self.assertIn('"save_io_source_owner": "core/src/mindustry/io/SaveIO.java"', source)
+        self.assertIn('"save_version_source_owner": "core/src/mindustry/io/SaveVersion.java"', source)
+        self.assertIn('"save_meta_source_owner": "core/src/mindustry/io/SaveMeta.java"', source)
+        self.assertIn('"world_context_source_owner": "core/src/mindustry/world/WorldContext.java"', source)
+        self.assertIn("\"header_expr\": \"public static final byte[] header = {'M', 'S', 'A', 'V'};\"", source)
+        self.assertIn('"write_header_expr": "stream.write(header);"', source)
+        self.assertIn('"write_version_expr": "stream.writeInt(ver.version);"', source)
+        self.assertIn('"write_meta_region_expr": "writeRegion(\\"meta\\", stream, out -> writeMeta(out, options.extraTags));"', source)
+        self.assertIn('"read_meta_region_expr": "readRegion(\\"meta\\", stream, counter, in -> readMeta(in, context));"', source)
+        self.assertIn('"write_map_region_expr": "writeRegion(\\"map\\", stream, this::writeMap);"', source)
+        self.assertIn('"read_map_region_expr": "readRegion(\\"map\\", stream, counter, in -> readMap(in, context));"', source)
+        self.assertIn('"save_slot_load_expr": "SaveIO.load(file, context);"', source)
+        self.assertIn('"world_context_resize_expr": "void resize(int width, int height);"', source)
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"runtime_persistence": runtime_persistence_state()', summary_body)
+
     def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
