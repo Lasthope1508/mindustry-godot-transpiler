@@ -12028,6 +12028,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"was_player": suicide_bomb_state.get("wasPlayer")', source)
         self.assertIn('"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_destroy_shoot_on_death_mounts_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_destroy_shoot_on_death_mounts_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_destroy_shoot_on_death_mounts_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_destroy_shoot_on_death_mounts_runtime(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_destroy_shoot_on_death_mounts_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_destroy_shoot_on_death_mounts_state(mount_states, has_target_value, source_x, source_y, source_rotation_degrees, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_destroy_shoot_on_death_mounts": shoot_on_death_mounts_state', source)
+        self.assertIn('"method": shoot_on_death_mounts_state.get("method")', source)
+        self.assertIn('"loop": shoot_on_death_mounts_state.get("loop")', source)
+        self.assertIn('"has_target": shoot_on_death_mounts_state.get("hasTarget")', source)
+        self.assertIn('"actions": shoot_on_death_mounts_state.get("actions")', source)
+        self.assertIn('"unit_destroy_shoot_on_death_mounts_runtime": unit_destroy_shoot_on_death_mounts_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

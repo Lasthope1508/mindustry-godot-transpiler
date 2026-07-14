@@ -158,6 +158,7 @@ var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
 var unit_destroy_visual_effects_last_state: Dictionary = {}
 var unit_destroy_sound_and_event_last_state: Dictionary = {}
 var unit_destroy_suicide_bomb_trigger_last_state: Dictionary = {}
+var unit_destroy_shoot_on_death_mounts_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21504,6 +21505,28 @@ func unit_destroy_suicide_bomb_trigger_runtime_state() -> Dictionary:
 		"last_state": unit_destroy_suicide_bomb_trigger_last_state.duplicate(true),
 	}
 
+func reset_unit_destroy_shoot_on_death_mounts_runtime() -> Dictionary:
+	unit_destroy_shoot_on_death_mounts_last_state = {}
+	return unit_destroy_shoot_on_death_mounts_runtime_state()
+
+func step_unit_destroy_shoot_on_death_mounts_runtime(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
+	var shoot_on_death_mounts_state := source_unit_destroy_shoot_on_death_mounts_state(mount_states, has_target_value, source_x, source_y, source_rotation_degrees, unit_id)
+	unit_destroy_shoot_on_death_mounts_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_destroy_shoot_on_death_mounts": shoot_on_death_mounts_state,
+		"method": shoot_on_death_mounts_state.get("method"),
+		"loop": shoot_on_death_mounts_state.get("loop"),
+		"has_target": shoot_on_death_mounts_state.get("hasTarget"),
+		"actions": shoot_on_death_mounts_state.get("actions"),
+	}
+	return unit_destroy_shoot_on_death_mounts_runtime_state()
+
+func unit_destroy_shoot_on_death_mounts_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_destroy_shoot_on_death_mounts_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33077,6 +33100,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state(),
 		"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state(),
 		"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state(),
+		"unit_destroy_shoot_on_death_mounts_runtime": unit_destroy_shoot_on_death_mounts_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
