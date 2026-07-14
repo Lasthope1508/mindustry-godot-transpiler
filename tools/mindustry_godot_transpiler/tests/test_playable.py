@@ -11164,6 +11164,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"rollbackUpdateCount": rollback_update_count', source)
         self.assertIn('"unitCapDeath": over_cap', source)
 
+    def test_port_game_exposes_unit_add_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_add_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_add_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_add_runtime(type_use_unit_cap: bool = true, count_after_add: int = 6, cap_value: int = 5, spawned_by_core: bool = false, dead: bool = false, rules_editor: bool = false) -> Dictionary:", source)
+        self.assertIn("func unit_add_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_add_state(type_use_unit_cap, count_after_add, cap_value, spawned_by_core, dead, rules_editor)", source)
+        self.assertIn('"unit_add": add_state', source)
+        self.assertIn('"unit_cap_death_call": SOURCE_UNIT_ADD_UNIT_CAP_DEATH_CALL', source)
+        self.assertIn('"cap_guard": SOURCE_UNIT_ADD_CAP_GUARD', source)
+        self.assertIn('"unit_add_runtime": unit_add_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_remove_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

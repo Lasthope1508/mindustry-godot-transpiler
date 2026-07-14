@@ -129,6 +129,7 @@ var unit_killable_last_state: Dictionary = {}
 var unit_after_sync_last_state: Dictionary = {}
 var unit_after_read_last_state: Dictionary = {}
 var unit_after_read_all_last_state: Dictionary = {}
+var unit_add_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -19933,6 +19934,26 @@ func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_va
 		"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"],
 	}
 
+func reset_unit_add_runtime() -> Dictionary:
+	unit_add_last_state = {}
+	return unit_add_runtime_state()
+
+func step_unit_add_runtime(type_use_unit_cap: bool = true, count_after_add: int = 6, cap_value: int = 5, spawned_by_core: bool = false, dead: bool = false, rules_editor: bool = false) -> Dictionary:
+	var add_state := source_unit_add_state(type_use_unit_cap, count_after_add, cap_value, spawned_by_core, dead, rules_editor)
+	unit_add_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_add": add_state,
+		"unit_cap_death_call": SOURCE_UNIT_ADD_UNIT_CAP_DEATH_CALL,
+		"cap_guard": SOURCE_UNIT_ADD_CAP_GUARD,
+	}
+	return unit_add_runtime_state()
+
+func unit_add_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_add_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_REMOVE_METHOD := "@Override\n    public void remove(){"
 const SOURCE_UNIT_REMOVE_UPDATE_COUNT := "team.data().updateCount(type, -1);"
 const SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED := "controller.removed(self());"
@@ -32375,6 +32396,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_after_sync_runtime": unit_after_sync_runtime_state(),
 		"unit_after_read_runtime": unit_after_read_runtime_state(),
 		"unit_after_read_all_runtime": unit_after_read_all_runtime_state(),
+		"unit_add_runtime": unit_add_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
