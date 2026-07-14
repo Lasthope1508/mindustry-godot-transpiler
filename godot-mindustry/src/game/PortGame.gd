@@ -190,6 +190,7 @@ var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}
 var weapon_update_alternating_side_flip_last_state: Dictionary = {}
 var weapon_update_active_sound_loop_last_state: Dictionary = {}
 var weapon_update_velocity_length_last_state: Dictionary = {}
+var weapon_update_shoot_gate_prefix_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22435,6 +22436,42 @@ func weapon_update_velocity_length_runtime_state() -> Dictionary:
 		"last_state": weapon_update_velocity_length_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_shoot_gate_prefix_runtime() -> Dictionary:
+	weapon_update_shoot_gate_prefix_last_state = {}
+	return weapon_update_shoot_gate_prefix_runtime_state()
+
+func step_weapon_update_shoot_gate_prefix_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:
+	var weapon_update_shoot_gate_prefix_state := source_weapon_update_shoot_gate_prefix_state(mount_state, weapon_state, bullet_state, can_shoot, was_flipped, vel_len)
+	weapon_update_shoot_gate_prefix_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_shoot_gate_prefix": weapon_update_shoot_gate_prefix_state,
+		"shoot_gate_prefix": weapon_update_shoot_gate_prefix_state.get("shootGatePrefix"),
+		"mount_shoot": weapon_update_shoot_gate_prefix_state.get("mountShoot"),
+		"can_shoot": weapon_update_shoot_gate_prefix_state.get("canShoot"),
+		"kill_shooter_once_blocked": weapon_update_shoot_gate_prefix_state.get("killShooterOnceBlocked"),
+		"alternate_gate": weapon_update_shoot_gate_prefix_state.get("alternateGate"),
+		"warmup_gate": weapon_update_shoot_gate_prefix_state.get("warmupGate"),
+		"velocity_gate": weapon_update_shoot_gate_prefix_state.get("velocityGate"),
+		"total_shots": weapon_update_shoot_gate_prefix_state.get("totalShots"),
+		"vel_len": weapon_update_shoot_gate_prefix_state.get("velLen"),
+		"min_shoot_velocity": weapon_update_shoot_gate_prefix_state.get("minShootVelocity"),
+		"shoot_comment_source": weapon_update_shoot_gate_prefix_state.get("shootCommentSource"),
+		"mount_shoot_gate_source": weapon_update_shoot_gate_prefix_state.get("mountShootGateSource"),
+		"can_gate_source": weapon_update_shoot_gate_prefix_state.get("canGateSource"),
+		"kill_shooter_gate_source": weapon_update_shoot_gate_prefix_state.get("killShooterGateSource"),
+		"alternate_gate_source": weapon_update_shoot_gate_prefix_state.get("alternateGateSource"),
+		"warmup_gate_source": weapon_update_shoot_gate_prefix_state.get("warmupGateSource"),
+		"velocity_gate_source": weapon_update_shoot_gate_prefix_state.get("velocityGateSource"),
+		"reload_gate_reserved_source": weapon_update_shoot_gate_prefix_state.get("reloadGateReservedSource"),
+	}
+	return weapon_update_shoot_gate_prefix_runtime_state()
+
+func weapon_update_shoot_gate_prefix_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_shoot_gate_prefix_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -34040,6 +34077,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_alternating_side_flip_runtime": weapon_update_alternating_side_flip_runtime_state(),
 		"weapon_update_active_sound_loop_runtime": weapon_update_active_sound_loop_runtime_state(),
 		"weapon_update_velocity_length_runtime": weapon_update_velocity_length_runtime_state(),
+		"weapon_update_shoot_gate_prefix_runtime": weapon_update_shoot_gate_prefix_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

@@ -13472,6 +13472,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shoot_gate_source": weapon_update_velocity_length_state.get("shootGateSource")', source)
         self.assertIn('"weapon_update_velocity_length_runtime": weapon_update_velocity_length_runtime_state()', source)
 
+    def test_port_game_exposes_weapon_update_shoot_gate_prefix_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_shoot_gate_prefix_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_shoot_gate_prefix_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_shoot_gate_prefix_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_shoot_gate_prefix_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_shoot_gate_prefix_state(mount_state, weapon_state, bullet_state, can_shoot, was_flipped, vel_len)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_shoot_gate_prefix": weapon_update_shoot_gate_prefix_state', source)
+        self.assertIn('"shoot_gate_prefix": weapon_update_shoot_gate_prefix_state.get("shootGatePrefix")', source)
+        self.assertIn('"mount_shoot": weapon_update_shoot_gate_prefix_state.get("mountShoot")', source)
+        self.assertIn('"can_shoot": weapon_update_shoot_gate_prefix_state.get("canShoot")', source)
+        self.assertIn('"kill_shooter_once_blocked": weapon_update_shoot_gate_prefix_state.get("killShooterOnceBlocked")', source)
+        self.assertIn('"alternate_gate": weapon_update_shoot_gate_prefix_state.get("alternateGate")', source)
+        self.assertIn('"warmup_gate": weapon_update_shoot_gate_prefix_state.get("warmupGate")', source)
+        self.assertIn('"velocity_gate": weapon_update_shoot_gate_prefix_state.get("velocityGate")', source)
+        self.assertIn('"total_shots": weapon_update_shoot_gate_prefix_state.get("totalShots")', source)
+        self.assertIn('"vel_len": weapon_update_shoot_gate_prefix_state.get("velLen")', source)
+        self.assertIn('"min_shoot_velocity": weapon_update_shoot_gate_prefix_state.get("minShootVelocity")', source)
+        self.assertIn('"shoot_comment_source": weapon_update_shoot_gate_prefix_state.get("shootCommentSource")', source)
+        self.assertIn('"mount_shoot_gate_source": weapon_update_shoot_gate_prefix_state.get("mountShootGateSource")', source)
+        self.assertIn('"can_gate_source": weapon_update_shoot_gate_prefix_state.get("canGateSource")', source)
+        self.assertIn('"kill_shooter_gate_source": weapon_update_shoot_gate_prefix_state.get("killShooterGateSource")', source)
+        self.assertIn('"alternate_gate_source": weapon_update_shoot_gate_prefix_state.get("alternateGateSource")', source)
+        self.assertIn('"warmup_gate_source": weapon_update_shoot_gate_prefix_state.get("warmupGateSource")', source)
+        self.assertIn('"velocity_gate_source": weapon_update_shoot_gate_prefix_state.get("velocityGateSource")', source)
+        self.assertIn('"reload_gate_reserved_source": weapon_update_shoot_gate_prefix_state.get("reloadGateReservedSource")', source)
+        self.assertIn('"weapon_update_shoot_gate_prefix_runtime": weapon_update_shoot_gate_prefix_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
