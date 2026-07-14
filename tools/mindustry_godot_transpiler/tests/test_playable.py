@@ -13045,6 +13045,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"anglesTrnsySource": "public static float trnsy(float angle, float x, float y){"', source)
         self.assertIn('"positionAngleToSource": "default float angleTo(float x, float y){"', source)
 
+    def test_port_game_exposes_weapon_update_bullet_origin_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_bullet_origin_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_bullet_origin_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_bullet_origin_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_bullet_origin_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_bullet_origin": weapon_update_bullet_origin_state', source)
+        self.assertIn('"weapon_rotation": weapon_update_bullet_origin_state.get("weaponRotation")', source)
+        self.assertIn('"bullet_x": weapon_update_bullet_origin_state.get("bulletX")', source)
+        self.assertIn('"bullet_y": weapon_update_bullet_origin_state.get("bulletY")', source)
+        self.assertIn('"shoot_angle": weapon_update_bullet_origin_state.get("shootAngle")', source)
+        self.assertIn('"mount_x": weapon_update_bullet_origin_state.get("mountX")', source)
+        self.assertIn('"mount_y": weapon_update_bullet_origin_state.get("mountY")', source)
+        self.assertIn('"rotate": weapon_update_bullet_origin_state.get("rotate")', source)
+        self.assertIn('"weapon_rotation_source": weapon_update_bullet_origin_state.get("weaponRotationSource")', source)
+        self.assertIn('"bullet_x_source": weapon_update_bullet_origin_state.get("bulletXSource")', source)
+        self.assertIn('"bullet_y_source": weapon_update_bullet_origin_state.get("bulletYSource")', source)
+        self.assertIn('"shoot_angle_source": weapon_update_bullet_origin_state.get("shootAngleSource")', source)
+        self.assertIn('"bullet_rotation_source": weapon_update_bullet_origin_state.get("bulletRotationSource")', source)
+        self.assertIn('"weapon_update_bullet_origin_runtime": weapon_update_bullet_origin_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_always_shooting_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

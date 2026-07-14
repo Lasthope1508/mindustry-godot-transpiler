@@ -179,6 +179,7 @@ var weapon_update_auto_target_retarget_last_state: Dictionary = {}
 var weapon_update_auto_target_invalidation_last_state: Dictionary = {}
 var weapon_update_auto_target_shoot_aim_last_state: Dictionary = {}
 var weapon_update_rotate_toward_last_state: Dictionary = {}
+var weapon_update_bullet_origin_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22081,6 +22082,36 @@ func weapon_update_rotate_toward_runtime_state() -> Dictionary:
 		"last_state": weapon_update_rotate_toward_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_bullet_origin_runtime() -> Dictionary:
+	weapon_update_bullet_origin_last_state = {}
+	return weapon_update_bullet_origin_runtime_state()
+
+func step_weapon_update_bullet_origin_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
+	var weapon_update_bullet_origin_state := source_weapon_update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y)
+	weapon_update_bullet_origin_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_bullet_origin": weapon_update_bullet_origin_state,
+		"weapon_rotation": weapon_update_bullet_origin_state.get("weaponRotation"),
+		"bullet_x": weapon_update_bullet_origin_state.get("bulletX"),
+		"bullet_y": weapon_update_bullet_origin_state.get("bulletY"),
+		"shoot_angle": weapon_update_bullet_origin_state.get("shootAngle"),
+		"mount_x": weapon_update_bullet_origin_state.get("mountX"),
+		"mount_y": weapon_update_bullet_origin_state.get("mountY"),
+		"rotate": weapon_update_bullet_origin_state.get("rotate"),
+		"weapon_rotation_source": weapon_update_bullet_origin_state.get("weaponRotationSource"),
+		"bullet_x_source": weapon_update_bullet_origin_state.get("bulletXSource"),
+		"bullet_y_source": weapon_update_bullet_origin_state.get("bulletYSource"),
+		"shoot_angle_source": weapon_update_bullet_origin_state.get("shootAngleSource"),
+		"bullet_rotation_source": weapon_update_bullet_origin_state.get("bulletRotationSource"),
+	}
+	return weapon_update_bullet_origin_runtime_state()
+
+func weapon_update_bullet_origin_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_bullet_origin_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33675,6 +33706,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_auto_target_invalidation_runtime": weapon_update_auto_target_invalidation_runtime_state(),
 		"weapon_update_auto_target_shoot_aim_runtime": weapon_update_auto_target_shoot_aim_runtime_state(),
 		"weapon_update_rotate_toward_runtime": weapon_update_rotate_toward_runtime_state(),
+		"weapon_update_bullet_origin_runtime": weapon_update_bullet_origin_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
