@@ -11380,6 +11380,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"call": "team.data().updateCount(type, -1)"', source)
         self.assertIn('"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else []', source)
 
+    def test_port_game_exposes_unit_update_unsupported_env_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_unsupported_env_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_unsupported_env_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_unsupported_env_runtime(type_supports_env: bool, dead_value: bool) -> Dictionary:", source)
+        self.assertIn("func unit_update_unsupported_env_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_unsupported_env_state(type_supports_env, dead_value)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_unsupported_env": unsupported_env_state', source)
+        self.assertIn('"unit_env_death": unsupported_env_state.get("unitEnvDeath")', source)
+        self.assertIn('"update_count": unsupported_env_state.get("updateCount")', source)
+        self.assertIn('"unit_update_unsupported_env_runtime": unit_update_unsupported_env_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_abilities_loop_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

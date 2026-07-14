@@ -136,6 +136,7 @@ var unit_heal_last_state: Dictionary = {}
 var unit_update_heal_time_last_state: Dictionary = {}
 var unit_update_captured_sector_death_last_state: Dictionary = {}
 var unit_update_sound_loop_last_state: Dictionary = {}
+var unit_update_unsupported_env_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20234,6 +20235,26 @@ func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_valu
 		"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else [],
 	}
 
+func reset_unit_update_unsupported_env_runtime() -> Dictionary:
+	unit_update_unsupported_env_last_state = {}
+	return unit_update_unsupported_env_runtime_state()
+
+func step_unit_update_unsupported_env_runtime(type_supports_env: bool, dead_value: bool) -> Dictionary:
+	var unsupported_env_state := source_unit_update_unsupported_env_state(type_supports_env, dead_value)
+	unit_update_unsupported_env_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_update_unsupported_env": unsupported_env_state,
+		"unit_env_death": unsupported_env_state.get("unitEnvDeath"),
+		"update_count": unsupported_env_state.get("updateCount"),
+	}
+	return unit_update_unsupported_env_runtime_state()
+
+func unit_update_unsupported_env_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_update_unsupported_env_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_UPDATE_ABILITIES_FIELD := "Ability[] abilities = {};"
 const SOURCE_UNIT_UPDATE_ABILITIES_LOOP := "for(Ability a : abilities){"
 const SOURCE_UNIT_UPDATE_ABILITIES_CALL := "a.update(self());"
@@ -32528,6 +32549,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state(),
 		"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state(),
 		"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state(),
+		"unit_update_unsupported_env_runtime": unit_update_unsupported_env_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

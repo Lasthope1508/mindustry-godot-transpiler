@@ -132,6 +132,8 @@ Thirty-eighth audit found `UnitComp.update()` captured-sector death was source-b
 
 Thirty-ninth audit found `UnitComp.update()` loop/move sound state was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_sound_loop_runtime`, `reset_unit_update_sound_loop_runtime()`, and `step_unit_update_sound_loop_runtime(...)` so MCP can prove the `if(!headless)` guard, loop sound call, move sound guard, `Mathf.clamp(vel.len() / type.speed)` progress, `Mathf.lerp(...)` pitch, and move sound loop call from `core/src/mindustry/entities/comp/UnitComp.java`.
 
+Fortieth audit found `UnitComp.update()` unsupported environment death was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_update_unsupported_env_runtime`, `reset_unit_update_unsupported_env_runtime()`, and `step_unit_update_unsupported_env_runtime(...)` so MCP can prove the `!type.supportsEnv(state.rules.env) && !dead` guard, `Call.unitEnvDeath(self())`, and `team.data().updateCount(type, -1)` rollback from `core/src/mindustry/entities/comp/UnitComp.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -467,6 +469,20 @@ Godot MCP runtime on TCP port `7777`:
   - `zero_speed_progress=1.0`
   - `zero_speed_pitch=1.2`
   - `summary_has_unit_update_sound_loop_runtime=true`
+  - `generated_load_failures=0`
+  - `generated_instance_failures=0`
+- TCP unit update unsupported-env proof:
+  - `reset_empty=true`
+  - `supported_alive_envDeath=false`
+  - `supported_alive_callOrder=[]`
+  - `supported_alive_unitEnvDeath=null`
+  - `unsupported_alive_envDeath=true`
+  - `unsupported_alive_callOrder=["Call.unitEnvDeath(self())","team.data().updateCount(type, -1)"]`
+  - `unsupported_alive_unitEnvDeath="Call.unitEnvDeath(self())"`
+  - `unsupported_alive_updateCountAmount=-1`
+  - `unsupported_dead_envDeath=false`
+  - `unsupported_dead_callOrder=[]`
+  - `summary_has_unit_update_unsupported_env_runtime=true`
   - `generated_load_failures=0`
   - `generated_instance_failures=0`
 - Godot debug output: `errors=[]`
@@ -1177,6 +1193,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after unit update sound loop runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_sound_loop_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_sound_loop_state tools/mindustry_godot_transpiler/tests/test_source_parity.py::SourceParityTests::test_unit_update_sound_loop_matches_upstream_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_sound_loop_symbols_are_registered_with_source_backing tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_captured_sector_death_runtime_proof -q -p no:cacheprovider`
   - Result: `5 passed in 0.58s`.
+- Focused regression after unit update unsupported-env runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_unsupported_env_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_update_unsupported_env_state tools/mindustry_godot_transpiler/tests/test_source_parity.py::SourceParityTests::test_unit_update_unsupported_env_matches_upstream_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_unit_update_unsupported_env_symbols_are_registered_with_source_backing tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_update_sound_loop_runtime_proof -q -p no:cacheprovider`
+  - Result: `5 passed in 0.57s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -1258,6 +1277,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after unit update sound loop runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit update unsupported-env runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -1336,6 +1358,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after unit update sound loop runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4056 passed, 39303 subtests passed in 382.86s (0:06:22)`.
+- Full Python suite after unit update unsupported-env runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4057 passed, 39303 subtests passed in 403.44s (0:06:43)`.
 
 ## Remaining Gates
 
@@ -1384,10 +1409,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Unit update healTime runtime proven: `reset_unit_update_heal_time_runtime()`, `step_unit_update_heal_time_runtime(true, -1.0, 1.0)`, `step_unit_update_heal_time_runtime(true, 0.5, 2.0)`, `step_unit_update_heal_time_runtime(false, -2.0, 5.0)`, reset-then-decay returns `healTime=0.95`, no-reset decay returns `0.4`, not-healed negative decay returns `-2.25`, and `wasHealed=false`.
 - [x] Unit update captured-sector death runtime proven: `reset_unit_update_captured_sector_death_runtime()`, `step_unit_update_captured_sector_death_runtime(true, true, true)`, and one-false guard calls for each term; only all-true returns `kill=true` and `call="kill()"`.
 - [x] Unit update sound loop runtime proven: `reset_unit_update_sound_loop_runtime()`, headless path returns no calls, loop-only path calls `control.sound.loop(type.loopSound, this, type.loopSoundVolume)`, move path returns `progress=0.5`, `pitch=1.0`, `volume=1.0`, and zero-speed clamp returns `progress=1.0`, `pitch=1.2`.
+- [x] Unit update unsupported-env runtime proven: `reset_unit_update_unsupported_env_runtime()`, supported-alive path returns no calls, unsupported-alive path calls `Call.unitEnvDeath(self())` then `team.data().updateCount(type, -1)`, unsupported-dead path skips both calls, and summary exposes `unit_update_unsupported_env_runtime`.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, unit update healTime runtime, unit update captured-sector death runtime, unit update sound loop runtime, unit update unsupported-env runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
