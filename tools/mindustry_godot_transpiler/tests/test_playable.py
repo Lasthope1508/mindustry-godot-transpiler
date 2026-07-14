@@ -13366,6 +13366,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mountSideFlipSource": "mount.side = !mount.side;"', source)
         self.assertIn('"shootGateSource": "(!alternate || wasFlipped == flipSprite) &&"', source)
 
+    def test_port_game_exposes_weapon_update_alternating_side_flip_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_alternating_side_flip_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_alternating_side_flip_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_alternating_side_flip_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:", source)
+        self.assertIn("func weapon_update_alternating_side_flip_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_alternating_side_flip_state(mount_state, weapon_state, unit_mount_states)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_alternating_side_flip": weapon_update_alternating_side_flip_state', source)
+        self.assertIn('"was_flipped": weapon_update_alternating_side_flip_state.get("wasFlipped")', source)
+        self.assertIn('"flip_gate": weapon_update_alternating_side_flip_state.get("flipGate")', source)
+        self.assertIn('"crosses_half_reload": weapon_update_alternating_side_flip_state.get("crossesHalfReload")', source)
+        self.assertIn('"mount_side": weapon_update_alternating_side_flip_state.get("mountSide")', source)
+        self.assertIn('"other_side": weapon_update_alternating_side_flip_state.get("otherSide")', source)
+        self.assertIn('"unit_mounts": weapon_update_alternating_side_flip_state.get("unitMounts")', source)
+        self.assertIn('"guard_source": weapon_update_alternating_side_flip_state.get("guardSource")', source)
+        self.assertIn('"other_side_flip_source": weapon_update_alternating_side_flip_state.get("otherSideFlipSource")', source)
+        self.assertIn('"mount_side_flip_source": weapon_update_alternating_side_flip_state.get("mountSideFlipSource")', source)
+        self.assertIn('"shoot_gate_source": weapon_update_alternating_side_flip_state.get("shootGateSource")', source)
+        self.assertIn('"weapon_update_alternating_side_flip_runtime": weapon_update_alternating_side_flip_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_active_sound_loop_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

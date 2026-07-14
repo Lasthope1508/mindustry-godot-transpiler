@@ -187,6 +187,7 @@ var weapon_update_continuous_sound_last_state: Dictionary = {}
 var weapon_update_continuous_laser_aim_last_state: Dictionary = {}
 var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}
 var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}
+var weapon_update_alternating_side_flip_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -22343,6 +22344,34 @@ func weapon_update_continuous_idle_heat_sound_runtime_state() -> Dictionary:
 		"last_state": weapon_update_continuous_idle_heat_sound_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_alternating_side_flip_runtime() -> Dictionary:
+	weapon_update_alternating_side_flip_last_state = {}
+	return weapon_update_alternating_side_flip_runtime_state()
+
+func step_weapon_update_alternating_side_flip_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:
+	var weapon_update_alternating_side_flip_state := source_weapon_update_alternating_side_flip_state(mount_state, weapon_state, unit_mount_states)
+	weapon_update_alternating_side_flip_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_alternating_side_flip": weapon_update_alternating_side_flip_state,
+		"was_flipped": weapon_update_alternating_side_flip_state.get("wasFlipped"),
+		"flip_gate": weapon_update_alternating_side_flip_state.get("flipGate"),
+		"crosses_half_reload": weapon_update_alternating_side_flip_state.get("crossesHalfReload"),
+		"mount_side": weapon_update_alternating_side_flip_state.get("mountSide"),
+		"other_side": weapon_update_alternating_side_flip_state.get("otherSide"),
+		"unit_mounts": weapon_update_alternating_side_flip_state.get("unitMounts"),
+		"guard_source": weapon_update_alternating_side_flip_state.get("guardSource"),
+		"other_side_flip_source": weapon_update_alternating_side_flip_state.get("otherSideFlipSource"),
+		"mount_side_flip_source": weapon_update_alternating_side_flip_state.get("mountSideFlipSource"),
+		"shoot_gate_source": weapon_update_alternating_side_flip_state.get("shootGateSource"),
+	}
+	return weapon_update_alternating_side_flip_runtime_state()
+
+func weapon_update_alternating_side_flip_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_alternating_side_flip_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33945,6 +33974,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state(),
 		"weapon_update_always_continuous_keepalive_runtime": weapon_update_always_continuous_keepalive_runtime_state(),
 		"weapon_update_continuous_idle_heat_sound_runtime": weapon_update_continuous_idle_heat_sound_runtime_state(),
+		"weapon_update_alternating_side_flip_runtime": weapon_update_alternating_side_flip_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
