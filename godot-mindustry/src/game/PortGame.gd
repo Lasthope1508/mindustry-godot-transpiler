@@ -173,6 +173,7 @@ var weapons_can_shoot_last_state: Dictionary = {}
 var weapons_remove_continuous_bullet_cleanup_last_state: Dictionary = {}
 var weapons_remove_sound_stop_last_state: Dictionary = {}
 var weapons_update_dispatch_last_state: Dictionary = {}
+var weapon_update_passive_timers_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21904,6 +21905,32 @@ func weapons_update_dispatch_runtime_state() -> Dictionary:
 		"last_state": weapons_update_dispatch_last_state.duplicate(true),
 	}
 
+func reset_weapon_update_passive_timers_runtime() -> Dictionary:
+	weapon_update_passive_timers_last_state = {}
+	return weapon_update_passive_timers_runtime_state()
+
+func step_weapon_update_passive_timers_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
+	var weapon_update_passive_timers_state := source_weapon_update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta)
+	weapon_update_passive_timers_last_state = {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"weapon_update_passive_timers": weapon_update_passive_timers_state,
+		"can_shoot_call": weapon_update_passive_timers_state.get("canShootCall"),
+		"reload": weapon_update_passive_timers_state.get("reload"),
+		"recoil": weapon_update_passive_timers_state.get("recoil"),
+		"recoils": weapon_update_passive_timers_state.get("recoils"),
+		"smooth_reload": weapon_update_passive_timers_state.get("smoothReload"),
+		"charge": weapon_update_passive_timers_state.get("charge"),
+		"warmup_target": weapon_update_passive_timers_state.get("warmupTarget"),
+		"warmup": weapon_update_passive_timers_state.get("warmup"),
+	}
+	return weapon_update_passive_timers_runtime_state()
+
+func weapon_update_passive_timers_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/type/Weapon.java",
+		"last_state": weapon_update_passive_timers_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33492,6 +33519,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapons_remove_continuous_bullet_cleanup_runtime": weapons_remove_continuous_bullet_cleanup_runtime_state(),
 		"weapons_remove_sound_stop_runtime": weapons_remove_sound_stop_runtime_state(),
 		"weapons_update_dispatch_runtime": weapons_update_dispatch_runtime_state(),
+		"weapon_update_passive_timers_runtime": weapon_update_passive_timers_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

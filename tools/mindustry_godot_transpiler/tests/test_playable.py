@@ -12325,6 +12325,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"dispatches": weapons_update_dispatch_state.get("dispatches")', source)
         self.assertIn('"weapons_update_dispatch_runtime": weapons_update_dispatch_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapon_update_passive_timers_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapon_update_passive_timers_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_passive_timers_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_passive_timers_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:", source)
+        self.assertIn("func weapon_update_passive_timers_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_passive_timers": weapon_update_passive_timers_state', source)
+        self.assertIn('"can_shoot_call": weapon_update_passive_timers_state.get("canShootCall")', source)
+        self.assertIn('"reload": weapon_update_passive_timers_state.get("reload")', source)
+        self.assertIn('"recoil": weapon_update_passive_timers_state.get("recoil")', source)
+        self.assertIn('"recoils": weapon_update_passive_timers_state.get("recoils")', source)
+        self.assertIn('"smooth_reload": weapon_update_passive_timers_state.get("smoothReload")', source)
+        self.assertIn('"charge": weapon_update_passive_timers_state.get("charge")', source)
+        self.assertIn('"warmup_target": weapon_update_passive_timers_state.get("warmupTarget")', source)
+        self.assertIn('"warmup": weapon_update_passive_timers_state.get("warmup")', source)
+        self.assertIn('"weapon_update_passive_timers_runtime": weapon_update_passive_timers_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
