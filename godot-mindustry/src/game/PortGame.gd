@@ -132,6 +132,7 @@ var unit_after_read_all_last_state: Dictionary = {}
 var unit_add_last_state: Dictionary = {}
 var unit_remove_last_state: Dictionary = {}
 var unit_landed_last_state: Dictionary = {}
+var unit_heal_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -20081,6 +20082,26 @@ func source_unit_heal_state(current_health: float, max_health: float, amount: fl
 		"override": SOURCE_UNIT_HEAL_OVERRIDE,
 	}
 
+func reset_unit_heal_runtime() -> Dictionary:
+	unit_heal_last_state = {}
+	return unit_heal_runtime_state()
+
+func step_unit_heal_runtime(current_health: float = 90.0, max_health: float = 100.0, amount: float = 5.0, current_was_healed: bool = false) -> Dictionary:
+	var heal_state := source_unit_heal_state(current_health, max_health, amount, current_was_healed)
+	unit_heal_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_heal": heal_state,
+		"heal_guard": SOURCE_UNIT_HEAL_GUARD,
+		"was_healed_assignment": SOURCE_UNIT_HEAL_WAS_HEALED,
+	}
+	return unit_heal_runtime_state()
+
+func unit_heal_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_heal_last_state.duplicate(true),
+	}
+
 func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_time: float, source_delta: float) -> Dictionary:
 	var reset_heal_time := was_healed_value and current_heal_time <= -1.0
 	var heal_time := 1.0 if reset_heal_time else current_heal_time
@@ -32441,6 +32462,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_add_runtime": unit_add_runtime_state(),
 		"unit_remove_runtime": unit_remove_runtime_state(),
 		"unit_landed_runtime": unit_landed_runtime_state(),
+		"unit_heal_runtime": unit_heal_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),

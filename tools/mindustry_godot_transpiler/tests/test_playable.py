@@ -11270,6 +11270,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_UNIT_HEAL_GUARD := "if(health < maxHealth && amount > 0){"', source)
         self.assertIn('const SOURCE_UNIT_HEAL_WAS_HEALED := "wasHealed = true;"', source)
 
+    def test_port_game_exposes_unit_heal_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_heal_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_heal_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_heal_runtime(current_health: float = 90.0, max_health: float = 100.0, amount: float = 5.0, current_was_healed: bool = false) -> Dictionary:", source)
+        self.assertIn("func unit_heal_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_heal_state(current_health, max_health, amount, current_was_healed)", source)
+        self.assertIn('"unit_heal": heal_state', source)
+        self.assertIn('"heal_guard": SOURCE_UNIT_HEAL_GUARD', source)
+        self.assertIn('"was_healed_assignment": SOURCE_UNIT_HEAL_WAS_HEALED', source)
+        self.assertIn('"unit_heal_runtime": unit_heal_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_heal_time_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

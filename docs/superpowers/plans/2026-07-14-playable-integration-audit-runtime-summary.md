@@ -124,6 +124,8 @@ Thirty-fourth audit found `UnitComp.remove()` was source-backed and statically t
 
 Thirty-fifth audit found `UnitComp.landed()` was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_landed_runtime`, `reset_unit_landed_runtime()`, and `step_unit_landed_runtime(...)` so MCP can prove the `type.mechLandShake > 0f` shake guard and the always-run `type.landed(self())` call from `core/src/mindustry/entities/comp/UnitComp.java`.
 
+Thirty-sixth audit found `UnitComp.heal(float amount)` was source-backed and statically tested, but not visible as a runtime proof package. Runtime now exposes `unit_heal_runtime`, `reset_unit_heal_runtime()`, and `step_unit_heal_runtime(...)` so MCP can prove the `health < maxHealth && amount > 0` guard and `wasHealed = true` side effect from `core/src/mindustry/entities/comp/UnitComp.java`.
+
 Root cause:
 
 - `produced_total` was incremented in `simulate_factory()`.
@@ -206,6 +208,8 @@ Fix:
 - Added `unit_remove_last_state`, `reset_unit_remove_runtime()`, `step_unit_remove_runtime(...)`, `unit_remove_runtime_state()`, and `"unit_remove_runtime": unit_remove_runtime_state()` to runtime summary. The wrapper packages `source_unit_remove_state(...)` and exposes `SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED` plus `SOURCE_UNIT_REMOVE_TRAIL_FADE`.
 - Added RED test that requires a source-backed unit landed runtime proof package.
 - Added `unit_landed_last_state`, `reset_unit_landed_runtime()`, `step_unit_landed_runtime(...)`, `unit_landed_runtime_state()`, and `"unit_landed_runtime": unit_landed_runtime_state()` to runtime summary. The wrapper packages `source_unit_landed_state(...)` and exposes `SOURCE_UNIT_LANDED_SHAKE_CALL` plus `SOURCE_UNIT_LANDED_TYPE_CALL`.
+- Added RED test that requires a source-backed unit heal runtime proof package.
+- Added `unit_heal_last_state`, `reset_unit_heal_runtime()`, `step_unit_heal_runtime(...)`, `unit_heal_runtime_state()`, and `"unit_heal_runtime": unit_heal_runtime_state()` to runtime summary. The wrapper packages `source_unit_heal_state(...)` and exposes `SOURCE_UNIT_HEAL_GUARD` plus `SOURCE_UNIT_HEAL_WAS_HEALED`.
 
 ## Runtime Proof
 
@@ -393,6 +397,22 @@ Godot MCP runtime on TCP port `7777`:
   - `shake_call_source="Effect.shake(type.mechLandShake, type.mechLandShake, this);"`
   - `type_landed_call_source="type.landed(self());"`
   - `summary_has_unit_landed_runtime=true`
+  - `generated_load_failures=[]`
+  - `generated_instance_failures=[]`
+- TCP unit heal proof:
+  - `heal_set_was_healed=true`
+  - `heal_was_healed=true`
+  - `heal_guard={"amountPositive":true,"healthLessThanMax":true}`
+  - `heal_health=95`
+  - `full_set_was_healed=false`
+  - `full_was_healed=false`
+  - `full_guard={"amountPositive":true,"healthLessThanMax":false}`
+  - `negative_set_was_healed=false`
+  - `negative_was_healed=true`
+  - `negative_guard={"amountPositive":false,"healthLessThanMax":true}`
+  - `heal_guard_source="if(health < maxHealth && amount > 0){"`
+  - `was_healed_assignment="wasHealed = true;"`
+  - `summary_has_unit_heal_runtime=true`
   - `generated_load_failures=[]`
   - `generated_instance_failures=[]`
 - Godot debug output: `errors=[]`
@@ -1007,6 +1027,12 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - GREEN:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_landed_runtime_proof -q -p no:cacheprovider`
   - Result: `1 passed in 0.43s`.
+- RED:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_heal_runtime_proof -q -p no:cacheprovider`
+  - Result: failed as expected on missing `var unit_heal_last_state: Dictionary = {}`.
+- GREEN:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_heal_runtime_proof -q -p no:cacheprovider`
+  - Result: `1 passed in 0.43s`.
 - Focused regression after deconstruct slice and rotation warning fix:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_builder_deconstruct_runtime_proof -q -p no:cacheprovider`
   - Result: `2 passed in 0.42s`.
@@ -1067,6 +1093,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Focused regression after unit landed runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_landed_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_landed_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_remove_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_remove_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_add_runtime_proof -q -p no:cacheprovider`
   - Result: `5 passed in 0.25s`.
+- Focused regression after unit heal runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_heal_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_heal_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_landed_runtime_proof tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_unit_landed_state tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_unit_remove_runtime_proof -q -p no:cacheprovider`
+  - Result: `5 passed in 0.26s`.
 - Focused regression:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_uses_source_unit_weapon_damage_against_core tools/mindustry_godot_transpiler/tests/test_playable.py::PlayableManifestTests::test_port_game_exposes_source_game_over_runtime_proof tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_reports_whole_godot_source_surface tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_audit_report_file_matches_current_godot_source tools/mindustry_godot_transpiler/tests/test_source_symbols.py::SourceSymbolRegistryTests::test_game_over_core_destroyed_symbol_is_registered_with_source_backing -q -p no:cacheprovider`
   - Result: `5 passed`.
@@ -1136,6 +1165,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - SSOT validator after unit landed runtime slice:
   - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
   - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
+- SSOT validator after unit heal runtime slice:
+  - Command: `python -c "import sys; from pathlib import Path; sys.path.insert(0, str(Path('tools/mindustry_godot_transpiler'))); from mindustry_port import source_ssot; report=source_ssot.validate_json_modules(Path('godot-mindustry')); print({'errors': report['errors'], 'module_count': report['module_count'], 'warning_count': report.get('warning_count', 0)})"`
+  - Result: `{'errors': [], 'module_count': 112, 'warning_count': 0}`.
 - Full Python suite:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4031 passed, 39300 subtests passed in 360.86s (0:06:00)`.
@@ -1202,6 +1234,9 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - Full Python suite after unit landed runtime slice:
   - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
   - Result: `4052 passed, 39303 subtests passed in 393.40s (0:06:33)`.
+- Full Python suite after unit heal runtime slice:
+  - Command: `python -m pytest tools/mindustry_godot_transpiler/tests -q -p no:cacheprovider`
+  - Result: `4053 passed, 39303 subtests passed in 406.26s (0:06:46)`.
 
 ## Remaining Gates
 
@@ -1246,10 +1281,11 @@ Fresh MCP runtime save slot listing proof on the restarted runtime:
 - [x] Unit add runtime proven: `reset_unit_add_runtime()`, `step_unit_add_runtime(true, 6, 5, false, false, false)`, over-cap call order `["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"]`, normal call order `["team.data().updateCount(+1)"]`, cap guard and rollback source strings exposed.
 - [x] Unit remove runtime proven: `reset_unit_remove_runtime()`, `step_unit_remove_runtime(true, 3, 2.0, false, "blue", "green")`, `step_unit_remove_runtime(true, 0, 2.0, true, "blue", "green")`, trail branch calls `Fx.trailFade.at`, empty-trail branch skips fade, controller removal source string exposed.
 - [x] Unit landed runtime proven: `reset_unit_landed_runtime()`, `step_unit_landed_runtime(3.0)`, `step_unit_landed_runtime(0.0)`, shake branch calls `Effect.shake`, no-shake branch skips it, `type.landed(self())` always exposed.
+- [x] Unit heal runtime proven: `reset_unit_heal_runtime()`, `step_unit_heal_runtime(90.0, 100.0, 5.0, false)`, `step_unit_heal_runtime(100.0, 100.0, 5.0, false)`, `step_unit_heal_runtime(80.0, 100.0, -1.0, true)`, guard true sets `wasHealed`, full-health and negative-amount paths skip assignment.
 - [ ] Full playable completion not claimed until broader playthrough audit closes remaining gameplay surfaces.
 
 ## Progress
 
 - Source-slice migration: `100.00%`
-- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
-- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
+- Playable audit: broader runtime still under audit, but playthrough runtime package, turret ammo/fire, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, put item runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, MendProjector heal, bullet-hit, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, and game-over runtime paths now proven.
+- Current blocker for completion claim: full playable coverage across remaining gameplay surfaces, not playthrough runtime package, bullet-hit, MendProjector heal, placement-cost, builder construction queue, builder deconstruct/removal, builder skip/range, runtime save/load persistence, runtime save slot file, runtime save slot listing, enemy runtime, factory, item dump runtime, payload move/dump runtime, payload default runtime, unit payload targeting runtime, unit killable runtime, unit player-controllable runtime, unit afterSync runtime, unit afterRead runtime, unit afterReadAll runtime, unit add runtime, unit remove runtime, unit landed runtime, unit heal runtime, turret ammo/fire, overdrive boost, wave spawn, PowerGraph runtime, PowerGraph battery runtime, PowerGraph distribution runtime, liquid transfer runtime, liquid leak runtime, or game-over runtime.
