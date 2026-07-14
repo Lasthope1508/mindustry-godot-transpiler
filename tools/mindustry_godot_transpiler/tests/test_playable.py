@@ -12206,6 +12206,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"mounts": weapons_set_rotation_state.get("mounts")', source)
         self.assertIn('"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state()', summary_body)
 
+    def test_port_game_exposes_weapons_control_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var weapons_control_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapons_control_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapons_control_runtime(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:", source)
+        self.assertIn("func step_weapons_control_rotate_shoot_runtime(mount_states: Array, rotate_shoot: bool) -> Dictionary:", source)
+        self.assertIn("func weapons_control_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapons_control_state(mount_states, rotate_value, shoot_value)", source)
+        self.assertIn("source_weapons_control_rotate_shoot_state(mount_states, rotate_shoot)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java"', source)
+        self.assertIn('"weapons_control": weapons_control_state', source)
+        self.assertIn('"control_method": weapons_control_state.get("controlMethod")', source)
+        self.assertIn('"rotate_shoot_method": weapons_control_state.get("rotateShootMethod")', source)
+        self.assertIn('"rotate_shoot_delegate": weapons_control_state.get("rotateShootDelegate")', source)
+        self.assertIn('"loop": weapons_control_state.get("loop")', source)
+        self.assertIn('"is_rotate": weapons_control_state.get("isRotate")', source)
+        self.assertIn('"is_shooting": weapons_control_state.get("isShooting")', source)
+        self.assertIn('"mounts": weapons_control_state.get("mounts")', source)
+        self.assertIn('"weapons_control_runtime": weapons_control_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

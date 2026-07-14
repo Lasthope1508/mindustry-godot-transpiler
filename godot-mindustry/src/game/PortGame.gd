@@ -167,6 +167,7 @@ var unit_killed_last_state: Dictionary = {}
 var unit_kill_sync_last_state: Dictionary = {}
 var weapons_setup_mounts_last_state: Dictionary = {}
 var weapons_set_rotation_last_state: Dictionary = {}
+var weapons_control_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21727,6 +21728,46 @@ func weapons_set_rotation_runtime_state() -> Dictionary:
 		"last_state": weapons_set_rotation_last_state.duplicate(true),
 	}
 
+func reset_weapons_control_runtime() -> Dictionary:
+	weapons_control_last_state = {}
+	return weapons_control_runtime_state()
+
+func step_weapons_control_runtime(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:
+	var weapons_control_state := source_weapons_control_state(mount_states, rotate_value, shoot_value)
+	weapons_control_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_control": weapons_control_state,
+		"control_method": weapons_control_state.get("controlMethod"),
+		"rotate_shoot_method": weapons_control_state.get("rotateShootMethod"),
+		"rotate_shoot_delegate": weapons_control_state.get("rotateShootDelegate"),
+		"loop": weapons_control_state.get("loop"),
+		"is_rotate": weapons_control_state.get("isRotate"),
+		"is_shooting": weapons_control_state.get("isShooting"),
+		"mounts": weapons_control_state.get("mounts"),
+	}
+	return weapons_control_runtime_state()
+
+func step_weapons_control_rotate_shoot_runtime(mount_states: Array, rotate_shoot: bool) -> Dictionary:
+	var weapons_control_state := source_weapons_control_rotate_shoot_state(mount_states, rotate_shoot)
+	weapons_control_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_control": weapons_control_state,
+		"control_method": weapons_control_state.get("controlMethod"),
+		"rotate_shoot_method": weapons_control_state.get("rotateShootMethod"),
+		"rotate_shoot_delegate": weapons_control_state.get("rotateShootDelegate"),
+		"loop": weapons_control_state.get("loop"),
+		"is_rotate": weapons_control_state.get("isRotate"),
+		"is_shooting": weapons_control_state.get("isShooting"),
+		"mounts": weapons_control_state.get("mounts"),
+	}
+	return weapons_control_runtime_state()
+
+func weapons_control_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_control_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33309,6 +33350,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_kill_sync_runtime": unit_kill_sync_runtime_state(),
 		"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state(),
 		"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state(),
+		"weapons_control_runtime": weapons_control_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
