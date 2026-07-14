@@ -12151,6 +12151,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"wreck_sound_call": unit_killed_state.get("wreckSoundCall")', source)
         self.assertIn('"unit_killed_runtime": unit_killed_runtime_state()', summary_body)
 
+    def test_port_game_exposes_unit_kill_sync_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_kill_sync_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_kill_sync_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_kill_sync_runtime(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:", source)
+        self.assertIn("func unit_kill_sync_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_kill_sync_state(dead_value, net_client, killable_value, unit_id)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_kill_sync": unit_kill_sync_state', source)
+        self.assertIn('"guard": unit_kill_sync_state.get("guard")', source)
+        self.assertIn('"should_return": unit_kill_sync_state.get("shouldReturn")', source)
+        self.assertIn('"dead": unit_kill_sync_state.get("dead")', source)
+        self.assertIn('"net_client": unit_kill_sync_state.get("netClient")', source)
+        self.assertIn('"killable": unit_kill_sync_state.get("killable")', source)
+        self.assertIn('"remote_call": unit_kill_sync_state.get("remoteCall")', source)
+        self.assertIn('"unit_kill_sync_runtime": unit_kill_sync_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_destroy_explosion_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

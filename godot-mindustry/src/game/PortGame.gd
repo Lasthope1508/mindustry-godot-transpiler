@@ -164,6 +164,7 @@ var unit_destroy_wreck_decal_last_state: Dictionary = {}
 var unit_destroy_ability_death_last_state: Dictionary = {}
 var unit_destroy_type_killed_remove_last_state: Dictionary = {}
 var unit_killed_last_state: Dictionary = {}
+var unit_kill_sync_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21657,6 +21658,30 @@ func unit_killed_runtime_state() -> Dictionary:
 		"last_state": unit_killed_last_state.duplicate(true),
 	}
 
+func reset_unit_kill_sync_runtime() -> Dictionary:
+	unit_kill_sync_last_state = {}
+	return unit_kill_sync_runtime_state()
+
+func step_unit_kill_sync_runtime(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:
+	var unit_kill_sync_state := source_unit_kill_sync_state(dead_value, net_client, killable_value, unit_id)
+	unit_kill_sync_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"unit_kill_sync": unit_kill_sync_state,
+		"guard": unit_kill_sync_state.get("guard"),
+		"should_return": unit_kill_sync_state.get("shouldReturn"),
+		"dead": unit_kill_sync_state.get("dead"),
+		"net_client": unit_kill_sync_state.get("netClient"),
+		"killable": unit_kill_sync_state.get("killable"),
+		"remote_call": unit_kill_sync_state.get("remoteCall"),
+	}
+	return unit_kill_sync_runtime_state()
+
+func unit_kill_sync_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
+		"last_state": unit_kill_sync_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33236,6 +33261,7 @@ func get_runtime_summary() -> Dictionary:
 		"unit_destroy_ability_death_runtime": unit_destroy_ability_death_runtime_state(),
 		"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state(),
 		"unit_killed_runtime": unit_killed_runtime_state(),
+		"unit_kill_sync_runtime": unit_kill_sync_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
