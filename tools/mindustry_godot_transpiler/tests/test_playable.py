@@ -11470,6 +11470,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drag": unit_drag', source)
         self.assertIn('"floorFactor": floor_factor', source)
 
+    def test_port_game_exposes_unit_update_drag_formula_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+
+        self.assertIn("var unit_update_drag_formula_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_unit_update_drag_formula_runtime() -> Dictionary:", source)
+        self.assertIn("func step_unit_update_drag_formula_runtime(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:", source)
+        self.assertIn("func unit_update_drag_formula_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_unit_update_drag_formula_state(type_drag, grounded_value, floor_drag_multiplier, unit_drag_multiplier, rules_drag_multiplier)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/entities/comp/UnitComp.java"', source)
+        self.assertIn('"unit_update_drag_formula": drag_formula_state', source)
+        self.assertIn('"drag": drag_formula_state.get("drag")', source)
+        self.assertIn('"floor_factor": drag_formula_state.get("floorFactor")', source)
+        self.assertIn('"unit_update_drag_formula_runtime": unit_update_drag_formula_runtime_state()', summary_body)
+
     def test_port_game_exposes_source_unit_update_spawn_knockback_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
