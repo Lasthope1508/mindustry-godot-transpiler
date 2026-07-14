@@ -13570,6 +13570,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"anglesWithinSource": "return angleDist(a, b) <= margin"', source)
         self.assertIn('"shootCallReservedSource": "shoot(unit, mount, bulletX, bulletY, shootAngle)"', source)
 
+    def test_port_game_exposes_weapon_update_cone_gate_runtime_proof(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var weapon_update_cone_gate_last_state: Dictionary = {}", source)
+        self.assertIn("func reset_weapon_update_cone_gate_runtime() -> Dictionary:", source)
+        self.assertIn("func step_weapon_update_cone_gate_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("func weapon_update_cone_gate_runtime_state() -> Dictionary:", source)
+        self.assertIn("source_weapon_update_cone_gate_state(mount_state, weapon_state, unit_state)", source)
+        self.assertIn('"source_owner": "core/src/mindustry/type/Weapon.java"', source)
+        self.assertIn('"weapon_update_cone_gate": weapon_update_cone_gate_state', source)
+        self.assertIn('"cone_gate": weapon_update_cone_gate_state.get("coneGate")', source)
+        self.assertIn('"always_shooting": weapon_update_cone_gate_state.get("alwaysShooting")', source)
+        self.assertIn('"rotate": weapon_update_cone_gate_state.get("rotate")', source)
+        self.assertIn('"current_rotation": weapon_update_cone_gate_state.get("currentRotation")', source)
+        self.assertIn('"target_rotation": weapon_update_cone_gate_state.get("targetRotation")', source)
+        self.assertIn('"shoot_cone": weapon_update_cone_gate_state.get("shootCone")', source)
+        self.assertIn('"angle_distance": weapon_update_cone_gate_state.get("angleDistance")', source)
+        self.assertIn('"within_cone": weapon_update_cone_gate_state.get("withinCone")', source)
+        self.assertIn('"cone_gate_source": weapon_update_cone_gate_state.get("coneGateSource")', source)
+        self.assertIn('"angles_within_source": weapon_update_cone_gate_state.get("anglesWithinSource")', source)
+        self.assertIn('"angles_angle_dist_source": weapon_update_cone_gate_state.get("anglesAngleDistSource")', source)
+        self.assertIn('"shoot_call_reserved_source": weapon_update_cone_gate_state.get("shootCallReservedSource")', source)
+        self.assertIn('"weapon_update_cone_gate_runtime": weapon_update_cone_gate_runtime_state()', source)
+
     def test_port_game_exposes_source_weapon_update_shoot_call_reload_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
