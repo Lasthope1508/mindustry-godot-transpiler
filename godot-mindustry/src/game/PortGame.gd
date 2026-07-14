@@ -172,6 +172,7 @@ var weapons_aim_last_state: Dictionary = {}
 var weapons_can_shoot_last_state: Dictionary = {}
 var weapons_remove_continuous_bullet_cleanup_last_state: Dictionary = {}
 var weapons_remove_sound_stop_last_state: Dictionary = {}
+var weapons_update_dispatch_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21880,6 +21881,29 @@ func weapons_remove_sound_stop_runtime_state() -> Dictionary:
 		"last_state": weapons_remove_sound_stop_last_state.duplicate(true),
 	}
 
+func reset_weapons_update_dispatch_runtime() -> Dictionary:
+	weapons_update_dispatch_last_state = {}
+	return weapons_update_dispatch_runtime_state()
+
+func step_weapons_update_dispatch_runtime(mount_states: Array, unit_id: int) -> Dictionary:
+	var weapons_update_dispatch_state := source_weapons_update_dispatch_state(mount_states, unit_id)
+	weapons_update_dispatch_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_update_dispatch": weapons_update_dispatch_state,
+		"update_comment": weapons_update_dispatch_state.get("updateComment"),
+		"update_override": weapons_update_dispatch_state.get("updateOverride"),
+		"loop": weapons_update_dispatch_state.get("loop"),
+		"mounts_field": weapons_update_dispatch_state.get("mountsField"),
+		"dispatches": weapons_update_dispatch_state.get("dispatches"),
+	}
+	return weapons_update_dispatch_runtime_state()
+
+func weapons_update_dispatch_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_update_dispatch_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33467,6 +33491,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapons_can_shoot_runtime": weapons_can_shoot_runtime_state(),
 		"weapons_remove_continuous_bullet_cleanup_runtime": weapons_remove_continuous_bullet_cleanup_runtime_state(),
 		"weapons_remove_sound_stop_runtime": weapons_remove_sound_stop_runtime_state(),
+		"weapons_update_dispatch_runtime": weapons_update_dispatch_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
