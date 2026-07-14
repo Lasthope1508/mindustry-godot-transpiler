@@ -171,6 +171,7 @@ var weapons_control_last_state: Dictionary = {}
 var weapons_aim_last_state: Dictionary = {}
 var weapons_can_shoot_last_state: Dictionary = {}
 var weapons_remove_continuous_bullet_cleanup_last_state: Dictionary = {}
+var weapons_remove_sound_stop_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -21859,6 +21860,26 @@ func weapons_remove_continuous_bullet_cleanup_runtime_state() -> Dictionary:
 		"last_state": weapons_remove_continuous_bullet_cleanup_last_state.duplicate(true),
 	}
 
+func reset_weapons_remove_sound_stop_runtime() -> Dictionary:
+	weapons_remove_sound_stop_last_state = {}
+	return weapons_remove_sound_stop_runtime_state()
+
+func step_weapons_remove_sound_stop_runtime(mount_states: Array) -> Dictionary:
+	var weapons_remove_sound_stop_state := source_weapons_remove_sound_stop_state(mount_states)
+	weapons_remove_sound_stop_last_state = {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"weapons_remove_sound_stop": weapons_remove_sound_stop_state,
+		"loop": weapons_remove_sound_stop_state.get("loop"),
+		"mounts": weapons_remove_sound_stop_state.get("mounts"),
+	}
+	return weapons_remove_sound_stop_runtime_state()
+
+func weapons_remove_sound_stop_runtime_state() -> Dictionary:
+	return {
+		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
+		"last_state": weapons_remove_sound_stop_last_state.duplicate(true),
+	}
+
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -33445,6 +33466,7 @@ func get_runtime_summary() -> Dictionary:
 		"weapons_aim_runtime": weapons_aim_runtime_state(),
 		"weapons_can_shoot_runtime": weapons_can_shoot_runtime_state(),
 		"weapons_remove_continuous_bullet_cleanup_runtime": weapons_remove_continuous_bullet_cleanup_runtime_state(),
+		"weapons_remove_sound_stop_runtime": weapons_remove_sound_stop_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
