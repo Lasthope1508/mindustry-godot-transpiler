@@ -2,9 +2,19 @@ extends RefCounted
 class_name SourceGameplayDefaults
 
 var catalog: Variant
+var profile: Dictionary = {}
 
 func _init(source_catalog: Variant) -> void:
 	catalog = source_catalog
+	load_gameplay_profile()
+
+func load_gameplay_profile() -> void:
+	var document: Dictionary = catalog.load_document("gameplay_profile")
+	if not bool(document.get("loaded", false)):
+		profile = {"unit": {}, "builder": {}, "source": {}}
+		return
+	var data: Dictionary = document.get("data", {})
+	profile = data.get("gameplay", {})
 
 func first_pinned_build_block_id() -> String:
 	var document: Dictionary = catalog.load_document("playable_content")
@@ -50,3 +60,23 @@ func primary_liquid_id() -> String:
 			continue
 		return str(entry.get("id", ""))
 	return ""
+
+func unit_warp_dst() -> float:
+	var unit: Dictionary = profile.get("unit", {})
+	return float(unit.get("warp_dst", 0.0))
+
+func final_world_bounds() -> float:
+	var unit: Dictionary = profile.get("unit", {})
+	return float(unit.get("final_world_bounds", 0.0))
+
+func building_range() -> float:
+	var builder: Dictionary = profile.get("builder", {})
+	return float(builder.get("building_range", 0.0))
+
+func runtime_summary() -> Dictionary:
+	return {
+		"loaded": not profile.is_empty(),
+		"unit_warp_dst": unit_warp_dst(),
+		"final_world_bounds": final_world_bounds(),
+		"building_range": building_range(),
+	}

@@ -11202,7 +11202,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(warp_dst["java_method"], "UnitComp.update() bounds")
         self.assertEqual(warp_dst["godot_owner"], "PortGame.source_unit_update_bounds_state")
         self.assertEqual(warp_dst["runtime_proof"], "/root/Main.source_unit_update_bounds_state")
-        self.assertEqual(warp_dst["godot_symbol"], "SOURCE_UNIT_WARP_DST")
+        self.assertEqual(warp_dst["godot_symbol"], "gameplay_defaults.unit_warp_dst()")
 
         bounded_guard = source_symbols.source_symbol(registry, "unit_update_bounds.bounded_guard")
         self.assertEqual(bounded_guard["java_expr"], "if(type.bounded){")

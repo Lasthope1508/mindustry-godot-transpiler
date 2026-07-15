@@ -101300,7 +101300,7 @@
     },
     "unit_update_bounds.warp_dst": {
       "godot_owner": "PortGame.source_unit_update_bounds_state",
-      "godot_symbol": "SOURCE_UNIT_WARP_DST",
+      "godot_symbol": "gameplay_defaults.unit_warp_dst()",
       "java_expr": "static final float warpDst = 8f;",
       "java_method": "UnitComp.update() bounds",
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",

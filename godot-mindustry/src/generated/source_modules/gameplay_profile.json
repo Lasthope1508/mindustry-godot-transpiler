@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "root_key": "gameplay",
+  "gameplay": {
+    "unit": {
+      "warp_dst": 8.0,
+      "final_world_bounds": 250.0
+    },
+    "builder": {
+      "building_range": 220.0
+    },
+    "source": {
+      "unit_warp_dst_expr": "static final float warpDst = 8f;",
+      "final_world_bounds_expr": "public static final float finalWorldBounds = 250;",
+      "building_range_expr": "public static final float buildingRange = 220f;",
+      "java_sources": [
+        "core/src/mindustry/entities/comp/UnitComp.java",
+        "core/src/mindustry/Vars.java",
+        "core/src/mindustry/type/UnitType.java"
+      ]
+    }
+  }
+}

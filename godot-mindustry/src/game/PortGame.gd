@@ -16,9 +16,6 @@ const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
-const SOURCE_UNIT_WARP_DST := 8.0
-const SOURCE_FINAL_WORLD_BOUNDS := 250.0
-const SOURCE_BUILDING_RANGE := 220.0
 const SOURCE_ALPHA_BUILD_SPEED := 0.5
 const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
 const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5
@@ -7664,7 +7661,7 @@ func source_block_dump_time(block_id: String) -> float:
 	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
 
 func source_builder_unit_build_range() -> float:
-	return SOURCE_BUILDING_RANGE
+	return gameplay_defaults.building_range()
 
 func construct_block_build_cost(block) -> float:
 	if block == null:
@@ -23199,6 +23196,8 @@ func source_unit_update_type_hook_state() -> Dictionary:
 	}
 
 func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:
+	var unit_warp_dst := gameplay_defaults.unit_warp_dst()
+	var final_world_bounds := gameplay_defaults.final_world_bounds()
 	var next_x := current_x
 	var next_y := current_y
 	var bot := 0.0
@@ -23228,13 +23227,13 @@ func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: floa
 	if (not net_client) or is_local:
 		can_apply_net_local = true
 		if next_x < left:
-			dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)
+			dx += (-(next_x - left) / unit_warp_dst)
 		if next_y < bot:
-			dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)
+			dy += (-(next_y - bot) / unit_warp_dst)
 		if next_x > right - source_tile_size:
-			dx -= (next_x - (right - source_tile_size)) / SOURCE_UNIT_WARP_DST
+			dx -= (next_x - (right - source_tile_size)) / unit_warp_dst
 		if next_y > top - source_tile_size:
-			dy -= (next_y - (top - source_tile_size)) / SOURCE_UNIT_WARP_DST
+			dy -= (next_y - (top - source_tile_size)) / unit_warp_dst
 		vel_add_net = {"x": dx * source_delta, "y": dy * source_delta}
 		var margin := source_tile_size * 1.0
 		next_x = clampf(next_x, left - margin, right - source_tile_size + margin)
@@ -23242,7 +23241,7 @@ func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: floa
 	if grounded:
 		next_x = clampf(next_x, left, right - source_tile_size)
 		next_y = clampf(next_y, bot, top - source_tile_size)
-	var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS
+	var kill_unit := next_x < -final_world_bounds + left or next_y < -final_world_bounds + bot or next_x >= right + final_world_bounds or next_y >= top + final_world_bounds
 	return {
 		"bounded": true,
 		"limits": {"bot": bot, "left": left, "top": top, "right": right, "limitedArea": use_limited_area},
@@ -34118,6 +34117,7 @@ func get_runtime_summary() -> Dictionary:
 		"content_counts": content_counts.duplicate(),
 		"control_profile": control_input.runtime_summary(),
 		"display_profile": display_profile_runtime_summary(),
+		"gameplay_profile": gameplay_defaults.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,

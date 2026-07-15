@@ -407,6 +407,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("control_input.hud_hint()", source)
         self.assertIn("click/tap place", profile["hud_hint"])
 
+    def test_gameplay_profile_is_registered_ssot_for_source_runtime_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "gameplay_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameplayDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("gameplay_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["gameplay_profile"]["root_key"], "gameplay")
+        self.assertEqual(manifest["modules"]["gameplay_profile"]["path"], "src/generated/source_modules/gameplay_profile.json")
+        self.assertEqual(profile["root_key"], "gameplay")
+        gameplay = profile["gameplay"]
+        self.assertEqual(gameplay["unit"]["warp_dst"], 8.0)
+        self.assertEqual(gameplay["unit"]["final_world_bounds"], 250.0)
+        self.assertEqual(gameplay["builder"]["building_range"], 220.0)
+        self.assertEqual(gameplay["source"]["unit_warp_dst_expr"], "static final float warpDst = 8f;")
+        self.assertEqual(gameplay["source"]["final_world_bounds_expr"], "public static final float finalWorldBounds = 250;")
+        self.assertEqual(gameplay["source"]["building_range_expr"], "public static final float buildingRange = 220f;")
+        self.assertIn('catalog.load_document("gameplay_profile")', defaults_source)
+        self.assertIn('var data: Dictionary = document.get("data", {})', defaults_source)
+        self.assertIn('profile = data.get("gameplay", {})', defaults_source)
+        self.assertIn("func unit_warp_dst() -> float:", defaults_source)
+        self.assertIn("func final_world_bounds() -> float:", defaults_source)
+        self.assertIn("func building_range() -> float:", defaults_source)
+        self.assertIn("gameplay_defaults.unit_warp_dst()", port_source)
+        self.assertIn("gameplay_defaults.final_world_bounds()", port_source)
+        self.assertIn("gameplay_defaults.building_range()", port_source)
+        self.assertNotIn("const SOURCE_UNIT_WARP_DST := 8.0", port_source)
+        self.assertNotIn("const SOURCE_FINAL_WORLD_BOUNDS := 250.0", port_source)
+        self.assertNotIn("const SOURCE_BUILDING_RANGE := 220.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -694,7 +729,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var builder_construct_progress := 0.0", source)
         self.assertIn("var builder_finished_count := 0", source)
         self.assertIn("func source_builder_unit_build_range() -> float:", source)
-        self.assertIn("return SOURCE_BUILDING_RANGE", source)
+        self.assertIn("return gameplay_defaults.building_range()", source)
         self.assertIn("func queue_builder_plan(block_id: String, x: int, y: int, rotation_value: int = 0) -> Dictionary:", source)
         self.assertIn("var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_construct_progress)", source)
         self.assertIn('builder_plans = add_state.get("plans_after", [])', source)
@@ -16299,9 +16334,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_UNIT_WARP_DST := 8.0", source)
-        self.assertIn("const SOURCE_FINAL_WORLD_BOUNDS := 250.0", source)
         self.assertIn("func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:", source)
+        self.assertIn("var unit_warp_dst := gameplay_defaults.unit_warp_dst()", source)
+        self.assertIn("var final_world_bounds := gameplay_defaults.final_world_bounds()", source)
         self.assertIn("if not type_bounded:", source)
         self.assertIn("var use_limited_area := rules_limit_map_area and not team_is_ai", source)
         self.assertIn("bot = float(rules_limit_y) * source_tile_size", source)
@@ -16309,17 +16344,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("top = float(rules_limit_height) * source_tile_size + bot", source)
         self.assertIn("right = float(rules_limit_width) * source_tile_size + left", source)
         self.assertIn("if (not net_client) or is_local:", source)
-        self.assertIn("dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)", source)
-        self.assertIn("dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)", source)
-        self.assertIn("dx -= (next_x - (right - source_tile_size)) / SOURCE_UNIT_WARP_DST", source)
-        self.assertIn("dy -= (next_y - (top - source_tile_size)) / SOURCE_UNIT_WARP_DST", source)
+        self.assertIn("dx += (-(next_x - left) / unit_warp_dst)", source)
+        self.assertIn("dy += (-(next_y - bot) / unit_warp_dst)", source)
+        self.assertIn("dx -= (next_x - (right - source_tile_size)) / unit_warp_dst", source)
+        self.assertIn("dy -= (next_y - (top - source_tile_size)) / unit_warp_dst", source)
         self.assertIn("vel_add_net = {\"x\": dx * source_delta, \"y\": dy * source_delta}", source)
         self.assertIn("next_x = clampf(next_x, left - margin, right - source_tile_size + margin)", source)
         self.assertIn("next_y = clampf(next_y, bot - margin, top - source_tile_size + margin)", source)
         self.assertIn("if grounded:", source)
         self.assertIn("next_x = clampf(next_x, left, right - source_tile_size)", source)
         self.assertIn("next_y = clampf(next_y, bot, top - source_tile_size)", source)
-        self.assertIn("var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS", source)
+        self.assertIn("var kill_unit := next_x < -final_world_bounds + left or next_y < -final_world_bounds + bot or next_x >= right + final_world_bounds or next_y >= top + final_world_bounds", source)
 
     def test_port_game_exposes_source_unit_update_nan_health_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
