@@ -244,6 +244,7 @@ var item_progress := 0.0
 var transport_progress := 0.0
 var conveyor_world_speed := 0.0
 var conveyor_path_progress_rate := 0.0
+var transport_preview_item_sprite_count := 0
 var item_sprites: Array[Sprite2D] = []
 var enemy_units: Array = []
 var bullets: Array = []
@@ -395,6 +396,10 @@ func bootstrap_ore_patch_entries() -> Array:
 	var terrain: Dictionary = config.get("bootstrap_terrain", {})
 	return terrain.get("ore_patches", [])
 
+func bootstrap_transport_item_sprite_count() -> int:
+	var transport: Dictionary = config.get("bootstrap_transport", {})
+	return int(transport.get("item_sprite_count", 0))
+
 func load_bootstrap_layout() -> void:
 	drill_pos = bootstrap_layout_cell("drill_cell")
 	core_pos = bootstrap_layout_cell("core_cell")
@@ -405,6 +410,7 @@ func load_bootstrap_layout() -> void:
 	turret_block_id = bootstrap_block_id("turret_block")
 	floor_block_id = bootstrap_floor_block_id()
 	bootstrap_ore_patches = bootstrap_ore_patch_entries()
+	transport_preview_item_sprite_count = bootstrap_transport_item_sprite_count()
 
 func display_profile_runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)
@@ -683,7 +689,7 @@ func build_world() -> void:
 		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
 	conveyor_world_speed = source_conveyor_world_speed(conveyor_block_id)
 	conveyor_path_progress_rate = source_conveyor_path_progress_rate(conveyor_block_id)
-	for i in 3:
+	for i in transport_preview_item_sprite_count:
 		var sprite := add_sprite(units, "item", path_points[0])
 		sprite.visible = false
 		item_sprites.append(sprite)

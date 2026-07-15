@@ -16,17 +16,21 @@
     "tile_size": 32,
     "source_tile_size": 8,
     "render_scale": 4,
+    "background_margin_tiles": {
+      "x": 16,
+      "y": 9
+    },
     "visible_world": {
       "width_pixels": 2560,
       "height_pixels": 1440,
       "formula": "viewport_pixels / camera.zoom"
     },
     "world": {
-      "width_tiles": 80,
-      "height_tiles": 45,
-      "width_pixels": 2560,
-      "height_pixels": 1440,
-      "formula": "ceil(visible_world_pixels / tile_size)"
+      "width_tiles": 96,
+      "height_tiles": 54,
+      "width_pixels": 3072,
+      "height_pixels": 1728,
+      "formula": "ceil(visible_world_pixels / tile_size) + background_margin_tiles"
     },
     "source": {
       "world_width_expr": "return tiles.width;",

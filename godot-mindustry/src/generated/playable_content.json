@@ -59,6 +59,9 @@
       }
     ]
   },
+  "bootstrap_transport": {
+    "item_sprite_count": 3
+  },
   "build_palette": {
     "pinned_block_ids": [
       "conveyor",

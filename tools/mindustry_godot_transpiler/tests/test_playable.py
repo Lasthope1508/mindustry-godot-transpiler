@@ -131,10 +131,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(playfield["camera"]["position_x"], 1280.0)
         self.assertEqual(playfield["camera"]["position_y"], 720.0)
         self.assertEqual(playfield["tile_size"], 32)
-        self.assertEqual(playfield["world"]["width_tiles"], 80)
-        self.assertEqual(playfield["world"]["height_tiles"], 45)
+        self.assertEqual(playfield["background_margin_tiles"], {"x": 16, "y": 9})
+        self.assertEqual(playfield["world"]["width_tiles"], 96)
+        self.assertEqual(playfield["world"]["height_tiles"], 54)
         self.assertGreaterEqual(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
         self.assertGreaterEqual(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
+        self.assertGreater(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
+        self.assertGreater(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
         self.assertEqual(playfield["camera"]["position_x"] - (playfield["visible_world"]["width_pixels"] / 2.0), 0.0)
         self.assertEqual(playfield["camera"]["position_y"] - (playfield["visible_world"]["height_pixels"] / 2.0), 0.0)
 
@@ -3050,6 +3053,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var drill_pos := Vector2i(7, 8)", source)
         self.assertNotIn("var core_pos := Vector2i(17, 8)", source)
         self.assertNotIn("var duo_pos := Vector2i(18, 7)", source)
+
+    def test_port_game_transport_preview_count_comes_from_playable_content(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(playable_content["bootstrap_transport"]["item_sprite_count"], 3)
+        self.assertIn("var transport_preview_item_sprite_count := 0", source)
+        self.assertIn("func bootstrap_transport_item_sprite_count() -> int:", source)
+        self.assertIn("transport_preview_item_sprite_count = bootstrap_transport_item_sprite_count()", source)
+        self.assertIn("for i in transport_preview_item_sprite_count:", source)
+        self.assertNotIn("for i in 3:", source)
 
     def test_port_game_uses_playable_item_id_for_copper_defaults(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

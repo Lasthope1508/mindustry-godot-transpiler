@@ -36,6 +36,9 @@ BOOTSTRAP_TERRAIN = {
         }
     ],
 }
+BOOTSTRAP_TRANSPORT = {
+    "item_sprite_count": 3,
+}
 
 
 def _asset_entry(asset_root: Path, relative_path: str, asset_id: str) -> dict:
@@ -62,6 +65,7 @@ def build_playable_manifest(asset_root: Path) -> dict:
         "bootstrap_blocks": BOOTSTRAP_BLOCKS,
         "bootstrap_layout": BOOTSTRAP_LAYOUT,
         "bootstrap_terrain": BOOTSTRAP_TERRAIN,
+        "bootstrap_transport": BOOTSTRAP_TRANSPORT,
         "build_palette": {
             "pinned_block_ids": PINNED_BUILD_BLOCK_IDS,
         },
