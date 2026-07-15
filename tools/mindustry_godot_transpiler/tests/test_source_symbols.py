@@ -1571,8 +1571,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
         power_slices_entry = manifest["modules"]["power_slices"]
         power_contracts_entry = manifest["modules"]["power_api_contracts"]
-        power_schema_entry = manifest["modules"]["power_state_schema"]
         power_symbols_entry = manifest["modules"]["power_symbols"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        power_schema_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "power_state_schema.json"
+        power_schema_mirror_fields = ("keys",)
 
         self.assertEqual(power_slices_entry["canonical_module"], "slice_ledger")
         self.assertEqual(power_slices_entry["canonical_reference_key"], "canonical_ledger")
@@ -1584,10 +1586,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(power_contracts_entry["canonical_reference_prefix"], "source_api_contracts.")
         self.assertIn("return_keys", power_contracts_entry["mirror_fields"])
 
-        self.assertEqual(power_schema_entry["canonical_module"], "state_schema")
-        self.assertEqual(power_schema_entry["canonical_reference_key"], "canonical_schema")
-        self.assertEqual(power_schema_entry["canonical_reference_prefix"], "source_state_schema.")
-        self.assertEqual(power_schema_entry["root_key"], "schemas")
+        self.assertNotIn("power_state_schema", manifest["modules"])
+        self.assertNotIn("power_state_schema", module_entries)
+        self.assertFalse(power_schema_path.exists())
 
         self.assertEqual(power_symbols_entry["canonical_module"], "registry")
         self.assertEqual(power_symbols_entry["canonical_reference_key"], "canonical_symbol")
@@ -1636,7 +1637,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for schema_name in sorted(expected_schema_names):
             with self.subTest(schema_name=schema_name):
                 self.assertEqual(power_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
-                for field in power_schema_entry["mirror_fields"]:
+                for field in power_schema_mirror_fields:
                     self.assertEqual(power_schema[schema_name][field], canonical_schema[schema_name][field])
 
         power_symbols = source_ssot.load_registered_json(ROOT / "godot-mindustry", "power_symbols")["symbols"]
@@ -1662,7 +1663,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(power_reports["power_slices"]["canonical_mirror"]["checked"], len(power_slices))
         self.assertEqual(power_reports["power_api_contracts"]["canonical_mirror"]["checked"], len(power_contracts))
-        self.assertEqual(power_reports["power_state_schema"]["canonical_mirror"]["checked"], len(power_schema))
+        self.assertNotIn("power_state_schema", power_reports)
         self.assertEqual(power_reports["power_symbols"]["canonical_mirror"]["checked"], len(power_symbols))
 
     def test_source_ssot_defense_json_shards_declare_canonical_mirror_contracts(self):

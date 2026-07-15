@@ -2011,33 +2011,6 @@
         "status": "active"
       }
     },
-    "power_state_schema": {
-      "canonical_manifest_entry": "source_ssot_modules.modules.power_state_schema",
-      "path": "src/generated/source_modules/power_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
-      "rule": "Extension shard for power-block source state schemas; schema names are derived from power_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ],
-      "entry": {
-        "canonical_module": "state_schema",
-        "canonical_reference_key": "canonical_schema",
-        "canonical_reference_prefix": "source_state_schema.",
-        "label": "schemaName",
-        "mirror_fields": [
-          "keys"
-        ],
-        "path": "src/generated/source_modules/power_state_schema.json",
-        "root_key": "schemas",
-        "rule": "Extension shard for power-block source state schemas; schema names are derived from power_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-        "status": "active"
-      }
-    },
     "power_symbols": {
       "canonical_manifest_entry": "source_ssot_modules.modules.power_symbols",
       "path": "src/generated/source_modules/power_symbols.json",
