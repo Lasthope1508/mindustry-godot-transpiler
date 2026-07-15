@@ -447,45 +447,6 @@
         "status": "active"
       }
     },
-    "block_symbols": {
-      "canonical_manifest_entry": "source_ssot_modules.modules.block_symbols",
-      "path": "src/generated/source_modules/block_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Extension shard for Block.java source symbols; canonical symbol names come from block_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "entry": {
-        "canonical_module": "registry",
-        "canonical_reference_key": "canonical_symbol",
-        "canonical_reference_prefix": "source_symbol_registry.",
-        "label": "symbol",
-        "mirror_fields": [
-          "status",
-          "java_expr",
-          "godot_symbol",
-          "godot_owner",
-          "rule",
-          "tests",
-          "runtime_proof"
-        ],
-        "path": "src/generated/source_modules/block_symbols.json",
-        "root_key": "symbols",
-        "rule": "Extension shard for Block.java source symbols; canonical symbol names come from block_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-        "status": "active"
-      }
-    },
     "bullet_api_contracts": {
       "canonical_manifest_entry": "source_ssot_modules.modules.bullet_api_contracts",
       "path": "src/generated/source_modules/bullet_api_contracts.json",
