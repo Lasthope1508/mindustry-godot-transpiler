@@ -54,6 +54,7 @@ _MODULE_ALIASES = {
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
     "comp_state_schema": "state_schema",
+    "consumer_symbols": "registry",
     "comp_symbols": "registry",
     "defense_symbols": "registry",
 }
@@ -70,10 +71,33 @@ _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "slice",
 )
 _DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
+    "consumer_symbols": {
+        "slice_module": "consumer_slices",
+        "contract_module": "consumer_api_contracts",
+        "slice_filter": "",
+        "include_contract_owner_symbols": False,
+        "policy": {
+            "canonicalOwner": "source_symbol_registry",
+            "newConsumerSymbolRequiresCanonicalMirror": True,
+            "source": "Derived from consumer_slices.source_symbols and canonical source_symbol_registry.symbols; no symbol metadata is authored here.",
+        },
+        "mirror_fields": (
+            "status",
+            "java_source",
+            "java_method",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        ),
+    },
     "comp_symbols": {
         "slice_module": "comp_slices",
         "contract_module": "comp_api_contracts",
         "slice_filter": "/entities/comp/",
+        "include_contract_owner_symbols": True,
         "mirror_fields": (
             "status",
             "java_expr",
@@ -88,6 +112,7 @@ _DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
         "slice_module": "defense_slices",
         "contract_module": "defense_api_contracts",
         "slice_filter": "/world/blocks/defense/",
+        "include_contract_owner_symbols": True,
         "mirror_fields": (
             "status",
             "java_expr",
@@ -318,16 +343,19 @@ def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]
     if not isinstance(canonical_symbols, dict):
         canonical_symbols = {}
     slice_filter = str(config["slice_filter"])
+    include_contract_owner_symbols = bool(config.get("include_contract_owner_symbols", True))
     expected_symbol_names = {
         str(symbol_name)
         for slice_entry in domain_slices.values()
         if isinstance(slice_entry, dict) and slice_filter in str(slice_entry.get("java_source", ""))
         for symbol_name in slice_entry.get("source_symbols", [])
-    } | {
-        str(symbol_name)
-        for symbol_name, symbol_entry in canonical_symbols.items()
-        if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in domain_contracts
     }
+    if include_contract_owner_symbols:
+        expected_symbol_names |= {
+            str(symbol_name)
+            for symbol_name, symbol_entry in canonical_symbols.items()
+            if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in domain_contracts
+        }
     mirror: dict[str, Any] = {}
     for symbol_name in sorted(expected_symbol_names):
         canonical_entry = canonical_symbols.get(symbol_name)
@@ -337,7 +365,10 @@ def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]
         for field in config["mirror_fields"]:
             entry[field] = canonical_entry[field]
         mirror[symbol_name] = entry
-    return {"version": 1, "symbols": mirror}
+    result: dict[str, Any] = {"version": 1, "symbols": mirror}
+    if "policy" in config:
+        result["policy"] = config["policy"]
+    return result
 
 def _virtual_comp_state_schema(godot_root: Path) -> dict[str, Any]:
     comp_contracts = load_registered_json(godot_root, "comp_api_contracts").get("contracts", {})
