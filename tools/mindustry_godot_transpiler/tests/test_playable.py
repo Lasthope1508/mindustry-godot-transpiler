@@ -626,6 +626,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5", port_source)
         self.assertNotIn("const SOURCE_DECONSTRUCT_THRESHOLD := 0.0", port_source)
 
+    def test_turret_profile_is_registered_ssot_for_recoil_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "turret_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("turret_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["turret_profile"]["root_key"], "turret")
+        self.assertEqual(manifest["modules"]["turret_profile"]["path"], "src/generated/source_modules/turret_profile.json")
+        self.assertEqual(profile["root_key"], "turret")
+        turret = profile["turret"]
+        self.assertEqual(turret["recoil_pow"], 1.8)
+        self.assertEqual(turret["source"]["recoil_pow_comment"], "/** power curve applied to visual recoil */")
+        self.assertEqual(turret["source"]["recoil_pow_expr"], "public float recoilPow = 1.8f;")
+        self.assertEqual(turret["source"]["recoil_offset_expr"], "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);")
+        self.assertIn("core/src/mindustry/world/blocks/defense/turrets/Turret.java", turret["source"]["java_sources"])
+        self.assertIn('catalog.load_document("turret_profile")', defaults_source)
+        self.assertIn('profile = data.get("turret", {})', defaults_source)
+        self.assertIn("func recoil_pow() -> float:", defaults_source)
+        self.assertIn("const SourceTurretDefaults := preload(\"res://src/game/SourceTurretDefaults.gd\")", port_source)
+        self.assertIn("var turret_defaults: SourceTurretDefaults", port_source)
+        self.assertIn("SOURCE_RECOIL_POW = turret_defaults.recoil_pow()", port_source)
+        self.assertIn('"turret_profile": turret_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_RECOIL_POW := 1.8", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4917,7 +4949,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_RECOIL_POW := 1.8", source)
+        self.assertIn("var SOURCE_RECOIL_POW := 0.0", source)
+        self.assertIn("SOURCE_RECOIL_POW = turret_defaults.recoil_pow()", source)
         self.assertIn("var turret_recoils: Dictionary = {}", source)
         self.assertIn("var last_turret_recoil := 0.0", source)
         self.assertIn("var last_turret_recoils := 0", source)
@@ -4956,8 +4989,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"', source)
-        self.assertIn("const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT := 1.8", source)
-        self.assertIn("return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT) * source_turret_recoil(turret))", source)
+        self.assertIn("return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))", source)
         self.assertIn("func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:", source)
         self.assertIn("cur_recoil = max(0.0, cur_recoil - delta * SOURCE_TICK_RATE / source_turret_recoil_time(turret))", source)
         self.assertIn("turret_recoils[key] = cur_recoil", source)

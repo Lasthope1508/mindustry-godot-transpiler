@@ -9,12 +9,12 @@ const ControlInput := preload("res://src/game/ControlInput.gd")
 const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SourceConstructionDefaults := preload("res://src/game/SourceConstructionDefaults.gd")
+const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
-const SOURCE_RECOIL_POW := 1.8
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
 const SOURCE_INT64_MAX := 9223372036854775807
 const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
@@ -30,12 +30,14 @@ var source_tile_size := 0.0
 var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
 var construction_defaults: SourceConstructionDefaults
+var turret_defaults: SourceTurretDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
 var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
 var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
 var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
+var SOURCE_RECOIL_POW := 0.0
 var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
@@ -299,6 +301,7 @@ var bootstrap_ore_patches: Array = []
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	construction_defaults = SourceConstructionDefaults.new(SourceSsotCatalog)
+	turret_defaults = SourceTurretDefaults.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
 	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
@@ -306,6 +309,7 @@ func _ready() -> void:
 	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
 	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()
 	SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()
+	SOURCE_RECOIL_POW = turret_defaults.recoil_pow()
 	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
@@ -33800,7 +33804,6 @@ const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2(
 const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"
 const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"
 const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"
-const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT := 1.8
 
 func source_turret_recoil(turret) -> float:
 	if turret == null:
@@ -33821,7 +33824,7 @@ func source_turret_recoil_time(turret) -> float:
 	return recoil_time
 
 func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
-	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT) * source_turret_recoil(turret))
+	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))
 
 func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
 	var key := cell_key(cell)
@@ -34135,6 +34138,7 @@ func get_runtime_summary() -> Dictionary:
 		"display_profile": display_profile_runtime_summary(),
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
 		"construction_profile": construction_defaults.runtime_summary(),
+		"turret_profile": turret_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
 		"time_profile": time_defaults.runtime_summary(),
 		"math_profile": math_defaults.runtime_summary(),

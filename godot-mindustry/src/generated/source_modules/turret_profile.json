@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "root_key": "turret",
+  "turret": {
+    "recoil_pow": 1.8,
+    "source": {
+      "recoil_pow_comment": "/** power curve applied to visual recoil */",
+      "recoil_pow_expr": "public float recoilPow = 1.8f;",
+      "recoil_offset_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+      "java_sources": [
+        "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
+      ]
+    }
+  }
+}
