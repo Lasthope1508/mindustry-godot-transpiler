@@ -11,6 +11,7 @@ REQUIRED_ASSETS = {
         "stone_floor": "core/assets-raw/sprites/blocks/environment/stone1.png",
     },
 }
+PINNED_BUILD_BLOCK_IDS = ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 
 
 def _asset_entry(asset_root: Path, relative_path: str, asset_id: str) -> dict:
@@ -34,6 +35,9 @@ def build_playable_manifest(asset_root: Path) -> dict:
         "tile_size": 32,
         "item": _asset_entry(asset_root, item_path, item_id),
         "blocks": blocks,
+        "build_palette": {
+            "pinned_block_ids": PINNED_BUILD_BLOCK_IDS,
+        },
         "skin_overrides": {},
     }
 

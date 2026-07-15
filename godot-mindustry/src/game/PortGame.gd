@@ -6,7 +6,6 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
-const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
@@ -333,6 +332,10 @@ func playable_content_item_state(item_id: String = "") -> Dictionary:
 func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
 
+func pinned_build_block_ids() -> Array:
+	var palette: Dictionary = config.get("build_palette", {})
+	return palette.get("pinned_block_ids", [])
+
 func display_profile_runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)
 	var world_height_pixels := float(world_height_tiles * tile_size)
@@ -524,7 +527,7 @@ func build_block_palette() -> void:
 	build_palette.clear()
 	if content_catalog == null:
 		return
-	for block_id in PINNED_BUILD_BLOCK_IDS:
+	for block_id in pinned_build_block_ids():
 		var block = content_catalog.get_by_id(block_id)
 		if block != null and block.has_texture():
 			build_palette.append(block)

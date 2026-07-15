@@ -2985,8 +2985,11 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_build_palette_uses_all_textured_blocks(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
 
-        self.assertIn("const PINNED_BUILD_BLOCK_IDS", source)
+        self.assertEqual(playable_content["build_palette"]["pinned_block_ids"], ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"])
+        self.assertIn("func pinned_build_block_ids() -> Array:", source)
+        self.assertIn("for block_id in pinned_build_block_ids():", source)
         self.assertIn('for block in content_catalog.get_many("block"):', source)
         self.assertIn("if block.has_texture() and not build_palette.has(block):", source)
         self.assertIn("func select_next_build_slot() -> void:", source)
@@ -2994,6 +2997,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("selected_build_index = (selected_build_index + 1) % build_palette.size()", source)
         self.assertIn("selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()", source)
         self.assertIn('"selected_build_id": selected.id if selected else ""', source)
+        self.assertNotIn("const PINNED_BUILD_BLOCK_IDS", source)
 
     def test_port_game_selects_build_block_by_id_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

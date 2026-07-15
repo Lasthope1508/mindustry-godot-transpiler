@@ -26,6 +26,16 @@
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
     }
   },
+  "build_palette": {
+    "pinned_block_ids": [
+      "conveyor",
+      "router",
+      "junction",
+      "mechanical-drill",
+      "duo",
+      "copper-wall"
+    ]
+  },
   "item": {
     "id": "copper",
     "source": "core/assets-raw/sprites/items/item-copper.png",
