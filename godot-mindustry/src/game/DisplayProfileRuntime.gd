@@ -10,8 +10,11 @@ var tile_size := 0
 var source_tile_size := 0.0
 var world_width_tiles := 0
 var world_height_tiles := 0
+var profile_viewport_size_pixels := Vector2i.ZERO
 var viewport_size_pixels := Vector2i.ZERO
 var visible_world_size_pixels := Vector2.ZERO
+var background_margin_viewports := Vector2.ZERO
+var background_margin_tiles := Vector2i.ZERO
 var camera_initial_position := Vector2.ZERO
 var camera_initial_zoom := 0.0
 
@@ -29,15 +32,33 @@ func load() -> bool:
 	var camera_profile: Dictionary = profile.get("camera", {})
 	var visible_world: Dictionary = profile.get("visible_world", {})
 	var world: Dictionary = profile.get("world", {})
+	var margin_viewports: Dictionary = profile.get("background_margin_viewports", {})
+	var margin_tiles: Dictionary = profile.get("background_margin_tiles", {})
 	tile_size = int(profile.get("tile_size", 0))
 	source_tile_size = float(profile.get("source_tile_size", 0.0))
 	world_width_tiles = int(world.get("width_tiles", 0))
 	world_height_tiles = int(world.get("height_tiles", 0))
-	viewport_size_pixels = Vector2i(int(viewport.get("width", 0)), int(viewport.get("height", 0)))
+	profile_viewport_size_pixels = Vector2i(int(viewport.get("width", 0)), int(viewport.get("height", 0)))
+	viewport_size_pixels = profile_viewport_size_pixels
 	visible_world_size_pixels = Vector2(float(visible_world.get("width_pixels", 0.0)), float(visible_world.get("height_pixels", 0.0)))
+	background_margin_viewports = Vector2(float(margin_viewports.get("x", 0.0)), float(margin_viewports.get("y", 0.0)))
+	background_margin_tiles = Vector2i(int(margin_tiles.get("x", 0)), int(margin_tiles.get("y", 0)))
 	camera_initial_position = Vector2(float(camera_profile.get("position_x", 0.0)), float(camera_profile.get("position_y", 0.0)))
 	camera_initial_zoom = float(camera_profile.get("zoom", 0.0))
 	return true
+
+func sync_runtime_viewport_size(viewport_size: Vector2i) -> void:
+	if viewport_size.x <= 0 or viewport_size.y <= 0 or tile_size <= 0:
+		return
+	viewport_size_pixels = Vector2i(maxi(viewport_size.x, profile_viewport_size_pixels.x), maxi(viewport_size.y, profile_viewport_size_pixels.y))
+	visible_world_size_pixels = camera_visible_size_pixels(Vector2(camera_initial_zoom, camera_initial_zoom))
+	background_margin_tiles = Vector2i(
+		ceili((visible_world_size_pixels.x / float(tile_size)) * background_margin_viewports.x),
+		ceili((visible_world_size_pixels.y / float(tile_size)) * background_margin_viewports.y)
+	)
+	world_width_tiles = ceili(visible_world_size_pixels.x / float(tile_size)) + background_margin_tiles.x
+	world_height_tiles = ceili(visible_world_size_pixels.y / float(tile_size)) + background_margin_tiles.y
+	camera_initial_position = world_size_pixels() / 2.0
 
 func runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)
@@ -54,6 +75,8 @@ func runtime_summary() -> Dictionary:
 		"viewport_height": viewport_size_pixels.y,
 		"camera_position": {"x": camera_initial_position.x, "y": camera_initial_position.y},
 		"camera_zoom": camera_initial_zoom,
+		"background_margin_viewports": {"x": background_margin_viewports.x, "y": background_margin_viewports.y},
+		"background_margin_tiles": {"x": background_margin_tiles.x, "y": background_margin_tiles.y},
 		"visible_world_width_pixels": visible_world_size_pixels.x,
 		"visible_world_height_pixels": visible_world_size_pixels.y,
 		"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x and world_height_pixels >= visible_world_size_pixels.y,

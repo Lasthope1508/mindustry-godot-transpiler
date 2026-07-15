@@ -326,6 +326,7 @@ func load_display_profile() -> void:
 	display_profile_runtime = DisplayProfileRuntime.new(SourceSsotCatalog)
 	if not display_profile_runtime.load():
 		return
+	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
 	tile_size = display_profile_runtime.tile_size
 	source_tile_size = display_profile_runtime.source_tile_size
 	world_width_tiles = display_profile_runtime.world_width_tiles

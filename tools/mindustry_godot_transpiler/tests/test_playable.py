@@ -298,6 +298,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertGreaterEqual(port_source.count("clamp_camera_to_source_world()"), 4)
         self.assertIn("camera.position = display_profile_runtime.clamp_camera_position(camera.position, camera.zoom)", port_source)
 
+    def test_display_profile_runtime_syncs_playfield_to_actual_viewport(self):
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "DisplayProfileRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        module_source = module_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var profile_viewport_size_pixels := Vector2i.ZERO", module_source)
+        self.assertIn("var background_margin_viewports := Vector2.ZERO", module_source)
+        self.assertIn("var background_margin_tiles := Vector2i.ZERO", module_source)
+        self.assertIn("func sync_runtime_viewport_size(viewport_size: Vector2i) -> void:", module_source)
+        self.assertIn("profile_viewport_size_pixels = Vector2i(int(viewport.get(\"width\", 0)), int(viewport.get(\"height\", 0)))", module_source)
+        self.assertIn("viewport_size_pixels = Vector2i(maxi(viewport_size.x, profile_viewport_size_pixels.x), maxi(viewport_size.y, profile_viewport_size_pixels.y))", module_source)
+        self.assertIn("visible_world_size_pixels = camera_visible_size_pixels(Vector2(camera_initial_zoom, camera_initial_zoom))", module_source)
+        self.assertIn("background_margin_tiles = Vector2i(", module_source)
+        self.assertIn("world_width_tiles = ceili(visible_world_size_pixels.x / float(tile_size)) + background_margin_tiles.x", module_source)
+        self.assertIn("world_height_tiles = ceili(visible_world_size_pixels.y / float(tile_size)) + background_margin_tiles.y", module_source)
+        self.assertIn("camera_initial_position = world_size_pixels() / 2.0", module_source)
+        self.assertIn('"background_margin_tiles": {"x": background_margin_tiles.x, "y": background_margin_tiles.y}', module_source)
+        self.assertIn("display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))", port_source)
+
     def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
