@@ -281,14 +281,15 @@ var path_points: Array[Vector2] = []
 var hud_label: Label
 var camera: Camera2D
 var control_input: ControlInput
-var drill_pos := Vector2i(7, 8)
-var core_pos := Vector2i(17, 8)
-var duo_pos := Vector2i(18, 7)
+var drill_pos := Vector2i.ZERO
+var core_pos := Vector2i.ZERO
+var duo_pos := Vector2i.ZERO
 
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	control_input.install_input_map()
 	load_config()
+	load_bootstrap_layout()
 	load_display_profile()
 	load_content_registry()
 	load_textures()
@@ -335,6 +336,16 @@ func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 func pinned_build_block_ids() -> Array:
 	var palette: Dictionary = config.get("build_palette", {})
 	return palette.get("pinned_block_ids", [])
+
+func bootstrap_layout_cell(cell_id: String) -> Vector2i:
+	var layout: Dictionary = config.get("bootstrap_layout", {})
+	var cell: Dictionary = layout.get(cell_id, {})
+	return Vector2i(int(cell.get("x", 0)), int(cell.get("y", 0)))
+
+func load_bootstrap_layout() -> void:
+	drill_pos = bootstrap_layout_cell("drill_cell")
+	core_pos = bootstrap_layout_cell("core_cell")
+	duo_pos = bootstrap_layout_cell("duo_cell")
 
 func display_profile_runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)

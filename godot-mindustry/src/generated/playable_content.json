@@ -26,6 +26,20 @@
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
     }
   },
+  "bootstrap_layout": {
+    "core_cell": {
+      "x": 17,
+      "y": 8
+    },
+    "drill_cell": {
+      "x": 7,
+      "y": 8
+    },
+    "duo_cell": {
+      "x": 18,
+      "y": 7
+    }
+  },
   "build_palette": {
     "pinned_block_ids": [
       "conveyor",

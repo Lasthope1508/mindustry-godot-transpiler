@@ -2999,6 +2999,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_build_id": selected.id if selected else ""', source)
         self.assertNotIn("const PINNED_BUILD_BLOCK_IDS", source)
 
+    def test_port_game_bootstrap_layout_comes_from_playable_content(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": 7, "y": 8})
+        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": 17, "y": 8})
+        self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": 18, "y": 7})
+        self.assertIn("func bootstrap_layout_cell(cell_id: String) -> Vector2i:", source)
+        self.assertIn('drill_pos = bootstrap_layout_cell("drill_cell")', source)
+        self.assertIn('core_pos = bootstrap_layout_cell("core_cell")', source)
+        self.assertIn('duo_pos = bootstrap_layout_cell("duo_cell")', source)
+        self.assertNotIn("var drill_pos := Vector2i(7, 8)", source)
+        self.assertNotIn("var core_pos := Vector2i(17, 8)", source)
+        self.assertNotIn("var duo_pos := Vector2i(18, 7)", source)
+
     def test_port_game_selects_build_block_by_id_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
