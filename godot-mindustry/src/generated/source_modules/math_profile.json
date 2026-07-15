@@ -10,6 +10,44 @@
     "sin_count_expr": "sinMask + 1",
     "rad_full_expr": "PI * 2",
     "rad_to_index_expr": "sinCount / radFull",
+    "rand": {
+      "int64_min": "-9223372036854775808",
+      "int64_max": "9223372036854775807",
+      "uint16_mask": 65535,
+      "rand_norm_float": 0.000000059604644775390625,
+      "murmur_const1": "-49064778989728563",
+      "murmur_const2": "-4265267296055464877",
+      "murmur_const1_words": [
+        36045,
+        60757,
+        45015,
+        65361
+      ],
+      "murmur_const2_words": [
+        60499,
+        6789,
+        47614,
+        50382
+      ],
+      "long_min_words": [
+        0,
+        0,
+        0,
+        32768
+      ],
+      "source": {
+        "int64_min_expr": "Long.MIN_VALUE",
+        "int64_max_expr": "Long.MAX_VALUE",
+        "murmur_const1_expr": "x *= 0xff51afd7ed558ccdL;",
+        "murmur_const2_expr": "x *= 0xc4ceb9fe1a85ec53L;",
+        "norm_float_expr": "private static final double NORM_FLOAT = 1.0 / (1L << 24);",
+        "long_min_words_expr": "[0, 0, 0, 0x8000]",
+        "java_sources": [
+          "arc-core/src/arc/math/Mathf.java",
+          "arc-core/src/arc/math/Rand.java"
+        ]
+      }
+    },
     "source": {
       "pi_expr": "public static final float PI = 3.1415927f, pi = PI, halfPi = PI/2;",
       "float_rounding_error_expr": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits",
@@ -20,7 +58,8 @@
       "rad_full_expr": "private static final float radFull = PI * 2;",
       "rad_to_index_expr": "private static final float radToIndex = sinCount / radFull;",
       "java_sources": [
-        "arc-core/src/arc/math/Mathf.java"
+        "arc-core/src/arc/math/Mathf.java",
+        "arc-core/src/arc/math/Rand.java"
       ]
     }
   }

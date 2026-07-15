@@ -15,15 +15,6 @@ const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
-const SOURCE_INT64_MIN := -9223372036854775807 - 1
-const SOURCE_INT64_MAX := 9223372036854775807
-const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
-const SOURCE_RAND_MURMUR_CONST2 := -4265267296055464877
-const SOURCE_UINT16_MASK := 65535
-const SOURCE_RAND_NORM_FLOAT := 1.0 / 16777216.0
-const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
-const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
-const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
 
 var tile_size := 0
 var source_tile_size := 0.0
@@ -34,6 +25,15 @@ var turret_defaults: SourceTurretDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
+var SOURCE_INT64_MIN := 0
+var SOURCE_INT64_MAX := 0
+var SOURCE_RAND_MURMUR_CONST1 := 0
+var SOURCE_RAND_MURMUR_CONST2 := 0
+var SOURCE_UINT16_MASK := 0
+var SOURCE_RAND_NORM_FLOAT := 0.0
+var SOURCE_RAND_MURMUR_CONST1_WORDS: Array = []
+var SOURCE_RAND_MURMUR_CONST2_WORDS: Array = []
+var SOURCE_LONG_MIN_WORDS: Array = []
 var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
 var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
 var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
@@ -305,6 +305,15 @@ func _ready() -> void:
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
 	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
+	SOURCE_INT64_MIN = math_defaults.int64_min()
+	SOURCE_INT64_MAX = math_defaults.int64_max()
+	SOURCE_RAND_MURMUR_CONST1 = math_defaults.murmur_const1()
+	SOURCE_RAND_MURMUR_CONST2 = math_defaults.murmur_const2()
+	SOURCE_UINT16_MASK = math_defaults.uint16_mask()
+	SOURCE_RAND_NORM_FLOAT = math_defaults.rand_norm_float()
+	SOURCE_RAND_MURMUR_CONST1_WORDS = math_defaults.murmur_const1_words()
+	SOURCE_RAND_MURMUR_CONST2_WORDS = math_defaults.murmur_const2_words()
+	SOURCE_LONG_MIN_WORDS = math_defaults.long_min_words()
 	builder_type_build_speed = construction_defaults.alpha_build_speed()
 	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
 	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()

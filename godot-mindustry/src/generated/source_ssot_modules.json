@@ -82,7 +82,7 @@
       "root_key": "math",
       "label": "math",
       "status": "active",
-      "rule": "Canonical Arc math constants profile; runtime code must read PI and sine lookup constants from this shard instead of hardcoding Arc Mathf values in gameplay code.",
+      "rule": "Canonical Arc math and Rand constants profile; runtime code must read PI, sine lookup, and Rand long normalization/hash constants from this shard instead of hardcoding Arc values in gameplay code.",
       "canonical_module": "",
       "canonical_reference_key": "",
       "canonical_reference_prefix": "",
