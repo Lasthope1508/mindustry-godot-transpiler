@@ -2070,7 +2070,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         comp_slices_entry = manifest["modules"]["comp_slices"]
         comp_contracts_entry = manifest["modules"]["comp_api_contracts"]
         comp_schema_entry = manifest["modules"]["comp_state_schema"]
-        comp_symbols_entry = manifest["modules"]["comp_symbols"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        comp_symbols_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "comp_symbols.json"
+        comp_symbol_mirror_fields = (
+            "status",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        )
 
         self.assertEqual(comp_slices_entry["canonical_module"], "slice_ledger")
         self.assertEqual(comp_slices_entry["canonical_reference_key"], "canonical_ledger")
@@ -2087,10 +2097,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(comp_schema_entry["canonical_reference_prefix"], "source_state_schema.")
         self.assertEqual(comp_schema_entry["root_key"], "schemas")
 
-        self.assertEqual(comp_symbols_entry["canonical_module"], "registry")
-        self.assertEqual(comp_symbols_entry["canonical_reference_key"], "canonical_symbol")
-        self.assertEqual(comp_symbols_entry["canonical_reference_prefix"], "source_symbol_registry.")
-        self.assertEqual(comp_symbols_entry["root_key"], "symbols")
+        self.assertNotIn("comp_symbols", manifest["modules"])
+        self.assertNotIn("comp_symbols", module_entries)
+        self.assertFalse(comp_symbols_path.exists())
 
         canonical_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "slice_ledger")["slices"]
         comp_slices = source_ssot.load_registered_json(ROOT / "godot-mindustry", "comp_slices")["slices"]
@@ -2152,7 +2161,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for symbol_name in sorted(expected_symbol_names):
             with self.subTest(symbol_name=symbol_name):
                 self.assertEqual(comp_symbols[symbol_name]["canonical_symbol"], f"source_symbol_registry.{symbol_name}")
-                for field in comp_symbols_entry["mirror_fields"]:
+                for field in comp_symbol_mirror_fields:
                     self.assertEqual(comp_symbols[symbol_name][field], canonical_symbols[symbol_name][field])
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
@@ -2161,7 +2170,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(comp_reports["comp_slices"]["canonical_mirror"]["checked"], len(comp_slices))
         self.assertEqual(comp_reports["comp_api_contracts"]["canonical_mirror"]["checked"], len(comp_contracts))
         self.assertEqual(comp_reports["comp_state_schema"]["canonical_mirror"]["checked"], len(comp_schema))
-        self.assertEqual(comp_reports["comp_symbols"]["canonical_mirror"]["checked"], len(comp_symbols))
+        self.assertNotIn("comp_symbols", comp_reports)
 
     def test_source_ssot_block_json_shards_declare_canonical_mirror_contracts(self):
         import importlib

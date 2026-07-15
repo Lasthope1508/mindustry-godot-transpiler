@@ -53,6 +53,7 @@ _MODULE_ALIASES = {
     "port_report_unsupported_features": "port_report",
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
+    "comp_symbols": "registry",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "exact_exprs",
@@ -65,6 +66,15 @@ _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "status",
     "tests",
     "slice",
+)
+_COMP_SYMBOL_MIRROR_FIELDS = (
+    "status",
+    "java_expr",
+    "godot_symbol",
+    "godot_owner",
+    "rule",
+    "tests",
+    "runtime_proof",
 )
 
 
@@ -182,6 +192,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
+    if name == "comp_symbols":
+        return _virtual_comp_symbols(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -267,6 +279,37 @@ def _virtual_source_manifest_files(godot_root: Path) -> dict[str, Any]:
         mirror[path] = entry
     return {"version": 1, "files": mirror}
 
+
+def _virtual_comp_symbols(godot_root: Path) -> dict[str, Any]:
+    comp_slices = load_registered_json(godot_root, "comp_slices").get("slices", {})
+    comp_contracts = load_registered_json(godot_root, "comp_api_contracts").get("contracts", {})
+    canonical_symbols = load_registered_json(godot_root, "registry").get("symbols", {})
+    if not isinstance(comp_slices, dict):
+        comp_slices = {}
+    if not isinstance(comp_contracts, dict):
+        comp_contracts = {}
+    if not isinstance(canonical_symbols, dict):
+        canonical_symbols = {}
+    expected_symbol_names = {
+        str(symbol_name)
+        for slice_entry in comp_slices.values()
+        if isinstance(slice_entry, dict)
+        for symbol_name in slice_entry.get("source_symbols", [])
+    } | {
+        str(symbol_name)
+        for symbol_name, symbol_entry in canonical_symbols.items()
+        if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in comp_contracts
+    }
+    mirror: dict[str, Any] = {}
+    for symbol_name in sorted(expected_symbol_names):
+        canonical_entry = canonical_symbols.get(symbol_name)
+        if not isinstance(canonical_entry, dict):
+            continue
+        entry: dict[str, Any] = {"canonical_symbol": f"source_symbol_registry.{symbol_name}"}
+        for field in _COMP_SYMBOL_MIRROR_FIELDS:
+            entry[field] = canonical_entry[field]
+        mirror[symbol_name] = entry
+    return {"version": 1, "symbols": mirror}
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:
     return {module_name: load_json(godot_root, module_name) for module_name in module_names()}
