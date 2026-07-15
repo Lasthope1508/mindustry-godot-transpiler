@@ -15695,23 +15695,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.indexed_array_lookup_state("audit_report", "sourceFunctions", "function", function_index)', source)
         self.assertNotIn('return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)', source)
 
-    def test_port_game_exposes_source_audit_exempt_owners_extension_shard(self):
+    def test_port_game_uses_canonical_audit_report_without_source_audit_exempt_owners_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_exempt_owners.json").exists())
-        self.assertIn('"source_audit_exempt_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_exempt_owners.json").exists())
+        self.assertNotIn('"source_audit_exempt_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "exemptSourceOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.exemptSourceOwners.", owner_index)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)', source)
 
-    def test_port_game_exposes_source_audit_legacy_unregistered_owners_extension_shard(self):
+    def test_port_game_uses_canonical_audit_report_without_source_audit_legacy_unregistered_owners_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_legacy_unregistered_owners.json").exists())
-        self.assertIn('"source_audit_legacy_unregistered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_legacy_unregistered_owners.json").exists())
+        self.assertNotIn('"source_audit_legacy_unregistered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "legacyUnregisteredOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.legacyUnregisteredOwners.", owner_index)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)', source)
 
     def test_port_game_exposes_source_symbol_audit_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

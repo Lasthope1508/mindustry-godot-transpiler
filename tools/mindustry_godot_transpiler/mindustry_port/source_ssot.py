@@ -55,6 +55,8 @@ _MODULE_ALIASES = {
     "source_manifest_files": "source_manifest",
     "source_audit_functions": "audit_report",
     "source_audit_registered_owners": "audit_report",
+    "source_audit_exempt_owners": "audit_report",
+    "source_audit_legacy_unregistered_owners": "audit_report",
     "helper_state_schema": "state_schema",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
@@ -382,6 +384,26 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
             root_key="owners",
             canonical_reference_key="canonical_owner",
             canonical_reference_prefix="source_symbol_audit_report.registeredSourceOwners.",
+            value_field="owner",
+        )
+    if name == "source_audit_exempt_owners":
+        return _virtual_indexed_list_shard(
+            godot_root,
+            canonical_module="audit_report",
+            canonical_collection_key="exemptSourceOwners",
+            root_key="owners",
+            canonical_reference_key="canonical_owner",
+            canonical_reference_prefix="source_symbol_audit_report.exemptSourceOwners.",
+            value_field="owner",
+        )
+    if name == "source_audit_legacy_unregistered_owners":
+        return _virtual_indexed_list_shard(
+            godot_root,
+            canonical_module="audit_report",
+            canonical_collection_key="legacyUnregisteredOwners",
+            root_key="owners",
+            canonical_reference_key="canonical_owner",
+            canonical_reference_prefix="source_symbol_audit_report.legacyUnregisteredOwners.",
             value_field="owner",
         )
     if name == "helper_state_schema":
