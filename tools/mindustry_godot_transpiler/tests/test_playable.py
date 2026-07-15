@@ -571,6 +571,54 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_ARC_PI := 3.1415927", port_source)
         self.assertNotIn("const SOURCE_ARC_SIN_BITS := 14", port_source)
 
+    def test_construction_profile_is_registered_ssot_for_builder_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "construction_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceConstructionDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("construction_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["construction_profile"]["root_key"], "construction")
+        self.assertEqual(manifest["modules"]["construction_profile"]["path"], "src/generated/source_modules/construction_profile.json")
+        self.assertEqual(profile["root_key"], "construction")
+        construction = profile["construction"]
+        self.assertEqual(construction["alpha_build_speed"], 0.5)
+        self.assertEqual(construction["default_block_build_time"], 20.0)
+        self.assertEqual(construction["deconstruct_refund_multiplier"], 0.5)
+        self.assertEqual(construction["deconstruct_threshold"], 0.0)
+        self.assertEqual(construction["source"]["alpha_build_speed_expr"], "buildSpeed = 0.5f;")
+        self.assertEqual(construction["source"]["default_block_build_time_expr"], "if(buildTime < 0){\n            buildTime = 20f;\n        }")
+        self.assertEqual(construction["source"]["deconstruct_refund_multiplier_expr"], "public float deconstructRefundMultiplier = 0.5f;")
+        self.assertEqual(construction["source"]["deconstruct_threshold_expr"], "public float deconstructThreshold = 0f;")
+        self.assertIn("core/src/mindustry/content/UnitTypes.java", construction["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/world/Block.java", construction["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/game/Rules.java", construction["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/world/blocks/ConstructBlock.java", construction["source"]["java_sources"])
+        self.assertIn('catalog.load_document("construction_profile")', defaults_source)
+        self.assertIn('profile = data.get("construction", {})', defaults_source)
+        self.assertIn("func alpha_build_speed() -> float:", defaults_source)
+        self.assertIn("func default_block_build_time() -> float:", defaults_source)
+        self.assertIn("func deconstruct_refund_multiplier() -> float:", defaults_source)
+        self.assertIn("func deconstruct_threshold() -> float:", defaults_source)
+        self.assertIn("const SourceConstructionDefaults := preload(\"res://src/game/SourceConstructionDefaults.gd\")", port_source)
+        self.assertIn("var construction_defaults: SourceConstructionDefaults", port_source)
+        self.assertIn("builder_type_build_speed = construction_defaults.alpha_build_speed()", port_source)
+        self.assertIn("SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()", port_source)
+        self.assertIn("SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()", port_source)
+        self.assertIn("SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()", port_source)
+        self.assertIn('"construction_profile": construction_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_ALPHA_BUILD_SPEED := 0.5", port_source)
+        self.assertNotIn("const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0", port_source)
+        self.assertNotIn("const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5", port_source)
+        self.assertNotIn("const SOURCE_DECONSTRUCT_THRESHOLD := 0.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "root_key": "construction",
+  "construction": {
+    "alpha_build_speed": 0.5,
+    "default_block_build_time": 20.0,
+    "deconstruct_refund_multiplier": 0.5,
+    "deconstruct_threshold": 0.0,
+    "source": {
+      "alpha_build_speed_expr": "buildSpeed = 0.5f;",
+      "default_block_build_time_expr": "if(buildTime < 0){\n            buildTime = 20f;\n        }",
+      "deconstruct_refund_multiplier_expr": "public float deconstructRefundMultiplier = 0.5f;",
+      "deconstruct_threshold_expr": "public float deconstructThreshold = 0f;",
+      "java_sources": [
+        "core/src/mindustry/content/UnitTypes.java",
+        "core/src/mindustry/world/Block.java",
+        "core/src/mindustry/game/Rules.java",
+        "core/src/mindustry/world/blocks/ConstructBlock.java"
+      ]
+    }
+  }
+}

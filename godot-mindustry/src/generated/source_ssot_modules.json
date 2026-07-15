@@ -33,6 +33,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "construction_profile": {
+      "path": "src/generated/source_modules/construction_profile.json",
+      "root_key": "construction",
+      "label": "construction",
+      "status": "active",
+      "rule": "Canonical playable construction defaults profile; runtime code must read builder speed, block build-time fallback, and deconstruction defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "factory_profile": {
       "path": "src/generated/source_modules/factory_profile.json",
       "root_key": "factory",

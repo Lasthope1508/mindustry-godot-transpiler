@@ -8,14 +8,11 @@ const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
 const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
+const SourceConstructionDefaults := preload("res://src/game/SourceConstructionDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
-const SOURCE_ALPHA_BUILD_SPEED := 0.5
-const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
-const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5
-const SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
 const SOURCE_RECOIL_POW := 1.8
@@ -33,9 +30,13 @@ var tile_size := 0
 var source_tile_size := 0.0
 var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
+var construction_defaults: SourceConstructionDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
+var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
+var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
+var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
 var SOURCE_ARC_PI := 0.0
@@ -103,7 +104,7 @@ var builder_last_deconstruct_speed_delta := 0.0
 var builder_last_deconstruct_refund_items: Array = []
 var builder_deconstruct_finished_count := 0
 var builder_last_deconstruct_removed := false
-var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
+var builder_type_build_speed := 0.0
 var builder_build_speed_multiplier := 1.0
 var builder_rules_build_speed := 1.0
 var gameplay_defaults: SourceGameplayDefaults
@@ -297,9 +298,14 @@ var bootstrap_ore_patches: Array = []
 
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
+	construction_defaults = SourceConstructionDefaults.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
 	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
+	builder_type_build_speed = construction_defaults.alpha_build_speed()
+	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
+	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()
+	SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
 	SOURCE_PI2 = math_defaults.pi2()
@@ -34127,6 +34133,7 @@ func get_runtime_summary() -> Dictionary:
 		"control_profile": control_input.runtime_summary(),
 		"display_profile": display_profile_runtime_summary(),
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
+		"construction_profile": construction_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
 		"time_profile": time_defaults.runtime_summary(),
 		"math_profile": math_defaults.runtime_summary(),
