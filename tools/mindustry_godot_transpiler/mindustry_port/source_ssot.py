@@ -47,6 +47,21 @@ MODULES: tuple[SourceSsotModule, ...] = (
 )
 
 _MODULES_BY_NAME = {module.name: module for module in MODULES}
+_MODULE_ALIASES = {
+    "source_slice_ledger_slices": "slice_ledger",
+}
+_SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
+    "exact_exprs",
+    "godot_owner",
+    "java_class",
+    "java_method",
+    "java_source",
+    "runtime_proof",
+    "source_symbols",
+    "status",
+    "tests",
+    "slice",
+)
 
 
 def module_names() -> list[str]:
@@ -54,6 +69,8 @@ def module_names() -> list[str]:
 
 
 def module(name: str) -> SourceSsotModule:
+    if name in _MODULE_ALIASES:
+        return module(_MODULE_ALIASES[name])
     if name not in _MODULES_BY_NAME:
         raise KeyError(f"source SSOT module not registered: {name}")
     return _MODULES_BY_NAME[name]
@@ -122,6 +139,8 @@ def registered_module_names(godot_root: Path) -> list[str]:
 
 
 def registered_module(godot_root: Path, name: str) -> SourceSsotModule:
+    if name in _MODULE_ALIASES:
+        return registered_module(godot_root, _MODULE_ALIASES[name])
     if name in _MODULES_BY_NAME:
         return module(name)
     if name == EXTENSION_MANIFEST_MODULE.name:
@@ -149,8 +168,27 @@ def load_json(godot_root: Path, name: str) -> dict[str, Any]:
 
 
 def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
+    if name == "source_slice_ledger_slices":
+        return _virtual_source_slice_ledger_slices(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
+
+def _virtual_source_slice_ledger_slices(godot_root: Path) -> dict[str, Any]:
+    canonical_slices = load_registered_json(godot_root, "slice_ledger").get("slices", {})
+    if not isinstance(canonical_slices, dict):
+        canonical_slices = {}
+    mirror: dict[str, Any] = {}
+    for slice_id, canonical_entry in sorted(canonical_slices.items()):
+        if not isinstance(canonical_entry, dict):
+            continue
+        entry: dict[str, Any] = {"canonical_slice": f"source_slice_ledger.{slice_id}"}
+        for field in _SOURCE_SLICE_LEDGER_MIRROR_FIELDS:
+            if field == "slice":
+                entry[field] = canonical_entry
+            else:
+                entry[field] = canonical_entry[field]
+        mirror[str(slice_id)] = entry
+    return {"version": 1, "slices": mirror}
 
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:

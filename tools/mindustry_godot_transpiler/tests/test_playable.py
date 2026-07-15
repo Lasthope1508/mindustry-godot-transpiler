@@ -15660,14 +15660,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.lookup_state("state_schema", schema_name)', source)
         self.assertNotIn('return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)', source)
 
-    def test_port_game_exposes_source_slice_ledger_slices_extension_shard(self):
+    def test_port_game_uses_core_slice_ledger_without_aggregate_slice_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_slice_ledger_slices.json").exists())
-        self.assertIn('"source_slice_ledger_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_slice_ledger_slices.json").exists())
+        self.assertNotIn('"source_slice_ledger_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)', source)
 
     def test_port_game_exposes_source_audit_registered_owners_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

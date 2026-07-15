@@ -456,7 +456,7 @@ func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
 
 func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)
+	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
 
 func source_api_contract_state(contract_owner: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
