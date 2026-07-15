@@ -1,6 +1,8 @@
 ﻿import json
 from pathlib import Path
 
+from mindustry_port.display_profile import build_display_profile
+
 REQUIRED_ASSETS = {
     "item": ("copper", "core/assets-raw/sprites/items/item-copper.png"),
     "blocks": {
@@ -18,7 +20,6 @@ BOOTSTRAP_BLOCKS = {
     "drill_block": "mechanical-drill",
     "turret_block": "duo",
 }
-PLAYFIELD_WORLD_TILES = {"width": 96, "height": 54}
 BOOTSTRAP_LAYOUT_OFFSETS = {
     "drill_cell": {"x": -5, "y": 0},
     "core_cell": {"x": 5, "y": 0},
@@ -55,9 +56,10 @@ def _centered_cell(center_x: int, center_y: int, offset: dict) -> dict:
         "y": center_y + int(offset["y"]),
     }
 
-def _bootstrap_layout() -> dict:
-    center_x = PLAYFIELD_WORLD_TILES["width"] // 2
-    center_y = PLAYFIELD_WORLD_TILES["height"] // 2
+def _bootstrap_layout(playfield: dict) -> dict:
+    world = playfield["world"]
+    center_x = int(world["width_tiles"]) // 2
+    center_y = int(world["height_tiles"]) // 2
     return {
         name: _centered_cell(center_x, center_y, offset)
         for name, offset in BOOTSTRAP_LAYOUT_OFFSETS.items()
@@ -86,7 +88,8 @@ def build_playable_manifest(asset_root: Path) -> dict:
     blocks = {}
     for block_id, rel in REQUIRED_ASSETS["blocks"].items():
         blocks[block_id] = _asset_entry(asset_root, rel, block_id)
-    bootstrap_layout = _bootstrap_layout()
+    display_profile = build_display_profile()["playfield"]
+    bootstrap_layout = _bootstrap_layout(display_profile)
     return {
         "tile_size": 32,
         "item": _asset_entry(asset_root, item_path, item_id),

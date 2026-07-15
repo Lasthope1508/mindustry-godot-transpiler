@@ -3,6 +3,7 @@ from pathlib import Path
 
 from mindustry_port.assets import copy_assets
 from mindustry_port.content_registry import write_content_registry
+from mindustry_port.display_profile import write_display_profile
 from mindustry_port.emitter import emit_gdscript_classes
 from mindustry_port.java_ast import parse_source_tree
 from mindustry_port.playable import write_playable_manifest
@@ -71,6 +72,7 @@ def run_report(upstream: Path, godot: Path, source_manifest: dict | None = None,
 
 
 def run_playable(godot: Path) -> dict:
+    write_display_profile(generated_dir(godot) / "source_modules" / "display_profile.json")
     return write_playable_manifest(godot / "assets", generated_dir(godot) / "playable_content.json")
 
 

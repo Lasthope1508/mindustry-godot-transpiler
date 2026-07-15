@@ -160,6 +160,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const WORLD_H := 16", source)
         self.assertNotIn('config.get("tile_size", 32)', source)
 
+    def test_playable_manifest_centers_bootstrap_layout_from_display_profile_ssot(self):
+        playable_generator = ROOT / "tools" / "mindustry_godot_transpiler" / "mindustry_port" / "playable.py"
+        source = playable_generator.read_text(encoding="utf-8")
+        display_profile = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json").read_text(encoding="utf-8"))
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+        world = display_profile["playfield"]["world"]
+
+        self.assertIn("from mindustry_port.display_profile import build_display_profile", source)
+        self.assertNotIn("PLAYFIELD_WORLD_TILES", source)
+        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"]["x"], (world["width_tiles"] // 2) - 5)
+        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"]["y"], world["height_tiles"] // 2)
+        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"]["x"], (world["width_tiles"] // 2) + 5)
+        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"]["y"], world["height_tiles"] // 2)
+
     def test_control_input_module_loads_profile_and_binds_actions(self):
         control_input = ROOT / "godot-mindustry" / "src" / "game" / "ControlInput.gd"
         source = control_input.read_text(encoding="utf-8")
