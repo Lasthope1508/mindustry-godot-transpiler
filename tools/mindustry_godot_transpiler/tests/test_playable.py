@@ -656,7 +656,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn('var item_dump_item := "copper"', source)
+        self.assertIn('var item_dump_item := ""', source)
+        self.assertIn("item_dump_item = primary_item_id", source)
         self.assertIn("var item_dump_last_state: Dictionary = {}", source)
         self.assertIn("func reset_item_dump_runtime(source_count: int = 3, core_count: int = 2, capacity: int = 10) -> Dictionary:", source)
         self.assertIn("func step_item_dump_runtime() -> Dictionary:", source)
@@ -676,7 +677,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn('var put_item_item := "copper"', source)
+        self.assertIn('var put_item_item := ""', source)
+        self.assertIn("put_item_item = primary_item_id", source)
         self.assertIn("var put_item_dump_cursor := 0", source)
         self.assertIn("var put_item_last_state: Dictionary = {}", source)
         self.assertIn("func reset_put_item_runtime(dump_cursor: int = 0) -> Dictionary:", source)
@@ -3015,6 +3017,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var core_pos := Vector2i(17, 8)", source)
         self.assertNotIn("var duo_pos := Vector2i(18, 7)", source)
 
+    def test_port_game_uses_playable_item_id_for_copper_defaults(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(playable_content["item"]["id"], "copper")
+        self.assertIn("func playable_item_id() -> String:", source)
+        self.assertIn("func load_playable_item_defaults() -> void:", source)
+        self.assertIn("var primary_item_id := \"\"", source)
+        self.assertIn("var core_items: Dictionary = {}", source)
+        self.assertIn("var item_dump_item := \"\"", source)
+        self.assertIn("var put_item_item := \"\"", source)
+        self.assertIn("var drill_output_item_id := \"\"", source)
+        self.assertIn("primary_item_id = playable_item_id()", source)
+        self.assertIn('core_items[primary_item_id] = 0', source)
+        self.assertIn('item_dump_item = primary_item_id', source)
+        self.assertIn('put_item_item = primary_item_id', source)
+        self.assertIn('drill_output_item_id = primary_item_id', source)
+        self.assertNotIn('var item_dump_item := "copper"', source)
+        self.assertNotIn('var put_item_item := "copper"', source)
+        self.assertNotIn('var core_items: Dictionary = {"copper": 0}', source)
+        self.assertNotIn('var drill_output_item_id := "copper"', source)
+
     def test_port_game_selects_build_block_by_id_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -3106,9 +3131,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("var core_items: Dictionary = {\"copper\": 0}", source)
+        self.assertIn("var core_items: Dictionary = {}", source)
+        self.assertIn("core_items[primary_item_id] = 0", source)
         self.assertIn("func sync_copper_inventory_alias() -> void:", source)
-        self.assertIn('core_items["copper"] = clamp_core_item_amount(max(int(core_items.get("copper", 0)), core_inventory))', source)
+        self.assertIn("core_items[primary_item_id] = clamp_core_item_amount(max(int(core_items.get(primary_item_id, 0)), core_inventory))", source)
+        self.assertIn("core_inventory = int(core_items.get(primary_item_id, 0))", source)
         self.assertIn("func set_core_item_count(item_id: String, amount: int) -> void:", source)
         self.assertIn("core_items[item_id] = clamp_core_item_amount(amount)", source)
         self.assertIn("func add_core_item(item_id: String, amount: int) -> void:", source)
@@ -4364,7 +4391,8 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0", source)
         self.assertIn("var ore_items_by_cell: Dictionary = {}", source)
-        self.assertIn("var drill_output_item_id := \"copper\"", source)
+        self.assertIn('var drill_output_item_id := ""', source)
+        self.assertIn("drill_output_item_id = primary_item_id", source)
         self.assertIn("var drill_ore_cell_count := 0", source)
         self.assertIn("var drill_output_rate := 0.0", source)
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_METHOD := "protected void countOre(Tile tile){"', source)

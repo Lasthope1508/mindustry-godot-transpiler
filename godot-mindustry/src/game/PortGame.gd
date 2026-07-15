@@ -118,9 +118,9 @@ var liquid_transfer_last_transfer_state: Dictionary = {}
 var liquid_leak_liquid := "water"
 var liquid_leak_amount := 6.0
 var liquid_leak_last_state: Dictionary = {}
-var item_dump_item := "copper"
+var item_dump_item := ""
 var item_dump_last_state: Dictionary = {}
-var put_item_item := "copper"
+var put_item_item := ""
 var put_item_dump_cursor := 0
 var put_item_last_state: Dictionary = {}
 var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}
@@ -216,7 +216,8 @@ var last_overdrive_projector_boost_duration := 0.0
 var last_overdrive_projector_boosted_block_id := ""
 var last_overdrive_projector_boosted_cell := Vector2i.ZERO
 var core_inventory := 0
-var core_items: Dictionary = {"copper": 0}
+var primary_item_id := ""
+var core_items: Dictionary = {}
 var core_item_capacity := 0
 var core_incinerates := true
 var core_incinerate_non_buildable := false
@@ -225,7 +226,7 @@ var core_health := 0.0
 var core_damage_taken_total := 0.0
 var game_over := false
 var last_game_over_winner := ""
-var drill_output_item_id := "copper"
+var drill_output_item_id := ""
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
 var drill_warmups: Dictionary = {}
@@ -289,6 +290,7 @@ func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	control_input.install_input_map()
 	load_config()
+	load_playable_item_defaults()
 	load_bootstrap_layout()
 	load_display_profile()
 	load_content_registry()
@@ -332,6 +334,19 @@ func playable_content_item_state(item_id: String = "") -> Dictionary:
 
 func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
+
+func playable_item_id() -> String:
+	var item: Dictionary = config.get("item", {})
+	return str(item.get("id", ""))
+
+func load_playable_item_defaults() -> void:
+	primary_item_id = playable_item_id()
+	if primary_item_id == "":
+		return
+	core_items[primary_item_id] = 0
+	item_dump_item = primary_item_id
+	put_item_item = primary_item_id
+	drill_output_item_id = primary_item_id
 
 func pinned_build_block_ids() -> Array:
 	var palette: Dictionary = config.get("build_palette", {})
@@ -6752,7 +6767,7 @@ func runtime_load_snapshot(snapshot: Dictionary) -> Dictionary:
 	var blocks_snapshot: Array = snapshot.get("blocks", []) if snapshot.get("blocks", []) is Array else []
 	var core_items_value = runtime.get("core_items", {})
 	core_items = core_items_value.duplicate(true) if core_items_value is Dictionary else {}
-	core_inventory = int(runtime.get("core_inventory", int(core_items.get("copper", core_inventory))))
+	core_inventory = int(runtime.get("core_inventory", int(core_items.get(primary_item_id, core_inventory))))
 	core_health = float(runtime.get("core_health", core_health))
 	core_damage_taken_total = float(runtime.get("core_damage_taken_total", core_damage_taken_total))
 	produced_total = int(runtime.get("produced_total", produced_total))
@@ -7972,23 +7987,25 @@ func spend_requirements(block) -> void:
 			set_core_item_count(item_id, core_item_count(item_id) - amount)
 
 func sync_copper_inventory_alias() -> void:
-	core_items["copper"] = clamp_core_item_amount(max(int(core_items.get("copper", 0)), core_inventory))
-	core_inventory = int(core_items.get("copper", 0))
+	if primary_item_id == "":
+		return
+	core_items[primary_item_id] = clamp_core_item_amount(max(int(core_items.get(primary_item_id, 0)), core_inventory))
+	core_inventory = int(core_items.get(primary_item_id, 0))
 
 func clamp_core_item_amount(amount: int) -> int:
 	return mini(max(0, amount), core_item_capacity)
 
 func set_core_item_count(item_id: String, amount: int) -> void:
 	core_items[item_id] = clamp_core_item_amount(amount)
-	if item_id == "copper":
-		core_inventory = int(core_items.get("copper", 0))
+	if item_id == primary_item_id:
+		core_inventory = int(core_items.get(primary_item_id, 0))
 
 func add_core_item(item_id: String, amount: int) -> void:
 	set_core_item_count(item_id, core_item_count(item_id) + amount)
 
 func core_item_count(item_id: String) -> int:
-	if item_id == "copper" and core_inventory > int(core_items.get("copper", 0)):
-		core_items["copper"] = core_inventory
+	if item_id == primary_item_id and core_inventory > int(core_items.get(primary_item_id, 0)):
+		core_items[primary_item_id] = core_inventory
 	return int(core_items.get(item_id, 0))
 
 const SOURCE_CORE_ACCEPT_ITEM_METHOD := "public boolean acceptItem(Building source, Item item){"
@@ -34243,9 +34260,9 @@ func get_runtime_summary() -> Dictionary:
 func update_hud() -> void:
 	if hud_label == null:
 		return
-	var copper = content_catalog.get_by_id("copper") if content_catalog else null
-	var copper_name: String = copper.display_name() if copper else "Copper"
+	var core_item = content_catalog.get_by_id(primary_item_id) if content_catalog and primary_item_id != "" else null
+	var core_item_name: String = core_item.display_name() if core_item else primary_item_id.capitalize()
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\n%s" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health), control_input.hud_hint()]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\n%s" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, core_item_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health), control_input.hud_hint()]
