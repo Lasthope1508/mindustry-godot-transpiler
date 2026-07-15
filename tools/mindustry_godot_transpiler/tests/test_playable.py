@@ -3040,6 +3040,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('var core_items: Dictionary = {"copper": 0}', source)
         self.assertNotIn('var drill_output_item_id := "copper"', source)
 
+    def test_port_game_uses_content_registry_liquid_for_liquid_defaults(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        liquid_defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidDefaults.gd"
+        content_registry = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "content_registry.json").read_text(encoding="utf-8"))
+        liquid_shard = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_liquids.json").read_text(encoding="utf-8"))
+        first_liquid_id = content_registry["liquids"][0]["id"]
+
+        self.assertEqual(first_liquid_id, "water")
+        self.assertEqual(liquid_shard["liquids"][first_liquid_id]["canonical_liquid"], f"content_registry.liquids.{first_liquid_id}")
+        self.assertTrue(liquid_defaults_path.exists())
+        liquid_defaults_source = liquid_defaults_path.read_text(encoding="utf-8")
+        self.assertIn('const SourceLiquidDefaults := preload("res://src/game/SourceLiquidDefaults.gd")', source)
+        self.assertIn("var liquid_defaults: SourceLiquidDefaults", source)
+        self.assertIn("var primary_liquid_id := \"\"", source)
+        self.assertIn("var liquid_transfer_liquid := \"\"", source)
+        self.assertIn("var liquid_leak_liquid := \"\"", source)
+        self.assertIn("liquid_defaults = SourceLiquidDefaults.new(SourceSsotCatalog)", source)
+        self.assertIn("load_playable_liquid_defaults()", source)
+        self.assertIn("func load_playable_liquid_defaults() -> void:", source)
+        self.assertIn("primary_liquid_id = liquid_defaults.primary_liquid_id()", source)
+        self.assertIn("liquid_transfer_liquid = primary_liquid_id", source)
+        self.assertIn("liquid_leak_liquid = primary_liquid_id", source)
+        self.assertIn('"primary_liquid_id": primary_liquid_id', source)
+        self.assertIn('catalog.load_document("content_registry")', liquid_defaults_source)
+        self.assertIn('catalog.load_document("content_registry_liquids")', liquid_defaults_source)
+        self.assertIn('return str(entry.get("id", ""))', liquid_defaults_source)
+        self.assertNotIn('var liquid_transfer_liquid := "water"', source)
+        self.assertNotIn('var liquid_leak_liquid := "water"', source)
+
     def test_port_game_selects_build_block_by_id_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

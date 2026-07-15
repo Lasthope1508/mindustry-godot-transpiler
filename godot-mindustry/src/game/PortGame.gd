@@ -6,6 +6,7 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
+const SourceLiquidDefaults := preload("res://src/game/SourceLiquidDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
@@ -107,7 +108,9 @@ var builder_last_deconstruct_removed := false
 var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
 var builder_build_speed_multiplier := 1.0
 var builder_rules_build_speed := 1.0
-var liquid_transfer_liquid := "water"
+var liquid_defaults: SourceLiquidDefaults
+var primary_liquid_id := ""
+var liquid_transfer_liquid := ""
 var liquid_transfer_source_amount := 8.0
 var liquid_transfer_destination_amount := 1.0
 var liquid_transfer_source_capacity := 10.0
@@ -115,7 +118,7 @@ var liquid_transfer_destination_capacity := 10.0
 var liquid_transfer_pressure := 1.0
 var liquid_transfer_last_move_state: Dictionary = {}
 var liquid_transfer_last_transfer_state: Dictionary = {}
-var liquid_leak_liquid := "water"
+var liquid_leak_liquid := ""
 var liquid_leak_amount := 6.0
 var liquid_leak_last_state: Dictionary = {}
 var item_dump_item := ""
@@ -291,6 +294,7 @@ func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	control_input.install_input_map()
 	load_config()
+	load_playable_liquid_defaults()
 	load_playable_item_defaults()
 	load_bootstrap_layout()
 	load_display_profile()
@@ -349,6 +353,14 @@ func load_playable_item_defaults() -> void:
 	item_dump_item = primary_item_id
 	put_item_item = primary_item_id
 	drill_output_item_id = primary_item_id
+
+func load_playable_liquid_defaults() -> void:
+	liquid_defaults = SourceLiquidDefaults.new(SourceSsotCatalog)
+	primary_liquid_id = liquid_defaults.primary_liquid_id()
+	if primary_liquid_id == "":
+		return
+	liquid_transfer_liquid = primary_liquid_id
+	liquid_leak_liquid = primary_liquid_id
 
 func pinned_build_block_ids() -> Array:
 	var palette: Dictionary = config.get("build_palette", {})
@@ -34066,6 +34078,7 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"playthrough_runtime": playthrough_runtime_state(),
+		"primary_liquid_id": primary_liquid_id,
 		"content_counts": content_counts.duplicate(),
 		"control_profile": control_input.runtime_summary(),
 		"display_profile": display_profile_runtime_summary(),
