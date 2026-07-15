@@ -1371,24 +1371,6 @@
         "types"
       ]
     },
-    "asset_manifest_assets": {
-      "path": "src/generated/source_modules/asset_manifest_assets.json",
-      "root_key": "assets",
-      "label": "target",
-      "status": "active",
-      "rule": "Extension shard for asset_manifest.json assets; canonical asset metadata remains mirrored from asset_manifest.assets before use.",
-      "canonical_module": "asset_manifest",
-      "canonical_collection_key": "assets",
-      "canonical_key_field": "target",
-      "canonical_reference_key": "canonical_asset",
-      "canonical_reference_prefix": "asset_manifest.assets.",
-      "mirror_fields": [
-        "bytes",
-        "sha256",
-        "source",
-        "target"
-      ]
-    },
     "ast_manifest_files": {
       "path": "src/generated/source_modules/ast_manifest_files.json",
       "root_key": "files",

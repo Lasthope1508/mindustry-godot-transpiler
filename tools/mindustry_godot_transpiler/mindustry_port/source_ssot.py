@@ -51,6 +51,7 @@ _MODULE_ALIASES = {
     "source_slice_ledger_slices": "slice_ledger",
     "source_api_contracts_contracts": "api_contracts",
     "port_report_unsupported_features": "port_report",
+    "asset_manifest_assets": "asset_manifest",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "exact_exprs",
@@ -176,6 +177,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_source_api_contracts_contracts(godot_root)
     if name == "port_report_unsupported_features":
         return _virtual_port_report_unsupported_features(godot_root)
+    if name == "asset_manifest_assets":
+        return _virtual_asset_manifest_assets(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -226,6 +229,23 @@ def _virtual_port_report_unsupported_features(godot_root: Path) -> dict[str, Any
         entry["feature_entry"] = canonical_entry
         mirror[str(index)] = entry
     return {"version": 1, "features": mirror}
+
+def _virtual_asset_manifest_assets(godot_root: Path) -> dict[str, Any]:
+    canonical_assets = load_registered_json(godot_root, "asset_manifest").get("assets", [])
+    if not isinstance(canonical_assets, list):
+        canonical_assets = []
+    mirror: dict[str, Any] = {}
+    for canonical_entry in canonical_assets:
+        if not isinstance(canonical_entry, dict):
+            continue
+        target = str(canonical_entry.get("target", ""))
+        if not target:
+            continue
+        entry: dict[str, Any] = {"canonical_asset": f"asset_manifest.assets.{target}"}
+        for field in ("bytes", "sha256", "source", "target"):
+            entry[field] = canonical_entry[field]
+        mirror[target] = entry
+    return {"version": 1, "assets": mirror}
 
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:
