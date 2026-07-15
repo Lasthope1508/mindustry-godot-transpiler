@@ -8,13 +8,8 @@ const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
 const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
+const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
-const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
-const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
-const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := 0
-const SOURCE_DRILL_WARMUP_SPEED := 0.015
-const SOURCE_BLOCK_DUMP_TIME := 5.0
-const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
 const SOURCE_ALPHA_BUILD_SPEED := 0.5
 const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
@@ -44,6 +39,7 @@ var tile_size := 0
 var source_tile_size := 0.0
 var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
+var factory_defaults: SourceFactoryDefaults
 var world_width_tiles := 0
 var world_height_tiles := 0
 var viewport_size_pixels := Vector2i.ZERO
@@ -297,6 +293,7 @@ var bootstrap_ore_patches: Array = []
 
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
+	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	control_input.install_input_map()
 	load_config()
 	load_playable_liquid_defaults()
@@ -7654,11 +7651,11 @@ func source_block_item_capacity(block_id: String) -> int:
 
 func source_block_dump_time(block_id: String) -> float:
 	if content_catalog == null:
-		return SOURCE_BLOCK_DUMP_TIME
+		return factory_defaults.block_dump_time()
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return SOURCE_BLOCK_DUMP_TIME
-	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
+		return factory_defaults.block_dump_time()
+	return float(block.properties.get("dumpTime", factory_defaults.block_dump_time()))
 
 func source_builder_unit_build_range() -> float:
 	return gameplay_defaults.building_range()
@@ -7681,7 +7678,6 @@ const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpe
 const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
 const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
 const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"
-const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015
 const SOURCE_DRILL_WARMUP_STATE_ACTIVE_WARMUP := "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);"
 const SOURCE_DRILL_WARMUP_STATE_CURRENT_WARMUP := "warmup"
 const SOURCE_DRILL_WARMUP_STATE_SPEED := "speed"
@@ -7733,7 +7729,7 @@ func source_drill_delay(block_id: String, item_id: String) -> float:
 	var drill_multiplier := 1.0
 	if typeof(drill_multipliers) == TYPE_DICTIONARY:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
-	return (float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))) / drill_multiplier
+	return (float(block.properties.get("drillTime", factory_defaults.drill_time_default())) + factory_defaults.drill_hardness_multiplier() * float(item.properties.get("hardness", factory_defaults.item_hardness_default()))) / drill_multiplier
 
 func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: String) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd")
@@ -7748,13 +7744,13 @@ func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: Stri
 			"canonical": source_drill_delay(block_id, item_id),
 			"matches": false,
 		}
-	var drill_time := float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))
-	var item_hardness := float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))
+	var drill_time := float(block.properties.get("drillTime", factory_defaults.drill_time_default()))
+	var item_hardness := float(item.properties.get("hardness", factory_defaults.item_hardness_default()))
 	var drill_multipliers = block.properties.get("drillMultipliers", {})
 	var drill_multiplier := 1.0
 	if typeof(drill_multipliers) == TYPE_DICTIONARY:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
-	var result = instance.java_method_getDrillTime_6([drill_time, SOURCE_DRILL_HARDNESS_MULTIPLIER, item_hardness, drill_multiplier])
+	var result = instance.java_method_getDrillTime_6([drill_time, factory_defaults.drill_hardness_multiplier(), item_hardness, drill_multiplier])
 	var canonical := source_drill_delay(block_id, item_id)
 	return {
 		"source_owner": "PortGame.source_drill_delay",
@@ -7779,11 +7775,11 @@ func source_drill_output_rate(block_id: String, item_id: String, return_count: i
 
 func source_drill_warmup_speed(block_id: String) -> float:
 	if content_catalog == null:
-		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
+		return factory_defaults.drill_warmup_speed()
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
-	return float(block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, SOURCE_DRILL_WARMUP_SPEED_DEFAULT))
+		return factory_defaults.drill_warmup_speed()
+	return float(block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, factory_defaults.drill_warmup_speed()))
 
 func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
 	return source_approach_delta(current_warmup, speed, warmup_speed, source_delta)
@@ -7913,7 +7909,6 @@ const SOURCE_CONVEYOR_WORLD_SPEED_UNIT_IMPULSE := "unit.impulse((tx * mspeed + c
 const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_COMMENT := "/** size of tiles in units */"
 const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_FIELD := "public static final int tilesize = 8;"
 const SOURCE_CONVEYOR_WORLD_SPEED_KEY := "speed"
-const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := 55.0
 
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
@@ -7921,7 +7916,7 @@ func source_conveyor_world_speed(block_id: String) -> float:
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
 		return 0.0
-	return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE
+	return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * factory_defaults.conveyor_tile_speed_scale()
 
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_SPEED_FIELD := "public float speed = 0f;"
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"
@@ -34118,6 +34113,7 @@ func get_runtime_summary() -> Dictionary:
 		"control_profile": control_input.runtime_summary(),
 		"display_profile": display_profile_runtime_summary(),
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
+		"factory_profile": factory_defaults.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,

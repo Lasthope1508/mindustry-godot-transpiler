@@ -442,6 +442,60 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_FINAL_WORLD_BOUNDS := 250.0", port_source)
         self.assertNotIn("const SOURCE_BUILDING_RANGE := 220.0", port_source)
 
+    def test_factory_profile_is_registered_ssot_for_source_runtime_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "factory_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceFactoryDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("factory_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["factory_profile"]["root_key"], "factory")
+        self.assertEqual(manifest["modules"]["factory_profile"]["path"], "src/generated/source_modules/factory_profile.json")
+        self.assertEqual(profile["root_key"], "factory")
+        factory = profile["factory"]
+        self.assertEqual(factory["drill"]["hardness_drill_multiplier"], 50.0)
+        self.assertEqual(factory["drill"]["drill_time_default"], 300.0)
+        self.assertEqual(factory["drill"]["item_hardness_default"], 0)
+        self.assertEqual(factory["drill"]["warmup_speed"], 0.015)
+        self.assertEqual(factory["block"]["dump_time"], 5.0)
+        self.assertEqual(factory["conveyor"]["tile_speed_scale"], 55.0)
+        self.assertEqual(factory["source"]["hardness_drill_multiplier_expr"], "public float hardnessDrillMultiplier = 50f;")
+        self.assertEqual(factory["source"]["drill_time_expr"], "public float drillTime = 300;")
+        self.assertEqual(factory["source"]["warmup_speed_expr"], "public float warmupSpeed = 0.015f;")
+        self.assertEqual(factory["source"]["dump_time_expr"], "public int dumpTime = 5;")
+        self.assertEqual(factory["source"]["conveyor_tile_speed_scale_expr"], "float mspeed = speed * tilesize * 55f;")
+        self.assertIn('catalog.load_document("factory_profile")', defaults_source)
+        self.assertIn('profile = data.get("factory", {})', defaults_source)
+        self.assertIn("func drill_hardness_multiplier() -> float:", defaults_source)
+        self.assertIn("func drill_time_default() -> float:", defaults_source)
+        self.assertIn("func item_hardness_default() -> int:", defaults_source)
+        self.assertIn("func drill_warmup_speed() -> float:", defaults_source)
+        self.assertIn("func block_dump_time() -> float:", defaults_source)
+        self.assertIn("func conveyor_tile_speed_scale() -> float:", defaults_source)
+        self.assertIn("const SourceFactoryDefaults := preload(\"res://src/game/SourceFactoryDefaults.gd\")", port_source)
+        self.assertIn("var factory_defaults: SourceFactoryDefaults", port_source)
+        self.assertIn("factory_defaults.drill_hardness_multiplier()", port_source)
+        self.assertIn("factory_defaults.drill_time_default()", port_source)
+        self.assertIn("factory_defaults.item_hardness_default()", port_source)
+        self.assertIn("factory_defaults.drill_warmup_speed()", port_source)
+        self.assertIn("factory_defaults.block_dump_time()", port_source)
+        self.assertIn("factory_defaults.conveyor_tile_speed_scale()", port_source)
+        self.assertNotIn("const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0", port_source)
+        self.assertNotIn("const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0", port_source)
+        self.assertNotIn("const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := 0", port_source)
+        self.assertNotIn("const SOURCE_DRILL_WARMUP_SPEED := 0.015", port_source)
+        self.assertNotIn("const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015", port_source)
+        self.assertNotIn("const SOURCE_BLOCK_DUMP_TIME := 5.0", port_source)
+        self.assertNotIn("const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0", port_source)
+        self.assertNotIn("const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := 55.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4797,7 +4851,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0", source)
+        self.assertIn("factory_defaults.drill_hardness_multiplier()", source)
         self.assertIn("var ore_items_by_cell: Dictionary = {}", source)
         self.assertIn('var drill_output_item_id := ""', source)
         self.assertIn("drill_output_item_id = primary_item_id", source)
@@ -4864,8 +4918,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var drill_multipliers = block.properties.get(\"drillMultipliers\", {})", source)
         self.assertIn("var drill_multiplier := 1.0", source)
         self.assertIn("drill_multiplier = float(drill_multipliers.get(item_id, 1.0))", source)
-        self.assertIn('float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))', source)
-        self.assertIn('SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))', source)
+        self.assertIn('float(block.properties.get("drillTime", factory_defaults.drill_time_default()))', source)
+        self.assertIn('factory_defaults.drill_hardness_multiplier() * float(item.properties.get("hardness", factory_defaults.item_hardness_default()))', source)
         self.assertIn("/ drill_multiplier", source)
 
     def test_port_game_exposes_generated_drill_get_drill_time_bridge_state(self):
@@ -4874,11 +4928,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: String) -> Dictionary:", source)
         self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd")', source)
-        self.assertIn('var drill_time := float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))', source)
-        self.assertIn('var item_hardness := float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))', source)
+        self.assertIn('var drill_time := float(block.properties.get("drillTime", factory_defaults.drill_time_default()))', source)
+        self.assertIn('var item_hardness := float(item.properties.get("hardness", factory_defaults.item_hardness_default()))', source)
         self.assertIn('var drill_multipliers = block.properties.get("drillMultipliers", {})', source)
         self.assertIn("drill_multiplier = float(drill_multipliers.get(item_id, 1.0))", source)
-        self.assertIn("var result = instance.java_method_getDrillTime_6([drill_time, SOURCE_DRILL_HARDNESS_MULTIPLIER, item_hardness, drill_multiplier])", source)
+        self.assertIn("var result = instance.java_method_getDrillTime_6([drill_time, factory_defaults.drill_hardness_multiplier(), item_hardness, drill_multiplier])", source)
         self.assertIn("var canonical := source_drill_delay(block_id, item_id)", source)
         self.assertIn('"source_owner": "PortGame.source_drill_delay"', source)
         self.assertIn('"generated_owner": "Drill.java_method_getDrillTime_6"', source)
@@ -4888,7 +4942,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_DRILL_WARMUP_SPEED := 0.015", source)
+        self.assertIn("factory_defaults.drill_warmup_speed()", source)
         self.assertIn("var drill_warmups: Dictionary = {}", source)
         self.assertIn("func source_approach(from_value: float, to_value: float, speed: float) -> float:", source)
         self.assertIn("return from_value + clamp(to_value - from_value, -speed, speed)", source)
@@ -16523,9 +16577,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"', source)
         self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_TIMER_DUMP_FIELD := "protected final int timerDump = timers++;"', source)
         self.assertIn('const SOURCE_DRILL_DUMP_INTERVAL_DUMP_TIME_FIELD := "public int dumpTime = 5;"', source)
-        self.assertIn("const SOURCE_BLOCK_DUMP_TIME := 5.0", source)
+        self.assertIn("factory_defaults.block_dump_time()", source)
         self.assertIn("func source_block_dump_time(block_id: String) -> float:", source)
-        self.assertIn('return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))', source)
+        self.assertIn('return float(block.properties.get("dumpTime", factory_defaults.block_dump_time()))', source)
         self.assertIn("func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:", source)
         self.assertIn("return source_block_dump_time(block_id) / time_scale", source)
 
@@ -16546,10 +16600,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."', source)
         self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"', source)
         self.assertIn('const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"', source)
-        self.assertIn("const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := 0.015", source)
+        self.assertIn("factory_defaults.drill_warmup_speed()", source)
         self.assertIn("func source_drill_warmup_speed(block_id: String) -> float:", source)
-        self.assertIn("return SOURCE_DRILL_WARMUP_SPEED_DEFAULT", source)
-        self.assertIn("block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, SOURCE_DRILL_WARMUP_SPEED_DEFAULT)", source)
+        self.assertIn("return factory_defaults.drill_warmup_speed()", source)
+        self.assertIn("block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, factory_defaults.drill_warmup_speed())", source)
 
     def test_port_game_exposes_source_drill_progress_fraction(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -16569,7 +16623,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0", source)
+        self.assertIn("factory_defaults.conveyor_tile_speed_scale()", source)
         self.assertIn("var transport_progress := 0.0", source)
         self.assertIn("var conveyor_world_speed := 0.0", source)
         self.assertIn("var conveyor_path_progress_rate := 0.0", source)
@@ -16584,8 +16638,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_COMMENT := "/** size of tiles in units */"', source)
         self.assertIn('const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_FIELD := "public static final int tilesize = 8;"', source)
         self.assertIn('const SOURCE_CONVEYOR_WORLD_SPEED_KEY := "speed"', source)
-        self.assertIn("const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := 55.0", source)
-        self.assertIn("return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE", source)
+        self.assertIn("factory_defaults.conveyor_tile_speed_scale()", source)
+        self.assertIn("return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * factory_defaults.conveyor_tile_speed_scale()", source)
         self.assertIn("func source_conveyor_path_progress_rate(block_id: String) -> float:", source)
         self.assertIn('const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_SPEED_FIELD := "public float speed = 0f;"', source)
         self.assertIn('const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"', source)

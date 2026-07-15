@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "root_key": "factory",
+  "factory": {
+    "drill": {
+      "hardness_drill_multiplier": 50.0,
+      "drill_time_default": 300.0,
+      "item_hardness_default": 0,
+      "warmup_speed": 0.015
+    },
+    "block": {
+      "dump_time": 5.0
+    },
+    "conveyor": {
+      "tile_speed_scale": 55.0
+    },
+    "source": {
+      "hardness_drill_multiplier_expr": "public float hardnessDrillMultiplier = 50f;",
+      "drill_time_expr": "public float drillTime = 300;",
+      "item_hardness_expr": "public int hardness = 0;",
+      "warmup_speed_expr": "public float warmupSpeed = 0.015f;",
+      "dump_time_expr": "public int dumpTime = 5;",
+      "conveyor_tile_speed_scale_expr": "float mspeed = speed * tilesize * 55f;",
+      "java_sources": [
+        "core/src/mindustry/world/blocks/production/Drill.java",
+        "core/src/mindustry/type/Item.java",
+        "core/src/mindustry/world/Block.java",
+        "core/src/mindustry/world/blocks/distribution/Conveyor.java"
+      ]
+    }
+  }
+}
