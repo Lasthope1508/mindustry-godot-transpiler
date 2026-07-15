@@ -420,15 +420,18 @@ func sync_display_profile_runtime_values() -> void:
 	camera_initial_position = display_profile_runtime.camera_initial_position
 	camera_initial_zoom = display_profile_runtime.camera_initial_zoom
 
-func sync_display_profile_for_camera() -> void:
+func sync_display_profile_for_camera() -> bool:
 	if camera == null or display_profile_runtime == null:
-		return
+		return false
+	var old_viewport_size_pixels := viewport_size_pixels
 	var old_background_min_cell := background_min_cell
 	var old_background_max_cell := background_max_cell
+	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
 	display_profile_runtime.sync_runtime_camera_zoom(camera.zoom)
 	sync_display_profile_runtime_values()
-	if background_tiles_built and (old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell):
+	if background_tiles_built and (old_viewport_size_pixels != viewport_size_pixels or old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell):
 		build_background_tiles()
+	return old_viewport_size_pixels != viewport_size_pixels or old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
@@ -34168,6 +34171,7 @@ func update_camera(delta: float) -> void:
 	if camera == null:
 		return
 	var camera_changed := false
+	var display_changed := sync_display_profile_for_camera()
 	var movement := control_input.camera_vector()
 	if movement != Vector2.ZERO:
 		camera.position += movement.normalized() * control_input.camera_pan_speed() * delta
@@ -34178,7 +34182,7 @@ func update_camera(delta: float) -> void:
 	if control_input.is_zoom_out_pressed():
 		camera.zoom *= control_input.keyboard_zoom_out_factor(delta)
 		camera_changed = true
-	if camera_changed:
+	if camera_changed or display_changed:
 		clamp_camera_to_source_world()
 
 func clamp_camera_to_source_world() -> void:

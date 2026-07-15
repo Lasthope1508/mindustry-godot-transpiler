@@ -4,6 +4,8 @@ class_name DisplayProfileRuntime
 const MODULE_NAME := "display_profile"
 const SOURCE_CAMERA_CLAMP_EXPR := "camera.position.clamp(-camera.width/4f, -camera.height/4f, world.unitWidth() + camera.width/4f, world.unitHeight() + camera.height/4f);"
 const SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR := "camera.width/4f clamp slack + camera.width/2f viewport half extent"
+const SOURCE_RENDERER_CAMERA_WIDTH_EXPR := "camera.width = graphics.getWidth() / camerascale;"
+const SOURCE_RENDERER_CAMERA_HEIGHT_EXPR := "camera.height = graphics.getHeight() / camerascale;"
 
 var catalog: Variant
 var profile: Dictionary = {}
@@ -103,6 +105,7 @@ func runtime_summary() -> Dictionary:
 		"camera_clamp_bounds": camera_clamp_bounds(camera_runtime_zoom),
 		"camera_clamp_visible_bounds": camera_clamp_visible_bounds(camera_runtime_zoom),
 		"background_covers_camera_clamp_bounds": background_covers_camera_clamp_bounds(camera_runtime_zoom),
+		"camera_viewport_source": [SOURCE_RENDERER_CAMERA_WIDTH_EXPR, SOURCE_RENDERER_CAMERA_HEIGHT_EXPR],
 	}
 
 func world_size_pixels() -> Vector2:
