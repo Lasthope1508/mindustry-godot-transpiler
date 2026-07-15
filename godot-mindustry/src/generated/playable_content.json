@@ -46,6 +46,19 @@
       "y": 7
     }
   },
+  "bootstrap_terrain": {
+    "floor_block": "stone_floor",
+    "ore_patches": [
+      {
+        "item": "copper",
+        "ore_block": "ore_copper",
+        "x_from": 5,
+        "x_to": 8,
+        "y_from": 6,
+        "y_to": 11
+      }
+    ]
+  },
   "build_palette": {
     "pinned_block_ids": [
       "conveyor",

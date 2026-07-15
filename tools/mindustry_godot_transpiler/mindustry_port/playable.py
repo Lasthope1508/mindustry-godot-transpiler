@@ -23,6 +23,19 @@ BOOTSTRAP_LAYOUT = {
     "core_cell": {"x": 17, "y": 8},
     "duo_cell": {"x": 18, "y": 7},
 }
+BOOTSTRAP_TERRAIN = {
+    "floor_block": "stone_floor",
+    "ore_patches": [
+        {
+            "item": "copper",
+            "ore_block": "ore_copper",
+            "x_from": 5,
+            "x_to": 8,
+            "y_from": 6,
+            "y_to": 11,
+        }
+    ],
+}
 
 
 def _asset_entry(asset_root: Path, relative_path: str, asset_id: str) -> dict:
@@ -48,6 +61,7 @@ def build_playable_manifest(asset_root: Path) -> dict:
         "blocks": blocks,
         "bootstrap_blocks": BOOTSTRAP_BLOCKS,
         "bootstrap_layout": BOOTSTRAP_LAYOUT,
+        "bootstrap_terrain": BOOTSTRAP_TERRAIN,
         "build_palette": {
             "pinned_block_ids": PINNED_BUILD_BLOCK_IDS,
         },

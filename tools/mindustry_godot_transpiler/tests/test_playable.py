@@ -38,6 +38,19 @@ class PlayableManifestTests(unittest.TestCase):
             "drill_block": "mechanical-drill",
             "turret_block": "duo",
         })
+        self.assertEqual(manifest["bootstrap_terrain"], {
+            "floor_block": "stone_floor",
+            "ore_patches": [
+                {
+                    "item": "copper",
+                    "ore_block": "ore_copper",
+                    "x_from": 5,
+                    "x_to": 8,
+                    "y_from": 6,
+                    "y_to": 11,
+                }
+            ],
+        })
         for entry in [manifest["item"], *manifest["blocks"].values()]:
             self.assertTrue(entry["texture"].startswith("res://assets/"))
 
@@ -3182,6 +3195,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"initial_world_block_count": initial_world_block_count', source)
         self.assertIn('"initial_occupied_cell_count": initial_occupied_cell_count', source)
 
+    def test_port_game_bootstrap_terrain_comes_from_playable_content(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(playable_content["bootstrap_terrain"], {
+            "floor_block": "stone_floor",
+            "ore_patches": [
+                {
+                    "item": "copper",
+                    "ore_block": "ore_copper",
+                    "x_from": 5,
+                    "x_to": 8,
+                    "y_from": 6,
+                    "y_to": 11,
+                }
+            ],
+        })
+        self.assertIn('var floor_block_id := ""', source)
+        self.assertIn("var bootstrap_ore_patches: Array = []", source)
+        self.assertIn("func bootstrap_floor_block_id() -> String:", source)
+        self.assertIn("func bootstrap_ore_patch_entries() -> Array:", source)
+        self.assertIn("floor_block_id = bootstrap_floor_block_id()", source)
+        self.assertIn("bootstrap_ore_patches = bootstrap_ore_patch_entries()", source)
+        self.assertIn('add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))', source)
+        self.assertIn("for patch in bootstrap_ore_patches:", source)
+        self.assertIn('add_ore_cell(terrain, str(patch.get("ore_block", "")), str(patch.get("item", "")), Vector2i(x, y))', source)
+        self.assertNotIn('add_sprite(terrain, "stone_floor", grid_to_world(Vector2i(x, y)))', source)
+        self.assertNotIn('add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))', source)
+
     def test_port_game_uses_all_source_requirement_items(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4486,7 +4529,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_INCREMENT := "oreCount.increment(getDrop(other), 0, 1);"', source)
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM := "returnItem = itemArray.peek();"', source)
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT := "returnCount = oreCount.get(itemArray.peek(), 0);"', source)
-        self.assertIn('add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))', source)
+        self.assertIn("for patch in bootstrap_ore_patches:", source)
+        self.assertIn('add_ore_cell(terrain, str(patch.get("ore_block", "")), str(patch.get("item", "")), Vector2i(x, y))', source)
         self.assertIn('drill_ore_cell_count = source_drill_ore_count(drill_block_id, drill_pos, drill_output_item_id)', source)
         self.assertIn('drill_output_rate = source_drill_output_rate(drill_block_id, drill_output_item_id, drill_ore_cell_count)', source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)", source)

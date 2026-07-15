@@ -293,6 +293,8 @@ var drill_block_id := ""
 var conveyor_block_id := ""
 var core_block_id := ""
 var turret_block_id := ""
+var floor_block_id := ""
+var bootstrap_ore_patches: Array = []
 
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
@@ -385,6 +387,14 @@ func bootstrap_block_id(block_role: String) -> String:
 	var blocks: Dictionary = config.get("bootstrap_blocks", {})
 	return str(blocks.get(block_role, ""))
 
+func bootstrap_floor_block_id() -> String:
+	var terrain: Dictionary = config.get("bootstrap_terrain", {})
+	return str(terrain.get("floor_block", ""))
+
+func bootstrap_ore_patch_entries() -> Array:
+	var terrain: Dictionary = config.get("bootstrap_terrain", {})
+	return terrain.get("ore_patches", [])
+
 func load_bootstrap_layout() -> void:
 	drill_pos = bootstrap_layout_cell("drill_cell")
 	core_pos = bootstrap_layout_cell("core_cell")
@@ -393,6 +403,8 @@ func load_bootstrap_layout() -> void:
 	conveyor_block_id = bootstrap_block_id("conveyor_block")
 	core_block_id = bootstrap_block_id("core_block")
 	turret_block_id = bootstrap_block_id("turret_block")
+	floor_block_id = bootstrap_floor_block_id()
+	bootstrap_ore_patches = bootstrap_ore_patch_entries()
 
 func display_profile_runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)
@@ -648,10 +660,11 @@ func build_world() -> void:
 	ore_items_by_cell.clear()
 	for y in world_height_tiles:
 		for x in world_width_tiles:
-			add_sprite(terrain, "stone_floor", grid_to_world(Vector2i(x, y)))
-	for y in range(6, 11):
-		for x in range(5, 8):
-			add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))
+			add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))
+	for patch in bootstrap_ore_patches:
+		for y in range(int(patch.get("y_from", 0)), int(patch.get("y_to", 0))):
+			for x in range(int(patch.get("x_from", 0)), int(patch.get("x_to", 0))):
+				add_ore_cell(terrain, str(patch.get("ore_block", "")), str(patch.get("item", "")), Vector2i(x, y))
 	add_source_block(blocks, drill_block_id, drill_pos)
 	drill_ore_cell_count = source_drill_ore_count(drill_block_id, drill_pos, drill_output_item_id)
 	drill_output_rate = source_drill_output_rate(drill_block_id, drill_output_item_id, drill_ore_cell_count)
