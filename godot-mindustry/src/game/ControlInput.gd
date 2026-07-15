@@ -2,7 +2,6 @@ extends RefCounted
 class_name ControlInput
 
 const MODULE_NAME := "control_profile"
-const KEY_PLATFORMS := ["desktop", "web"]
 
 var catalog: Variant
 var profile: Dictionary = {}
@@ -57,8 +56,10 @@ func rebuild_key_action_map() -> void:
 
 func keyboard_bindings(action_data: Dictionary) -> Array:
 	var result: Array = []
-	for platform_name in KEY_PLATFORMS:
-		var platform_bindings: Dictionary = action_data.get(platform_name, {})
+	for platform_name in action_data.keys():
+		var platform_bindings: Variant = action_data.get(platform_name, {})
+		if typeof(platform_bindings) != TYPE_DICTIONARY:
+			continue
 		var keys: Array = platform_bindings.get("keys", [])
 		for key_binding in keys:
 			var binding := normalize_key_binding(key_binding)

@@ -135,6 +135,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("class_name ControlInput", source)
         self.assertIn('const MODULE_NAME := "control_profile"', source)
+        self.assertNotIn('const KEY_PLATFORMS := ["desktop", "web"]', source)
         self.assertIn("var catalog: Variant", source)
         self.assertIn("catalog.load_document(MODULE_NAME)", source)
         self.assertIn("func install_input_map() -> void:", source)
