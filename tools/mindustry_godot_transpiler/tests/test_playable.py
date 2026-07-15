@@ -240,9 +240,9 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn('SourceSsotCatalog.load_document("display_profile")', source)
+        self.assertIn('const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")', source)
         self.assertIn("func load_display_profile() -> void:", source)
-        self.assertIn("var display_profile: Dictionary = {}", source)
+        self.assertIn("var display_profile_runtime: DisplayProfileRuntime", source)
         self.assertIn("var world_width_tiles := 0", source)
         self.assertIn("var world_height_tiles := 0", source)
         self.assertIn("func display_profile_runtime_summary() -> Dictionary:", source)
@@ -255,6 +255,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const WORLD_H := 16", source)
         self.assertNotIn('config.get("tile_size", 32)', source)
 
+    def test_display_profile_runtime_module_owns_profile_loading_and_summary(self):
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "DisplayProfileRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        module_source = module_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("class_name DisplayProfileRuntime", module_source)
+        self.assertIn('const MODULE_NAME := "display_profile"', module_source)
+        self.assertIn("var document: Dictionary = catalog.load_document(MODULE_NAME)", module_source)
+        self.assertIn("func runtime_summary() -> Dictionary:", module_source)
+        self.assertIn('"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x', module_source)
+        self.assertNotIn("var document := catalog.load_document(MODULE_NAME)", module_source)
+
+        self.assertIn('const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")', port_source)
+        self.assertIn("var display_profile_runtime: DisplayProfileRuntime", port_source)
+        self.assertIn("display_profile_runtime = DisplayProfileRuntime.new(SourceSsotCatalog)", port_source)
+        self.assertIn("display_profile_runtime.load()", port_source)
+        self.assertIn("return display_profile_runtime.runtime_summary()", port_source)
+        self.assertNotIn('SourceSsotCatalog.load_document("display_profile")', port_source)
+        self.assertNotIn('display_profile.get("tile_size"', port_source)
+        self.assertNotIn('display_profile.get("source_tile_size"', port_source)
+
     def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -263,7 +286,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(display_profile["playfield"]["source_tile_size"], 8)
         self.assertEqual(display_profile["playfield"]["source"]["tilesize_expr"], "public static final int tilesize = 8;")
         self.assertIn("var source_tile_size := 0.0", source)
-        self.assertIn('source_tile_size = float(display_profile.get("source_tile_size", 0.0))', source)
+        self.assertIn("source_tile_size = display_profile_runtime.source_tile_size", source)
         self.assertNotIn("const SOURCE_TILESIZE", source)
         self.assertNotIn("SOURCE_TILESIZE", source)
 

@@ -6,6 +6,7 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
+const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
@@ -45,7 +46,7 @@ const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
 var tile_size := 0
 var source_tile_size := 0.0
 var config: Dictionary = {}
-var display_profile: Dictionary = {}
+var display_profile_runtime: DisplayProfileRuntime
 var world_width_tiles := 0
 var world_height_tiles := 0
 var viewport_size_pixels := Vector2i.ZERO
@@ -322,24 +323,17 @@ func load_config() -> void:
 	config = document.get("data", {})
 
 func load_display_profile() -> void:
-	var document := SourceSsotCatalog.load_document("display_profile")
-	if not bool(document.get("loaded", false)):
-		push_error("Missing display profile manifest: display_profile")
+	display_profile_runtime = DisplayProfileRuntime.new(SourceSsotCatalog)
+	if not display_profile_runtime.load():
 		return
-	var data: Dictionary = document.get("data", {})
-	display_profile = data.get("playfield", {})
-	var viewport: Dictionary = display_profile.get("viewport", {})
-	var camera_profile: Dictionary = display_profile.get("camera", {})
-	var visible_world: Dictionary = display_profile.get("visible_world", {})
-	var world: Dictionary = display_profile.get("world", {})
-	tile_size = int(display_profile.get("tile_size", 0))
-	source_tile_size = float(display_profile.get("source_tile_size", 0.0))
-	world_width_tiles = int(world.get("width_tiles", 0))
-	world_height_tiles = int(world.get("height_tiles", 0))
-	viewport_size_pixels = Vector2i(int(viewport.get("width", 0)), int(viewport.get("height", 0)))
-	visible_world_size_pixels = Vector2(float(visible_world.get("width_pixels", 0.0)), float(visible_world.get("height_pixels", 0.0)))
-	camera_initial_position = Vector2(float(camera_profile.get("position_x", 0.0)), float(camera_profile.get("position_y", 0.0)))
-	camera_initial_zoom = float(camera_profile.get("zoom", 0.0))
+	tile_size = display_profile_runtime.tile_size
+	source_tile_size = display_profile_runtime.source_tile_size
+	world_width_tiles = display_profile_runtime.world_width_tiles
+	world_height_tiles = display_profile_runtime.world_height_tiles
+	viewport_size_pixels = display_profile_runtime.viewport_size_pixels
+	visible_world_size_pixels = display_profile_runtime.visible_world_size_pixels
+	camera_initial_position = display_profile_runtime.camera_initial_position
+	camera_initial_zoom = display_profile_runtime.camera_initial_zoom
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
@@ -414,24 +408,9 @@ func load_bootstrap_layout() -> void:
 	transport_preview_item_sprite_count = bootstrap_transport_item_sprite_count()
 
 func display_profile_runtime_summary() -> Dictionary:
-	var world_width_pixels := float(world_width_tiles * tile_size)
-	var world_height_pixels := float(world_height_tiles * tile_size)
-	return {
-		"loaded": not display_profile.is_empty(),
-		"tile_size": tile_size,
-		"source_tile_size": source_tile_size,
-		"world_width_tiles": world_width_tiles,
-		"world_height_tiles": world_height_tiles,
-		"world_width_pixels": world_width_pixels,
-		"world_height_pixels": world_height_pixels,
-		"viewport_width": viewport_size_pixels.x,
-		"viewport_height": viewport_size_pixels.y,
-		"camera_position": {"x": camera_initial_position.x, "y": camera_initial_position.y},
-		"camera_zoom": camera_initial_zoom,
-		"visible_world_width_pixels": visible_world_size_pixels.x,
-		"visible_world_height_pixels": visible_world_size_pixels.y,
-		"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x and world_height_pixels >= visible_world_size_pixels.y,
-	}
+	if display_profile_runtime == null:
+		return {}
+	return display_profile_runtime.runtime_summary()
 
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
