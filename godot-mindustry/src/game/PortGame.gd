@@ -33983,11 +33983,11 @@ func update_camera(delta: float) -> void:
 		return
 	var movement := control_input.camera_vector()
 	if movement != Vector2.ZERO:
-		camera.position += movement.normalized() * 420.0 * delta
+		camera.position += movement.normalized() * control_input.camera_pan_speed() * delta
 	if control_input.is_zoom_in_pressed():
-		camera.zoom *= 1.0 + delta
+		camera.zoom *= control_input.keyboard_zoom_in_factor(delta)
 	if control_input.is_zoom_out_pressed():
-		camera.zoom *= 1.0 - min(delta, 0.5)
+		camera.zoom *= control_input.keyboard_zoom_out_factor(delta)
 
 func get_runtime_summary() -> Dictionary:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null

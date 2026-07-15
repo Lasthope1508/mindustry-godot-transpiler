@@ -88,6 +88,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(profile["platforms"]["roblox"]["canonical_adapter"], "ContextActionService")
         self.assertIn("touch_regions", profile["platforms"]["android"])
         self.assertIn("touch_regions", profile["platforms"]["ios"])
+        camera = profile["camera"]
+        self.assertEqual(camera["pan_speed_pixels_per_second"], 420.0)
+        self.assertEqual(camera["keyboard_zoom_in_rate_per_second"], 1.0)
+        self.assertEqual(camera["keyboard_zoom_out_rate_per_second"], 1.0)
+        self.assertEqual(camera["keyboard_zoom_out_max_delta"], 0.5)
 
     def test_display_profile_is_registered_ssot_for_camera_covered_playfield(self):
         manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
@@ -146,6 +151,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func is_zoom_in_pressed() -> bool:", source)
         self.assertIn("func action_for_key_event(event: InputEventKey) -> String:", source)
         self.assertIn("func build_slot_for_action(canonical_action: String) -> int:", source)
+        self.assertIn("func camera_pan_speed() -> float:", source)
+        self.assertIn("func keyboard_zoom_in_factor(delta: float) -> float:", source)
+        self.assertIn("func keyboard_zoom_out_factor(delta: float) -> float:", source)
         self.assertIn("func runtime_summary() -> Dictionary:", source)
 
     def test_port_game_uses_control_input_without_key_hardcoding(self):
@@ -157,7 +165,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("control_input = ControlInput.new(SourceSsotCatalog)", source)
         self.assertIn("control_input.install_input_map()", source)
         self.assertIn("control_input.camera_vector()", source)
+        self.assertIn("control_input.camera_pan_speed()", source)
         self.assertIn("control_input.is_zoom_in_pressed()", source)
+        self.assertIn("control_input.keyboard_zoom_in_factor(delta)", source)
+        self.assertIn("control_input.keyboard_zoom_out_factor(delta)", source)
         self.assertIn("control_input.action_for_key_event(event)", source)
         self.assertIn("control_input.build_slot_for_action(canonical_action)", source)
         self.assertIn('"control_profile": control_input.runtime_summary()', source)
@@ -167,6 +178,9 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertNotIn(hardcoded_key, source)
         self.assertNotIn('Input.is_action_pressed("ui_left")', source)
         self.assertNotIn('Input.is_key_pressed(KEY_', source)
+        self.assertNotIn("movement.normalized() * 420.0 * delta", source)
+        self.assertNotIn("camera.zoom *= 1.0 + delta", source)
+        self.assertNotIn("camera.zoom *= 1.0 - min(delta, 0.5)", source)
 
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

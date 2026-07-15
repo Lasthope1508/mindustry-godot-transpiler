@@ -7,6 +7,7 @@ var catalog: Variant
 var profile: Dictionary = {}
 var actions: Dictionary = {}
 var platforms: Dictionary = {}
+var camera_settings: Dictionary = {}
 var key_action_map: Dictionary = {}
 
 func _init(source_catalog: Variant) -> void:
@@ -16,13 +17,15 @@ func _init(source_catalog: Variant) -> void:
 func load_profile() -> void:
 	var document: Dictionary = catalog.load_document(MODULE_NAME)
 	if not bool(document.get("loaded", false)):
-		profile = {"actions": {}, "platforms": {}, "hud_hint": ""}
+		profile = {"actions": {}, "platforms": {}, "camera": {}, "hud_hint": ""}
 		actions = {}
 		platforms = {}
+		camera_settings = {}
 		return
 	profile = document.get("data", {})
 	actions = profile.get("actions", {})
 	platforms = profile.get("platforms", {})
+	camera_settings = profile.get("camera", {})
 	rebuild_key_action_map()
 
 func install_input_map() -> void:
@@ -141,6 +144,17 @@ func is_zoom_in_pressed() -> bool:
 func is_zoom_out_pressed() -> bool:
 	return is_action_pressed("camera.zoom.out")
 
+func camera_pan_speed() -> float:
+	return float(camera_settings.get("pan_speed_pixels_per_second", 0.0))
+
+func keyboard_zoom_in_factor(delta: float) -> float:
+	return 1.0 + (delta * float(camera_settings.get("keyboard_zoom_in_rate_per_second", 0.0)))
+
+func keyboard_zoom_out_factor(delta: float) -> float:
+	var rate := float(camera_settings.get("keyboard_zoom_out_rate_per_second", 0.0))
+	var max_delta := float(camera_settings.get("keyboard_zoom_out_max_delta", 0.0))
+	return 1.0 - min(delta * rate, max_delta)
+
 func action_for_key_event(event: InputEventKey) -> String:
 	var key_labels := [
 		OS.get_keycode_string(event.keycode),
@@ -211,5 +225,6 @@ func runtime_summary() -> Dictionary:
 		"loaded": not actions.is_empty(),
 		"action_count": actions.size(),
 		"platforms": platforms.keys(),
+		"camera": camera_settings.duplicate(),
 		"hud_hint": hud_hint(),
 	}

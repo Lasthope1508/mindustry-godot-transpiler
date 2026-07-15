@@ -2,6 +2,12 @@
   "version": 1,
   "root_key": "actions",
   "hud_hint": "WASD/arrows move camera, Q/E zoom",
+  "camera": {
+    "pan_speed_pixels_per_second": 420.0,
+    "keyboard_zoom_in_rate_per_second": 1.0,
+    "keyboard_zoom_out_rate_per_second": 1.0,
+    "keyboard_zoom_out_max_delta": 0.5
+  },
   "actions": {
     "camera.pan.left": {
       "godot_action": "camera.pan.left",
