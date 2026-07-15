@@ -219,12 +219,21 @@ func mouse_button_label(button_index: int) -> String:
 func hud_hint() -> String:
 	return str(profile.get("hud_hint", ""))
 
+func control_action_runtime_summary() -> Dictionary:
+	var action_summary: Dictionary = {}
+	for canonical_action in actions.keys():
+		var action_data: Dictionary = actions.get(canonical_action, {})
+		action_summary[canonical_action] = action_data.duplicate(true)
+	return action_summary
+
 func runtime_summary() -> Dictionary:
 	return {
 		"module": MODULE_NAME,
 		"loaded": not actions.is_empty(),
 		"action_count": actions.size(),
 		"platforms": platforms.keys(),
+		"platform_details": platforms.duplicate(true),
+		"actions": control_action_runtime_summary(),
 		"camera": camera_settings.duplicate(),
 		"hud_hint": hud_hint(),
 	}

@@ -472,6 +472,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func keyboard_zoom_out_factor(delta: float) -> float:", source)
         self.assertIn("func runtime_summary() -> Dictionary:", source)
 
+    def test_control_input_runtime_summary_exposes_canonical_platform_bindings(self):
+        control_input = ROOT / "godot-mindustry" / "src" / "game" / "ControlInput.gd"
+        profile_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "control_profile.json"
+        source = control_input.read_text(encoding="utf-8")
+        profile = json.loads(profile_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(profile["actions"]["camera.pan.up"]["desktop"]["keys"], ["W", "Up"])
+        self.assertEqual(profile["actions"]["camera.pan.up"]["web"]["keys"], ["W", "ArrowUp"])
+        self.assertEqual(profile["actions"]["camera.pan.up"]["android"]["touch_region"], "camera.drag")
+        self.assertEqual(profile["actions"]["camera.pan.up"]["ios"]["touch_region"], "camera.drag")
+        self.assertEqual(profile["actions"]["camera.pan.up"]["roblox"]["inputs"], ["W", "Up", "Thumbstick1Up"])
+        self.assertIn("func control_action_runtime_summary() -> Dictionary:", source)
+        self.assertIn("action_summary[canonical_action] = action_data.duplicate(true)", source)
+        self.assertIn('"actions": control_action_runtime_summary()', source)
+        self.assertIn('"platform_details": platforms.duplicate(true)', source)
+
     def test_port_game_uses_control_input_without_key_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
