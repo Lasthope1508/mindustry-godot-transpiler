@@ -1,5 +1,16 @@
 {
   "modules": {
+    "control_profile": {
+      "path": "src/generated/source_modules/control_profile.json",
+      "root_key": "actions",
+      "label": "action",
+      "status": "active",
+      "rule": "Canonical cross-platform input profile for playable runtime controls; Godot, web, Android, iOS, and Roblox adapters must read action names and bindings from this shard instead of hardcoding platform keys in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",

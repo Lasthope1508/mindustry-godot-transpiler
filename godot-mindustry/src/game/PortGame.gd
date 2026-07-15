@@ -5,6 +5,7 @@ const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.g
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
+const ControlInput := preload("res://src/game/ControlInput.gd")
 const WORLD_W := 24
 const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
@@ -275,12 +276,14 @@ var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
 var hud_label: Label
 var camera: Camera2D
+var control_input: ControlInput
 var drill_pos := Vector2i(7, 8)
 var core_pos := Vector2i(17, 8)
 var duo_pos := Vector2i(18, 7)
 
 func _ready() -> void:
-	ensure_camera_input_bindings()
+	control_input = ControlInput.new(SourceSsotCatalog)
+	control_input.install_input_map()
 	load_config()
 	load_content_registry()
 	load_textures()
@@ -288,42 +291,6 @@ func _ready() -> void:
 	build_block_palette()
 	build_world()
 	build_hud()
-
-func ensure_camera_input_bindings() -> void:
-	if not InputMap.has_action("ui_left"):
-		InputMap.add_action("ui_left")
-	if not InputMap.has_action("ui_right"):
-		InputMap.add_action("ui_right")
-	if not InputMap.has_action("ui_up"):
-		InputMap.add_action("ui_up")
-	if not InputMap.has_action("ui_down"):
-		InputMap.add_action("ui_down")
-	if not input_action_has_key("ui_left", KEY_A):
-		var left_event := InputEventKey.new()
-		left_event.keycode = KEY_A
-		left_event.physical_keycode = KEY_A
-		InputMap.action_add_event("ui_left", left_event)
-	if not input_action_has_key("ui_right", KEY_D):
-		var right_event := InputEventKey.new()
-		right_event.keycode = KEY_D
-		right_event.physical_keycode = KEY_D
-		InputMap.action_add_event("ui_right", right_event)
-	if not input_action_has_key("ui_up", KEY_W):
-		var up_event := InputEventKey.new()
-		up_event.keycode = KEY_W
-		up_event.physical_keycode = KEY_W
-		InputMap.action_add_event("ui_up", up_event)
-	if not input_action_has_key("ui_down", KEY_S):
-		var down_event := InputEventKey.new()
-		down_event.keycode = KEY_S
-		down_event.physical_keycode = KEY_S
-		InputMap.action_add_event("ui_down", down_event)
-
-func input_action_has_key(action_name: String, keycode: Key) -> bool:
-	for existing_event in InputMap.action_get_events(action_name):
-		if existing_event is InputEventKey and (existing_event.keycode == keycode or existing_event.physical_keycode == keycode):
-			return true
-	return false
 
 func load_config() -> void:
 	var document := SourceSsotCatalog.load_document("playable_content")
@@ -581,20 +548,26 @@ func build_world() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		select_build_slot(event.keycode)
-	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		place_selected_block_at_world(event.position)
+		select_build_slot(control_input.action_for_key_event(event))
+	elif control_input.is_primary_place_event(event):
+		place_selected_block_at_world(control_input.pointer_position(event))
+	elif event is InputEventScreenDrag and camera != null:
+		camera.position += control_input.touch_camera_delta(event) / camera.zoom.x
+	elif event is InputEventMagnifyGesture and camera != null:
+		var factor := control_input.zoom_factor_from_gesture(event)
+		if factor > 0.0:
+			camera.zoom /= factor
 
-func select_build_slot(keycode: int) -> void:
-	if keycode == KEY_TAB:
-		if Input.is_key_pressed(KEY_SHIFT):
-			select_previous_build_slot()
-		else:
-			select_next_build_slot()
+func select_build_slot(canonical_action: String) -> void:
+	if control_input.is_previous_slot_action(canonical_action):
+		select_previous_build_slot()
 		return
-	if keycode < KEY_1 or keycode > KEY_6:
+	if control_input.is_next_slot_action(canonical_action):
+		select_next_build_slot()
 		return
-	var index := keycode - KEY_1
+	var index := control_input.build_slot_for_action(canonical_action)
+	if index < 0:
+		return
 	if index < build_palette.size():
 		selected_build_index = index
 
@@ -33962,20 +33935,12 @@ func simulate_bullets(delta: float) -> void:
 func update_camera(delta: float) -> void:
 	if camera == null:
 		return
-	var movement := Vector2.ZERO
-	if Input.is_action_pressed("ui_left"):
-		movement.x -= 1.0
-	if Input.is_action_pressed("ui_right"):
-		movement.x += 1.0
-	if Input.is_action_pressed("ui_up"):
-		movement.y -= 1.0
-	if Input.is_action_pressed("ui_down"):
-		movement.y += 1.0
+	var movement := control_input.camera_vector()
 	if movement != Vector2.ZERO:
 		camera.position += movement.normalized() * 420.0 * delta
-	if Input.is_key_pressed(KEY_Q):
+	if control_input.is_zoom_in_pressed():
 		camera.zoom *= 1.0 + delta
-	if Input.is_key_pressed(KEY_E):
+	if control_input.is_zoom_out_pressed():
 		camera.zoom *= 1.0 - min(delta, 0.5)
 
 func get_runtime_summary() -> Dictionary:
@@ -33990,6 +33955,7 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"playthrough_runtime": playthrough_runtime_state(),
 		"content_counts": content_counts.duplicate(),
+		"control_profile": control_input.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,
@@ -34221,4 +34187,4 @@ func update_hud() -> void:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nWASD/arrows move camera, Q/E zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\n%s" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, copper_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health), control_input.hud_hint()]

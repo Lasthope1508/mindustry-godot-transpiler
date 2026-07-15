@@ -55,18 +55,77 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_binds_wasd_camera_input_on_ready(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        profile_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "control_profile.json"
+        profile = json.loads(profile_path.read_text(encoding="utf-8"))
 
-        self.assertIn("func ensure_camera_input_bindings() -> void:", source)
-        self.assertIn("ensure_camera_input_bindings()", source)
-        self.assertIn('InputMap.action_add_event("ui_left"', source)
-        self.assertIn('InputMap.action_add_event("ui_right"', source)
-        self.assertIn('InputMap.action_add_event("ui_up"', source)
-        self.assertIn('InputMap.action_add_event("ui_down"', source)
-        self.assertIn("KEY_A", source)
-        self.assertIn("KEY_D", source)
-        self.assertIn("KEY_W", source)
-        self.assertIn("KEY_S", source)
-        self.assertIn("WASD/arrows move camera", source)
+        self.assertIn("control_input.install_input_map()", source)
+        self.assertEqual(profile["actions"]["camera.pan.left"]["desktop"]["keys"], ["A", "Left"])
+        self.assertEqual(profile["actions"]["camera.pan.right"]["desktop"]["keys"], ["D", "Right"])
+        self.assertEqual(profile["actions"]["camera.pan.up"]["desktop"]["keys"], ["W", "Up"])
+        self.assertEqual(profile["actions"]["camera.pan.down"]["desktop"]["keys"], ["S", "Down"])
+        self.assertEqual(profile["hud_hint"], "WASD/arrows move camera, Q/E zoom")
+
+    def test_control_profile_is_registered_ssot_for_all_platforms(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "control_profile.json"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertIn("control_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["control_profile"]["root_key"], "actions")
+        self.assertEqual(manifest["modules"]["control_profile"]["path"], "src/generated/source_modules/control_profile.json")
+
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        self.assertEqual(profile["root_key"], "actions")
+        self.assertIn("camera.pan.left", profile["actions"])
+        self.assertIn("camera.zoom.in", profile["actions"])
+        self.assertIn("build.slot.1", profile["actions"])
+        self.assertIn("build.place.primary", profile["actions"])
+        self.assertIn("desktop", profile["platforms"])
+        self.assertIn("web", profile["platforms"])
+        self.assertIn("android", profile["platforms"])
+        self.assertIn("ios", profile["platforms"])
+        self.assertIn("roblox", profile["platforms"])
+        self.assertEqual(profile["platforms"]["roblox"]["canonical_adapter"], "ContextActionService")
+        self.assertIn("touch_regions", profile["platforms"]["android"])
+        self.assertIn("touch_regions", profile["platforms"]["ios"])
+
+    def test_control_input_module_loads_profile_and_binds_actions(self):
+        control_input = ROOT / "godot-mindustry" / "src" / "game" / "ControlInput.gd"
+        source = control_input.read_text(encoding="utf-8")
+
+        self.assertIn("class_name ControlInput", source)
+        self.assertIn('const MODULE_NAME := "control_profile"', source)
+        self.assertIn("var catalog: Variant", source)
+        self.assertIn("catalog.load_document(MODULE_NAME)", source)
+        self.assertIn("func install_input_map() -> void:", source)
+        self.assertIn("OS.find_keycode_from_string", source)
+        self.assertIn("InputMap.action_add_event(godot_action, event)", source)
+        self.assertIn("func camera_vector() -> Vector2:", source)
+        self.assertIn('is_action_pressed("camera.pan.left")', source)
+        self.assertIn("func is_zoom_in_pressed() -> bool:", source)
+        self.assertIn("func action_for_key_event(event: InputEventKey) -> String:", source)
+        self.assertIn("func build_slot_for_action(canonical_action: String) -> int:", source)
+        self.assertIn("func runtime_summary() -> Dictionary:", source)
+
+    def test_port_game_uses_control_input_without_key_hardcoding(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const ControlInput := preload("res://src/game/ControlInput.gd")', source)
+        self.assertIn("var control_input: ControlInput", source)
+        self.assertIn("control_input = ControlInput.new(SourceSsotCatalog)", source)
+        self.assertIn("control_input.install_input_map()", source)
+        self.assertIn("control_input.camera_vector()", source)
+        self.assertIn("control_input.is_zoom_in_pressed()", source)
+        self.assertIn("control_input.action_for_key_event(event)", source)
+        self.assertIn("control_input.build_slot_for_action(canonical_action)", source)
+        self.assertIn('"control_profile": control_input.runtime_summary()', source)
+        self.assertIn("control_input.hud_hint()", source)
+
+        for hardcoded_key in ["KEY_A", "KEY_D", "KEY_W", "KEY_S", "KEY_Q", "KEY_E", "KEY_TAB", "KEY_1", "KEY_6"]:
+            self.assertNotIn(hardcoded_key, source)
+        self.assertNotIn('Input.is_action_pressed("ui_left")', source)
+        self.assertNotIn('Input.is_key_pressed(KEY_', source)
 
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -2840,7 +2899,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("place_selected_block_at_world(event.position)", source)
+        self.assertIn("control_input.is_primary_place_event(event)", source)
+        self.assertIn("place_selected_block_at_world(control_input.pointer_position(event))", source)
         self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> bool:", source)
         self.assertIn("var cell := world_to_grid(world_pos)", source)
         self.assertIn('"placed_block_count": placed_block_origins.size()', source)
