@@ -56,6 +56,7 @@ _MODULE_ALIASES = {
     "comp_state_schema": "state_schema",
     "consumer_state_schema": "state_schema",
     "block_state_schema": "state_schema",
+    "defense_state_schema": "state_schema",
     "consumer_symbols": "registry",
     "comp_symbols": "registry",
     "defense_symbols": "registry",
@@ -137,6 +138,10 @@ _DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
     },
     "block_state_schema": {
         "contract_module": "block_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "defense_state_schema": {
+        "contract_module": "defense_api_contracts",
         "mirror_fields": ("keys",),
     },
 }

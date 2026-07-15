@@ -247,19 +247,6 @@
       "rule": "Extension shard for defense-block source API contracts; canonical owners come from defense_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active"
     },
-    "defense_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
-      "mirror_fields": [
-        "keys"
-      ],
-      "path": "src/generated/source_modules/defense_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for defense-block source state schemas; schema names are derived from defense_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
-    },
     "payload_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
