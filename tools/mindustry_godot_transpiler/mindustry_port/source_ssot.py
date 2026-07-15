@@ -57,6 +57,7 @@ _MODULE_ALIASES = {
     "payload_symbols": "registry",
     "type_state_schema": "state_schema",
     "type_symbols": "registry",
+    "bullet_state_schema": "state_schema",
     "comp_state_schema": "state_schema",
     "consumer_state_schema": "state_schema",
     "block_state_schema": "state_schema",
@@ -184,6 +185,10 @@ _DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
     },
     "type_state_schema": {
         "contract_module": "type_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "bullet_state_schema": {
+        "contract_module": "bullet_api_contracts",
         "mirror_fields": ("keys",),
     },
     "consumer_state_schema": {

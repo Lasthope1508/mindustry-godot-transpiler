@@ -103,19 +103,6 @@
       "rule": "Extension shard for bullet source API contracts; canonical owners come from bullet_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active"
     },
-    "bullet_state_schema": {
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "label": "schemaName",
-      "mirror_fields": [
-        "keys"
-      ],
-      "path": "src/generated/source_modules/bullet_state_schema.json",
-      "root_key": "schemas",
-      "rule": "Extension shard for bullet source state schemas; schema names are derived from bullet_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
-      "status": "active"
-    },
     "bullet_symbols": {
       "canonical_module": "registry",
       "canonical_reference_key": "canonical_symbol",
