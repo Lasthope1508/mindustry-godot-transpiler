@@ -58,6 +58,7 @@ _MODULE_ALIASES = {
     "source_audit_registered_owners": "audit_report",
     "source_audit_exempt_owners": "audit_report",
     "source_audit_legacy_unregistered_owners": "audit_report",
+    "emitted_class_failures": "emitted_classes",
     "helper_state_schema": "state_schema",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
@@ -410,6 +411,16 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
             canonical_reference_key="canonical_owner",
             canonical_reference_prefix="source_symbol_audit_report.legacyUnregisteredOwners.",
             value_field="owner",
+        )
+    if name == "emitted_class_failures":
+        return _virtual_indexed_list_shard(
+            godot_root,
+            canonical_module="emitted_classes",
+            canonical_collection_key="failures",
+            root_key="failures",
+            canonical_reference_key="canonical_failure",
+            canonical_reference_prefix="emitted_classes.failures.",
+            value_field="failure_entry",
         )
     if name == "helper_state_schema":
         return _virtual_helper_state_schema(godot_root)

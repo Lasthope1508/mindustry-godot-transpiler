@@ -676,17 +676,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        failure_entry = manifest["modules"]["emitted_class_failures"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        failure_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_failures.json"
 
-        self.assertEqual(failure_entry["canonical_module"], "emitted_classes")
-        self.assertEqual(failure_entry["canonical_collection_key"], "failures")
-        self.assertEqual(failure_entry["canonical_key_field"], "@index")
-        self.assertEqual(failure_entry["canonical_value_field"], "failure_entry")
-        self.assertEqual(failure_entry["canonical_reference_key"], "canonical_failure")
-        self.assertEqual(failure_entry["canonical_reference_prefix"], "emitted_classes.failures.")
-        self.assertEqual(failure_entry["root_key"], "failures")
-        self.assertEqual(failure_entry["mirror_fields"], ["index", "failure_entry"])
-        self.assertIn("emitted_classes.json failures", failure_entry["rule"])
+        self.assertNotIn("emitted_class_failures", manifest["modules"])
+        self.assertNotIn("emitted_class_failures", module_entries)
+        self.assertFalse(failure_path.exists())
 
         emitted_failures = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_class_failures")["failures"]
         canonical_emitted = source_ssot.load_registered_json(ROOT / "godot-mindustry", "emitted_classes")
@@ -696,9 +691,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(emitted_failures, {})
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        failure_report = [entry for entry in report["modules"] if entry["name"] == "emitted_class_failures"][0]
         self.assertEqual(report["errors"], [])
-        self.assertEqual(failure_report["canonical_mirror"]["checked"], 0)
+        self.assertEqual([entry for entry in report["modules"] if entry["name"] == "emitted_class_failures"], [])
 
     def test_source_ssot_omits_oversized_source_manifest_files_shard(self):
         import importlib

@@ -15995,14 +15995,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func emitted_class_file_state(file_path: String = \"\") -> Dictionary:", source)
         self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)', source)
 
-    def test_port_game_exposes_emitted_class_failures_extension_shard(self):
+    def test_port_game_uses_canonical_emitted_classes_without_emitted_class_failures_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog_source = (ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd").read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_failures.json").exists())
-        self.assertIn('"emitted_class_failures": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_failures.json").exists())
+        self.assertNotIn('"emitted_class_failures": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func emitted_class_failure_state(failure_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)', source)
+        self.assertIn('return SourceSsotCatalog.indexed_array_value_lookup_state("emitted_classes", "failures", "index", "failure_entry", "canonical_failure", "emitted_classes.failures.", failure_index)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)', source)
+        self.assertIn('static func indexed_array_value_lookup_state(module_name: String, array_key: String, label: String, value_field: String, canonical_reference_key: String, canonical_reference_prefix: String, key_value: String = "") -> Dictionary:', catalog_source)
 
     def test_port_game_exposes_port_report_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

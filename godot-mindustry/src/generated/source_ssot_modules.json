@@ -1077,23 +1077,6 @@
         "file"
       ]
     },
-    "emitted_class_failures": {
-      "path": "src/generated/source_modules/emitted_class_failures.json",
-      "root_key": "failures",
-      "label": "index",
-      "status": "active",
-      "rule": "Extension shard for emitted_classes.json failures; canonical skipped emission failures remain mirrored from emitted_classes.failures before use.",
-      "canonical_module": "emitted_classes",
-      "canonical_collection_key": "failures",
-      "canonical_key_field": "@index",
-      "canonical_reference_key": "canonical_failure",
-      "canonical_reference_prefix": "emitted_classes.failures.",
-      "canonical_value_field": "failure_entry",
-      "mirror_fields": [
-        "index",
-        "failure_entry"
-      ]
-    },
     "ast_manifest_files": {
       "path": "src/generated/source_modules/ast_manifest_files.json",
       "root_key": "files",

@@ -528,7 +528,7 @@ func emitted_class_file_state(file_path: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)
 
 func emitted_class_failure_state(failure_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)
+	return SourceSsotCatalog.indexed_array_value_lookup_state("emitted_classes", "failures", "index", "failure_entry", "canonical_failure", "emitted_classes.failures.", failure_index)
 
 func port_report_state() -> Dictionary:
 	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
