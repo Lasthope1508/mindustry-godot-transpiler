@@ -54,6 +54,7 @@ _MODULE_ALIASES = {
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
     "comp_state_schema": "state_schema",
+    "consumer_state_schema": "state_schema",
     "consumer_symbols": "registry",
     "comp_symbols": "registry",
     "defense_symbols": "registry",
@@ -124,7 +125,16 @@ _DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
         ),
     },
 }
-_COMP_STATE_SCHEMA_MIRROR_FIELDS = ("keys",)
+_DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
+    "consumer_state_schema": {
+        "contract_module": "consumer_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "comp_state_schema": {
+        "contract_module": "comp_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+}
 
 
 def module_names() -> list[str]:
@@ -241,8 +251,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
-    if name == "comp_state_schema":
-        return _virtual_comp_state_schema(godot_root)
+    if name in _DOMAIN_STATE_SCHEMA_SHARDS:
+        return _virtual_domain_state_schema(godot_root, name)
     if name in _DOMAIN_SYMBOL_SHARDS:
         return _virtual_domain_symbols(godot_root, name)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
@@ -370,15 +380,16 @@ def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]
         result["policy"] = config["policy"]
     return result
 
-def _virtual_comp_state_schema(godot_root: Path) -> dict[str, Any]:
-    comp_contracts = load_registered_json(godot_root, "comp_api_contracts").get("contracts", {})
+def _virtual_domain_state_schema(godot_root: Path, shard_name: str) -> dict[str, Any]:
+    config = _DOMAIN_STATE_SCHEMA_SHARDS[shard_name]
+    domain_contracts = load_registered_json(godot_root, str(config["contract_module"])).get("contracts", {})
     canonical_schema = load_registered_json(godot_root, "state_schema").get("schemas", {})
-    if not isinstance(comp_contracts, dict):
-        comp_contracts = {}
+    if not isinstance(domain_contracts, dict):
+        domain_contracts = {}
     if not isinstance(canonical_schema, dict):
         canonical_schema = {}
     expected_schema_names: set[str] = set()
-    for owner, contract in sorted(comp_contracts.items()):
+    for owner, contract in sorted(domain_contracts.items()):
         if not isinstance(contract, dict):
             continue
         for param in contract.get("params", []):
@@ -398,7 +409,7 @@ def _virtual_comp_state_schema(godot_root: Path) -> dict[str, Any]:
         if not isinstance(canonical_entry, dict):
             continue
         entry: dict[str, Any] = {"canonical_schema": f"source_state_schema.{schema_name}"}
-        for field in _COMP_STATE_SCHEMA_MIRROR_FIELDS:
+        for field in config["mirror_fields"]:
             entry[field] = canonical_entry[field]
         mirror[schema_name] = entry
     return {"version": 1, "schemas": mirror}

@@ -827,33 +827,6 @@
         "status": "active"
       }
     },
-    "consumer_state_schema": {
-      "canonical_manifest_entry": "source_ssot_modules.modules.consumer_state_schema",
-      "path": "src/generated/source_modules/consumer_state_schema.json",
-      "root_key": "schemas",
-      "label": "schemaName",
-      "status": "active",
-      "rule": "Extension shard for consumer source state schemas; canonical schema names and fields remain mirrored through source_state_schema before use.",
-      "canonical_module": "state_schema",
-      "canonical_reference_key": "canonical_schema",
-      "canonical_reference_prefix": "source_state_schema.",
-      "mirror_fields": [
-        "keys"
-      ],
-      "entry": {
-        "canonical_module": "state_schema",
-        "canonical_reference_key": "canonical_schema",
-        "canonical_reference_prefix": "source_state_schema.",
-        "label": "schemaName",
-        "mirror_fields": [
-          "keys"
-        ],
-        "path": "src/generated/source_modules/consumer_state_schema.json",
-        "root_key": "schemas",
-        "rule": "Extension shard for consumer source state schemas; canonical schema names and fields remain mirrored through source_state_schema before use.",
-        "status": "active"
-      }
-    },
     "content_registry_blocks": {
       "canonical_manifest_entry": "source_ssot_modules.modules.content_registry_blocks",
       "path": "src/generated/source_modules/content_registry_blocks.json",

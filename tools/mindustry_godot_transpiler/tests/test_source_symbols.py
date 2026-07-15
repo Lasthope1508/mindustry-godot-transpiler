@@ -559,13 +559,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        consumer_entry = manifest["modules"]["consumer_state_schema"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        consumer_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "consumer_state_schema.json"
+        consumer_schema_mirror_fields = ("keys",)
 
-        self.assertEqual(consumer_entry["canonical_module"], "state_schema")
-        self.assertEqual(consumer_entry["canonical_reference_key"], "canonical_schema")
-        self.assertEqual(consumer_entry["canonical_reference_prefix"], "source_state_schema.")
-        self.assertEqual(consumer_entry["root_key"], "schemas")
-        self.assertIn("keys", consumer_entry["mirror_fields"])
+        self.assertNotIn("consumer_state_schema", manifest["modules"])
+        self.assertNotIn("consumer_state_schema", module_entries)
+        self.assertFalse(consumer_path.exists())
 
         consumer_contracts = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")["contracts"]
         consumer_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")["schemas"]
@@ -585,13 +585,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for schema_name in sorted(expected_schema_names):
             with self.subTest(schema_name=schema_name):
                 self.assertEqual(consumer_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
-                for field in consumer_entry["mirror_fields"]:
+                for field in consumer_schema_mirror_fields:
                     self.assertEqual(consumer_schema[schema_name][field], canonical_schema[schema_name][field])
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        consumer_report = [entry for entry in report["modules"] if entry["name"] == "consumer_state_schema"][0]
-        self.assertEqual(consumer_report["canonical_mirror"]["canonical_module"], "state_schema")
-        self.assertEqual(consumer_report["canonical_mirror"]["checked"], len(consumer_schema))
+        consumer_reports = {entry["name"]: entry for entry in report["modules"] if entry["name"].startswith("consumer_")}
+        self.assertNotIn("consumer_state_schema", consumer_reports)
 
     def test_source_ssot_helper_state_schema_shard_declares_canonical_mirror_contract(self):
         import importlib
