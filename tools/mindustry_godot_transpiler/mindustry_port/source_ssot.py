@@ -361,6 +361,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_source_slice_ledger_slices(godot_root)
     if name == "source_api_contracts_contracts":
         return _virtual_source_api_contracts_contracts(godot_root)
+    if name == "port_report_unsupported":
+        return _virtual_port_report_unsupported(godot_root)
     if name == "port_report_unsupported_features":
         return _virtual_port_report_unsupported_features(godot_root)
     if name == "asset_manifest_assets":
@@ -451,6 +453,20 @@ def _virtual_source_api_contracts_contracts(godot_root: Path) -> dict[str, Any]:
                 entry[field] = canonical_entry[field]
         mirror[str(contract_owner)] = entry
     return {"version": 1, "contracts": mirror}
+
+def _virtual_port_report_unsupported(godot_root: Path) -> dict[str, Any]:
+    canonical_entries = load_registered_json(godot_root, "port_report").get("unsupported", [])
+    if not isinstance(canonical_entries, list):
+        canonical_entries = []
+    mirror: dict[str, Any] = {}
+    for index, canonical_entry in enumerate(canonical_entries):
+        item_key = str(index)
+        mirror[item_key] = {
+            "canonical_unsupported": f"port_report.unsupported.{item_key}",
+            "index": index,
+            "unsupported_entry": canonical_entry,
+        }
+    return {"version": 1, "unsupported": mirror}
 
 def _virtual_port_report_unsupported_features(godot_root: Path) -> dict[str, Any]:
     canonical_features = load_registered_json(godot_root, "port_report").get("unsupported_features", [])
@@ -702,6 +718,8 @@ def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -
 
 def build_extension_shard(godot_root: Path, name: str) -> dict[str, Any]:
     godot_root = Path(godot_root)
+    if name == "port_report_unsupported":
+        return _virtual_port_report_unsupported(godot_root)
     entry = registered_module(godot_root, name)
     if not entry.canonical_module:
         raise ValueError(f"{entry.name}: canonical_module is required")

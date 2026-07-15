@@ -1047,17 +1047,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        unsupported_entry = manifest["modules"]["port_report_unsupported"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        unsupported_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json"
 
-        self.assertEqual(unsupported_entry["canonical_module"], "port_report")
-        self.assertEqual(unsupported_entry["canonical_collection_key"], "unsupported")
-        self.assertEqual(unsupported_entry["canonical_key_field"], "@index")
-        self.assertEqual(unsupported_entry["canonical_reference_key"], "canonical_unsupported")
-        self.assertEqual(unsupported_entry["canonical_reference_prefix"], "port_report.unsupported.")
-        self.assertEqual(unsupported_entry["canonical_value_field"], "unsupported_entry")
-        self.assertEqual(unsupported_entry["root_key"], "unsupported")
-        self.assertEqual(unsupported_entry["mirror_fields"], ["index", "unsupported_entry"])
-        self.assertIn("port_report.json unsupported", unsupported_entry["rule"])
+        self.assertNotIn("port_report_unsupported", manifest["modules"])
+        self.assertNotIn("port_report_unsupported", module_entries)
+        self.assertFalse(unsupported_path.exists())
 
         unsupported_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report_unsupported")["unsupported"]
         canonical_report = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report")
@@ -1076,9 +1071,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
                 self.assertEqual(unsupported_files[item_key]["unsupported_entry"], canonical_entry)
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        unsupported_report = [entry for entry in report["modules"] if entry["name"] == "port_report_unsupported"][0]
         self.assertEqual(report["errors"], [])
-        self.assertEqual(unsupported_report["canonical_mirror"]["checked"], len(unsupported_files))
+        self.assertEqual([entry for entry in report["modules"] if entry["name"] == "port_report_unsupported"], [])
 
     def test_source_ssot_builds_extension_shard_from_canonical_manifest_entry(self):
         import importlib
@@ -1088,6 +1082,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         generated = source_ssot.build_extension_shard(ROOT / "godot-mindustry", "port_report_unsupported")
         actual = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report_unsupported")
 
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json").exists())
         self.assertEqual(generated["version"], 1)
         self.assertEqual(generated["unsupported"], actual["unsupported"])
         self.assertEqual(

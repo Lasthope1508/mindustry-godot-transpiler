@@ -16032,14 +16032,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)', source)
         self.assertIn("static func indexed_array_lookup_state(module_name: String, array_key: String, label: String, key_value: String = \"\") -> Dictionary:", catalog_source)
 
-    def test_port_game_exposes_port_report_unsupported_extension_shard(self):
+    def test_port_game_uses_canonical_port_report_without_port_report_unsupported_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog_source = (ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd").read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json").exists())
-        self.assertIn('"port_report_unsupported": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json").exists())
+        self.assertNotIn('"port_report_unsupported": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func port_report_unsupported_state(unsupported_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)', source)
+        self.assertIn('return SourceSsotCatalog.indexed_array_value_lookup_state("port_report", "unsupported", "unsupported", "unsupported_entry", "canonical_unsupported", "port_report.unsupported.", unsupported_index)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)', source)
+        self.assertIn("static func indexed_array_value_lookup_state(module_name: String, array_key: String, label: String, value_field: String, canonical_reference_key: String, canonical_reference_prefix: String, key_value: String = \"\") -> Dictionary:", catalog_source)
+        self.assertIn('entry[canonical_reference_key] = "%s%s" % [canonical_reference_prefix, str(index)]', catalog_source)
 
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

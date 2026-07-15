@@ -1181,23 +1181,6 @@
         "skin_override"
       ]
     },
-    "port_report_unsupported": {
-      "path": "src/generated/source_modules/port_report_unsupported.json",
-      "root_key": "unsupported",
-      "label": "unsupported",
-      "status": "active",
-      "rule": "Extension shard for port_report.json unsupported; canonical unsupported summary entries remain mirrored from port_report.unsupported before use.",
-      "canonical_module": "port_report",
-      "canonical_collection_key": "unsupported",
-      "canonical_key_field": "@index",
-      "canonical_value_field": "unsupported_entry",
-      "canonical_reference_key": "canonical_unsupported",
-      "canonical_reference_prefix": "port_report.unsupported.",
-      "mirror_fields": [
-        "index",
-        "unsupported_entry"
-      ]
-    },
     "content_registry_items": {
       "path": "src/generated/source_modules/content_registry_items.json",
       "root_key": "items",

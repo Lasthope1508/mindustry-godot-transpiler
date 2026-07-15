@@ -534,7 +534,7 @@ func port_report_state() -> Dictionary:
 	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
 
 func port_report_unsupported_state(unsupported_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)
+	return SourceSsotCatalog.indexed_array_value_lookup_state("port_report", "unsupported", "unsupported", "unsupported_entry", "canonical_unsupported", "port_report.unsupported.", unsupported_index)
 
 func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
 	return SourceSsotCatalog.indexed_array_lookup_state("port_report", "unsupported_features", "unsupportedFeature", feature_index)
