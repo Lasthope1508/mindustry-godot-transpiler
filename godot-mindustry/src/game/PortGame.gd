@@ -23457,7 +23457,7 @@ func source_unit_update_boosting_event_state(event: bool) -> Dictionary:
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return
 	for cell in turret_cells:
@@ -23510,7 +23510,7 @@ func simulate_turrets(delta: float) -> void:
 func selected_turret_ammo_sprite() -> String:
 	if content_catalog == null:
 		return ""
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return ""
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23522,7 +23522,7 @@ func selected_turret_ammo_sprite() -> String:
 func selected_turret_ammo_lifetime_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23534,7 +23534,7 @@ func selected_turret_ammo_lifetime_seconds() -> float:
 func selected_turret_limit_range_margin() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return float(duo.properties.get("limitRangeMargin", 0.0))
@@ -23542,7 +23542,7 @@ func selected_turret_limit_range_margin() -> float:
 func selected_turret_ammo_world_speed() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23554,7 +23554,7 @@ func selected_turret_ammo_world_speed() -> float:
 func selected_turret_ammo_dimensions() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return {}
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23567,7 +23567,7 @@ func selected_turret_ammo_dimensions() -> Dictionary:
 func selected_turret_ammo_hit_size() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23579,7 +23579,7 @@ func selected_turret_ammo_hit_size() -> float:
 func selected_turret_ammo_damage() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23591,7 +23591,7 @@ func selected_turret_ammo_damage() -> float:
 func selected_turret_ammo_multiplier() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23603,7 +23603,7 @@ func selected_turret_ammo_multiplier() -> float:
 func selected_turret_ammo_reload_multiplier() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23615,7 +23615,7 @@ func selected_turret_ammo_reload_multiplier() -> float:
 func selected_turret_ammo_range_change() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23627,7 +23627,7 @@ func selected_turret_ammo_range_change() -> float:
 func selected_turret_ammo_count() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	return duo.properties.get("ammo", []).size()
@@ -23635,7 +23635,7 @@ func selected_turret_ammo_count() -> int:
 func selected_turret_max_ammo() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	return int(duo.properties.get("maxAmmo", 30))
@@ -23643,7 +23643,7 @@ func selected_turret_max_ammo() -> int:
 func selected_turret_ammo_per_shot() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	return int(duo.properties.get("ammoPerShot", 1))
@@ -23651,7 +23651,7 @@ func selected_turret_ammo_per_shot() -> int:
 func selected_turret_consume_ammo_once() -> bool:
 	if content_catalog == null:
 		return false
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return false
 	return bool(duo.properties.get("consumeAmmoOnce", true))
@@ -33586,7 +33586,7 @@ func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:
 func bootstrap_selected_turret_ammo() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	var ammo_entries: Array = duo.properties.get("ammo", [])
@@ -33606,7 +33606,7 @@ func bootstrap_selected_turret_ammo() -> int:
 func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	var loaded := 0
@@ -33620,7 +33620,7 @@ func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 func use_selected_turret_ammo_once() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return {}
 	return use_turret_ammo(duo_pos, duo)
@@ -33628,7 +33628,7 @@ func use_selected_turret_ammo_once() -> Dictionary:
 func selected_turret_reload_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_reload_seconds(duo)
@@ -33636,7 +33636,7 @@ func selected_turret_reload_seconds() -> float:
 func selected_turret_range() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_range(duo)
@@ -33644,7 +33644,7 @@ func selected_turret_range() -> float:
 func selected_turret_shoot_y() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_shoot_y(duo)
@@ -33652,7 +33652,7 @@ func selected_turret_shoot_y() -> float:
 func selected_turret_shoot_pattern() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return {}
 	return source_turret_shoot_pattern(duo)
@@ -33660,7 +33660,7 @@ func selected_turret_shoot_pattern() -> Dictionary:
 func selected_turret_inaccuracy() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_inaccuracy(duo)
@@ -33668,7 +33668,7 @@ func selected_turret_inaccuracy() -> float:
 func selected_turret_rotate_speed() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_rotate_speed(duo)
@@ -33676,7 +33676,7 @@ func selected_turret_rotate_speed() -> float:
 func selected_turret_shoot_cone() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_shoot_cone(duo)
@@ -33684,7 +33684,7 @@ func selected_turret_shoot_cone() -> float:
 func selected_turret_recoil() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0.0
 	return source_turret_recoil(duo)
@@ -33692,7 +33692,7 @@ func selected_turret_recoil() -> float:
 func selected_turret_recoils() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id("duo")
+	var duo = content_catalog.get_by_id(turret_block_id)
 	if duo == null:
 		return 0
 	return source_turret_recoils(duo)

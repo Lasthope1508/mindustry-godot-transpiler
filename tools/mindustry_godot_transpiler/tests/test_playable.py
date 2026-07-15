@@ -4286,6 +4286,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"bootstrapped_selected_turret_ammo_load_count": bootstrapped_selected_turret_ammo_load_count', source)
         self.assertNotIn('load_selected_turret_ammo("copper"', source)
 
+    def test_port_game_turret_runtime_uses_bootstrap_turret_block_id_for_lookup(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('turret_block_id = bootstrap_block_id("turret_block")', source)
+        self.assertIn("content_catalog.get_by_id(turret_block_id)", source)
+        self.assertNotIn('content_catalog.get_by_id("duo")', source)
+
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
