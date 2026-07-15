@@ -598,14 +598,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        helper_entry = manifest["modules"]["helper_state_schema"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        helper_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "helper_state_schema.json"
+        helper_mirror_fields = ("keys",)
 
-        self.assertEqual(helper_entry["canonical_module"], "state_schema")
-        self.assertEqual(helper_entry["canonical_reference_key"], "canonical_schema")
-        self.assertEqual(helper_entry["canonical_reference_prefix"], "source_state_schema.")
-        self.assertEqual(helper_entry["root_key"], "schemas")
-        self.assertEqual(helper_entry["mirror_fields"], ["keys"])
-        self.assertIn("not selected by domain API contracts", helper_entry["rule"])
+        self.assertNotIn("helper_state_schema", manifest["modules"])
+        self.assertNotIn("helper_state_schema", module_entries)
+        self.assertFalse(helper_path.exists())
 
         helper_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "helper_state_schema")["schemas"]
         canonical_schema = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
@@ -635,13 +634,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for schema_name in sorted(expected_schema_names):
             with self.subTest(schema_name=schema_name):
                 self.assertEqual(helper_schema[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
-                for field in helper_entry["mirror_fields"]:
+                for field in helper_mirror_fields:
                     self.assertEqual(helper_schema[schema_name][field], canonical_schema[schema_name][field])
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        helper_report = [entry for entry in report["modules"] if entry["name"] == "helper_state_schema"][0]
+        helper_reports = [entry for entry in report["modules"] if entry["name"] == "helper_state_schema"]
         self.assertEqual(report["errors"], [])
-        self.assertEqual(helper_report["canonical_mirror"]["checked"], len(helper_schema))
+        self.assertEqual(helper_reports, [])
 
     def test_source_ssot_emitted_class_files_shard_declares_canonical_array_mirror_contract(self):
         import importlib

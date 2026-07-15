@@ -53,6 +53,7 @@ _MODULE_ALIASES = {
     "port_report_unsupported_features": "port_report",
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
+    "helper_state_schema": "state_schema",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
     "type_state_schema": "state_schema",
@@ -361,6 +362,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
+    if name == "helper_state_schema":
+        return _virtual_helper_state_schema(godot_root)
     if name in _DOMAIN_STATE_SCHEMA_SHARDS:
         return _virtual_domain_state_schema(godot_root, name)
     if name in _DOMAIN_SYMBOL_SHARDS:
@@ -490,6 +493,51 @@ def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]
         result["policy"] = config["policy"]
     return result
 
+def _schema_names_for_contracts(canonical_schema: dict[str, Any], contracts: dict[str, Any]) -> set[str]:
+    schema_names: set[str] = set()
+    for owner, contract in sorted(contracts.items()):
+        if not isinstance(contract, dict):
+            continue
+        for param in contract.get("params", []):
+            if not isinstance(param, dict) or "schema" not in param:
+                continue
+            schema_name = str(param["schema"]).split(".", 1)[0]
+            if schema_name in canonical_schema:
+                schema_names.add(schema_name)
+        source_name = str(owner).split(".")[-1]
+        if source_name.endswith("_state"):
+            result_schema_name = source_name[:-len("_state")] + "_result"
+            if result_schema_name in canonical_schema:
+                schema_names.add(result_schema_name)
+    return schema_names
+
+def _virtual_helper_state_schema(godot_root: Path) -> dict[str, Any]:
+    canonical_schema = load_registered_json(godot_root, "state_schema").get("schemas", {})
+    canonical_contracts = load_registered_json(godot_root, "api_contracts").get("contracts", {})
+    if not isinstance(canonical_schema, dict):
+        canonical_schema = {}
+    if not isinstance(canonical_contracts, dict):
+        canonical_contracts = {}
+    domain_schema_names = _schema_names_for_contracts(canonical_schema, canonical_contracts)
+    sharded_schema_names: set[str] = set()
+    for module_name in registered_module_names(godot_root):
+        if not module_name.endswith("_state_schema") or module_name == "helper_state_schema":
+            continue
+        schemas = load_registered_json(godot_root, module_name).get("schemas", {})
+        if isinstance(schemas, dict):
+            sharded_schema_names.update(str(schema_name) for schema_name in schemas)
+    expected_schema_names = set(canonical_schema) - domain_schema_names - sharded_schema_names
+    mirror: dict[str, Any] = {}
+    for schema_name in sorted(expected_schema_names):
+        canonical_entry = canonical_schema.get(schema_name)
+        if not isinstance(canonical_entry, dict):
+            continue
+        mirror[schema_name] = {
+            "canonical_schema": f"source_state_schema.{schema_name}",
+            "keys": canonical_entry["keys"],
+        }
+    return {"version": 1, "schemas": mirror}
+
 def _virtual_domain_state_schema(godot_root: Path, shard_name: str) -> dict[str, Any]:
     config = _DOMAIN_STATE_SCHEMA_SHARDS[shard_name]
     domain_contracts = load_registered_json(godot_root, str(config["contract_module"])).get("contracts", {})
@@ -498,21 +546,7 @@ def _virtual_domain_state_schema(godot_root: Path, shard_name: str) -> dict[str,
         domain_contracts = {}
     if not isinstance(canonical_schema, dict):
         canonical_schema = {}
-    expected_schema_names: set[str] = set()
-    for owner, contract in sorted(domain_contracts.items()):
-        if not isinstance(contract, dict):
-            continue
-        for param in contract.get("params", []):
-            if not isinstance(param, dict) or "schema" not in param:
-                continue
-            schema_name = str(param["schema"]).split(".", 1)[0]
-            if schema_name in canonical_schema:
-                expected_schema_names.add(schema_name)
-        source_name = str(owner).split(".")[-1]
-        if source_name.endswith("_state"):
-            result_schema_name = source_name[:-len("_state")] + "_result"
-            if result_schema_name in canonical_schema:
-                expected_schema_names.add(result_schema_name)
+    expected_schema_names = _schema_names_for_contracts(canonical_schema, domain_contracts)
     mirror: dict[str, Any] = {}
     for schema_name in sorted(expected_schema_names):
         canonical_entry = canonical_schema.get(schema_name)
