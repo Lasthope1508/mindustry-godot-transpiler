@@ -845,6 +845,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(turret["source"]["range_field"], "public float range = 80f;")
         self.assertEqual(turret["source"]["rotate_speed_field"], "public float rotateSpeed = 5;")
         self.assertEqual(turret["source"]["inaccuracy_field"], "public float inaccuracy = 0f;")
+        self.assertEqual(turret["source"]["shoot_y_field"], "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;")
+        self.assertEqual(turret["source"]["shoot_y_sentinel"], "Float.NEGATIVE_INFINITY")
+        self.assertEqual(turret["source"]["shoot_y_init_default"], "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;")
+        self.assertEqual(turret["source"]["shoot_y_computed_default_expr"], "shootY = size * tilesize / 2f")
         self.assertEqual(turret["source"]["shoot_cone_field"], "public float shootCone = 8f;")
         self.assertEqual(turret["source"]["recoil_field"], "public float recoil = 1f;")
         self.assertEqual(turret["source"]["recoils_field"], "public int recoils = -1;")
@@ -865,6 +869,8 @@ class PlayableManifestTests(unittest.TestCase):
             "recoil_pow",
         ]:
             self.assertIn(f"func {getter}()", defaults_source)
+        self.assertIn("func shoot_y_sentinel() -> String:", defaults_source)
+        self.assertIn("func shoot_y_default(size: float, source_tilesize: float) -> float:", defaults_source)
         self.assertIn('"defaults": defaults.duplicate()', defaults_source)
 
         self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", port_source)
@@ -5181,7 +5187,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_SHOOT_Y_SENTINEL := "Float.NEGATIVE_INFINITY"', source)
         self.assertIn('const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"', source)
         self.assertIn('const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"', source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, 0.0))", source)
+        self.assertIn("var source_default := turret_defaults.shoot_y_default(float(turret.properties.get(\"size\", 0.0)), source_tile_size)", source)
+        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, source_default))", source)
+        self.assertNotIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, 0.0))", source)
         self.assertIn("func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:", source)
         self.assertIn("var rotation_minus_90 := turret_rotation_degrees - 90.0", source)
         self.assertIn("var trns := source_arc_angles_trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y + y_offset)", source)

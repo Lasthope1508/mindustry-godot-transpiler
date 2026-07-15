@@ -33836,7 +33836,8 @@ const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"
 func source_turret_shoot_y(turret) -> float:
 	if turret == null:
 		return 0.0
-	return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, 0.0))
+	var source_default := turret_defaults.shoot_y_default(float(turret.properties.get("size", 0.0)), source_tile_size)
+	return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, source_default))
 
 const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
 const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"

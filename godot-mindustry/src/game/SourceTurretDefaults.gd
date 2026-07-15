@@ -37,6 +37,12 @@ func rotate_speed_default() -> float:
 func inaccuracy_default() -> float:
 	return _float_default("inaccuracy")
 
+func shoot_y_sentinel() -> String:
+	return str(profile.get("source", {}).get("shoot_y_sentinel", ""))
+
+func shoot_y_default(size: float, source_tilesize: float) -> float:
+	return size * source_tilesize / 2.0
+
 func shoot_cone_default() -> float:
 	return _float_default("shoot_cone")
 
