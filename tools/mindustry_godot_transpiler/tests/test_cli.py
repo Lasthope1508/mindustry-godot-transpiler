@@ -76,6 +76,20 @@ class CliTests(unittest.TestCase):
                 path = assets / rel
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(b"asset")
+            (godot / "project.godot").write_text(
+                "\n".join(
+                    [
+                        "config_version=5",
+                        "",
+                        "[display]",
+                        "",
+                        "window/size/viewport_width=1280",
+                        "window/size/viewport_height=720",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
 
             result = run_cli("playable", "--godot", str(godot))
 

@@ -1,7 +1,7 @@
 ﻿import json
 from pathlib import Path
 
-from mindustry_port.display_profile import build_display_profile
+from mindustry_port.display_profile import DEFAULT_PROJECT_SETTINGS_PATH, build_display_profile
 
 REQUIRED_ASSETS = {
     "item": ("copper", "core/assets-raw/sprites/items/item-copper.png"),
@@ -82,13 +82,13 @@ def _bootstrap_terrain(layout: dict) -> dict:
         ],
     }
 
-def build_playable_manifest(asset_root: Path) -> dict:
+def build_playable_manifest(asset_root: Path, project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict:
     asset_root = Path(asset_root)
     item_id, item_path = REQUIRED_ASSETS["item"]
     blocks = {}
     for block_id, rel in REQUIRED_ASSETS["blocks"].items():
         blocks[block_id] = _asset_entry(asset_root, rel, block_id)
-    display_profile = build_display_profile()["playfield"]
+    display_profile = build_display_profile(project_settings_path)["playfield"]
     tile_size = int(display_profile["tile_size"])
     bootstrap_layout = _bootstrap_layout(display_profile)
     return {
@@ -106,8 +106,8 @@ def build_playable_manifest(asset_root: Path) -> dict:
     }
 
 
-def write_playable_manifest(asset_root: Path, output_path: Path) -> dict:
-    manifest = build_playable_manifest(asset_root)
+def write_playable_manifest(asset_root: Path, output_path: Path, project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict:
+    manifest = build_playable_manifest(asset_root, project_settings_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     return manifest

@@ -5,7 +5,7 @@ from math import ceil
 from pathlib import Path
 from typing import Any
 
-VIEWPORT_SIZE = {"width": 1280, "height": 720}
+DEFAULT_PROJECT_SETTINGS_PATH = Path("godot-mindustry/project.godot")
 CAMERA_PROFILE = {
     "zoom": 0.5,
 }
@@ -13,6 +13,27 @@ TILE_SIZE = 32
 SOURCE_TILE_SIZE = 8
 RENDER_SCALE = 4
 BACKGROUND_MARGIN_VIEWPORTS = {"x": 1.0, "y": 1.0}
+VIEWPORT_WIDTH_KEY = "window/size/viewport_width"
+VIEWPORT_HEIGHT_KEY = "window/size/viewport_height"
+
+def _project_viewport_size(project_settings_path: Path) -> dict[str, int]:
+    section = ""
+    display_settings: dict[str, str] = {}
+    for raw_line in project_settings_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith(";"):
+            continue
+        if line.startswith("[") and line.endswith("]"):
+            section = line[1:-1]
+            continue
+        if section != "display" or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        display_settings[key.strip()] = value.strip().strip('"')
+    return {
+        "width": int(display_settings[VIEWPORT_WIDTH_KEY]),
+        "height": int(display_settings[VIEWPORT_HEIGHT_KEY]),
+    }
 
 def _visible_world_size(viewport: dict[str, int], camera: dict[str, float]) -> dict[str, int]:
     zoom = float(camera["zoom"])
@@ -44,8 +65,10 @@ def _camera_profile(world: dict[str, int]) -> dict[str, float]:
         "zoom": CAMERA_PROFILE["zoom"],
     }
 
-def build_display_profile() -> dict[str, Any]:
-    visible_world = _visible_world_size(VIEWPORT_SIZE, CAMERA_PROFILE)
+def build_display_profile(project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict[str, Any]:
+    project_settings = Path(project_settings_path)
+    viewport = _project_viewport_size(project_settings)
+    visible_world = _visible_world_size(viewport, CAMERA_PROFILE)
     background_margin_tiles = _background_margin_tiles(visible_world, TILE_SIZE, BACKGROUND_MARGIN_VIEWPORTS)
     world = _world_size(visible_world, TILE_SIZE, background_margin_tiles)
     camera = _camera_profile(world)
@@ -54,9 +77,9 @@ def build_display_profile() -> dict[str, Any]:
         "root_key": "playfield",
         "playfield": {
             "viewport": {
-                "width": VIEWPORT_SIZE["width"],
-                "height": VIEWPORT_SIZE["height"],
-                "source": "godot-mindustry/project.godot display/window/size/viewport_width, display/window/size/viewport_height",
+                "width": viewport["width"],
+                "height": viewport["height"],
+                "source": f"{project_settings.as_posix()} display/{VIEWPORT_WIDTH_KEY}, display/{VIEWPORT_HEIGHT_KEY}",
             },
             "camera": {
                 "position_x": camera["position_x"],
@@ -101,8 +124,8 @@ def build_display_profile() -> dict[str, Any]:
         },
     }
 
-def write_display_profile(output_path: Path) -> dict[str, Any]:
-    profile = build_display_profile()
+def write_display_profile(output_path: Path, project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict[str, Any]:
+    profile = build_display_profile(project_settings_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(profile, indent=2) + "\n", encoding="utf-8")
     return profile

@@ -72,8 +72,9 @@ def run_report(upstream: Path, godot: Path, source_manifest: dict | None = None,
 
 
 def run_playable(godot: Path) -> dict:
-    write_display_profile(generated_dir(godot) / "source_modules" / "display_profile.json")
-    return write_playable_manifest(godot / "assets", generated_dir(godot) / "playable_content.json")
+    project_settings_path = godot / "project.godot"
+    write_display_profile(generated_dir(godot) / "source_modules" / "display_profile.json", project_settings_path)
+    return write_playable_manifest(godot / "assets", generated_dir(godot) / "playable_content.json", project_settings_path)
 
 
 def run_content(upstream: Path, godot: Path) -> dict:

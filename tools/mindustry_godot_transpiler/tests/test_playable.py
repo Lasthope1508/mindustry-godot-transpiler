@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
 
+from mindustry_port.display_profile import write_display_profile
 from mindustry_port.playable import build_playable_manifest
 
 
@@ -54,6 +55,39 @@ class PlayableManifestTests(unittest.TestCase):
         for entry in [manifest["item"], *manifest["blocks"].values()]:
             self.assertTrue(entry["texture"].startswith("res://assets/"))
 
+    def test_playable_manifest_uses_same_project_viewport_as_display_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            assets = root / "assets"
+            required = [
+                "core/assets-raw/sprites/items/item-copper.png",
+                "core/assets-raw/sprites/blocks/environment/ore-copper1.png",
+                "core/assets-raw/sprites/blocks/environment/stone1.png",
+                "core/assets-raw/sprites/blocks/drills/mechanical-drill.png",
+                "core/assets-raw/sprites/blocks/distribution/conveyors/conveyor-0-0.png",
+                "core/assets-raw/sprites/blocks/storage/core-shard.png",
+            ]
+            for rel in required:
+                path = assets / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"asset")
+            project_settings = root / "project.godot"
+            project_settings.write_text(
+                "\n".join(
+                    [
+                        "[display]",
+                        "window/size/viewport_width=1600",
+                        "window/size/viewport_height=900",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            manifest = build_playable_manifest(assets, project_settings_path=project_settings)
+
+        self.assertEqual(manifest["bootstrap_layout"]["drill_cell"], {"x": 95, "y": 57})
+        self.assertEqual(manifest["bootstrap_layout"]["core_cell"], {"x": 105, "y": 57})
+
     def test_port_game_hud_reads_generated_class_registry(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -82,7 +116,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(profile["actions"]["camera.pan.right"]["desktop"]["keys"], ["D", "Right"])
         self.assertEqual(profile["actions"]["camera.pan.up"]["desktop"]["keys"], ["W", "Up"])
         self.assertEqual(profile["actions"]["camera.pan.down"]["desktop"]["keys"], ["S", "Down"])
-        self.assertEqual(profile["hud_hint"], "WASD/arrows move camera, Q/E zoom")
+        self.assertEqual(profile["hud_hint"], "WASD/arrows move camera, Q/E zoom, 1-6 select build, click/tap place")
 
     def test_control_profile_is_registered_ssot_for_all_platforms(self):
         manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
@@ -166,6 +200,42 @@ class PlayableManifestTests(unittest.TestCase):
             visible_world["height_pixels"],
         )
 
+    def test_display_profile_reads_viewport_from_project_settings(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project_settings = root / "project.godot"
+            project_settings.write_text(
+                "\n".join(
+                    [
+                        "config_version=5",
+                        "",
+                        "[display]",
+                        "",
+                        "window/size/viewport_width=1600",
+                        "window/size/viewport_height=900",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            output_path = root / "generated" / "source_modules" / "display_profile.json"
+
+            profile = write_display_profile(output_path, project_settings_path=project_settings)
+
+        playfield = profile["playfield"]
+        self.assertEqual(playfield["viewport"]["width"], 1600)
+        self.assertEqual(playfield["viewport"]["height"], 900)
+        self.assertEqual(playfield["visible_world"], {
+            "width_pixels": 3200,
+            "height_pixels": 1800,
+            "formula": "viewport_pixels / camera.zoom",
+        })
+        self.assertEqual(playfield["background_margin_tiles"], {"x": 100, "y": 57})
+        self.assertEqual(playfield["world"]["width_tiles"], 200)
+        self.assertEqual(playfield["world"]["height_tiles"], 114)
+        self.assertEqual(playfield["camera"]["position_x"], 3200.0)
+        self.assertEqual(playfield["camera"]["position_y"], 1824.0)
+
     def test_port_game_uses_display_profile_without_world_size_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -192,7 +262,7 @@ class PlayableManifestTests(unittest.TestCase):
         playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
         world = display_profile["playfield"]["world"]
 
-        self.assertIn("from mindustry_port.display_profile import build_display_profile", source)
+        self.assertIn("from mindustry_port.display_profile import DEFAULT_PROJECT_SETTINGS_PATH, build_display_profile", source)
         self.assertNotIn("PLAYFIELD_WORLD_TILES", source)
         self.assertIn('tile_size = int(display_profile["tile_size"])', source)
         self.assertIn('"tile_size": tile_size', source)
@@ -250,6 +320,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("movement.normalized() * 420.0 * delta", source)
         self.assertNotIn("camera.zoom *= 1.0 + delta", source)
         self.assertNotIn("camera.zoom *= 1.0 - min(delta, 0.5)", source)
+
+    def test_hud_control_help_comes_from_control_profile(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        profile_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "control_profile.json"
+        profile = json.loads(profile_path.read_text(encoding="utf-8"))
+
+        self.assertNotIn("1-6 select, left click place", source)
+        self.assertIn("control_input.hud_hint()", source)
+        self.assertIn("click/tap place", profile["hud_hint"])
 
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "root_key": "actions",
-  "hud_hint": "WASD/arrows move camera, Q/E zoom",
+  "hud_hint": "WASD/arrows move camera, Q/E zoom, 1-6 select build, click/tap place",
   "camera": {
     "pan_speed_pixels_per_second": 420.0,
     "keyboard_zoom_in_rate_per_second": 1.0,
