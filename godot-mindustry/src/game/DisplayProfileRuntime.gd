@@ -3,6 +3,7 @@ class_name DisplayProfileRuntime
 
 const MODULE_NAME := "display_profile"
 const SOURCE_CAMERA_CLAMP_EXPR := "camera.position.clamp(-camera.width/4f, -camera.height/4f, world.unitWidth() + camera.width/4f, world.unitHeight() + camera.height/4f);"
+const SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR := "camera.width/4f clamp slack + camera.width/2f viewport half extent"
 
 var catalog: Variant
 var profile: Dictionary = {}
@@ -15,6 +16,8 @@ var viewport_size_pixels := Vector2i.ZERO
 var visible_world_size_pixels := Vector2.ZERO
 var background_margin_viewports := Vector2.ZERO
 var background_margin_tiles := Vector2i.ZERO
+var background_min_cell := Vector2i.ZERO
+var background_max_cell := Vector2i.ZERO
 var camera_initial_position := Vector2.ZERO
 var camera_initial_zoom := 0.0
 
@@ -58,6 +61,9 @@ func sync_runtime_viewport_size(viewport_size: Vector2i) -> void:
 	)
 	world_width_tiles = ceili(visible_world_size_pixels.x / float(tile_size)) + background_margin_tiles.x
 	world_height_tiles = ceili(visible_world_size_pixels.y / float(tile_size)) + background_margin_tiles.y
+	var padding_tiles := camera_clamp_visible_padding_tiles(Vector2(camera_initial_zoom, camera_initial_zoom))
+	background_min_cell = Vector2i(-padding_tiles.x, -padding_tiles.y)
+	background_max_cell = Vector2i(world_width_tiles + padding_tiles.x, world_height_tiles + padding_tiles.y)
 	camera_initial_position = world_size_pixels() / 2.0
 
 func runtime_summary() -> Dictionary:
@@ -77,11 +83,17 @@ func runtime_summary() -> Dictionary:
 		"camera_zoom": camera_initial_zoom,
 		"background_margin_viewports": {"x": background_margin_viewports.x, "y": background_margin_viewports.y},
 		"background_margin_tiles": {"x": background_margin_tiles.x, "y": background_margin_tiles.y},
+		"background_min_cell": {"x": background_min_cell.x, "y": background_min_cell.y},
+		"background_max_cell": {"x": background_max_cell.x, "y": background_max_cell.y},
+		"background_width_tiles": background_max_cell.x - background_min_cell.x,
+		"background_height_tiles": background_max_cell.y - background_min_cell.y,
 		"visible_world_width_pixels": visible_world_size_pixels.x,
 		"visible_world_height_pixels": visible_world_size_pixels.y,
 		"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x and world_height_pixels >= visible_world_size_pixels.y,
 		"camera_clamp_source": SOURCE_CAMERA_CLAMP_EXPR,
 		"camera_clamp_bounds": camera_clamp_bounds(Vector2(camera_initial_zoom, camera_initial_zoom)),
+		"camera_clamp_visible_bounds": camera_clamp_visible_bounds(Vector2(camera_initial_zoom, camera_initial_zoom)),
+		"background_covers_camera_clamp_bounds": background_covers_camera_clamp_bounds(Vector2(camera_initial_zoom, camera_initial_zoom)),
 	}
 
 func world_size_pixels() -> Vector2:
@@ -106,6 +118,33 @@ func camera_clamp_bounds(zoom: Vector2) -> Dictionary:
 		"world_width": world_size.x,
 		"world_height": world_size.y,
 	}
+
+func camera_clamp_visible_padding_tiles(zoom: Vector2) -> Vector2i:
+	var visible_size := camera_visible_size_pixels(zoom)
+	return Vector2i(
+		ceili((visible_size.x * 0.75) / float(tile_size)),
+		ceili((visible_size.y * 0.75) / float(tile_size))
+	)
+
+func camera_clamp_visible_bounds(zoom: Vector2) -> Dictionary:
+	var clamp_bounds := camera_clamp_bounds(zoom)
+	var visible_size := camera_visible_size_pixels(zoom)
+	return {
+		"source": SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR,
+		"left": float(clamp_bounds.get("min_x", 0.0)) - visible_size.x / 2.0,
+		"top": float(clamp_bounds.get("min_y", 0.0)) - visible_size.y / 2.0,
+		"right": float(clamp_bounds.get("max_x", 0.0)) + visible_size.x / 2.0,
+		"bottom": float(clamp_bounds.get("max_y", 0.0)) + visible_size.y / 2.0,
+	}
+
+func background_covers_camera_clamp_bounds(zoom: Vector2) -> bool:
+	var visible_bounds := camera_clamp_visible_bounds(zoom)
+	return (
+		float(background_min_cell.x * tile_size) <= float(visible_bounds.get("left", 0.0))
+		and float(background_min_cell.y * tile_size) <= float(visible_bounds.get("top", 0.0))
+		and float(background_max_cell.x * tile_size) >= float(visible_bounds.get("right", 0.0))
+		and float(background_max_cell.y * tile_size) >= float(visible_bounds.get("bottom", 0.0))
+	)
 
 func clamp_camera_position(position: Vector2, zoom: Vector2) -> Vector2:
 	var bounds := camera_clamp_bounds(zoom)

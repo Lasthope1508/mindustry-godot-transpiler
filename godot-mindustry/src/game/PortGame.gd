@@ -68,6 +68,8 @@ var SOURCE_ARC_SIN_COUNT := 0
 var SOURCE_ARC_RAD_TO_INDEX := 0.0
 var world_width_tiles := 0
 var world_height_tiles := 0
+var background_min_cell := Vector2i.ZERO
+var background_max_cell := Vector2i.ZERO
 var viewport_size_pixels := Vector2i.ZERO
 var visible_world_size_pixels := Vector2.ZERO
 var camera_initial_position := Vector2.ZERO
@@ -396,6 +398,8 @@ func load_display_profile() -> void:
 	source_tile_size = display_profile_runtime.source_tile_size
 	world_width_tiles = display_profile_runtime.world_width_tiles
 	world_height_tiles = display_profile_runtime.world_height_tiles
+	background_min_cell = display_profile_runtime.background_min_cell
+	background_max_cell = display_profile_runtime.background_max_cell
 	viewport_size_pixels = display_profile_runtime.viewport_size_pixels
 	visible_world_size_pixels = display_profile_runtime.visible_world_size_pixels
 	camera_initial_position = display_profile_runtime.camera_initial_position
@@ -712,8 +716,8 @@ func build_world() -> void:
 	var blocks := get_node("World/BlockLayer")
 	var units := get_node("World/UnitLayer")
 	ore_items_by_cell.clear()
-	for y in world_height_tiles:
-		for x in world_width_tiles:
+	for y in range(background_min_cell.y, background_max_cell.y):
+		for x in range(background_min_cell.x, background_max_cell.x):
 			add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))
 	for patch in bootstrap_ore_patches:
 		for y in range(int(patch.get("y_from", 0)), int(patch.get("y_to", 0))):
