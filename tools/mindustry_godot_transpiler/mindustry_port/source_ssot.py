@@ -53,6 +53,7 @@ _MODULE_ALIASES = {
     "port_report_unsupported_features": "port_report",
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
+    "source_audit_functions": "audit_report",
     "helper_state_schema": "state_schema",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
@@ -362,6 +363,16 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
+    if name == "source_audit_functions":
+        return _virtual_indexed_list_shard(
+            godot_root,
+            canonical_module="audit_report",
+            canonical_collection_key="sourceFunctions",
+            root_key="functions",
+            canonical_reference_key="canonical_function",
+            canonical_reference_prefix="source_symbol_audit_report.sourceFunctions.",
+            value_field="function_entry",
+        )
     if name == "helper_state_schema":
         return _virtual_helper_state_schema(godot_root)
     if name in _DOMAIN_STATE_SCHEMA_SHARDS:
@@ -452,6 +463,29 @@ def _virtual_source_manifest_files(godot_root: Path) -> dict[str, Any]:
             entry[field] = canonical_entry[field]
         mirror[path] = entry
     return {"version": 1, "files": mirror}
+
+def _virtual_indexed_list_shard(
+    godot_root: Path,
+    *,
+    canonical_module: str,
+    canonical_collection_key: str,
+    root_key: str,
+    canonical_reference_key: str,
+    canonical_reference_prefix: str,
+    value_field: str,
+) -> dict[str, Any]:
+    canonical_values = load_registered_json(godot_root, canonical_module).get(canonical_collection_key, [])
+    if not isinstance(canonical_values, list):
+        canonical_values = []
+    mirror: dict[str, Any] = {}
+    for index, canonical_entry in enumerate(canonical_values):
+        item_key = str(index)
+        mirror[item_key] = {
+            canonical_reference_key: f"{canonical_reference_prefix}{item_key}",
+            "index": index,
+            value_field: canonical_entry,
+        }
+    return {"version": 1, root_key: mirror}
 
 
 def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]:

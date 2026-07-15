@@ -1319,17 +1319,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        function_entry = manifest["modules"]["source_audit_functions"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        function_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_functions.json"
 
-        self.assertEqual(function_entry["canonical_module"], "audit_report")
-        self.assertEqual(function_entry["canonical_collection_key"], "sourceFunctions")
-        self.assertEqual(function_entry["canonical_key_field"], "@index")
-        self.assertEqual(function_entry["canonical_reference_key"], "canonical_function")
-        self.assertEqual(function_entry["canonical_reference_prefix"], "source_symbol_audit_report.sourceFunctions.")
-        self.assertEqual(function_entry["canonical_value_field"], "function_entry")
-        self.assertEqual(function_entry["root_key"], "functions")
-        self.assertEqual(function_entry["mirror_fields"], ["index", "function_entry"])
-        self.assertIn("source_symbol_audit_report.json sourceFunctions", function_entry["rule"])
+        self.assertNotIn("source_audit_functions", manifest["modules"])
+        self.assertNotIn("source_audit_functions", module_entries)
+        self.assertFalse(function_path.exists())
 
         function_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_audit_functions")["functions"]
         canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
@@ -1346,9 +1341,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
                 self.assertEqual(function_files[item_key]["function_entry"], canonical_function)
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        function_report = [entry for entry in report["modules"] if entry["name"] == "source_audit_functions"][0]
+        function_reports = [entry for entry in report["modules"] if entry["name"] == "source_audit_functions"]
         self.assertEqual(report["errors"], [])
-        self.assertEqual(function_report["canonical_mirror"]["checked"], len(function_files))
+        self.assertEqual(function_reports, [])
 
     def test_source_ssot_source_audit_exempt_owners_shard_declares_indexed_canonical_mirror_contract(self):
         import importlib
