@@ -1362,39 +1362,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(contract_report["canonical_mirror"]["checked"], len(contract_files))
 
-    def test_source_ssot_source_state_schema_schemas_shard_declares_full_canonical_mirror_contract(self):
+    def test_source_ssot_omits_oversized_source_state_schema_aggregate_shard(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        schema_entry = manifest["modules"]["source_state_schema_schemas"]
-
-        self.assertEqual(schema_entry["canonical_module"], "state_schema")
-        self.assertEqual(schema_entry["canonical_reference_key"], "canonical_schema")
-        self.assertEqual(schema_entry["canonical_reference_prefix"], "source_state_schema.")
-        self.assertEqual(schema_entry["canonical_value_field"], "schema")
-        self.assertEqual(schema_entry["root_key"], "schemas")
-        self.assertEqual(schema_entry["mirror_fields"], ["keys", "schema"])
-        self.assertIn("source_state_schema.json schemas", schema_entry["rule"])
-
-        schema_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_state_schema_schemas")["schemas"]
-        canonical_schemas = source_ssot.load_registered_json(ROOT / "godot-mindustry", "state_schema")["schemas"]
-
-        self.assertEqual(set(schema_files), set(canonical_schemas))
-        self.assertEqual(len(schema_files), len(canonical_schemas))
-        self.assertIn("build_state", schema_files)
-        self.assertEqual(schema_files["build_state"]["canonical_schema"], "source_state_schema.build_state")
-        for schema_name, canonical_entry in sorted(canonical_schemas.items()):
-            with self.subTest(schema_name=schema_name):
-                self.assertEqual(schema_files[schema_name]["canonical_schema"], f"source_state_schema.{schema_name}")
-                self.assertEqual(schema_files[schema_name]["schema"], canonical_entry)
-                self.assertEqual(schema_files[schema_name]["keys"], canonical_entry["keys"])
+        schema_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_state_schema_schemas.json"
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        schema_report = [entry for entry in report["modules"] if entry["name"] == "source_state_schema_schemas"][0]
+
+        self.assertNotIn("source_state_schema_schemas", manifest["modules"])
+        self.assertNotIn("source_state_schema_schemas", module_entries)
+        self.assertFalse(schema_path.exists())
         self.assertEqual(report["errors"], [])
-        self.assertEqual(schema_report["canonical_mirror"]["checked"], len(schema_files))
 
     def test_source_ssot_source_slice_ledger_slices_shard_declares_full_canonical_mirror_contract(self):
         import importlib

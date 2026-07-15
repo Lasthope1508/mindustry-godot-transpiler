@@ -468,7 +468,7 @@ func source_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 
 func ssot_state_schema_state(schema_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)
+	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 
 func helper_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)

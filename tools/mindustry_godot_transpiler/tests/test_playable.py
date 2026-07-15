@@ -15649,14 +15649,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', source)
 
-    def test_port_game_exposes_source_state_schema_schemas_extension_shard(self):
+    def test_port_game_uses_core_state_schema_without_aggregate_schema_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_state_schema_schemas.json").exists())
-        self.assertIn('"source_state_schema_schemas": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_state_schema_schemas.json").exists())
+        self.assertNotIn('"source_state_schema_schemas": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_state_schema_state(schema_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("state_schema", schema_name)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)', source)
 
     def test_port_game_exposes_source_slice_ledger_slices_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
