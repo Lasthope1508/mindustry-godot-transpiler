@@ -55,6 +55,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "math_profile": {
+      "path": "src/generated/source_modules/math_profile.json",
+      "root_key": "math",
+      "label": "math",
+      "status": "active",
+      "rule": "Canonical Arc math constants profile; runtime code must read PI and sine lookup constants from this shard instead of hardcoding Arc Mathf values in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",

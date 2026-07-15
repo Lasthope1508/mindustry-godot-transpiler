@@ -10,6 +10,7 @@ const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd"
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_ALPHA_BUILD_SPEED := 0.5
 const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
@@ -18,13 +19,6 @@ const SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
 const SOURCE_RECOIL_POW := 1.8
-const SOURCE_PI2 := PI * 2.0
-const SOURCE_ARC_PI := 3.1415927
-const SOURCE_ARC_RAD_FULL := SOURCE_ARC_PI * 2.0
-const SOURCE_ARC_SIN_BITS := 14
-const SOURCE_ARC_SIN_MASK := 16383
-const SOURCE_ARC_SIN_COUNT := SOURCE_ARC_SIN_MASK + 1
-const SOURCE_ARC_RAD_TO_INDEX := SOURCE_ARC_SIN_COUNT / SOURCE_ARC_RAD_FULL
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
 const SOURCE_INT64_MAX := 9223372036854775807
 const SOURCE_RAND_MURMUR_CONST1 := -49064778989728563
@@ -41,7 +35,15 @@ var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
+var math_defaults: SourceMathDefaults
 var SOURCE_TICK_RATE := 0.0
+var SOURCE_PI2 := 0.0
+var SOURCE_ARC_PI := 0.0
+var SOURCE_ARC_RAD_FULL := 0.0
+var SOURCE_ARC_SIN_BITS := 0
+var SOURCE_ARC_SIN_MASK := 0
+var SOURCE_ARC_SIN_COUNT := 0
+var SOURCE_ARC_RAD_TO_INDEX := 0.0
 var world_width_tiles := 0
 var world_height_tiles := 0
 var viewport_size_pixels := Vector2i.ZERO
@@ -297,7 +299,15 @@ func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
+	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
+	SOURCE_ARC_PI = math_defaults.pi()
+	SOURCE_PI2 = math_defaults.pi2()
+	SOURCE_ARC_RAD_FULL = math_defaults.rad_full()
+	SOURCE_ARC_SIN_BITS = math_defaults.sin_bits()
+	SOURCE_ARC_SIN_MASK = math_defaults.sin_mask()
+	SOURCE_ARC_SIN_COUNT = math_defaults.sin_count()
+	SOURCE_ARC_RAD_TO_INDEX = math_defaults.rad_to_index()
 	control_input.install_input_map()
 	load_config()
 	load_playable_liquid_defaults()
@@ -34119,6 +34129,7 @@ func get_runtime_summary() -> Dictionary:
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
 		"time_profile": time_defaults.runtime_summary(),
+		"math_profile": math_defaults.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,

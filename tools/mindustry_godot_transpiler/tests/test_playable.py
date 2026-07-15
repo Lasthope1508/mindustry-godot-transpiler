@@ -528,6 +528,49 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"time_profile": time_defaults.runtime_summary()', port_source)
         self.assertNotIn("const SOURCE_TICK_RATE := 60.0", port_source)
 
+    def test_math_profile_is_registered_ssot_for_arc_math_constants(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "math_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceMathDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("math_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["math_profile"]["root_key"], "math")
+        self.assertEqual(manifest["modules"]["math_profile"]["path"], "src/generated/source_modules/math_profile.json")
+        self.assertEqual(profile["root_key"], "math")
+        math = profile["math"]
+        self.assertEqual(math["pi"], 3.1415927)
+        self.assertEqual(math["sin_bits"], 14)
+        self.assertEqual(math["sin_mask_expr"], "~(-1 << sinBits)")
+        self.assertEqual(math["sin_count_expr"], "sinMask + 1")
+        self.assertEqual(math["rad_full_expr"], "PI * 2")
+        self.assertEqual(math["rad_to_index_expr"], "sinCount / radFull")
+        self.assertEqual(math["source"]["pi_expr"], "public static final float PI = 3.1415927f, pi = PI, halfPi = PI/2;")
+        self.assertEqual(math["source"]["pi2_expr"], "public static final float PI2 = PI * 2;")
+        self.assertIn("arc-core/src/arc/math/Mathf.java", math["source"]["java_sources"])
+        self.assertIn('catalog.load_document("math_profile")', defaults_source)
+        self.assertIn('profile = data.get("math", {})', defaults_source)
+        self.assertIn("func pi() -> float:", defaults_source)
+        self.assertIn("func pi2() -> float:", defaults_source)
+        self.assertIn("func sin_bits() -> int:", defaults_source)
+        self.assertIn("func rad_to_index() -> float:", defaults_source)
+        self.assertIn("const SourceMathDefaults := preload(\"res://src/game/SourceMathDefaults.gd\")", port_source)
+        self.assertIn("var math_defaults: SourceMathDefaults", port_source)
+        self.assertIn("SOURCE_ARC_PI = math_defaults.pi()", port_source)
+        self.assertIn("SOURCE_PI2 = math_defaults.pi2()", port_source)
+        self.assertIn("SOURCE_ARC_RAD_TO_INDEX = math_defaults.rad_to_index()", port_source)
+        self.assertIn('"math_profile": math_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_PI2 := PI * 2.0", port_source)
+        self.assertNotIn("const SOURCE_ARC_PI := 3.1415927", port_source)
+        self.assertNotIn("const SOURCE_ARC_SIN_BITS := 14", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4191,7 +4234,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_PI2 := PI * 2.0", source)
+        self.assertIn("SOURCE_PI2 = math_defaults.pi2()", source)
         self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_METHOD := "public void draw(){\\n            float f = 1f - (Time.time / 100f) % 1f;\\n\\n            if(!Lod.l2) return;\\n\\n            Draw.color(baseColor, phaseColor, phaseHeat);\\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\\n            Draw.rect(topRegion, x, y);\\n            Draw.alpha(Lod.alpha2);\\n            Lines.stroke((2f * f + 0.2f) * heat);\\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\\n\\n            Draw.reset();\\n        }"', source)
         self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_F_EXPR := "float f = 1f - (Time.time / 100f) % 1f;"', source)
         self.assertIn('const SOURCE_MEND_PROJECTOR_DRAW_COLOR_BLEND := "Draw.color(baseColor, phaseColor, phaseHeat);"', source)
@@ -11348,8 +11391,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_ARC_SIN_BITS := 14", source)
-        self.assertIn("const SOURCE_ARC_SIN_MASK := 16383", source)
+        self.assertIn("SOURCE_ARC_SIN_BITS = math_defaults.sin_bits()", source)
+        self.assertIn("SOURCE_ARC_SIN_MASK = math_defaults.sin_mask()", source)
         self.assertIn("func source_arc_mathf_sin_lookup(radians: float) -> float:", source)
         self.assertIn("return sin((float(index) + 0.5) / float(SOURCE_ARC_SIN_COUNT) * SOURCE_ARC_RAD_FULL)", source)
         self.assertIn("func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> float:", source)
