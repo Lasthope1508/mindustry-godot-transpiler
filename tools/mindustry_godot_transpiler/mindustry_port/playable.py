@@ -18,23 +18,20 @@ BOOTSTRAP_BLOCKS = {
     "drill_block": "mechanical-drill",
     "turret_block": "duo",
 }
-BOOTSTRAP_LAYOUT = {
-    "drill_cell": {"x": 7, "y": 8},
-    "core_cell": {"x": 17, "y": 8},
-    "duo_cell": {"x": 18, "y": 7},
+PLAYFIELD_WORLD_TILES = {"width": 96, "height": 54}
+BOOTSTRAP_LAYOUT_OFFSETS = {
+    "drill_cell": {"x": -5, "y": 0},
+    "core_cell": {"x": 5, "y": 0},
+    "duo_cell": {"x": 6, "y": -1},
 }
 BOOTSTRAP_TERRAIN = {
     "floor_block": "stone_floor",
-    "ore_patches": [
-        {
-            "item": "copper",
-            "ore_block": "ore_copper",
-            "x_from": 5,
-            "x_to": 8,
-            "y_from": 6,
-            "y_to": 11,
-        }
-    ],
+    "ore_patch_offsets": {
+        "x_from": -2,
+        "x_to": 1,
+        "y_from": -2,
+        "y_to": 3,
+    },
 }
 BOOTSTRAP_TRANSPORT = {
     "item_sprite_count": 3,
@@ -52,19 +49,51 @@ def _asset_entry(asset_root: Path, relative_path: str, asset_id: str) -> dict:
     }
 
 
+def _centered_cell(center_x: int, center_y: int, offset: dict) -> dict:
+    return {
+        "x": center_x + int(offset["x"]),
+        "y": center_y + int(offset["y"]),
+    }
+
+def _bootstrap_layout() -> dict:
+    center_x = PLAYFIELD_WORLD_TILES["width"] // 2
+    center_y = PLAYFIELD_WORLD_TILES["height"] // 2
+    return {
+        name: _centered_cell(center_x, center_y, offset)
+        for name, offset in BOOTSTRAP_LAYOUT_OFFSETS.items()
+    }
+
+def _bootstrap_terrain(layout: dict) -> dict:
+    drill_cell = layout["drill_cell"]
+    offsets = BOOTSTRAP_TERRAIN["ore_patch_offsets"]
+    return {
+        "floor_block": "stone_floor",
+        "ore_patches": [
+            {
+                "item": "copper",
+                "ore_block": "ore_copper",
+                "x_from": drill_cell["x"] + int(offsets["x_from"]),
+                "x_to": drill_cell["x"] + int(offsets["x_to"]),
+                "y_from": drill_cell["y"] + int(offsets["y_from"]),
+                "y_to": drill_cell["y"] + int(offsets["y_to"]),
+            }
+        ],
+    }
+
 def build_playable_manifest(asset_root: Path) -> dict:
     asset_root = Path(asset_root)
     item_id, item_path = REQUIRED_ASSETS["item"]
     blocks = {}
     for block_id, rel in REQUIRED_ASSETS["blocks"].items():
         blocks[block_id] = _asset_entry(asset_root, rel, block_id)
+    bootstrap_layout = _bootstrap_layout()
     return {
         "tile_size": 32,
         "item": _asset_entry(asset_root, item_path, item_id),
         "blocks": blocks,
         "bootstrap_blocks": BOOTSTRAP_BLOCKS,
-        "bootstrap_layout": BOOTSTRAP_LAYOUT,
-        "bootstrap_terrain": BOOTSTRAP_TERRAIN,
+        "bootstrap_layout": bootstrap_layout,
+        "bootstrap_terrain": _bootstrap_terrain(bootstrap_layout),
         "bootstrap_transport": BOOTSTRAP_TRANSPORT,
         "build_palette": {
             "pinned_block_ids": PINNED_BUILD_BLOCK_IDS,

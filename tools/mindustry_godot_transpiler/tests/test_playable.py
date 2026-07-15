@@ -44,10 +44,10 @@ class PlayableManifestTests(unittest.TestCase):
                 {
                     "item": "copper",
                     "ore_block": "ore_copper",
-                    "x_from": 5,
-                    "x_to": 8,
-                    "y_from": 6,
-                    "y_to": 11,
+                    "x_from": 41,
+                    "x_to": 44,
+                    "y_from": 25,
+                    "y_to": 30,
                 }
             ],
         })
@@ -3028,9 +3028,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": 7, "y": 8})
-        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": 17, "y": 8})
-        self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": 18, "y": 7})
+        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": 43, "y": 27})
+        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": 53, "y": 27})
+        self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": 54, "y": 26})
         self.assertEqual(playable_content["bootstrap_blocks"], {
             "conveyor_block": "conveyor",
             "core_block": "core-shard",
@@ -3050,9 +3050,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('conveyor_block_id = bootstrap_block_id("conveyor_block")', source)
         self.assertIn('core_block_id = bootstrap_block_id("core_block")', source)
         self.assertIn('turret_block_id = bootstrap_block_id("turret_block")', source)
-        self.assertNotIn("var drill_pos := Vector2i(7, 8)", source)
-        self.assertNotIn("var core_pos := Vector2i(17, 8)", source)
-        self.assertNotIn("var duo_pos := Vector2i(18, 7)", source)
+        self.assertNotIn("var drill_pos := Vector2i(43, 27)", source)
+        self.assertNotIn("var core_pos := Vector2i(53, 27)", source)
+        self.assertNotIn("var duo_pos := Vector2i(54, 26)", source)
 
     def test_port_game_transport_preview_count_comes_from_playable_content(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -3225,10 +3225,10 @@ class PlayableManifestTests(unittest.TestCase):
                 {
                     "item": "copper",
                     "ore_block": "ore_copper",
-                    "x_from": 5,
-                    "x_to": 8,
-                    "y_from": 6,
-                    "y_to": 11,
+                    "x_from": 41,
+                    "x_to": 44,
+                    "y_from": 25,
+                    "y_to": 30,
                 }
             ],
         })
