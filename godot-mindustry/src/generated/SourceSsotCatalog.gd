@@ -236,6 +236,28 @@ static func lookup_state(module_name: String, key_value: String = "") -> Diction
 		"policy": parsed.get("policy", {}),
 	}
 
+static func indexed_array_lookup_state(module_name: String, array_key: String, label: String, key_value: String = "") -> Dictionary:
+	var document := load_document(module_name)
+	if not bool(document.get("loaded", false)):
+		return {"loaded": false, "count": 0, label: key_value, "entry": {}}
+	var parsed: Dictionary = document.get("data", {})
+	var entries_value = parsed.get(array_key, [])
+	var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
+	var entry: Dictionary = {}
+	if key_value != "" and key_value.is_valid_int():
+		var index := int(key_value)
+		if index >= 0 and index < entries.size():
+			var entry_value = entries[index]
+			entry = entry_value if typeof(entry_value) == TYPE_DICTIONARY else {"value": entry_value}
+	return {
+		"loaded": true,
+		"version": int(parsed.get("version", 0)),
+		"count": entries.size(),
+		label: key_value,
+		"entry": entry,
+		"policy": parsed.get("policy", {}),
+	}
+
 static func audit_summary_state() -> Dictionary:
 	var document := load_document("audit_report")
 	if not bool(document.get("loaded", false)):

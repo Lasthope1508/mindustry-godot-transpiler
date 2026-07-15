@@ -50,6 +50,7 @@ _MODULES_BY_NAME = {module.name: module for module in MODULES}
 _MODULE_ALIASES = {
     "source_slice_ledger_slices": "slice_ledger",
     "source_api_contracts_contracts": "api_contracts",
+    "port_report_unsupported_features": "port_report",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "exact_exprs",
@@ -173,6 +174,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_source_slice_ledger_slices(godot_root)
     if name == "source_api_contracts_contracts":
         return _virtual_source_api_contracts_contracts(godot_root)
+    if name == "port_report_unsupported_features":
+        return _virtual_port_report_unsupported_features(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -209,6 +212,20 @@ def _virtual_source_api_contracts_contracts(godot_root: Path) -> dict[str, Any]:
                 entry[field] = canonical_entry[field]
         mirror[str(contract_owner)] = entry
     return {"version": 1, "contracts": mirror}
+
+def _virtual_port_report_unsupported_features(godot_root: Path) -> dict[str, Any]:
+    canonical_features = load_registered_json(godot_root, "port_report").get("unsupported_features", [])
+    if not isinstance(canonical_features, list):
+        canonical_features = []
+    mirror: dict[str, Any] = {}
+    for index, canonical_entry in enumerate(canonical_features):
+        if not isinstance(canonical_entry, dict):
+            continue
+        entry: dict[str, Any] = {"canonical_feature": f"port_report.unsupported_features.{index}"}
+        entry["index"] = index
+        entry["feature_entry"] = canonical_entry
+        mirror[str(index)] = entry
+    return {"version": 1, "features": mirror}
 
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:

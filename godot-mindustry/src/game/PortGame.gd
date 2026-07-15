@@ -537,7 +537,7 @@ func port_report_unsupported_state(unsupported_index: String = "") -> Dictionary
 	return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)
 
 func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)
+	return SourceSsotCatalog.indexed_array_lookup_state("port_report", "unsupported_features", "unsupportedFeature", feature_index)
 
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()

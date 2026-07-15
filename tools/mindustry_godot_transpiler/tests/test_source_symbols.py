@@ -1073,59 +1073,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(wave_report["canonical_mirror"]["checked"], len(wave_files))
 
-    def test_source_ssot_port_report_unsupported_features_shard_declares_canonical_indexed_array_mirror_contract(self):
+    def test_source_ssot_omits_oversized_port_report_unsupported_features_shard(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        feature_entry = manifest["modules"]["port_report_unsupported_features"]
-
-        self.assertEqual(feature_entry["canonical_module"], "port_report")
-        self.assertEqual(feature_entry["canonical_collection_key"], "unsupported_features")
-        self.assertEqual(feature_entry["canonical_key_field"], "@index")
-        self.assertEqual(feature_entry["canonical_reference_key"], "canonical_feature")
-        self.assertEqual(feature_entry["canonical_reference_prefix"], "port_report.unsupported_features.")
-        self.assertEqual(feature_entry["canonical_value_field"], "feature_entry")
-        self.assertEqual(feature_entry["root_key"], "features")
-        self.assertEqual(feature_entry["mirror_fields"], ["index", "feature_entry"])
-        self.assertIn("port_report.json unsupported_features", feature_entry["rule"])
-
-        feature_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report_unsupported_features")["features"]
-        canonical_report = source_ssot.load_registered_json(ROOT / "godot-mindustry", "port_report")
-        canonical_features = canonical_report["unsupported_features"]
-
-        self.assertEqual(set(feature_files), {str(index) for index in range(len(canonical_features))})
-        self.assertEqual(len(feature_files), 6986)
-        self.assertEqual(feature_files["0"]["feature_entry"], {
-            "path": "mindustry/ai/Astar.java",
-            "line": 14,
-            "feature": "lambda",
-            "snippet": "public static final DistanceHeuristic manhattan = (x1, y1, x2, y2) -> Math.abs(x1 - x2) + Math.abs(y1 - y2);",
-        })
-        self.assertEqual(feature_files["1"]["feature_entry"], {
-            "path": "mindustry/ai/Astar.java",
-            "line": 17,
-            "feature": "lambda",
-            "snippet": "private static final PQueue<Tile> queue = new PQueue<>(200 * 200 / 4, (a, b) -> 0);",
-        })
-        self.assertEqual(feature_files["6985"]["feature_entry"], {
-            "path": "mindustry/world/Tile.java",
-            "line": 719,
-            "feature": "lambda",
-            "snippet": "table.table(t -> {",
-        })
-        for index, canonical_entry in enumerate(canonical_features):
-            item_key = str(index)
-            with self.subTest(item_key=item_key):
-                self.assertEqual(feature_files[item_key]["canonical_feature"], f"port_report.unsupported_features.{item_key}")
-                self.assertEqual(feature_files[item_key]["index"], index)
-                self.assertEqual(feature_files[item_key]["feature_entry"], canonical_entry)
+        feature_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported_features.json"
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        feature_report = [entry for entry in report["modules"] if entry["name"] == "port_report_unsupported_features"][0]
+
+        self.assertNotIn("port_report_unsupported_features", manifest["modules"])
+        self.assertNotIn("port_report_unsupported_features", module_entries)
+        self.assertFalse(feature_path.exists())
         self.assertEqual(report["errors"], [])
-        self.assertEqual(feature_report["canonical_mirror"]["checked"], len(feature_files))
 
     def test_source_ssot_port_report_unsupported_shard_declares_canonical_indexed_array_mirror_contract(self):
         import importlib
