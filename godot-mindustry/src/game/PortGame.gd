@@ -435,7 +435,7 @@ func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 
 func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)
+	return SourceSsotCatalog.lookup_state("registry", symbol)
 
 func source_symbol_audit_state() -> Dictionary:
 	return SourceSsotCatalog.audit_summary_state()

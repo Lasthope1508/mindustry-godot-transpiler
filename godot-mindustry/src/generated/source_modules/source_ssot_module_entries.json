@@ -3143,48 +3143,6 @@
         ]
       }
     },
-    "source_symbol_registry_symbols": {
-      "canonical_manifest_entry": "source_ssot_modules.modules.source_symbol_registry_symbols",
-      "path": "src/generated/source_modules/source_symbol_registry_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Complete extension shard for source_symbol_registry.json symbols; canonical source symbol metadata remains mirrored from registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "mirror_fields": [
-        "godot_owner",
-        "godot_symbol",
-        "java_expr",
-        "rule",
-        "runtime_proof",
-        "status",
-        "tests",
-        "symbol"
-      ],
-      "entry": {
-        "path": "src/generated/source_modules/source_symbol_registry_symbols.json",
-        "root_key": "symbols",
-        "label": "symbol",
-        "status": "active",
-        "rule": "Complete extension shard for source_symbol_registry.json symbols; canonical source symbol metadata remains mirrored from registry before use.",
-        "canonical_module": "registry",
-        "canonical_reference_key": "canonical_symbol",
-        "canonical_reference_prefix": "source_symbol_registry.",
-        "canonical_value_field": "symbol",
-        "mirror_fields": [
-          "godot_owner",
-          "godot_symbol",
-          "java_expr",
-          "rule",
-          "runtime_proof",
-          "status",
-          "tests",
-          "symbol"
-        ]
-      }
-    },
     "strings_api_contracts": {
       "canonical_manifest_entry": "source_ssot_modules.modules.strings_api_contracts",
       "path": "src/generated/source_modules/strings_api_contracts.json",

@@ -1633,27 +1633,6 @@
         "keys"
       ]
     },
-    "source_symbol_registry_symbols": {
-      "path": "src/generated/source_modules/source_symbol_registry_symbols.json",
-      "root_key": "symbols",
-      "label": "symbol",
-      "status": "active",
-      "rule": "Complete extension shard for source_symbol_registry.json symbols; canonical source symbol metadata remains mirrored from registry before use.",
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "canonical_value_field": "symbol",
-      "mirror_fields": [
-        "godot_owner",
-        "godot_symbol",
-        "java_expr",
-        "rule",
-        "runtime_proof",
-        "status",
-        "tests",
-        "symbol"
-      ]
-    },
     "source_api_contracts_contracts": {
       "path": "src/generated/source_modules/source_api_contracts_contracts.json",
       "root_key": "contracts",
