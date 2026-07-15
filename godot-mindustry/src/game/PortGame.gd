@@ -13999,16 +13999,16 @@ func simulate_factory(delta: float) -> void:
 		step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, source_drill_last_speed_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, drill_warmup_at_cell(drill_pos.x, drill_pos.y)))
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
-		var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
+		var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)
 		var raw_progress := item_progress * drill_delay
 		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)
-		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity("mechanical-drill"))
+		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(drill_block_id))
 		item_progress = source_drill_progress_fraction(float(output_batch["progress"]), drill_delay, drill_ore_cell_count > 0)
 		source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))
 		produced_total += int(output_batch["amount"])
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
-		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed("mechanical-drill"), delta * SOURCE_TICK_RATE))
+		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(drill_block_id), delta * SOURCE_TICK_RATE))
 	simulate_drill_dump(delta)
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
@@ -14021,7 +14021,7 @@ func simulate_factory(delta: float) -> void:
 
 func simulate_drill_dump(delta: float) -> void:
 	drill_dump_timer += delta * SOURCE_TICK_RATE
-	var dump_interval := source_drill_dump_interval("mechanical-drill", source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))
+	var dump_interval := source_drill_dump_interval(drill_block_id, source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))
 	if dump_interval <= 0.0:
 		return
 	if drill_dump_timer >= dump_interval:
@@ -14059,7 +14059,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 	}
 
 func factory_runtime_state() -> Dictionary:
-	var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)
+	var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)
 	var drill_output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, 1.0, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 	var conveyor_progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, 1.0)
 	return {

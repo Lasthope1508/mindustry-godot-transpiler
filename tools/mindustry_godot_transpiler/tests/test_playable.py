@@ -3286,7 +3286,7 @@ class PlayableManifestTests(unittest.TestCase):
         proof_body = source.split("func factory_runtime_state() -> Dictionary:", 1)[1].split("func source_block_is_damaged", 1)[0]
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
 
-        self.assertIn('var drill_delay := source_drill_delay("mechanical-drill", drill_output_item_id)', proof_body)
+        self.assertIn('var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)', proof_body)
         self.assertIn("var drill_output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, 1.0, drill_warmup_at_cell(drill_pos.x, drill_pos.y))", proof_body)
         self.assertIn("var conveyor_progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, 1.0)", proof_body)
         self.assertIn('"drill_output_rate": drill_output_rate', proof_body)
@@ -3295,6 +3295,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"produced_total": produced_total', proof_body)
         self.assertIn('"core_inventory": core_inventory', proof_body)
         self.assertIn('"factory_runtime": factory_runtime_state()', summary_body)
+
+    def test_port_game_factory_uses_bootstrap_drill_block_id_for_drill_runtime(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        simulate_body = source.split("func simulate_factory(delta: float) -> void:", 1)[1].split("func simulate_drill_dump(delta: float) -> void:", 1)[0]
+        dump_body = source.split("func simulate_drill_dump(delta: float) -> void:", 1)[1].split("func step_factory_transport(seconds: float) -> Dictionary:", 1)[0]
+        proof_body = source.split("func factory_runtime_state() -> Dictionary:", 1)[1].split("func source_block_is_damaged", 1)[0]
+
+        self.assertIn('var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)', simulate_body)
+        self.assertIn("source_block_item_capacity(drill_block_id)", simulate_body)
+        self.assertIn("source_drill_warmup_speed(drill_block_id)", simulate_body)
+        self.assertIn("source_drill_dump_interval(drill_block_id, source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))", dump_body)
+        self.assertIn('var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)', proof_body)
+        self.assertNotIn('"mechanical-drill"', simulate_body)
+        self.assertNotIn('"mechanical-drill"', dump_body)
+        self.assertNotIn('"mechanical-drill"', proof_body)
 
     def test_port_game_exposes_mend_projector_heal_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4648,7 +4664,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:", source)
         self.assertIn("return source_approach_delta(current_warmup, 0.0, warmup_speed, source_delta)", source)
-        self.assertIn("set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(\"mechanical-drill\"), delta * SOURCE_TICK_RATE))", source)
+        self.assertIn("set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(drill_block_id), delta * SOURCE_TICK_RATE))", source)
 
     def test_port_game_tracks_source_drill_time_drilled(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4704,7 +4720,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return {\"amount\": amount, \"progress\": fmod(progress, delay)}", source)
         self.assertIn("var raw_progress := item_progress * drill_delay", source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)", source)
-        self.assertIn("var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(\"mechanical-drill\"))", source)
+        self.assertIn("var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(drill_block_id))", source)
         self.assertIn("item_progress = source_drill_progress_fraction(float(output_batch[\"progress\"]), drill_delay, drill_ore_cell_count > 0)", source)
         self.assertIn("source_offload_to_inventory(drill_output_item_id, int(output_batch[\"amount\"]))", source)
 
@@ -4751,7 +4767,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_core_handle_item(item_id)", source)
         self.assertIn("func simulate_drill_dump(delta: float) -> void:", source)
         self.assertIn("drill_dump_timer += delta * SOURCE_TICK_RATE", source)
-        self.assertIn("var dump_interval := source_drill_dump_interval(\"mechanical-drill\", source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))", source)
+        self.assertIn("var dump_interval := source_drill_dump_interval(drill_block_id, source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))", source)
         self.assertIn("if drill_dump_timer >= dump_interval:", source)
         self.assertIn("source_dump_drill_item_to_core(drill_output_item_id)", source)
         self.assertIn("simulate_drill_dump(delta)", source)
