@@ -11,6 +11,8 @@
       "position_x": 2560.0,
       "position_y": 1440.0,
       "zoom": 0.5,
+      "min_zoom": 0.5,
+      "max_zoom": 6.0,
       "source": "camera.position = world_pixels / 2, Camera2D.zoom"
     },
     "tile_size": 32,

@@ -6,6 +6,8 @@ const SOURCE_CAMERA_CLAMP_EXPR := "camera.position.clamp(-camera.width/4f, -came
 const SOURCE_CAMERA_CLAMP_VISIBLE_PADDING_EXPR := "camera.width/4f clamp slack + camera.width/2f viewport half extent"
 const SOURCE_RENDERER_CAMERA_WIDTH_EXPR := "camera.width = graphics.getWidth() / camerascale;"
 const SOURCE_RENDERER_CAMERA_HEIGHT_EXPR := "camera.height = graphics.getHeight() / camerascale;"
+const SOURCE_RENDERER_MIN_SCALE_EXPR := "public float minScale(){\n        if(control.input.logicCutscene) return Scl.scl(minZoom);\n        return Scl.scl(minZoomInGame);\n    }"
+const SOURCE_RENDERER_MAX_SCALE_EXPR := "public float maxScale(){\n        if(control.input.logicCutscene) return Mathf.round(Scl.scl(maxZoom));\n        return Mathf.round(Scl.scl(maxZoomInGame));\n    }"
 
 var catalog: Variant
 var profile: Dictionary = {}
@@ -22,6 +24,8 @@ var background_min_cell := Vector2i.ZERO
 var background_max_cell := Vector2i.ZERO
 var camera_initial_position := Vector2.ZERO
 var camera_initial_zoom := 0.0
+var camera_min_zoom := 0.0
+var camera_max_zoom := 0.0
 var camera_runtime_zoom := Vector2.ONE
 
 func _init(source_catalog: Variant) -> void:
@@ -51,6 +55,8 @@ func load() -> bool:
 	background_margin_tiles = Vector2i(int(margin_tiles.get("x", 0)), int(margin_tiles.get("y", 0)))
 	camera_initial_position = Vector2(float(camera_profile.get("position_x", 0.0)), float(camera_profile.get("position_y", 0.0)))
 	camera_initial_zoom = float(camera_profile.get("zoom", 0.0))
+	camera_min_zoom = float(camera_profile.get("min_zoom", 0.0))
+	camera_max_zoom = float(camera_profile.get("max_zoom", 0.0))
 	camera_runtime_zoom = Vector2(camera_initial_zoom, camera_initial_zoom)
 	return true
 
@@ -71,7 +77,7 @@ func sync_runtime_viewport_size(viewport_size: Vector2i) -> void:
 func sync_runtime_camera_zoom(zoom: Vector2) -> void:
 	if tile_size <= 0:
 		return
-	camera_runtime_zoom = zoom
+	camera_runtime_zoom = Vector2(clampf(zoom.x, camera_min_zoom, camera_max_zoom), clampf(zoom.y, camera_min_zoom, camera_max_zoom))
 	visible_world_size_pixels = camera_visible_size_pixels(camera_runtime_zoom)
 	var padding_tiles := camera_clamp_visible_padding_tiles(camera_runtime_zoom)
 	background_min_cell = Vector2i(-padding_tiles.x, -padding_tiles.y)
@@ -92,6 +98,8 @@ func runtime_summary() -> Dictionary:
 		"viewport_height": viewport_size_pixels.y,
 		"camera_position": {"x": camera_initial_position.x, "y": camera_initial_position.y},
 		"camera_zoom": camera_runtime_zoom.x,
+		"min_zoom": camera_min_zoom,
+		"max_zoom": camera_max_zoom,
 		"background_margin_viewports": {"x": background_margin_viewports.x, "y": background_margin_viewports.y},
 		"background_margin_tiles": {"x": background_margin_tiles.x, "y": background_margin_tiles.y},
 		"background_min_cell": {"x": background_min_cell.x, "y": background_min_cell.y},

@@ -8,6 +8,8 @@ from typing import Any
 DEFAULT_PROJECT_SETTINGS_PATH = Path("godot-mindustry/project.godot")
 CAMERA_PROFILE = {
     "zoom": 0.5,
+    "min_zoom": 0.5,
+    "max_zoom": 6.0,
 }
 TILE_SIZE = 32
 SOURCE_TILE_SIZE = 8
@@ -63,6 +65,8 @@ def _camera_profile(world: dict[str, int]) -> dict[str, float]:
         "position_x": float(world["width_pixels"] / 2.0),
         "position_y": float(world["height_pixels"] / 2.0),
         "zoom": CAMERA_PROFILE["zoom"],
+        "min_zoom": CAMERA_PROFILE["min_zoom"],
+        "max_zoom": CAMERA_PROFILE["max_zoom"],
     }
 
 def build_display_profile(project_settings_path: Path | str = DEFAULT_PROJECT_SETTINGS_PATH) -> dict[str, Any]:
@@ -85,6 +89,8 @@ def build_display_profile(project_settings_path: Path | str = DEFAULT_PROJECT_SE
                 "position_x": camera["position_x"],
                 "position_y": camera["position_y"],
                 "zoom": camera["zoom"],
+                "min_zoom": camera["min_zoom"],
+                "max_zoom": camera["max_zoom"],
                 "source": "camera.position = world_pixels / 2, Camera2D.zoom",
             },
             "tile_size": TILE_SIZE,

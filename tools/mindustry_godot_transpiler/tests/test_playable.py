@@ -356,7 +356,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("var camera_runtime_zoom := Vector2.ONE", module_source)
         self.assertIn("func sync_runtime_camera_zoom(zoom: Vector2) -> void:", module_source)
-        self.assertIn("camera_runtime_zoom = zoom", module_source)
+        self.assertIn('camera_runtime_zoom = Vector2(clampf(zoom.x, camera_min_zoom, camera_max_zoom), clampf(zoom.y, camera_min_zoom, camera_max_zoom))', module_source)
         self.assertIn("visible_world_size_pixels = camera_visible_size_pixels(camera_runtime_zoom)", module_source)
         self.assertIn("var padding_tiles := camera_clamp_visible_padding_tiles(camera_runtime_zoom)", module_source)
         self.assertIn("background_min_cell = Vector2i(-padding_tiles.x, -padding_tiles.y)", module_source)
@@ -397,6 +397,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return old_viewport_size_pixels != viewport_size_pixels or old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell", port_source)
         self.assertIn("var display_changed := sync_display_profile_for_camera()", port_source)
         self.assertIn("if camera_changed or display_changed:", port_source)
+
+    def test_display_profile_owns_renderer_camera_zoom_bounds(self):
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json"
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "DisplayProfileRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        module_source = module_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertEqual(profile["playfield"]["camera"]["min_zoom"], 0.5)
+        self.assertEqual(profile["playfield"]["camera"]["max_zoom"], 6.0)
+        self.assertIn('const SOURCE_RENDERER_MIN_SCALE_EXPR := "public float minScale(){\\n        if(control.input.logicCutscene) return Scl.scl(minZoom);\\n        return Scl.scl(minZoomInGame);\\n    }"', module_source)
+        self.assertIn('const SOURCE_RENDERER_MAX_SCALE_EXPR := "public float maxScale(){\\n        if(control.input.logicCutscene) return Mathf.round(Scl.scl(maxZoom));\\n        return Mathf.round(Scl.scl(maxZoomInGame));\\n    }"', module_source)
+        self.assertIn('"min_zoom": camera_min_zoom', module_source)
+        self.assertIn('"max_zoom": camera_max_zoom', module_source)
+        self.assertIn('camera_runtime_zoom = Vector2(clampf(zoom.x, camera_min_zoom, camera_max_zoom), clampf(zoom.y, camera_min_zoom, camera_max_zoom))', module_source)
+        self.assertIn("camera_initial_zoom = float(camera_profile.get(\"zoom\", 0.0))", module_source)
+        self.assertIn("camera_min_zoom = float(camera_profile.get(\"min_zoom\", 0.0))", module_source)
+        self.assertIn("camera_max_zoom = float(camera_profile.get(\"max_zoom\", 0.0))", module_source)
+        self.assertIn("camera.zoom = Vector2(camera_initial_zoom, camera_initial_zoom)", port_source)
+        self.assertIn("camera.zoom = Vector2(clampf(camera.zoom.x, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom), clampf(camera.zoom.y, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom))", port_source)
 
     def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -426,6 +426,7 @@ func sync_display_profile_for_camera() -> bool:
 	var old_viewport_size_pixels := viewport_size_pixels
 	var old_background_min_cell := background_min_cell
 	var old_background_max_cell := background_max_cell
+	camera.zoom = Vector2(clampf(camera.zoom.x, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom), clampf(camera.zoom.y, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom))
 	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
 	display_profile_runtime.sync_runtime_camera_zoom(camera.zoom)
 	sync_display_profile_runtime_values()
