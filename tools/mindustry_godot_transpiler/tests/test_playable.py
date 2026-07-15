@@ -496,6 +496,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0", port_source)
         self.assertNotIn("const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := 55.0", port_source)
 
+    def test_time_profile_is_registered_ssot_for_source_runtime_tick_rate(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "time_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTimeDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("time_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["time_profile"]["root_key"], "time")
+        self.assertEqual(manifest["modules"]["time_profile"]["path"], "src/generated/source_modules/time_profile.json")
+        self.assertEqual(profile["root_key"], "time")
+        time = profile["time"]
+        self.assertEqual(time["tick_rate"], 60.0)
+        self.assertEqual(time["source"]["to_seconds_expr"], "public static final float toSeconds = 60f")
+        self.assertIn("arc-core/src/arc/util/Time.java", time["source"]["java_sources"])
+        self.assertIn('catalog.load_document("time_profile")', defaults_source)
+        self.assertIn('profile = data.get("time", {})', defaults_source)
+        self.assertIn("func tick_rate() -> float:", defaults_source)
+        self.assertIn("const SourceTimeDefaults := preload(\"res://src/game/SourceTimeDefaults.gd\")", port_source)
+        self.assertIn("var time_defaults: SourceTimeDefaults", port_source)
+        self.assertIn("var SOURCE_TICK_RATE := 0.0", port_source)
+        self.assertIn("SOURCE_TICK_RATE = time_defaults.tick_rate()", port_source)
+        self.assertIn("time_defaults.tick_rate()", port_source)
+        self.assertIn('"time_profile": time_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_TICK_RATE := 60.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4734,7 +4766,8 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("const SOURCE_TICK_RATE := 60.0", source)
+        self.assertIn("var SOURCE_TICK_RATE := 0.0", source)
+        self.assertIn("SOURCE_TICK_RATE = time_defaults.tick_rate()", source)
         self.assertIn("var turret_rotations: Dictionary = {}", source)
         self.assertIn("var last_turret_target_rotation := 0.0", source)
         self.assertIn("var last_turret_rotation := 0.0", source)

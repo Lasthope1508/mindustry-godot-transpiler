@@ -44,6 +44,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "time_profile": {
+      "path": "src/generated/source_modules/time_profile.json",
+      "root_key": "time",
+      "label": "time",
+      "status": "active",
+      "rule": "Canonical Arc time conversion profile; runtime code must read tick-rate conversion from this shard instead of hardcoding Time.toSeconds in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",

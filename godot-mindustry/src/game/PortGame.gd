@@ -9,8 +9,8 @@ const ControlInput := preload("res://src/game/ControlInput.gd")
 const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
-const SOURCE_TICK_RATE := 60.0
 const SOURCE_ALPHA_BUILD_SPEED := 0.5
 const SOURCE_DEFAULT_BLOCK_BUILD_TIME := 20.0
 const SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.5
@@ -40,6 +40,8 @@ var source_tile_size := 0.0
 var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
 var factory_defaults: SourceFactoryDefaults
+var time_defaults: SourceTimeDefaults
+var SOURCE_TICK_RATE := 0.0
 var world_width_tiles := 0
 var world_height_tiles := 0
 var viewport_size_pixels := Vector2i.ZERO
@@ -294,6 +296,8 @@ var bootstrap_ore_patches: Array = []
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
+	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
+	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	control_input.install_input_map()
 	load_config()
 	load_playable_liquid_defaults()
@@ -34114,6 +34118,7 @@ func get_runtime_summary() -> Dictionary:
 		"display_profile": display_profile_runtime_summary(),
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
+		"time_profile": time_defaults.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,
