@@ -282,6 +282,33 @@ static func indexed_array_lookup_state(module_name: String, array_key: String, l
 		"policy": parsed.get("policy", {}),
 	}
 
+static func indexed_array_value_lookup_state(module_name: String, array_key: String, label: String, value_field: String, canonical_reference_key: String, canonical_reference_prefix: String, key_value: String = "") -> Dictionary:
+	var document := load_document(module_name)
+	if not bool(document.get("loaded", false)):
+		return {"loaded": false, "count": 0, label: key_value, "entry": {}}
+	var parsed: Dictionary = document.get("data", {})
+	var entries_value = parsed.get(array_key, [])
+	var entries: Array = entries_value if typeof(entries_value) == TYPE_ARRAY else []
+	var entry: Dictionary = {}
+	if key_value != "" and key_value.is_valid_int():
+		var index := int(key_value)
+		if index >= 0 and index < entries.size():
+			var entry_value = entries[index]
+			var is_dictionary_entry := typeof(entry_value) == TYPE_DICTIONARY
+			entry = entry_value.duplicate(true) if is_dictionary_entry else {}
+			entry["index"] = index
+			entry[value_field] = entry_value
+			if canonical_reference_key != "":
+				entry[canonical_reference_key] = "%s%s" % [canonical_reference_prefix, str(index)]
+	return {
+		"loaded": true,
+		"version": int(parsed.get("version", 0)),
+		"count": entries.size(),
+		label: key_value,
+		"entry": entry,
+		"policy": parsed.get("policy", {}),
+	}
+
 static func audit_summary_state() -> Dictionary:
 	var document := load_document("audit_report")
 	if not bool(document.get("loaded", false)):

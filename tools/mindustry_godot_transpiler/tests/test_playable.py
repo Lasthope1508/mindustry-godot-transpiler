@@ -15671,14 +15671,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)', source)
         self.assertNotIn('return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)', source)
 
-    def test_port_game_exposes_source_audit_registered_owners_extension_shard(self):
+    def test_port_game_uses_canonical_audit_report_without_source_audit_registered_owners_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog_source = (ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd").read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_registered_owners.json").exists())
-        self.assertIn('"source_audit_registered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_registered_owners.json").exists())
+        self.assertNotIn('"source_audit_registered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "registeredSourceOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.registeredSourceOwners.", owner_index)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)', source)
+        self.assertIn('static func indexed_array_value_lookup_state(module_name: String, array_key: String, label: String, value_field: String, canonical_reference_key: String, canonical_reference_prefix: String, key_value: String = "") -> Dictionary:', catalog_source)
+        self.assertIn('entry[value_field] = entry_value', catalog_source)
+        self.assertIn('entry[canonical_reference_key] = "%s%s" % [canonical_reference_prefix, str(index)]', catalog_source)
 
     def test_port_game_uses_canonical_audit_report_without_source_audit_functions_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

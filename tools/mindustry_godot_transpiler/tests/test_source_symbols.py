@@ -1282,17 +1282,12 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        owner_entry = manifest["modules"]["source_audit_registered_owners"]
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
+        owner_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_registered_owners.json"
 
-        self.assertEqual(owner_entry["canonical_module"], "audit_report")
-        self.assertEqual(owner_entry["canonical_collection_key"], "registeredSourceOwners")
-        self.assertEqual(owner_entry["canonical_key_field"], "@index")
-        self.assertEqual(owner_entry["canonical_reference_key"], "canonical_owner")
-        self.assertEqual(owner_entry["canonical_reference_prefix"], "source_symbol_audit_report.registeredSourceOwners.")
-        self.assertEqual(owner_entry["canonical_value_field"], "owner")
-        self.assertEqual(owner_entry["root_key"], "owners")
-        self.assertEqual(owner_entry["mirror_fields"], ["index", "owner"])
-        self.assertIn("source_symbol_audit_report.json registeredSourceOwners", owner_entry["rule"])
+        self.assertNotIn("source_audit_registered_owners", manifest["modules"])
+        self.assertNotIn("source_audit_registered_owners", module_entries)
+        self.assertFalse(owner_path.exists())
 
         owner_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_audit_registered_owners")["owners"]
         canonical_audit = source_ssot.load_registered_json(ROOT / "godot-mindustry", "audit_report")
@@ -1309,9 +1304,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
                 self.assertEqual(owner_files[item_key]["owner"], canonical_owner)
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        owner_report = [entry for entry in report["modules"] if entry["name"] == "source_audit_registered_owners"][0]
+        owner_reports = [entry for entry in report["modules"] if entry["name"] == "source_audit_registered_owners"]
         self.assertEqual(report["errors"], [])
-        self.assertEqual(owner_report["canonical_mirror"]["checked"], len(owner_files))
+        self.assertEqual(owner_reports, [])
 
     def test_source_ssot_source_audit_functions_shard_declares_indexed_canonical_mirror_contract(self):
         import importlib

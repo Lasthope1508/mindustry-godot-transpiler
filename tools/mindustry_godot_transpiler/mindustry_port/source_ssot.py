@@ -54,6 +54,7 @@ _MODULE_ALIASES = {
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
     "source_audit_functions": "audit_report",
+    "source_audit_registered_owners": "audit_report",
     "helper_state_schema": "state_schema",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
@@ -372,6 +373,16 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
             canonical_reference_key="canonical_function",
             canonical_reference_prefix="source_symbol_audit_report.sourceFunctions.",
             value_field="function_entry",
+        )
+    if name == "source_audit_registered_owners":
+        return _virtual_indexed_list_shard(
+            godot_root,
+            canonical_module="audit_report",
+            canonical_collection_key="registeredSourceOwners",
+            root_key="owners",
+            canonical_reference_key="canonical_owner",
+            canonical_reference_prefix="source_symbol_audit_report.registeredSourceOwners.",
+            value_field="owner",
         )
     if name == "helper_state_schema":
         return _virtual_helper_state_schema(godot_root)

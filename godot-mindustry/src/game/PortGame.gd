@@ -441,7 +441,7 @@ func source_symbol_audit_state() -> Dictionary:
 	return SourceSsotCatalog.audit_summary_state()
 
 func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)
+	return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "registeredSourceOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.registeredSourceOwners.", owner_index)
 
 func ssot_audit_function_state(function_index: String = "") -> Dictionary:
 	return SourceSsotCatalog.indexed_array_lookup_state("audit_report", "sourceFunctions", "function", function_index)
