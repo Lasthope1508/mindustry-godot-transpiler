@@ -2,12 +2,30 @@
   "version": 1,
   "root_key": "turret",
   "turret": {
-    "recoil_pow": 1.8,
+    "defaults": {
+      "reload": 10.0,
+      "range": 80.0,
+      "rotate_speed": 5.0,
+      "shoot_cone": 8.0,
+      "recoil": 1.0,
+      "recoils": -1,
+      "recoil_time": -1.0,
+      "recoil_pow": 1.8
+    },
     "source": {
+      "reload_field": "public float reload = 10f;",
+      "range_field": "public float range = 80f;",
+      "rotate_speed_field": "public float rotateSpeed = 5;",
+      "shoot_cone_field": "public float shootCone = 8f;",
+      "recoil_field": "public float recoil = 1f;",
+      "recoils_field": "public int recoils = -1;",
+      "recoil_time_field": "public float recoilTime = -1f;",
       "recoil_pow_comment": "/** power curve applied to visual recoil */",
       "recoil_pow_expr": "public float recoilPow = 1.8f;",
       "recoil_offset_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
       "java_sources": [
+        "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+        "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
         "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
       ]
     }

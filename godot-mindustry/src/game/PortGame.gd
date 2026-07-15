@@ -38,6 +38,13 @@ var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
 var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
 var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
 var SOURCE_RECOIL_POW := 0.0
+var SOURCE_TURRET_RELOAD_DEFAULT := 0.0
+var SOURCE_TURRET_RANGE_DEFAULT := 0.0
+var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0
+var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0
+var SOURCE_TURRET_RECOIL_DEFAULT := 0.0
+var SOURCE_TURRET_RECOILS_DEFAULT := 0
+var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0
 var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
@@ -319,6 +326,13 @@ func _ready() -> void:
 	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()
 	SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()
 	SOURCE_RECOIL_POW = turret_defaults.recoil_pow()
+	SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()
+	SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()
+	SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()
+	SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()
+	SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()
+	SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()
+	SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()
 	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
@@ -33715,7 +33729,6 @@ func selected_turret_recoils() -> int:
 
 const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"
 const SOURCE_TURRET_RELOAD_KEY := "reload"
-const SOURCE_TURRET_RELOAD_DEFAULT := 10.0
 const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"
 const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"
 
@@ -33737,7 +33750,6 @@ func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:
 const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"
 const SOURCE_TURRET_RANGE_METHOD := "public float range(){\n            return range;\n        }"
 const SOURCE_TURRET_RANGE_KEY := "range"
-const SOURCE_TURRET_RANGE_DEFAULT := 80.0
 const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"
 
 func source_turret_range(turret) -> float:
@@ -33771,7 +33783,6 @@ func source_turret_inaccuracy(turret) -> float:
 
 const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"
 const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"
-const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0
 const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"
 const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"
 
@@ -33783,7 +33794,6 @@ func source_turret_rotate_speed(turret) -> float:
 const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"
 const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"
 const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"
-const SOURCE_TURRET_SHOOT_CONE_DEFAULT := 8.0
 const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"
 const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"
 
@@ -33795,17 +33805,14 @@ func source_turret_shoot_cone(turret) -> float:
 const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"
 const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"
 const SOURCE_TURRET_RECOIL_KEY := "recoil"
-const SOURCE_TURRET_RECOIL_DEFAULT := 1.0
 const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"
 const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"
 const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"
 const SOURCE_TURRET_RECOILS_KEY := "recoils"
-const SOURCE_TURRET_RECOILS_DEFAULT := -1
 const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"
 const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"
 const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"
 const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"
-const SOURCE_TURRET_RECOIL_TIME_DEFAULT := -1.0
 const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"
 const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"
 const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"

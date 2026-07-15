@@ -689,7 +689,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(manifest["modules"]["turret_profile"]["path"], "src/generated/source_modules/turret_profile.json")
         self.assertEqual(profile["root_key"], "turret")
         turret = profile["turret"]
-        self.assertEqual(turret["recoil_pow"], 1.8)
+        self.assertEqual(turret["defaults"]["recoil_pow"], 1.8)
         self.assertEqual(turret["source"]["recoil_pow_comment"], "/** power curve applied to visual recoil */")
         self.assertEqual(turret["source"]["recoil_pow_expr"], "public float recoilPow = 1.8f;")
         self.assertEqual(turret["source"]["recoil_offset_expr"], "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);")
@@ -702,6 +702,72 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SOURCE_RECOIL_POW = turret_defaults.recoil_pow()", port_source)
         self.assertIn('"turret_profile": turret_defaults.runtime_summary()', port_source)
         self.assertNotIn("const SOURCE_RECOIL_POW := 1.8", port_source)
+
+    def test_turret_profile_owns_runtime_turret_numeric_defaults(self):
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "turret_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        turret = profile["turret"]
+        self.assertEqual(turret["defaults"], {
+            "reload": 10.0,
+            "range": 80.0,
+            "rotate_speed": 5.0,
+            "shoot_cone": 8.0,
+            "recoil": 1.0,
+            "recoils": -1,
+            "recoil_time": -1.0,
+            "recoil_pow": 1.8,
+        })
+        self.assertEqual(turret["source"]["reload_field"], "public float reload = 10f;")
+        self.assertEqual(turret["source"]["range_field"], "public float range = 80f;")
+        self.assertEqual(turret["source"]["rotate_speed_field"], "public float rotateSpeed = 5;")
+        self.assertEqual(turret["source"]["shoot_cone_field"], "public float shootCone = 8f;")
+        self.assertEqual(turret["source"]["recoil_field"], "public float recoil = 1f;")
+        self.assertEqual(turret["source"]["recoils_field"], "public int recoils = -1;")
+        self.assertEqual(turret["source"]["recoil_time_field"], "public float recoilTime = -1f;")
+        self.assertIn("core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java", turret["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java", turret["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/world/blocks/defense/turrets/Turret.java", turret["source"]["java_sources"])
+
+        for getter in [
+            "reload_default",
+            "range_default",
+            "rotate_speed_default",
+            "shoot_cone_default",
+            "recoil_default",
+            "recoils_default",
+            "recoil_time_default",
+            "recoil_pow",
+        ]:
+            self.assertIn(f"func {getter}()", defaults_source)
+        self.assertIn('"defaults": defaults.duplicate()', defaults_source)
+
+        self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_RANGE_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_RECOIL_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_RECOILS_DEFAULT := 0", port_source)
+        self.assertIn("var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0", port_source)
+        self.assertIn("SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()", port_source)
+        self.assertIn("SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()", port_source)
+        self.assertIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()", port_source)
+        self.assertIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()", port_source)
+        self.assertIn("SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()", port_source)
+        self.assertIn("SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()", port_source)
+        self.assertIn("SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RELOAD_DEFAULT := 10.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RANGE_DEFAULT := 80.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_SHOOT_CONE_DEFAULT := 8.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RECOIL_DEFAULT := 1.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RECOILS_DEFAULT := -1", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RECOIL_TIME_DEFAULT := -1.0", port_source)
 
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4804,10 +4870,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn('const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"', source)
         self.assertIn('const SOURCE_TURRET_RELOAD_KEY := "reload"', source)
-        self.assertIn("const SOURCE_TURRET_RELOAD_DEFAULT := 10.0", source)
         self.assertIn('const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"', source)
         self.assertIn('const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"', source)
         self.assertIn("func source_turret_reload_seconds(turret) -> float:", source)
+        self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()", source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RELOAD_KEY, SOURCE_TURRET_RELOAD_DEFAULT)) / SOURCE_TICK_RATE", source)
         self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
         self.assertNotIn('max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)', source)
@@ -4822,7 +4889,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"', source)
         self.assertIn('const SOURCE_TURRET_RANGE_METHOD := "public float range(){\\n            return range;\\n        }"', source)
         self.assertIn('const SOURCE_TURRET_RANGE_KEY := "range"', source)
-        self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := 80.0", source)
+        self.assertIn("var SOURCE_TURRET_RANGE_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()", source)
         self.assertIn('const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"', source)
         self.assertIn("func source_turret_range(turret) -> float:", source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RANGE_KEY, SOURCE_TURRET_RANGE_DEFAULT))", source)
@@ -4952,7 +5020,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_turret_rotate_speed(turret) -> float:", source)
         self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"', source)
         self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"', source)
-        self.assertIn("const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0", source)
+        self.assertIn("var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()", source)
         self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"', source)
         self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"', source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_ROTATE_SPEED_KEY, SOURCE_TURRET_ROTATE_SPEED_DEFAULT))", source)
@@ -4960,7 +5029,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"', source)
         self.assertIn('const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"', source)
         self.assertIn('const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"', source)
-        self.assertIn("const SOURCE_TURRET_SHOOT_CONE_DEFAULT := 8.0", source)
+        self.assertIn("var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()", source)
         self.assertIn('const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"', source)
         self.assertIn('const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"', source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_CONE_KEY, SOURCE_TURRET_SHOOT_CONE_DEFAULT))", source)
@@ -5007,21 +5077,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_KEY := "recoil"', source)
-        self.assertIn("const SOURCE_TURRET_RECOIL_DEFAULT := 1.0", source)
+        self.assertIn("var SOURCE_TURRET_RECOIL_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()", source)
         self.assertIn('const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"', source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RECOIL_KEY, SOURCE_TURRET_RECOIL_DEFAULT))", source)
         self.assertIn("func source_turret_recoils(turret) -> int:", source)
         self.assertIn('const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"', source)
         self.assertIn('const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"', source)
         self.assertIn('const SOURCE_TURRET_RECOILS_KEY := "recoils"', source)
-        self.assertIn("const SOURCE_TURRET_RECOILS_DEFAULT := -1", source)
+        self.assertIn("var SOURCE_TURRET_RECOILS_DEFAULT := 0", source)
+        self.assertIn("SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()", source)
         self.assertIn('const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"', source)
         self.assertIn("return int(turret.properties.get(SOURCE_TURRET_RECOILS_KEY, SOURCE_TURRET_RECOILS_DEFAULT))", source)
         self.assertIn("func source_turret_recoil_time(turret) -> float:", source)
         self.assertIn('const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"', source)
-        self.assertIn("const SOURCE_TURRET_RECOIL_TIME_DEFAULT := -1.0", source)
+        self.assertIn("var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()", source)
         self.assertIn('const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"', source)
         self.assertIn('const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"', source)
         self.assertIn("var recoil_time := float(turret.properties.get(SOURCE_TURRET_RECOIL_TIME_KEY, SOURCE_TURRET_RECOIL_TIME_DEFAULT))", source)

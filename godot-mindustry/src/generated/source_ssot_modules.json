@@ -49,7 +49,7 @@
       "root_key": "turret",
       "label": "turret",
       "status": "active",
-      "rule": "Canonical playable turret defaults profile; runtime code must read turret recoil curve defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "rule": "Canonical playable turret defaults profile; runtime code must read turret reload, range, rotation, shoot cone, and recoil defaults from this shard instead of hardcoding source constants in gameplay code.",
       "canonical_module": "",
       "canonical_reference_key": "",
       "canonical_reference_prefix": "",
