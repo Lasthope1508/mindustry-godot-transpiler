@@ -55,6 +55,7 @@ _MODULE_ALIASES = {
     "source_manifest_files": "source_manifest",
     "payload_state_schema": "state_schema",
     "payload_symbols": "registry",
+    "type_state_schema": "state_schema",
     "comp_state_schema": "state_schema",
     "consumer_state_schema": "state_schema",
     "block_state_schema": "state_schema",
@@ -163,6 +164,10 @@ _DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
 _DOMAIN_STATE_SCHEMA_SHARDS: dict[str, dict[str, Any]] = {
     "payload_state_schema": {
         "contract_module": "payload_api_contracts",
+        "mirror_fields": ("keys",),
+    },
+    "type_state_schema": {
+        "contract_module": "type_api_contracts",
         "mirror_fields": ("keys",),
     },
     "consumer_state_schema": {
