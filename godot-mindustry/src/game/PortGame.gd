@@ -289,6 +289,10 @@ var control_input: ControlInput
 var drill_pos := Vector2i.ZERO
 var core_pos := Vector2i.ZERO
 var duo_pos := Vector2i.ZERO
+var drill_block_id := ""
+var conveyor_block_id := ""
+var core_block_id := ""
+var turret_block_id := ""
 
 func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
@@ -377,10 +381,18 @@ func bootstrap_layout_cell(cell_id: String) -> Vector2i:
 	var cell: Dictionary = layout.get(cell_id, {})
 	return Vector2i(int(cell.get("x", 0)), int(cell.get("y", 0)))
 
+func bootstrap_block_id(block_role: String) -> String:
+	var blocks: Dictionary = config.get("bootstrap_blocks", {})
+	return str(blocks.get(block_role, ""))
+
 func load_bootstrap_layout() -> void:
 	drill_pos = bootstrap_layout_cell("drill_cell")
 	core_pos = bootstrap_layout_cell("core_cell")
 	duo_pos = bootstrap_layout_cell("duo_cell")
+	drill_block_id = bootstrap_block_id("drill_block")
+	conveyor_block_id = bootstrap_block_id("conveyor_block")
+	core_block_id = bootstrap_block_id("core_block")
+	turret_block_id = bootstrap_block_id("turret_block")
 
 func display_profile_runtime_summary() -> Dictionary:
 	var world_width_pixels := float(world_width_tiles * tile_size)
@@ -640,24 +652,24 @@ func build_world() -> void:
 	for y in range(6, 11):
 		for x in range(5, 8):
 			add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))
-	add_source_block(blocks, "mechanical-drill", drill_pos)
-	drill_ore_cell_count = source_drill_ore_count("mechanical-drill", drill_pos, drill_output_item_id)
-	drill_output_rate = source_drill_output_rate("mechanical-drill", drill_output_item_id, drill_ore_cell_count)
+	add_source_block(blocks, drill_block_id, drill_pos)
+	drill_ore_cell_count = source_drill_ore_count(drill_block_id, drill_pos, drill_output_item_id)
+	drill_output_rate = source_drill_output_rate(drill_block_id, drill_output_item_id, drill_ore_cell_count)
 	for x in range(drill_pos.x + 1, core_pos.x):
-		add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))
-	add_source_block(blocks, "core-shard", core_pos)
-	core_max_health = source_block_health("core-shard")
-	core_item_capacity = source_block_item_capacity("core-shard")
+		add_source_block(blocks, conveyor_block_id, Vector2i(x, drill_pos.y))
+	add_source_block(blocks, core_block_id, core_pos)
+	core_max_health = source_block_health(core_block_id)
+	core_item_capacity = source_block_item_capacity(core_block_id)
 	core_health = core_max_health
-	add_source_block(blocks, "duo", duo_pos)
+	add_source_block(blocks, turret_block_id, duo_pos)
 	bootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()
 	initial_world_block_count = placed_block_origins.size()
 	initial_occupied_cell_count = placed_blocks.size()
 	path_points.clear()
 	for x in range(drill_pos.x + 1, core_pos.x + 1):
 		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
-	conveyor_world_speed = source_conveyor_world_speed("conveyor")
-	conveyor_path_progress_rate = source_conveyor_path_progress_rate("conveyor")
+	conveyor_world_speed = source_conveyor_world_speed(conveyor_block_id)
+	conveyor_path_progress_rate = source_conveyor_path_progress_rate(conveyor_block_id)
 	for i in 3:
 		var sprite := add_sprite(units, "item", path_points[0])
 		sprite.visible = false

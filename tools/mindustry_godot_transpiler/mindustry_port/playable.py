@@ -12,6 +12,12 @@ REQUIRED_ASSETS = {
     },
 }
 PINNED_BUILD_BLOCK_IDS = ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
+BOOTSTRAP_BLOCKS = {
+    "conveyor_block": "conveyor",
+    "core_block": "core-shard",
+    "drill_block": "mechanical-drill",
+    "turret_block": "duo",
+}
 BOOTSTRAP_LAYOUT = {
     "drill_cell": {"x": 7, "y": 8},
     "core_cell": {"x": 17, "y": 8},
@@ -40,6 +46,7 @@ def build_playable_manifest(asset_root: Path) -> dict:
         "tile_size": 32,
         "item": _asset_entry(asset_root, item_path, item_id),
         "blocks": blocks,
+        "bootstrap_blocks": BOOTSTRAP_BLOCKS,
         "bootstrap_layout": BOOTSTRAP_LAYOUT,
         "build_palette": {
             "pinned_block_ids": PINNED_BUILD_BLOCK_IDS,

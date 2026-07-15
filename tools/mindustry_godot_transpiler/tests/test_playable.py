@@ -32,6 +32,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertEqual(manifest["item"]["id"], "copper")
         self.assertEqual(set(manifest["blocks"].keys()), {"core_shard", "mechanical_drill", "conveyor", "ore_copper", "stone_floor"})
+        self.assertEqual(manifest["bootstrap_blocks"], {
+            "conveyor_block": "conveyor",
+            "core_block": "core-shard",
+            "drill_block": "mechanical-drill",
+            "turret_block": "duo",
+        })
         for entry in [manifest["item"], *manifest["blocks"].values()]:
             self.assertTrue(entry["texture"].startswith("res://assets/"))
 
@@ -3009,10 +3015,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": 7, "y": 8})
         self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": 17, "y": 8})
         self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": 18, "y": 7})
+        self.assertEqual(playable_content["bootstrap_blocks"], {
+            "conveyor_block": "conveyor",
+            "core_block": "core-shard",
+            "drill_block": "mechanical-drill",
+            "turret_block": "duo",
+        })
+        self.assertIn("var drill_block_id := \"\"", source)
+        self.assertIn("var conveyor_block_id := \"\"", source)
+        self.assertIn("var core_block_id := \"\"", source)
+        self.assertIn("var turret_block_id := \"\"", source)
         self.assertIn("func bootstrap_layout_cell(cell_id: String) -> Vector2i:", source)
+        self.assertIn("func bootstrap_block_id(block_role: String) -> String:", source)
         self.assertIn('drill_pos = bootstrap_layout_cell("drill_cell")', source)
         self.assertIn('core_pos = bootstrap_layout_cell("core_cell")', source)
         self.assertIn('duo_pos = bootstrap_layout_cell("duo_cell")', source)
+        self.assertIn('drill_block_id = bootstrap_block_id("drill_block")', source)
+        self.assertIn('conveyor_block_id = bootstrap_block_id("conveyor_block")', source)
+        self.assertIn('core_block_id = bootstrap_block_id("core_block")', source)
+        self.assertIn('turret_block_id = bootstrap_block_id("turret_block")', source)
         self.assertNotIn("var drill_pos := Vector2i(7, 8)", source)
         self.assertNotIn("var core_pos := Vector2i(17, 8)", source)
         self.assertNotIn("var duo_pos := Vector2i(18, 7)", source)
@@ -3148,10 +3169,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('add_sprite(blocks, "mechanical_drill", grid_to_world(drill_pos))', source)
         self.assertNotIn('add_sprite(blocks, "conveyor", grid_to_world(Vector2i(x, drill_pos.y)))', source)
         self.assertNotIn('add_sprite(blocks, "core_shard", grid_to_world(core_pos))', source)
-        self.assertIn('add_source_block(blocks, "mechanical-drill", drill_pos)', source)
-        self.assertIn('add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))', source)
-        self.assertIn('add_source_block(blocks, "core-shard", core_pos)', source)
-        self.assertIn('add_source_block(blocks, "duo", duo_pos)', source)
+        self.assertIn('add_source_block(blocks, drill_block_id, drill_pos)', source)
+        self.assertIn('add_source_block(blocks, conveyor_block_id, Vector2i(x, drill_pos.y))', source)
+        self.assertIn('add_source_block(blocks, core_block_id, core_pos)', source)
+        self.assertIn('add_source_block(blocks, turret_block_id, duo_pos)', source)
+        self.assertNotIn('add_source_block(blocks, "mechanical-drill", drill_pos)', source)
+        self.assertNotIn('add_source_block(blocks, "conveyor", Vector2i(x, drill_pos.y))', source)
+        self.assertNotIn('add_source_block(blocks, "core-shard", core_pos)', source)
+        self.assertNotIn('add_source_block(blocks, "duo", duo_pos)', source)
         self.assertIn("initial_world_block_count = placed_block_origins.size()", source)
         self.assertIn("initial_occupied_cell_count = placed_blocks.size()", source)
         self.assertIn('"initial_world_block_count": initial_world_block_count', source)
@@ -3237,7 +3262,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var core_health := 500.0", source)
         self.assertIn("var core_max_health := 0.0", source)
         self.assertIn("var core_health := 0.0", source)
-        self.assertIn('core_max_health = source_block_health("core-shard")', source)
+        self.assertIn('core_max_health = source_block_health(core_block_id)', source)
         self.assertIn("core_health = core_max_health", source)
         self.assertIn("func source_block_health(block_id: String) -> float:", source)
         self.assertIn('return float(block.properties.get("health", 0.0))', source)
@@ -3786,7 +3811,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("var core_item_capacity := 0", source)
-        self.assertIn('core_item_capacity = source_block_item_capacity("core-shard")', source)
+        self.assertIn('core_item_capacity = source_block_item_capacity(core_block_id)', source)
         self.assertIn("func source_block_item_capacity(block_id: String) -> int:", source)
         self.assertIn('return int(block.properties.get("itemCapacity", 0))', source)
         self.assertIn("func clamp_core_item_amount(amount: int) -> int:", source)
@@ -4174,7 +4199,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         build_world_body = source.split("func build_world() -> void:", 1)[1].split("func _unhandled_input", 1)[0]
 
-        self.assertIn('add_source_block(blocks, "duo", duo_pos)\n\tbootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()', build_world_body)
+        self.assertIn('add_source_block(blocks, turret_block_id, duo_pos)\n\tbootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()', build_world_body)
         self.assertIn("var bootstrapped_selected_turret_ammo_load_count := 0", source)
         self.assertIn("bootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()", source)
         self.assertIn("func bootstrap_selected_turret_ammo() -> int:", source)
@@ -4462,8 +4487,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_RETURN_ITEM := "returnItem = itemArray.peek();"', source)
         self.assertIn('const SOURCE_DRILL_ORE_COUNT_RETURN_COUNT := "returnCount = oreCount.get(itemArray.peek(), 0);"', source)
         self.assertIn('add_ore_cell(terrain, "ore_copper", "copper", Vector2i(x, y))', source)
-        self.assertIn('drill_ore_cell_count = source_drill_ore_count("mechanical-drill", drill_pos, drill_output_item_id)', source)
-        self.assertIn('drill_output_rate = source_drill_output_rate("mechanical-drill", drill_output_item_id, drill_ore_cell_count)', source)
+        self.assertIn('drill_ore_cell_count = source_drill_ore_count(drill_block_id, drill_pos, drill_output_item_id)', source)
+        self.assertIn('drill_output_rate = source_drill_output_rate(drill_block_id, drill_output_item_id, drill_ore_cell_count)', source)
         self.assertIn("raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)", source)
         self.assertNotIn("item_progress += delta * 0.45", source)
         self.assertIn('source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))', source)
@@ -16187,8 +16212,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var transport_progress := 0.0", source)
         self.assertIn("var conveyor_world_speed := 0.0", source)
         self.assertIn("var conveyor_path_progress_rate := 0.0", source)
-        self.assertIn('conveyor_world_speed = source_conveyor_world_speed("conveyor")', source)
-        self.assertIn('conveyor_path_progress_rate = source_conveyor_path_progress_rate("conveyor")', source)
+        self.assertIn('conveyor_world_speed = source_conveyor_world_speed(conveyor_block_id)', source)
+        self.assertIn('conveyor_path_progress_rate = source_conveyor_path_progress_rate(conveyor_block_id)', source)
         self.assertIn("transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)", source)
         self.assertIn("var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)", source)
         self.assertIn("func source_conveyor_world_speed(block_id: String) -> float:", source)

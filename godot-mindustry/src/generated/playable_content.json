@@ -26,6 +26,12 @@
       "texture": "res://assets/core/assets-raw/sprites/blocks/environment/stone1.png"
     }
   },
+  "bootstrap_blocks": {
+    "conveyor_block": "conveyor",
+    "core_block": "core-shard",
+    "drill_block": "mechanical-drill",
+    "turret_block": "duo"
+  },
   "bootstrap_layout": {
     "core_cell": {
       "x": 17,
