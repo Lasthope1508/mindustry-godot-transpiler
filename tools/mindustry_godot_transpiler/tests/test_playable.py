@@ -3084,10 +3084,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('item_dump_item = primary_item_id', source)
         self.assertIn('put_item_item = primary_item_id', source)
         self.assertIn('drill_output_item_id = primary_item_id', source)
+        self.assertIn("textures[primary_item_id] = load_png_texture(config[\"item\"][\"texture\"])", source)
+        self.assertIn('var sprite := add_sprite(units, primary_item_id, path_points[0])', source)
         self.assertNotIn('var item_dump_item := "copper"', source)
         self.assertNotIn('var put_item_item := "copper"', source)
         self.assertNotIn('var core_items: Dictionary = {"copper": 0}', source)
         self.assertNotIn('var drill_output_item_id := "copper"', source)
+        self.assertNotIn('textures["item"] = load_png_texture(config["item"]["texture"])', source)
+        self.assertNotIn('var sprite := add_sprite(units, "item", path_points[0])', source)
 
     def test_port_game_uses_content_registry_liquid_for_liquid_defaults(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

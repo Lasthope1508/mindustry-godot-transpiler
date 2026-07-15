@@ -615,7 +615,7 @@ func load_selected_generated_scripts() -> void:
 func load_textures() -> void:
 	if config.is_empty():
 		return
-	textures["item"] = load_png_texture(config["item"]["texture"])
+	textures[primary_item_id] = load_png_texture(config["item"]["texture"])
 	for key in config["blocks"].keys():
 		textures[key] = load_png_texture(config["blocks"][key]["texture"])
 	for unit in content_catalog.get_many("unit"):
@@ -690,7 +690,7 @@ func build_world() -> void:
 	conveyor_world_speed = source_conveyor_world_speed(conveyor_block_id)
 	conveyor_path_progress_rate = source_conveyor_path_progress_rate(conveyor_block_id)
 	for i in transport_preview_item_sprite_count:
-		var sprite := add_sprite(units, "item", path_points[0])
+		var sprite := add_sprite(units, primary_item_id, path_points[0])
 		sprite.visible = false
 		item_sprites.append(sprite)
 	spawn_enemy_wave()
