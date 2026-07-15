@@ -11,6 +11,7 @@ const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.g
 const SourceConstructionDefaults := preload("res://src/game/SourceConstructionDefaults.gd")
 const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
 const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
+const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
@@ -24,6 +25,7 @@ var display_profile_runtime: DisplayProfileRuntime
 var construction_defaults: SourceConstructionDefaults
 var turret_defaults: SourceTurretDefaults
 var bullet_defaults: SourceBulletDefaults
+var unit_defaults: SourceUnitDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
@@ -57,6 +59,9 @@ var SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 0.0
 var SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 0.0
 var SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 0.0
 var SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 0.0
+var SOURCE_UNIT_WORLD_SPEED_DEFAULT := 0.0
+var SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 0.0
+var SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 0.0
 var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
@@ -324,6 +329,7 @@ func _ready() -> void:
 	construction_defaults = SourceConstructionDefaults.new(SourceSsotCatalog)
 	turret_defaults = SourceTurretDefaults.new(SourceSsotCatalog)
 	bullet_defaults = SourceBulletDefaults.new(SourceSsotCatalog)
+	unit_defaults = SourceUnitDefaults.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
 	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
@@ -358,6 +364,9 @@ func _ready() -> void:
 	SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT = bullet_defaults.reload_multiplier_default()
 	SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()
 	SOURCE_BULLET_SCALE_HEIGHT_DEFAULT = bullet_defaults.height_default()
+	SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()
+	SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()
+	SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()
 	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
@@ -14514,11 +14523,10 @@ func source_unit_weapon_damage(unit_type) -> float:
 func source_unit_world_speed(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
-	return float(unit_type.properties.get("speed", 0.0)) * 60.0
+	return float(unit_type.properties.get("speed", SOURCE_UNIT_WORLD_SPEED_DEFAULT)) * 60.0
 
 const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"
 const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"
-const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0
 
 func source_unit_hit_size(unit_type) -> float:
 	if unit_type == null:
@@ -14527,7 +14535,6 @@ func source_unit_hit_size(unit_type) -> float:
 
 const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"
 const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"
-const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0
 
 func source_unit_health(unit_type) -> float:
 	if unit_type == null:
@@ -34173,6 +34180,7 @@ func get_runtime_summary() -> Dictionary:
 		"construction_profile": construction_defaults.runtime_summary(),
 		"turret_profile": turret_defaults.runtime_summary(),
 		"bullet_profile": bullet_defaults.runtime_summary(),
+		"unit_profile": unit_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
 		"time_profile": time_defaults.runtime_summary(),
 		"math_profile": math_defaults.runtime_summary(),

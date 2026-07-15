@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "root_key": "unit",
+  "unit": {
+    "defaults": {
+      "speed": 1.1,
+      "hit_size": 6.0,
+      "health": 200.0
+    },
+    "source": {
+      "speed_field": "public float speed = 1.1f,",
+      "hit_size_field": "hitSize = 6f,",
+      "health_field": "health = 200f,",
+      "java_sources": [
+        "core/src/mindustry/type/UnitType.java"
+      ]
+    }
+  }
+}

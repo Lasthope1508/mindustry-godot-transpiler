@@ -867,6 +867,51 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0", port_source)
         self.assertNotIn("const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0", port_source)
 
+    def test_unit_profile_owns_runtime_unit_numeric_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "unit_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("unit_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["unit_profile"]["root_key"], "unit")
+        self.assertEqual(manifest["modules"]["unit_profile"]["path"], "src/generated/source_modules/unit_profile.json")
+        self.assertEqual(profile["root_key"], "unit")
+        unit = profile["unit"]
+        self.assertEqual(unit["defaults"], {
+            "speed": 1.1,
+            "hit_size": 6.0,
+            "health": 200.0,
+        })
+        self.assertEqual(unit["source"]["speed_field"], "public float speed = 1.1f,")
+        self.assertEqual(unit["source"]["hit_size_field"], "hitSize = 6f,")
+        self.assertEqual(unit["source"]["health_field"], "health = 200f,")
+        self.assertIn("core/src/mindustry/type/UnitType.java", unit["source"]["java_sources"])
+
+        for getter in [
+            "speed_default",
+            "hit_size_default",
+            "health_default",
+        ]:
+            self.assertIn(f"func {getter}()", defaults_source)
+
+        self.assertIn("const SourceUnitDefaults := preload(\"res://src/game/SourceUnitDefaults.gd\")", port_source)
+        self.assertIn("var unit_defaults: SourceUnitDefaults", port_source)
+        self.assertIn("unit_defaults = SourceUnitDefaults.new(SourceSsotCatalog)", port_source)
+        self.assertIn("SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()", port_source)
+        self.assertIn("SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()", port_source)
+        self.assertIn("SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()", port_source)
+        self.assertIn('"unit_profile": unit_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0", port_source)
+        self.assertNotIn("const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4655,7 +4700,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_world_speed(unit_type) -> float:", source)
-        self.assertIn('return float(unit_type.properties.get("speed", 0.0)) * 60.0', source)
+        self.assertIn("var SOURCE_UNIT_WORLD_SPEED_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()", source)
+        self.assertIn('return float(unit_type.properties.get("speed", SOURCE_UNIT_WORLD_SPEED_DEFAULT)) * 60.0', source)
         self.assertIn("var speed := source_unit_world_speed(unit_type)", source)
         self.assertNotIn('max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)', source)
         self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit())', source)
@@ -4667,7 +4714,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_hit_size(unit_type) -> float:", source)
         self.assertIn('const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"', source)
         self.assertIn('const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"', source)
-        self.assertIn("const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0", source)
+        self.assertIn("var SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 0.0", source)
+        self.assertIn("SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()", source)
         self.assertIn('return float(unit_type.properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))', source)
         self.assertIn("var hit_size := source_unit_hit_size(unit_type)", source)
         self.assertIn("sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)", source)
@@ -4681,7 +4729,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_health(unit_type) -> float:", source)
         self.assertIn('const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"', source)
         self.assertIn('const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"', source)
-        self.assertIn("const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0", source)
+        self.assertIn("var SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 0.0", source)
+        self.assertIn("SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()", source)
         self.assertIn('return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))', source)
         self.assertIn('"health": source_unit_health(unit_type)', source)
         self.assertNotIn('"health": float(unit_type.properties.get("health", 100.0))', source)

@@ -66,6 +66,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "unit_profile": {
+      "path": "src/generated/source_modules/unit_profile.json",
+      "root_key": "unit",
+      "label": "unit",
+      "status": "active",
+      "rule": "Canonical playable unit defaults profile; runtime code must read UnitType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "factory_profile": {
       "path": "src/generated/source_modules/factory_profile.json",
       "root_key": "factory",
