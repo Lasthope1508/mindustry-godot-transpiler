@@ -34014,19 +34014,15 @@ func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"
 const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"
 const SOURCE_BULLET_LIFETIME_KEY := "lifetime"
-const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0
-
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
-	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND
+	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_TICK_RATE
 
 const SOURCE_BULLET_WORLD_SPEED_COMMENT := "/** Speed in units/tick. */"
 const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"
 const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"
 const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"
-const SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND := 60.0
-
 func source_bullet_world_speed(data: Dictionary) -> float:
-	return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND
+	return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_TICK_RATE
 
 const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"
 const SOURCE_BULLET_VELOCITY_INIT_VEL_CALL := "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"
