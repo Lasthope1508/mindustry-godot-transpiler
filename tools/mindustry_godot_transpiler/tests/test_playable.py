@@ -834,6 +834,7 @@ class PlayableManifestTests(unittest.TestCase):
             "reload": 10.0,
             "range": 80.0,
             "rotate_speed": 5.0,
+            "inaccuracy": 0.0,
             "shoot_cone": 8.0,
             "recoil": 1.0,
             "recoils": -1,
@@ -843,6 +844,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(turret["source"]["reload_field"], "public float reload = 10f;")
         self.assertEqual(turret["source"]["range_field"], "public float range = 80f;")
         self.assertEqual(turret["source"]["rotate_speed_field"], "public float rotateSpeed = 5;")
+        self.assertEqual(turret["source"]["inaccuracy_field"], "public float inaccuracy = 0f;")
         self.assertEqual(turret["source"]["shoot_cone_field"], "public float shootCone = 8f;")
         self.assertEqual(turret["source"]["recoil_field"], "public float recoil = 1f;")
         self.assertEqual(turret["source"]["recoils_field"], "public int recoils = -1;")
@@ -855,6 +857,7 @@ class PlayableManifestTests(unittest.TestCase):
             "reload_default",
             "range_default",
             "rotate_speed_default",
+            "inaccuracy_default",
             "shoot_cone_default",
             "recoil_default",
             "recoils_default",
@@ -867,6 +870,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", port_source)
         self.assertIn("var SOURCE_TURRET_RANGE_DEFAULT := 0.0", port_source)
         self.assertIn("var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0", port_source)
+        self.assertIn("var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", port_source)
         self.assertIn("var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0", port_source)
         self.assertIn("var SOURCE_TURRET_RECOIL_DEFAULT := 0.0", port_source)
         self.assertIn("var SOURCE_TURRET_RECOILS_DEFAULT := 0", port_source)
@@ -874,6 +878,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()", port_source)
         self.assertIn("SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()", port_source)
         self.assertIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()", port_source)
+        self.assertIn("SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()", port_source)
         self.assertIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()", port_source)
         self.assertIn("SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()", port_source)
         self.assertIn("SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()", port_source)
@@ -881,6 +886,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_TURRET_RELOAD_DEFAULT := 10.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_RANGE_DEFAULT := 80.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0", port_source)
+        self.assertNotIn("const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_SHOOT_CONE_DEFAULT := 8.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_RECOIL_DEFAULT := 1.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_RECOILS_DEFAULT := -1", port_source)
@@ -5224,7 +5230,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"', source)
         self.assertIn('const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', source)
         self.assertIn('const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"', source)
-        self.assertIn("const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", source)
+        self.assertIn("var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()", source)
+        self.assertNotIn("const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", source)
         self.assertIn('const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"', source)
         self.assertIn("func source_turret_inaccuracy(turret) -> float:", source)
         self.assertIn("return float(turret.properties.get(SOURCE_TURRET_INACCURACY_KEY, SOURCE_TURRET_INACCURACY_DEFAULT))", source)

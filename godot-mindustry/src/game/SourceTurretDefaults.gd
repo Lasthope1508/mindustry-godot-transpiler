@@ -34,6 +34,9 @@ func range_default() -> float:
 func rotate_speed_default() -> float:
 	return _float_default("rotate_speed")
 
+func inaccuracy_default() -> float:
+	return _float_default("inaccuracy")
+
 func shoot_cone_default() -> float:
 	return _float_default("shoot_cone")
 

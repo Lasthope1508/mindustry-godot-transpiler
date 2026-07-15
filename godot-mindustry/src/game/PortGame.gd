@@ -45,6 +45,7 @@ var SOURCE_RECOIL_POW := 0.0
 var SOURCE_TURRET_RELOAD_DEFAULT := 0.0
 var SOURCE_TURRET_RANGE_DEFAULT := 0.0
 var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0
+var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0
 var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0
 var SOURCE_TURRET_RECOIL_DEFAULT := 0.0
 var SOURCE_TURRET_RECOILS_DEFAULT := 0
@@ -351,6 +352,7 @@ func _ready() -> void:
 	SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()
 	SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()
 	SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()
+	SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()
 	SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()
 	SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()
 	SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()
@@ -33839,7 +33841,6 @@ func source_turret_shoot_y(turret) -> float:
 const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
 const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
 const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"
-const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0
 const SOURCE_TURRET_INACCURACY_DUO_VALUE := "inaccuracy = 2f;"
 const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"
 
