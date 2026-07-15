@@ -6,8 +6,6 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
-const WORLD_W := 24
-const WORLD_H := 16
 const PINNED_BUILD_BLOCK_IDS := ["conveyor", "router", "junction", "mechanical-drill", "duo", "copper-wall"]
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
@@ -45,8 +43,15 @@ const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
 const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
 const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
 
-var tile_size := 32
+var tile_size := 0
 var config: Dictionary = {}
+var display_profile: Dictionary = {}
+var world_width_tiles := 0
+var world_height_tiles := 0
+var viewport_size_pixels := Vector2i.ZERO
+var visible_world_size_pixels := Vector2.ZERO
+var camera_initial_position := Vector2.ZERO
+var camera_initial_zoom := 0.0
 var textures: Dictionary = {}
 var block_texture_cache: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units": 0}
@@ -285,6 +290,7 @@ func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	control_input.install_input_map()
 	load_config()
+	load_display_profile()
 	load_content_registry()
 	load_textures()
 	bind_nodes()
@@ -298,7 +304,25 @@ func load_config() -> void:
 		push_error("Missing playable content manifest: playable_content")
 		return
 	config = document.get("data", {})
-	tile_size = int(config.get("tile_size", 32))
+
+func load_display_profile() -> void:
+	var document := SourceSsotCatalog.load_document("display_profile")
+	if not bool(document.get("loaded", false)):
+		push_error("Missing display profile manifest: display_profile")
+		return
+	var data: Dictionary = document.get("data", {})
+	display_profile = data.get("playfield", {})
+	var viewport: Dictionary = display_profile.get("viewport", {})
+	var camera_profile: Dictionary = display_profile.get("camera", {})
+	var visible_world: Dictionary = display_profile.get("visible_world", {})
+	var world: Dictionary = display_profile.get("world", {})
+	tile_size = int(display_profile.get("tile_size", 0))
+	world_width_tiles = int(world.get("width_tiles", 0))
+	world_height_tiles = int(world.get("height_tiles", 0))
+	viewport_size_pixels = Vector2i(int(viewport.get("width", 0)), int(viewport.get("height", 0)))
+	visible_world_size_pixels = Vector2(float(visible_world.get("width_pixels", 0.0)), float(visible_world.get("height_pixels", 0.0)))
+	camera_initial_position = Vector2(float(camera_profile.get("position_x", 0.0)), float(camera_profile.get("position_y", 0.0)))
+	camera_initial_zoom = float(camera_profile.get("zoom", 0.0))
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
@@ -308,6 +332,25 @@ func playable_content_item_state(item_id: String = "") -> Dictionary:
 
 func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
+
+func display_profile_runtime_summary() -> Dictionary:
+	var world_width_pixels := float(world_width_tiles * tile_size)
+	var world_height_pixels := float(world_height_tiles * tile_size)
+	return {
+		"loaded": not display_profile.is_empty(),
+		"tile_size": tile_size,
+		"world_width_tiles": world_width_tiles,
+		"world_height_tiles": world_height_tiles,
+		"world_width_pixels": world_width_pixels,
+		"world_height_pixels": world_height_pixels,
+		"viewport_width": viewport_size_pixels.x,
+		"viewport_height": viewport_size_pixels.y,
+		"camera_position": {"x": camera_initial_position.x, "y": camera_initial_position.y},
+		"camera_zoom": camera_initial_zoom,
+		"visible_world_width_pixels": visible_world_size_pixels.x,
+		"visible_world_height_pixels": visible_world_size_pixels.y,
+		"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x and world_height_pixels >= visible_world_size_pixels.y,
+	}
 
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
@@ -504,6 +547,9 @@ func load_png_texture(path: String) -> Texture2D:
 func bind_nodes() -> void:
 	camera = get_node_or_null("Camera2D")
 	if camera:
+		camera.position = camera_initial_position
+		if camera_initial_zoom > 0.0:
+			camera.zoom = Vector2(camera_initial_zoom, camera_initial_zoom)
 		camera.make_current()
 	hud_label = Label.new()
 	hud_label.position = Vector2(16, 16)
@@ -516,8 +562,8 @@ func build_world() -> void:
 	var blocks := get_node("World/BlockLayer")
 	var units := get_node("World/UnitLayer")
 	ore_items_by_cell.clear()
-	for y in WORLD_H:
-		for x in WORLD_W:
+	for y in world_height_tiles:
+		for x in world_width_tiles:
 			add_sprite(terrain, "stone_floor", grid_to_world(Vector2i(x, y)))
 	for y in range(6, 11):
 		for x in range(5, 8):
@@ -6662,8 +6708,8 @@ func runtime_save_snapshot(slot_name: String = "runtime") -> Dictionary:
 		"meta": {
 			"mapname": "GodotRuntime",
 			"wave": wave_index,
-			"width": WORLD_W,
-			"height": WORLD_H,
+			"width": world_width_tiles,
+			"height": world_height_tiles,
 			"build": 0,
 			"rules": {"waves": true},
 		},
@@ -7241,7 +7287,7 @@ func occupied_cells(cell: Vector2i, block) -> Array[Vector2i]:
 	return cells
 
 func is_cell_in_world(cell: Vector2i) -> bool:
-	return cell.x >= 0 and cell.y >= 0 and cell.x < WORLD_W and cell.y < WORLD_H
+	return cell.x >= 0 and cell.y >= 0 and cell.x < world_width_tiles and cell.y < world_height_tiles
 
 func can_place_block_at_cell(block, cell: Vector2i) -> bool:
 	for occupied_cell in occupied_cells(cell, block):
@@ -14146,7 +14192,7 @@ func spawn_enemy_unit(unit_type, index: int) -> void:
 	var units_layer := get_node("World/UnitLayer")
 	var sprite := Sprite2D.new()
 	sprite.texture = textures.get("unit:" + unit_type.id)
-	sprite.position = grid_to_world(Vector2i(WORLD_W - 2 + index, 6 + (index % 5)))
+	sprite.position = grid_to_world(Vector2i(world_width_tiles - 2 + index, 6 + (index % 5)))
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
@@ -33956,6 +34002,7 @@ func get_runtime_summary() -> Dictionary:
 		"playthrough_runtime": playthrough_runtime_state(),
 		"content_counts": content_counts.duplicate(),
 		"control_profile": control_input.runtime_summary(),
+		"display_profile": display_profile_runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,

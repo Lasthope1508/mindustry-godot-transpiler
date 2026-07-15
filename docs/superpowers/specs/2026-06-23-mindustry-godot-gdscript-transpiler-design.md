@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1451 |
-| Done | 1451 |
+| Total tracked work items | 1452 |
+| Done | 1452 |
 | Not done | 0 |
 | Blocked | 0 |
 

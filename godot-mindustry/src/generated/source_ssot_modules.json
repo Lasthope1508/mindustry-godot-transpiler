@@ -11,6 +11,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "display_profile": {
+      "path": "src/generated/source_modules/display_profile.json",
+      "root_key": "playfield",
+      "label": "playfield",
+      "status": "active",
+      "rule": "Canonical playable display and world profile; gameplay code must read viewport, camera, tile size, and world tile dimensions from this shard instead of hardcoding playfield size.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "root_key": "playfield",
+  "playfield": {
+    "viewport": {
+      "width": 1280,
+      "height": 720,
+      "source": "godot-mindustry/project.godot display/window/size/viewport_width, display/window/size/viewport_height"
+    },
+    "camera": {
+      "position_x": 640.0,
+      "position_y": 360.0,
+      "zoom": 0.5,
+      "source": "godot-mindustry/scenes/Main.tscn Camera2D.position, Camera2D.zoom"
+    },
+    "tile_size": 32,
+    "source_tile_size": 8,
+    "render_scale": 4,
+    "visible_world": {
+      "width_pixels": 2560,
+      "height_pixels": 1440,
+      "formula": "viewport_pixels / camera.zoom"
+    },
+    "world": {
+      "width_tiles": 80,
+      "height_tiles": 45,
+      "width_pixels": 2560,
+      "height_pixels": 1440,
+      "formula": "ceil(visible_world_pixels / tile_size)"
+    },
+    "source": {
+      "world_width_expr": "return tiles.width;",
+      "world_height_expr": "return tiles.height;",
+      "unit_width_expr": "return width()*tilesize;",
+      "unit_height_expr": "return height()*tilesize;",
+      "tilesize_expr": "public static final int tilesize = 8;",
+      "java_sources": [
+        "core/src/mindustry/core/World.java",
+        "core/src/mindustry/Vars.java"
+      ]
+    }
+  }
+}

@@ -1234,6 +1234,29 @@
         "mirror_fields": []
       }
     },
+    "display_profile": {
+      "canonical_manifest_entry": "source_ssot_modules.modules.display_profile",
+      "path": "src/generated/source_modules/display_profile.json",
+      "root_key": "playfield",
+      "label": "playfield",
+      "status": "active",
+      "rule": "Canonical playable display and world profile; gameplay code must read viewport, camera, tile size, and world tile dimensions from this shard instead of hardcoding playfield size.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": [],
+      "entry": {
+        "path": "src/generated/source_modules/display_profile.json",
+        "root_key": "playfield",
+        "label": "playfield",
+        "status": "active",
+        "rule": "Canonical playable display and world profile; gameplay code must read viewport, camera, tile size, and world tile dimensions from this shard instead of hardcoding playfield size.",
+        "canonical_module": "",
+        "canonical_reference_key": "",
+        "canonical_reference_prefix": "",
+        "mirror_fields": []
+      }
+    },
     "conveyor_api_contracts": {
       "canonical_manifest_entry": "source_ssot_modules.modules.conveyor_api_contracts",
       "path": "src/generated/source_modules/conveyor_api_contracts.json",

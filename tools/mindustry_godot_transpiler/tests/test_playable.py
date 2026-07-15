@@ -89,6 +89,46 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("touch_regions", profile["platforms"]["android"])
         self.assertIn("touch_regions", profile["platforms"]["ios"])
 
+    def test_display_profile_is_registered_ssot_for_camera_covered_playfield(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertIn("display_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["display_profile"]["root_key"], "playfield")
+        self.assertEqual(manifest["modules"]["display_profile"]["path"], "src/generated/source_modules/display_profile.json")
+
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        self.assertEqual(profile["root_key"], "playfield")
+        playfield = profile["playfield"]
+        self.assertEqual(playfield["viewport"]["width"], 1280)
+        self.assertEqual(playfield["viewport"]["height"], 720)
+        self.assertEqual(playfield["camera"]["zoom"], 0.5)
+        self.assertEqual(playfield["tile_size"], 32)
+        self.assertEqual(playfield["world"]["width_tiles"], 80)
+        self.assertEqual(playfield["world"]["height_tiles"], 45)
+        self.assertGreaterEqual(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
+        self.assertGreaterEqual(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
+
+    def test_port_game_uses_display_profile_without_world_size_hardcoding(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('SourceSsotCatalog.load_document("display_profile")', source)
+        self.assertIn("func load_display_profile() -> void:", source)
+        self.assertIn("var display_profile: Dictionary = {}", source)
+        self.assertIn("var world_width_tiles := 0", source)
+        self.assertIn("var world_height_tiles := 0", source)
+        self.assertIn("func display_profile_runtime_summary() -> Dictionary:", source)
+        self.assertIn('"display_profile": display_profile_runtime_summary()', source)
+        self.assertIn("for y in world_height_tiles:", source)
+        self.assertIn("for x in world_width_tiles:", source)
+        self.assertIn("cell.x < world_width_tiles", source)
+        self.assertIn("cell.y < world_height_tiles", source)
+        self.assertNotIn("const WORLD_W := 24", source)
+        self.assertNotIn("const WORLD_H := 16", source)
+        self.assertNotIn('config.get("tile_size", 32)', source)
+
     def test_control_input_module_loads_profile_and_binds_actions(self):
         control_input = ROOT / "godot-mindustry" / "src" / "game" / "ControlInput.gd"
         source = control_input.read_text(encoding="utf-8")
@@ -2982,7 +3022,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("for x in block_size(block):", source)
         self.assertIn("cells.append(cell + Vector2i(x, y))", source)
         self.assertIn("func is_cell_in_world(cell: Vector2i) -> bool:", source)
-        self.assertIn("return cell.x >= 0 and cell.y >= 0 and cell.x < WORLD_W and cell.y < WORLD_H", source)
+        self.assertIn("return cell.x >= 0 and cell.y >= 0 and cell.x < world_width_tiles and cell.y < world_height_tiles", source)
         self.assertIn("func can_place_block_at_cell(block, cell: Vector2i) -> bool:", source)
         self.assertIn("for occupied_cell in occupied_cells(cell, block):", source)
         self.assertIn("if not is_cell_in_world(occupied_cell):", source)
