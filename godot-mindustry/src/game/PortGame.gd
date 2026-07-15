@@ -274,6 +274,7 @@ var last_turret_recoils := 0
 var last_turret_cur_recoil := 0.0
 var last_turret_recoil_offset := Vector2.ZERO
 var wave_index := 1
+var wave_groups: Array = []
 var last_spawned_wave_index := 0
 var last_spawned_wave_count := 0
 var last_spawned_wave_groups: Array = []
@@ -294,6 +295,7 @@ func _ready() -> void:
 	load_bootstrap_layout()
 	load_display_profile()
 	load_content_registry()
+	load_wave_groups()
 	load_textures()
 	bind_nodes()
 	build_block_palette()
@@ -497,6 +499,29 @@ func load_content_registry() -> void:
 	load_selected_generated_scripts()
 	if content_counts != ContentRegistry.counts():
 		push_error("Generated registry counts do not match loaded content catalog")
+
+func load_wave_groups() -> void:
+	wave_groups.clear()
+	var document := SourceSsotCatalog.load_document("content_registry_wave_groups")
+	if not bool(document.get("loaded", false)):
+		push_error("Missing content registry wave groups manifest: content_registry_wave_groups")
+		return
+	var data: Dictionary = document.get("data", {})
+	var group_entries_value = data.get("groups", {})
+	var group_entries: Dictionary = group_entries_value if typeof(group_entries_value) == TYPE_DICTIONARY else {}
+	var group_indexes: Array = []
+	for group_index in group_entries.keys():
+		group_indexes.append(int(str(group_index)))
+	group_indexes.sort()
+	for group_index in group_indexes:
+		var entry_value = group_entries.get(str(group_index), {})
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_value
+		var group = entry.get("group", {})
+		if typeof(group) != TYPE_DICTIONARY:
+			continue
+		wave_groups.append(group)
 
 func load_all_generated_scripts() -> void:
 	all_generated_scripts.clear()
@@ -14177,11 +14202,19 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 func selected_enemy_unit():
 	if content_catalog == null:
 		return null
-	var dagger = content_catalog.get_by_id("dagger")
-	if dagger != null:
-		return dagger
+	var preferred_id := first_wave_unit_id()
+	if preferred_id != "":
+		var preferred = content_catalog.get_by_id(preferred_id)
+		if preferred != null:
+			return preferred
 	var units: Array = content_catalog.get_many("unit")
 	return units[0] if not units.is_empty() else null
+
+func first_wave_unit_id() -> String:
+	if wave_groups.is_empty():
+		return ""
+	var group: Dictionary = wave_groups[0] if wave_groups[0] is Dictionary else {}
+	return str(group.get("unit", ""))
 
 func spawn_enemy_wave() -> void:
 	var spawned := 0
@@ -14189,7 +14222,7 @@ func spawn_enemy_wave() -> void:
 	last_spawned_wave_count = 0
 	last_spawned_wave_groups = []
 	var wave_zero := wave_index - 1
-	for group in ContentRegistry.WAVES.get("groups", []):
+	for group in wave_groups:
 		var count := spawned_for_wave(group, wave_zero)
 		var group_proof := {"unit": str(group.get("unit", "")), "begin": int(group.get("begin", 0)), "end": int(group.get("end", 2147483647)), "spacing": max(1, int(group.get("spacing", 1))), "unitAmount": int(group.get("unitAmount", 1)), "unitScaling": float(group.get("unitScaling", 2147483647.0)), "max": int(group.get("max", 40)), "spawned": count}
 		last_spawned_wave_groups.append(group_proof)
@@ -14352,6 +14385,8 @@ func enemy_runtime_state() -> Dictionary:
 		"wave_index": wave_index,
 		"last_spawned_wave_index": last_spawned_wave_index,
 		"last_spawned_wave_count": last_spawned_wave_count,
+		"wave_group_count": wave_groups.size(),
+		"selected_enemy_unit_id": first_wave_unit_id(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type),
 		"selected_enemy_world_speed": source_unit_world_speed(unit_type),
 		"selected_enemy_hit_size": source_unit_hit_size(unit_type),
@@ -34121,6 +34156,8 @@ func get_runtime_summary() -> Dictionary:
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,
+		"wave_group_count": wave_groups.size(),
+		"selected_enemy_unit_id": first_wave_unit_id(),
 		"last_spawned_wave_index": last_spawned_wave_index,
 		"last_spawned_wave_count": last_spawned_wave_count,
 		"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true),

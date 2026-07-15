@@ -3468,6 +3468,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"last_spawned_wave_count": last_spawned_wave_count', summary_body)
         self.assertIn('"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true)', summary_body)
 
+    def test_port_game_uses_content_registry_wave_group_ssot_for_enemy_runtime(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        wave_groups = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_wave_groups.json").read_text(encoding="utf-8"))
+        first_group = wave_groups["groups"]["0"]["group"]
+
+        self.assertEqual(first_group["unit"], "dagger")
+        self.assertIn("var wave_groups: Array = []", source)
+        self.assertIn("func load_wave_groups() -> void:", source)
+        self.assertIn('SourceSsotCatalog.load_document("content_registry_wave_groups")', source)
+        self.assertIn('group_entries.get(str(group_index), {})', source)
+        self.assertIn('wave_groups.append(group)', source)
+        self.assertIn("load_wave_groups()", source)
+        self.assertIn("func first_wave_unit_id() -> String:", source)
+        self.assertIn('return str(group.get("unit", ""))', source)
+        self.assertIn("var preferred_id := first_wave_unit_id()", source)
+        self.assertIn("content_catalog.get_by_id(preferred_id)", source)
+        self.assertIn("for group in wave_groups:", source)
+        self.assertNotIn('content_catalog.get_by_id("dagger")', source)
+        self.assertNotIn('for group in ContentRegistry.WAVES.get("groups", [])', source)
+
+        runtime_body = source.split("func enemy_runtime_state() -> Dictionary:", 1)[1].split("func source_unit_weapon_damage", 1)[0]
+        summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
+        self.assertIn('"wave_group_count": wave_groups.size()', runtime_body)
+        self.assertIn('"selected_enemy_unit_id": first_wave_unit_id()', runtime_body)
+        self.assertIn('"wave_group_count": wave_groups.size()', summary_body)
+        self.assertIn('"selected_enemy_unit_id": first_wave_unit_id()', summary_body)
+
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
