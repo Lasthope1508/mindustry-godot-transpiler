@@ -291,7 +291,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"max_x": world_size.x + visible_size.x / 4.0', module_source)
         self.assertIn("func clamp_camera_position(position: Vector2, zoom: Vector2) -> Vector2:", module_source)
         self.assertIn("clampf(position.x, float(bounds.get(\"min_x\", position.x)), float(bounds.get(\"max_x\", position.x)))", module_source)
-        self.assertIn('"camera_clamp_bounds": camera_clamp_bounds(Vector2(camera_initial_zoom, camera_initial_zoom))', module_source)
+        self.assertIn('"camera_clamp_bounds": camera_clamp_bounds(camera_runtime_zoom)', module_source)
         self.assertNotIn("func source_camera_clamp_bounds", module_source)
 
         self.assertIn("func clamp_camera_to_source_world() -> void:", port_source)
@@ -336,7 +336,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func camera_clamp_visible_bounds(zoom: Vector2) -> Dictionary:", module_source)
         self.assertIn('"left": float(clamp_bounds.get("min_x", 0.0)) - visible_size.x / 2.0', module_source)
         self.assertIn('"right": float(clamp_bounds.get("max_x", 0.0)) + visible_size.x / 2.0', module_source)
-        self.assertIn('"background_covers_camera_clamp_bounds": background_covers_camera_clamp_bounds(Vector2(camera_initial_zoom, camera_initial_zoom))', module_source)
+        self.assertIn('"background_covers_camera_clamp_bounds": background_covers_camera_clamp_bounds(camera_runtime_zoom)', module_source)
         self.assertIn("func background_covers_camera_clamp_bounds(zoom: Vector2) -> bool:", module_source)
 
         self.assertIn("var background_min_cell := Vector2i.ZERO", port_source)
@@ -346,6 +346,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("for y in range(background_min_cell.y, background_max_cell.y):", port_source)
         self.assertIn("for x in range(background_min_cell.x, background_max_cell.x):", port_source)
         self.assertNotIn("for y in world_height_tiles:\n\t\tfor x in world_width_tiles:", port_source)
+
+    def test_display_profile_runtime_resyncs_background_after_camera_zoom_changes(self):
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "DisplayProfileRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        module_source = module_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("var camera_runtime_zoom := Vector2.ONE", module_source)
+        self.assertIn("func sync_runtime_camera_zoom(zoom: Vector2) -> void:", module_source)
+        self.assertIn("camera_runtime_zoom = zoom", module_source)
+        self.assertIn("visible_world_size_pixels = camera_visible_size_pixels(camera_runtime_zoom)", module_source)
+        self.assertIn("var padding_tiles := camera_clamp_visible_padding_tiles(camera_runtime_zoom)", module_source)
+        self.assertIn("background_min_cell = Vector2i(-padding_tiles.x, -padding_tiles.y)", module_source)
+        self.assertIn("background_max_cell = Vector2i(world_width_tiles + padding_tiles.x, world_height_tiles + padding_tiles.y)", module_source)
+        self.assertIn('"camera_clamp_bounds": camera_clamp_bounds(camera_runtime_zoom)', module_source)
+        self.assertIn('"background_covers_camera_clamp_bounds": background_covers_camera_clamp_bounds(camera_runtime_zoom)', module_source)
+
+        self.assertIn("var background_tiles_built := false", port_source)
+        self.assertIn("func sync_display_profile_runtime_values() -> void:", port_source)
+        self.assertIn("func sync_display_profile_for_camera() -> void:", port_source)
+        self.assertIn("display_profile_runtime.sync_runtime_camera_zoom(camera.zoom)", port_source)
+        self.assertIn("if background_tiles_built and (old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell):", port_source)
+        self.assertIn("build_background_tiles()", port_source)
+        self.assertIn("func build_background_tiles() -> void:", port_source)
+        self.assertIn('sprite.set_meta("source_background_floor", true)', port_source)
+        self.assertIn("func clear_background_floor_tiles(terrain: Node) -> void:", port_source)
+        self.assertIn('if child.get_meta("source_background_floor", false):', port_source)
+        self.assertIn("sync_display_profile_for_camera()", port_source.split("func clamp_camera_to_source_world() -> void:", 1)[1])
 
     def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

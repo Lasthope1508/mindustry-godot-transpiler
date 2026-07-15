@@ -75,6 +75,7 @@ var world_width_tiles := 0
 var world_height_tiles := 0
 var background_min_cell := Vector2i.ZERO
 var background_max_cell := Vector2i.ZERO
+var background_tiles_built := false
 var viewport_size_pixels := Vector2i.ZERO
 var visible_world_size_pixels := Vector2.ZERO
 var camera_initial_position := Vector2.ZERO
@@ -403,6 +404,11 @@ func load_display_profile() -> void:
 	if not display_profile_runtime.load():
 		return
 	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
+	sync_display_profile_runtime_values()
+
+func sync_display_profile_runtime_values() -> void:
+	if display_profile_runtime == null:
+		return
 	tile_size = display_profile_runtime.tile_size
 	source_tile_size = display_profile_runtime.source_tile_size
 	world_width_tiles = display_profile_runtime.world_width_tiles
@@ -413,6 +419,16 @@ func load_display_profile() -> void:
 	visible_world_size_pixels = display_profile_runtime.visible_world_size_pixels
 	camera_initial_position = display_profile_runtime.camera_initial_position
 	camera_initial_zoom = display_profile_runtime.camera_initial_zoom
+
+func sync_display_profile_for_camera() -> void:
+	if camera == null or display_profile_runtime == null:
+		return
+	var old_background_min_cell := background_min_cell
+	var old_background_max_cell := background_max_cell
+	display_profile_runtime.sync_runtime_camera_zoom(camera.zoom)
+	sync_display_profile_runtime_values()
+	if background_tiles_built and (old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell):
+		build_background_tiles()
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
@@ -725,9 +741,7 @@ func build_world() -> void:
 	var blocks := get_node("World/BlockLayer")
 	var units := get_node("World/UnitLayer")
 	ore_items_by_cell.clear()
-	for y in range(background_min_cell.y, background_max_cell.y):
-		for x in range(background_min_cell.x, background_max_cell.x):
-			add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))
+	build_background_tiles()
 	for patch in bootstrap_ore_patches:
 		for y in range(int(patch.get("y_from", 0)), int(patch.get("y_to", 0))):
 			for x in range(int(patch.get("x_from", 0)), int(patch.get("x_to", 0))):
@@ -755,6 +769,21 @@ func build_world() -> void:
 		sprite.visible = false
 		item_sprites.append(sprite)
 	spawn_enemy_wave()
+
+func build_background_tiles() -> void:
+	var terrain := get_node("World/TerrainLayer")
+	clear_background_floor_tiles(terrain)
+	for y in range(background_min_cell.y, background_max_cell.y):
+		for x in range(background_min_cell.x, background_max_cell.x):
+			var sprite := add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))
+			sprite.set_meta("source_background_floor", true)
+	background_tiles_built = true
+
+func clear_background_floor_tiles(terrain: Node) -> void:
+	for child in terrain.get_children():
+		if child.get_meta("source_background_floor", false):
+			terrain.remove_child(child)
+			child.queue_free()
 
 func _unhandled_input(event: InputEvent) -> void:
 	var camera_changed := false
@@ -34155,6 +34184,7 @@ func update_camera(delta: float) -> void:
 func clamp_camera_to_source_world() -> void:
 	if camera == null or display_profile_runtime == null:
 		return
+	sync_display_profile_for_camera()
 	camera.position = display_profile_runtime.clamp_camera_position(camera.position, camera.zoom)
 
 func get_runtime_summary() -> Dictionary:
