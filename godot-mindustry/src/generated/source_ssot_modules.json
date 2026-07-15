@@ -103,25 +103,6 @@
       "rule": "Extension shard for bullet source API contracts; canonical owners come from bullet_slices.godot_owner and public contract fields remain mirrored through source_api_contracts before use.",
       "status": "active"
     },
-    "bullet_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/bullet_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for bullet source symbols; canonical symbol names come from bullet_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
     "power_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
