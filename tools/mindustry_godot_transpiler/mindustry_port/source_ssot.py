@@ -53,6 +53,7 @@ _MODULE_ALIASES = {
     "port_report_unsupported_features": "port_report",
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
+    "comp_state_schema": "state_schema",
     "comp_symbols": "registry",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
@@ -76,6 +77,7 @@ _COMP_SYMBOL_MIRROR_FIELDS = (
     "tests",
     "runtime_proof",
 )
+_COMP_STATE_SCHEMA_MIRROR_FIELDS = ("keys",)
 
 
 def module_names() -> list[str]:
@@ -192,6 +194,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
+    if name == "comp_state_schema":
+        return _virtual_comp_state_schema(godot_root)
     if name == "comp_symbols":
         return _virtual_comp_symbols(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
@@ -310,6 +314,39 @@ def _virtual_comp_symbols(godot_root: Path) -> dict[str, Any]:
             entry[field] = canonical_entry[field]
         mirror[symbol_name] = entry
     return {"version": 1, "symbols": mirror}
+
+def _virtual_comp_state_schema(godot_root: Path) -> dict[str, Any]:
+    comp_contracts = load_registered_json(godot_root, "comp_api_contracts").get("contracts", {})
+    canonical_schema = load_registered_json(godot_root, "state_schema").get("schemas", {})
+    if not isinstance(comp_contracts, dict):
+        comp_contracts = {}
+    if not isinstance(canonical_schema, dict):
+        canonical_schema = {}
+    expected_schema_names: set[str] = set()
+    for owner, contract in sorted(comp_contracts.items()):
+        if not isinstance(contract, dict):
+            continue
+        for param in contract.get("params", []):
+            if not isinstance(param, dict) or "schema" not in param:
+                continue
+            schema_name = str(param["schema"]).split(".", 1)[0]
+            if schema_name in canonical_schema:
+                expected_schema_names.add(schema_name)
+        source_name = str(owner).split(".")[-1]
+        if source_name.endswith("_state"):
+            result_schema_name = source_name[:-len("_state")] + "_result"
+            if result_schema_name in canonical_schema:
+                expected_schema_names.add(result_schema_name)
+    mirror: dict[str, Any] = {}
+    for schema_name in sorted(expected_schema_names):
+        canonical_entry = canonical_schema.get(schema_name)
+        if not isinstance(canonical_entry, dict):
+            continue
+        entry: dict[str, Any] = {"canonical_schema": f"source_state_schema.{schema_name}"}
+        for field in _COMP_STATE_SCHEMA_MIRROR_FIELDS:
+            entry[field] = canonical_entry[field]
+        mirror[schema_name] = entry
+    return {"version": 1, "schemas": mirror}
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:
     return {module_name: load_json(godot_root, module_name) for module_name in module_names()}
