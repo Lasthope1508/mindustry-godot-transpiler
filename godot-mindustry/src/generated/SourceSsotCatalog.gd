@@ -341,3 +341,38 @@ static func ssot_modules_state(module_name: String = "") -> Dictionary:
 		"entry": entry,
 		"policy": manifest.get("policy", {}),
 	}
+
+static func module_manifest_entry_state(module_name: String = "") -> Dictionary:
+	var manifest := load_extension_manifest()
+	var modules_value = manifest.get("modules", {})
+	var modules: Dictionary = modules_value if typeof(modules_value) == TYPE_DICTIONARY else {}
+	var entry: Dictionary = {}
+	if module_name != "":
+		var raw_entry = modules.get(module_name, {})
+		if typeof(raw_entry) == TYPE_DICTIONARY:
+			var mirror_fields_value = raw_entry.get("mirror_fields", [])
+			var mirror_fields: Array = mirror_fields_value if typeof(mirror_fields_value) == TYPE_ARRAY else []
+			entry = {
+				"canonical_manifest_entry": "source_ssot_modules.modules.%s" % module_name,
+				"path": raw_entry.get("path", ""),
+				"root_key": raw_entry.get("root_key", ""),
+				"label": raw_entry.get("label", ""),
+				"status": raw_entry.get("status", ""),
+				"rule": raw_entry.get("rule", ""),
+				"canonical_module": raw_entry.get("canonical_module", ""),
+				"canonical_reference_key": raw_entry.get("canonical_reference_key", ""),
+				"canonical_reference_prefix": raw_entry.get("canonical_reference_prefix", ""),
+				"mirror_fields": mirror_fields.duplicate(),
+				"entry": raw_entry.duplicate(true),
+			}
+	return {
+		"loaded": int(manifest.get("version", 0)) > 0,
+		"version": int(manifest.get("version", 0)),
+		"module": module_name,
+		"core_modules": module_names(),
+		"extension_modules": modules.keys(),
+		"registered_modules": registered_module_names(),
+		"count": modules.size(),
+		"entry": entry,
+		"policy": manifest.get("policy", {}),
+	}

@@ -15763,14 +15763,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func helper_state_schema_state(schema_name: String = "") -> Dictionary:', source)
         self.assertIn('return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)', source)
 
-    def test_port_game_exposes_source_ssot_module_entries_extension_shard(self):
+    def test_port_game_uses_canonical_module_manifest_without_source_ssot_module_entries_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog_source = (ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd").read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json").exists())
-        self.assertIn('"source_ssot_module_entries": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json").exists())
+        self.assertNotIn('"source_ssot_module_entries": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func ssot_module_entry_state(module_name: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)', source)
+        self.assertIn("return SourceSsotCatalog.module_manifest_entry_state(module_name)", source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)', source)
+        self.assertIn("static func module_manifest_entry_state(module_name: String = \"\") -> Dictionary:", catalog_source)
+        self.assertIn('"canonical_manifest_entry": "source_ssot_modules.modules.%s" % module_name', catalog_source)
 
     def test_port_game_loads_playable_content_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

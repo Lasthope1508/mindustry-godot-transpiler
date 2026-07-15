@@ -53,6 +53,7 @@ _MODULE_ALIASES = {
     "port_report_unsupported_features": "port_report",
     "asset_manifest_assets": "asset_manifest",
     "source_manifest_files": "source_manifest",
+    "source_ssot_module_entries": "module_manifest",
     "source_audit_functions": "audit_report",
     "source_audit_registered_owners": "audit_report",
     "source_audit_exempt_owners": "audit_report",
@@ -366,6 +367,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_asset_manifest_assets(godot_root)
     if name == "source_manifest_files":
         return _virtual_source_manifest_files(godot_root)
+    if name == "source_ssot_module_entries":
+        return _virtual_source_ssot_module_entries(godot_root)
     if name == "source_audit_functions":
         return _virtual_indexed_list_shard(
             godot_root,
@@ -496,6 +499,29 @@ def _virtual_source_manifest_files(godot_root: Path) -> dict[str, Any]:
             entry[field] = canonical_entry[field]
         mirror[path] = entry
     return {"version": 1, "files": mirror}
+
+def _virtual_source_ssot_module_entries(godot_root: Path) -> dict[str, Any]:
+    canonical_modules = load_registered_json(godot_root, "module_manifest").get("modules", {})
+    if not isinstance(canonical_modules, dict):
+        canonical_modules = {}
+    mirror: dict[str, Any] = {}
+    for module_name, canonical_entry in canonical_modules.items():
+        if not isinstance(canonical_entry, dict):
+            continue
+        mirror[str(module_name)] = {
+            "canonical_manifest_entry": f"source_ssot_modules.modules.{module_name}",
+            "path": canonical_entry.get("path", ""),
+            "root_key": canonical_entry.get("root_key", ""),
+            "label": canonical_entry.get("label", ""),
+            "status": canonical_entry.get("status", ""),
+            "rule": canonical_entry.get("rule", ""),
+            "canonical_module": canonical_entry.get("canonical_module", ""),
+            "canonical_reference_key": canonical_entry.get("canonical_reference_key", ""),
+            "canonical_reference_prefix": canonical_entry.get("canonical_reference_prefix", ""),
+            "mirror_fields": list(canonical_entry.get("mirror_fields", [])) if isinstance(canonical_entry.get("mirror_fields", []), list) else [],
+            "entry": dict(canonical_entry),
+        }
+    return {"version": 1, "modules": mirror}
 
 def _virtual_indexed_list_shard(
     godot_root: Path,

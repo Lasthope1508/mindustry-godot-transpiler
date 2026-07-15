@@ -459,21 +459,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
             self.assertIn("source_symbol_registry_symbols.sample.symbol: mirror field java_expr differs from registry.sample.symbol", report["errors"])
             self.assertIn("source_symbol_registry_symbols.sample.symbol: mirror field symbol differs from registry.sample.symbol", report["errors"])
 
-    def test_source_ssot_module_manifest_entries_shard_declares_canonical_mirror_contract(self):
+    def test_source_ssot_module_manifest_entries_are_virtual_canonical_manifest_compatibility(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        entry = manifest["modules"]["source_ssot_module_entries"]
+        module_entries_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json"
 
-        self.assertEqual(entry["canonical_module"], "module_manifest")
-        self.assertEqual(entry["canonical_reference_key"], "canonical_manifest_entry")
-        self.assertEqual(entry["canonical_reference_prefix"], "source_ssot_modules.modules.")
-        self.assertEqual(entry["canonical_value_field"], "entry")
-        self.assertIn("path", entry["mirror_fields"])
-        self.assertIn("mirror_fields", entry["mirror_fields"])
-        self.assertIn("entry", entry["mirror_fields"])
+        self.assertNotIn("source_ssot_module_entries", manifest["modules"])
+        self.assertFalse(module_entries_path.exists())
 
         canonical_modules = source_ssot.load_registered_json(ROOT / "godot-mindustry", "module_manifest")["modules"]
         module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
@@ -482,14 +477,13 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         for module_name, module_entry in sorted(module_entries.items()):
             with self.subTest(module_name=module_name):
                 self.assertEqual(module_entry["canonical_manifest_entry"], f"source_ssot_modules.modules.{module_name}")
-                for field in entry["mirror_fields"]:
-                    expected_value = canonical_modules[module_name] if field == entry["canonical_value_field"] else canonical_modules[module_name][field]
-                    self.assertEqual(module_entry[field], expected_value)
+                self.assertEqual(module_entry["entry"], canonical_modules[module_name])
+                for field in ("path", "root_key", "label", "status", "rule", "canonical_module", "canonical_reference_key", "canonical_reference_prefix", "mirror_fields"):
+                    self.assertEqual(module_entry[field], canonical_modules[module_name][field])
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        module_report = [item for item in report["modules"] if item["name"] == "source_ssot_module_entries"][0]
-        self.assertEqual(module_report["canonical_mirror"]["canonical_module"], "module_manifest")
-        self.assertEqual(module_report["canonical_mirror"]["checked"], len(canonical_modules))
+        self.assertEqual(report["errors"], [])
+        self.assertEqual([item for item in report["modules"] if item["name"] == "source_ssot_module_entries"], [])
 
     def test_source_ssot_consumer_slice_shard_declares_canonical_mirror_contract(self):
         import importlib
