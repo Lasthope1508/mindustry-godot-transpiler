@@ -6,7 +6,7 @@ const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegis
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
 const ControlInput := preload("res://src/game/ControlInput.gd")
-const SourceLiquidDefaults := preload("res://src/game/SourceLiquidDefaults.gd")
+const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const SOURCE_DRILL_HARDNESS_MULTIPLIER := 50.0
 const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
@@ -108,7 +108,7 @@ var builder_last_deconstruct_removed := false
 var builder_type_build_speed := SOURCE_ALPHA_BUILD_SPEED
 var builder_build_speed_multiplier := 1.0
 var builder_rules_build_speed := 1.0
-var liquid_defaults: SourceLiquidDefaults
+var gameplay_defaults: SourceGameplayDefaults
 var primary_liquid_id := ""
 var liquid_transfer_liquid := ""
 var liquid_transfer_source_amount := 8.0
@@ -126,7 +126,7 @@ var item_dump_last_state: Dictionary = {}
 var put_item_item := ""
 var put_item_dump_cursor := 0
 var put_item_last_state: Dictionary = {}
-var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}
+var payload_runtime_payload: Dictionary = {}
 var payload_runtime_dump_cursor := 0
 var payload_runtime_move_last_state: Dictionary = {}
 var payload_runtime_dump_last_state: Dictionary = {}
@@ -303,6 +303,7 @@ func _ready() -> void:
 	load_textures()
 	bind_nodes()
 	build_block_palette()
+	load_payload_runtime_defaults()
 	build_world()
 	build_hud()
 
@@ -355,12 +356,17 @@ func load_playable_item_defaults() -> void:
 	drill_output_item_id = primary_item_id
 
 func load_playable_liquid_defaults() -> void:
-	liquid_defaults = SourceLiquidDefaults.new(SourceSsotCatalog)
-	primary_liquid_id = liquid_defaults.primary_liquid_id()
+	gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)
+	primary_liquid_id = gameplay_defaults.primary_liquid_id()
 	if primary_liquid_id == "":
 		return
 	liquid_transfer_liquid = primary_liquid_id
 	liquid_leak_liquid = primary_liquid_id
+
+func load_payload_runtime_defaults() -> void:
+	if gameplay_defaults == null:
+		gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)
+	payload_runtime_payload = gameplay_defaults.first_pinned_payload(content_catalog)
 
 func pinned_build_block_ids() -> Array:
 	var palette: Dictionary = config.get("build_palette", {})

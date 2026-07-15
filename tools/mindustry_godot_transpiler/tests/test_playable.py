@@ -3043,30 +3043,30 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_uses_content_registry_liquid_for_liquid_defaults(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
-        liquid_defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidDefaults.gd"
+        gameplay_defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameplayDefaults.gd"
         content_registry = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "content_registry.json").read_text(encoding="utf-8"))
         liquid_shard = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_liquids.json").read_text(encoding="utf-8"))
         first_liquid_id = content_registry["liquids"][0]["id"]
 
         self.assertEqual(first_liquid_id, "water")
         self.assertEqual(liquid_shard["liquids"][first_liquid_id]["canonical_liquid"], f"content_registry.liquids.{first_liquid_id}")
-        self.assertTrue(liquid_defaults_path.exists())
-        liquid_defaults_source = liquid_defaults_path.read_text(encoding="utf-8")
-        self.assertIn('const SourceLiquidDefaults := preload("res://src/game/SourceLiquidDefaults.gd")', source)
-        self.assertIn("var liquid_defaults: SourceLiquidDefaults", source)
+        self.assertTrue(gameplay_defaults_path.exists())
+        gameplay_defaults_source = gameplay_defaults_path.read_text(encoding="utf-8")
+        self.assertIn('const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")', source)
+        self.assertIn("var gameplay_defaults: SourceGameplayDefaults", source)
         self.assertIn("var primary_liquid_id := \"\"", source)
         self.assertIn("var liquid_transfer_liquid := \"\"", source)
         self.assertIn("var liquid_leak_liquid := \"\"", source)
-        self.assertIn("liquid_defaults = SourceLiquidDefaults.new(SourceSsotCatalog)", source)
+        self.assertIn("gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)", source)
         self.assertIn("load_playable_liquid_defaults()", source)
         self.assertIn("func load_playable_liquid_defaults() -> void:", source)
-        self.assertIn("primary_liquid_id = liquid_defaults.primary_liquid_id()", source)
+        self.assertIn("primary_liquid_id = gameplay_defaults.primary_liquid_id()", source)
         self.assertIn("liquid_transfer_liquid = primary_liquid_id", source)
         self.assertIn("liquid_leak_liquid = primary_liquid_id", source)
         self.assertIn('"primary_liquid_id": primary_liquid_id', source)
-        self.assertIn('catalog.load_document("content_registry")', liquid_defaults_source)
-        self.assertIn('catalog.load_document("content_registry_liquids")', liquid_defaults_source)
-        self.assertIn('return str(entry.get("id", ""))', liquid_defaults_source)
+        self.assertIn('catalog.load_document("content_registry")', gameplay_defaults_source)
+        self.assertIn('catalog.load_document("content_registry_liquids")', gameplay_defaults_source)
+        self.assertIn('return str(entry.get("id", ""))', gameplay_defaults_source)
         self.assertNotIn('var liquid_transfer_liquid := "water"', source)
         self.assertNotIn('var liquid_leak_liquid := "water"', source)
 
@@ -5356,12 +5356,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"moved": true, "cdump": next_dump, "handled_index": other_index}', source)
         self.assertIn('return {"moved": false, "cdump": next_dump, "handled_index": -1}', source)
 
-    def test_port_game_exposes_move_dump_payload_runtime_proof(self):
+    def test_port_game_uses_ssot_payload_default_for_move_dump_runtime(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameplayDefaults.gd"
+        helper_source = helper.read_text(encoding="utf-8")
         summary_body = source.split("func get_runtime_summary() -> Dictionary:", 1)[1].split("func update_hud() -> void:", 1)[0]
 
-        self.assertIn('var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}', source)
+        self.assertIn('const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")', source)
+        self.assertIn("var gameplay_defaults: SourceGameplayDefaults", source)
+        self.assertIn('gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)', source)
+        self.assertIn('load_payload_runtime_defaults()', source)
+        self.assertIn('func load_payload_runtime_defaults() -> void:', source)
+        self.assertIn('payload_runtime_payload = gameplay_defaults.first_pinned_payload(content_catalog)', source)
+        self.assertIn('var payload_runtime_payload: Dictionary = {}', source)
         self.assertIn("var payload_runtime_dump_cursor := 0", source)
         self.assertIn("var payload_runtime_move_last_state: Dictionary = {}", source)
         self.assertIn("var payload_runtime_dump_last_state: Dictionary = {}", source)
@@ -5381,6 +5389,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"dump_handle_payload": SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD', source)
         self.assertIn('"dump_increment": SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP', source)
         self.assertIn('"payload_runtime": payload_runtime_state()', summary_body)
+        self.assertIn('catalog.load_document("playable_content")', helper_source)
+        self.assertIn("func first_pinned_build_block_id() -> String:", helper_source)
+        self.assertIn("return str(pinned_block_ids[0])", helper_source)
+        self.assertIn('return {"kind": "block", "content": block_id, "size": max(1, int(block.properties.get("size", 1)))}', helper_source)
+        self.assertNotIn('var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}', source)
 
     def test_port_game_exposes_source_building_can_be_replaced_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

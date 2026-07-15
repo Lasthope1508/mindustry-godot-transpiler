@@ -1,10 +1,30 @@
 extends RefCounted
-class_name SourceLiquidDefaults
+class_name SourceGameplayDefaults
 
 var catalog: Variant
 
 func _init(source_catalog: Variant) -> void:
 	catalog = source_catalog
+
+func first_pinned_build_block_id() -> String:
+	var document: Dictionary = catalog.load_document("playable_content")
+	if not bool(document.get("loaded", false)):
+		return ""
+	var data: Dictionary = document.get("data", {})
+	var palette: Dictionary = data.get("build_palette", {})
+	var pinned_block_ids: Array = palette.get("pinned_block_ids", [])
+	if pinned_block_ids.is_empty():
+		return ""
+	return str(pinned_block_ids[0])
+
+func first_pinned_payload(content_catalog: Variant) -> Dictionary:
+	var block_id := first_pinned_build_block_id()
+	if block_id == "" or content_catalog == null:
+		return {}
+	var block = content_catalog.get_by_id(block_id)
+	if block == null:
+		return {}
+	return {"kind": "block", "content": block_id, "size": max(1, int(block.properties.get("size", 1)))}
 
 func primary_liquid_id() -> String:
 	var registry_document: Dictionary = catalog.load_document("content_registry")
