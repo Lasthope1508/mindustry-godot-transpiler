@@ -7,14 +7,12 @@ from typing import Any
 
 VIEWPORT_SIZE = {"width": 1280, "height": 720}
 CAMERA_PROFILE = {
-    "position_x": 1280.0,
-    "position_y": 720.0,
     "zoom": 0.5,
 }
 TILE_SIZE = 32
 SOURCE_TILE_SIZE = 8
 RENDER_SCALE = 4
-BACKGROUND_MARGIN_TILES = {"x": 16, "y": 9}
+BACKGROUND_MARGIN_VIEWPORTS = {"x": 1.0, "y": 1.0}
 
 def _visible_world_size(viewport: dict[str, int], camera: dict[str, float]) -> dict[str, int]:
     zoom = float(camera["zoom"])
@@ -23,15 +21,34 @@ def _visible_world_size(viewport: dict[str, int], camera: dict[str, float]) -> d
         "height_pixels": int(viewport["height"] / zoom),
     }
 
-def _world_size(visible_world: dict[str, int], tile_size: int, background_margin_tiles: dict[str, int]) -> dict[str, int]:
+def _background_margin_tiles(visible_world: dict[str, int], tile_size: int, margin_viewports: dict[str, float]) -> dict[str, int]:
     return {
-        "width_tiles": int(ceil(visible_world["width_pixels"] / tile_size) + background_margin_tiles["x"]),
-        "height_tiles": int(ceil(visible_world["height_pixels"] / tile_size) + background_margin_tiles["y"]),
+        "x": int(ceil((visible_world["width_pixels"] / tile_size) * margin_viewports["x"])),
+        "y": int(ceil((visible_world["height_pixels"] / tile_size) * margin_viewports["y"])),
+    }
+
+def _world_size(visible_world: dict[str, int], tile_size: int, background_margin_tiles: dict[str, int]) -> dict[str, int]:
+    width_tiles = int(ceil(visible_world["width_pixels"] / tile_size) + background_margin_tiles["x"])
+    height_tiles = int(ceil(visible_world["height_pixels"] / tile_size) + background_margin_tiles["y"])
+    return {
+        "width_tiles": width_tiles,
+        "height_tiles": height_tiles,
+        "width_pixels": width_tiles * tile_size,
+        "height_pixels": height_tiles * tile_size,
+    }
+
+def _camera_profile(world: dict[str, int]) -> dict[str, float]:
+    return {
+        "position_x": float(world["width_pixels"] / 2.0),
+        "position_y": float(world["height_pixels"] / 2.0),
+        "zoom": CAMERA_PROFILE["zoom"],
     }
 
 def build_display_profile() -> dict[str, Any]:
     visible_world = _visible_world_size(VIEWPORT_SIZE, CAMERA_PROFILE)
-    world = _world_size(visible_world, TILE_SIZE, BACKGROUND_MARGIN_TILES)
+    background_margin_tiles = _background_margin_tiles(visible_world, TILE_SIZE, BACKGROUND_MARGIN_VIEWPORTS)
+    world = _world_size(visible_world, TILE_SIZE, background_margin_tiles)
+    camera = _camera_profile(world)
     return {
         "version": 1,
         "root_key": "playfield",
@@ -42,17 +59,21 @@ def build_display_profile() -> dict[str, Any]:
                 "source": "godot-mindustry/project.godot display/window/size/viewport_width, display/window/size/viewport_height",
             },
             "camera": {
-                "position_x": CAMERA_PROFILE["position_x"],
-                "position_y": CAMERA_PROFILE["position_y"],
-                "zoom": CAMERA_PROFILE["zoom"],
-                "source": "camera.position = visible_world_pixels / 2, Camera2D.zoom",
+                "position_x": camera["position_x"],
+                "position_y": camera["position_y"],
+                "zoom": camera["zoom"],
+                "source": "camera.position = world_pixels / 2, Camera2D.zoom",
             },
             "tile_size": TILE_SIZE,
             "source_tile_size": SOURCE_TILE_SIZE,
             "render_scale": RENDER_SCALE,
+            "background_margin_viewports": {
+                "x": BACKGROUND_MARGIN_VIEWPORTS["x"],
+                "y": BACKGROUND_MARGIN_VIEWPORTS["y"],
+            },
             "background_margin_tiles": {
-                "x": BACKGROUND_MARGIN_TILES["x"],
-                "y": BACKGROUND_MARGIN_TILES["y"],
+                "x": background_margin_tiles["x"],
+                "y": background_margin_tiles["y"],
             },
             "visible_world": {
                 "width_pixels": visible_world["width_pixels"],
@@ -62,8 +83,8 @@ def build_display_profile() -> dict[str, Any]:
             "world": {
                 "width_tiles": world["width_tiles"],
                 "height_tiles": world["height_tiles"],
-                "width_pixels": world["width_tiles"] * TILE_SIZE,
-                "height_pixels": world["height_tiles"] * TILE_SIZE,
+                "width_pixels": world["width_pixels"],
+                "height_pixels": world["height_pixels"],
                 "formula": "ceil(visible_world_pixels / tile_size) + background_margin_tiles",
             },
             "source": {

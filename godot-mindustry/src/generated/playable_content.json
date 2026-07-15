@@ -34,16 +34,16 @@
   },
   "bootstrap_layout": {
     "core_cell": {
-      "x": 53,
-      "y": 27
+      "x": 85,
+      "y": 45
     },
     "drill_cell": {
-      "x": 43,
-      "y": 27
+      "x": 75,
+      "y": 45
     },
     "duo_cell": {
-      "x": 54,
-      "y": 26
+      "x": 86,
+      "y": 44
     }
   },
   "bootstrap_terrain": {
@@ -52,10 +52,10 @@
       {
         "item": "copper",
         "ore_block": "ore_copper",
-        "x_from": 41,
-        "x_to": 44,
-        "y_from": 25,
-        "y_to": 30
+        "x_from": 73,
+        "x_to": 76,
+        "y_from": 43,
+        "y_to": 48
       }
     ]
   },

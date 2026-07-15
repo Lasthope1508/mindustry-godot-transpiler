@@ -44,10 +44,10 @@ class PlayableManifestTests(unittest.TestCase):
                 {
                     "item": "copper",
                     "ore_block": "ore_copper",
-                    "x_from": 41,
-                    "x_to": 44,
-                    "y_from": 25,
-                    "y_to": 30,
+                    "x_from": 73,
+                    "x_to": 76,
+                    "y_from": 43,
+                    "y_to": 48,
                 }
             ],
         })
@@ -128,18 +128,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(playfield["viewport"]["width"], 1280)
         self.assertEqual(playfield["viewport"]["height"], 720)
         self.assertEqual(playfield["camera"]["zoom"], 0.5)
-        self.assertEqual(playfield["camera"]["position_x"], 1280.0)
-        self.assertEqual(playfield["camera"]["position_y"], 720.0)
         self.assertEqual(playfield["tile_size"], 32)
-        self.assertEqual(playfield["background_margin_tiles"], {"x": 16, "y": 9})
-        self.assertEqual(playfield["world"]["width_tiles"], 96)
-        self.assertEqual(playfield["world"]["height_tiles"], 54)
+        self.assertEqual(playfield["background_margin_viewports"], {"x": 1.0, "y": 1.0})
+        self.assertEqual(playfield["background_margin_tiles"], {"x": 80, "y": 45})
+        self.assertEqual(playfield["world"]["width_tiles"], 160)
+        self.assertEqual(playfield["world"]["height_tiles"], 90)
         self.assertGreaterEqual(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
         self.assertGreaterEqual(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
         self.assertGreater(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
         self.assertGreater(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
-        self.assertEqual(playfield["camera"]["position_x"] - (playfield["visible_world"]["width_pixels"] / 2.0), 0.0)
-        self.assertEqual(playfield["camera"]["position_y"] - (playfield["visible_world"]["height_pixels"] / 2.0), 0.0)
+        self.assertEqual(playfield["camera"]["position_x"], playfield["world"]["width_pixels"] / 2.0)
+        self.assertEqual(playfield["camera"]["position_y"], playfield["world"]["height_pixels"] / 2.0)
+
+    def test_display_profile_background_margin_scales_from_visible_viewport(self):
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json"
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        playfield = profile["playfield"]
+        visible_world = playfield["visible_world"]
+        tile_size = playfield["tile_size"]
+        margin_tiles = playfield["background_margin_tiles"]
+        world = playfield["world"]
+
+        self.assertEqual(playfield["background_margin_viewports"], {"x": 1.0, "y": 1.0})
+        self.assertEqual(
+            margin_tiles,
+            {
+                "x": int((visible_world["width_pixels"] + tile_size - 1) / tile_size),
+                "y": int((visible_world["height_pixels"] + tile_size - 1) / tile_size),
+            },
+        )
+        self.assertGreaterEqual(
+            world["width_pixels"] - visible_world["width_pixels"],
+            visible_world["width_pixels"],
+        )
+        self.assertGreaterEqual(
+            world["height_pixels"] - visible_world["height_pixels"],
+            visible_world["height_pixels"],
+        )
 
     def test_port_game_uses_display_profile_without_world_size_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -169,6 +194,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("from mindustry_port.display_profile import build_display_profile", source)
         self.assertNotIn("PLAYFIELD_WORLD_TILES", source)
+        self.assertIn('tile_size = int(display_profile["tile_size"])', source)
+        self.assertIn('"tile_size": tile_size', source)
+        self.assertNotIn('"tile_size": 32', source)
+        self.assertEqual(playable_content["tile_size"], display_profile["playfield"]["tile_size"])
         self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"]["x"], (world["width_tiles"] // 2) - 5)
         self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"]["y"], world["height_tiles"] // 2)
         self.assertEqual(playable_content["bootstrap_layout"]["core_cell"]["x"], (world["width_tiles"] // 2) + 5)
@@ -3041,10 +3070,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
         playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+        display_profile = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json").read_text(encoding="utf-8"))
+        world = display_profile["playfield"]["world"]
+        center_x = world["width_tiles"] // 2
+        center_y = world["height_tiles"] // 2
 
-        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": 43, "y": 27})
-        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": 53, "y": 27})
-        self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": 54, "y": 26})
+        self.assertEqual(playable_content["bootstrap_layout"]["drill_cell"], {"x": center_x - 5, "y": center_y})
+        self.assertEqual(playable_content["bootstrap_layout"]["core_cell"], {"x": center_x + 5, "y": center_y})
+        self.assertEqual(playable_content["bootstrap_layout"]["duo_cell"], {"x": center_x + 6, "y": center_y - 1})
         self.assertEqual(playable_content["bootstrap_blocks"], {
             "conveyor_block": "conveyor",
             "core_block": "core-shard",
@@ -3232,6 +3265,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
         playable_content = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "playable_content.json").read_text(encoding="utf-8"))
+        drill_cell = playable_content["bootstrap_layout"]["drill_cell"]
 
         self.assertEqual(playable_content["bootstrap_terrain"], {
             "floor_block": "stone_floor",
@@ -3239,10 +3273,10 @@ class PlayableManifestTests(unittest.TestCase):
                 {
                     "item": "copper",
                     "ore_block": "ore_copper",
-                    "x_from": 41,
-                    "x_to": 44,
-                    "y_from": 25,
-                    "y_to": 30,
+                    "x_from": drill_cell["x"] - 2,
+                    "x_to": drill_cell["x"] + 1,
+                    "y_from": drill_cell["y"] - 2,
+                    "y_to": drill_cell["y"] + 3,
                 }
             ],
         })

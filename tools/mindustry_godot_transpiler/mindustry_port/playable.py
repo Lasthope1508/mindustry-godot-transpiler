@@ -89,9 +89,10 @@ def build_playable_manifest(asset_root: Path) -> dict:
     for block_id, rel in REQUIRED_ASSETS["blocks"].items():
         blocks[block_id] = _asset_entry(asset_root, rel, block_id)
     display_profile = build_display_profile()["playfield"]
+    tile_size = int(display_profile["tile_size"])
     bootstrap_layout = _bootstrap_layout(display_profile)
     return {
-        "tile_size": 32,
+        "tile_size": tile_size,
         "item": _asset_entry(asset_root, item_path, item_id),
         "blocks": blocks,
         "bootstrap_blocks": BOOTSTRAP_BLOCKS,

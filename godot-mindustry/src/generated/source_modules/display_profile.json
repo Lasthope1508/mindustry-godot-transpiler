@@ -8,17 +8,21 @@
       "source": "godot-mindustry/project.godot display/window/size/viewport_width, display/window/size/viewport_height"
     },
     "camera": {
-      "position_x": 1280.0,
-      "position_y": 720.0,
+      "position_x": 2560.0,
+      "position_y": 1440.0,
       "zoom": 0.5,
-      "source": "camera.position = visible_world_pixels / 2, Camera2D.zoom"
+      "source": "camera.position = world_pixels / 2, Camera2D.zoom"
     },
     "tile_size": 32,
     "source_tile_size": 8,
     "render_scale": 4,
+    "background_margin_viewports": {
+      "x": 1.0,
+      "y": 1.0
+    },
     "background_margin_tiles": {
-      "x": 16,
-      "y": 9
+      "x": 80,
+      "y": 45
     },
     "visible_world": {
       "width_pixels": 2560,
@@ -26,10 +30,10 @@
       "formula": "viewport_pixels / camera.zoom"
     },
     "world": {
-      "width_tiles": 96,
-      "height_tiles": 54,
-      "width_pixels": 3072,
-      "height_pixels": 1728,
+      "width_tiles": 160,
+      "height_tiles": 90,
+      "width_pixels": 5120,
+      "height_pixels": 2880,
       "formula": "ceil(visible_world_pixels / tile_size) + background_margin_tiles"
     },
     "source": {
