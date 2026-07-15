@@ -49,6 +49,7 @@ MODULES: tuple[SourceSsotModule, ...] = (
 _MODULES_BY_NAME = {module.name: module for module in MODULES}
 _MODULE_ALIASES = {
     "source_slice_ledger_slices": "slice_ledger",
+    "source_api_contracts_contracts": "api_contracts",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "exact_exprs",
@@ -170,6 +171,8 @@ def load_json(godot_root: Path, name: str) -> dict[str, Any]:
 def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
     if name == "source_slice_ledger_slices":
         return _virtual_source_slice_ledger_slices(godot_root)
+    if name == "source_api_contracts_contracts":
+        return _virtual_source_api_contracts_contracts(godot_root)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -189,6 +192,23 @@ def _virtual_source_slice_ledger_slices(godot_root: Path) -> dict[str, Any]:
                 entry[field] = canonical_entry[field]
         mirror[str(slice_id)] = entry
     return {"version": 1, "slices": mirror}
+
+def _virtual_source_api_contracts_contracts(godot_root: Path) -> dict[str, Any]:
+    canonical_contracts = load_registered_json(godot_root, "api_contracts").get("contracts", {})
+    if not isinstance(canonical_contracts, dict):
+        canonical_contracts = {}
+    mirror: dict[str, Any] = {}
+    for contract_owner, canonical_entry in sorted(canonical_contracts.items()):
+        if not isinstance(canonical_entry, dict):
+            continue
+        entry: dict[str, Any] = {"canonical_contract": f"source_api_contracts.{contract_owner}"}
+        for field in ("java_source", "params", "return_keys", "rule", "runtime_proof", "source_method", "source_slice", "status", "tests", "contract"):
+            if field == "contract":
+                entry[field] = canonical_entry
+            else:
+                entry[field] = canonical_entry[field]
+        mirror[str(contract_owner)] = entry
+    return {"version": 1, "contracts": mirror}
 
 
 def load_all_json(godot_root: Path) -> dict[str, dict[str, Any]]:

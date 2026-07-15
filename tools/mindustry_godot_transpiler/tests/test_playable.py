@@ -15641,14 +15641,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceSsotCatalog.lookup_state("registry", symbol)', source)
         self.assertNotIn('return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)', source)
 
-    def test_port_game_exposes_source_api_contracts_contracts_extension_shard(self):
+    def test_port_game_uses_core_api_contracts_without_aggregate_contract_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_api_contracts_contracts.json").exists())
-        self.assertIn('"source_api_contracts_contracts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_api_contracts_contracts.json").exists())
+        self.assertNotIn('"source_api_contracts_contracts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', source)
 
     def test_port_game_uses_core_state_schema_without_aggregate_schema_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
