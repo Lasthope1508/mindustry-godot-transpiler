@@ -294,25 +294,6 @@
       "rule": "Extension shard for defense-block source state schemas; schema names are derived from defense_api_contracts params and existing canonical result schemas, then mirrored through source_state_schema before use.",
       "status": "active"
     },
-    "defense_symbols": {
-      "canonical_module": "registry",
-      "canonical_reference_key": "canonical_symbol",
-      "canonical_reference_prefix": "source_symbol_registry.",
-      "label": "symbol",
-      "mirror_fields": [
-        "status",
-        "java_expr",
-        "godot_symbol",
-        "godot_owner",
-        "rule",
-        "tests",
-        "runtime_proof"
-      ],
-      "path": "src/generated/source_modules/defense_symbols.json",
-      "root_key": "symbols",
-      "rule": "Extension shard for defense-block source symbols; canonical symbol names come from defense_slices.source_symbols and mirrored fields remain sourced from source_symbol_registry before use.",
-      "status": "active"
-    },
     "payload_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",

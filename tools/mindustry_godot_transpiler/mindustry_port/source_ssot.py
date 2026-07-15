@@ -55,6 +55,7 @@ _MODULE_ALIASES = {
     "source_manifest_files": "source_manifest",
     "comp_state_schema": "state_schema",
     "comp_symbols": "registry",
+    "defense_symbols": "registry",
 }
 _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "exact_exprs",
@@ -68,15 +69,36 @@ _SOURCE_SLICE_LEDGER_MIRROR_FIELDS = (
     "tests",
     "slice",
 )
-_COMP_SYMBOL_MIRROR_FIELDS = (
-    "status",
-    "java_expr",
-    "godot_symbol",
-    "godot_owner",
-    "rule",
-    "tests",
-    "runtime_proof",
-)
+_DOMAIN_SYMBOL_SHARDS: dict[str, dict[str, Any]] = {
+    "comp_symbols": {
+        "slice_module": "comp_slices",
+        "contract_module": "comp_api_contracts",
+        "slice_filter": "/entities/comp/",
+        "mirror_fields": (
+            "status",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        ),
+    },
+    "defense_symbols": {
+        "slice_module": "defense_slices",
+        "contract_module": "defense_api_contracts",
+        "slice_filter": "/world/blocks/defense/",
+        "mirror_fields": (
+            "status",
+            "java_expr",
+            "godot_symbol",
+            "godot_owner",
+            "rule",
+            "tests",
+            "runtime_proof",
+        ),
+    },
+}
 _COMP_STATE_SCHEMA_MIRROR_FIELDS = ("keys",)
 
 
@@ -196,8 +218,8 @@ def load_registered_json(godot_root: Path, name: str) -> dict[str, Any]:
         return _virtual_source_manifest_files(godot_root)
     if name == "comp_state_schema":
         return _virtual_comp_state_schema(godot_root)
-    if name == "comp_symbols":
-        return _virtual_comp_symbols(godot_root)
+    if name in _DOMAIN_SYMBOL_SHARDS:
+        return _virtual_domain_symbols(godot_root, name)
     path = Path(godot_root) / registered_relative_path(godot_root, name)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -284,25 +306,27 @@ def _virtual_source_manifest_files(godot_root: Path) -> dict[str, Any]:
     return {"version": 1, "files": mirror}
 
 
-def _virtual_comp_symbols(godot_root: Path) -> dict[str, Any]:
-    comp_slices = load_registered_json(godot_root, "comp_slices").get("slices", {})
-    comp_contracts = load_registered_json(godot_root, "comp_api_contracts").get("contracts", {})
+def _virtual_domain_symbols(godot_root: Path, shard_name: str) -> dict[str, Any]:
+    config = _DOMAIN_SYMBOL_SHARDS[shard_name]
+    domain_slices = load_registered_json(godot_root, str(config["slice_module"])).get("slices", {})
+    domain_contracts = load_registered_json(godot_root, str(config["contract_module"])).get("contracts", {})
     canonical_symbols = load_registered_json(godot_root, "registry").get("symbols", {})
-    if not isinstance(comp_slices, dict):
-        comp_slices = {}
-    if not isinstance(comp_contracts, dict):
-        comp_contracts = {}
+    if not isinstance(domain_slices, dict):
+        domain_slices = {}
+    if not isinstance(domain_contracts, dict):
+        domain_contracts = {}
     if not isinstance(canonical_symbols, dict):
         canonical_symbols = {}
+    slice_filter = str(config["slice_filter"])
     expected_symbol_names = {
         str(symbol_name)
-        for slice_entry in comp_slices.values()
-        if isinstance(slice_entry, dict)
+        for slice_entry in domain_slices.values()
+        if isinstance(slice_entry, dict) and slice_filter in str(slice_entry.get("java_source", ""))
         for symbol_name in slice_entry.get("source_symbols", [])
     } | {
         str(symbol_name)
         for symbol_name, symbol_entry in canonical_symbols.items()
-        if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in comp_contracts
+        if isinstance(symbol_entry, dict) and symbol_entry.get("godot_owner") in domain_contracts
     }
     mirror: dict[str, Any] = {}
     for symbol_name in sorted(expected_symbol_names):
@@ -310,7 +334,7 @@ def _virtual_comp_symbols(godot_root: Path) -> dict[str, Any]:
         if not isinstance(canonical_entry, dict):
             continue
         entry: dict[str, Any] = {"canonical_symbol": f"source_symbol_registry.{symbol_name}"}
-        for field in _COMP_SYMBOL_MIRROR_FIELDS:
+        for field in config["mirror_fields"]:
             entry[field] = canonical_entry[field]
         mirror[symbol_name] = entry
     return {"version": 1, "symbols": mirror}
