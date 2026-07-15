@@ -3,6 +3,7 @@
   "root_key": "math",
   "math": {
     "pi": 3.1415927,
+    "float_rounding_error": 0.000001,
     "pi2_expr": "PI * 2",
     "sin_bits": 14,
     "sin_mask_expr": "~(-1 << sinBits)",
@@ -11,6 +12,7 @@
     "rad_to_index_expr": "sinCount / radFull",
     "source": {
       "pi_expr": "public static final float PI = 3.1415927f, pi = PI, halfPi = PI/2;",
+      "float_rounding_error_expr": "public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits",
       "pi2_expr": "public static final float PI2 = PI * 2;",
       "sin_bits_expr": "private static final int sinBits = 14; // 16KB. Adjust for accuracy.",
       "sin_mask_expr": "private static final int sinMask = ~(-1 << sinBits);",

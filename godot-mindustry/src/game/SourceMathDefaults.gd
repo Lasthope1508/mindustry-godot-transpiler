@@ -19,6 +19,9 @@ func load_math_profile() -> void:
 func pi() -> float:
 	return float(profile.get("pi", 0.0))
 
+func float_rounding_error() -> float:
+	return float(profile.get("float_rounding_error", 0.0))
+
 func pi2() -> float:
 	return pi() * 2.0
 
@@ -44,6 +47,7 @@ func runtime_summary() -> Dictionary:
 	return {
 		"loaded": not profile.is_empty(),
 		"pi": pi(),
+		"float_rounding_error": float_rounding_error(),
 		"pi2": pi2(),
 		"sin_bits": sin_bits(),
 		"sin_mask": sin_mask(),

@@ -13,7 +13,6 @@ const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd"
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
-const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
 const SOURCE_RECOIL_POW := 1.8
 const SOURCE_INT64_MIN := -9223372036854775807 - 1
@@ -37,6 +36,7 @@ var math_defaults: SourceMathDefaults
 var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
 var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
 var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
+var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
 var SOURCE_ARC_PI := 0.0
@@ -306,6 +306,7 @@ func _ready() -> void:
 	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
 	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()
 	SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()
+	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
 	SOURCE_PI2 = math_defaults.pi2()
