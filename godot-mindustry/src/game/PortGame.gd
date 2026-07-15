@@ -15,7 +15,6 @@ const SOURCE_DRILL_WARMUP_SPEED := 0.015
 const SOURCE_BLOCK_DUMP_TIME := 5.0
 const SOURCE_CONVEYOR_TILE_SPEED_SCALE := 55.0
 const SOURCE_TICK_RATE := 60.0
-const SOURCE_TILESIZE := 8.0
 const SOURCE_UNIT_WARP_DST := 8.0
 const SOURCE_FINAL_WORLD_BOUNDS := 250.0
 const SOURCE_BUILDING_RANGE := 220.0
@@ -44,6 +43,7 @@ const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
 const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
 
 var tile_size := 0
+var source_tile_size := 0.0
 var config: Dictionary = {}
 var display_profile: Dictionary = {}
 var world_width_tiles := 0
@@ -333,6 +333,7 @@ func load_display_profile() -> void:
 	var visible_world: Dictionary = display_profile.get("visible_world", {})
 	var world: Dictionary = display_profile.get("world", {})
 	tile_size = int(display_profile.get("tile_size", 0))
+	source_tile_size = float(display_profile.get("source_tile_size", 0.0))
 	world_width_tiles = int(world.get("width_tiles", 0))
 	world_height_tiles = int(world.get("height_tiles", 0))
 	viewport_size_pixels = Vector2i(int(viewport.get("width", 0)), int(viewport.get("height", 0)))
@@ -418,6 +419,7 @@ func display_profile_runtime_summary() -> Dictionary:
 	return {
 		"loaded": not display_profile.is_empty(),
 		"tile_size": tile_size,
+		"source_tile_size": source_tile_size,
 		"world_width_tiles": world_width_tiles,
 		"world_height_tiles": world_height_tiles,
 		"world_width_pixels": world_width_pixels,
@@ -23233,27 +23235,27 @@ func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: floa
 			"kill": false,
 		}
 	if use_limited_area:
-		bot = float(rules_limit_y) * SOURCE_TILESIZE
-		left = float(rules_limit_x) * SOURCE_TILESIZE
-		top = float(rules_limit_height) * SOURCE_TILESIZE + bot
-		right = float(rules_limit_width) * SOURCE_TILESIZE + left
+		bot = float(rules_limit_y) * source_tile_size
+		left = float(rules_limit_x) * source_tile_size
+		top = float(rules_limit_height) * source_tile_size + bot
+		right = float(rules_limit_width) * source_tile_size + left
 	if (not net_client) or is_local:
 		can_apply_net_local = true
 		if next_x < left:
 			dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)
 		if next_y < bot:
 			dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)
-		if next_x > right - SOURCE_TILESIZE:
-			dx -= (next_x - (right - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST
-		if next_y > top - SOURCE_TILESIZE:
-			dy -= (next_y - (top - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST
+		if next_x > right - source_tile_size:
+			dx -= (next_x - (right - source_tile_size)) / SOURCE_UNIT_WARP_DST
+		if next_y > top - source_tile_size:
+			dy -= (next_y - (top - source_tile_size)) / SOURCE_UNIT_WARP_DST
 		vel_add_net = {"x": dx * source_delta, "y": dy * source_delta}
-		var margin := SOURCE_TILESIZE * 1.0
-		next_x = clampf(next_x, left - margin, right - SOURCE_TILESIZE + margin)
-		next_y = clampf(next_y, bot - margin, top - SOURCE_TILESIZE + margin)
+		var margin := source_tile_size * 1.0
+		next_x = clampf(next_x, left - margin, right - source_tile_size + margin)
+		next_y = clampf(next_y, bot - margin, top - source_tile_size + margin)
 	if grounded:
-		next_x = clampf(next_x, left, right - SOURCE_TILESIZE)
-		next_y = clampf(next_y, bot, top - SOURCE_TILESIZE)
+		next_x = clampf(next_x, left, right - source_tile_size)
+		next_y = clampf(next_y, bot, top - source_tile_size)
 	var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS
 	return {
 		"bounded": true,
@@ -27350,8 +27352,8 @@ func source_unit_payload_dump_solidity_guard_state(unit_type_null: bool, units_c
 	var solid_evaluated: bool = not before_solid_returned
 	var solid_present_guard: bool = solid_evaluated and solid_present
 	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
 	var solid_solid_evaluated: bool = solid_present_guard
 	var solid_guard: bool = solid_solid_evaluated and solid_solid
 	var returned: bool = before_solid_returned or solid_guard
@@ -27443,8 +27445,8 @@ func source_unit_payload_dump_overlap_guard_state(unit_type_null: bool, units_ca
 	var solid_evaluated: bool = not before_solid_returned
 	var solid_present_guard: bool = solid_evaluated and solid_present
 	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
 	var solid_solid_evaluated: bool = solid_present_guard
 	var solid_guard: bool = solid_solid_evaluated and solid_solid
 	var before_overlap_returned: bool = before_solid_returned or solid_guard
@@ -27564,8 +27566,8 @@ func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_
 	var solid_evaluated: bool = not before_solid_returned
 	var solid_present_guard: bool = solid_evaluated and solid_present
 	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
 	var solid_solid_evaluated: bool = solid_present_guard
 	var solid_guard: bool = solid_solid_evaluated and solid_solid
 	var before_overlap_returned: bool = before_solid_returned or solid_guard
@@ -33875,7 +33877,7 @@ func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotati
 	if turret != null:
 		turret_properties = turret.get("properties", {}) if turret is Dictionary else turret.properties
 	var shoot_x := float(turret_properties.get("shootX", 0.0))
-	var shoot_y := float(turret_properties.get("shootY", float(turret_properties.get("size", 0.0)) * SOURCE_TILESIZE / 2.0))
+	var shoot_y := float(turret_properties.get("shootY", float(turret_properties.get("size", 0.0)) * source_tile_size / 2.0))
 	var rotation_minus_90 := turret_rotation_degrees - 90.0
 	var trns := source_arc_angles_trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y + y_offset)
 	return {

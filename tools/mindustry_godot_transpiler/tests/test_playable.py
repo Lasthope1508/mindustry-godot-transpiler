@@ -255,6 +255,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const WORLD_H := 16", source)
         self.assertNotIn('config.get("tile_size", 32)', source)
 
+    def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        display_profile = json.loads((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "display_profile.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(display_profile["playfield"]["source_tile_size"], 8)
+        self.assertEqual(display_profile["playfield"]["source"]["tilesize_expr"], "public static final int tilesize = 8;")
+        self.assertIn("var source_tile_size := 0.0", source)
+        self.assertIn('source_tile_size = float(display_profile.get("source_tile_size", 0.0))', source)
+        self.assertNotIn("const SOURCE_TILESIZE", source)
+        self.assertNotIn("SOURCE_TILESIZE", source)
+
     def test_playable_manifest_centers_bootstrap_layout_from_display_profile_ssot(self):
         playable_generator = ROOT / "tools" / "mindustry_godot_transpiler" / "mindustry_port" / "playable.py"
         source = playable_generator.read_text(encoding="utf-8")
@@ -16228,21 +16240,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:", source)
         self.assertIn("if not type_bounded:", source)
         self.assertIn("var use_limited_area := rules_limit_map_area and not team_is_ai", source)
-        self.assertIn("bot = float(rules_limit_y) * SOURCE_TILESIZE", source)
-        self.assertIn("left = float(rules_limit_x) * SOURCE_TILESIZE", source)
-        self.assertIn("top = float(rules_limit_height) * SOURCE_TILESIZE + bot", source)
-        self.assertIn("right = float(rules_limit_width) * SOURCE_TILESIZE + left", source)
+        self.assertIn("bot = float(rules_limit_y) * source_tile_size", source)
+        self.assertIn("left = float(rules_limit_x) * source_tile_size", source)
+        self.assertIn("top = float(rules_limit_height) * source_tile_size + bot", source)
+        self.assertIn("right = float(rules_limit_width) * source_tile_size + left", source)
         self.assertIn("if (not net_client) or is_local:", source)
         self.assertIn("dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)", source)
         self.assertIn("dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)", source)
-        self.assertIn("dx -= (next_x - (right - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST", source)
-        self.assertIn("dy -= (next_y - (top - SOURCE_TILESIZE)) / SOURCE_UNIT_WARP_DST", source)
+        self.assertIn("dx -= (next_x - (right - source_tile_size)) / SOURCE_UNIT_WARP_DST", source)
+        self.assertIn("dy -= (next_y - (top - source_tile_size)) / SOURCE_UNIT_WARP_DST", source)
         self.assertIn("vel_add_net = {\"x\": dx * source_delta, \"y\": dy * source_delta}", source)
-        self.assertIn("next_x = clampf(next_x, left - margin, right - SOURCE_TILESIZE + margin)", source)
-        self.assertIn("next_y = clampf(next_y, bot - margin, top - SOURCE_TILESIZE + margin)", source)
+        self.assertIn("next_x = clampf(next_x, left - margin, right - source_tile_size + margin)", source)
+        self.assertIn("next_y = clampf(next_y, bot - margin, top - source_tile_size + margin)", source)
         self.assertIn("if grounded:", source)
-        self.assertIn("next_x = clampf(next_x, left, right - SOURCE_TILESIZE)", source)
-        self.assertIn("next_y = clampf(next_y, bot, top - SOURCE_TILESIZE)", source)
+        self.assertIn("next_x = clampf(next_x, left, right - source_tile_size)", source)
+        self.assertIn("next_y = clampf(next_y, bot, top - source_tile_size)", source)
         self.assertIn("var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS", source)
 
     def test_port_game_exposes_source_unit_update_nan_health_state(self):
@@ -23855,8 +23867,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"vars_tilesize_field": "public static final int tilesize = 8;"', source)
         self.assertIn('"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;"', source)
         self.assertIn("var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source)
-        self.assertIn("var tx: int = int(round((unit_x + float(trns_vec.get(\"x\", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0", source)
-        self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0", source)
+        self.assertIn("var tx: int = int(round((unit_x + float(trns_vec.get(\"x\", 0.0))) / source_tile_size)) if solid_present_guard else 0", source)
+        self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / source_tile_size)) if solid_present_guard else 0", source)
         self.assertIn("var solid_guard: bool = solid_solid_evaluated and solid_solid", source)
         self.assertIn('"solid_call": solid_call', source)
         self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source)
