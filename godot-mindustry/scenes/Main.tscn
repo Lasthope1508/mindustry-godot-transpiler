@@ -22,7 +22,7 @@ script = ExtResource("1_portgame")
 [node name="SkinLayer" type="Node" parent="Runtime" unique_id=1880676817]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=29967384]
-position = Vector2(640, 360)
+position = Vector2(1280, 720)
 zoom = Vector2(0.5, 0.5)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=106498612]

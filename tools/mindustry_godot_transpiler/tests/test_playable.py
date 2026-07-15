@@ -109,11 +109,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(playfield["viewport"]["width"], 1280)
         self.assertEqual(playfield["viewport"]["height"], 720)
         self.assertEqual(playfield["camera"]["zoom"], 0.5)
+        self.assertEqual(playfield["camera"]["position_x"], 1280.0)
+        self.assertEqual(playfield["camera"]["position_y"], 720.0)
         self.assertEqual(playfield["tile_size"], 32)
         self.assertEqual(playfield["world"]["width_tiles"], 80)
         self.assertEqual(playfield["world"]["height_tiles"], 45)
         self.assertGreaterEqual(playfield["world"]["width_tiles"] * playfield["tile_size"], playfield["visible_world"]["width_pixels"])
         self.assertGreaterEqual(playfield["world"]["height_tiles"] * playfield["tile_size"], playfield["visible_world"]["height_pixels"])
+        self.assertEqual(playfield["camera"]["position_x"] - (playfield["visible_world"]["width_pixels"] / 2.0), 0.0)
+        self.assertEqual(playfield["camera"]["position_y"] - (playfield["visible_world"]["height_pixels"] / 2.0), 0.0)
 
     def test_port_game_uses_display_profile_without_world_size_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
