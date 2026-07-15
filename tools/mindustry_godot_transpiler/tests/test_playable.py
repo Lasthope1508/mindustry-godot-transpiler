@@ -278,6 +278,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('display_profile.get("tile_size"', port_source)
         self.assertNotIn('display_profile.get("source_tile_size"', port_source)
 
+    def test_display_profile_runtime_owns_source_camera_clamp_bounds(self):
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "DisplayProfileRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        module_source = module_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('const SOURCE_CAMERA_CLAMP_EXPR := "camera.position.clamp(-camera.width/4f, -camera.height/4f, world.unitWidth() + camera.width/4f, world.unitHeight() + camera.height/4f);"', module_source)
+        self.assertIn("func camera_clamp_bounds(zoom: Vector2) -> Dictionary:", module_source)
+        self.assertIn('"min_x": -visible_size.x / 4.0', module_source)
+        self.assertIn('"max_x": world_size.x + visible_size.x / 4.0', module_source)
+        self.assertIn("func clamp_camera_position(position: Vector2, zoom: Vector2) -> Vector2:", module_source)
+        self.assertIn("clampf(position.x, float(bounds.get(\"min_x\", position.x)), float(bounds.get(\"max_x\", position.x)))", module_source)
+        self.assertIn('"camera_clamp_bounds": camera_clamp_bounds(Vector2(camera_initial_zoom, camera_initial_zoom))', module_source)
+        self.assertNotIn("func source_camera_clamp_bounds", module_source)
+
+        self.assertIn("func clamp_camera_to_source_world() -> void:", port_source)
+        self.assertGreaterEqual(port_source.count("clamp_camera_to_source_world()"), 4)
+        self.assertIn("camera.position = display_profile_runtime.clamp_camera_position(camera.position, camera.zoom)", port_source)
+
     def test_port_game_uses_display_profile_source_tile_size_without_runtime_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

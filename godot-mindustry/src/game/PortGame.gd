@@ -633,6 +633,7 @@ func bind_nodes() -> void:
 		camera.position = camera_initial_position
 		if camera_initial_zoom > 0.0:
 			camera.zoom = Vector2(camera_initial_zoom, camera_initial_zoom)
+		clamp_camera_to_source_world()
 		camera.make_current()
 	hud_label = Label.new()
 	hud_label.position = Vector2(16, 16)
@@ -677,16 +678,21 @@ func build_world() -> void:
 	spawn_enemy_wave()
 
 func _unhandled_input(event: InputEvent) -> void:
+	var camera_changed := false
 	if event is InputEventKey and event.pressed and not event.echo:
 		select_build_slot(control_input.action_for_key_event(event))
 	elif control_input.is_primary_place_event(event):
 		place_selected_block_at_world(control_input.pointer_position(event))
 	elif event is InputEventScreenDrag and camera != null:
 		camera.position += control_input.touch_camera_delta(event) / camera.zoom.x
+		camera_changed = true
 	elif event is InputEventMagnifyGesture and camera != null:
 		var factor := control_input.zoom_factor_from_gesture(event)
 		if factor > 0.0:
 			camera.zoom /= factor
+			camera_changed = true
+	if camera_changed:
+		clamp_camera_to_source_world()
 
 func select_build_slot(canonical_action: String) -> void:
 	if control_input.is_previous_slot_action(canonical_action):
@@ -34077,13 +34083,24 @@ func simulate_bullets(delta: float) -> void:
 func update_camera(delta: float) -> void:
 	if camera == null:
 		return
+	var camera_changed := false
 	var movement := control_input.camera_vector()
 	if movement != Vector2.ZERO:
 		camera.position += movement.normalized() * control_input.camera_pan_speed() * delta
+		camera_changed = true
 	if control_input.is_zoom_in_pressed():
 		camera.zoom *= control_input.keyboard_zoom_in_factor(delta)
+		camera_changed = true
 	if control_input.is_zoom_out_pressed():
 		camera.zoom *= control_input.keyboard_zoom_out_factor(delta)
+		camera_changed = true
+	if camera_changed:
+		clamp_camera_to_source_world()
+
+func clamp_camera_to_source_world() -> void:
+	if camera == null or display_profile_runtime == null:
+		return
+	camera.position = display_profile_runtime.clamp_camera_position(camera.position, camera.zoom)
 
 func get_runtime_summary() -> Dictionary:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
