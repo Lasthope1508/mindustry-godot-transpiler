@@ -15821,14 +15821,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('result[first_key] = first_entry', catalog_source)
         self.assertNotIn("SOURCE_MANIFEST_PATH", source)
 
-    def test_port_game_exposes_source_manifest_files_extension_shard(self):
+    def test_port_game_uses_core_source_manifest_without_files_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
+        catalog_source = catalog.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_manifest_files.json").exists())
-        self.assertIn('"source_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_manifest_files.json").exists())
+        self.assertNotIn('"source_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func source_manifest_file_state(file_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)', source)
+        self.assertIn('return SourceSsotCatalog.keyed_array_lookup_state("source_manifest", "files", "path", "path", file_path)', source)
+        self.assertNotIn('return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)', source)
+        self.assertIn("static func keyed_array_lookup_state(module_name: String, array_key: String, key_field: String, label: String, key_value: String = \"\") -> Dictionary:", catalog_source)
 
     def test_port_game_exposes_ast_manifest_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

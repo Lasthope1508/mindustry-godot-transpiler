@@ -489,7 +489,7 @@ func source_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
 
 func source_manifest_file_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)
+	return SourceSsotCatalog.keyed_array_lookup_state("source_manifest", "files", "path", "path", file_path)
 
 func ast_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")

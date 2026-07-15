@@ -708,41 +708,21 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(failure_report["canonical_mirror"]["checked"], 0)
 
-    def test_source_ssot_source_manifest_files_shard_declares_canonical_object_array_mirror_contract(self):
+    def test_source_ssot_omits_oversized_source_manifest_files_shard(self):
         import importlib
 
         source_ssot = importlib.import_module("mindustry_port.source_ssot")
 
         manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
-        source_files_entry = manifest["modules"]["source_manifest_files"]
-
-        self.assertEqual(source_files_entry["canonical_module"], "source_manifest")
-        self.assertEqual(source_files_entry["canonical_collection_key"], "files")
-        self.assertEqual(source_files_entry["canonical_key_field"], "path")
-        self.assertEqual(source_files_entry["canonical_reference_key"], "canonical_file")
-        self.assertEqual(source_files_entry["canonical_reference_prefix"], "source_manifest.files.")
-        self.assertEqual(source_files_entry["root_key"], "files")
-        self.assertEqual(source_files_entry["mirror_fields"], ["bytes", "package", "path", "sha256", "types"])
-        self.assertIn("source_manifest.json files", source_files_entry["rule"])
-
-        source_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_manifest_files")["files"]
-        canonical_manifest = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_manifest")
-        canonical_files = {entry["path"]: entry for entry in canonical_manifest["files"]}
-
-        self.assertEqual(set(source_files), set(canonical_files))
-        self.assertEqual(len(source_files), canonical_manifest["java_file_count"])
-        self.assertIn("mindustry/Vars.java", source_files)
-        self.assertIn("mindustry/world/WorldParams.java", source_files)
-        for file_path, canonical_entry in sorted(canonical_files.items()):
-            with self.subTest(file_path=file_path):
-                self.assertEqual(source_files[file_path]["canonical_file"], f"source_manifest.files.{file_path}")
-                for field in source_files_entry["mirror_fields"]:
-                    self.assertEqual(source_files[file_path][field], canonical_entry[field])
+        source_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_manifest_files.json"
+        module_entries = source_ssot.load_registered_json(ROOT / "godot-mindustry", "source_ssot_module_entries")["modules"]
 
         report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
-        source_files_report = [entry for entry in report["modules"] if entry["name"] == "source_manifest_files"][0]
+
+        self.assertNotIn("source_manifest_files", manifest["modules"])
+        self.assertNotIn("source_manifest_files", module_entries)
+        self.assertFalse(source_path.exists())
         self.assertEqual(report["errors"], [])
-        self.assertEqual(source_files_report["canonical_mirror"]["checked"], len(source_files))
 
     def test_source_ssot_omits_oversized_asset_manifest_assets_shard(self):
         import importlib
