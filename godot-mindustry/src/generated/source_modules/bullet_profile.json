@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "root_key": "bullet",
+  "bullet": {
+    "defaults": {
+      "range_change": 0.0,
+      "inaccuracy": 0.0,
+      "lifetime": 40.0,
+      "speed": 1.0,
+      "hit_size": 4.0,
+      "damage": 1.0,
+      "ammo_multiplier": 2.0,
+      "reload_multiplier": 1.0,
+      "width": 5.0,
+      "height": 7.0
+    },
+    "source": {
+      "range_change_field": "public float rangeChange = 0f;",
+      "inaccuracy_field": "public float inaccuracy = 0f;",
+      "lifetime_field": "public float lifetime = 40f;",
+      "speed_field": "public float speed = 1f;",
+      "hit_size_field": "public float hitSize = 4;",
+      "damage_field": "public float damage = 1f;",
+      "ammo_multiplier_field": "public float ammoMultiplier = 2f;",
+      "reload_multiplier_field": "public float reloadMultiplier = 1f;",
+      "scale_field": "public float width = 5f, height = 7f;",
+      "java_sources": [
+        "core/src/mindustry/entities/bullet/BulletType.java",
+        "core/src/mindustry/entities/bullet/BasicBulletType.java"
+      ]
+    }
+  }
+}

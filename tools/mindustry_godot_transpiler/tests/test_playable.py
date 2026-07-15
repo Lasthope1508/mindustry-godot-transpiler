@@ -769,6 +769,76 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_TURRET_RECOILS_DEFAULT := -1", port_source)
         self.assertNotIn("const SOURCE_TURRET_RECOIL_TIME_DEFAULT := -1.0", port_source)
 
+    def test_bullet_profile_owns_runtime_bullet_numeric_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "bullet_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("bullet_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["bullet_profile"]["root_key"], "bullet")
+        self.assertEqual(manifest["modules"]["bullet_profile"]["path"], "src/generated/source_modules/bullet_profile.json")
+        self.assertEqual(profile["root_key"], "bullet")
+        bullet = profile["bullet"]
+        self.assertEqual(bullet["defaults"], {
+            "range_change": 0.0,
+            "inaccuracy": 0.0,
+            "lifetime": 40.0,
+            "speed": 1.0,
+            "hit_size": 4.0,
+            "damage": 1.0,
+            "ammo_multiplier": 2.0,
+            "reload_multiplier": 1.0,
+            "width": 5.0,
+            "height": 7.0,
+        })
+        self.assertEqual(bullet["source"]["range_change_field"], "public float rangeChange = 0f;")
+        self.assertEqual(bullet["source"]["inaccuracy_field"], "public float inaccuracy = 0f;")
+        self.assertEqual(bullet["source"]["lifetime_field"], "public float lifetime = 40f;")
+        self.assertEqual(bullet["source"]["speed_field"], "public float speed = 1f;")
+        self.assertEqual(bullet["source"]["hit_size_field"], "public float hitSize = 4;")
+        self.assertEqual(bullet["source"]["damage_field"], "public float damage = 1f;")
+        self.assertEqual(bullet["source"]["ammo_multiplier_field"], "public float ammoMultiplier = 2f;")
+        self.assertEqual(bullet["source"]["reload_multiplier_field"], "public float reloadMultiplier = 1f;")
+        self.assertEqual(bullet["source"]["scale_field"], "public float width = 5f, height = 7f;")
+        self.assertIn("core/src/mindustry/entities/bullet/BulletType.java", bullet["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/entities/bullet/BasicBulletType.java", bullet["source"]["java_sources"])
+
+        for getter in [
+            "range_change_default",
+            "inaccuracy_default",
+            "lifetime_default",
+            "speed_default",
+            "hit_size_default",
+            "damage_default",
+            "ammo_multiplier_default",
+            "reload_multiplier_default",
+            "width_default",
+            "height_default",
+        ]:
+            self.assertIn(f"func {getter}()", defaults_source)
+
+        self.assertIn("const SourceBulletDefaults := preload(\"res://src/game/SourceBulletDefaults.gd\")", port_source)
+        self.assertIn("var bullet_defaults: SourceBulletDefaults", port_source)
+        self.assertIn("bullet_defaults = SourceBulletDefaults.new(SourceSsotCatalog)", port_source)
+        self.assertIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", port_source)
+        self.assertIn("SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()", port_source)
+        self.assertIn("SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()", port_source)
+        self.assertIn("SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()", port_source)
+        self.assertIn('"bullet_profile": bullet_defaults.runtime_summary()', port_source)
+        self.assertNotIn("const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0", port_source)
+        self.assertNotIn("const SOURCE_BULLET_WORLD_SPEED_DEFAULT := 1.0", port_source)
+        self.assertNotIn("const SOURCE_BULLET_DAMAGE_DEFAULT := 1.0", port_source)
+        self.assertNotIn("const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0", port_source)
+        self.assertNotIn("const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0", port_source)
+
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -4614,7 +4684,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"', source)
         self.assertIn('const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"', source)
         self.assertIn('const SOURCE_BULLET_LIFETIME_KEY := "lifetime"', source)
-        self.assertIn("const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0", source)
+        self.assertIn("var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", source)
         self.assertIn("const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND", source)
         self.assertIn('"lifetime_remaining": source_bullet_lifetime_seconds(data)', source)
@@ -4637,7 +4708,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"', source)
         self.assertIn('const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"', source)
         self.assertIn('const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"', source)
-        self.assertIn("const SOURCE_BULLET_WORLD_SPEED_DEFAULT := 1.0", source)
+        self.assertIn("var SOURCE_BULLET_WORLD_SPEED_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()", source)
         self.assertIn("const SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND := 60.0", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND", source)
         self.assertIn('const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"', source)
@@ -4670,8 +4742,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"', source)
         self.assertIn('const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"', source)
         self.assertIn('const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"', source)
-        self.assertIn("const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0", source)
-        self.assertIn("const SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 7.0", source)
+        self.assertIn("var SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 0.0", source)
+        self.assertIn("var SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()", source)
+        self.assertIn("SOURCE_BULLET_SCALE_HEIGHT_DEFAULT = bullet_defaults.height_default()", source)
         self.assertIn("var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))", source)
         self.assertIn("var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))", source)
         self.assertIn("return Vector2(width / texture_size.x, height / texture_size.y)", source)
@@ -4686,9 +4760,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn('const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"', source)
         self.assertIn('const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"', source)
-        self.assertIn("const SOURCE_BULLET_HIT_SIZE_DEFAULT := 4.0", source)
+        self.assertIn("var SOURCE_BULLET_HIT_SIZE_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_HIT_SIZE_DEFAULT = bullet_defaults.hit_size_default()", source)
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
-        self.assertIn('return float(data.get("hitSize", 4.0))', source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, SOURCE_BULLET_HIT_SIZE_DEFAULT))", source)
         self.assertIn('"hit_size": source_bullet_hit_size(data)', source)
         self.assertIn('if target_direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
         self.assertNotIn("if direction.length() <= 6.0:", source)
@@ -4701,9 +4776,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn('const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"', source)
         self.assertIn('const SOURCE_BULLET_DAMAGE_KEY := "damage"', source)
-        self.assertIn("const SOURCE_BULLET_DAMAGE_DEFAULT := 1.0", source)
+        self.assertIn("var SOURCE_BULLET_DAMAGE_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()", source)
         self.assertIn("func source_bullet_damage(data: Dictionary) -> float:", source)
-        self.assertIn('return float(data.get("damage", 1.0))', source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_DAMAGE_KEY, SOURCE_BULLET_DAMAGE_DEFAULT))", source)
         self.assertIn('"damage": source_bullet_damage(data)', source)
         self.assertNotIn('"damage": float(data.get("damage", 1.0))', source)
         self.assertIn("func selected_turret_ammo_damage() -> float:", source)
@@ -4750,9 +4826,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"', source)
         self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"', source)
         self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"', source)
-        self.assertIn("const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0", source)
+        self.assertIn("var SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT = bullet_defaults.ammo_multiplier_default()", source)
         self.assertIn("func source_bullet_ammo_multiplier(data: Dictionary) -> float:", source)
-        self.assertIn('return float(data.get("ammoMultiplier", 2.0))', source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT))", source)
         self.assertIn("func selected_turret_ammo_multiplier() -> float:", source)
         self.assertIn('return source_bullet_ammo_multiplier(data)', source)
         self.assertIn('"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier()', source)
@@ -4766,7 +4843,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"', source)
         self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"', source)
         self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"', source)
-        self.assertIn("const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 1.0", source)
+        self.assertIn("var SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT = bullet_defaults.reload_multiplier_default()", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))", source)
         self.assertIn("func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:", source)
         self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"', source)
@@ -4898,7 +4976,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"', source)
         self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"', source)
         self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"', source)
-        self.assertIn("const SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0", source)
+        self.assertIn("var SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_RANGE_CHANGE_DEFAULT = bullet_defaults.range_change_default()", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))", source)
         self.assertIn("func source_turret_range_for_ammo(turret, data: Dictionary) -> float:", source)
         self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\\n            if(peekAmmo() != null){\\n                return range + peekAmmo().rangeChange;\\n            }\\n            return range;\\n        }"', source)
@@ -4986,7 +5065,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"', source)
         self.assertIn('const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', source)
         self.assertIn('const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"', source)
-        self.assertIn("const SOURCE_BULLET_INACCURACY_DEFAULT := 0.0", source)
+        self.assertIn("var SOURCE_BULLET_INACCURACY_DEFAULT := 0.0", source)
+        self.assertIn("SOURCE_BULLET_INACCURACY_DEFAULT = bullet_defaults.inaccuracy_default()", source)
         self.assertIn("func source_bullet_inaccuracy(data: Dictionary) -> float:", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_INACCURACY_KEY, SOURCE_BULLET_INACCURACY_DEFAULT))", source)
         self.assertIn('const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := "inaccuracy + type.inaccuracy"', source)

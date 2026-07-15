@@ -10,6 +10,7 @@ const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd"
 const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
 const SourceConstructionDefaults := preload("res://src/game/SourceConstructionDefaults.gd")
 const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
+const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
 const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
@@ -22,6 +23,7 @@ var config: Dictionary = {}
 var display_profile_runtime: DisplayProfileRuntime
 var construction_defaults: SourceConstructionDefaults
 var turret_defaults: SourceTurretDefaults
+var bullet_defaults: SourceBulletDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
@@ -45,6 +47,16 @@ var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0
 var SOURCE_TURRET_RECOIL_DEFAULT := 0.0
 var SOURCE_TURRET_RECOILS_DEFAULT := 0
 var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0
+var SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0
+var SOURCE_BULLET_INACCURACY_DEFAULT := 0.0
+var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0
+var SOURCE_BULLET_WORLD_SPEED_DEFAULT := 0.0
+var SOURCE_BULLET_HIT_SIZE_DEFAULT := 0.0
+var SOURCE_BULLET_DAMAGE_DEFAULT := 0.0
+var SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 0.0
+var SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 0.0
+var SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 0.0
+var SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 0.0
 var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
 var SOURCE_TICK_RATE := 0.0
 var SOURCE_PI2 := 0.0
@@ -309,6 +321,7 @@ func _ready() -> void:
 	control_input = ControlInput.new(SourceSsotCatalog)
 	construction_defaults = SourceConstructionDefaults.new(SourceSsotCatalog)
 	turret_defaults = SourceTurretDefaults.new(SourceSsotCatalog)
+	bullet_defaults = SourceBulletDefaults.new(SourceSsotCatalog)
 	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
 	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
 	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
@@ -333,6 +346,16 @@ func _ready() -> void:
 	SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()
 	SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()
 	SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()
+	SOURCE_BULLET_RANGE_CHANGE_DEFAULT = bullet_defaults.range_change_default()
+	SOURCE_BULLET_INACCURACY_DEFAULT = bullet_defaults.inaccuracy_default()
+	SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()
+	SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()
+	SOURCE_BULLET_HIT_SIZE_DEFAULT = bullet_defaults.hit_size_default()
+	SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()
+	SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT = bullet_defaults.ammo_multiplier_default()
+	SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT = bullet_defaults.reload_multiplier_default()
+	SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()
+	SOURCE_BULLET_SCALE_HEIGHT_DEFAULT = bullet_defaults.height_default()
 	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
 	SOURCE_TICK_RATE = time_defaults.tick_rate()
 	SOURCE_ARC_PI = math_defaults.pi()
@@ -33950,7 +33973,6 @@ func source_move_angle_toward(current_degrees: float, target_degrees: float, max
 const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"
 const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"
 const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"
-const SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0
 
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))
@@ -33958,7 +33980,6 @@ func source_bullet_range_change(data: Dictionary) -> float:
 const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"
 const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
 const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"
-const SOURCE_BULLET_INACCURACY_DEFAULT := 0.0
 
 func source_bullet_inaccuracy(data: Dictionary) -> float:
 	return float(data.get(SOURCE_BULLET_INACCURACY_KEY, SOURCE_BULLET_INACCURACY_DEFAULT))
@@ -33982,7 +34003,6 @@ func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"
 const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"
 const SOURCE_BULLET_LIFETIME_KEY := "lifetime"
-const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0
 const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0
 
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
@@ -33992,7 +34012,6 @@ const SOURCE_BULLET_WORLD_SPEED_COMMENT := "/** Speed in units/tick. */"
 const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"
 const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"
 const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"
-const SOURCE_BULLET_WORLD_SPEED_DEFAULT := 1.0
 const SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND := 60.0
 
 func source_bullet_world_speed(data: Dictionary) -> float:
@@ -34009,30 +34028,26 @@ func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vec
 
 const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"
 const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"
-const SOURCE_BULLET_HIT_SIZE_DEFAULT := 4.0
 
 func source_bullet_hit_size(data: Dictionary) -> float:
-	return float(data.get("hitSize", 4.0))
+	return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, SOURCE_BULLET_HIT_SIZE_DEFAULT))
 
 const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"
 const SOURCE_BULLET_DAMAGE_KEY := "damage"
-const SOURCE_BULLET_DAMAGE_DEFAULT := 1.0
 
 func source_bullet_damage(data: Dictionary) -> float:
-	return float(data.get("damage", 1.0))
+	return float(data.get(SOURCE_BULLET_DAMAGE_KEY, SOURCE_BULLET_DAMAGE_DEFAULT))
 
 const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"
 const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"
 const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"
-const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0
 
 func source_bullet_ammo_multiplier(data: Dictionary) -> float:
-	return float(data.get("ammoMultiplier", 2.0))
+	return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT))
 
 const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"
 const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"
 const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"
-const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 1.0
 
 func source_bullet_reload_multiplier(data: Dictionary) -> float:
 	return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))
@@ -34040,8 +34055,6 @@ func source_bullet_reload_multiplier(data: Dictionary) -> float:
 const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"
 const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"
 const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"
-const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0
-const SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 7.0
 
 func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))
@@ -34155,6 +34168,7 @@ func get_runtime_summary() -> Dictionary:
 		"gameplay_profile": gameplay_defaults.runtime_summary(),
 		"construction_profile": construction_defaults.runtime_summary(),
 		"turret_profile": turret_defaults.runtime_summary(),
+		"bullet_profile": bullet_defaults.runtime_summary(),
 		"factory_profile": factory_defaults.runtime_summary(),
 		"time_profile": time_defaults.runtime_summary(),
 		"math_profile": math_defaults.runtime_summary(),

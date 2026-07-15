@@ -55,6 +55,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "bullet_profile": {
+      "path": "src/generated/source_modules/bullet_profile.json",
+      "root_key": "bullet",
+      "label": "bullet",
+      "status": "active",
+      "rule": "Canonical playable bullet defaults profile; runtime code must read BulletType and BasicBulletType numeric defaults from this shard instead of hardcoding source constants in gameplay code.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "factory_profile": {
       "path": "src/generated/source_modules/factory_profile.json",
       "root_key": "factory",
