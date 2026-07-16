@@ -2410,6 +2410,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"method": "public void display(Stats stats){"', source)
         self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));"', source)
         self.assertIn('"liquid_eff_multiplier_expr": "StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter)"', source)
+        source_body = source[source.find("func source_consume_liquid_flammable_display_state"):source.find("func generated_consume_liquid_flammable_display_bridge_state")]
+        self.assertIn("var display_amount_per_second: float = amount * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_body)
         self.assertIn('"display_amount_per_second": display_amount_per_second', source)
         self.assertIn("func generated_consume_liquid_flammable_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:", source)
         self.assertIn("var result = instance.java_method_display_0([booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells])", source)

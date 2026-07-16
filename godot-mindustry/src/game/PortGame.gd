@@ -3879,7 +3879,7 @@ func generated_consume_item_list_efficiency_multiplier_bridge_state(consumed_ite
 
 func source_consume_liquid_flammable_display_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:
 	var selected_stat: String = "booster" if booster else "input"
-	var display_amount_per_second: float = amount * 60.0
+	var display_amount_per_second: float = amount * SOURCE_TICK_RATE
 	var display_rows: Array = []
 	for index in filtered_liquid_ids.size():
 		var liquid_id: int = int(filtered_liquid_ids[index])

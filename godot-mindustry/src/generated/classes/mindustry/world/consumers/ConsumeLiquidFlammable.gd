@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeLiquidFlammable"
@@ -20,7 +22,8 @@ func java_method_display_0(_args: Array = []) -> Variant:
 	var liquid_efficiency_values: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []
 	var table_has_cells: bool = bool(_args[4] if _args.size() > 4 else false)
 	var selected_stat: String = "booster" if booster else "input"
-	var display_amount_per_second: float = amount * 60.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var display_amount_per_second: float = amount * source_tick_rate
 	var display_rows: Array = []
 	for index in filtered_liquid_ids.size():
 		var liquid_id: int = int(filtered_liquid_ids[index])

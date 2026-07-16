@@ -18995,10 +18995,14 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var display_amount_per_second: float = amount * 60.0", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
+            self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_display_state"', source_text)
             self.assertIn('"method": "public void display(Stats stats){"', source_text)
             self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquidEffMultiplier(l -> l.flammability, amount * 60f, filter));"', source_text)
