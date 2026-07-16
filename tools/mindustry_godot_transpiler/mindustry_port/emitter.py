@@ -1423,7 +1423,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[1] if _args.size() > 1 else 60.0)",
+            "\tvar source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)",
             "\tvar display_guard: bool = displayed_power_usage != 0.0",
             "\tvar power_use_value: float = displayed_power_usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
@@ -7784,8 +7784,14 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
         ])
     if (
-        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
-        and type_entry.get("name") == "ConsumePower"
+        (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+            and type_entry.get("name") == "ConsumePower"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
+            and type_entry.get("name") == "ConsumePowerDynamic"
+        )
     ):
         lines.extend([
             'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',

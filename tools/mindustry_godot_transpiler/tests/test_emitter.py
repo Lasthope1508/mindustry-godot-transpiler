@@ -17326,12 +17326,13 @@ public class ConsumePowerDynamic extends ConsumePower{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var display_guard: bool = displayed_power_usage != 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else 60.0)", source_text)
             self.assertIn("var power_use_value: float = displayed_power_usage * source_tick_rate", source_text)
             self.assertNotIn("var power_use_value: float = displayed_power_usage * 60.0", source_text)
             self.assertIn('"stat": "Stat.powerUse"', source_text)
