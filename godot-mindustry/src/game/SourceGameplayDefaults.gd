@@ -11,7 +11,7 @@ func _init(source_catalog: Variant) -> void:
 func load_gameplay_profile() -> void:
 	var document: Dictionary = catalog.load_document("gameplay_profile")
 	if not bool(document.get("loaded", false)):
-		profile = {"unit": {}, "builder": {}, "source": {}}
+		profile = {"unit": {}, "builder": {}, "liquid": {}, "source": {}}
 		return
 	var data: Dictionary = document.get("data", {})
 	profile = data.get("gameplay", {})
@@ -73,10 +73,41 @@ func building_range() -> float:
 	var builder: Dictionary = profile.get("builder", {})
 	return float(builder.get("building_range", 0.0))
 
+func liquid() -> Dictionary:
+	return profile.get("liquid", {})
+
+func liquid_transfer_source_amount() -> float:
+	return float(liquid().get("transfer_source_amount", 0.0))
+
+func liquid_transfer_destination_amount() -> float:
+	return float(liquid().get("transfer_destination_amount", 0.0))
+
+func liquid_capacity() -> float:
+	return float(liquid().get("capacity", 0.0))
+
+func liquid_pressure() -> float:
+	return float(liquid().get("pressure", 0.0))
+
+func liquid_leak_amount() -> float:
+	return float(liquid().get("leak_amount", 0.0))
+
+func liquid_dump_scaling() -> float:
+	return float(liquid().get("dump_scaling", 0.0))
+
+func liquid_leak_divisor() -> float:
+	return float(liquid().get("leak_divisor", 0.0))
+
 func runtime_summary() -> Dictionary:
 	return {
 		"loaded": not profile.is_empty(),
 		"unit_warp_dst": unit_warp_dst(),
 		"final_world_bounds": final_world_bounds(),
 		"building_range": building_range(),
+		"liquid_transfer_source_amount": liquid_transfer_source_amount(),
+		"liquid_transfer_destination_amount": liquid_transfer_destination_amount(),
+		"liquid_capacity": liquid_capacity(),
+		"liquid_pressure": liquid_pressure(),
+		"liquid_leak_amount": liquid_leak_amount(),
+		"liquid_dump_scaling": liquid_dump_scaling(),
+		"liquid_leak_divisor": liquid_leak_divisor(),
 	}

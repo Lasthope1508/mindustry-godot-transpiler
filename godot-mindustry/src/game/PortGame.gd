@@ -140,15 +140,15 @@ var builder_rules_build_speed := 1.0
 var gameplay_defaults: SourceGameplayDefaults
 var primary_liquid_id := ""
 var liquid_transfer_liquid := ""
-var liquid_transfer_source_amount := 8.0
-var liquid_transfer_destination_amount := 1.0
-var liquid_transfer_source_capacity := 10.0
-var liquid_transfer_destination_capacity := 10.0
-var liquid_transfer_pressure := 1.0
+var liquid_transfer_source_amount := 0.0
+var liquid_transfer_destination_amount := 0.0
+var liquid_transfer_source_capacity := 0.0
+var liquid_transfer_destination_capacity := 0.0
+var liquid_transfer_pressure := 0.0
 var liquid_transfer_last_move_state: Dictionary = {}
 var liquid_transfer_last_transfer_state: Dictionary = {}
 var liquid_leak_liquid := ""
-var liquid_leak_amount := 6.0
+var liquid_leak_amount := 0.0
 var liquid_leak_last_state: Dictionary = {}
 var item_dump_item := ""
 var item_dump_last_state: Dictionary = {}
@@ -460,6 +460,12 @@ func load_playable_item_defaults() -> void:
 
 func load_playable_liquid_defaults() -> void:
 	gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)
+	liquid_transfer_source_amount = gameplay_defaults.liquid_transfer_source_amount()
+	liquid_transfer_destination_amount = gameplay_defaults.liquid_transfer_destination_amount()
+	liquid_transfer_source_capacity = gameplay_defaults.liquid_capacity()
+	liquid_transfer_destination_capacity = gameplay_defaults.liquid_capacity()
+	liquid_transfer_pressure = gameplay_defaults.liquid_pressure()
+	liquid_leak_amount = gameplay_defaults.liquid_leak_amount()
 	primary_liquid_id = gameplay_defaults.primary_liquid_id()
 	if primary_liquid_id == "":
 		return
@@ -7142,7 +7148,12 @@ func runtime_persistence_state() -> Dictionary:
 		"produced_total": int(snapshot.get("runtime", {}).get("produced_total", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
 	}
 
-func reset_liquid_transfer_runtime(source_amount: float = 8.0, destination_amount: float = 1.0) -> Dictionary:
+func reset_liquid_transfer_runtime(source_amount: float = -1.0, destination_amount: float = -1.0) -> Dictionary:
+	if gameplay_defaults != null:
+		if source_amount < 0.0:
+			source_amount = gameplay_defaults.liquid_transfer_source_amount()
+		if destination_amount < 0.0:
+			destination_amount = gameplay_defaults.liquid_transfer_destination_amount()
 	liquid_transfer_source_amount = source_amount
 	liquid_transfer_destination_amount = destination_amount
 	liquid_transfer_last_move_state = {}
@@ -7192,7 +7203,10 @@ func liquid_transfer_runtime_state() -> Dictionary:
 		"transfer_state": liquid_transfer_last_transfer_state,
 	}
 
-func reset_liquid_leak_runtime(amount: float = 6.0) -> Dictionary:
+func reset_liquid_leak_runtime(amount: float = -1.0) -> Dictionary:
+	if amount < 0.0:
+		if gameplay_defaults != null:
+			amount = gameplay_defaults.liquid_leak_amount()
 	liquid_leak_amount = amount
 	liquid_leak_last_state = {}
 	return liquid_leak_runtime_state()

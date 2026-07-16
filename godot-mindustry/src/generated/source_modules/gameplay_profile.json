@@ -9,12 +9,26 @@
     "builder": {
       "building_range": 220.0
     },
+    "liquid": {
+      "transfer_source_amount": 8.0,
+      "transfer_destination_amount": 1.0,
+      "capacity": 10.0,
+      "pressure": 1.0,
+      "leak_amount": 6.0,
+      "dump_scaling": 2.0,
+      "leak_divisor": 1.5
+    },
     "source": {
       "unit_warp_dst_expr": "static final float warpDst = 8f;",
       "final_world_bounds_expr": "public static final float finalWorldBounds = 250;",
       "building_range_expr": "public static final float buildingRange = 220f;",
+      "liquid_dump_scaling_expr": "dumpLiquid(liquid, 2f);",
+      "liquid_transfer_capacity_expr": "flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));",
+      "liquid_pressure_expr": "float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;",
+      "liquid_leak_expr": "float leakAmount = liquids.get(liquid) / 1.5f;",
       "java_sources": [
         "core/src/mindustry/entities/comp/UnitComp.java",
+        "core/src/mindustry/entities/comp/BuildingComp.java",
         "core/src/mindustry/Vars.java",
         "core/src/mindustry/type/UnitType.java"
       ]
