@@ -21498,8 +21498,6 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
@@ -21507,8 +21505,11 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
             self.assertIn("var item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
             self.assertIn("var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []", source_text)
             self.assertIn("var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source_text)
             self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / source_tick_rate)", source_text)
             self.assertNotIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
