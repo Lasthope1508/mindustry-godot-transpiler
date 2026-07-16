@@ -3,10 +3,11 @@
 # Do not edit by hand.
 extends RefCounted
 
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
 const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
 const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeLiquid"
@@ -74,8 +75,8 @@ func java_method_display_4(_args: Array = []) -> Variant:
 	var booster: bool = bool(_args[0] if _args.size() > 0 else false)
 	var liquid_id: int = int(_args[1] if _args.size() > 1 else 0)
 	var amount: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)
 	var selected_stat: String = "booster" if booster else "input"
-	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var display_amount_per_second: float = amount * source_tick_rate
 	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}
 	return {"source_owner": "PortGame.source_consume_liquid_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void display(Stats stats){", "liquid_field": "public final Liquid liquid;", "amount_field": "public float amount;", "booster_field": "public boolean booster;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),", "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){", "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)", "stat_values_liquid_method": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){", "stat_values_display_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();", "booster": booster, "liquid_id": liquid_id, "amount": amount, "selected_stat": selected_stat, "display_amount_per_second": display_amount_per_second, "per_second": true, "stats_add_call": stats_add_call}
