@@ -1890,7 +1890,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar display_amount_per_second: float = amount * 60.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_liquids: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
             "\t\tvar liquid_id: int = int(filtered_liquid_ids[index])",
@@ -6141,6 +6142,10 @@ def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
             and type_entry.get("name") == "ConsumeLiquid"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+            and type_entry.get("name") == "ConsumeLiquidFilter"
         )
     ):
         return [

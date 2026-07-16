@@ -2441,6 +2441,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"method": "public void display(Stats stats){"', source)
         self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));"', source)
         self.assertIn('"stat_values_liquids_expr": "StatValues.liquids(filter, amount * 60f, true)"', source)
+        source_body = source[source.find("func source_consume_liquid_filter_display_state"):source.find("func generated_consume_liquid_filter_display_bridge_state")]
+        self.assertIn("var display_amount_per_second: float = amount * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_body)
         self.assertIn('"display_amount_per_second": display_amount_per_second', source)
         self.assertIn("func generated_consume_liquid_filter_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array) -> Dictionary:", source)
         self.assertIn("var result = instance.java_method_display_6([booster, amount, filtered_liquid_ids])", source)

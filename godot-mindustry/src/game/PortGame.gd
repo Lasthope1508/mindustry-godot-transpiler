@@ -4353,7 +4353,7 @@ func generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state()
 
 func source_consume_liquid_filter_display_state(booster: bool, amount: float, filtered_liquid_ids: Array) -> Dictionary:
 	var selected_stat: String = "booster" if booster else "input"
-	var display_amount_per_second: float = amount * 60.0
+	var display_amount_per_second: float = amount * SOURCE_TICK_RATE
 	var display_liquids: Array = []
 	for index in filtered_liquid_ids.size():
 		var liquid_id: int = int(filtered_liquid_ids[index])

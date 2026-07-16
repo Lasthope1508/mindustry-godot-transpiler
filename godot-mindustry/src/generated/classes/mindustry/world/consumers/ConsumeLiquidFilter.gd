@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeLiquidFilter"
@@ -93,7 +95,8 @@ func java_method_display_6(_args: Array = []) -> Variant:
 	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
 	var selected_stat: String = "booster" if booster else "input"
-	var display_amount_per_second: float = amount * 60.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var display_amount_per_second: float = amount * source_tick_rate
 	var display_liquids: Array = []
 	for index in filtered_liquid_ids.size():
 		var liquid_id: int = int(filtered_liquid_ids[index])
