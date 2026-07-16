@@ -4415,7 +4415,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar target_air: bool = bool(_args[0] if _args.size() > 0 else true)",
             "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\tvar damage: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
             "\tvar targets_ground_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsGround, targetGround);\", \"stat\": \"Stat.targetsGround\", \"value\": target_ground}",
             "\tvar damage_per_second: float = damage * source_tick_rate",
@@ -7811,6 +7811,10 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
             and type_entry.get("name") == "ConsumeItemEfficiency"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+            and type_entry.get("name") == "TractorBeamTurret"
         )
     ):
         lines.extend([
