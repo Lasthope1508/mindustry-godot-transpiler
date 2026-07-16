@@ -4536,7 +4536,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[2] if _args.size() > 2 else 60.0)",
+            "\tvar source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)",
             "\tvar activation_bar_added: bool = activation_time > 0.0",
             "\tvar activation_timer_positive: bool = entity_activation_timer > 0.0",
             "\tvar activation_bar_fraction: float = 0.0",
@@ -7815,6 +7815,10 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         or (
             java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
             and type_entry.get("name") == "TractorBeamTurret"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+            and type_entry.get("name") == "BaseTurret"
         )
     ):
         lines.extend([

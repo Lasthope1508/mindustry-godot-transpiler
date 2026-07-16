@@ -3,6 +3,9 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
+
 const JAVA_PACKAGE := "mindustry.world.blocks.defense.turrets"
 const JAVA_KIND := "class"
 const JAVA_NAME := "BaseTurret"
@@ -82,6 +85,7 @@ func java_method_setStats_4(_args: Array = []) -> Variant:
 func java_method_setBars_5(_args: Array = []) -> Variant:
 	var activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)
 	var activation_bar_added: bool = activation_time > 0.0
 	var activation_timer_positive: bool = entity_activation_timer > 0.0
 	var activation_bar_fraction: float = 0.0
@@ -91,7 +95,7 @@ func java_method_setBars_5(_args: Array = []) -> Variant:
 	if activation_bar_added:
 		activation_bar_fraction = 1.0 - entity_activation_timer / activation_time
 		if activation_timer_positive:
-			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / 60.0)}
+			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / source_tick_rate)}
 			activation_bar_color = "Pal.lightOrange"
 		else:
 			activation_bar_text_call = {"call": "Core.bundle.get(\"bar.activated\")", "key": "bar.activated"}
