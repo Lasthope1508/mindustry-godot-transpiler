@@ -2249,7 +2249,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
             "\tvar display_liquids: Array = []",
             "\tfor index in liquid_ids.size():",
@@ -7803,6 +7803,10 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
             and type_entry.get("name") == "ConsumeLiquid"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+            and type_entry.get("name") == "ConsumeLiquids"
         )
     ):
         lines.extend([
