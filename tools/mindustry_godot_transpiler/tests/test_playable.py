@@ -18887,7 +18887,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);"', source)
         self.assertIn('"targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);"', source)
         self.assertIn('"damage_stat_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);"', source)
-        self.assertIn("var damage_per_second: float = damage * 60.0", source)
+        source_body = source.split("func source_tractor_beam_turret_set_stats_state", 1)[1].split("func generated_tractor_beam_turret_set_stats_bridge_state", 1)[0]
+        self.assertIn("var damage_per_second: float = damage * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var damage_per_second: float = damage * 60.0", source_body)
         self.assertIn("var damage_stat_added: bool = damage > 0.0", source)
         self.assertIn('"damage_stat_call": damage_stat_call', source)
 

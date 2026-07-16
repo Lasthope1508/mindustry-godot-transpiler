@@ -11765,11 +11765,15 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
             self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("var damage: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var damage_per_second: float = damage * 60.0", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var damage_per_second: float = damage * source_tick_rate", source_text)
+            self.assertNotIn("var damage_per_second: float = damage * 60.0", source_text)
             self.assertIn("var damage_stat_added: bool = damage > 0.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state"', source_text)
             self.assertIn('"method": "public void setStats(){"', source_text)

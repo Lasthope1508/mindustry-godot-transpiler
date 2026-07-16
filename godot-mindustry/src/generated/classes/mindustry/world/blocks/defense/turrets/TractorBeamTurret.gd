@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.world.blocks.defense.turrets"
 const JAVA_KIND := "class"
 const JAVA_NAME := "TractorBeamTurret"
@@ -25,7 +27,8 @@ func java_method_setStats_1(_args: Array = []) -> Variant:
 	var damage: float = float(_args[2] if _args.size() > 2 else 0.0)
 	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
 	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
-	var damage_per_second: float = damage * 60.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var damage_per_second: float = damage * source_tick_rate
 	var damage_stat_added: bool = damage > 0.0
 	var damage_stat_call: Dictionary = {}
 	if damage_stat_added:

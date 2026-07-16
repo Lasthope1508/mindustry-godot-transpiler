@@ -4414,7 +4414,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar damage: float = float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
             "\tvar targets_ground_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsGround, targetGround);\", \"stat\": \"Stat.targetsGround\", \"value\": target_ground}",
-            "\tvar damage_per_second: float = damage * 60.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar damage_per_second: float = damage * source_tick_rate",
             "\tvar damage_stat_added: bool = damage > 0.0",
             "\tvar damage_stat_call: Dictionary = {}",
             "\tif damage_stat_added:",
@@ -6166,6 +6167,10 @@ def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
             and type_entry.get("name") == "ConsumePowerDynamic"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+            and type_entry.get("name") == "TractorBeamTurret"
         )
     ):
         return [

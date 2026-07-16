@@ -29964,7 +29964,7 @@ func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, regi
 func source_tractor_beam_turret_set_stats_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
 	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
 	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
-	var damage_per_second: float = damage * 60.0
+	var damage_per_second: float = damage * SOURCE_TICK_RATE
 	var damage_stat_added: bool = damage > 0.0
 	var damage_stat_call: Dictionary = {}
 	if damage_stat_added:
