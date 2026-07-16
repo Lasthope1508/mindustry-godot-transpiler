@@ -4911,7 +4911,7 @@ func generated_consume_liquid_build_bridge_state(liquid_id: int, build_liquids_g
 
 func source_consume_liquid_display_state(booster: bool, liquid_id: int, amount: float) -> Dictionary:
 	var selected_stat: String = "booster" if booster else "input"
-	var display_amount_per_second: float = amount * 60.0
+	var display_amount_per_second: float = amount * SOURCE_TICK_RATE
 	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}
 	return {
 		"source_owner": "PortGame.source_consume_liquid_display_state",

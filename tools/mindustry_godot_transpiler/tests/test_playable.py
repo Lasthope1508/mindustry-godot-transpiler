@@ -3024,7 +3024,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source)
         self.assertIn('"stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){"', source)
         self.assertIn("var selected_stat: String = \"booster\" if booster else \"input\"", source)
-        self.assertIn("var display_amount_per_second: float = amount * 60.0", source)
+        source_body = source[source.find("func source_consume_liquid_display_state"):source.find("func generated_consume_liquid_display_bridge_state")]
+        self.assertIn("var display_amount_per_second: float = amount * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_body)
         self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}', source)
         self.assertIn("func generated_consume_liquid_display_bridge_state(booster: bool, liquid_id: int, amount: float) -> Dictionary:", source)
         self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
