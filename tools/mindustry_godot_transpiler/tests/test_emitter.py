@@ -21459,6 +21459,8 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
@@ -21467,8 +21469,10 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
             self.assertIn("var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []", source_text)
             self.assertIn("var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source_text)
-            self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
+            self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / source_tick_rate)", source_text)
+            self.assertNotIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
             self.assertIn("var efficiency_percent: float = efficiency_multiplier * 100.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_efficiency_display_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source_text)
