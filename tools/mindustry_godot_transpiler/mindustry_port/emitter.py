@@ -2112,7 +2112,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else 32.0)",
+            "\tvar source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)",
             "\tvar valid: bool = build_liquids_get > 0.0",
             '\tvar req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}',
             "\tvar table_image_size: float = source_ui_icon_med",
@@ -7760,6 +7760,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         ])
     if (
         java_file.get("path") in {
+            "mindustry/world/consumers/ConsumeLiquid.java",
             "mindustry/world/consumers/ConsumeItems.java",
             "mindustry/world/consumers/ConsumeItemDynamic.java",
             "mindustry/world/consumers/ConsumeItemFilter.java",
@@ -7768,6 +7769,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             "mindustry/world/consumers/ConsumeLiquidFilter.java",
         }
         and type_entry.get("name") in {
+            "ConsumeLiquid",
             "ConsumeItems",
             "ConsumeItemDynamic",
             "ConsumeItemFilter",

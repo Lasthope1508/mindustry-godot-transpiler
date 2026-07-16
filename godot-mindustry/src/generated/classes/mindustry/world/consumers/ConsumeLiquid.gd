@@ -5,6 +5,8 @@ extends RefCounted
 
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeLiquid"
@@ -41,9 +43,10 @@ func java_method_apply_0(_args: Array = []) -> Variant:
 func java_method_build_1(_args: Array = []) -> Variant:
 	var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)
 	var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)
 	var valid: bool = build_liquids_get > 0.0
 	var req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}
-	var table_image_size: float = 8.0 * 4.0
+	var table_image_size: float = source_ui_icon_med
 	return {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}
 
 func java_method_update_2(_args: Array = []) -> Variant:
