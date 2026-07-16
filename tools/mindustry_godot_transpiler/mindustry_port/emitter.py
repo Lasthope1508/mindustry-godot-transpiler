@@ -1370,7 +1370,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar buffered_guard: bool = buffered",
             "\tvar usage_guard: bool = usage > 0.0",
             "\tvar power_use_value: float = usage * source_tick_rate",
@@ -7782,6 +7782,14 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
             'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
             "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
             "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
+    ):
+        lines.extend([
+            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
+            "const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE",
         ])
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))
