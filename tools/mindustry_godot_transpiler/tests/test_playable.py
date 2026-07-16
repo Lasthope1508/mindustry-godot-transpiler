@@ -1678,6 +1678,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"method": "public void display(Stats stats){"', source)
         self.assertIn('"guard_expr": "if(displayedPowerUsage != 0f){"', source)
         self.assertIn('"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"', source)
+        source_body = source.split("func source_consume_power_dynamic_display_state", 1)[1].split("func generated_consume_power_dynamic_display_bridge_state", 1)[0]
+        self.assertIn("var power_use_value: float = displayed_power_usage * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var power_use_value: float = displayed_power_usage * 60.0", source_body)
         self.assertIn("func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage: float) -> Dictionary:", source)
         self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")', source)
         self.assertIn("var result = instance.java_method_display_1([displayed_power_usage])", source)

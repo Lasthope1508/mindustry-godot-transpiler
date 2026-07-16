@@ -2833,7 +2833,7 @@ func generated_consume_power_dynamic_requested_power_bridge_state(usage_get: flo
 
 func source_consume_power_dynamic_display_state(displayed_power_usage: float) -> Dictionary:
 	var display_guard: bool = displayed_power_usage != 0.0
-	var power_use_value: float = displayed_power_usage * 60.0
+	var power_use_value: float = displayed_power_usage * SOURCE_TICK_RATE
 	var stats_add_call: Dictionary = {}
 	if display_guard:
 		stats_add_call = {"call": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
