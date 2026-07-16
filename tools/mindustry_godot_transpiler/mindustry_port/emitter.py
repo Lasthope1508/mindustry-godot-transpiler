@@ -1370,9 +1370,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             "\tvar buffered_guard: bool = buffered",
             "\tvar usage_guard: bool = usage > 0.0",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif buffered_guard:",
@@ -1423,8 +1423,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[1] if _args.size() > 1 else 60.0)",
             "\tvar display_guard: bool = displayed_power_usage != 0.0",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = displayed_power_usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif display_guard:",
@@ -1530,7 +1530,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tif item_id < item_amounts.size():",
             "\t\t\titem_amount = float(item_amounts[item_id])",
             "\t\tvar valid: bool = item_id < item_amounts.size() and item_amount >= required_amount",
-            '\t\treq_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})',
+            '\t\treq_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT})',
             "\t\tif (index + 1) % 4 == 0:",
             '\t\t\trow_calls.append({"call": "c.row();", "after_count": index + 1})',
             "\tvar table_cell_left: bool = true",
@@ -1617,7 +1617,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tfor index in filtered_item_ids.size():",
             "\t\tvar valid: bool = bool(build_items_has_item_flags[index]) if index < build_items_has_item_flags.size() else false",
             '\t\treq_images.append({"item_id": int(filtered_item_ids[index]), "stack_amount": 1, "valid": valid, "stat_values_stack_expr": "StatValues.stack(item, 1)", "valid_expr": "build.items.has(item)"})',
-            "\tvar table_image_size: float = 8.0 * 4.0",
+            "\tvar table_image_size: float = SOURCE_UI_ICON_MED",
             '\treturn {"source_owner": "PortGame.source_consume_item_filter_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void build(Building build, Table table){", "filter_field": "public Boolf<Item> filter = i -> false;", "image_expr": "MultiReqImage image = new MultiReqImage();", "each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));", "table_add_expr": "table.add(image).size(8 * 4);", "multi_req_image_class": "public class MultiReqImage extends Stack{", "multi_req_image_add_expr": "public void add(ReqImage display){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item){", "cell_size_expr": "public Cell<T> size(float size){", "filtered_item_ids": filtered_item_ids, "build_items_has_item_flags": build_items_has_item_flags, "multi_req_image_created": true, "req_images": req_images, "req_image_count": req_images.size(), "table_add_image": true, "table_image_size": table_image_size}',
         ]
     if (
@@ -1756,8 +1756,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
             "\tvar liquid_efficiency_values: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar source_tick_rate: float = float(_args[5] if _args.size() > 5 else 60.0)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -1805,7 +1805,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tfor liquid_id in filtered_liquid_ids:",
             "\t\tvar valid: bool = liquid_id == consumed_liquid",
             '\t\treq_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})',
-            "\tvar table_image_size: float = 8.0 * 4.0",
+            "\tvar table_image_size: float = SOURCE_UI_ICON_MED",
             '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void build(Building build, Table table){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));", "image_expr": "MultiReqImage image = new MultiReqImage();", "each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));", "table_add_expr": "table.add(image).size(8 * 4);", "multi_req_image_class": "public class MultiReqImage extends Stack{", "multi_req_image_add_expr": "public void add(ReqImage display){", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "content_liquids_expr": "public Seq<Liquid> liquids(){", "cell_size_expr": "public Cell<T> size(float size){", "filtered_liquid_ids": filtered_liquid_ids, "consumed_liquid": consumed_liquid, "multi_req_image_created": true, "req_images": req_images, "req_image_count": req_images.size(), "table_add_image": true, "table_image_size": table_image_size}',
         ]
     if (
@@ -1892,8 +1892,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_liquids: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -2112,9 +2112,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else 32.0)",
             "\tvar valid: bool = build_liquids_get > 0.0",
             '\tvar req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}',
-            "\tvar table_image_size: float = 8.0 * 4.0",
+            "\tvar table_image_size: float = source_ui_icon_med",
             '\treturn {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}',
         ]
     if (
@@ -2126,8 +2127,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}',
             '\treturn {"source_owner": "PortGame.source_consume_liquid_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void display(Stats stats){", "liquid_field": "public final Liquid liquid;", "amount_field": "public float amount;", "booster_field": "public boolean booster;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){", "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)", "stat_values_liquid_method": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){", "stat_values_display_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();", "booster": booster, "liquid_id": liquid_id, "amount": amount, "selected_stat": selected_stat, "display_amount_per_second": display_amount_per_second, "per_second": true, "stats_add_call": stats_add_call}',
@@ -2188,7 +2189,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             '\tvar icon_size: String = "Vars.iconMed"',
-            "\tvar pad_right: float = 8.0",
+            "\tvar pad_right: float = SOURCE_UI_PAD_RIGHT",
             "\tfor index in range(liquid_ids.size()):",
             "\t\tvar amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             '\t\treq_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})',
@@ -2248,8 +2249,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_liquids: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_id: int = int(liquid_ids[index])",
@@ -2333,7 +2334,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tvar item_amount: float = float(item_amounts[index] if index < item_amounts.size() else 0.0)",
             "\t\tvar required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
             "\t\tvar valid: bool = building_has_items and item_amount >= required_amount",
-            '\t\treq_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0, "left": true})',
+            '\t\treq_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT, "left": true})',
             "\t\tif (index + 1) % 4 == 0:",
             '\t\t\trow_calls.append({"call": "table.row();", "after_count": index + 1})',
             '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "private void rebuild(Building build, Table table){", "items_field": "public final Func<Building, ItemStack[]> items;", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(ItemStack stack : items.get(build)){", "add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();", "row_expr": "if(++i % 4 == 0) table.row();", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item, int amount){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "cell_pad_right_expr": "public Cell<T> padRight(float padRight){", "cell_left_expr": "public Cell<T> left(){", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "building_has_items": building_has_items, "multiplier_get_build": multiplier_get_build, "req_images": req_images, "row_calls": row_calls, "cleared": true}',
@@ -2394,8 +2395,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar source_tick_rate: float = float(_args[6] if _args.size() > 6 else 60.0)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_item_ids.size():",
             "\t\tvar item_id: int = int(filtered_item_ids[index])",
@@ -2415,12 +2416,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
             "\tvar liquid_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)",
+            "\tvar source_ui_icon_med: float = float(_args[3] if _args.size() > 3 else SOURCE_UI_ICON_MED)",
+            "\tvar source_ui_pad_right: float = float(_args[4] if _args.size() > 4 else SOURCE_UI_PAD_RIGHT)",
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             "\t\tvar valid: bool = building_has_liquids and liquid_amount > 0.0",
-            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": 32.0, "pad_right": 8.0})',
+            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": source_ui_icon_med, "pad_right": source_ui_pad_right})',
             "\t\tif (index + 1) % 4 == 0:",
             '\t\t\trow_calls.append({"call": "table.row();", "after_count": index + 1})',
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "private void rebuild(Building build, Table table){", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);", "row_expr": "if(++i % 4 == 0) table.row();", "liquid_ids": liquid_ids, "liquid_amounts": liquid_amounts, "building_has_liquids": building_has_liquids, "req_images": req_images, "row_calls": row_calls, "cleared": true}',
@@ -2944,7 +2947,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
                     '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = 8.0",
+                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
                     '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3002,7 +3005,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
                     '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = 8.0",
+                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
                     '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3090,7 +3093,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\t\tvar cos_value := cos(radians)",
                 "\t\tvar sin_value := sin(radians)",
                 '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                "\tvar source_tilesize: float = 8.0",
+                "\tvar source_tilesize: float = SOURCE_TILESIZE",
                 '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                 '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                 '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3184,15 +3187,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}',
             "\tif _args.size() <= 3:",
             '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "elevation_snapshot_expr": "float e = unit.elevation;", "elevation_zero_expr": "unit.elevation = 0f;", "draw_scl_expr": "Draw.scl(1f, 1f);", "unit_type_draw_expr": "unit.type.draw(unit);", "elevation_restore_expr": "unit.elevation = e;", "next_expr": "//draw warning", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}',
-            "\tvar overlay_duration: float = 40.0",
+            "\tvar overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION",
             "\tvar overlay_guard: bool = (not returned_early) and overlay_time > 0.0",
             "\tvar draw_z_snapshot: float = draw_z_before",
             '\tvar draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}',
             '\tvar overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"',
             '\tvar draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}',
-            "\tvar draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0",
+            "\tvar draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0",
             '\tvar draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}',
-            "\tvar warning_size: float = 8.0",
+            "\tvar warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE",
             '\tvar draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}',
             "\tvar draw_reset_called: bool = overlay_guard",
             "\tvar overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time",
@@ -4412,9 +4415,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar target_air: bool = bool(_args[0] if _args.size() > 0 else true)",
             "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\tvar damage: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
             "\tvar targets_ground_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsGround, targetGround);\", \"stat\": \"Stat.targetsGround\", \"value\": target_ground}",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar damage_per_second: float = damage * source_tick_rate",
             "\tvar damage_stat_added: bool = damage > 0.0",
             "\tvar damage_stat_call: Dictionary = {}",
@@ -4516,12 +4519,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 80.0)",
             "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
             "\tvar activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             "\tvar shoot_range_blocks: float = range_value / source_tilesize",
             "\tvar shoot_range_stat_call: Dictionary = {\"call\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"stat\": \"Stat.shootRange\", \"value\": shoot_range_blocks, \"unit\": \"StatUnit.blocks\"}",
             "\tvar activation_time_stat_called: bool = activation_time > 0.0",
             "\tvar activation_time_stat_call: Dictionary = {}",
             "\tif activation_time_stat_called:",
-            "\t\tactivation_time_stat_call = {\"call\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"stat\": \"Stat.activationTime\", \"value\": activation_time / 60.0, \"unit\": \"StatUnit.seconds\"}",
+            "\t\tactivation_time_stat_call = {\"call\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"stat\": \"Stat.activationTime\", \"value\": activation_time / source_tick_rate, \"unit\": \"StatUnit.seconds\"}",
             "\treturn {\"source_owner\": \"PortGame.source_base_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"shoot_range_stat_expr\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"activation_time_guard_expr\": \"if(activationTime > 0)\", \"activation_time_stat_expr\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"range\": range_value, \"tilesize\": source_tilesize, \"activation_time\": activation_time, \"shoot_range_blocks\": shoot_range_blocks, \"super_set_stats_called\": true, \"shoot_range_stat_call\": shoot_range_stat_call, \"activation_time_stat_called\": activation_time_stat_called, \"activation_time_stat_call\": activation_time_stat_call}",
         ]
     if (
@@ -4532,6 +4536,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[2] if _args.size() > 2 else 60.0)",
             "\tvar activation_bar_added: bool = activation_time > 0.0",
             "\tvar activation_timer_positive: bool = entity_activation_timer > 0.0",
             "\tvar activation_bar_fraction: float = 0.0",
@@ -4541,7 +4546,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tif activation_bar_added:",
             "\t\tactivation_bar_fraction = 1.0 - entity_activation_timer / activation_time",
             "\t\tif activation_timer_positive:",
-            "\t\t\tactivation_bar_text_call = {\"call\": \"Core.bundle.format(\\\"bar.activationtimer\\\", Mathf.ceil(entity.activationTimer / 60f))\", \"key\": \"bar.activationtimer\", \"seconds\": ceil(entity_activation_timer / 60.0)}",
+            "\t\t\tactivation_bar_text_call = {\"call\": \"Core.bundle.format(\\\"bar.activationtimer\\\", Mathf.ceil(entity.activationTimer / 60f))\", \"key\": \"bar.activationtimer\", \"seconds\": ceil(entity_activation_timer / source_tick_rate)}",
             "\t\t\tactivation_bar_color = \"Pal.lightOrange\"",
             "\t\telse:",
             "\t\t\tactivation_bar_text_call = {\"call\": \"Core.bundle.get(\\\"bar.activated\\\")\", \"key\": \"bar.activated\"}",
@@ -5653,8 +5658,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)",
             "\tvar last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)",
             "\tvar last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)",
-            "\tvar power_net_in := last_scaled_power_in * 60.0 if has_power_module else 0.0",
-            "\tvar power_net_out := last_scaled_power_out * 60.0 if has_power_module else 0.0",
+            "\tvar source_tick_rate := float(_args[37] if _args.size() > 37 else 60.0)",
+            "\tvar power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0",
+            "\tvar power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0",
             "\tvar power_net_stored := last_power_stored if has_power_module else 0.0",
             "\tvar power_net_capacity := last_power_capacity if has_power_module else 0.0",
             "\tvar sense_capacity_power_net := {\"method\": \"public double sense(LAccess sensor){\", \"item_capacity_case\": \"case itemCapacity -> block.hasItems ? block.itemCapacity : 0;\", \"liquid_capacity_case\": \"case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;\", \"power_capacity_case\": \"case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;\", \"power_net_in_case\": \"case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;\", \"power_net_out_case\": \"case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;\", \"power_net_stored_case\": \"case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();\", \"power_net_capacity_case\": \"case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();\", \"block_has_items\": block_has_items, \"block_item_capacity\": block_item_capacity, \"block_has_liquids\": block_has_liquids, \"block_liquid_capacity\": block_liquid_capacity, \"has_cons_power\": has_cons_power, \"cons_power_capacity\": cons_power_capacity, \"has_power_module\": has_power_module, \"last_scaled_power_in\": last_scaled_power_in, \"last_scaled_power_out\": last_scaled_power_out, \"last_power_stored\": last_power_stored, \"last_power_capacity\": last_power_capacity, \"item_capacity\": block_item_capacity if block_has_items else 0.0, \"liquid_capacity\": block_liquid_capacity if block_has_liquids else 0.0, \"power_capacity\": cons_power_capacity if has_cons_power else 0.0, \"power_net_in\": power_net_in, \"power_net_out\": power_net_out, \"power_net_stored\": power_net_stored, \"power_net_capacity\": power_net_capacity}",
@@ -6139,45 +6145,6 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
-    if (
-        (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
-            and type_entry.get("name") == "ConsumeItemEfficiency"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
-            and type_entry.get("name") == "ConsumeLiquid"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
-            and type_entry.get("name") == "ConsumeLiquidFilter"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
-            and type_entry.get("name") == "ConsumeLiquidFlammable"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
-            and type_entry.get("name") == "ConsumeLiquids"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
-            and type_entry.get("name") == "ConsumePower"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
-            and type_entry.get("name") == "ConsumePowerDynamic"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
-            and type_entry.get("name") == "TractorBeamTurret"
-        )
-    ):
-        return [
-            "",
-            'const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")',
-            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
-        ]
     if not (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
@@ -7416,12 +7383,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     lines.extend([
                         "",
                         f"func java_inner_class_TractorBeamBuild_method_estimateDps_{index}(_args: Array = []) -> Variant:",
-                        "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
-                        "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
-                        "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
-                        "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
-                        "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
-                        "\tvar estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier",
+            "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar source_tick_rate: float = float(_args[4] if _args.size() > 4 else 60.0)",
+            "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
+            "\tvar estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_estimate_dps_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public float estimateDps(){\", \"override_expr\": \"@Override\", \"zero_guard_expr\": \"if(!any || damage <= 0) return 0f;\", \"return_expr\": \"return damage * 60f * efficiency * coolantMultiplier;\", \"any_state\": any_state, \"damage\": damage, \"efficiency\": efficiency, \"coolant_multiplier\": coolant_multiplier, \"zero_guard\": zero_guard, \"estimate_dps\": estimate_dps}",
                     ])
                 elif method.get("name") == "draw":
@@ -7778,6 +7746,41 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         f"const JAVA_METHODS := {gdscript_literal(type_entry.get('methods', []))}",
         f"const JAVA_ENUM_CONSTANTS := {gdscript_literal(type_entry.get('enum_constants', []))}",
     ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+    ):
+        lines.extend([
+            'const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")',
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA",
+            "const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE",
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") in {
+            "mindustry/world/consumers/ConsumeItems.java",
+            "mindustry/world/consumers/ConsumeItemDynamic.java",
+            "mindustry/world/consumers/ConsumeItemFilter.java",
+            "mindustry/world/consumers/ConsumeLiquids.java",
+            "mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+            "mindustry/world/consumers/ConsumeLiquidFilter.java",
+        }
+        and type_entry.get("name") in {
+            "ConsumeItems",
+            "ConsumeItemDynamic",
+            "ConsumeItemFilter",
+            "ConsumeLiquids",
+            "ConsumeLiquidsDynamic",
+            "ConsumeLiquidFilter",
+        }
+    ):
+        lines.extend([
+            'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
+            "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
+            "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
+        ])
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))
     lines.extend(_extra_method_stub_lines(java_file, type_entry))
