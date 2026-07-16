@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumePower"
@@ -37,7 +39,8 @@ func java_method_display_3(_args: Array = []) -> Variant:
 	var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)
 	var buffered_guard: bool = buffered
 	var usage_guard: bool = usage > 0.0
-	var power_use_value: float = usage * 60.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var power_use_value: float = usage * source_tick_rate
 	var stats_add_call: Dictionary = {}
 	if buffered_guard:
 		stats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}

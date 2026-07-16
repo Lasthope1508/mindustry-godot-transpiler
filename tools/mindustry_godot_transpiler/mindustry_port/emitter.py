@@ -1372,7 +1372,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar buffered_guard: bool = buffered",
             "\tvar usage_guard: bool = usage > 0.0",
-            "\tvar power_use_value: float = usage * 60.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar power_use_value: float = usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif buffered_guard:",
             '\t\tstats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}',
@@ -6156,6 +6157,10 @@ def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
             and type_entry.get("name") == "ConsumeLiquids"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+            and type_entry.get("name") == "ConsumePower"
         )
     ):
         return [

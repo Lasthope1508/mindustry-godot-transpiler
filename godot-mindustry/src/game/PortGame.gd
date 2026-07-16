@@ -2752,7 +2752,7 @@ func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dic
 func source_consume_power_display_state(buffered: bool, usage: float, capacity: float) -> Dictionary:
 	var buffered_guard: bool = buffered
 	var usage_guard: bool = usage > 0.0
-	var power_use_value: float = usage * 60.0
+	var power_use_value: float = usage * SOURCE_TICK_RATE
 	var stats_add_call: Dictionary = {}
 	if buffered_guard:
 		stats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}
