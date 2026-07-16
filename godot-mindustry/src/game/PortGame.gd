@@ -5283,7 +5283,7 @@ func source_consume_liquids_display_state(booster: bool, liquid_ids: Array, liqu
 	for index in range(liquid_ids.size()):
 		var liquid_id: int = int(liquid_ids[index])
 		var stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
-		var display_amount_per_second: float = stack_amount * 60.0
+		var display_amount_per_second: float = stack_amount * SOURCE_TICK_RATE
 		display_liquids.append({"liquid_id": liquid_id, "stack_amount": stack_amount, "display_amount_per_second": display_amount_per_second, "per_second": true, "display_expr": "displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)", "pad_right": 5.0})
 	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(1f, true, liquids)", "time_period": 1.0, "per_second": true, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts}
 	return {

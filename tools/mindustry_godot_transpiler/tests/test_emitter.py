@@ -20698,12 +20698,16 @@ public class ConsumeLiquids extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("var liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
-            self.assertIn("var display_amount_per_second: float = stack_amount * 60.0", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var display_amount_per_second: float = stack_amount * source_tick_rate", source_text)
+            self.assertNotIn("var display_amount_per_second: float = stack_amount * 60.0", source_text)
             self.assertIn('"stat_value_expr": "StatValues.liquids(1f, true, liquids)"', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_display_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)

@@ -2247,11 +2247,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_liquids: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_id: int = int(liquid_ids[index])",
             "\t\tvar stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)",
-            "\t\tvar display_amount_per_second: float = stack_amount * 60.0",
+            "\t\tvar display_amount_per_second: float = stack_amount * source_tick_rate",
             '\t\tdisplay_liquids.append({"liquid_id": liquid_id, "stack_amount": stack_amount, "display_amount_per_second": display_amount_per_second, "per_second": true, "display_expr": "displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)", "pad_right": 5.0})',
             '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(1f, true, liquids)", "time_period": 1.0, "per_second": true, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts}',
             '\treturn {"source_owner": "PortGame.source_consume_liquids_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void display(Stats stats){", "liquids_field": "public final LiquidStack[] liquids;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_values_liquids_expr": "StatValues.liquids(1f, true, liquids)", "stat_values_liquids_method": "public static StatValue liquids(float timePeriod, boolean perSecond, LiquidStack... stacks){", "display_liquid_expr": "table.add(displayLiquid(stack.liquid, stack.amount * (60f / timePeriod), perSecond)).padRight(5);", "stats_add_method": "public void add(Stat stat, StatValue value){", "booster_field": "public boolean booster;", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "booster": booster, "selected_stat": selected_stat, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "time_period": 1.0, "per_second": true, "stats_add_call": stats_add_call, "display_liquids": display_liquids}',
@@ -6151,6 +6152,10 @@ def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
         or (
             java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
             and type_entry.get("name") == "ConsumeLiquidFlammable"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+            and type_entry.get("name") == "ConsumeLiquids"
         )
     ):
         return [

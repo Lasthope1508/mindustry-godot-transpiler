@@ -3201,7 +3201,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(1f, true, liquids));"', source)
         self.assertIn('"selected_stat_expr": "booster ? Stat.booster : Stat.input"', source)
         self.assertIn('"stat_values_liquids_expr": "StatValues.liquids(1f, true, liquids)"', source)
-        self.assertIn("var display_amount_per_second: float = stack_amount * 60.0", source)
+        source_body = source.split("func source_consume_liquids_display_state", 1)[1].split("func generated_consume_liquids_display_bridge_state", 1)[0]
+        self.assertIn("var display_amount_per_second: float = stack_amount * SOURCE_TICK_RATE", source_body)
+        self.assertNotIn("var display_amount_per_second: float = stack_amount * 60.0", source_body)
         self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(1f, true, liquids)", "time_period": 1.0, "per_second": true, "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts}', source)
         self.assertIn("func generated_consume_liquids_display_bridge_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:", source)
         self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")', source)
