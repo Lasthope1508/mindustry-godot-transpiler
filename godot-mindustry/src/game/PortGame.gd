@@ -7780,7 +7780,7 @@ func source_block_item_capacity(block_id: String) -> int:
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
 		return 0
-	return int(block.properties.get("itemCapacity", 0))
+	return int(block.properties.get("itemCapacity", factory_defaults.block_item_capacity()))
 
 func source_block_dump_time(block_id: String) -> float:
 	if content_catalog == null:

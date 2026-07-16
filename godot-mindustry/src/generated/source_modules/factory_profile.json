@@ -9,7 +9,8 @@
       "warmup_speed": 0.015
     },
     "block": {
-      "dump_time": 5.0
+      "dump_time": 5.0,
+      "item_capacity": 10
     },
     "conveyor": {
       "tile_speed_scale": 55.0
@@ -20,6 +21,7 @@
       "item_hardness_expr": "public int hardness = 0;",
       "warmup_speed_expr": "public float warmupSpeed = 0.015f;",
       "dump_time_expr": "public int dumpTime = 5;",
+      "item_capacity_expr": "public int itemCapacity = 10;",
       "conveyor_tile_speed_scale_expr": "float mspeed = speed * tilesize * 55f;",
       "java_sources": [
         "core/src/mindustry/world/blocks/production/Drill.java",

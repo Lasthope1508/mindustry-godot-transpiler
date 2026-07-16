@@ -36,6 +36,10 @@ func block_dump_time() -> float:
 	var block: Dictionary = profile.get("block", {})
 	return float(block.get("dump_time", 0.0))
 
+func block_item_capacity() -> int:
+	var block: Dictionary = profile.get("block", {})
+	return int(block.get("item_capacity", 0))
+
 func conveyor_tile_speed_scale() -> float:
 	var conveyor: Dictionary = profile.get("conveyor", {})
 	return float(conveyor.get("tile_speed_scale", 0.0))
@@ -48,5 +52,6 @@ func runtime_summary() -> Dictionary:
 		"item_hardness_default": item_hardness_default(),
 		"drill_warmup_speed": drill_warmup_speed(),
 		"block_dump_time": block_dump_time(),
+		"block_item_capacity": block_item_capacity(),
 		"conveyor_tile_speed_scale": conveyor_tile_speed_scale(),
 	}
