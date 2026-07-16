@@ -5651,7 +5651,7 @@ func source_consume_item_efficiency_display_state(booster: bool, stats_time_peri
 		var item_id: int = int(filtered_item_ids[index])
 		var efficiency_multiplier: float = float(item_efficiency_multipliers[index] if index < item_efficiency_multipliers.size() else 1.0)
 		var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)
-		var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)
+		var time_value: float = 1.0 / (stats_time_period * time_multiplier / SOURCE_TICK_RATE)
 		var efficiency_percent: float = efficiency_multiplier * 100.0
 		display_rows.append({"item_id": item_id, "efficiency_multiplier": efficiency_multiplier, "efficiency_percent": efficiency_percent, "time_multiplier": time_multiplier, "time": time_value, "time_period": stats_time_period})
 	return {
