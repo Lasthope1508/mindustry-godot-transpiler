@@ -17111,7 +17111,7 @@ func source_bullet_type_create_lifetime_payload_damage_state(velocity_position_s
 			"trailClearReservedSource": "if(bullet.trail != null){",
 			"addReservedSource": "bullet.add()",
 		}
-	var lifetime := float(bullet_type_state.get("lifetime", 40.0))
+	var lifetime := float(bullet_type_state.get("lifetime", SOURCE_BULLET_LIFETIME_DEFAULT))
 	var lifetime_scl := float(bullet_create_call.get("lifetimeScl", 1.0))
 	var life_scale_rand_min := float(bullet_type_state.get("lifeScaleRandMin", 1.0))
 	var life_scale_rand_max := float(bullet_type_state.get("lifeScaleRandMax", 1.0))

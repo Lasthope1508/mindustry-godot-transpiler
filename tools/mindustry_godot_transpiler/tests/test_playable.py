@@ -15691,6 +15691,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"intervalGateSource": "if(trailInterval > 0f && canSpawn){"', source)
         self.assertIn('"timerSource": "if(b.timer(0, trailInterval)){"', source)
         self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
+        self.assertIn("var lifetime := float(bullet_type_state.get(\"lifetime\", SOURCE_BULLET_LIFETIME_DEFAULT))", source)
+        self.assertNotIn("var lifetime := float(bullet_type_state.get(\"lifetime\", 40.0))", source)
 
     def test_port_game_exposes_source_bullet_type_init_type_defaults_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
