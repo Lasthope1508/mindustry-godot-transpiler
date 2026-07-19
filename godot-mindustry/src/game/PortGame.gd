@@ -4,83 +4,275 @@ class_name PortGame
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
 const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
-const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
-const ControlInput := preload("res://src/game/ControlInput.gd")
-const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")
-const SourceGameplayDefaults := preload("res://src/game/SourceGameplayDefaults.gd")
-const SourceConstructionDefaults := preload("res://src/game/SourceConstructionDefaults.gd")
-const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
-const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
-const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")
-const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
-const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
-const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
-const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
+const SourceMathState := preload("res://src/game/SourceMathState.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SourceRulesDefaults := preload("res://src/game/SourceRulesDefaults.gd")
+const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
+const SourceWorldGrid := preload("res://src/game/SourceWorldGrid.gd")
+const SourceWorldViewport := preload("res://src/game/SourceWorldViewport.gd")
+const SourceInputDefaults := preload("res://src/game/SourceInputDefaults.gd")
+const SourceInputRuntime := preload("res://src/game/SourceInputRuntime.gd")
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SourcePlayableScenarioDefaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
+const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+const SourceLiquidReactionState := preload("res://src/game/SourceLiquidReactionState.gd")
+const SourceCoreDefaults := preload("res://src/game/SourceCoreDefaults.gd")
+const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")
+const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
+const SourcePowerDefaults := preload("res://src/game/SourcePowerDefaults.gd")
+const SourceProjectorDefaults := preload("res://src/game/SourceProjectorDefaults.gd")
+const SourceDamageDefaults := preload("res://src/game/SourceDamageDefaults.gd")
+const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
+const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
+const SourcePointDefenseTurretDefaults := preload("res://src/game/SourcePointDefenseTurretDefaults.gd")
+const SourceWeaponDefaults := preload("res://src/game/SourceWeaponDefaults.gd")
+const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")
+const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")
+const SourceItemDefaults := preload("res://src/game/SourceItemDefaults.gd")
+const SourceBlockGeometry := preload("res://src/game/SourceBlockGeometry.gd")
+const SourceBlockFootprint := preload("res://src/game/SourceBlockFootprint.gd")
+const SourceBlockPlacement := preload("res://src/game/SourceBlockPlacement.gd")
+const SourcePlacedBlockState := preload("res://src/game/SourcePlacedBlockState.gd")
+const SourceBuildingTimeState := preload("res://src/game/SourceBuildingTimeState.gd")
+const SourceBuildingEfficiencyState := preload("res://src/game/SourceBuildingEfficiencyState.gd")
+const SourceBuilderRuntimeState := preload("res://src/game/SourceBuilderRuntimeState.gd")
+const SourceBuilderDrawState := preload("res://src/game/SourceBuilderDrawState.gd")
+const SourceBuildingLifecycleState := preload("res://src/game/SourceBuildingLifecycleState.gd")
+const SourceBuildingDamageState := preload("res://src/game/SourceBuildingDamageState.gd")
+const SourceBuildingSenseState := preload("res://src/game/SourceBuildingSenseState.gd")
+const SourceBuildingSetPropState := preload("res://src/game/SourceBuildingSetPropState.gd")
+const SourceBuildingVisibilityState := preload("res://src/game/SourceBuildingVisibilityState.gd")
+const SourceBuildingCoreState := preload("res://src/game/SourceBuildingCoreState.gd")
+const SourceBuildingItemState := preload("res://src/game/SourceBuildingItemState.gd")
+const SourceBuildingPayloadState := preload("res://src/game/SourceBuildingPayloadState.gd")
+const SourceOverdriveBoostState := preload("res://src/game/SourceOverdriveBoostState.gd")
+const SourceOverdriveProjectorState := preload("res://src/game/SourceOverdriveProjectorState.gd")
+const SourceMendProjectorState := preload("res://src/game/SourceMendProjectorState.gd")
+const SourceProjectorBoostState := preload("res://src/game/SourceProjectorBoostState.gd")
+const SourcePowerGeneratorState := preload("res://src/game/SourcePowerGeneratorState.gd")
+const SourcePowerGraphState := preload("res://src/game/SourcePowerGraphState.gd")
+const SourceConsumePowerState := preload("res://src/game/SourceConsumePowerState.gd")
+const SourceConsumeItemFilterState := preload("res://src/game/SourceConsumeItemFilterState.gd")
+const SourceConsumeItemsState := preload("res://src/game/SourceConsumeItemsState.gd")
+const SourceConsumeItemAttributeState := preload("res://src/game/SourceConsumeItemAttributeState.gd")
+const SourceThermalGeneratorState := preload("res://src/game/SourceThermalGeneratorState.gd")
+const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")
+const SourceUnitDestroyState := preload("res://src/game/SourceUnitDestroyState.gd")
+const SourceUnitUpdateState := preload("res://src/game/SourceUnitUpdateState.gd")
+const SourceUnitTetherState := preload("res://src/game/SourceUnitTetherState.gd")
+const SourceBlockUnitState := preload("res://src/game/SourceBlockUnitState.gd")
+const SourceSyncState := preload("res://src/game/SourceSyncState.gd")
+const SourceBuildingTetherState := preload("res://src/game/SourceBuildingTetherState.gd")
+const ContentCatalog := preload("res://src/mindustry/content/ContentCatalog.gd")
+const SOURCE_DRILL_HARDNESS_MULTIPLIER := SourceFactoryDefaults.DRILL_HARDNESS_MULTIPLIER
+const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := SourceFactoryDefaults.DRILL_DELAY_DRILL_TIME_DEFAULT
+const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := SourceFactoryDefaults.DRILL_DELAY_ITEM_HARDNESS_DEFAULT
+const SOURCE_DRILL_WARMUP_SPEED := SourceFactoryDefaults.DRILL_WARMUP_SPEED
+const SOURCE_FACTORY_HEAT_LERP_PROGRESS := SourceFactoryDefaults.HEAT_LERP_PROGRESS
+const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT
+const SOURCE_BLOCK_HEALTH_DEFAULT := SourceBlockDefaults.HEALTH_DEFAULT
+const SOURCE_BLOCK_SCALED_HEALTH_DEFAULT := SourceBlockDefaults.SCALED_HEALTH_DEFAULT
+const SOURCE_BLOCK_HEALTH_DAMAGED_EPSILON := SourceBlockDefaults.HEALTH_DAMAGED_EPSILON
+const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT
+const SOURCE_BLOCK_TIME_SCALE_BOOST_EPSILON := SourceBlockDefaults.TIME_SCALE_BOOST_EPSILON
+const SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT := SourceBlockDefaults.ITEM_CAPACITY_DEFAULT
+const SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT := SourceBlockDefaults.CAN_OVERDRIVE_DEFAULT
+const SOURCE_BLOCK_HAS_POWER_DEFAULT := SourceBlockDefaults.HAS_POWER_DEFAULT
+const SOURCE_BLOCK_CONSUMES_POWER_DEFAULT := SourceBlockDefaults.CONSUMES_POWER_DEFAULT
+const SOURCE_BLOCK_OUTPUTS_POWER_DEFAULT := SourceBlockDefaults.OUTPUTS_POWER_DEFAULT
+const SOURCE_BLOCK_POWER_USAGE_DEFAULT := SourceBlockDefaults.POWER_USAGE_DEFAULT
+const SOURCE_BLOCK_POWER_CAPACITY_DEFAULT := SourceBlockDefaults.POWER_CAPACITY_DEFAULT
+const SOURCE_BLOCK_POWER_BUFFERED_DEFAULT := SourceBlockDefaults.POWER_BUFFERED_DEFAULT
+const SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT := SourceBlockDefaults.POWER_PRODUCTION_DEFAULT
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_BASE_QUANTITY := SourceBlockDefaults.RESEARCH_REQUIREMENTS_BASE_QUANTITY
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_AMOUNT_EXPONENT := SourceBlockDefaults.RESEARCH_REQUIREMENTS_AMOUNT_EXPONENT
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_AMOUNT_SCALE := SourceBlockDefaults.RESEARCH_REQUIREMENTS_AMOUNT_SCALE
+const SOURCE_BLOCK_RESEARCH_REQUIREMENTS_ROUND_STEP := SourceBlockDefaults.RESEARCH_REQUIREMENTS_ROUND_STEP
+const SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT := SourceRulesDefaults.REACTOR_EXPLOSIONS_DEFAULT
+const SOURCE_RULES_CORE_INCINERATES_DEFAULT := SourceCoreDefaults.RULES_CORE_INCINERATES_DEFAULT
+const SOURCE_CORE_INCINERATE_NON_BUILDABLE_DEFAULT := SourceCoreDefaults.INCINERATE_NON_BUILDABLE_DEFAULT
+const SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT
+const SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT
+const SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR
+const SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT
+const SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT
+const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON
+const SOURCE_CONSUME_ITEMS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_ITEMS_EMPTY_STACKS
+const SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_LIQUID
+const SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_AMOUNT
+const SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_LIQUID_FILTER_DEFAULT_EXPR
+const SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_LIQUIDS_EMPTY_STACKS
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT
+const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT
+const SOURCE_BLOCK_DUMP_TIME := SourceFactoryDefaults.BLOCK_DUMP_TIME
+const SOURCE_CONVEYOR_TILE_SPEED_SCALE := SourceFactoryDefaults.CONVEYOR_TILE_SPEED_SCALE
+const SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT := SourceFactoryDefaults.CONVEYOR_WORLD_SPEED_DEFAULT
+const SOURCE_CONSUME_GENERATOR_ITEM_DURATION_DEFAULT := SourcePowerDefaults.CONSUME_GENERATOR_ITEM_DURATION_DEFAULT
+const SOURCE_POWER_NODE_MAX_NODES_DEFAULT := SourcePowerDefaults.POWER_NODE_MAX_NODES_DEFAULT
+const SOURCE_POWER_NODE_LASER_RANGE_DEFAULT := SourcePowerDefaults.POWER_NODE_LASER_RANGE_DEFAULT
+const SOURCE_BUILD_BOOSTER_USE_TIME_DEFAULT := SourceProjectorDefaults.BUILD_BOOSTER_USE_TIME_DEFAULT
+const SOURCE_PROJECTOR_HEAT_LERP_PROGRESS := SourceProjectorDefaults.PROJECTOR_HEAT_LERP_PROGRESS
+const SOURCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS := SourceProjectorDefaults.PROJECTOR_PHASE_HEAT_LERP_PROGRESS
+const SOURCE_DAMAGE_MIN_ARMOR_DAMAGE := SourceDamageDefaults.MIN_ARMOR_DAMAGE
+const SOURCE_BULLET_RANGE_CHANGE_DEFAULT := SourceBulletDefaults.RANGE_CHANGE_DEFAULT
+const SOURCE_BULLET_EXTRA_RANGE_MARGIN_DEFAULT := SourceBulletDefaults.EXTRA_RANGE_MARGIN_DEFAULT
+const SOURCE_BULLET_INACCURACY_DEFAULT := SourceBulletDefaults.INACCURACY_DEFAULT
+const SOURCE_BULLET_LIFETIME_DEFAULT := SourceBulletDefaults.LIFETIME_DEFAULT
+const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := SourceBulletDefaults.TICKS_PER_SECOND
+const SOURCE_BULLET_WORLD_SPEED_DEFAULT := SourceBulletDefaults.WORLD_SPEED_DEFAULT
+const SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND := SourceBulletDefaults.TICKS_PER_SECOND
+const SOURCE_BULLET_HIT_SIZE_DEFAULT := SourceBulletDefaults.HIT_SIZE_DEFAULT
+const SOURCE_BULLET_DAMAGE_DEFAULT := SourceBulletDefaults.DAMAGE_DEFAULT
+const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := SourceBulletDefaults.AMMO_MULTIPLIER_DEFAULT
+const SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := SourceBulletDefaults.RELOAD_MULTIPLIER_DEFAULT
+const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := SourceBulletDefaults.SCALE_WIDTH_DEFAULT
+const SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := SourceBulletDefaults.SCALE_HEIGHT_DEFAULT
+const SOURCE_BULLET_HIT_SOUND_PITCH_RANGE_DEFAULT := SourceBulletDefaults.HIT_SOUND_PITCH_RANGE_DEFAULT
+const SOURCE_BULLET_HEAL_SOUND_PITCH_RANGE := SourceBulletDefaults.HEAL_SOUND_PITCH_RANGE
+const SOURCE_BULLET_DESPAWN_UNIT_RADIUS_DEFAULT := SourceBulletDefaults.DESPAWN_UNIT_RADIUS_DEFAULT
+const SOURCE_BULLET_TRAIL_PARAM_DEFAULT := SourceBulletDefaults.TRAIL_PARAM_DEFAULT
+const SOURCE_BULLET_TRAIL_WIDTH_DEFAULT := SourceBulletDefaults.TRAIL_WIDTH_DEFAULT
+const SOURCE_BULLET_INCEND_SPREAD_DEFAULT := SourceBulletDefaults.INCEND_SPREAD_DEFAULT
+const SOURCE_BULLET_PUDDLE_AMOUNT_DEFAULT := SourceBulletDefaults.PUDDLE_AMOUNT_DEFAULT
+const SOURCE_BULLET_SUPPRESSION_DURATION_DEFAULT := SourceBulletDefaults.SUPPRESSION_DURATION_DEFAULT
+const SOURCE_BULLET_STATUS_DURATION_DEFAULT := SourceBulletDefaults.STATUS_DURATION_DEFAULT
+const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT
+const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT
+const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT
+const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT
+const SOURCE_TURRET_SHOOT_X_DEFAULT := SourceTurretDefaults.SHOOT_X_DEFAULT
+const SOURCE_TURRET_SHOOT_Y_DEFAULT := SourceTurretDefaults.SHOOT_Y_DEFAULT
+const SOURCE_TURRET_INACCURACY_DEFAULT := SourceTurretDefaults.INACCURACY_DEFAULT
+const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := SourceTurretDefaults.ROTATE_SPEED_DEFAULT
+const SOURCE_TURRET_SHOOT_CONE_DEFAULT := SourceTurretDefaults.SHOOT_CONE_DEFAULT
+const SOURCE_TURRET_RECOIL_DEFAULT := SourceTurretDefaults.RECOIL_DEFAULT
+const SOURCE_TURRET_RECOILS_DEFAULT := SourceTurretDefaults.RECOILS_DEFAULT
+const SOURCE_TURRET_RECOIL_TIME_DEFAULT := SourceTurretDefaults.RECOIL_TIME_DEFAULT
+const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT := SourceTurretDefaults.RECOIL_OFFSET_RECOIL_POW_DEFAULT
+const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT
+const SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT := SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT
+const SOURCE_TURRET_CONSUME_AMMO_ONCE_DEFAULT := SourceTurretDefaults.CONSUME_AMMO_ONCE_DEFAULT
+const SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT := SourceTurretDefaults.LIMIT_RANGE_MARGIN_DEFAULT
+const SOURCE_TURRET_LIQUID_AMMO_EPSILON := SourceTurretDefaults.LIQUID_AMMO_EPSILON
+const SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN := SourceTurretDefaults.LOOK_TARGET_EFFICIENCY_MIN
+const SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS := SourceTurretDefaults.TRACTOR_BEAM_STRENGTH_LERP_PROGRESS
+const SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE := SourceTurretDefaults.TRACTOR_BEAM_COOLANT_EFFECT_CHANCE
+const SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT := SourcePointDefenseTurretDefaults.BULLET_DAMAGE_DEFAULT
+const SOURCE_WEAPON_SHOOT_WARMUP_SPEED_DEFAULT := SourceWeaponDefaults.SHOOT_WARMUP_SPEED_DEFAULT
+const SOURCE_WEAPON_SMOOTH_RELOAD_SPEED_DEFAULT := SourceWeaponDefaults.SMOOTH_RELOAD_SPEED_DEFAULT
+const SOURCE_WEAPON_BASE_ROTATION_DEFAULT := SourceWeaponDefaults.BASE_ROTATION_DEFAULT
+const SOURCE_WEAPON_X_DEFAULT := SourceWeaponDefaults.X_DEFAULT
+const SOURCE_WEAPON_Y_DEFAULT := SourceWeaponDefaults.Y_DEFAULT
+const SOURCE_WEAPON_SHOOT_X_DEFAULT := SourceWeaponDefaults.SHOOT_X_DEFAULT
+const SOURCE_WEAPON_SHOOT_Y_DEFAULT := SourceWeaponDefaults.SHOOT_Y_DEFAULT
+const SOURCE_WEAPON_SHOOT_CONE_DEFAULT := SourceWeaponDefaults.SHOOT_CONE_DEFAULT
+const SOURCE_WEAPON_INACCURACY_DEFAULT := SourceWeaponDefaults.INACCURACY_DEFAULT
+const SOURCE_WEAPON_SHAKE_DEFAULT := SourceWeaponDefaults.SHAKE_DEFAULT
+const SOURCE_WEAPON_VELOCITY_RND_DEFAULT := SourceWeaponDefaults.VELOCITY_RND_DEFAULT
+const SOURCE_WEAPON_EXTRA_VELOCITY_DEFAULT := SourceWeaponDefaults.EXTRA_VELOCITY_DEFAULT
+const SOURCE_WEAPON_MIN_WARMUP_DEFAULT := SourceWeaponDefaults.MIN_WARMUP_DEFAULT
+const SOURCE_WEAPON_FLIP_SPRITE_DEFAULT := SourceWeaponDefaults.FLIP_SPRITE_DEFAULT
+const SOURCE_WEAPON_ALTERNATE_DEFAULT := SourceWeaponDefaults.ALTERNATE_DEFAULT
+const SOURCE_WEAPON_OTHER_SIDE_DEFAULT := SourceWeaponDefaults.OTHER_SIDE_DEFAULT
+const SOURCE_WEAPON_ROTATE_DEFAULT := SourceWeaponDefaults.ROTATE_DEFAULT
+const SOURCE_WEAPON_CONTINUOUS_DEFAULT := SourceWeaponDefaults.CONTINUOUS_DEFAULT
+const SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT := SourceWeaponDefaults.ALWAYS_CONTINUOUS_DEFAULT
+const SOURCE_WEAPON_CONTROLLABLE_DEFAULT := SourceWeaponDefaults.CONTROLLABLE_DEFAULT
+const SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT := SourceWeaponDefaults.ALWAYS_SHOOTING_DEFAULT
+const SOURCE_WEAPON_AUTO_TARGET_DEFAULT := SourceWeaponDefaults.AUTO_TARGET_DEFAULT
+const SOURCE_WEAPON_PREDICT_TARGET_DEFAULT := SourceWeaponDefaults.PREDICT_TARGET_DEFAULT
+const SOURCE_WEAPON_LINEAR_WARMUP_DEFAULT := SourceWeaponDefaults.LINEAR_WARMUP_DEFAULT
+const SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT := SourceWeaponDefaults.PARENTIZE_EFFECTS_DEFAULT
+const SOURCE_WEAPON_TARGET_INTERVAL_DEFAULT := SourceWeaponDefaults.TARGET_INTERVAL_DEFAULT
+const SOURCE_WEAPON_TARGET_SWITCH_INTERVAL_DEFAULT := SourceWeaponDefaults.TARGET_SWITCH_INTERVAL_DEFAULT
+const SOURCE_WEAPON_AIM_CHANGE_SPEED_DEFAULT := SourceWeaponDefaults.AIM_CHANGE_SPEED_DEFAULT
+const SOURCE_WEAPON_ROTATE_SPEED_DEFAULT := SourceWeaponDefaults.ROTATE_SPEED_DEFAULT
+const SOURCE_WEAPON_ROTATION_LIMIT_DEFAULT := SourceWeaponDefaults.ROTATION_LIMIT_DEFAULT
+const SOURCE_WEAPON_COOLDOWN_TIME_DEFAULT := SourceWeaponDefaults.COOLDOWN_TIME_DEFAULT
+const SOURCE_WEAPON_RELOAD_DEFAULT := SourceWeaponDefaults.RELOAD_DEFAULT
+const SOURCE_WEAPON_RECOIL_TIME_DEFAULT := SourceWeaponDefaults.RECOIL_TIME_DEFAULT
+const SOURCE_WEAPON_RECOILS_DEFAULT := SourceWeaponDefaults.RECOILS_DEFAULT
+const SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT := SourceWeaponDefaults.MIN_SHOOT_VELOCITY_DEFAULT
+const SOURCE_WEAPON_ACTIVE_SOUND_VOLUME_DEFAULT := SourceWeaponDefaults.ACTIVE_SOUND_VOLUME_DEFAULT
+const SOURCE_WEAPON_SHOOT_SOUND_VOLUME_DEFAULT := SourceWeaponDefaults.SHOOT_SOUND_VOLUME_DEFAULT
+const SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MIN_DEFAULT
+const SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MAX_DEFAULT
+const SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DURATION_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT
+const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT
+const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := SourceUnitDefaults.HIT_SIZE_DEFAULT
+const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := SourceUnitDefaults.HEALTH_DEFAULT
+const SOURCE_UNIT_SPEED_DEFAULT_VALUE := SourceUnitDefaults.SPEED_DEFAULT
+const SOURCE_UNIT_GROUNDED_EPSILON := SourceUnitDefaults.GROUNDED_EPSILON
+const SOURCE_UNIT_FLYING_ELEVATION_MIN := SourceUnitDefaults.FLYING_ELEVATION_MIN
+const SOURCE_UNIT_DROWN_HIT_SIZE_DIVISOR := SourceUnitDefaults.DROWN_HIT_SIZE_DIVISOR
+const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_BASE := SourceUnitDefaults.WALK_EFFECT_THRESHOLD_BASE
+const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR := SourceUnitDefaults.WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR
+const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION := SourceUnitDefaults.FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION
+const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION := SourceUnitDefaults.FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION
+const SOURCE_UNIT_DROWN_UPDATE_EFFECT_CHANCE := SourceUnitDefaults.DROWN_UPDATE_EFFECT_CHANCE
+const SOURCE_UNIT_DROWN_KILL_THRESHOLD := SourceUnitDefaults.DROWN_KILL_THRESHOLD
+const SOURCE_UNIT_DROWN_DRY_DECAY_DIVISOR := SourceUnitDefaults.DROWN_DRY_DECAY_DIVISOR
+const SOURCE_UNIT_FALL_ENGINE_OFFSET_DIVISOR := SourceUnitDefaults.FALL_ENGINE_OFFSET_DIVISOR
+const SOURCE_UNIT_FALL_ENGINE_ROTATION_OFFSET := SourceUnitDefaults.FALL_ENGINE_ROTATION_OFFSET
+const SOURCE_UNIT_BOOSTING_TARGET_ELEVATION := SourceUnitDefaults.BOOSTING_TARGET_ELEVATION
+const SOURCE_UNIT_BOOSTING_BASE_ELEVATION := SourceUnitDefaults.BOOSTING_BASE_ELEVATION
+const SOURCE_UNIT_WOBBLE_SIN_SCL := SourceUnitDefaults.WOBBLE_SIN_SCL
+const SOURCE_UNIT_WOBBLE_MAG := SourceUnitDefaults.WOBBLE_MAG
+const SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_BASE := SourceUnitDefaults.DESTROY_INITIAL_EXPLOSIVENESS_BASE
+const SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER := SourceUnitDefaults.DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER
+const SOURCE_UNIT_DESTROY_INITIAL_FLAMMABILITY_DIVISOR := SourceUnitDefaults.DESTROY_INITIAL_FLAMMABILITY_DIVISOR
+const SOURCE_UNIT_DESTROY_INITIAL_POWER_EXPONENT := SourceUnitDefaults.DESTROY_INITIAL_POWER_EXPONENT
+const SOURCE_UNIT_DESTROY_INITIAL_POWER_MULTIPLIER := SourceUnitDefaults.DESTROY_INITIAL_POWER_MULTIPLIER
+const SOURCE_UNIT_DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR := SourceUnitDefaults.DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR
+const SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR := SourceUnitDefaults.DESTROY_EXPLOSION_RADIUS_DIVISOR
+const SOURCE_UNIT_DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR := SourceUnitDefaults.DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR
+const SOURCE_UNIT_LANDED_SHAKE_THRESHOLD := SourceUnitDefaults.LANDED_SHAKE_THRESHOLD
+const SOURCE_UNIT_HEAL_AMOUNT_POSITIVE_THRESHOLD := SourceUnitDefaults.HEAL_AMOUNT_POSITIVE_THRESHOLD
+const SOURCE_UNIT_HEAL_TIME_RESET_THRESHOLD := SourceUnitDefaults.HEAL_TIME_RESET_THRESHOLD
+const SOURCE_UNIT_HEAL_TIME_RESET_VALUE := SourceUnitDefaults.HEAL_TIME_RESET_VALUE
+const SOURCE_UNIT_HEAL_TIME_DECAY_DIVISOR := SourceUnitDefaults.HEAL_TIME_DECAY_DIVISOR
+const SOURCE_UNIT_KILLED_HEALTH_CLAMP_MAX := SourceUnitDefaults.KILLED_HEALTH_CLAMP_MAX
+const SOURCE_UNIT_KILLED_WRECK_SOUND_PITCH := SourceUnitDefaults.KILLED_WRECK_SOUND_PITCH
+const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION
+const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA
+const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE
+const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
+const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT
+const SOURCE_UNIT_WARP_DST := SourceWorldDefaults.UNIT_WARP_DST
+const SOURCE_FINAL_WORLD_BOUNDS := SourceWorldDefaults.FINAL_WORLD_BOUNDS
+const SOURCE_PAYLOAD_ARRIVAL_EPSILON := SourceWorldDefaults.PAYLOAD_ARRIVAL_EPSILON
+const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := SourceWorldDefaults.UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]
+const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]
+const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]
+const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := SourceWorldDefaults.UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := SourceWorldDefaults.UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
+const SOURCE_FLOAT_ROUNDING_ERROR := SourceMathDefaults.FLOAT_ROUNDING_ERROR
+const SOURCE_RECOIL_POW := SourceTurretDefaults.RECOIL_POW
+const SOURCE_PI2 := SourceMathDefaults.PI2
+const SOURCE_ARC_PI := SourceMathDefaults.ARC_PI
+const SOURCE_ARC_RAD_FULL := SourceMathDefaults.ARC_RAD_FULL
+const SOURCE_ARC_SIN_BITS := SourceMathDefaults.ARC_SIN_BITS
+const SOURCE_ARC_SIN_MASK := SourceMathDefaults.ARC_SIN_MASK
+const SOURCE_ARC_SIN_COUNT := SourceMathDefaults.ARC_SIN_COUNT
+const SOURCE_ARC_RAD_TO_INDEX := SourceMathDefaults.ARC_RAD_TO_INDEX
+const SOURCE_INT64_MIN := SourceMathDefaults.INT64_MIN
+const SOURCE_INT64_MAX := SourceMathDefaults.INT64_MAX
+const SOURCE_RAND_MURMUR_CONST1 := SourceMathDefaults.RAND_MURMUR_CONST1
+const SOURCE_RAND_MURMUR_CONST2 := SourceMathDefaults.RAND_MURMUR_CONST2
+const SOURCE_UINT16_MASK := SourceMathDefaults.UINT16_MASK
+const SOURCE_RAND_NORM_FLOAT := SourceMathDefaults.RAND_NORM_FLOAT
+const SOURCE_RAND_MURMUR_CONST1_WORDS := SourceMathDefaults.RAND_MURMUR_CONST1_WORDS
+const SOURCE_RAND_MURMUR_CONST2_WORDS := SourceMathDefaults.RAND_MURMUR_CONST2_WORDS
+const SOURCE_LONG_MIN_WORDS := SourceMathDefaults.LONG_MIN_WORDS
 
 var tile_size := 0
-var source_tile_size := 0.0
 var config: Dictionary = {}
-var display_profile_runtime: DisplayProfileRuntime
-var construction_defaults: SourceConstructionDefaults
-var turret_defaults: SourceTurretDefaults
-var bullet_defaults: SourceBulletDefaults
-var unit_defaults: SourceUnitDefaults
-var factory_defaults: SourceFactoryDefaults
-var time_defaults: SourceTimeDefaults
-var math_defaults: SourceMathDefaults
-var SOURCE_INT64_MIN := 0
-var SOURCE_INT64_MAX := 0
-var SOURCE_RAND_MURMUR_CONST1 := 0
-var SOURCE_RAND_MURMUR_CONST2 := 0
-var SOURCE_UINT16_MASK := 0
-var SOURCE_RAND_NORM_FLOAT := 0.0
-var SOURCE_RAND_MURMUR_CONST1_WORDS: Array = []
-var SOURCE_RAND_MURMUR_CONST2_WORDS: Array = []
-var SOURCE_LONG_MIN_WORDS: Array = []
-var SOURCE_DEFAULT_BLOCK_BUILD_TIME := 0.0
-var SOURCE_DECONSTRUCT_REFUND_MULTIPLIER := 0.0
-var SOURCE_DECONSTRUCT_THRESHOLD := 0.0
-var SOURCE_RECOIL_POW := 0.0
-var SOURCE_TURRET_RELOAD_DEFAULT := 0.0
-var SOURCE_TURRET_RANGE_DEFAULT := 0.0
-var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0
-var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0
-var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0
-var SOURCE_TURRET_RECOIL_DEFAULT := 0.0
-var SOURCE_TURRET_RECOILS_DEFAULT := 0
-var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0
-var SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0
-var SOURCE_BULLET_INACCURACY_DEFAULT := 0.0
-var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0
-var SOURCE_BULLET_WORLD_SPEED_DEFAULT := 0.0
-var SOURCE_BULLET_HIT_SIZE_DEFAULT := 0.0
-var SOURCE_BULLET_DAMAGE_DEFAULT := 0.0
-var SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 0.0
-var SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 0.0
-var SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 0.0
-var SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 0.0
-var SOURCE_UNIT_WORLD_SPEED_DEFAULT := 0.0
-var SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 0.0
-var SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 0.0
-var SOURCE_FLOAT_ROUNDING_ERROR := 0.0
-var SOURCE_TICK_RATE := 0.0
-var SOURCE_PI2 := 0.0
-var SOURCE_ARC_PI := 0.0
-var SOURCE_ARC_RAD_FULL := 0.0
-var SOURCE_ARC_SIN_BITS := 0
-var SOURCE_ARC_SIN_MASK := 0
-var SOURCE_ARC_SIN_COUNT := 0
-var SOURCE_ARC_RAD_TO_INDEX := 0.0
-var world_width_tiles := 0
-var world_height_tiles := 0
-var background_min_cell := Vector2i.ZERO
-var background_max_cell := Vector2i.ZERO
-var background_tiles_built := false
-var viewport_size_pixels := Vector2i.ZERO
-var visible_world_size_pixels := Vector2.ZERO
-var camera_initial_position := Vector2.ZERO
-var camera_initial_zoom := 0.0
 var textures: Dictionary = {}
 var block_texture_cache: Dictionary = {}
 var content_counts: Dictionary = {"items": 0, "liquids": 0, "blocks": 0, "units": 0}
@@ -116,121 +308,6 @@ var overdrive_projector_use_progress: Dictionary = {}
 var initial_world_block_count := 0
 var initial_occupied_cell_count := 0
 var player_placed_block_count := 0
-var builder_plans: Array = []
-var builder_build_counter := 0.0
-var builder_last_active: Variant = null
-var builder_build_alpha := 0.0
-var builder_construct_progress := 0.0
-var builder_last_construct_block_id := ""
-var builder_last_construct_cell := Vector2i.ZERO
-var builder_last_build_cost := 0.0
-var builder_last_build_speed_delta := 0.0
-var builder_finished_count := 0
-var builder_deconstruct_progress := 1.0
-var builder_last_deconstruct_block_id := ""
-var builder_last_deconstruct_cell := Vector2i.ZERO
-var builder_last_deconstruct_build_cost := 0.0
-var builder_last_deconstruct_speed_delta := 0.0
-var builder_last_deconstruct_refund_items: Array = []
-var builder_deconstruct_finished_count := 0
-var builder_last_deconstruct_removed := false
-var builder_type_build_speed := 0.0
-var builder_build_speed_multiplier := 1.0
-var builder_rules_build_speed := 1.0
-var gameplay_defaults: SourceGameplayDefaults
-var primary_liquid_id := ""
-var liquid_transfer_liquid := ""
-var liquid_transfer_source_amount := 0.0
-var liquid_transfer_destination_amount := 0.0
-var liquid_transfer_source_capacity := 0.0
-var liquid_transfer_destination_capacity := 0.0
-var liquid_transfer_pressure := 0.0
-var liquid_transfer_last_move_state: Dictionary = {}
-var liquid_transfer_last_transfer_state: Dictionary = {}
-var liquid_leak_liquid := ""
-var liquid_leak_amount := 0.0
-var liquid_leak_last_state: Dictionary = {}
-var item_dump_item := ""
-var item_dump_last_state: Dictionary = {}
-var put_item_item := ""
-var put_item_dump_cursor := 0
-var put_item_last_state: Dictionary = {}
-var payload_runtime_payload: Dictionary = {}
-var payload_runtime_dump_cursor := 0
-var payload_runtime_move_last_state: Dictionary = {}
-var payload_runtime_dump_last_state: Dictionary = {}
-var payload_default_last_state: Dictionary = {}
-var unit_payload_targeting_last_state: Dictionary = {}
-var unit_player_controllable_last_state: Dictionary = {}
-var unit_killable_last_state: Dictionary = {}
-var unit_after_sync_last_state: Dictionary = {}
-var unit_after_read_last_state: Dictionary = {}
-var unit_after_read_all_last_state: Dictionary = {}
-var unit_add_last_state: Dictionary = {}
-var unit_remove_last_state: Dictionary = {}
-var unit_landed_last_state: Dictionary = {}
-var unit_heal_last_state: Dictionary = {}
-var unit_update_heal_time_last_state: Dictionary = {}
-var unit_update_captured_sector_death_last_state: Dictionary = {}
-var unit_update_sound_loop_last_state: Dictionary = {}
-var unit_update_unsupported_env_last_state: Dictionary = {}
-var unit_update_abilities_loop_last_state: Dictionary = {}
-var unit_update_trail_position_last_state: Dictionary = {}
-var unit_update_drag_formula_last_state: Dictionary = {}
-var unit_update_spawn_knockback_last_state: Dictionary = {}
-var unit_update_falling_drag_last_state: Dictionary = {}
-var unit_update_falling_smoke_last_state: Dictionary = {}
-var unit_update_falling_engine_trail_last_state: Dictionary = {}
-var unit_update_falling_descent_last_state: Dictionary = {}
-var unit_update_tile_unit_on_any_last_state: Dictionary = {}
-var unit_update_tile_unit_on_last_state: Dictionary = {}
-var unit_update_floor_damage_last_state: Dictionary = {}
-var unit_update_solid_tile_response_last_state: Dictionary = {}
-var unit_update_ai_controller_last_state: Dictionary = {}
-var unit_update_invalid_controller_reset_last_state: Dictionary = {}
-var unit_update_spawned_core_despawn_last_state: Dictionary = {}
-var unit_icon_last_state: Dictionary = {}
-var unit_destroy_initial_payload_last_state: Dictionary = {}
-var unit_destroy_explosion_dispatch_last_state: Dictionary = {}
-var unit_destroy_visual_effects_last_state: Dictionary = {}
-var unit_destroy_sound_and_event_last_state: Dictionary = {}
-var unit_destroy_suicide_bomb_trigger_last_state: Dictionary = {}
-var unit_destroy_shoot_on_death_mounts_last_state: Dictionary = {}
-var unit_destroy_crash_landing_damage_last_state: Dictionary = {}
-var unit_destroy_wreck_decal_last_state: Dictionary = {}
-var unit_destroy_ability_death_last_state: Dictionary = {}
-var unit_destroy_type_killed_remove_last_state: Dictionary = {}
-var unit_killed_last_state: Dictionary = {}
-var unit_kill_sync_last_state: Dictionary = {}
-var weapons_setup_mounts_last_state: Dictionary = {}
-var weapons_set_rotation_last_state: Dictionary = {}
-var weapons_control_last_state: Dictionary = {}
-var weapons_aim_last_state: Dictionary = {}
-var weapons_can_shoot_last_state: Dictionary = {}
-var weapons_remove_continuous_bullet_cleanup_last_state: Dictionary = {}
-var weapons_remove_sound_stop_last_state: Dictionary = {}
-var weapons_update_dispatch_last_state: Dictionary = {}
-var weapon_update_passive_timers_last_state: Dictionary = {}
-var weapon_update_mount_origin_last_state: Dictionary = {}
-var weapon_update_auto_target_retarget_last_state: Dictionary = {}
-var weapon_update_auto_target_invalidation_last_state: Dictionary = {}
-var weapon_update_auto_target_shoot_aim_last_state: Dictionary = {}
-var weapon_update_rotate_toward_last_state: Dictionary = {}
-var weapon_update_bullet_origin_last_state: Dictionary = {}
-var weapon_update_always_shooting_last_state: Dictionary = {}
-var weapon_update_continuous_invalidation_last_state: Dictionary = {}
-var weapon_update_continuous_live_last_state: Dictionary = {}
-var weapon_update_continuous_sound_last_state: Dictionary = {}
-var weapon_update_continuous_laser_aim_last_state: Dictionary = {}
-var weapon_update_always_continuous_keepalive_last_state: Dictionary = {}
-var weapon_update_continuous_idle_heat_sound_last_state: Dictionary = {}
-var weapon_update_alternating_side_flip_last_state: Dictionary = {}
-var weapon_update_active_sound_loop_last_state: Dictionary = {}
-var weapon_update_velocity_length_last_state: Dictionary = {}
-var weapon_update_shoot_gate_prefix_last_state: Dictionary = {}
-var weapon_update_reload_gate_last_state: Dictionary = {}
-var weapon_update_cone_gate_last_state: Dictionary = {}
-var weapon_update_shoot_call_reload_last_state: Dictionary = {}
 var last_placed_block_id := ""
 var last_placed_block_size := 0
 var last_placed_block_requirements: Array = []
@@ -248,17 +325,16 @@ var last_overdrive_projector_boost_duration := 0.0
 var last_overdrive_projector_boosted_block_id := ""
 var last_overdrive_projector_boosted_cell := Vector2i.ZERO
 var core_inventory := 0
-var primary_item_id := ""
 var core_items: Dictionary = {}
 var core_item_capacity := 0
-var core_incinerates := true
-var core_incinerate_non_buildable := false
+var core_incinerates := SOURCE_RULES_CORE_INCINERATES_DEFAULT
+var core_incinerate_non_buildable := SOURCE_CORE_INCINERATE_NON_BUILDABLE_DEFAULT
 var core_max_health := 0.0
 var core_health := 0.0
 var core_damage_taken_total := 0.0
 var game_over := false
 var last_game_over_winner := ""
-var drill_output_item_id := ""
+var drill_output_item_id := SourcePlayableScenarioDefaults.ITEM_COPPER
 var drill_ore_cell_count := 0
 var drill_output_rate := 0.0
 var drill_warmups: Dictionary = {}
@@ -273,7 +349,6 @@ var item_progress := 0.0
 var transport_progress := 0.0
 var conveyor_world_speed := 0.0
 var conveyor_path_progress_rate := 0.0
-var transport_preview_item_sprite_count := 0
 var item_sprites: Array[Sprite2D] = []
 var enemy_units: Array = []
 var bullets: Array = []
@@ -307,7 +382,6 @@ var last_turret_recoils := 0
 var last_turret_cur_recoil := 0.0
 var last_turret_recoil_offset := Vector2.ZERO
 var wave_index := 1
-var wave_groups: Array = []
 var last_spawned_wave_index := 0
 var last_spawned_wave_count := 0
 var last_spawned_wave_groups: Array = []
@@ -315,82 +389,18 @@ var wave_cooldown := 0.0
 var path_points: Array[Vector2] = []
 var hud_label: Label
 var camera: Camera2D
-var control_input: ControlInput
-var drill_pos := Vector2i.ZERO
-var core_pos := Vector2i.ZERO
-var duo_pos := Vector2i.ZERO
-var drill_block_id := ""
-var conveyor_block_id := ""
-var core_block_id := ""
-var turret_block_id := ""
-var floor_block_id := ""
-var bootstrap_ore_patches: Array = []
+var input_runtime := SourceInputRuntime.new()
+var drill_pos := SourcePlayableScenarioDefaults.DRILL_POS
+var core_pos := SourcePlayableScenarioDefaults.CORE_POS
+var duo_pos := SourcePlayableScenarioDefaults.DUO_POS
 
 func _ready() -> void:
-	control_input = ControlInput.new(SourceSsotCatalog)
-	construction_defaults = SourceConstructionDefaults.new(SourceSsotCatalog)
-	turret_defaults = SourceTurretDefaults.new(SourceSsotCatalog)
-	bullet_defaults = SourceBulletDefaults.new(SourceSsotCatalog)
-	unit_defaults = SourceUnitDefaults.new(SourceSsotCatalog)
-	factory_defaults = SourceFactoryDefaults.new(SourceSsotCatalog)
-	time_defaults = SourceTimeDefaults.new(SourceSsotCatalog)
-	math_defaults = SourceMathDefaults.new(SourceSsotCatalog)
-	SOURCE_INT64_MIN = math_defaults.int64_min()
-	SOURCE_INT64_MAX = math_defaults.int64_max()
-	SOURCE_RAND_MURMUR_CONST1 = math_defaults.murmur_const1()
-	SOURCE_RAND_MURMUR_CONST2 = math_defaults.murmur_const2()
-	SOURCE_UINT16_MASK = math_defaults.uint16_mask()
-	SOURCE_RAND_NORM_FLOAT = math_defaults.rand_norm_float()
-	SOURCE_RAND_MURMUR_CONST1_WORDS = math_defaults.murmur_const1_words()
-	SOURCE_RAND_MURMUR_CONST2_WORDS = math_defaults.murmur_const2_words()
-	SOURCE_LONG_MIN_WORDS = math_defaults.long_min_words()
-	builder_type_build_speed = construction_defaults.alpha_build_speed()
-	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
-	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()
-	SOURCE_DECONSTRUCT_THRESHOLD = construction_defaults.deconstruct_threshold()
-	SOURCE_RECOIL_POW = turret_defaults.recoil_pow()
-	SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()
-	SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()
-	SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()
-	SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()
-	SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()
-	SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()
-	SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()
-	SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()
-	SOURCE_BULLET_RANGE_CHANGE_DEFAULT = bullet_defaults.range_change_default()
-	SOURCE_BULLET_INACCURACY_DEFAULT = bullet_defaults.inaccuracy_default()
-	SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()
-	SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()
-	SOURCE_BULLET_HIT_SIZE_DEFAULT = bullet_defaults.hit_size_default()
-	SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()
-	SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT = bullet_defaults.ammo_multiplier_default()
-	SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT = bullet_defaults.reload_multiplier_default()
-	SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()
-	SOURCE_BULLET_SCALE_HEIGHT_DEFAULT = bullet_defaults.height_default()
-	SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()
-	SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()
-	SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()
-	SOURCE_FLOAT_ROUNDING_ERROR = math_defaults.float_rounding_error()
-	SOURCE_TICK_RATE = time_defaults.tick_rate()
-	SOURCE_ARC_PI = math_defaults.pi()
-	SOURCE_PI2 = math_defaults.pi2()
-	SOURCE_ARC_RAD_FULL = math_defaults.rad_full()
-	SOURCE_ARC_SIN_BITS = math_defaults.sin_bits()
-	SOURCE_ARC_SIN_MASK = math_defaults.sin_mask()
-	SOURCE_ARC_SIN_COUNT = math_defaults.sin_count()
-	SOURCE_ARC_RAD_TO_INDEX = math_defaults.rad_to_index()
-	control_input.install_input_map()
+	SourceInputDefaults.ensure_input_map()
 	load_config()
-	load_playable_liquid_defaults()
-	load_playable_item_defaults()
-	load_bootstrap_layout()
-	load_display_profile()
 	load_content_registry()
-	load_wave_groups()
 	load_textures()
 	bind_nodes()
 	build_block_palette()
-	load_payload_runtime_defaults()
 	build_world()
 	build_hud()
 
@@ -400,41 +410,10 @@ func load_config() -> void:
 		push_error("Missing playable content manifest: playable_content")
 		return
 	config = document.get("data", {})
-
-func load_display_profile() -> void:
-	display_profile_runtime = DisplayProfileRuntime.new(SourceSsotCatalog)
-	if not display_profile_runtime.load():
+	if not config.has("tile_size"):
+		push_error("Missing playable content tile_size")
 		return
-	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
-	sync_display_profile_runtime_values()
-
-func sync_display_profile_runtime_values() -> void:
-	if display_profile_runtime == null:
-		return
-	tile_size = display_profile_runtime.tile_size
-	source_tile_size = display_profile_runtime.source_tile_size
-	world_width_tiles = display_profile_runtime.world_width_tiles
-	world_height_tiles = display_profile_runtime.world_height_tiles
-	background_min_cell = display_profile_runtime.background_min_cell
-	background_max_cell = display_profile_runtime.background_max_cell
-	viewport_size_pixels = display_profile_runtime.viewport_size_pixels
-	visible_world_size_pixels = display_profile_runtime.visible_world_size_pixels
-	camera_initial_position = display_profile_runtime.camera_initial_position
-	camera_initial_zoom = display_profile_runtime.camera_initial_zoom
-
-func sync_display_profile_for_camera() -> bool:
-	if camera == null or display_profile_runtime == null:
-		return false
-	var old_viewport_size_pixels := viewport_size_pixels
-	var old_background_min_cell := background_min_cell
-	var old_background_max_cell := background_max_cell
-	camera.zoom = Vector2(clampf(camera.zoom.x, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom), clampf(camera.zoom.y, display_profile_runtime.camera_min_zoom, display_profile_runtime.camera_max_zoom))
-	display_profile_runtime.sync_runtime_viewport_size(Vector2i(get_viewport_rect().size))
-	display_profile_runtime.sync_runtime_camera_zoom(camera.zoom)
-	sync_display_profile_runtime_values()
-	if background_tiles_built and (old_viewport_size_pixels != viewport_size_pixels or old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell):
-		build_background_tiles()
-	return old_viewport_size_pixels != viewport_size_pixels or old_background_min_cell != background_min_cell or old_background_max_cell != background_max_cell
+	tile_size = int(config["tile_size"])
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
@@ -445,118 +424,44 @@ func playable_content_item_state(item_id: String = "") -> Dictionary:
 func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
 
-func playable_item_id() -> String:
-	var item: Dictionary = config.get("item", {})
-	return str(item.get("id", ""))
-
-func load_playable_item_defaults() -> void:
-	primary_item_id = playable_item_id()
-	if primary_item_id == "":
-		return
-	core_items[primary_item_id] = 0
-	item_dump_item = primary_item_id
-	put_item_item = primary_item_id
-	drill_output_item_id = primary_item_id
-
-func load_playable_liquid_defaults() -> void:
-	gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)
-	liquid_transfer_source_amount = gameplay_defaults.liquid_transfer_source_amount()
-	liquid_transfer_destination_amount = gameplay_defaults.liquid_transfer_destination_amount()
-	liquid_transfer_source_capacity = gameplay_defaults.liquid_capacity()
-	liquid_transfer_destination_capacity = gameplay_defaults.liquid_capacity()
-	liquid_transfer_pressure = gameplay_defaults.liquid_pressure()
-	liquid_leak_amount = gameplay_defaults.liquid_leak_amount()
-	primary_liquid_id = gameplay_defaults.primary_liquid_id()
-	if primary_liquid_id == "":
-		return
-	liquid_transfer_liquid = primary_liquid_id
-	liquid_leak_liquid = primary_liquid_id
-
-func load_payload_runtime_defaults() -> void:
-	if gameplay_defaults == null:
-		gameplay_defaults = SourceGameplayDefaults.new(SourceSsotCatalog)
-	payload_runtime_payload = gameplay_defaults.first_pinned_payload(content_catalog)
-
-func pinned_build_block_ids() -> Array:
-	var palette: Dictionary = config.get("build_palette", {})
-	return palette.get("pinned_block_ids", [])
-
-func bootstrap_layout_cell(cell_id: String) -> Vector2i:
-	var layout: Dictionary = config.get("bootstrap_layout", {})
-	var cell: Dictionary = layout.get(cell_id, {})
-	return Vector2i(int(cell.get("x", 0)), int(cell.get("y", 0)))
-
-func bootstrap_block_id(block_role: String) -> String:
-	var blocks: Dictionary = config.get("bootstrap_blocks", {})
-	return str(blocks.get(block_role, ""))
-
-func bootstrap_floor_block_id() -> String:
-	var terrain: Dictionary = config.get("bootstrap_terrain", {})
-	return str(terrain.get("floor_block", ""))
-
-func bootstrap_ore_patch_entries() -> Array:
-	var terrain: Dictionary = config.get("bootstrap_terrain", {})
-	return terrain.get("ore_patches", [])
-
-func bootstrap_transport_item_sprite_count() -> int:
-	var transport: Dictionary = config.get("bootstrap_transport", {})
-	return int(transport.get("item_sprite_count", 0))
-
-func load_bootstrap_layout() -> void:
-	drill_pos = bootstrap_layout_cell("drill_cell")
-	core_pos = bootstrap_layout_cell("core_cell")
-	duo_pos = bootstrap_layout_cell("duo_cell")
-	drill_block_id = bootstrap_block_id("drill_block")
-	conveyor_block_id = bootstrap_block_id("conveyor_block")
-	core_block_id = bootstrap_block_id("core_block")
-	turret_block_id = bootstrap_block_id("turret_block")
-	floor_block_id = bootstrap_floor_block_id()
-	bootstrap_ore_patches = bootstrap_ore_patch_entries()
-	transport_preview_item_sprite_count = bootstrap_transport_item_sprite_count()
-
-func display_profile_runtime_summary() -> Dictionary:
-	if display_profile_runtime == null:
-		return {}
-	return display_profile_runtime.runtime_summary()
-
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("registry", symbol)
 
 func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("registry", symbol)
+	return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)
 
 func source_symbol_audit_state() -> Dictionary:
 	return SourceSsotCatalog.audit_summary_state()
 
 func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "registeredSourceOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.registeredSourceOwners.", owner_index)
+	return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)
 
 func ssot_audit_function_state(function_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_lookup_state("audit_report", "sourceFunctions", "function", function_index)
+	return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)
 
 func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "exemptSourceOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.exemptSourceOwners.", owner_index)
+	return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)
 
 func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_value_lookup_state("audit_report", "legacyUnregisteredOwners", "owner", "owner", "canonical_owner", "source_symbol_audit_report.legacyUnregisteredOwners.", owner_index)
+	return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)
 
 func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
 
 func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
+	return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)
 
 func source_api_contract_state(contract_owner: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
 
 func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
+	return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)
 
 func source_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
 
 func ssot_state_schema_state(schema_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
+	return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)
 
 func helper_state_schema_state(schema_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)
@@ -565,19 +470,19 @@ func ssot_modules_state(module_name: String = "") -> Dictionary:
 	return SourceSsotCatalog.ssot_modules_state(module_name)
 
 func ssot_module_entry_state(module_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.module_manifest_entry_state(module_name)
+	return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)
 
 func asset_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")
 
 func asset_manifest_asset_state(target_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.keyed_array_lookup_state("asset_manifest", "assets", "target", "target", target_path)
+	return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)
 
 func source_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
 
 func source_manifest_file_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.keyed_array_lookup_state("source_manifest", "files", "path", "path", file_path)
+	return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)
 
 func ast_manifest_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")
@@ -616,16 +521,16 @@ func emitted_class_file_state(file_path: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)
 
 func emitted_class_failure_state(failure_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_value_lookup_state("emitted_classes", "failures", "index", "failure_entry", "canonical_failure", "emitted_classes.failures.", failure_index)
+	return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)
 
 func port_report_state() -> Dictionary:
 	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
 
 func port_report_unsupported_state(unsupported_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_value_lookup_state("port_report", "unsupported", "unsupported", "unsupported_entry", "canonical_unsupported", "port_report.unsupported.", unsupported_index)
+	return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)
 
 func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.indexed_array_lookup_state("port_report", "unsupported_features", "unsupportedFeature", feature_index)
+	return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)
 
 func load_content_registry() -> void:
 	content_catalog = ContentCatalog.new()
@@ -635,29 +540,6 @@ func load_content_registry() -> void:
 	load_selected_generated_scripts()
 	if content_counts != ContentRegistry.counts():
 		push_error("Generated registry counts do not match loaded content catalog")
-
-func load_wave_groups() -> void:
-	wave_groups.clear()
-	var document := SourceSsotCatalog.load_document("content_registry_wave_groups")
-	if not bool(document.get("loaded", false)):
-		push_error("Missing content registry wave groups manifest: content_registry_wave_groups")
-		return
-	var data: Dictionary = document.get("data", {})
-	var group_entries_value = data.get("groups", {})
-	var group_entries: Dictionary = group_entries_value if typeof(group_entries_value) == TYPE_DICTIONARY else {}
-	var group_indexes: Array = []
-	for group_index in group_entries.keys():
-		group_indexes.append(int(str(group_index)))
-	group_indexes.sort()
-	for group_index in group_indexes:
-		var entry_value = group_entries.get(str(group_index), {})
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry: Dictionary = entry_value
-		var group = entry.get("group", {})
-		if typeof(group) != TYPE_DICTIONARY:
-			continue
-		wave_groups.append(group)
 
 func load_all_generated_scripts() -> void:
 	all_generated_scripts.clear()
@@ -682,7 +564,7 @@ func load_selected_generated_scripts() -> void:
 	loaded_generated_class_names.clear()
 	loaded_generated_instances.clear()
 	loaded_generated_instance_names.clear()
-	for java_name in SELECTED_GENERATED_CLASS_NAMES:
+	for java_name in SourcePlayableScenarioDefaults.selected_generated_class_names():
 		var entry := GeneratedClassRegistry.find_by_java_name(java_name)
 		if entry.is_empty():
 			push_error("Generated class missing from registry: " + java_name)
@@ -703,7 +585,7 @@ func load_selected_generated_scripts() -> void:
 func load_textures() -> void:
 	if config.is_empty():
 		return
-	textures[primary_item_id] = load_png_texture(config["item"]["texture"])
+	textures["item"] = load_png_texture(config["item"]["texture"])
 	for key in config["blocks"].keys():
 		textures[key] = load_png_texture(config["blocks"][key]["texture"])
 	for unit in content_catalog.get_many("unit"):
@@ -714,7 +596,7 @@ func build_block_palette() -> void:
 	build_palette.clear()
 	if content_catalog == null:
 		return
-	for block_id in pinned_build_block_ids():
+	for block_id in SourcePlayableScenarioDefaults.pinned_build_block_ids():
 		var block = content_catalog.get_by_id(block_id)
 		if block != null and block.has_texture():
 			build_palette.append(block)
@@ -737,11 +619,8 @@ func load_png_texture(path: String) -> Texture2D:
 func bind_nodes() -> void:
 	camera = get_node_or_null("Camera2D")
 	if camera:
-		camera.position = camera_initial_position
-		if camera_initial_zoom > 0.0:
-			camera.zoom = Vector2(camera_initial_zoom, camera_initial_zoom)
-		clamp_camera_to_source_world()
 		camera.make_current()
+		get_viewport().size_changed.connect(apply_world_viewport_fit)
 	hud_label = Label.new()
 	hud_label.position = Vector2(16, 16)
 	var hud := get_node_or_null("UI/Hud")
@@ -753,75 +632,80 @@ func build_world() -> void:
 	var blocks := get_node("World/BlockLayer")
 	var units := get_node("World/UnitLayer")
 	ore_items_by_cell.clear()
-	build_background_tiles()
-	for patch in bootstrap_ore_patches:
-		for y in range(int(patch.get("y_from", 0)), int(patch.get("y_to", 0))):
-			for x in range(int(patch.get("x_from", 0)), int(patch.get("x_to", 0))):
-				add_ore_cell(terrain, str(patch.get("ore_block", "")), str(patch.get("item", "")), Vector2i(x, y))
-	add_source_block(blocks, drill_block_id, drill_pos)
-	drill_ore_cell_count = source_drill_ore_count(drill_block_id, drill_pos, drill_output_item_id)
-	drill_output_rate = source_drill_output_rate(drill_block_id, drill_output_item_id, drill_ore_cell_count)
-	for x in range(drill_pos.x + 1, core_pos.x):
-		add_source_block(blocks, conveyor_block_id, Vector2i(x, drill_pos.y))
-	add_source_block(blocks, core_block_id, core_pos)
-	core_max_health = source_block_health(core_block_id)
-	core_item_capacity = source_block_item_capacity(core_block_id)
+	for cell in SourcePlayableScenarioDefaults.world_cells():
+		add_sprite(terrain, SourcePlayableScenarioDefaults.BLOCK_STONE_FLOOR, grid_to_world(cell))
+	for cell in SourcePlayableScenarioDefaults.ore_copper_cells():
+		add_ore_cell(terrain, SourcePlayableScenarioDefaults.BLOCK_ORE_COPPER, SourcePlayableScenarioDefaults.ITEM_COPPER, cell)
+	add_source_block(blocks, SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_pos)
+	drill_ore_cell_count = source_drill_ore_count(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_pos, drill_output_item_id)
+	drill_output_rate = source_drill_output_rate(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id, drill_ore_cell_count)
+	for cell in SourcePlayableScenarioDefaults.conveyor_cells():
+		add_source_block(blocks, SourcePlayableScenarioDefaults.BLOCK_CONVEYOR, cell)
+	add_source_block(blocks, SourcePlayableScenarioDefaults.BLOCK_CORE_SHARD, core_pos)
+	core_max_health = source_block_health(SourcePlayableScenarioDefaults.BLOCK_CORE_SHARD)
+	core_item_capacity = source_block_item_capacity(SourcePlayableScenarioDefaults.BLOCK_CORE_SHARD)
 	core_health = core_max_health
-	add_source_block(blocks, turret_block_id, duo_pos)
+	add_source_block(blocks, SourcePlayableScenarioDefaults.BLOCK_DUO, duo_pos)
 	bootstrapped_selected_turret_ammo_load_count = bootstrap_selected_turret_ammo()
 	initial_world_block_count = placed_block_origins.size()
 	initial_occupied_cell_count = placed_blocks.size()
-	path_points.clear()
-	for x in range(drill_pos.x + 1, core_pos.x + 1):
-		path_points.append(grid_to_world(Vector2i(x, drill_pos.y)))
-	conveyor_world_speed = source_conveyor_world_speed(conveyor_block_id)
-	conveyor_path_progress_rate = source_conveyor_path_progress_rate(conveyor_block_id)
-	for i in transport_preview_item_sprite_count:
-		var sprite := add_sprite(units, primary_item_id, path_points[0])
+	path_points = SourcePlayableScenarioDefaults.path_points(tile_size)
+	conveyor_world_speed = source_conveyor_world_speed(SourcePlayableScenarioDefaults.BLOCK_CONVEYOR)
+	conveyor_path_progress_rate = source_conveyor_path_progress_rate(SourcePlayableScenarioDefaults.BLOCK_CONVEYOR)
+	for i in 3:
+		var sprite := add_sprite(units, "item", path_points[0])
 		sprite.visible = false
 		item_sprites.append(sprite)
 	spawn_enemy_wave()
-
-func build_background_tiles() -> void:
-	var terrain := get_node("World/TerrainLayer")
-	clear_background_floor_tiles(terrain)
-	for y in range(background_min_cell.y, background_max_cell.y):
-		for x in range(background_min_cell.x, background_max_cell.x):
-			var sprite := add_sprite(terrain, floor_block_id, grid_to_world(Vector2i(x, y)))
-			sprite.set_meta("source_background_floor", true)
-	background_tiles_built = true
-
-func clear_background_floor_tiles(terrain: Node) -> void:
-	for child in terrain.get_children():
-		if child.get_meta("source_background_floor", false):
-			terrain.remove_child(child)
-			child.queue_free()
+	apply_world_viewport_fit()
 
 func _unhandled_input(event: InputEvent) -> void:
-	var camera_changed := false
 	if event is InputEventKey and event.pressed and not event.echo:
-		select_build_slot(control_input.action_for_key_event(event))
-	elif control_input.is_primary_place_event(event):
-		place_selected_block_at_world(control_input.pointer_position(event))
-	elif event is InputEventScreenDrag and camera != null:
-		camera.position += control_input.touch_camera_delta(event) / camera.zoom.x
-		camera_changed = true
-	elif event is InputEventMagnifyGesture and camera != null:
-		var factor := control_input.zoom_factor_from_gesture(event)
-		if factor > 0.0:
-			camera.zoom /= factor
-			camera_changed = true
-	if camera_changed:
-		clamp_camera_to_source_world()
+		select_build_slot(event.keycode)
+	elif event is InputEventScreenDrag:
+		set_touch_move_axis(SourceInputDefaults.touch_axis_from_drag(event.relative))
+	elif event is InputEventScreenTouch and not event.pressed:
+		set_touch_move_axis(Vector2.ZERO)
+	elif event is InputEventMouseButton and event.pressed:
+		var zoom_factor := SourceInputDefaults.zoom_factor_from_event(event)
+		if zoom_factor != 1.0:
+			camera.zoom *= Vector2(zoom_factor, zoom_factor)
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			place_selected_block_at_world(event.position)
 
-func select_build_slot(canonical_action: String) -> void:
-	if control_input.is_previous_slot_action(canonical_action):
-		select_previous_build_slot()
+func set_touch_move_axis(axis: Vector2) -> void:
+	input_runtime.set_touch_move_axis(axis)
+
+func set_roblox_move_axis(axis: Vector2) -> void:
+	input_runtime.set_roblox_move_axis(axis)
+
+func set_virtual_input_axes(touch_x: float, touch_y: float, roblox_x: float, roblox_y: float) -> void:
+	input_runtime.set_virtual_input_axes(touch_x, touch_y, roblox_x, roblox_y)
+
+func apply_world_viewport_fit() -> void:
+	if camera == null:
 		return
-	if control_input.is_next_slot_action(canonical_action):
-		select_next_build_slot()
+	var fit := SourceWorldViewport.fit_state(SourcePlayableScenarioDefaults.WORLD_SIZE, tile_size, get_viewport().get_visible_rect().size)
+	var camera_position: Dictionary = fit.get("camera_position", {})
+	var camera_zoom: Dictionary = fit.get("camera_zoom", {})
+	camera.position = Vector2(float(camera_position.get("x", 0.0)), float(camera_position.get("y", 0.0)))
+	camera.zoom = Vector2(float(camera_zoom.get("x", 1.0)), float(camera_zoom.get("y", 1.0)))
+
+func world_viewport_fit_runtime_state() -> Dictionary:
+	var fit := SourceWorldViewport.fit_state(SourcePlayableScenarioDefaults.WORLD_SIZE, tile_size, get_viewport().get_visible_rect().size)
+	fit["camera_position_actual"] = {"x": camera.position.x if camera else 0.0, "y": camera.position.y if camera else 0.0}
+	fit["camera_zoom_actual"] = {"x": camera.zoom.x if camera else 1.0, "y": camera.zoom.y if camera else 1.0}
+	return fit
+
+func select_build_slot(keycode: Key) -> void:
+	var step := SourceInputDefaults.block_select_step_from_keycode(keycode)
+	if step != 0:
+		if step < 0:
+			select_previous_build_slot()
+		else:
+			select_next_build_slot()
 		return
-	var index := control_input.build_slot_for_action(canonical_action)
+	var index := SourceInputDefaults.block_select_index_from_keycode(keycode)
 	if index < 0:
 		return
 	if index < build_palette.size():
@@ -846,108 +730,94 @@ func select_build_block_by_id(block_id: String) -> bool:
 
 func selected_build_health() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BLOCK_HEALTH_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("health", 0.0))
+	return float(selected.properties.get("health", SOURCE_BLOCK_HEALTH_DEFAULT))
 
 func selected_build_scaled_health() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BLOCK_SCALED_HEALTH_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("scaledHealth", 0.0))
+	return float(selected.properties.get("scaledHealth", SOURCE_BLOCK_SCALED_HEALTH_DEFAULT))
 
 func selected_build_heal_percent() -> float:
 	if build_palette.is_empty():
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("healPercent", 0.0))
+	var heal_percent_default := SourceProjectorDefaults.MEND_HEAL_PERCENT_DEFAULT if selected.implementation == "MendProjector" else 0.0
+	return float(selected.properties.get("healPercent", heal_percent_default))
 
 func selected_build_phase_boost() -> float:
 	if build_palette.is_empty():
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("phaseBoost", 0.0))
+	var phase_boost_default := SourceProjectorDefaults.MEND_PHASE_BOOST_DEFAULT if selected.implementation == "MendProjector" else 0.0
+	return float(selected.properties.get("phaseBoost", phase_boost_default))
 
 func selected_build_phase_range_boost() -> float:
 	if build_palette.is_empty():
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("phaseRangeBoost", 0.0))
+	var phase_range_boost_default := 0.0
+	if selected.implementation == "MendProjector":
+		phase_range_boost_default = SourceProjectorDefaults.MEND_PHASE_RANGE_BOOST_DEFAULT
+	elif selected.implementation == "OverdriveProjector":
+		phase_range_boost_default = SourceProjectorDefaults.OVERDRIVE_PHASE_RANGE_BOOST_DEFAULT
+	return float(selected.properties.get("phaseRangeBoost", phase_range_boost_default))
 
 func selected_build_can_overdrive() -> bool:
 	if build_palette.is_empty():
-		return true
+		return SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return bool(selected.properties.get("canOverdrive", true))
+	return bool(selected.properties.get("canOverdrive", SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT))
 
 func selected_build_has_power() -> bool:
 	if build_palette.is_empty():
-		return false
+		return SOURCE_BLOCK_HAS_POWER_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return bool(selected.properties.get("hasPower", false))
+	return bool(selected.properties.get("hasPower", SOURCE_BLOCK_HAS_POWER_DEFAULT))
 
 func selected_build_consumes_power() -> bool:
 	if build_palette.is_empty():
-		return true
+		return SOURCE_BLOCK_CONSUMES_POWER_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return bool(selected.properties.get("consumesPower", true))
+	return bool(selected.properties.get("consumesPower", SOURCE_BLOCK_CONSUMES_POWER_DEFAULT))
 
 func selected_build_outputs_power() -> bool:
 	if build_palette.is_empty():
-		return false
+		return SOURCE_BLOCK_OUTPUTS_POWER_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return bool(selected.properties.get("outputsPower", false))
+	return bool(selected.properties.get("outputsPower", SOURCE_BLOCK_OUTPUTS_POWER_DEFAULT))
 
 func selected_build_power_usage() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BLOCK_POWER_USAGE_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("powerUsage", 0.0))
+	return float(selected.properties.get("powerUsage", SOURCE_BLOCK_POWER_USAGE_DEFAULT))
 
 func selected_build_power_capacity() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BLOCK_POWER_CAPACITY_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("powerCapacity", 0.0))
+	return float(selected.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT))
 
 func selected_build_power_buffered() -> bool:
 	if build_palette.is_empty():
-		return false
+		return SOURCE_BLOCK_POWER_BUFFERED_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return bool(selected.properties.get("powerBuffered", false))
+	return bool(selected.properties.get("powerBuffered", SOURCE_BLOCK_POWER_BUFFERED_DEFAULT))
 
 func selected_build_power_production() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("powerProduction", 0.0))
+	return float(selected.properties.get("powerProduction", SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT))
 
 func source_power_generator_get_power_production_state(enabled: bool, power_production: float, production_efficiency: float) -> Dictionary:
-	var computed_power_production := power_production * production_efficiency if enabled else 0.0
-	return {
-		"field": "public float powerProduction;",
-		"build_class": "public class GeneratorBuild extends Building{",
-		"production_efficiency": "public float productionEfficiency = 0.0f;",
-		"enabled": "transient boolean enabled = true;",
-		"method": "public float getPowerProduction(){",
-		"return_power_production": "return enabled ? powerProduction * productionEfficiency : 0f;",
-		"input_enabled": enabled,
-		"input_power_production": power_production,
-		"input_production_efficiency": production_efficiency,
-		"computed_power_production": computed_power_production,
-	}
+	return SourcePowerGeneratorState.get_power_production_state(enabled, power_production, production_efficiency)
 
 func source_power_generator_displayed_power_production_state(power_production: float) -> Dictionary:
-	var displayed_power_production := power_production
-	return {
-		"field": "public float powerProduction;",
-		"method": "public float getDisplayedPowerProduction(){",
-		"return_power_production": "return powerProduction;",
-		"schematic_method": "public float powerProduction(){",
-		"schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);",
-		"power_production": power_production,
-		"displayed_power_production": displayed_power_production,
-	}
+	return SourcePowerGeneratorState.displayed_power_production_state(power_production)
 
 func generated_power_generator_displayed_power_production_bridge_state(power_production: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGenerator.gd")
@@ -963,898 +833,109 @@ func generated_power_generator_displayed_power_production_bridge_state(power_pro
 	}
 
 func source_power_generator_build_serialization_state(production_efficiency: float, generate_time: float, revision: int, read_production_efficiency_value: float, read_generate_time_value: float) -> Dictionary:
-	var write_values := [production_efficiency, generate_time]
-	var read_generate_time_applied := revision >= 1
-	var read_generate_time := read_generate_time_value if read_generate_time_applied else generate_time
-	return {
-		"generate_time": "public float generateTime;",
-		"production_efficiency": "public float productionEfficiency = 0.0f;",
-		"version_method": "public byte version(){",
-		"version_return": "return 1;",
-		"write_method": "public void write(Writes write){",
-		"write_super": "super.write(write);",
-		"write_production_efficiency": "write.f(productionEfficiency);",
-		"write_generate_time": "write.f(generateTime);",
-		"read_method": "public void read(Reads read, byte revision){",
-		"read_super": "super.read(read, revision);",
-		"read_production_efficiency_source": "productionEfficiency = read.f();",
-		"read_revision_guard": "if(revision >= 1){",
-		"read_generate_time_source": "generateTime = read.f();",
-		"version": 1,
-		"input_production_efficiency": production_efficiency,
-		"input_generate_time": generate_time,
-		"revision": revision,
-		"write_values": write_values,
-		"read_production_efficiency": read_production_efficiency_value,
-		"read_generate_time_applied": read_generate_time_applied,
-		"read_generate_time": read_generate_time,
-	}
+	return SourcePowerGeneratorState.build_serialization_state(production_efficiency, generate_time, revision, read_production_efficiency_value, read_generate_time_value)
 
 func source_solar_generator_update_tile_state(enabled: bool, solar_multiplier: float, light_env: float, lighting: bool, ambient_light_alpha: float) -> Dictionary:
-	var lighting_bonus: float = (1.0 - ambient_light_alpha) if lighting else 1.0
-	var max_zero_input: float = light_env + lighting_bonus
-	var max_zero_value: float = max(max_zero_input, 0.0)
-	var production_efficiency: float = solar_multiplier * max_zero_value if enabled else 0.0
-	return {
-		"build_class": "public class SolarGeneratorBuild extends GeneratorBuild{",
-		"method": "public void updateTile(){",
-		"assignment": "productionEfficiency = enabled ?",
-		"solar_multiplier_source": "state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +",
-		"lighting_branch": "(state.rules.lighting ?",
-		"ambient_alpha": "1f - state.rules.ambientLight.a :",
-		"unlit_bonus": "1f",
-		"disabled_return": ")) : 0f;",
-		"mathf_max_zero": "return Math.max(val, 0);",
-		"enabled": enabled,
-		"solar_multiplier": solar_multiplier,
-		"light_env": light_env,
-		"lighting": lighting,
-		"ambient_light_alpha": ambient_light_alpha,
-		"lighting_bonus": lighting_bonus,
-		"max_zero_input": max_zero_input,
-		"max_zero_value": max_zero_value,
-		"production_efficiency": production_efficiency,
-	}
+	return SourcePowerGeneratorState.solar_update_tile_state(enabled, solar_multiplier, light_env, lighting, ambient_light_alpha)
 
 func source_thermal_generator_update_tile_state(sum: float, attribute_env: float) -> Dictionary:
-	var production_efficiency: float = sum + attribute_env
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"attribute_field": "public Attribute attribute = Attribute.heat;",
-		"no_update_disabled": "noUpdateDisabled = true;",
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"sum_field": "public float sum;",
-		"override": "@Override",
-		"method": "public void updateTile(){",
-		"assignment": "productionEfficiency = sum + attribute.env();",
-		"attribute_heat_comment": "/** Heat content. Used for thermal generator yield. */",
-		"attribute_heat": "heat = add(\"heat\"),",
-		"attribute_env_method": "public float env(){",
-		"attribute_env_null_guard": "if(Vars.state == null) return 0;",
-		"attribute_env_return": "return Vars.state.envAttrs.get(this);",
-		"sum": sum,
-		"attribute_env": attribute_env,
-		"production_efficiency": production_efficiency,
-	}
+	return SourceThermalGeneratorState.update_tile_state(sum, attribute_env)
 
 func source_thermal_generator_update_tile_effect_state(source_x: float, source_y: float, production_efficiency: float, effect_chance: float, chance_delta_result: bool, range_x: float, range_y: float, generate_effect_name: String) -> Dictionary:
-	var effect_triggered := production_efficiency > 0.1 and chance_delta_result
-	var effect_x := source_x
-	var effect_y := source_y
-	var generate_effect_state := {}
-	if effect_triggered:
-		effect_x = source_x + range_x
-		effect_y = source_y + range_y
-		generate_effect_state = {
-			"effect": generate_effect_name,
-			"x": effect_x,
-			"y": effect_y,
-		}
-	return {
-		"method": "public void updateTile(){",
-		"generate_effect_field": "public Effect generateEffect = Fx.none;",
-		"effect_chance_field": "public float effectChance = 0.05f;",
-		"effect_gate": "if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){",
-		"generate_effect_call": "generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));",
-		"chance_delta_method": "public static boolean chanceDelta(double d){",
-		"chance_delta_return": "return rand.nextFloat() < d * Time.delta;",
-		"range_method": "public static float range(float range){",
-		"range_return": "return random(-range, range);",
-		"source_x": source_x,
-		"source_y": source_y,
-		"production_efficiency": production_efficiency,
-		"effect_chance": effect_chance,
-		"chance_delta_result": chance_delta_result,
-		"range_x": range_x,
-		"range_y": range_y,
-		"generate_effect_name": generate_effect_name,
-		"effect_triggered": effect_triggered,
-		"effect_x": effect_x,
-		"effect_y": effect_y,
-		"generate_effect_state": generate_effect_state,
-	}
+	return SourceThermalGeneratorState.update_tile_effect_state(source_x, source_y, production_efficiency, effect_chance, chance_delta_result, range_x, range_y, generate_effect_name)
 
 func source_thermal_generator_update_tile_output_liquid_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, production_efficiency: float, delta_value: float, liquid_capacity: float, current_liquid_amount: float) -> Dictionary:
-	var production_liquid_amount := 0.0
-	var remaining_capacity := 0.0
-	var added := 0.0
-	var liquid_amount_after := current_liquid_amount
-	var dump_liquid_called := false
-	var dump_liquid_state := {}
-	if output_liquid_present:
-		production_liquid_amount = production_efficiency * delta_value * output_liquid_amount
-		remaining_capacity = liquid_capacity - current_liquid_amount
-		added = min(production_liquid_amount, remaining_capacity)
-		liquid_amount_after = current_liquid_amount + added
-		dump_liquid_called = true
-		dump_liquid_state = {
-			"liquid": output_liquid_liquid,
-		}
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"method": "public void updateTile(){",
-		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"output_liquid_guard": "if(outputLiquid != null){",
-		"added_assignment": "float added = Math.min(productionEfficiency * delta() * outputLiquid.amount, liquidCapacity - liquids.get(outputLiquid.liquid));",
-		"liquids_add_call": "liquids.add(outputLiquid.liquid, added);",
-		"dump_liquid_call": "dumpLiquid(outputLiquid.liquid);",
-		"output_liquid_present": output_liquid_present,
-		"output_liquid_liquid": output_liquid_liquid,
-		"output_liquid_amount": output_liquid_amount,
-		"production_efficiency": production_efficiency,
-		"delta_value": delta_value,
-		"liquid_capacity": liquid_capacity,
-		"current_liquid_amount": current_liquid_amount,
-		"production_liquid_amount": production_liquid_amount,
-		"remaining_capacity": remaining_capacity,
-		"added": added,
-		"liquid_amount_after": liquid_amount_after,
-		"dump_liquid_called": dump_liquid_called,
-		"dump_liquid_state": dump_liquid_state,
-	}
+	return SourceThermalGeneratorState.update_tile_output_liquid_state(output_liquid_present, output_liquid_liquid, output_liquid_amount, production_efficiency, delta_value, liquid_capacity, current_liquid_amount)
 
 func source_thermal_generator_displayed_power_production_state(power_production: float, display_efficiency_scale: float) -> Dictionary:
-	var displayed_power_production: float = power_production / display_efficiency_scale
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"power_production_field": "public float powerProduction;",
-		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
-		"override": "@Override",
-		"method": "public float getDisplayedPowerProduction(){",
-		"return_displayed_power": "return powerProduction / displayEfficiencyScale;",
-		"power_production": power_production,
-		"display_efficiency_scale": display_efficiency_scale,
-		"displayed_power_production": displayed_power_production,
-	}
+	return SourceThermalGeneratorState.displayed_power_production_state(power_production, display_efficiency_scale)
 
 func source_thermal_generator_init_state(output_liquid_present: bool, light_clip_size: float, size: float) -> Dictionary:
-	var outputs_liquid := output_liquid_present
-	var has_liquids := output_liquid_present
-	var emit_light := true
-	var computed_light_clip_size: float = max(light_clip_size, 45.0 * size * 2.0 * 2.0)
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
-		"override": "@Override",
-		"method": "public void init(){",
-		"output_liquid_guard": "if(outputLiquid != null){",
-		"outputs_liquid_source": "outputsLiquid = true;",
-		"has_liquids_source": "hasLiquids = true;",
-		"emit_light_source": "emitLight = true;",
-		"super_init": "super.init();",
-		"light_clip_comment": "//proper light clipping",
-		"light_clip_assignment": "lightClipSize = Math.max(lightClipSize, 45f * size * 2f * 2f);",
-		"output_liquid_present": output_liquid_present,
-		"input_light_clip_size": light_clip_size,
-		"size": size,
-		"outputs_liquid": outputs_liquid,
-		"has_liquids": has_liquids,
-		"emit_light": emit_light,
-		"light_clip_size": computed_light_clip_size,
-	}
+	return SourceThermalGeneratorState.init_state(output_liquid_present, light_clip_size, size)
 
 func source_thermal_generator_total_progress_state(enabled: bool, sum: float, super_total_progress: float) -> Dictionary:
-	var total_progress: float = super_total_progress if enabled and sum > 0.0 else 0.0
-	return {
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"sum_field": "public float sum;",
-		"override": "@Override",
-		"method": "public float totalProgress(){",
-		"return_total_progress": "return enabled && sum > 0 ? super.totalProgress() : 0f;",
-		"parent_comment": "/** @return total time this block has been producing something; non-crafter blocks usually return Time.time. */",
-		"parent_method": "public float totalProgress(){",
-		"parent_return": "return Time.time;",
-		"enabled": enabled,
-		"sum": sum,
-		"super_total_progress": super_total_progress,
-		"total_progress": total_progress,
-	}
+	return SourceThermalGeneratorState.total_progress_state(enabled, sum, super_total_progress)
 
 func source_thermal_generator_after_picked_up_state(sum: float, super_after_picked_up_state: Dictionary) -> Dictionary:
-	var parent_state := super_after_picked_up_state.duplicate(true)
-	return {
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"sum_field": "public float sum;",
-		"override": "@Override",
-		"method": "public void afterPickedUp(){",
-		"super_call": "super.afterPickedUp();",
-		"sum_reset": "sum = 0f;",
-		"parent_comment": "Called right after this building is picked up.",
-		"parent_method": "public void afterPickedUp(){",
-		"parent_power_guard": "if(power != null){",
-		"input_sum": sum,
-		"super_after_picked_up_state": parent_state,
-		"sum": 0.0,
-	}
+	return SourceThermalGeneratorState.after_picked_up_state(sum, super_after_picked_up_state)
 
 func source_thermal_generator_on_proximity_added_state(sum_attribute: float, super_on_proximity_added_state: Dictionary) -> Dictionary:
-	var parent_state := super_on_proximity_added_state.duplicate(true)
-	return {
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"sum_field": "public float sum;",
-		"override": "@Override",
-		"method": "public void onProximityAdded(){",
-		"super_call": "super.onProximityAdded();",
-		"sum_assignment": "sum = sumAttribute(attribute, tile.x, tile.y);",
-		"parent_comment": "Called after this building is created in the world. May be called multiple times, or when adjacent buildings change.",
-		"parent_method": "public void onProximityAdded(){",
-		"parent_power_guard": "if(power != null){",
-		"parent_update_power_graph": "updatePowerGraph();",
-		"sum_attribute_method": "public float sumAttribute(@Nullable Attribute attr, int x, int y){",
-		"sum_attribute_null_attr": "if(attr == null) return 0;",
-		"sum_attribute_null_tile": "if(tile == null) return 0;",
-		"sum_attribute": sum_attribute,
-		"super_on_proximity_added_state": parent_state,
-		"sum": sum_attribute,
-	}
+	return SourceThermalGeneratorState.on_proximity_added_state(sum_attribute, super_on_proximity_added_state)
 
 func source_thermal_generator_can_place_on_state(linked_attribute_sum: float, min_efficiency: float) -> Dictionary:
-	var can_place_on := linked_attribute_sum > min_efficiency
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"attribute_field": "public Attribute attribute = Attribute.heat;",
-		"min_efficiency_field": "public float minEfficiency = 0f;",
-		"override": "@Override",
-		"method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
-		"heat_comment": "//make sure there's heat at this location",
-		"return_can_place_on": "return tile.getLinkedTilesAs(this, tempTiles).sumf(other -> other.floor().attributes.get(attribute)) > minEfficiency;",
-		"parent_method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
-		"parent_return": "return true;",
-		"linked_attribute_sum": linked_attribute_sum,
-		"min_efficiency": min_efficiency,
-		"can_place_on": can_place_on,
-	}
+	return SourceThermalGeneratorState.can_place_on_state(linked_attribute_sum, min_efficiency)
 
 func source_thermal_generator_draw_light_state(source_x: float, source_y: float, source_time: float, production_efficiency: float, size: float) -> Dictionary:
-	var absin_value := source_absin(source_time, 10.0, 5.0)
-	var capped_production_efficiency: float = min(production_efficiency, 2.0)
-	var light_radius := (40.0 + absin_value) * capped_production_efficiency * size
-	return {
-		"build_class": "public class ThermalGeneratorBuild extends GeneratorBuild{",
-		"override": "@Override",
-		"method": "public void drawLight(){",
-		"drawf_light_call": "Drawf.light(x, y, (40f + Mathf.absin(10f, 5f)) * Math.min(productionEfficiency, 2f) * size, Color.scarlet, 0.4f);",
-		"drawf_light_method": "public static void light(float x, float y, float radius, Color color, float opacity){",
-		"drawf_renderer_guard": "if(renderer == null) return;",
-		"drawf_lights_add": "renderer.lights.add(x, y, radius, color, opacity);",
-		"absin_time_overload": "public static float absin(float scl, float mag){",
-		"absin_time_return": "return absin(Time.time, scl, mag);",
-		"absin_formula": "return (sin(in, scl * 2f, mag) + mag) / 2f;",
-		"scarlet": "public static final Color scarlet = new Color(0xff341cff);",
-		"source_x": source_x,
-		"source_y": source_y,
-		"source_time": source_time,
-		"production_efficiency": production_efficiency,
-		"size": size,
-		"absin": absin_value,
-		"capped_production_efficiency": capped_production_efficiency,
-		"light_radius": light_radius,
-		"light_color": "Color.scarlet",
-		"light_color_rgba8888": "0xff341cff",
-		"opacity": 0.4,
-		"light_call": {
-			"call": "Drawf.light(x, y, radius, Color.scarlet, 0.4f)",
-			"x": source_x,
-			"y": source_y,
-			"radius": light_radius,
-			"color": "Color.scarlet",
-			"opacity": 0.4,
-		},
-	}
+	return SourceThermalGeneratorState.draw_light_state(source_x, source_y, source_time, production_efficiency, size)
 
 func source_thermal_generator_set_stats_state(power_production: float, display_efficiency_scale: float, display_efficiency: bool, size: float, floating: bool, super_set_stats_state: Dictionary) -> Dictionary:
-	var parent_state := super_set_stats_state.duplicate(true)
-	var tile_stat_scale := size * size * display_efficiency_scale
-	var tile_stat_start_zero := not display_efficiency
-	var generation_stat_value := power_production * 60.0 / display_efficiency_scale
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"attribute_field": "public Attribute attribute = Attribute.heat;",
-		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
-		"display_efficiency_field": "public boolean displayEfficiency = true;",
-		"override": "@Override",
-		"method": "public void setStats(){",
-		"super_call": "super.setStats();",
-		"tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);",
-		"generation_type_remove": "stats.remove(generationType);",
-		"generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);",
-		"power_production_field": "public float powerProduction;",
-		"generation_type_field": "public Stat generationType = Stat.basePowerGeneration;",
-		"floating_field": "public boolean floating = false;",
-		"stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){",
-		"stats_remove": "public void remove(Stat stat){",
-		"stat_base_power_generation": "basePowerGeneration = new Stat(\"basePowerGeneration\", StatCat.power),",
-		"stat_tiles": "tiles = new Stat(\"tiles\", StatCat.crafting),",
-		"stat_unit_power_second": "powerSecond = new StatUnit(\"powerSecond\", \"[accent]\" + Iconc.power + \"[]\"),",
-		"power_production": power_production,
-		"display_efficiency_scale": display_efficiency_scale,
-		"display_efficiency": display_efficiency,
-		"size": size,
-		"floating": floating,
-		"super_set_stats_state": parent_state,
-		"tile_stat_scale": tile_stat_scale,
-		"tile_stat_start_zero": tile_stat_start_zero,
-		"generation_stat_removed": true,
-		"generation_stat_value": generation_stat_value,
-		"generation_stat_unit": "StatUnit.powerSecond",
-		"tile_stat_call": {
-			"stat": "Stat.tiles",
-			"attribute": "Attribute.heat",
-			"floating": floating,
-			"scale": tile_stat_scale,
-			"startZero": tile_stat_start_zero,
-		},
-		"generation_stat_call": {
-			"stat": "generationType",
-			"value": generation_stat_value,
-			"unit": "StatUnit.powerSecond",
-		},
-	}
+	return SourceThermalGeneratorState.set_stats_state(power_production, display_efficiency_scale, display_efficiency, size, floating, super_set_stats_state)
 
 func source_thermal_generator_set_stats_output_liquid_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, size: float) -> Dictionary:
-	var output_stat_amount := output_liquid_amount * size * size * 60.0 if output_liquid_present else 0.0
-	var output_stat_call := {}
-	if output_liquid_present:
-		output_stat_call = {
-			"stat": "Stat.output",
-			"liquid": output_liquid_liquid,
-			"amount": output_stat_amount,
-			"perSecond": true,
-			"statValue": "StatValues.liquid",
-		}
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"output_liquid_field": "public @Nullable LiquidStack outputLiquid;",
-		"method": "public void setStats(){",
-		"output_liquid_guard": "if(outputLiquid != null){",
-		"output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));",
-		"liquid_stack_class": "public class LiquidStack implements Comparable<LiquidStack>{",
-		"liquid_stack_liquid": "public Liquid liquid;",
-		"liquid_stack_amount": "public float amount;",
-		"stat_output": "output = new Stat(\"output\", StatCat.crafting),",
-		"stat_values_liquid": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){",
-		"stat_values_liquid_return": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();",
-		"output_liquid_present": output_liquid_present,
-		"output_liquid_liquid": output_liquid_liquid,
-		"output_liquid_amount": output_liquid_amount,
-		"size": size,
-		"output_stat_added": output_liquid_present,
-		"output_stat_amount": output_stat_amount,
-		"output_stat_call": output_stat_call,
-	}
+	return SourceThermalGeneratorState.set_stats_output_liquid_state(output_liquid_present, output_liquid_liquid, output_liquid_amount, size)
 
 func source_thermal_generator_draw_place_state(x: int, y: int, rotation_value: int, valid: bool, display_efficiency: bool, sum_attribute: float, display_efficiency_scale: float) -> Dictionary:
-	var efficiency_value := sum_attribute * 100.0 * display_efficiency_scale if display_efficiency else 0.0
-	var draw_place_text_call := {}
-	if display_efficiency:
-		draw_place_text_call = {
-			"bundle_key": "bar.efficiency",
-			"value": efficiency_value,
-			"decimals": 1,
-			"x": x,
-			"y": y,
-			"valid": valid,
-		}
-	return {
-		"class": "public class ThermalGenerator extends PowerGenerator{",
-		"display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;",
-		"display_efficiency_field": "public boolean displayEfficiency = true;",
-		"attribute_field": "public Attribute attribute = Attribute.heat;",
-		"method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-		"super_draw_place": "super.drawPlace(x, y, rotation, valid);",
-		"display_efficiency_guard": "if(displayEfficiency){",
-		"draw_place_text_call": "drawPlaceText(Core.bundle.formatFloat(\"bar.efficiency\", sumAttribute(attribute, x, y) * 100 * displayEfficiencyScale, 1), x, y, valid);",
-		"block_draw_place": "public void drawPlace(int x, int y, int rotation, boolean valid){",
-		"block_draw_place_text": "public float drawPlaceText(String text, int x, int y, boolean valid){",
-		"bundle_efficiency": "bar.efficiency = Efficiency: {0}%",
-		"x": x,
-		"y": y,
-		"rotation": rotation_value,
-		"valid": valid,
-		"display_efficiency": display_efficiency,
-		"sum_attribute": sum_attribute,
-		"display_efficiency_scale": display_efficiency_scale,
-		"efficiency_value": efficiency_value,
-		"bundle_key": "bar.efficiency",
-		"decimals": 1,
-		"draw_place_text_added": display_efficiency,
-		"draw_place_text_state": draw_place_text_call,
-	}
+	return SourceThermalGeneratorState.draw_place_state(x, y, rotation_value, valid, display_efficiency, sum_attribute, display_efficiency_scale)
 
 func source_power_generator_warmup_state(enabled: bool, production_efficiency: float) -> Dictionary:
-	var warmup := production_efficiency if enabled else 0.0
-	return {
-		"build_class": "public class GeneratorBuild extends Building{",
-		"production_efficiency": "public float productionEfficiency = 0.0f;",
-		"enabled": "transient boolean enabled = true;",
-		"override": "@Override",
-		"method": "public float warmup(){",
-		"return_warmup": "return enabled ? productionEfficiency : 0f;",
-		"input_enabled": enabled,
-		"input_production_efficiency": production_efficiency,
-		"warmup": warmup,
-	}
+	return SourcePowerGeneratorState.warmup_state(enabled, production_efficiency)
 
 func source_power_generator_should_explode_state(warmup_value: float, explosion_min_warmup: float) -> Dictionary:
-	var should_explode := warmup_value >= explosion_min_warmup
-	return {
-		"field": "public float explosionMinWarmup = 0f;",
-		"method": "public boolean shouldExplode(){",
-		"warmup_call": "warmup()",
-		"return_should_explode": "return warmup() >= explosionMinWarmup;",
-		"input_warmup_value": warmup_value,
-		"input_explosion_min_warmup": explosion_min_warmup,
-		"should_explode": should_explode,
-	}
+	return SourcePowerGeneratorState.should_explode_state(warmup_value, explosion_min_warmup)
 
 func source_power_generator_ambient_volume_state(production_efficiency: float) -> Dictionary:
-	var ambient_volume := clampf(production_efficiency, 0.0, 1.0)
-	return {
-		"production_efficiency": "public float productionEfficiency = 0.0f;",
-		"method": "public float ambientVolume(){",
-		"return_clamp": "return Mathf.clamp(productionEfficiency);",
-		"mathf_clamp_method": "public static float clamp(float value){",
-		"mathf_clamp_return": "return Math.max(Math.min(value, 1f), 0f);",
-		"input_production_efficiency": production_efficiency,
-		"ambient_volume": ambient_volume,
-	}
+	return SourcePowerGeneratorState.ambient_volume_state(production_efficiency)
 
 func source_power_generator_create_explosion_gate_state(should_explode_value: bool) -> Dictionary:
-	var branch_entered := should_explode_value
-	return {
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"input_should_explode_value": should_explode_value,
-		"branch_entered": branch_entered,
-		"deferred_body": [
-			"if(explosionDamage > 0){",
-			"Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
-			"explodeEffect.at(this);",
-			"explodeSound.at(this);",
-			"if(explosionPuddleLiquid != null){",
-			"if(explosionShake > 0){",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_gate_state(should_explode_value)
 
 func source_power_generator_create_explosion_damage_state(should_explode_value: bool, source_x: float, source_y: float, explosion_radius: int, explosion_damage: int, source_tilesize: int) -> Dictionary:
-	var branch_entered := should_explode_value
-	var damage_guard_entered := branch_entered and explosion_damage > 0
-	var damage_dispatched := damage_guard_entered
-	var damage_radius := float(explosion_radius) * float(source_tilesize)
-	var damage_call := {}
-	if damage_dispatched:
-		damage_call = {
-			"team": null,
-			"x": source_x,
-			"y": source_y,
-			"radius": damage_radius,
-			"damage": float(explosion_damage),
-			"complete": false,
-		}
-	return {
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"damage_guard": "if(explosionDamage > 0){",
-		"damage_dispatch": "Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);",
-		"damage_overload_method": "public static void damage(float x, float y, float radius, float damage){",
-		"damage_overload_dispatch": "damage(null, x, y, radius, damage, false);",
-		"tilesize_field": "public static final int tilesize = 8;",
-		"input_should_explode_value": should_explode_value,
-		"input_source_x": source_x,
-		"input_source_y": source_y,
-		"input_explosion_radius": explosion_radius,
-		"input_explosion_damage": explosion_damage,
-		"input_source_tilesize": source_tilesize,
-		"branch_entered": branch_entered,
-		"damage_guard_entered": damage_guard_entered,
-		"damage_dispatched": damage_dispatched,
-		"damage_radius": damage_radius,
-		"damage_call": damage_call,
-		"deferred_body": [
-			"explodeEffect.at(this);",
-			"explodeSound.at(this);",
-			"if(explosionPuddleLiquid != null){",
-			"if(explosionShake > 0){",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_damage_state(should_explode_value, source_x, source_y, explosion_radius, explosion_damage, source_tilesize)
 
 func source_power_generator_create_explosion_effect_sound_state(should_explode_value: bool, source_x: float, source_y: float, explode_effect_value: String, explode_sound_value: String) -> Dictionary:
-	var branch_entered := should_explode_value
-	var effect_dispatched := branch_entered
-	var sound_dispatched := branch_entered
-	var effect_call := {}
-	var sound_call := {}
-	if effect_dispatched:
-		effect_call = {
-			"effect": explode_effect_value,
-			"target": "this",
-			"x": source_x,
-			"y": source_y,
-			"rotation": 0.0,
-			"color": "Color.white",
-			"data": null,
-		}
-	if sound_dispatched:
-		sound_call = {
-			"sound": explode_sound_value,
-			"target": "this",
-			"x": source_x,
-			"y": source_y,
-			"pitch": 1.0,
-		}
-	return {
-		"effect_field": "public Effect explodeEffect = Fx.none;",
-		"sound_field": "public Sound explodeSound = Sounds.none;",
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"effect_dispatch": "explodeEffect.at(this);",
-		"sound_dispatch": "explodeSound.at(this);",
-		"effect_position_overload": "public void at(Position pos){",
-		"effect_position_dispatch": "create(pos.getX(), pos.getY(), 0, Color.white, null);",
-		"sound_position_overload": "public int at(Position pos){",
-		"sound_position_dispatch": "return at(pos.getX(), pos.getY());",
-		"sound_xy_dispatch": "return at(x, y, 1f);",
-		"input_should_explode_value": should_explode_value,
-		"input_source_x": source_x,
-		"input_source_y": source_y,
-		"input_explode_effect_value": explode_effect_value,
-		"input_explode_sound_value": explode_sound_value,
-		"branch_entered": branch_entered,
-		"effect_dispatched": effect_dispatched,
-		"sound_dispatched": sound_dispatched,
-		"effect_call": effect_call,
-		"sound_call": sound_call,
-		"deferred_body": [
-			"if(explosionPuddleLiquid != null){",
-			"if(explosionShake > 0){",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_effect_sound_state(should_explode_value, source_x, source_y, explode_effect_value, explode_sound_value)
 
 func source_power_generator_create_explosion_puddle_loop_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int) -> Dictionary:
-	var branch_entered := should_explode_value
-	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
-	var puddle_loop_count := 0
-	if puddle_guard_entered:
-		puddle_loop_count = max(explosion_puddles, 0)
-	var puddle_loop_indices := []
-	for i in range(puddle_loop_count):
-		puddle_loop_indices.append(i)
-	return {
-		"puddles_field": "public int explosionPuddles = 10;",
-		"puddle_liquid_field": "public @Nullable Liquid explosionPuddleLiquid;",
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"puddle_guard": "if(explosionPuddleLiquid != null){",
-		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
-		"input_should_explode_value": should_explode_value,
-		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
-		"input_explosion_puddles": explosion_puddles,
-		"branch_entered": branch_entered,
-		"puddle_guard_entered": puddle_guard_entered,
-		"puddle_loop_count": puddle_loop_count,
-		"puddle_loop_indices": puddle_loop_indices,
-		"deferred_body": [
-			"Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
-			"Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
-			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-			"if(explosionShake > 0){",
-			"Effect.shake(explosionShake, explosionShakeDuration, this);",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_puddle_loop_state(should_explode_value, explosion_puddle_liquid_value, explosion_puddles)
 
 func source_power_generator_create_explosion_puddle_vector_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, explosion_puddle_range: float, random_angle_units: Array, random_range_units: Array) -> Dictionary:
-	var branch_entered := should_explode_value
-	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
-	var puddle_loop_count := 0
-	if puddle_guard_entered:
-		puddle_loop_count = max(explosion_puddles, 0)
-	var available_random_count = min(random_angle_units.size(), random_range_units.size())
-	var vector_count = min(puddle_loop_count, available_random_count)
-	var missing_random_input_count = max(puddle_loop_count - available_random_count, 0)
-	var tmp_v1_vectors := []
-	for i in range(vector_count):
-		var angle_unit := float(random_angle_units[i])
-		var range_unit := float(random_range_units[i])
-		var angle_degrees := angle_unit * 360.0
-		var amount := range_unit * explosion_puddle_range
-		var radians := deg_to_rad(angle_degrees)
-		var tmp_x := amount * cos(radians)
-		var tmp_y := amount * sin(radians)
-		tmp_v1_vectors.append({
-			"i": i,
-			"angle_unit": angle_unit,
-			"range_unit": range_unit,
-			"angle_degrees": angle_degrees,
-			"amount": amount,
-			"x": tmp_x,
-			"y": tmp_y,
-		})
-	return {
-		"puddle_range_field": "public float explosionPuddleRange = tilesize * 2f;",
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"puddle_guard": "if(explosionPuddleLiquid != null){",
-		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
-		"random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
-		"mathf_random_float_method": "public static float random(float range){",
-		"mathf_random_float_return": "return rand.nextFloat() * range;",
-		"vec2_trns_method": "public Vec2 trns(float angle, float amount){",
-		"vec2_trns_return": "return set(amount, 0).rotate(angle);",
-		"vec2_rotate_method": "public Vec2 rotate(float degrees){",
-		"vec2_rotate_return": "return rotateRad(degrees * Mathf.degreesToRadians);",
-		"vec2_rotate_rad_method": "public Vec2 rotateRad(float radians){",
-		"vec2_rotate_rad_new_x": "float newX = this.x * cos - this.y * sin;",
-		"vec2_rotate_rad_new_y": "float newY = this.x * sin + this.y * cos;",
-		"input_should_explode_value": should_explode_value,
-		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
-		"input_explosion_puddles": explosion_puddles,
-		"input_explosion_puddle_range": explosion_puddle_range,
-		"input_random_angle_units": random_angle_units,
-		"input_random_range_units": random_range_units,
-		"branch_entered": branch_entered,
-		"puddle_guard_entered": puddle_guard_entered,
-		"puddle_loop_count": puddle_loop_count,
-		"random_angle_range": 360.0,
-		"tmp_v1_vectors": tmp_v1_vectors,
-		"vector_count": vector_count,
-		"missing_random_input_count": missing_random_input_count,
-		"tile_deposit_deferred": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y); Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-		"deferred_body": [
-			"Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
-			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-			"if(explosionShake > 0){",
-			"Effect.shake(explosionShake, explosionShakeDuration, this);",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_puddle_vector_state(should_explode_value, explosion_puddle_liquid_value, explosion_puddles, explosion_puddle_range, random_angle_units, random_range_units)
 
 func source_power_generator_create_explosion_puddle_tile_world_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, source_x: float, source_y: float, source_tilesize: int, tmp_v1_vectors: Array) -> Dictionary:
-	var branch_entered := should_explode_value
-	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
-	var puddle_loop_count := 0
-	if puddle_guard_entered:
-		puddle_loop_count = max(explosion_puddles, 0)
-	var tile_lookup_count = min(puddle_loop_count, tmp_v1_vectors.size())
-	var missing_tmp_v1_count = max(puddle_loop_count - tmp_v1_vectors.size(), 0)
-	var tile_world_calls := []
-	for i in range(tile_lookup_count):
-		var tmp_vector: Dictionary = tmp_v1_vectors[i]
-		var tmp_v1_x := float(tmp_vector.get("x", 0.0))
-		var tmp_v1_y := float(tmp_vector.get("y", 0.0))
-		var world_x := source_x + tmp_v1_x
-		var world_y := source_y + tmp_v1_y
-		var tile_x := int(floor(world_x / float(source_tilesize) + 0.5))
-		var tile_y := int(floor(world_y / float(source_tilesize) + 0.5))
-		tile_world_calls.append({
-			"i": i,
-			"base_x": source_x,
-			"base_y": source_y,
-			"tmp_v1_x": tmp_v1_x,
-			"tmp_v1_y": tmp_v1_y,
-			"world_x": world_x,
-			"world_y": world_y,
-			"source_tilesize": source_tilesize,
-			"tile_x": tile_x,
-			"tile_y": tile_y,
-			"call": "world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y)",
-			"tile_result_deferred": true,
-		})
-	return {
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"puddle_guard": "if(explosionPuddleLiquid != null){",
-		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
-		"random_vector": "Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));",
-		"tile_assignment": "Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);",
-		"world_tile_world_method": "public @Nullable Tile tileWorld(float x, float y){",
-		"world_tile_world_return": "return tile(Math.round(x / tilesize), Math.round(y / tilesize));",
-		"world_tile_method": "public Tile tile(int x, int y){",
-		"world_tile_return": "return tiles.get(x, y);",
-		"world_to_tile_method": "public static int toTile(float coord){",
-		"world_to_tile_return": "return Math.round(coord / tilesize);",
-		"vars_tilesize_field": "public static final int tilesize = 8;",
-		"input_should_explode_value": should_explode_value,
-		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
-		"input_explosion_puddles": explosion_puddles,
-		"input_source_x": source_x,
-		"input_source_y": source_y,
-		"input_source_tilesize": source_tilesize,
-		"input_tmp_v1_vectors": tmp_v1_vectors,
-		"branch_entered": branch_entered,
-		"puddle_guard_entered": puddle_guard_entered,
-		"puddle_loop_count": puddle_loop_count,
-		"tile_world_calls": tile_world_calls,
-		"tile_lookup_count": tile_lookup_count,
-		"missing_tmp_v1_count": missing_tmp_v1_count,
-		"deposit_deferred": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-		"shake_deferred": "Effect.shake(explosionShake, explosionShakeDuration, this);",
-		"deferred_body": [
-			"Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-			"if(explosionShake > 0){",
-			"Effect.shake(explosionShake, explosionShakeDuration, this);",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_puddle_tile_world_state(should_explode_value, explosion_puddle_liquid_value, explosion_puddles, source_x, source_y, source_tilesize, tmp_v1_vectors)
 
 func source_power_generator_create_explosion_puddle_deposit_state(should_explode_value: bool, explosion_puddle_liquid_value: Variant, explosion_puddles: int, explosion_puddle_amount: float, tile_world_calls: Array) -> Dictionary:
-	var branch_entered := should_explode_value
-	var puddle_guard_entered := branch_entered and explosion_puddle_liquid_value != null
-	var puddle_loop_count := 0
-	if puddle_guard_entered:
-		puddle_loop_count = max(explosion_puddles, 0)
-	var deposit_call_count = min(puddle_loop_count, tile_world_calls.size())
-	var missing_tile_world_call_count = max(puddle_loop_count - tile_world_calls.size(), 0)
-	var deposit_calls := []
-	for i in range(deposit_call_count):
-		var tile_call: Dictionary = tile_world_calls[i]
-		var tile_null_known := tile_call.has("tile_is_null")
-		var tile_is_null = tile_call.get("tile_is_null", null)
-		var null_tile_guard_returns = null
-		if tile_null_known:
-			null_tile_guard_returns = bool(tile_is_null)
-		deposit_calls.append({
-			"i": i,
-			"tile_world_call": tile_call.duplicate(true),
-			"tile_x": tile_call.get("tile_x", null),
-			"tile_y": tile_call.get("tile_y", null),
-			"tile_is_null": tile_is_null,
-			"tile_null_known": tile_null_known,
-			"liquid": explosion_puddle_liquid_value,
-			"amount": explosion_puddle_amount,
-			"call": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount)",
-			"overload": "public static void deposit(Tile tile, Liquid liquid, float amount){",
-			"delegated_tile_source": "tile",
-			"delegated_initial": true,
-			"delegated_cap": false,
-			"delegated_call": "deposit(tile, tile, liquid, amount, true); deposit(tile, source, liquid, amount, initial, false);",
-			"null_tile_guard": "if(tile == null) return;",
-			"null_tile_guard_returns": null_tile_guard_returns,
-			"puddle_mutation_deferred": not (tile_null_known and bool(tile_is_null)),
-		})
-	return {
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"puddle_guard": "if(explosionPuddleLiquid != null){",
-		"puddle_loop": "for(int i = 0; i < explosionPuddles; i++){",
-		"puddle_amount_field": "public float explosionPuddleAmount = 100f;",
-		"deposit_call": "Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);",
-		"puddles_deposit_tile_method": "public static void deposit(Tile tile, Liquid liquid, float amount){",
-		"puddles_deposit_tile_dispatch": "deposit(tile, tile, liquid, amount, true);",
-		"puddles_deposit_initial_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){",
-		"puddles_deposit_initial_dispatch": "deposit(tile, source, liquid, amount, initial, false);",
-		"puddles_deposit_full_method": "public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){",
-		"puddles_null_guard": "if(tile == null) return;",
-		"input_should_explode_value": should_explode_value,
-		"input_explosion_puddle_liquid_value": explosion_puddle_liquid_value,
-		"input_explosion_puddles": explosion_puddles,
-		"input_explosion_puddle_amount": explosion_puddle_amount,
-		"input_tile_world_calls": tile_world_calls,
-		"branch_entered": branch_entered,
-		"puddle_guard_entered": puddle_guard_entered,
-		"puddle_loop_count": puddle_loop_count,
-		"deposit_calls": deposit_calls,
-		"deposit_call_count": deposit_call_count,
-		"missing_tile_world_call_count": missing_tile_world_call_count,
-		"puddle_mutation_deferred": true,
-		"effects_deferred": [
-			"liquid.vaporEffect.at(ax, ay, liquid.gasColor);",
-			"Bullets.spaceLiquid.create(null, source.team(), ax, ay, source.angleTo(tile) + Mathf.range(50f), -1f, Mathf.random(0f, 0.2f), Mathf.random(0.6f, 1f), liquid);",
-			"Fx.ripple.at(ax, ay, 1f, tile.floor().liquidDrop.color);",
-			"reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);",
-			"Puddle.create();",
-			"p.accepting = Math.max(amount, p.accepting);",
-		],
-		"shake_deferred": "Effect.shake(explosionShake, explosionShakeDuration, this);",
-		"deferred_body": [
-			"Puddles.deposit final puddle world mutation",
-			"if(explosionShake > 0){",
-			"Effect.shake(explosionShake, explosionShakeDuration, this);",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_puddle_deposit_state(should_explode_value, explosion_puddle_liquid_value, explosion_puddles, explosion_puddle_amount, tile_world_calls)
 
 func source_power_generator_create_explosion_shake_state(should_explode_value: bool, source_x: float, source_y: float, explosion_shake: float, explosion_shake_duration: float) -> Dictionary:
-	var branch_entered := should_explode_value
-	var shake_dispatched := branch_entered and explosion_shake > 0.0
-	var shake_call := {}
-	if shake_dispatched:
-		shake_call = {
-			"intensity": explosion_shake,
-			"duration": explosion_shake_duration,
-			"loc_x": source_x,
-			"loc_y": source_y,
-			"position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
-			"xy_overload_deferred": true,
-		}
-	return {
-		"shake_fields": "public float explosionShake = 0f, explosionShakeDuration = 6f;",
-		"method": "public void createExplosion(){",
-		"gate": "if(shouldExplode()){",
-		"shake_guard": "if(explosionShake > 0){",
-		"shake_call_source": "Effect.shake(explosionShake, explosionShakeDuration, this);",
-		"shake_call": "Effect.shake(explosionShake, explosionShakeDuration, this);",
-		"effect_shake_position_method": "public static void shake(float intensity, float duration, Position loc){",
-		"effect_shake_position_dispatch": "shake(intensity, duration, loc.getX(), loc.getY());",
-		"position_get_x": "float getX();",
-		"position_get_y": "float getY();",
-		"input_should_explode_value": should_explode_value,
-		"input_source_x": source_x,
-		"input_source_y": source_y,
-		"input_explosion_shake": explosion_shake,
-		"input_explosion_shake_duration": explosion_shake_duration,
-		"branch_entered": branch_entered,
-		"shake_guard_entered": shake_dispatched,
-		"shake_dispatched": shake_dispatched,
-		"shake_call_detail": shake_call,
-		"camera_falloff_deferred": true,
-		"renderer_shake_deferred": true,
-		"deferred_body": [
-			"public static void shake(float intensity, float duration, float x, float y){",
-			"if(Core.camera == null) return;",
-			"float distance = Core.camera.position.dst(x, y);",
-			"shake(Mathf.clamp(1f / (distance * distance / shakeFalloff)) * intensity, duration);",
-			"Vars.renderer.shake(intensity, duration);",
-		],
-	}
+	return SourcePowerGeneratorState.create_explosion_shake_state(should_explode_value, source_x, source_y, explosion_shake, explosion_shake_duration)
 
-func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool, create_explosion_state: Dictionary) -> Dictionary:
-	var create_explosion_called := reactor_explosions
-	var create_explosion_result := {}
-	if create_explosion_called:
-		create_explosion_result = create_explosion_state.duplicate(true)
-	return {
-		"override": "@Override",
-		"method": "public void onDestroyed(){",
-		"super_call": "super.onDestroyed();",
-		"reactor_explosions_field": "public boolean reactorExplosions = true;",
-		"reactor_explosions_guard": "if(state.rules.reactorExplosions){",
-		"create_explosion_call": "createExplosion();",
-		"input_reactor_explosions": reactor_explosions,
-		"input_create_explosion_state": create_explosion_state,
-		"super_on_destroyed_deferred": true,
-		"create_explosion_called": create_explosion_called,
-		"create_explosion_result": create_explosion_result,
-		"deferred_body": [
-			"super.onDestroyed() base building destruction body",
-			"Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 3.5f * block.explosivenessScale, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);",
-		],
-	}
+func source_power_generator_on_destroyed_reactor_explosion_state(reactor_explosions: bool = SOURCE_RULES_REACTOR_EXPLOSIONS_DEFAULT, create_explosion_state: Dictionary = {}) -> Dictionary:
+	return SourcePowerGeneratorState.on_destroyed_reactor_explosion_state(reactor_explosions, create_explosion_state)
 
 func selected_build_item_duration() -> float:
 	if build_palette.is_empty():
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("itemDuration", 0.0))
+	if selected.implementation != "ConsumeGenerator" and not selected.properties.has("itemDuration"):
+		return 0.0
+	return float(selected.properties.get("itemDuration", SOURCE_CONSUME_GENERATOR_ITEM_DURATION_DEFAULT))
 
 func selected_build_max_nodes() -> int:
 	if build_palette.is_empty():
 		return 0
 	var selected = build_palette[selected_build_index]
-	return int(selected.properties.get("maxNodes", 0))
+	if selected.implementation != "PowerNode" and not selected.properties.has("maxNodes"):
+		return 0
+	return int(selected.properties.get("maxNodes", SOURCE_POWER_NODE_MAX_NODES_DEFAULT))
 
 func selected_build_laser_range() -> float:
 	if build_palette.is_empty():
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("laserRange", 0.0))
+	if selected.implementation != "PowerNode" and not selected.properties.has("laserRange"):
+		return 0.0
+	return float(selected.properties.get("laserRange", SOURCE_POWER_NODE_LASER_RANGE_DEFAULT))
 
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_METHOD := "public float range(){\n            return range;\n        }"
 const SOURCE_OVERDRIVE_PROJECTOR_RANGE_RETURN := "return range;"
@@ -1868,19 +949,10 @@ const SOURCE_OVERDRIVE_PROJECTOR_SELECT_DASH_CIRCLE := "Drawf.dashCircle(x, y, r
 const SOURCE_OVERDRIVE_PROJECTOR_SELECT_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
 
 func source_overdrive_projector_range(overdrive_projector, phase_heat := 0.0) -> float:
-	if overdrive_projector == null:
-		return 0.0
-	var base_range := float(overdrive_projector.properties.get("range", 0.0))
-	var phase_range_boost := float(overdrive_projector.properties.get("phaseRangeBoost", 0.0))
-	return base_range + phase_heat * phase_range_boost
+	return SourceOverdriveProjectorState.projector_range(overdrive_projector, phase_heat)
 
 func source_overdrive_projector_select_state(overdrive_projector, phase_heat := 0.0) -> Dictionary:
-	if overdrive_projector == null:
-		return {"range": 0.0, "color": ""}
-	return {
-		"range": source_overdrive_projector_range(overdrive_projector, phase_heat),
-		"color": str(overdrive_projector.properties.get("baseColor", "")),
-	}
+	return SourceOverdriveProjectorState.select_state(overdrive_projector, phase_heat)
 
 const SOURCE_OVERDRIVE_PROJECTOR_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> other.block.canOverdrive, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }"
 const SOURCE_OVERDRIVE_PROJECTOR_PLACE_SUPER := "super.drawPlace(x, y, rotation, valid);"
@@ -1890,7 +962,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_PLACE_SELECTED_CALL := "Drawf.selected(other, T
 const SOURCE_OVERDRIVE_PROJECTOR_PLACE_CAN_OVERDRIVE_PREDICATE := "other.block.canOverdrive"
 
 func source_overdrive_projector_place_state(overdrive_projector) -> Dictionary:
-	return source_overdrive_projector_select_state(overdrive_projector, 0.0)
+	return SourceOverdriveProjectorState.place_state(overdrive_projector)
 
 const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_BOOST_BRANCH := "if(charge >= reload){\n                float realRange = range + phaseHeat * phaseRangeBoost;\n\n                charge = 0f;\n                indexer.eachBlock(this, realRange, other -> other.block.canOverdrive, other -> other.applyBoost(realBoost(), reload + 1f));\n            }"
 const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"
@@ -1900,18 +972,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_APPLY_BOOST := "other.applyBoost(
 const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_RELOAD_DURATION := "reload + 1f"
 
 func source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance: float, phase_heat := 0.0) -> Dictionary:
-	if overdrive_projector == null or target_block == null:
-		return {"real_range": 0.0, "distance": distance, "can_overdrive": false, "in_range": false, "eligible": false}
-	var real_range := source_overdrive_projector_range(overdrive_projector, phase_heat)
-	var can_overdrive := bool(target_block.properties.get("canOverdrive", true))
-	var in_range := distance <= real_range
-	return {
-		"real_range": real_range,
-		"distance": distance,
-		"can_overdrive": can_overdrive,
-		"in_range": in_range,
-		"eligible": in_range and can_overdrive,
-	}
+	return SourceOverdriveProjectorState.target_filter_state(overdrive_projector, target_block, distance, phase_heat)
 
 func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:
 	if build_palette.is_empty() or content_catalog == null:
@@ -1923,26 +984,16 @@ func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: 
 	return source_overdrive_projector_target_filter_state(selected, target, distance, phase_heat)
 
 func source_building_apply_boost_state(current_time_scale: float, current_duration: float, intensity: float, duration: float, can_overdrive := true) -> Dictionary:
-	var result := {"time_scale": current_time_scale, "time_scale_duration": current_duration}
-	if not can_overdrive:
-		return result
-	if intensity >= current_time_scale - 0.001:
-		result["time_scale_duration"] = max(current_duration, duration)
-	result["time_scale"] = max(current_time_scale, intensity)
-	return result
+	return SourceBuildingTimeState.apply_boost_state(current_time_scale, current_duration, intensity, duration, can_overdrive, SOURCE_BLOCK_TIME_SCALE_BOOST_EPSILON)
 
 func source_building_time_scale_decay_state(current_time_scale: float, current_duration: float, source_delta: float) -> Dictionary:
-	var decayed_duration := current_duration - source_delta
-	var result := {"field": "private transient float timeScale = 1f, timeScaleDuration;", "method": "public void update(){", "decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){", "reset": "timeScale = 1f;", "time_scale": current_time_scale, "time_scale_duration": decayed_duration}
-	if float(result["time_scale_duration"]) <= 0.0:
-		result["time_scale"] = 1.0
-	return result
+	return SourceBuildingTimeState.time_scale_decay_state(current_time_scale, current_duration, source_delta, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
 
 func source_building_delta(source_delta: float, time_scale: float) -> float:
-	return source_delta * time_scale
+	return SourceBuildingTimeState.delta(source_delta, time_scale)
 
 func source_building_edelta(source_delta: float, time_scale: float, efficiency: float) -> float:
-	return efficiency * source_building_delta(source_delta, time_scale)
+	return SourceBuildingTimeState.edelta(source_delta, time_scale, efficiency)
 
 const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_METHOD := "public void drawLight(){"
 const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"
@@ -1952,13 +1003,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_BASE_COLOR_FIELD := "public Color baseCol
 const SOURCE_OVERDRIVE_PROJECTOR_LIGHT_SMOOTH_EFFICIENCY_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"
 
 func source_overdrive_projector_light_state(overdrive_projector, smooth_efficiency: float) -> Dictionary:
-	if overdrive_projector == null or not bool(overdrive_projector.properties.get("emitLight", false)):
-		return {"color": "", "radius": 0.0, "alpha": 0.0}
-	return {
-		"color": str(overdrive_projector.properties.get("baseColor", "")),
-		"radius": float(overdrive_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency,
-		"alpha": 0.7 * smooth_efficiency,
-	}
+	return SourceOverdriveProjectorState.light_state(overdrive_projector, smooth_efficiency)
 
 const SOURCE_OVERDRIVE_PROJECTOR_DRAW_METHOD := "public void draw(){"
 const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LOD_GUARD := "if(!Lod.l2) return;"
@@ -1972,24 +1017,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_DIMENSIONS := "float r = Math.max(0f,
 const SOURCE_OVERDRIVE_PROJECTOR_DRAW_LINE_LOOP := "for(int i = 0; i < 4; i++){"
 
 func source_overdrive_projector_draw_state(overdrive_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
-	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
-	if overdrive_projector == null or not lod_l2:
-		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "top_rect": false, "lod_alpha2": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
-	var line_r: float = max(0.0, clamp(2.0 - f * 2.0, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size) / 2.0 - f - 0.2)
-	var line_w: float = clamp(0.5 - f, 0.0, 1.0) * float(block_size(overdrive_projector)) * float(tile_size)
-	return {
-		"visible": true,
-		"f": f,
-		"base_color": str(overdrive_projector.properties.get("baseColor", "")),
-		"phase_color": str(overdrive_projector.properties.get("phaseColor", overdrive_projector.properties.get("baseColor", ""))),
-		"phase_heat": phase_heat,
-		"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2,
-		"top_rect": true,
-		"lod_alpha2": lod_alpha2,
-		"stroke": (2.0 * f + 0.1) * heat,
-		"line_r": line_r,
-		"line_w": line_w,
-	}
+	return SourceOverdriveProjectorState.draw_state(overdrive_projector, heat, phase_heat, SOURCE_TILESIZE, source_time_ticks, lod_l2, lod_alpha2)
 
 const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_METHOD := "public float realBoost(){\n            return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;\n        }"
 const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_RETURN := "return (speedBoost + phaseHeat * speedBoostPhase) * efficiency;"
@@ -1998,11 +1026,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_SPEED_BOOST_PHASE_FIELD := "public f
 const SOURCE_OVERDRIVE_PROJECTOR_REAL_BOOST_PHASE_HEAT_FIELD := "public float heat, charge = Mathf.random(reload), phaseHeat, smoothEfficiency, useProgress;"
 
 func source_overdrive_projector_real_boost(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
-	if overdrive_projector == null:
-		return 0.0
-	var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))
-	var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))
-	return (speed_boost + phase_heat * speed_boost_phase) * efficiency
+	return SourceOverdriveProjectorState.real_boost(overdrive_projector, phase_heat, efficiency)
 
 const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_METHOD := "public void setBars(){"
 const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_ADD_BAR := "addBar(\"boost\", (OverdriveBuild entity) -> new Bar(() -> Core.bundle.format(\"bar.boost\", Mathf.round(Math.max((entity.realBoost() * 100 - 100), 0))), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));"
@@ -2013,15 +1037,7 @@ const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_SPEED_BOOST_PHASE_FIELD := "public fl
 const SOURCE_OVERDRIVE_PROJECTOR_BOOST_BAR_HAS_BOOST_FIELD := "public boolean hasBoost = true;"
 
 func source_overdrive_projector_boost_bar_fraction(overdrive_projector, phase_heat := 0.0, efficiency := 1.0) -> float:
-	if overdrive_projector == null:
-		return 0.0
-	var speed_boost := float(overdrive_projector.properties.get("speedBoost", 0.0))
-	var speed_boost_phase := float(overdrive_projector.properties.get("speedBoostPhase", 0.0))
-	var has_boost := bool(overdrive_projector.properties.get("hasBoost", false))
-	var denominator := speed_boost + speed_boost_phase if has_boost else speed_boost
-	if denominator <= 0.0:
-		return 0.0
-	return source_overdrive_projector_real_boost(overdrive_projector, phase_heat, efficiency) / denominator
+	return SourceOverdriveProjectorState.boost_bar_fraction(overdrive_projector, phase_heat, efficiency)
 
 func selected_build_overdrive_real_boost() -> float:
 	if build_palette.is_empty():
@@ -2029,7 +1045,7 @@ func selected_build_overdrive_real_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return 0.0
-	return source_overdrive_projector_real_boost(selected)
+	return SourceOverdriveProjectorState.real_boost(selected)
 
 func selected_build_overdrive_phase_real_boost() -> float:
 	if build_palette.is_empty():
@@ -2037,7 +1053,7 @@ func selected_build_overdrive_phase_real_boost() -> float:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return 0.0
-	return source_overdrive_projector_real_boost(selected, 1.0)
+	return SourceOverdriveProjectorState.real_boost(selected, 1.0)
 
 func selected_build_overdrive_boost_bar_fraction() -> float:
 	if build_palette.is_empty():
@@ -2045,7 +1061,7 @@ func selected_build_overdrive_boost_bar_fraction() -> float:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return 0.0
-	return source_overdrive_projector_boost_bar_fraction(selected)
+	return SourceOverdriveProjectorState.boost_bar_fraction(selected)
 
 func selected_build_overdrive_phase_boost_bar_fraction() -> float:
 	if build_palette.is_empty():
@@ -2053,7 +1069,7 @@ func selected_build_overdrive_phase_boost_bar_fraction() -> float:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return 0.0
-	return source_overdrive_projector_boost_bar_fraction(selected, 1.0)
+	return SourceOverdriveProjectorState.boost_bar_fraction(selected, 1.0)
 
 func selected_build_overdrive_place_state() -> Dictionary:
 	if build_palette.is_empty():
@@ -2061,7 +1077,7 @@ func selected_build_overdrive_place_state() -> Dictionary:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return {"range": 0.0, "color": ""}
-	return source_overdrive_projector_place_state(selected)
+	return SourceOverdriveProjectorState.place_state(selected)
 
 func selected_build_overdrive_phase_select_state() -> Dictionary:
 	if build_palette.is_empty():
@@ -2069,7 +1085,7 @@ func selected_build_overdrive_phase_select_state() -> Dictionary:
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return {"range": 0.0, "color": ""}
-	return source_overdrive_projector_select_state(selected, 1.0)
+	return SourceOverdriveProjectorState.select_state(selected, 1.0)
 
 func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficiency: float) -> Dictionary:
 	if build_palette.is_empty():
@@ -2077,7 +1093,7 @@ func selected_build_overdrive_light_state_for_smooth_efficiency(smooth_efficienc
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return {"color": "", "radius": 0.0, "alpha": 0.0}
-	return source_overdrive_projector_light_state(selected, smooth_efficiency)
+	return SourceOverdriveProjectorState.light_state(selected, smooth_efficiency)
 
 func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: float, source_time_ticks := 0.0) -> Dictionary:
 	if build_palette.is_empty():
@@ -2085,7 +1101,7 @@ func selected_build_overdrive_draw_state_for_inputs(heat: float, phase_heat: flo
 	var selected = build_palette[selected_build_index]
 	if selected.implementation != "OverdriveProjector":
 		return {"visible": false, "f": 0.0, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "top_rect": false, "lod_alpha2": 0.0, "stroke": 0.0, "line_r": 0.0, "line_w": 0.0}
-	return source_overdrive_projector_draw_state(selected, heat, phase_heat, source_time_ticks)
+	return SourceOverdriveProjectorState.draw_state(selected, heat, phase_heat, SOURCE_TILESIZE, source_time_ticks, true, 1.0)
 
 func selected_build_booster_item() -> String:
 	if build_palette.is_empty():
@@ -2095,9 +1111,15 @@ func selected_build_booster_item() -> String:
 
 func selected_build_booster_use_time() -> float:
 	if build_palette.is_empty():
-		return 0.0
+		return SOURCE_BUILD_BOOSTER_USE_TIME_DEFAULT
 	var selected = build_palette[selected_build_index]
-	return float(selected.properties.get("boosterUseTime", 0.0))
+	if selected.implementation == "MendProjector":
+		return source_mend_projector_use_time(selected)
+	if selected.implementation == "OverdriveProjector":
+		if selected.properties.has("boosterUseTime"):
+			return float(selected.properties.get("boosterUseTime", SourceProjectorDefaults.OVERDRIVE_USE_TIME_DEFAULT))
+		return source_overdrive_projector_use_time(selected)
+	return float(selected.properties.get("boosterUseTime", SOURCE_BUILD_BOOSTER_USE_TIME_DEFAULT))
 
 func selected_build_place_state() -> Dictionary:
 	if build_palette.is_empty():
@@ -2114,12 +1136,7 @@ const SOURCE_MEND_PROJECTOR_REPAIR_HEAL_PERCENT_FIELD := "public float healPerce
 const SOURCE_MEND_PROJECTOR_REPAIR_PHASE_BOOST_FIELD := "public float phaseBoost = 12f;"
 
 func source_mend_projector_repair_amount(mend_projector, target_block, phase_heat := 0.0, efficiency := 1.0) -> float:
-	if mend_projector == null or target_block == null:
-		return 0.0
-	var heal_percent := float(mend_projector.properties.get("healPercent", 0.0))
-	var phase_boost := float(mend_projector.properties.get("phaseBoost", 0.0))
-	var target_health := float(target_block.properties.get("health", 0.0))
-	return target_health * (heal_percent + phase_heat * phase_boost) / 100.0 * efficiency
+	return SourceMendProjectorState.repair_amount(mend_projector, target_block, phase_heat, efficiency)
 
 const SOURCE_MEND_PROJECTOR_LIGHT_METHOD := "public void drawLight(){\n            Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);\n        }"
 const SOURCE_MEND_PROJECTOR_LIGHT_CALL := "Drawf.light(x, y, lightRadius * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);"
@@ -2130,27 +1147,31 @@ const SOURCE_MEND_PROJECTOR_LIGHT_EMIT_LIGHT := "emitLight = true;"
 const SOURCE_MEND_PROJECTOR_LIGHT_RADIUS_FIELD := "lightRadius = 50f;"
 
 func source_mend_projector_light_state(mend_projector, smooth_efficiency: float) -> Dictionary:
-	if mend_projector == null or not bool(mend_projector.properties.get("emitLight", false)):
-		return {"color": "", "radius": 0.0, "alpha": 0.0}
-	return {
-		"color": str(mend_projector.properties.get("baseColor", "")),
-		"radius": float(mend_projector.properties.get("lightRadius", 0.0)) * smooth_efficiency,
-		"alpha": 0.7 * smooth_efficiency,
-	}
+	return SourceMendProjectorState.light_state(mend_projector, smooth_efficiency)
 
 const SOURCE_MEND_PROJECTOR_PROGRESS_METHOD := "public double sense(LAccess sensor){\n            if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);\n            return super.sense(sensor);\n        }"
+
+func source_mend_projector_reload(mend_projector) -> float:
+	return SourceMendProjectorState.projector_reload(mend_projector)
+
+func source_mend_projector_use_time(mend_projector) -> float:
+	return SourceMendProjectorState.use_time(mend_projector)
+
+func source_overdrive_projector_reload(overdrive_projector) -> float:
+	return SourceOverdriveProjectorState.projector_reload(overdrive_projector)
+
+func source_overdrive_projector_use_time(overdrive_projector) -> float:
+	return SourceOverdriveProjectorState.use_time(overdrive_projector)
+
+func source_overdrive_projector_has_boost(overdrive_projector) -> bool:
+	return SourceOverdriveProjectorState.has_boost(overdrive_projector)
 const SOURCE_MEND_PROJECTOR_PROGRESS_SENSOR_GATE := "if(sensor == LAccess.progress) return Mathf.clamp(charge / reload);"
 const SOURCE_MEND_PROJECTOR_PROGRESS_CLAMP_EXPR := "Mathf.clamp(charge / reload)"
 const SOURCE_MEND_PROJECTOR_PROGRESS_RATIO_EXPR := "charge / reload"
 const SOURCE_MEND_PROJECTOR_PROGRESS_SUPER_SENSE := "return super.sense(sensor);"
 
 func source_mend_projector_progress(mend_projector, charge: float) -> float:
-	if mend_projector == null:
-		return 0.0
-	var reload := float(mend_projector.properties.get("reload", 0.0))
-	if reload <= 0.0:
-		return 0.0
-	return clamp(charge / reload, 0.0, 1.0)
+	return SourceMendProjectorState.progress(mend_projector, charge)
 
 const SOURCE_MEND_PROJECTOR_SELECT_METHOD := "public void drawSelect(){\n            float realRange = range + phaseHeat * phaseRangeBoost;\n\n            indexer.eachBlock(this, realRange, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n\n            Drawf.dashCircle(x, y, realRange, baseColor);\n        }"
 const SOURCE_MEND_PROJECTOR_SELECT_REAL_RANGE := "float realRange = range + phaseHeat * phaseRangeBoost;"
@@ -2160,12 +1181,7 @@ const SOURCE_MEND_PROJECTOR_SELECT_DASH_CIRCLE := "Drawf.dashCircle(x, y, realRa
 const SOURCE_MEND_PROJECTOR_SELECT_BASE_COLOR_FIELD := "public Color baseColor = Color.valueOf(\"84f491\");"
 
 func source_mend_projector_select_state(mend_projector, phase_heat := 0.0) -> Dictionary:
-	if mend_projector == null:
-		return {"range": 0.0, "color": ""}
-	return {
-		"range": source_mend_projector_range(mend_projector, phase_heat),
-		"color": str(mend_projector.properties.get("baseColor", "")),
-	}
+	return SourceMendProjectorState.select_state(mend_projector, phase_heat)
 
 const SOURCE_MEND_PROJECTOR_PLACE_METHOD := "public void drawPlace(int x, int y, int rotation, boolean valid){\n        super.drawPlace(x, y, rotation, valid);\n\n        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);\n\n        indexer.eachBlock(player.team(), x * tilesize + offset, y * tilesize + offset, range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f))));\n    }"
 const SOURCE_MEND_PROJECTOR_PLACE_SUPER := "super.drawPlace(x, y, rotation, valid);"
@@ -2174,7 +1190,7 @@ const SOURCE_MEND_PROJECTOR_PLACE_EACH_BLOCK := "indexer.eachBlock(player.team()
 const SOURCE_MEND_PROJECTOR_PLACE_SELECTED_CALL := "Drawf.selected(other, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))"
 
 func source_mend_projector_place_state(mend_projector) -> Dictionary:
-	return source_mend_projector_select_state(mend_projector, 0.0)
+	return SourceMendProjectorState.place_state(mend_projector)
 
 const SOURCE_MEND_PROJECTOR_DRAW_METHOD := "public void draw(){\n            float f = 1f - (Time.time / 100f) % 1f;\n\n            if(!Lod.l2) return;\n\n            Draw.color(baseColor, phaseColor, phaseHeat);\n            Draw.alpha(heat * Mathf.absin(Time.time, 50f / Mathf.PI2, 1f) * 0.5f * Lod.alpha2);\n            Draw.rect(topRegion, x, y);\n            Draw.alpha(Lod.alpha2);\n            Lines.stroke((2f * f + 0.2f) * heat);\n            Lines.square(x, y, Math.min(1f + (1f - f) * size * tilesize / 2f, size * tilesize/2f));\n\n            Draw.reset();\n        }"
 const SOURCE_MEND_PROJECTOR_DRAW_F_EXPR := "float f = 1f - (Time.time / 100f) % 1f;"
@@ -2188,31 +1204,16 @@ const SOURCE_MEND_PROJECTOR_DRAW_SQUARE_RADIUS := "Lines.square(x, y, Math.min(1
 const SOURCE_MEND_PROJECTOR_DRAW_RESET := "Draw.reset();"
 
 func source_mend_projector_draw_state(mend_projector, heat: float, phase_heat: float, source_time_ticks := 0.0, lod_l2 := true, lod_alpha2 := 1.0) -> Dictionary:
-	var f := 1.0 - fmod(source_time_ticks / 100.0, 1.0)
-	if mend_projector == null or not lod_l2:
-		return {"visible": false, "f": f, "base_color": "", "phase_color": "", "phase_heat": phase_heat, "top_alpha": 0.0, "square_alpha": 0.0, "square_stroke": 0.0, "square_radius": 0.0}
-	return {
-		"visible": true,
-		"f": f,
-		"base_color": str(mend_projector.properties.get("baseColor", "")),
-		"phase_color": str(mend_projector.properties.get("phaseColor", mend_projector.properties.get("baseColor", ""))),
-		"phase_heat": phase_heat,
-		"top_alpha": heat * source_absin(source_time_ticks, 50.0 / SOURCE_PI2, 1.0) * 0.5 * lod_alpha2,
-		"square_alpha": lod_alpha2,
-		"square_stroke": (2.0 * f + 0.2) * heat,
-		"square_radius": min(1.0 + (1.0 - f) * float(block_size(mend_projector)) * float(tile_size) / 2.0, float(block_size(mend_projector)) * float(tile_size) / 2.0),
-	}
+	return SourceMendProjectorState.draw_state(mend_projector, heat, phase_heat, float(SOURCE_TILESIZE), source_time_ticks, lod_l2, lod_alpha2)
 
 func source_absin(value: float, scl: float, mag: float) -> float:
-	if scl == 0.0:
-		return 0.0
-	return (sin(value / (scl * 2.0)) * mag + mag) / 2.0
+	return SourceMathState.source_absin(value, scl, mag)
 
 func source_approach(from_value: float, to_value: float, speed: float) -> float:
-	return from_value + clamp(to_value - from_value, -speed, speed)
+	return SourceMathState.source_approach(from_value, to_value, speed)
 
 func source_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
-	return source_approach(from_value, to_value, source_delta * speed)
+	return SourceMathState.source_approach_delta(from_value, to_value, speed, source_delta)
 
 const SOURCE_LERP_DELTA_METHOD := "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"
 const SOURCE_LERP_DELTA_SCALED_PROGRESS := "progress * Time.delta"
@@ -2220,446 +1221,48 @@ const SOURCE_LERP_DELTA_CLAMP_EXPR := "public static float clamp(float value){\n
 const SOURCE_LERP_DELTA_LERP_EXPR := "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }"
 
 func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
-	return from_value + (to_value - from_value) * clamp(progress * source_delta, 0.0, 1.0)
+	return SourceMathState.source_lerp_delta(from_value, to_value, progress, source_delta)
 
 func selected_build_repair_amount() -> float:
 	if build_palette.is_empty() or content_catalog == null:
 		return 0.0
 	var selected = build_palette[selected_build_index]
-	var mend_projector = content_catalog.get_by_id("mend-projector")
+	var mend_projector = content_catalog.get_by_id(SourceProjectorDefaults.MEND_PROJECTOR_BLOCK_ID)
 	return source_mend_projector_repair_amount(mend_projector, selected)
 
 func source_power_graph_add_role_state(build_present: bool, power_present: bool, graph_matches: bool, power_init: bool, old_graph_present: bool, old_graph_is_self: bool, old_graph_has_entity: bool, outputs_power: bool, consumes_power: bool, has_cons_power: bool, cons_power_buffered: bool) -> Dictionary:
-	var result := {
-		"returned": false,
-		"remove_old_graph_entity": false,
-		"assign_graph": false,
-		"init_power": false,
-		"add_all": false,
-		"role": "none",
-		"add_producer": false,
-		"add_consumer": false,
-		"add_battery": false,
-		"has_cons_power": has_cons_power,
-		"power_guard": "if(build == null || build.power == null) return;",
-		"add_gate": "if(build.power.graph != this || !build.power.init){",
-		"graph_assign": "build.power.graph = this;",
-		"init_assign": "build.power.init = true;",
-		"all_add": "all.add(build);",
-		"producer_consumer_branch": "if(build.block.outputsPower && build.block.consumesPower && !build.block.consPower.buffered){",
-		"battery_branch": "}else if(build.block.outputsPower && build.block.consumesPower){",
-		"producer_branch": "}else if(build.block.outputsPower){",
-		"consumer_branch": "}else if(build.block.consumesPower && build.block.consPower != null){",
-	}
-	if not build_present or not power_present:
-		result["returned"] = true
-		return result
-	if not graph_matches or not power_init:
-		result["remove_old_graph_entity"] = old_graph_present and not old_graph_is_self and old_graph_has_entity
-		result["assign_graph"] = true
-		result["init_power"] = true
-		result["add_all"] = true
-		if outputs_power and consumes_power and has_cons_power and not cons_power_buffered:
-			result["role"] = "producer_consumer"
-			result["add_producer"] = true
-			result["add_consumer"] = true
-		elif outputs_power and consumes_power:
-			result["role"] = "battery"
-			result["add_battery"] = true
-		elif outputs_power:
-			result["role"] = "producer"
-			result["add_producer"] = true
-		elif consumes_power and has_cons_power:
-			result["role"] = "consumer"
-			result["add_consumer"] = true
-	return result
+	return SourcePowerGraphState.add_role_state(build_present, power_present, graph_matches, power_init, old_graph_present, old_graph_is_self, old_graph_has_entity, outputs_power, consumes_power, has_cons_power, cons_power_buffered)
 
 func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:
-	var tile_add_states: Array = []
-	var returned := false
-	var delegate_to_other_graph := false
-	var remove_graph_entity := false
-	var check_add := false
-	if graph_is_self:
-		returned = true
-	elif graph_all_size > all_size:
-		returned = true
-		delegate_to_other_graph = true
-	else:
-		remove_graph_entity = graph_has_entity
-		for tile in graph_tiles:
-			if typeof(tile) != TYPE_DICTIONARY:
-				continue
-			var add_state := source_power_graph_add_role_state(
-				bool(tile.get("build_present", true)),
-				bool(tile.get("power_present", true)),
-				bool(tile.get("graph_matches", false)),
-				bool(tile.get("power_init", false)),
-				bool(tile.get("old_graph_present", false)),
-				bool(tile.get("old_graph_is_self", false)),
-				bool(tile.get("old_graph_has_entity", false)),
-				bool(tile.get("outputs_power", false)),
-				bool(tile.get("consumes_power", false)),
-				bool(tile.get("has_cons_power", false)),
-				bool(tile.get("cons_power_buffered", false))
-			)
-			tile_add_states.append(add_state)
-		check_add = true
-	return {
-		"method": "public void addGraph(PowerGraph graph){",
-		"self_guard": "if(graph == this) return;",
-		"merge_comment": "//merge into other graph instead.",
-		"delegate_guard_expr": "if(graph.all.size > all.size){",
-		"delegate_call_expr": "graph.addGraph(this);",
-		"delegate_return_expr": "return;",
-		"remove_comment": "//other entity should be removed as the graph was merged",
-		"remove_graph_entity_expr": "if(graph.entity != null) graph.entity.remove();",
-		"graph_all_loop_expr": "for(Building tile : graph.all){",
-		"add_tile_expr": "add(tile);",
-		"check_add_expr": "checkAdd();",
-		"graph_is_self": graph_is_self,
-		"graph_all_size": graph_all_size,
-		"all_size": all_size,
-		"graph_has_entity": graph_has_entity,
-		"graph_tiles": graph_tiles.duplicate(true),
-		"returned": returned,
-		"delegate_to_other_graph": delegate_to_other_graph,
-		"remove_graph_entity": remove_graph_entity,
-		"add_call_count": tile_add_states.size(),
-		"tile_add_states": tile_add_states,
-		"check_add": check_add,
-	}
+	return SourcePowerGraphState.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles, Callable(self, "source_power_graph_add_role_state"))
 
 func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:
-	return {
-		"method": "public void checkAdd(){",
-		"entity_add_guard": "if(entity != null) entity.add();",
-		"entity_add_called": entity_present,
-	}
+	return SourcePowerGraphState.check_add_state(entity_present)
 
 func source_power_graph_clear_state(all: Array, producers: Array, consumers: Array, batteries: Array, entity_present: bool) -> Dictionary:
-	var source_all := all.duplicate(true)
-	var source_producers := producers.duplicate(true)
-	var source_consumers := consumers.duplicate(true)
-	var source_batteries := batteries.duplicate(true)
-	source_all.clear()
-	source_producers.clear()
-	source_consumers.clear()
-	source_batteries.clear()
-	return {
-		"method": "public void clear(){",
-		"all_clear": "all.clear();",
-		"producers_clear": "producers.clear();",
-		"consumers_clear": "consumers.clear();",
-		"batteries_clear": "batteries.clear();",
-		"nothing_left_comment": "//nothing left",
-		"entity_remove_guard": "if(entity != null) entity.remove();",
-		"all": source_all,
-		"producers": source_producers,
-		"consumers": source_consumers,
-		"batteries": source_batteries,
-		"entity_removed": entity_present,
-	}
+	return SourcePowerGraphState.clear_state(all, producers, consumers, batteries, entity_present)
 
 func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:
-	var queue: Array = []
-	var closed_lookup: Dictionary = {}
-	var closed_positions: Array = []
-	var queued_positions: Array = []
-	var visited_positions: Array = []
-	var tile_add_states: Array = []
-	var check_add_count := 0
-	queue.clear()
-	queue.append(tile.duplicate(true))
-	closed_lookup.clear()
-	while queue.size() > 0:
-		var child_variant = queue.pop_front()
-		if typeof(child_variant) != TYPE_DICTIONARY:
-			continue
-		var child: Dictionary = child_variant
-		visited_positions.append(child.get("pos", null))
-		var add_state := source_power_graph_add_role_state(
-			bool(child.get("build_present", true)),
-			bool(child.get("power_present", true)),
-			bool(child.get("graph_matches", false)),
-			bool(child.get("power_init", false)),
-			bool(child.get("old_graph_present", false)),
-			bool(child.get("old_graph_is_self", false)),
-			bool(child.get("old_graph_has_entity", false)),
-			bool(child.get("outputs_power", false)),
-			bool(child.get("consumes_power", false)),
-			bool(child.get("has_cons_power", false)),
-			bool(child.get("cons_power_buffered", false))
-		)
-		tile_add_states.append(add_state)
-		check_add_count += 1
-		var connections: Array = child.get("connections", [])
-		for next in connections:
-			if typeof(next) != TYPE_DICTIONARY:
-				continue
-			var next_pos = next.get("pos", null)
-			var next_pos_key := var_to_str(next_pos)
-			if not closed_lookup.has(next_pos_key):
-				closed_lookup[next_pos_key] = true
-				closed_positions.append(next_pos)
-				queued_positions.append(next_pos)
-				queue.append(next.duplicate(true))
-	return {
-		"method": "public void reflow(Building tile){",
-		"queue_clear": "queue.clear();",
-		"queue_add_tile": "queue.addLast(tile);",
-		"closed_set_clear": "closedSet.clear();",
-		"while_queue": "while(queue.size > 0){",
-		"remove_first": "Building child = queue.removeFirst();",
-		"add_child": "add(child);",
-		"check_add": "checkAdd();",
-		"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
-		"closed_set_add": "if(closedSet.add(next.pos())){",
-		"queue_add_next": "queue.addLast(next);",
-		"tile": tile.duplicate(true),
-		"visited_positions": visited_positions,
-		"queued_positions": queued_positions,
-		"closed_positions": closed_positions,
-		"tile_add_states": tile_add_states,
-		"check_add_count": check_add_count,
-	}
+	return SourcePowerGraphState.reflow_state(tile, Callable(self, "source_power_graph_add_role_state"))
 
 func source_power_graph_remove_list_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:
-	var source_all := all.duplicate(true)
-	var source_producers := producers.duplicate(true)
-	var source_consumers := consumers.duplicate(true)
-	var source_batteries := batteries.duplicate(true)
-	source_all.erase(build)
-	source_producers.erase(build)
-	source_consumers.erase(build)
-	source_batteries.erase(build)
-	return {
-		"comment": "Used for unit tests only.",
-		"method": "public void removeList(Building build){",
-		"all_remove": "all.remove(build);",
-		"producers_remove": "producers.remove(build);",
-		"consumers_remove": "consumers.remove(build);",
-		"batteries_remove": "batteries.remove(build);",
-		"build": build,
-		"all": source_all,
-		"producers": source_producers,
-		"consumers": source_consumers,
-		"batteries": source_batteries,
-	}
+	return SourcePowerGraphState.remove_list_state(all, producers, consumers, batteries, build)
 
 func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:
-	var branch_seeds: Array = []
-	var skipped_others: Array = []
-	var queued_positions: Array = []
-	var connections: Array = tile.get("connections", [])
-	for other_variant in connections:
-		if typeof(other_variant) != TYPE_DICTIONARY:
-			continue
-		var other: Dictionary = other_variant
-		var other_pos = other.get("pos", null)
-		if not bool(other.get("power_graph_is_self", false)):
-			skipped_others.append(other_pos)
-			continue
-		var add_state := source_power_graph_add_role_state(
-			bool(other.get("build_present", true)),
-			bool(other.get("power_present", true)),
-			bool(other.get("graph_matches", false)),
-			bool(other.get("power_init", false)),
-			bool(other.get("old_graph_present", false)),
-			bool(other.get("old_graph_is_self", false)),
-			bool(other.get("old_graph_has_entity", false)),
-			bool(other.get("outputs_power", false)),
-			bool(other.get("consumes_power", false)),
-			bool(other.get("has_cons_power", false)),
-			bool(other.get("cons_power_buffered", false))
-		)
-		queued_positions.append(other_pos)
-		branch_seeds.append({
-			"other": other.duplicate(true),
-			"other_pos": other_pos,
-			"graph_created": true,
-			"check_add_count": 1,
-			"add_state": add_state,
-			"queued_other": other_pos,
-		})
-	return {
-		"remove_comment": "Note that this does not actually remove the building from the graph;",
-		"method": "public void remove(Building tile){",
-		"connections_comment": "//go through all the connections of this tile",
-		"connections_loop": "for(Building other : tile.getPowerConnections(outArray1)){",
-		"skip_comment": "//a graph has already been assigned to this tile from a previous call, skip it",
-		"skip_guard": "if(other.power.graph != this) continue;",
-		"create_comment": "//create graph for this branch",
-		"graph_create": "PowerGraph graph = new PowerGraph();",
-		"graph_check_add": "graph.checkAdd();",
-		"graph_add_other": "graph.add(other);",
-		"queue_comment": "//add to queue for BFS",
-		"queue_clear": "queue.clear();",
-		"queue_add_other": "queue.addLast(other);",
-		"tile": tile.duplicate(true),
-		"branch_seeds": branch_seeds,
-		"skipped_others": skipped_others,
-		"queued_positions": queued_positions,
-	}
+	return SourcePowerGraphState.remove_branch_seed_state(tile, Callable(self, "source_power_graph_add_role_state"))
 
 func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:
-	var seed_state := source_power_graph_remove_branch_seed_state(tile)
-	var branch_traversals: Array = []
-	var visited_positions: Array = []
-	var queued_positions: Array = []
-	var child_add_states: Array = []
-	var next_add_states: Array = []
-	var branch_graph_positions: Array = []
-	var skipped_next_positions: Array = []
-	var tile_pos = tile.get("pos", null)
-	for seed_variant in seed_state.get("branch_seeds", []):
-		if typeof(seed_variant) != TYPE_DICTIONARY:
-			continue
-		var seed_entry: Dictionary = seed_variant
-		var other: Dictionary = seed_entry.get("other", {})
-		var queue: Array = []
-		var branch_lookup: Dictionary = {}
-		var branch_positions: Array = []
-		var other_pos = other.get("pos", seed_entry.get("other_pos", null))
-		var other_pos_key := var_to_str(other_pos)
-		branch_lookup[other_pos_key] = true
-		branch_positions.append(other_pos)
-		branch_graph_positions.append(other_pos)
-		queue.append(other.duplicate(true))
-		queued_positions.append(other_pos)
-		var traversal := {
-			"other_pos": other_pos,
-			"visited_positions": [],
-			"queued_positions": [other_pos],
-			"branch_graph_positions": [other_pos],
-			"skipped_next_positions": [],
-		}
-		while queue.size() > 0:
-			var child_variant = queue.pop_front()
-			if typeof(child_variant) != TYPE_DICTIONARY:
-				continue
-			var child: Dictionary = child_variant
-			var child_pos = child.get("pos", null)
-			visited_positions.append(child_pos)
-			traversal["visited_positions"].append(child_pos)
-			child_add_states.append(source_power_graph_add_role_state(
-				bool(child.get("build_present", true)),
-				bool(child.get("power_present", true)),
-				true,
-				true,
-				bool(child.get("old_graph_present", false)),
-				bool(child.get("old_graph_is_self", false)),
-				bool(child.get("old_graph_has_entity", false)),
-				bool(child.get("outputs_power", false)),
-				bool(child.get("consumes_power", false)),
-				bool(child.get("has_cons_power", false)),
-				bool(child.get("cons_power_buffered", false))
-			))
-			var connections: Array = child.get("connections", [])
-			for next_variant in connections:
-				if typeof(next_variant) != TYPE_DICTIONARY:
-					continue
-				var next: Dictionary = next_variant
-				var next_pos = next.get("pos", null)
-				var next_pos_key := var_to_str(next_pos)
-				if next_pos != tile_pos and not branch_lookup.has(next_pos_key):
-					var next_add_state := source_power_graph_add_role_state(
-						bool(next.get("build_present", true)),
-						bool(next.get("power_present", true)),
-						bool(next.get("graph_matches", false)),
-						bool(next.get("power_init", false)),
-						bool(next.get("old_graph_present", false)),
-						bool(next.get("old_graph_is_self", false)),
-						bool(next.get("old_graph_has_entity", false)),
-						bool(next.get("outputs_power", false)),
-						bool(next.get("consumes_power", false)),
-						bool(next.get("has_cons_power", false)),
-						bool(next.get("cons_power_buffered", false))
-					)
-					next_add_states.append(next_add_state)
-					branch_lookup[next_pos_key] = true
-					branch_positions.append(next_pos)
-					branch_graph_positions.append(next_pos)
-					traversal["branch_graph_positions"].append(next_pos)
-					queued_positions.append(next_pos)
-					traversal["queued_positions"].append(next_pos)
-					queue.append(next.duplicate(true))
-				else:
-					skipped_next_positions.append(next_pos)
-					traversal["skipped_next_positions"].append(next_pos)
-		traversal["branch_positions"] = branch_positions
-		branch_traversals.append(traversal)
-	return {
-		"method": "public void remove(Building tile){",
-		"while_queue": "while(queue.size > 0){",
-		"get_child_comment": "//get child from queue",
-		"remove_first": "Building child = queue.removeFirst();",
-		"add_child_comment": "//add it to the new branch graph",
-		"graph_add_child": "graph.add(child);",
-		"connections_comment": "//go through connections",
-		"connections_loop": "for(Building next : child.getPowerConnections(outArray2)){",
-		"branch_guard_comment": "//make sure it hasn't looped back, and that the new graph being assigned hasn't already been assigned",
-		"skip_closed_comment": "//also skip closed tiles",
-		"branch_guard": "if(next != tile && next.power.graph != graph){",
-		"graph_add_next": "graph.add(next);",
-		"queue_add_next": "queue.addLast(next);",
-		"tile": tile.duplicate(true),
-		"branch_traversals": branch_traversals,
-		"visited_positions": visited_positions,
-		"queued_positions": queued_positions,
-		"child_add_states": child_add_states,
-		"next_add_states": next_add_states,
-		"branch_graph_positions": branch_graph_positions,
-		"skipped_next_positions": skipped_next_positions,
-	}
+	return SourcePowerGraphState.remove_branch_bfs_state(tile, Callable(self, "source_power_graph_add_role_state"))
 
 func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:
-	var bfs_state := source_power_graph_remove_branch_bfs_state(tile)
-	var branch_updates: Array = []
-	var updated_branch_positions: Array = []
-	for traversal_variant in bfs_state.get("branch_traversals", []):
-		if typeof(traversal_variant) != TYPE_DICTIONARY:
-			continue
-		var traversal: Dictionary = traversal_variant
-		var branch_positions: Array = traversal.get("branch_positions", [])
-		branch_updates.append({
-			"other_pos": traversal.get("other_pos", null),
-			"branch_positions": branch_positions.duplicate(true),
-			"branch_graph_positions": traversal.get("branch_graph_positions", []).duplicate(true),
-			"update_dispatched": true,
-		})
-		updated_branch_positions.append(branch_positions.duplicate(true))
-	return {
-		"method": "public void remove(Building tile){",
-		"update_comment": "//update the graph once so direct consumers without any connected producer lose their power",
-		"graph_update": "graph.update();",
-		"tile": tile.duplicate(true),
-		"branch_updates": branch_updates,
-		"branch_update_count": branch_updates.size(),
-		"updated_branch_positions": updated_branch_positions,
-		"branch_traversals": bfs_state.get("branch_traversals", []),
-	}
+	return SourcePowerGraphState.remove_branch_update_state(tile, Callable(self, "source_power_graph_add_role_state"))
 
 func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:
 	var update_state := source_power_graph_remove_branch_update_state(tile)
-	return {
-		"method": "public void remove(Building tile){",
-		"empty_graph_comment": "//implied empty graph here",
-		"entity_remove_guard": "if(entity != null) entity.remove();",
-		"tile": tile.duplicate(true),
-		"branch_updates": update_state.get("branch_updates", []),
-		"branch_update_count": update_state.get("branch_update_count", 0),
-		"updated_branch_positions": update_state.get("updated_branch_positions", []),
-		"branch_traversals": update_state.get("branch_traversals", []),
-		"entity_removed": entity_present,
-	}
+	return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present, update_state)
 
 func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
-	return {
-		"method": "public int getId(){",
-		"return_graph_id": "return graphID;",
-		"graph_id": graph_id,
-	}
+	return SourcePowerGraphState.get_id_state(graph_id)
 
 func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/blocks/power/PowerGraph.gd")
@@ -2675,15 +1278,10 @@ func generated_power_graph_get_id_bridge_state(graph_id: int) -> Dictionary:
 	}
 
 func source_power_graph_to_string_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> String:
-	return "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + str(graph_id) + "}"
+	return SourcePowerGraphState.to_string_state(producers, consumers, batteries, all, graph_id)
 
 func source_consume_power_ignore_state(buffered: bool) -> Dictionary:
-	return {
-		"method": "public boolean ignore(){",
-		"buffered": buffered,
-		"ignore": buffered,
-		"return_expr": "return buffered;",
-	}
+	return SourceConsumePowerState.ignore_state(buffered)
 
 func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
@@ -2699,21 +1297,7 @@ func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:
 	}
 
 func source_consume_power_apply_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_power_apply_state",
-		"source": "core/src/mindustry/world/consumers/ConsumePower.java",
-		"block_source": "core/src/mindustry/world/Block.java",
-		"method": "public void apply(Block block){",
-		"block_has_power_field_expr": "public @NoPatch boolean hasPower;",
-		"block_cons_power_field_expr": "public @Nullable ConsumePower consPower;",
-		"has_power_assignment_expr": "block.hasPower = true;",
-		"cons_power_assignment_expr": "block.consPower = this;",
-		"block_has_power_before": block_has_power_before,
-		"block_cons_power_before": block_cons_power_before,
-		"consume_power_state": consume_power_state,
-		"block_has_power_after": true,
-		"block_cons_power_after": consume_power_state,
-	}
+	return SourceConsumePowerState.apply_state(block_has_power_before, block_cons_power_before, consume_power_state)
 
 func generated_consume_power_apply_bridge_state(block_has_power_before: bool, block_cons_power_before: Variant, consume_power_state: Variant) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
@@ -2729,12 +1313,7 @@ func generated_consume_power_apply_bridge_state(block_has_power_before: bool, bl
 	}
 
 func source_consume_power_efficiency_state(power_status: float) -> Dictionary:
-	return {
-		"method": "public float efficiency(Building build){",
-		"power_status": power_status,
-		"efficiency": power_status,
-		"return_expr": "return build.power.status;",
-	}
+	return SourceConsumePowerState.efficiency_state(power_status)
 
 func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
@@ -2750,34 +1329,12 @@ func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dic
 	}
 
 func source_consume_power_display_state(buffered: bool, usage: float, capacity: float) -> Dictionary:
-	var buffered_guard: bool = buffered
-	var usage_guard: bool = usage > 0.0
-	var power_use_value: float = usage * SOURCE_TICK_RATE
-	var stats_add_call: Dictionary = {}
-	if buffered_guard:
-		stats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}
-	elif usage_guard:
-		stats_add_call = {"call": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
-	return {
-		"method": "public void display(Stats stats){",
-		"buffered": buffered,
-		"usage": usage,
-		"capacity": capacity,
-		"buffered_guard": buffered_guard,
-		"usage_guard": usage_guard,
-		"stats_add_called": not stats_add_call.is_empty(),
-		"power_use_value": power_use_value,
-		"stats_add_call": stats_add_call,
-		"buffered_guard_expr": "if(buffered){",
-		"usage_guard_expr": "}else if(usage > 0f){",
-		"capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);",
-		"usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);",
-	}
+	return SourceConsumePowerState.display_state(buffered, usage, capacity, SOURCE_TICK_RATE)
 
 func generated_consume_power_display_bridge_state(buffered: bool, usage: float, capacity: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_3([buffered, usage, capacity])
+	var result = instance.java_method_display_3([buffered, usage, capacity, SOURCE_TICK_RATE])
 	var canonical = source_consume_power_display_state(buffered, usage, capacity)
 	return {
 		"source_owner": "PortGame.source_consume_power_display_state",
@@ -2788,14 +1345,7 @@ func generated_consume_power_display_bridge_state(buffered: bool, usage: float, 
 	}
 
 func source_consume_power_condition_requested_power_state(usage: float, consume_get: bool) -> Dictionary:
-	var requested_power: float = usage if consume_get else 0.0
-	return {
-		"method": "public float requestedPower(Building entity){",
-		"usage": usage,
-		"consume_get": consume_get,
-		"requested_power": requested_power,
-		"return_expr": "return consume.get(entity) ? usage : 0f;",
-	}
+	return SourceConsumePowerState.condition_requested_power_state(usage, consume_get)
 
 func generated_consume_power_condition_requested_power_bridge_state(usage: float, consume_get: bool) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerCondition.gd")
@@ -2811,12 +1361,7 @@ func generated_consume_power_condition_requested_power_bridge_state(usage: float
 	}
 
 func source_consume_power_dynamic_requested_power_state(usage_get: float) -> Dictionary:
-	return {
-		"method": "public float requestedPower(Building entity){",
-		"usage_get": usage_get,
-		"requested_power": usage_get,
-		"return_expr": "return usage.get(entity);",
-	}
+	return SourceConsumePowerState.dynamic_requested_power_state(usage_get)
 
 func generated_consume_power_dynamic_requested_power_bridge_state(usage_get: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")
@@ -2832,26 +1377,12 @@ func generated_consume_power_dynamic_requested_power_bridge_state(usage_get: flo
 	}
 
 func source_consume_power_dynamic_display_state(displayed_power_usage: float) -> Dictionary:
-	var display_guard: bool = displayed_power_usage != 0.0
-	var power_use_value: float = displayed_power_usage * SOURCE_TICK_RATE
-	var stats_add_call: Dictionary = {}
-	if display_guard:
-		stats_add_call = {"call": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
-	return {
-		"method": "public void display(Stats stats){",
-		"displayed_power_usage": displayed_power_usage,
-		"display_guard": display_guard,
-		"stats_add_called": display_guard,
-		"power_use_value": power_use_value,
-		"stats_add_call": stats_add_call,
-		"guard_expr": "if(displayedPowerUsage != 0f){",
-		"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
-	}
+	return SourceConsumePowerState.dynamic_display_state(displayed_power_usage, SOURCE_TICK_RATE)
 
 func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_1([displayed_power_usage])
+	var result = instance.java_method_display_1([displayed_power_usage, SOURCE_TICK_RATE])
 	var canonical = source_consume_power_dynamic_display_state(displayed_power_usage)
 	return {
 		"source_owner": "PortGame.source_consume_power_dynamic_display_state",
@@ -2862,13 +1393,7 @@ func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage:
 	}
 
 func source_consume_item_flammable_item_efficiency_multiplier_state(item_flammability: float) -> Dictionary:
-	return {
-		"method": "public float itemEfficiencyMultiplier(Item item){",
-		"item_flammability": item_flammability,
-		"efficiency_multiplier": item_flammability,
-		"return_expr": "return item.flammability;",
-		"item_flammability_field": "public float flammability = 0f;",
-	}
+	return SourceConsumeItemAttributeState.flammable_item_efficiency_multiplier_state(item_flammability)
 
 func generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(item_flammability: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")
@@ -2884,18 +1409,7 @@ func generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(it
 	}
 
 func source_consume_item_flammable_constructor_state(min_flammability: float) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_flammable_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
-		"constructor": "public ConsumeItemFlammable(float minFlammability){",
-		"min_flammability_field": "public float minFlammability;",
-		"assignment_expr": "this.minFlammability = minFlammability;",
-		"filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;",
-		"filter_expr": "item -> item.flammability >= this.minFlammability",
-		"item_flammability_field": "public float flammability = 0f;",
-		"min_flammability": min_flammability,
-		"min_flammability_after": min_flammability,
-	}
+	return SourceConsumeItemAttributeState.flammable_constructor_state(min_flammability)
 
 func generated_consume_item_flammable_constructor_bridge_state(min_flammability: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")
@@ -2911,18 +1425,7 @@ func generated_consume_item_flammable_constructor_bridge_state(min_flammability:
 	}
 
 func source_consume_item_flammable_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
-		"constructor": "public ConsumeItemFlammable(){",
-		"default_call_expr": "this(0.2f);",
-		"typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){",
-		"assignment_expr": "this.minFlammability = minFlammability;",
-		"filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;",
-		"filter_expr": "item -> item.flammability >= this.minFlammability",
-		"default_min_flammability": 0.2,
-		"min_flammability_after": 0.2,
-	}
+	return SourceConsumeItemAttributeState.flammable_default_constructor_state(SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT)
 
 func generated_consume_item_flammable_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")
@@ -2938,13 +1441,7 @@ func generated_consume_item_flammable_default_constructor_bridge_state() -> Dict
 	}
 
 func source_consume_item_explosive_item_efficiency_multiplier_state(item_explosiveness: float) -> Dictionary:
-	return {
-		"method": "public float itemEfficiencyMultiplier(Item item){",
-		"item_explosiveness": item_explosiveness,
-		"efficiency_multiplier": item_explosiveness,
-		"return_expr": "return item.explosiveness;",
-		"item_explosiveness_field": "public float explosiveness = 0f;",
-	}
+	return SourceConsumeItemAttributeState.explosive_item_efficiency_multiplier_state(item_explosiveness)
 
 func generated_consume_item_explosive_item_efficiency_multiplier_bridge_state(item_explosiveness: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplosive.gd")
@@ -2960,18 +1457,7 @@ func generated_consume_item_explosive_item_efficiency_multiplier_bridge_state(it
 	}
 
 func source_consume_item_explosive_constructor_state(min_charge: float) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_explosive_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
-		"constructor": "public ConsumeItemExplosive(float minCharge){",
-		"min_explosiveness_field": "public float minExplosiveness;",
-		"assignment_expr": "this.minExplosiveness = minCharge;",
-		"filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;",
-		"filter_expr": "item -> item.explosiveness >= this.minExplosiveness",
-		"item_explosiveness_field": "public float explosiveness = 0f;",
-		"min_charge": min_charge,
-		"min_explosiveness_after": min_charge,
-	}
+	return SourceConsumeItemAttributeState.explosive_constructor_state(min_charge)
 
 func generated_consume_item_explosive_constructor_bridge_state(min_charge: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplosive.gd")
@@ -2987,18 +1473,7 @@ func generated_consume_item_explosive_constructor_bridge_state(min_charge: float
 	}
 
 func source_consume_item_explosive_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
-		"constructor": "public ConsumeItemExplosive(){",
-		"default_call_expr": "this(0.2f);",
-		"typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){",
-		"assignment_expr": "this.minExplosiveness = minCharge;",
-		"filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;",
-		"filter_expr": "item -> item.explosiveness >= this.minExplosiveness",
-		"default_min_charge": 0.2,
-		"min_explosiveness_after": 0.2,
-	}
+	return SourceConsumeItemAttributeState.explosive_default_constructor_state(SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT)
 
 func generated_consume_item_explosive_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemExplosive.gd")
@@ -3014,13 +1489,7 @@ func generated_consume_item_explosive_default_constructor_bridge_state() -> Dict
 	}
 
 func source_consume_item_radioactive_item_efficiency_multiplier_state(item_radioactivity: float) -> Dictionary:
-	return {
-		"method": "public float itemEfficiencyMultiplier(Item item){",
-		"item_radioactivity": item_radioactivity,
-		"efficiency_multiplier": item_radioactivity,
-		"return_expr": "return item.radioactivity;",
-		"item_radioactivity_field": "public float radioactivity;",
-	}
+	return SourceConsumeItemAttributeState.radioactive_item_efficiency_multiplier_state(item_radioactivity)
 
 func generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state(item_radioactivity: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemRadioactive.gd")
@@ -3036,18 +1505,7 @@ func generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state(
 	}
 
 func source_consume_item_radioactive_constructor_state(min_radioactivity: float) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_radioactive_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
-		"constructor": "public ConsumeItemRadioactive(float minRadioactivity){",
-		"min_radioactivity_field": "public float minRadioactivity;",
-		"assignment_expr": "this.minRadioactivity = minRadioactivity;",
-		"filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;",
-		"filter_expr": "item -> item.radioactivity >= this.minRadioactivity",
-		"item_radioactivity_field": "public float radioactivity;",
-		"min_radioactivity": min_radioactivity,
-		"min_radioactivity_after": min_radioactivity,
-	}
+	return SourceConsumeItemAttributeState.radioactive_constructor_state(min_radioactivity)
 
 func generated_consume_item_radioactive_constructor_bridge_state(min_radioactivity: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemRadioactive.gd")
@@ -3063,18 +1521,7 @@ func generated_consume_item_radioactive_constructor_bridge_state(min_radioactivi
 	}
 
 func source_consume_item_radioactive_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
-		"constructor": "public ConsumeItemRadioactive(){",
-		"default_call_expr": "this(0.2f);",
-		"typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){",
-		"assignment_expr": "this.minRadioactivity = minRadioactivity;",
-		"filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;",
-		"filter_expr": "item -> item.radioactivity >= this.minRadioactivity",
-		"default_min_radioactivity": 0.2,
-		"min_radioactivity_after": 0.2,
-	}
+	return SourceConsumeItemAttributeState.radioactive_default_constructor_state(SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT)
 
 func generated_consume_item_radioactive_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemRadioactive.gd")
@@ -3090,13 +1537,7 @@ func generated_consume_item_radioactive_default_constructor_bridge_state() -> Di
 	}
 
 func source_consume_item_charged_item_efficiency_multiplier_state(item_charge: float) -> Dictionary:
-	return {
-		"method": "public float itemEfficiencyMultiplier(Item item){",
-		"item_charge": item_charge,
-		"efficiency_multiplier": item_charge,
-		"return_expr": "return item.charge;",
-		"item_charge_field": "public float charge = 0f;",
-	}
+	return SourceConsumeItemAttributeState.charged_item_efficiency_multiplier_state(item_charge)
 
 func generated_consume_item_charged_item_efficiency_multiplier_bridge_state(item_charge: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")
@@ -3112,18 +1553,7 @@ func generated_consume_item_charged_item_efficiency_multiplier_bridge_state(item
 	}
 
 func source_consume_item_charged_constructor_state(min_charge: float) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_charged_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
-		"constructor": "public ConsumeItemCharged(float minCharge){",
-		"min_charge_field": "public float minCharge;",
-		"assignment_expr": "this.minCharge = minCharge;",
-		"filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;",
-		"filter_expr": "item -> item.charge >= this.minCharge",
-		"item_charge_field": "public float charge = 0f;",
-		"min_charge": min_charge,
-		"min_charge_after": min_charge,
-	}
+	return SourceConsumeItemAttributeState.charged_constructor_state(min_charge)
 
 func generated_consume_item_charged_constructor_bridge_state(min_charge: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")
@@ -3139,18 +1569,7 @@ func generated_consume_item_charged_constructor_bridge_state(min_charge: float) 
 	}
 
 func source_consume_item_charged_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_charged_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
-		"constructor": "public ConsumeItemCharged(){",
-		"default_call_expr": "this(0.2f);",
-		"typed_constructor_expr": "public ConsumeItemCharged(float minCharge){",
-		"assignment_expr": "this.minCharge = minCharge;",
-		"filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;",
-		"filter_expr": "item -> item.charge >= this.minCharge",
-		"default_min_charge": 0.2,
-		"min_charge_after": 0.2,
-	}
+	return SourceConsumeItemAttributeState.charged_default_constructor_state(SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT)
 
 func generated_consume_item_charged_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")
@@ -3166,11 +1585,7 @@ func generated_consume_item_charged_default_constructor_bridge_state() -> Dictio
 	}
 
 func source_consume_item_filter_item_efficiency_multiplier_state() -> Dictionary:
-	return {
-		"method": "public float itemEfficiencyMultiplier(Item item){",
-		"efficiency_multiplier": 1.0,
-		"return_expr": "return 1f;",
-	}
+	return SourceConsumeItemFilterState.item_efficiency_multiplier_state()
 
 func generated_consume_item_filter_item_efficiency_multiplier_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3186,15 +1601,7 @@ func generated_consume_item_filter_item_efficiency_multiplier_bridge_state() -> 
 	}
 
 func source_consume_item_filter_constructor_state(item: Variant) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"constructor": "public ConsumeItemFilter(Boolf<Item> item){",
-		"filter_assignment_expr": "this.filter = item;",
-		"filter_field": "public Boolf<Item> filter = i -> false;",
-		"item": item,
-		"filter_after": item,
-	}
+	return SourceConsumeItemFilterState.constructor_state(item)
 
 func generated_consume_item_filter_constructor_bridge_state(item: Variant) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3210,13 +1617,7 @@ func generated_consume_item_filter_constructor_bridge_state(item: Variant) -> Di
 	}
 
 func source_consume_item_filter_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"constructor": "public ConsumeItemFilter(){",
-		"filter_field": "public Boolf<Item> filter = i -> false;",
-		"filter_after": "i -> false",
-	}
+	return SourceConsumeItemFilterState.default_constructor_state(SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR)
 
 func generated_consume_item_filter_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3232,16 +1633,7 @@ func generated_consume_item_filter_default_constructor_bridge_state() -> Diction
 	}
 
 func source_consume_items_constructor_state(item_stacks: Array) -> Dictionary:
-	var items_after: Array = item_stacks.duplicate(true)
-	return {
-		"source_owner": "PortGame.source_consume_items_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"constructor": "public ConsumeItems(ItemStack[] items){",
-		"assignment_expr": "this.items = items;",
-		"items_field": "public final ItemStack[] items;",
-		"item_stacks": item_stacks,
-		"items_after": items_after,
-	}
+	return SourceConsumeItemsState.constructor_state(item_stacks)
 
 func generated_consume_items_constructor_bridge_state(item_stacks: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3257,16 +1649,7 @@ func generated_consume_items_constructor_bridge_state(item_stacks: Array) -> Dic
 	}
 
 func source_consume_items_default_constructor_state() -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_items_default_constructor_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"constructor": "protected ConsumeItems(){",
-		"default_call_expr": "this(ItemStack.empty);",
-		"item_stack_empty_expr": "public static final ItemStack[] empty = {};",
-		"items_field": "public final ItemStack[] items;",
-		"item_stacks": [],
-		"items_after": [],
-	}
+	return SourceConsumeItemsState.default_constructor_state(SOURCE_CONSUME_ITEMS_EMPTY_STACKS)
 
 func generated_consume_items_default_constructor_bridge_state() -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3282,29 +1665,7 @@ func generated_consume_items_default_constructor_bridge_state() -> Dictionary:
 	}
 
 func source_consume_item_filter_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
-	var item_filter_after := item_filter_before.duplicate()
-	for item_id in filtered_item_ids:
-		item_filter_after[int(item_id)] = true
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_apply_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public void apply(Block block){",
-		"filter_field": "public Boolf<Item> filter = i -> false;",
-		"has_items_assignment_expr": "block.hasItems = true;",
-		"accepts_items_assignment_expr": "block.acceptsItems = true;",
-		"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);",
-		"item_filter_assignment_expr": "block.itemFilter[item.id] = true;",
-		"block_has_items_field": "public @NoPatch boolean hasItems;",
-		"block_accepts_items_field": "public boolean acceptsItems = false;",
-		"block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
-		"block_has_items_before": block_has_items_before,
-		"block_accepts_items_before": block_accepts_items_before,
-		"item_filter_before": item_filter_before,
-		"filtered_item_ids": filtered_item_ids,
-		"block_has_items_after": true,
-		"block_accepts_items_after": true,
-		"item_filter_after": item_filter_after,
-	}
+	return SourceConsumeItemFilterState.apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, filtered_item_ids)
 
 func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, filtered_item_ids: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3320,32 +1681,7 @@ func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bo
 	}
 
 func source_consume_items_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
-	var item_filter_after := item_filter_before.duplicate()
-	for stack in item_stacks:
-		if not stack is Dictionary:
-			continue
-		var item_id := int(stack.get("item_id", -1))
-		item_filter_after[item_id] = true
-	return {
-		"source_owner": "PortGame.source_consume_items_apply_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"method": "public void apply(Block block){",
-		"items_field": "public final ItemStack[] items;",
-		"has_items_assignment_expr": "block.hasItems = true;",
-		"accepts_items_assignment_expr": "block.acceptsItems = true;",
-		"items_loop_expr": "for(var stack : items){",
-		"item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;",
-		"block_has_items_field": "public @NoPatch boolean hasItems;",
-		"block_accepts_items_field": "public boolean acceptsItems = false;",
-		"block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
-		"block_has_items_before": block_has_items_before,
-		"block_accepts_items_before": block_accepts_items_before,
-		"item_filter_before": item_filter_before,
-		"item_stacks": item_stacks,
-		"block_has_items_after": true,
-		"block_accepts_items_after": true,
-		"item_filter_after": item_filter_after,
-	}
+	return SourceConsumeItemsState.apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, item_stacks)
 
 func generated_consume_items_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3361,54 +1697,7 @@ func generated_consume_items_apply_bridge_state(block_has_items_before: bool, bl
 	}
 
 func source_consume_items_build_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
-	var req_images: Array = []
-	var row_calls: Array = []
-	for index in item_stacks.size():
-		var stack: Variant = item_stacks[index]
-		if not stack is Dictionary:
-			continue
-		var item_id: int = int(stack.get("item_id", -1))
-		var stack_amount: float = float(stack.get("amount", 0.0))
-		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
-		var item_amount: float = 0.0
-		if item_id < item_amounts.size():
-			item_amount = float(item_amounts[item_id])
-		var valid: bool = item_id < item_amounts.size() and item_amount >= required_amount
-		req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})
-		if (index + 1) % 4 == 0:
-			row_calls.append({"call": "c.row();", "after_count": index + 1})
-	var table_cell_left: bool = true
-	return {
-		"source_owner": "PortGame.source_consume_items_build_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"method": "public void build(Building build, Table table){",
-		"items_field": "public final ItemStack[] items;",
-		"table_expr": "table.table(c -> {",
-		"i_initial_expr": "int i = 0;",
-		"loop_expr": "for(var stack : items){",
-		"add_expr": "c.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
-		"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))",
-		"valid_expr": "() -> build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8);",
-		"row_expr": "if(++i % 4 == 0) c.row();",
-		"table_left_expr": "}).left();",
-		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
-		"item_stack_item_field": "public Item item;",
-		"item_stack_amount_field": "public int amount = 0;",
-		"building_items_field": "@Nullable ItemModule items;",
-		"item_module_has_expr": "public boolean has(Item item, int amount){",
-		"item_module_has_return_expr": "return get(item) >= amount;",
-		"req_image_constructor": "public ReqImage(Element image, Boolp valid){",
-		"req_image_valid_expr": "public boolean valid(){",
-		"stat_values_stack_method": "public static Stack stack(UnlockableContent item, int amount){",
-		"cell_pad_right_expr": "public Cell<T> padRight(float padRight){",
-		"cell_left_expr": "public Cell<T> left(){",
-		"item_stacks": item_stacks,
-		"item_amounts": item_amounts,
-		"multiplier_get_build": multiplier_get_build,
-		"req_images": req_images,
-		"row_calls": row_calls,
-		"table_cell_left": table_cell_left,
-	}
+	return SourceConsumeItemsState.build_state(item_stacks, item_amounts, multiplier_get_build, SOURCE_UI_PAD_RIGHT)
 
 func generated_consume_items_build_bridge_state(item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3424,32 +1713,7 @@ func generated_consume_items_build_bridge_state(item_stacks: Array, item_amounts
 	}
 
 func source_consume_items_trigger_state(item_stacks: Array, multiplier_get_build: float) -> Dictionary:
-	var remove_calls: Array = []
-	for stack in item_stacks:
-		if not stack is Dictionary:
-			continue
-		var item_id: int = int(stack.get("item_id", -1))
-		var stack_amount: float = float(stack.get("amount", 0.0))
-		var remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
-		remove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": item_id, "stack_amount": stack_amount, "amount": remove_amount})
-	return {
-		"source_owner": "PortGame.source_consume_items_trigger_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"method": "public void trigger(Building build){",
-		"items_field": "public final ItemStack[] items;",
-		"items_loop_expr": "for(var stack : items){",
-		"remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
-		"round_expr": "Math.round(stack.amount * multiplier.get(build))",
-		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
-		"item_stack_item_field": "public Item item;",
-		"item_stack_amount_field": "public int amount = 0;",
-		"building_items_field": "@Nullable ItemModule items;",
-		"item_module_remove_method": "public void remove(Item item, int amount){",
-		"item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);",
-		"item_stacks": item_stacks,
-		"multiplier_get_build": multiplier_get_build,
-		"remove_calls": remove_calls,
-	}
+	return SourceConsumeItemsState.trigger_state(item_stacks, multiplier_get_build)
 
 func generated_consume_items_trigger_bridge_state(item_stacks: Array, multiplier_get_build: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3465,46 +1729,7 @@ func generated_consume_items_trigger_bridge_state(item_stacks: Array, multiplier
 	}
 
 func source_consume_items_efficiency_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
-	var item_module_has_stacks: bool = true
-	var stack_checks: Array = []
-	for stack in item_stacks:
-		if not stack is Dictionary:
-			continue
-		var item_id: int = int(stack.get("item_id", -1))
-		var stack_amount: float = float(stack.get("amount", 0.0))
-		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
-		var item_amount: float = 0.0
-		if item_id < item_amounts.size():
-			item_amount = float(item_amounts[item_id])
-		var has_stack: bool = item_id < item_amounts.size() and item_amount >= required_amount
-		stack_checks.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "has_stack": has_stack})
-		if item_id >= item_amounts.size() or float(item_amounts[item_id]) < required_amount:
-			item_module_has_stacks = false
-			break
-	var efficiency_value: float = 1.0 if consume_trigger_valid or item_module_has_stacks else 0.0
-	return {
-		"source_owner": "PortGame.source_consume_items_efficiency_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"method": "public float efficiency(Building build){",
-		"items_field": "public final ItemStack[] items;",
-		"return_expr": "return build.consumeTriggerValid() || build.items.has(items, multiplier.get(build)) ? 1f : 0f;",
-		"consume_trigger_valid_expr": "build.consumeTriggerValid()",
-		"item_module_has_stacks_expr": "public boolean has(ItemStack[] stacks, float multiplier){",
-		"item_module_has_stack_guard_expr": "if(stack.item.id >= items.length || !has(stack.item, Math.round(stack.amount * multiplier))) return false;",
-		"item_module_has_stacks_return_expr": "return true;",
-		"item_module_has_item_amount_expr": "public boolean has(Item item, int amount){",
-		"item_module_has_item_amount_return_expr": "return get(item) >= amount;",
-		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
-		"item_stack_item_field": "public Item item;",
-		"item_stack_amount_field": "public int amount = 0;",
-		"consume_trigger_valid": consume_trigger_valid,
-		"item_stacks": item_stacks,
-		"item_amounts": item_amounts,
-		"multiplier_get_build": multiplier_get_build,
-		"item_module_has_stacks": item_module_has_stacks,
-		"stack_checks": stack_checks,
-		"efficiency": efficiency_value,
-	}
+	return SourceConsumeItemsState.efficiency_state(consume_trigger_valid, item_stacks, item_amounts, multiplier_get_build)
 
 func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool, item_stacks: Array, item_amounts: Array, multiplier_get_build: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3520,45 +1745,7 @@ func generated_consume_items_efficiency_bridge_state(consume_trigger_valid: bool
 	}
 
 func source_consume_items_display_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
-	var selected_stat: String = "booster" if booster else "input"
-	var stat_values_items_expr: String = "StatValues.items(items)" if stats_time_period < 0.0 else "StatValues.items(stats.timePeriod, items)"
-	var display_items: Array = []
-	for stack in item_stacks:
-		if not stack is Dictionary:
-			continue
-		var item_id: int = int(stack.get("item_id", -1))
-		var amount: int = int(stack.get("amount", 0))
-		var display_expr: String = "displayItem(stack.item, stack.amount, displayName)" if stats_time_period < 0.0 else "displayItem(stack.item, stack.amount, timePeriod, true)"
-		display_items.append({"item_id": item_id, "amount": amount, "time_period": stats_time_period, "display_expr": display_expr})
-	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": stat_values_items_expr, "time_period": stats_time_period, "item_stacks": item_stacks}
-	return {
-		"source_owner": "PortGame.source_consume_items_display_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
-		"method": "public void display(Stats stats){",
-		"items_field": "public final ItemStack[] items;",
-		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items));",
-		"stats_add_call_expr": "stats.add",
-		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
-		"time_period_branch_expr": "stats.timePeriod < 0 ? StatValues.items(items) : StatValues.items(stats.timePeriod, items)",
-		"stat_values_items_expr": stat_values_items_expr,
-		"stat_values_items_method": "public static StatValue items(ItemStack... stacks){",
-		"stat_values_timed_items_method": "public static StatValue items(float timePeriod, ItemStack... stacks){",
-		"display_item_untimed_expr": "displayItem(stack.item, stack.amount, displayName)",
-		"display_item_timed_expr": "displayItem(stack.item, stack.amount, timePeriod, true)",
-		"stats_add_method": "public void add(Stat stat, StatValue value){",
-		"stats_time_period_field": "public float timePeriod = -1;",
-		"booster_field": "public boolean booster;",
-		"stat_input_expr": "input = new Stat(\"input\", StatCat.crafting),",
-		"stat_booster_expr": "booster = new Stat(\"booster\", StatCat.optional),",
-		"item_stack_item_field": "public Item item;",
-		"item_stack_amount_field": "public int amount = 0;",
-		"booster": booster,
-		"selected_stat": selected_stat,
-		"stats_time_period": stats_time_period,
-		"item_stacks": item_stacks,
-		"display_items": display_items,
-		"stats_add_call": stats_add_call,
-	}
+	return SourceConsumeItemsState.display_state(booster, stats_time_period, item_stacks)
 
 func generated_consume_items_display_bridge_state(booster: bool, stats_time_period: float, item_stacks: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
@@ -3574,35 +1761,7 @@ func generated_consume_items_display_bridge_state(booster: bool, stats_time_peri
 	}
 
 func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
-	var req_images: Array = []
-	for index in filtered_item_ids.size():
-		var valid: bool = bool(build_items_has_item_flags[index]) if index < build_items_has_item_flags.size() else false
-		req_images.append({"item_id": int(filtered_item_ids[index]), "stack_amount": 1, "valid": valid, "stat_values_stack_expr": "StatValues.stack(item, 1)", "valid_expr": "build.items.has(item)"})
-	var table_image_size: float = 8.0 * 4.0
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_build_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public void build(Building build, Table table){",
-		"filter_field": "public Boolf<Item> filter = i -> false;",
-		"image_expr": "MultiReqImage image = new MultiReqImage();",
-		"each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));",
-		"table_add_expr": "table.add(image).size(8 * 4);",
-		"multi_req_image_class": "public class MultiReqImage extends Stack{",
-		"multi_req_image_add_expr": "public void add(ReqImage display){",
-		"req_image_constructor": "public ReqImage(Element image, Boolp valid){",
-		"req_image_valid_expr": "public boolean valid(){",
-		"stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){",
-		"building_items_field": "@Nullable ItemModule items;",
-		"item_module_has_expr": "public boolean has(Item item){",
-		"cell_size_expr": "public Cell<T> size(float size){",
-		"filtered_item_ids": filtered_item_ids,
-		"build_items_has_item_flags": build_items_has_item_flags,
-		"multi_req_image_created": true,
-		"req_images": req_images,
-		"req_image_count": req_images.size(),
-		"table_add_image": true,
-		"table_image_size": table_image_size,
-	}
+	return SourceConsumeItemFilterState.build_state(filtered_item_ids, build_items_has_item_flags, SOURCE_UI_ICON_MED)
 
 func generated_consume_item_filter_build_bridge_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3618,14 +1777,7 @@ func generated_consume_item_filter_build_bridge_state(filtered_item_ids: Array, 
 	}
 
 func source_consume_item_filter_update_state(build_state: Variant) -> Dictionary:
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_update_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public void update(Building build){",
-		"empty_body": "public void update(Building build){\n    }",
-		"build_state": build_state,
-		"no_op": true,
-	}
+	return SourceConsumeItemFilterState.update_state(build_state)
 
 func generated_consume_item_filter_update_bridge_state(build_state: Variant) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3641,24 +1793,7 @@ func generated_consume_item_filter_update_bridge_state(build_state: Variant) -> 
 	}
 
 func source_consume_item_filter_trigger_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
-	var item_removed: bool = consumed_item != null
-	var remove_amount: int = 1 if item_removed else 0
-	var remove_call: Variant = null
-	if item_removed:
-		remove_call = {"call": "build.items.remove(item, 1)", "item": consumed_item, "amount": 1}
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_trigger_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public void trigger(Building build){",
-		"get_consumed_expr": "Item item = getConsumed(build);",
-		"null_guard_expr": "if(item != null){",
-		"remove_expr": "build.items.remove(item, 1);",
-		"build_state": build_state,
-		"consumed_item": consumed_item,
-		"item_removed": item_removed,
-		"remove_amount": remove_amount,
-		"remove_call": remove_call,
-	}
+	return SourceConsumeItemFilterState.trigger_state(build_state, consumed_item)
 
 func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, consumed_item: Variant) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3674,20 +1809,7 @@ func generated_consume_item_filter_trigger_bridge_state(build_state: Variant, co
 	}
 
 func source_consume_item_filter_efficiency_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
-	var has_consumed_item: bool = consumed_item != null
-	var efficiency: float = 1.0 if consume_trigger_valid or has_consumed_item else 0.0
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_efficiency_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public float efficiency(Building build){",
-		"return_expr": "return build.consumeTriggerValid() || getConsumed(build) != null ? 1f : 0f;",
-		"consume_trigger_valid_expr": "build.consumeTriggerValid()",
-		"get_consumed_expr": "getConsumed(build) != null",
-		"consume_trigger_valid": consume_trigger_valid,
-		"consumed_item": consumed_item,
-		"has_consumed_item": has_consumed_item,
-		"efficiency": efficiency,
-	}
+	return SourceConsumeItemFilterState.efficiency_state(consume_trigger_valid, consumed_item)
 
 func generated_consume_item_filter_efficiency_bridge_state(consume_trigger_valid: bool, consumed_item: Variant) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3703,35 +1825,7 @@ func generated_consume_item_filter_efficiency_bridge_state(consume_trigger_valid
 	}
 
 func source_consume_item_filter_get_consumed_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
-	var consumed_item: Variant = null
-	var consumed_index: int = -1
-	var checked_items: Array = []
-	for i in range(content_items.size()):
-		var item: Variant = content_items[i]
-		var build_items_has_item: bool = bool(build_items_has_item_flags[i]) if i < build_items_has_item_flags.size() else false
-		var filter_get_item: bool = bool(filter_get_item_flags[i]) if i < filter_get_item_flags.size() else false
-		var item_matches: bool = build_items_has_item and filter_get_item
-		checked_items.append({"index": i, "item": item, "build_items_has_item": build_items_has_item, "filter_get_item": filter_get_item, "item_matches": item_matches})
-		if item_matches:
-			consumed_item = item
-			consumed_index = i
-			break
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_get_consumed_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public @Nullable Item getConsumed(Building build){",
-		"loop_expr": "for(int i = 0; i < content.items().size; i++){",
-		"content_item_expr": "Item item = content.item(i);",
-		"guard_expr": "if(build.items.has(item) && this.filter.get(item)){",
-		"return_item_expr": "return item;",
-		"return_null_expr": "return null;",
-		"content_items": content_items,
-		"build_items_has_item_flags": build_items_has_item_flags,
-		"filter_get_item_flags": filter_get_item_flags,
-		"checked_items": checked_items,
-		"consumed_item": consumed_item,
-		"consumed_index": consumed_index,
-	}
+	return SourceConsumeItemFilterState.get_consumed_state(content_items, build_items_has_item_flags, filter_get_item_flags)
 
 func generated_consume_item_filter_get_consumed_bridge_state(content_items: Array, build_items_has_item_flags: Array, filter_get_item_flags: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3747,30 +1841,7 @@ func generated_consume_item_filter_get_consumed_bridge_state(content_items: Arra
 	}
 
 func source_consume_item_filter_display_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
-	var selected_stat: String = "booster" if booster else "input"
-	var display_items: Array = []
-	for item_id in filtered_item_ids:
-		var display_expr: String = "displayItem(item)" if stats_time_period <= 0.0 else "displayItem(item, 1, timePeriod, true)"
-		display_items.append({"item_id": int(item_id), "time_period": stats_time_period, "display_expr": display_expr})
-	var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.items(stats.timePeriod, filter)", "time_period": stats_time_period, "filtered_item_ids": filtered_item_ids}
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_display_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public void display(Stats stats){",
-		"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.items(stats.timePeriod, filter));",
-		"stats_add_call_expr": "stats.add",
-		"selected_stat_expr": "booster ? Stat.booster : Stat.input",
-		"stat_values_items_expr": "StatValues.items(stats.timePeriod, filter)",
-		"stat_values_items_method": "public static StatValue items(float timePeriod, Boolf<Item> filter){",
-		"content_filter_expr": "Seq<Item> list = content.items().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
-		"display_item_expr": "table.add(timePeriod <= 0 ? displayItem(item) : displayItem(item, 1, timePeriod, true)).padRight(5);",
-		"booster": booster,
-		"selected_stat": selected_stat,
-		"stats_time_period": stats_time_period,
-		"filtered_item_ids": filtered_item_ids,
-		"stats_add_call": stats_add_call,
-		"display_items": display_items,
-	}
+	return SourceConsumeItemFilterState.display_state(booster, stats_time_period, filtered_item_ids)
 
 func generated_consume_item_filter_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3786,20 +1857,7 @@ func generated_consume_item_filter_display_bridge_state(booster: bool, stats_tim
 	}
 
 func source_consume_item_filter_efficiency_multiplier_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
-	var has_consumed_item: bool = consumed_item != null
-	var efficiency_multiplier: float = item_efficiency_multiplier if has_consumed_item else 0.0
-	return {
-		"source_owner": "PortGame.source_consume_item_filter_efficiency_multiplier_state",
-		"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-		"method": "public float efficiencyMultiplier(Building build){",
-		"get_consumed_expr": "var item = getConsumed(build);",
-		"return_expr": "return item == null ? 0f : itemEfficiencyMultiplier(item);",
-		"item_efficiency_multiplier_expr": "itemEfficiencyMultiplier(item)",
-		"consumed_item": consumed_item,
-		"item_efficiency_multiplier": item_efficiency_multiplier,
-		"has_consumed_item": has_consumed_item,
-		"efficiency_multiplier": efficiency_multiplier,
-	}
+	return SourceConsumeItemFilterState.efficiency_multiplier_state(consumed_item, item_efficiency_multiplier)
 
 func generated_consume_item_filter_efficiency_multiplier_bridge_state(consumed_item: Variant, item_efficiency_multiplier: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFilter.gd")
@@ -3914,7 +1972,7 @@ func source_consume_liquid_flammable_display_state(booster: bool, amount: float,
 func generated_consume_liquid_flammable_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array, liquid_efficiency_values: Array, table_has_cells: bool) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFlammable.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_0([booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells])
+	var result = instance.java_method_display_0([booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells, SOURCE_TICK_RATE])
 	var canonical = source_consume_liquid_flammable_display_state(booster, amount, filtered_liquid_ids, liquid_efficiency_values, table_has_cells)
 	return {
 		"source_owner": "PortGame.source_consume_liquid_flammable_display_state",
@@ -3988,10 +2046,10 @@ func source_consume_liquid_flammable_amount_constructor_state(amount: float) -> 
 		"assignment_expr": "this.minFlammability = minFlammability;",
 		"filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
 		"filter_expr": "liquid -> liquid.flammability >= this.minFlammability",
-		"default_min_flammability": 0.2,
+		"default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT,
 		"amount": amount,
 		"amount_after": amount,
-		"min_flammability_after": 0.2,
+		"min_flammability_after": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT,
 	}
 
 func generated_consume_liquid_flammable_amount_constructor_bridge_state(amount: float) -> Dictionary:
@@ -4020,10 +2078,10 @@ func source_consume_liquid_flammable_default_constructor_state() -> Dictionary:
 		"assignment_expr": "this.minFlammability = minFlammability;",
 		"filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;",
 		"filter_expr": "liquid -> liquid.flammability >= this.minFlammability",
-		"default_amount": 0.2,
-		"default_min_flammability": 0.2,
-		"amount_after": 0.2,
-		"min_flammability_after": 0.2,
+		"default_amount": SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT,
+		"default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT,
+		"amount_after": SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT,
+		"min_flammability_after": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT,
 	}
 
 func generated_consume_liquid_flammable_default_constructor_bridge_state() -> Dictionary:
@@ -4077,6 +2135,7 @@ func source_consume_liquid_filter_default_constructor_state() -> Dictionary:
 		"filter_field": "public Boolf<Liquid> filter = l -> false;",
 		"empty_constructor_body": "public ConsumeLiquidFilter(){\n    }",
 		"no_op": true,
+		"filter_after": SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR,
 	}
 
 func generated_consume_liquid_filter_default_constructor_bridge_state() -> Dictionary:
@@ -4089,7 +2148,7 @@ func generated_consume_liquid_filter_default_constructor_bridge_state() -> Dicti
 		"generated_owner": "ConsumeLiquidFilter.default_constructor",
 		"result": result,
 		"canonical": canonical,
-		"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("constructor", "") == canonical.get("constructor", ""),
+		"matches": result.get("no_op", null) == canonical.get("no_op", null) and result.get("constructor", "") == canonical.get("constructor", "") and result.get("filter_after", null) == canonical.get("filter_after", null),
 	}
 
 func source_consume_liquid_filter_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, filtered_liquid_ids: Array) -> Dictionary:
@@ -4130,7 +2189,7 @@ func source_consume_liquid_filter_build_state(filtered_liquid_ids: Array, consum
 	for liquid_id in filtered_liquid_ids:
 		var valid: bool = liquid_id == consumed_liquid
 		req_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})
-	var table_image_size: float = 8.0 * 4.0
+	var table_image_size: float = SOURCE_UI_ICON_MED
 	return {
 		"source_owner": "PortGame.source_consume_liquid_filter_build_state",
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
@@ -4259,7 +2318,7 @@ func generated_consume_liquid_filter_update_bridge_state(consumed_liquid: Varian
 
 func source_consume_liquid_filter_efficiency_state(consumed_liquid: Variant, build_liquids_get: float, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
 	var ed: float = build_edelta
-	var ed_guard: bool = ed <= 0.00000001
+	var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON
 	var has_consumed_liquid: bool = consumed_liquid != null
 	var required_liquid_amount: float = amount * ed * multiplier_get_build
 	var raw_efficiency: float = build_liquids_get / required_liquid_amount if has_consumed_liquid and not ed_guard else 0.0
@@ -4387,7 +2446,7 @@ func source_consume_liquid_filter_display_state(booster: bool, amount: float, fi
 func generated_consume_liquid_filter_display_bridge_state(booster: bool, amount: float, filtered_liquid_ids: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_6([booster, amount, filtered_liquid_ids])
+	var result = instance.java_method_display_6([booster, amount, filtered_liquid_ids, SOURCE_TICK_RATE])
 	var canonical = source_consume_liquid_filter_display_state(booster, amount, filtered_liquid_ids)
 	return {
 		"source_owner": "PortGame.source_consume_liquid_filter_display_state",
@@ -4773,10 +2832,10 @@ func source_consume_liquid_default_constructor_state() -> Dictionary:
 		"base_constructor_expr": "public ConsumeLiquidBase(float amount){",
 		"amount_assignment_expr": "this.amount = amount;",
 		"liquid_assignment_expr": "this.liquid = liquid;",
-		"default_liquid": null,
-		"default_amount": 0.0,
-		"amount_after": 0.0,
-		"liquid_after": null,
+		"default_liquid": SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID,
+		"default_amount": SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT,
+		"amount_after": SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT,
+		"liquid_after": SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID,
 	}
 
 func generated_consume_liquid_default_constructor_bridge_state() -> Dictionary:
@@ -4871,7 +2930,7 @@ func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool,
 func source_consume_liquid_build_state(liquid_id: int, build_liquids_get: float) -> Dictionary:
 	var valid: bool = build_liquids_get > 0.0
 	var req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}
-	var table_image_size: float = 8.0 * 4.0
+	var table_image_size: float = SOURCE_UI_ICON_MED
 	return {
 		"source_owner": "PortGame.source_consume_liquid_build_state",
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
@@ -4899,7 +2958,7 @@ func source_consume_liquid_build_state(liquid_id: int, build_liquids_get: float)
 func generated_consume_liquid_build_bridge_state(liquid_id: int, build_liquids_get: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
 	var instance = script.new()
-	var result = instance.java_method_build_1([liquid_id, build_liquids_get])
+	var result = instance.java_method_build_1([liquid_id, build_liquids_get, SOURCE_UI_ICON_MED])
 	var canonical = source_consume_liquid_build_state(liquid_id, build_liquids_get)
 	return {
 		"source_owner": "PortGame.source_consume_liquid_build_state",
@@ -4940,7 +2999,7 @@ func source_consume_liquid_display_state(booster: bool, liquid_id: int, amount: 
 func generated_consume_liquid_display_bridge_state(booster: bool, liquid_id: int, amount: float) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_4([booster, liquid_id, amount])
+	var result = instance.java_method_display_4([booster, liquid_id, amount, SOURCE_TICK_RATE])
 	var canonical = source_consume_liquid_display_state(booster, liquid_id, amount)
 	return {
 		"source_owner": "PortGame.source_consume_liquid_display_state",
@@ -5016,8 +3075,8 @@ func source_consume_liquids_default_constructor_state() -> Dictionary:
 		"default_call_expr": "this(LiquidStack.empty);",
 		"liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};",
 		"liquids_field": "public final LiquidStack[] liquids;",
-		"liquid_stacks": [],
-		"liquids_after": [],
+		"liquid_stacks": SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS.duplicate(true),
+		"liquids_after": SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS.duplicate(true),
 	}
 
 func generated_consume_liquids_default_constructor_bridge_state() -> Dictionary:
@@ -5069,7 +3128,7 @@ func source_consume_liquids_build_state(liquid_ids: Array, liquid_amounts: Array
 	var req_images: Array = []
 	var row_calls: Array = []
 	var icon_size: String = "Vars.iconMed"
-	var pad_right: float = 8.0
+	var pad_right: float = SOURCE_UI_PAD_RIGHT
 	for index in range(liquid_ids.size()):
 		var amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
 		req_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})
@@ -5150,7 +3209,7 @@ func generated_consume_liquids_update_bridge_state(liquid_ids: Array, liquid_sta
 
 func source_consume_liquids_efficiency_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
 	var ed: float = build_edelta * build_efficiency_scale
-	if ed <= 0.00000001:
+	if ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:
 		return {
 			"source_owner": "PortGame.source_consume_liquids_efficiency_state",
 			"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
@@ -5232,7 +3291,7 @@ func generated_consume_liquids_efficiency_bridge_state(liquid_ids: Array, liquid
 
 func source_consume_liquid_efficiency_state(build_liquids_get: float, amount: float, build_edelta: float, build_efficiency_scale: float, multiplier_get_build: float) -> Dictionary:
 	var ed: float = build_edelta * build_efficiency_scale
-	var ed_guard: bool = ed <= 0.00000001
+	var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON
 	var required_liquid_amount: float = amount * ed * multiplier_get_build
 	var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0
 	var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)
@@ -5316,7 +3375,7 @@ func source_consume_liquids_display_state(booster: bool, liquid_ids: Array, liqu
 func generated_consume_liquids_display_bridge_state(booster: bool, liquid_ids: Array, liquid_stack_amounts: Array) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_4([booster, liquid_ids, liquid_stack_amounts])
+	var result = instance.java_method_display_4([booster, liquid_ids, liquid_stack_amounts, SOURCE_TICK_RATE])
 	var canonical = source_consume_liquids_display_state(booster, liquid_ids, liquid_stack_amounts)
 	return {
 		"source_owner": "PortGame.source_consume_liquids_display_state",
@@ -5413,7 +3472,7 @@ func source_consume_item_efficiency_default_constructor_state() -> Dictionary:
 		"constructor": "public ConsumeItemEfficiency(){",
 		"parent_constructor_expr": "public ConsumeItemFilter(){",
 		"filter_field": "public Boolf<Item> filter = i -> false;",
-		"filter_after": "i -> false",
+		"filter_after": SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR,
 	}
 
 func generated_consume_item_efficiency_default_constructor_bridge_state() -> Dictionary:
@@ -5505,7 +3564,7 @@ func source_consume_item_dynamic_rebuild_state(item_ids: Array, item_stack_amoun
 		var item_amount: float = float(item_amounts[index] if index < item_amounts.size() else 0.0)
 		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
 		var valid: bool = building_has_items and item_amount >= required_amount
-		req_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0, "left": true})
+		req_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT, "left": true})
 		if (index + 1) % 4 == 0:
 			row_calls.append({"call": "table.row();", "after_count": index + 1})
 	return {
@@ -5683,7 +3742,7 @@ func source_consume_item_efficiency_display_state(booster: bool, stats_time_peri
 func generated_consume_item_efficiency_display_bridge_state(booster: bool, stats_time_period: float, filtered_item_ids: Array, item_efficiency_multipliers: Array, item_duration_multipliers: Array, table_has_cells: bool) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemEfficiency.gd")
 	var instance = script.new()
-	var result = instance.java_method_display_0([booster, stats_time_period, filtered_item_ids, item_efficiency_multipliers, item_duration_multipliers, table_has_cells])
+	var result = instance.java_method_display_0([booster, stats_time_period, filtered_item_ids, item_efficiency_multipliers, item_duration_multipliers, table_has_cells, SOURCE_TICK_RATE])
 	var canonical = source_consume_item_efficiency_display_state(booster, stats_time_period, filtered_item_ids, item_efficiency_multipliers, item_duration_multipliers, table_has_cells)
 	return {
 		"source_owner": "PortGame.source_consume_item_efficiency_display_state",
@@ -5763,7 +3822,7 @@ func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amou
 	for index in liquid_ids.size():
 		var liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
 		var valid: bool = building_has_liquids and liquid_amount > 0.0
-		req_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": 32.0, "pad_right": 8.0})
+		req_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": SOURCE_UI_ICON_MED, "pad_right": SOURCE_UI_PAD_RIGHT})
 		if (index + 1) % 4 == 0:
 			row_calls.append({"call": "table.row();", "after_count": index + 1})
 	return {
@@ -5793,7 +3852,7 @@ func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amou
 func generated_consume_liquids_dynamic_rebuild_bridge_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
 	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")
 	var instance = script.new()
-	var result = instance.java_method_rebuild_2([liquid_ids, liquid_amounts, building_has_liquids])
+	var result = instance.java_method_rebuild_2([liquid_ids, liquid_amounts, building_has_liquids, SOURCE_UI_ICON_MED, SOURCE_UI_PAD_RIGHT])
 	var canonical = source_consume_liquids_dynamic_rebuild_state(liquid_ids, liquid_amounts, building_has_liquids)
 	return {
 		"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
@@ -5843,7 +3902,7 @@ func generated_consume_liquids_dynamic_update_bridge_state(liquid_ids: Array, li
 
 func source_consume_liquids_dynamic_efficiency_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
 	var ed: float = build_edelta
-	if ed <= 0.00000001:
+	if ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:
 		return {
 			"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
 			"method": "public float efficiency(Building build){",
@@ -5969,402 +4028,31 @@ func generated_consume_power_requested_power_bridge_state(buffered: bool, usage:
 	}
 
 func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
-	var power_needed := 0.0
-	var counted_consumers := 0
-	var active_consumers := 0
-	for consumer in consumers:
-		if typeof(consumer) != TYPE_DICTIONARY:
-			continue
-		counted_consumers += 1
-		if bool(consumer.get("shouldConsumePower", false)):
-			var requested_state := source_consume_power_requested_power_state(
-				bool(consumer.get("buffered", false)),
-				float(consumer.get("usage", 0.0)),
-				float(consumer.get("capacity", 0.0)),
-				float(consumer.get("power_status", 0.0)),
-				bool(consumer.get("should_consume", false))
-			)
-			power_needed += float(requested_state.get("requested_power", 0.0)) * float(consumer.get("delta", 0.0))
-			active_consumers += 1
-	return {
-		"method": "public float getPowerNeeded(){",
-		"initial": "float powerNeeded = 0f;",
-		"items": "var items = consumers.items;",
-		"loop": "for(int i = 0; i < consumers.size; i++){",
-		"consume_power": "var consumePower = consumer.block.consPower;",
-		"guard": "if(consumer.shouldConsumePower){",
-		"add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();",
-		"return_expr": "return powerNeeded;",
-		"power_needed": power_needed,
-		"consumer_count": counted_consumers,
-		"active_consumer_count": active_consumers,
-	}
+	return SourcePowerGraphState.power_needed_state(consumers, Callable(self, "source_consume_power_requested_power_state"))
 
 func source_power_graph_power_produced_state(producers: Array) -> Dictionary:
-	var power_produced := 0.0
-	var counted_producers := 0
-	for producer in producers:
-		if typeof(producer) != TYPE_DICTIONARY:
-			continue
-		counted_producers += 1
-		power_produced += float(producer.get("power_production", 0.0)) * float(producer.get("delta", 0.0))
-	return {
-		"method": "public float getPowerProduced(){",
-		"initial": "float powerProduced = 0f;",
-		"items": "var items = producers.items;",
-		"loop": "for(int i = 0; i < producers.size; i++){",
-		"producer": "var producer = items[i];",
-		"add_expr": "powerProduced += producer.getPowerProduction() * producer.delta();",
-		"return_expr": "return powerProduced;",
-		"power_produced": power_produced,
-		"producer_count": counted_producers,
-	}
+	return SourcePowerGraphState.power_produced_state(producers)
 
 func source_power_graph_battery_state(batteries: Array) -> Dictionary:
-	var stored := 0.0
-	var capacity := 0.0
-	var total_capacity := 0.0
-	var battery_count := 0
-	var enabled_count := 0
-	for battery in batteries:
-		if typeof(battery) != TYPE_DICTIONARY:
-			continue
-		battery_count += 1
-		if bool(battery.get("enabled", false)):
-			var power_status := float(battery.get("power_status", 0.0))
-			var source_capacity := float(battery.get("capacity", 0.0))
-			stored += power_status * source_capacity
-			capacity += (1.0 - power_status) * source_capacity
-			total_capacity += source_capacity
-			enabled_count += 1
-	return {
-		"stored_method": "public float getBatteryStored(){",
-		"stored_initial": "float totalAccumulator = 0f;",
-		"capacity_method": "public float getBatteryCapacity(){",
-		"capacity_initial": "float totalCapacity = 0f;",
-		"total_capacity_method": "public float getTotalBatteryCapacity(){",
-		"items": "var items = batteries.items;",
-		"loop": "for(int i = 0; i < batteries.size; i++){",
-		"battery": "var battery = items[i];",
-		"guard": "if(battery.enabled){",
-		"stored_add": "totalAccumulator += battery.power.status * battery.block.consPower.capacity;",
-		"capacity_add": "totalCapacity += (1f - battery.power.status) * battery.block.consPower.capacity;",
-		"total_capacity_add": "totalCapacity += battery.block.consPower.capacity;",
-		"stored_return": "return totalAccumulator;",
-		"capacity_return": "return totalCapacity;",
-		"stored": stored,
-		"capacity": capacity,
-		"total_capacity": total_capacity,
-		"battery_count": battery_count,
-		"enabled_count": enabled_count,
-	}
+	return SourcePowerGraphState.battery_state(batteries)
 
 func source_power_graph_use_batteries_state(batteries: Array, needed: float) -> Dictionary:
-	var source_batteries: Array = []
-	for battery in batteries:
-		if typeof(battery) != TYPE_DICTIONARY:
-			continue
-		source_batteries.append(battery.duplicate(true))
-	var stored_state := source_power_graph_battery_state(source_batteries)
-	var stored := float(stored_state.get("stored", 0.0))
-	var used := 0.0
-	var consumed_power_percentage := 0.0
-	var zero_guard_returned: bool = abs(stored - 0.0) <= SOURCE_FLOAT_ROUNDING_ERROR
-	if not zero_guard_returned:
-		used = min(stored, needed)
-		consumed_power_percentage = min(1.0, needed / stored)
-		for battery_state in source_batteries:
-			if bool(battery_state.get("enabled", false)):
-				var power_status := float(battery_state.get("power_status", 0.0))
-				battery_state["power_status"] = power_status * (1.0 - consumed_power_percentage)
-	return {
-		"method": "public float useBatteries(float needed){",
-		"stored_expr": "float stored = getBatteryStored();",
-		"zero_guard": "if(Mathf.equal(stored, 0f)) return 0f;",
-		"used_expr": "float used = Math.min(stored, needed);",
-		"consumed_percent_expr": "float consumedPowerPercentage = Math.min(1.0f, needed / stored);",
-		"items": "var items = batteries.items;",
-		"loop": "for(int i = 0; i < batteries.size; i++){",
-		"battery": "var battery = items[i];",
-		"guard": "if(battery.enabled){",
-		"status_mul": "battery.power.status *= (1f-consumedPowerPercentage);",
-		"return_expr": "return used;",
-		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
-		"needed": needed,
-		"stored": stored,
-		"used": used,
-		"consumed_power_percentage": consumed_power_percentage,
-		"zero_guard_returned": zero_guard_returned,
-		"batteries": source_batteries,
-	}
+	return SourcePowerGraphState.use_batteries_state(batteries, needed)
 
 func source_power_graph_charge_batteries_state(batteries: Array, excess: float) -> Dictionary:
-	var source_batteries: Array = []
-	for battery in batteries:
-		if typeof(battery) != TYPE_DICTIONARY:
-			continue
-		source_batteries.append(battery.duplicate(true))
-	var capacity_state := source_power_graph_battery_state(source_batteries)
-	var capacity := float(capacity_state.get("capacity", 0.0))
-	var charged_percent := 0.0
-	var charged := 0.0
-	var zero_guard_returned: bool = abs(capacity - 0.0) <= SOURCE_FLOAT_ROUNDING_ERROR
-	if not zero_guard_returned:
-		charged_percent = min(excess / capacity, 1.0)
-		charged = min(excess, capacity)
-		for battery_state in source_batteries:
-			var source_capacity := float(battery_state.get("capacity", 0.0))
-			if bool(battery_state.get("enabled", false)) and source_capacity > 0.0:
-				var power_status := float(battery_state.get("power_status", 0.0))
-				battery_state["power_status"] = power_status + (1.0 - power_status) * charged_percent
-	return {
-		"method": "public float chargeBatteries(float excess){",
-		"capacity_expr": "float capacity = getBatteryCapacity();",
-		"charged_percent_comment": "//how much of the missing in each battery % is charged",
-		"charged_percent_expr": "float chargedPercent = Math.min(excess/capacity, 1f);",
-		"zero_guard": "if(Mathf.equal(capacity, 0f)) return 0f;",
-		"items": "var items = batteries.items;",
-		"loop": "for(int i = 0; i < batteries.size; i++){",
-		"battery": "var battery = items[i];",
-		"todo": "//TODO why would it be 0",
-		"guard": "if(battery.enabled && battery.block.consPower.capacity > 0f){",
-		"status_add": "battery.power.status += (1f - battery.power.status) * chargedPercent;",
-		"return_expr": "return Math.min(excess, capacity);",
-		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
-		"excess": excess,
-		"capacity": capacity,
-		"charged_percent": charged_percent,
-		"charged": charged,
-		"zero_guard_returned": zero_guard_returned,
-		"batteries": source_batteries,
-	}
+	return SourcePowerGraphState.charge_batteries_state(batteries, excess)
 
 func source_power_graph_distribute_power_state(consumers: Array, needed: float, produced: float, charged: bool, last_power_stored: float) -> Dictionary:
-	var source_consumers: Array = []
-	for consumer in consumers:
-		if typeof(consumer) != TYPE_DICTIONARY:
-			continue
-		source_consumers.append(consumer.duplicate(true))
-	var needed_zero: bool = abs(needed) <= SOURCE_FLOAT_ROUNDING_ERROR
-	var produced_zero: bool = abs(produced) <= SOURCE_FLOAT_ROUNDING_ERROR
-	var last_power_stored_zero: bool = abs(last_power_stored) <= SOURCE_FLOAT_ROUNDING_ERROR
-	var coverage := 0.0
-	if needed_zero and produced_zero and not charged and last_power_stored_zero:
-		coverage = 0.0
-	elif needed_zero:
-		coverage = 1.0
-	else:
-		coverage = min(1.0, produced / needed)
-	var buffered_count := 0
-	var unbuffered_count := 0
-	var nan_guard_count := 0
-	for consumer_state in source_consumers:
-		var buffered := bool(consumer_state.get("buffered", false))
-		var capacity := float(consumer_state.get("capacity", 0.0))
-		var delta := float(consumer_state.get("delta", 0.0))
-		var power_status := float(consumer_state.get("power_status", 0.0))
-		if buffered:
-			buffered_count += 1
-			if abs(capacity) > SOURCE_FLOAT_ROUNDING_ERROR:
-				var requested_power := float(consumer_state.get("requested_power", 0.0))
-				var maximum_rate := requested_power * coverage * delta
-				consumer_state["maximum_rate"] = maximum_rate
-				consumer_state["power_status"] = clamp(power_status + maximum_rate / capacity, 0.0, 1.0)
-			continue
-		unbuffered_count += 1
-		if bool(consumer_state.get("shouldConsumePower", false)):
-			consumer_state["power_status"] = coverage
-		else:
-			var usage := float(consumer_state.get("usage", 0.0))
-			var denominator := needed + usage * delta
-			var estimated_status := 0.0
-			var estimate_nan := false
-			if abs(denominator) <= SOURCE_FLOAT_ROUNDING_ERROR:
-				if abs(produced) <= SOURCE_FLOAT_ROUNDING_ERROR:
-					estimate_nan = true
-				elif produced > 0.0:
-					estimated_status = 1.0
-				else:
-					estimated_status = -INF
-			else:
-				estimated_status = min(1.0, produced / denominator)
-			if estimate_nan or is_nan(estimated_status):
-				estimated_status = 0.0
-				nan_guard_count += 1
-			consumer_state["power_status"] = estimated_status
-	return {
-		"method": "public void distributePower(float needed, float produced, boolean charged){",
-		"coverage_expr": "float coverage = Mathf.zero(needed) && Mathf.zero(produced) && !charged && Mathf.zero(lastPowerStored) ? 0f : Mathf.zero(needed) ? 1f : Math.min(1, produced / needed);",
-		"items": "var items = consumers.items;",
-		"loop": "for(int i = 0; i < consumers.size; i++){",
-		"consumer": "var consumer = items[i];",
-		"cons": "var cons = consumer.block.consPower;",
-		"buffered_gate": "if(cons.buffered){",
-		"capacity_zero_guard": "if(!Mathf.zero(cons.capacity)){",
-		"maximum_rate_expr": "float maximumRate = cons.requestedPower(consumer) * coverage * consumer.delta();",
-		"buffered_status_clamp": "consumer.power.status = Mathf.clamp(consumer.power.status + maximumRate / cons.capacity);",
-		"unbuffered_gate": "if(consumer.shouldConsumePower){",
-		"unbuffered_coverage_status": "consumer.power.status = coverage;",
-		"unbuffered_estimate_status": "consumer.power.status = Math.min(1, produced / (needed + cons.usage * consumer.delta()));",
-		"nan_guard": "if(Float.isNaN(consumer.power.status)){",
-		"nan_status_zero": "consumer.power.status = 0f;",
-		"mathf_zero": "return Math.abs(value) <= FLOAT_ROUNDING_ERROR;",
-		"mathf_clamp": "return Math.max(Math.min(value, 1f), 0f);",
-		"needed": needed,
-		"produced": produced,
-		"charged": charged,
-		"last_power_stored": last_power_stored,
-		"coverage": coverage,
-		"consumers": source_consumers,
-		"buffered_count": buffered_count,
-		"unbuffered_count": unbuffered_count,
-		"nan_guard_count": nan_guard_count,
-	}
+	return SourcePowerGraphState.distribute_power_state(consumers, needed, produced, charged, last_power_stored)
 
 func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:
-	var source_consumers: Array = []
-	for consumer in consumers:
-		if typeof(consumer) != TYPE_DICTIONARY:
-			continue
-		source_consumers.append(consumer.duplicate(true))
-	var consumers_empty := source_consumers.is_empty()
-	var first_cheating := false
-	if not consumers_empty:
-		first_cheating = bool(source_consumers[0].get("cheating", false))
-	var returned := false
-	var last_power_needed := 0.0
-	var last_power_produced := 0.0
-	if not consumers_empty and first_cheating:
-		for consumer_state in source_consumers:
-			consumer_state["power_status"] = 1.0
-		last_power_needed = 1.0
-		last_power_produced = 1.0
-		returned = true
-	return {
-		"method": "public void update(){",
-		"cheat_gate": "if(!consumers.isEmpty() && consumers.first().cheating()){",
-		"cheat_comment": "//when cheating, just set status to 1",
-		"loop": "for(Building tile : consumers){",
-		"status_assign": "tile.power.status = 1f;",
-		"last_power_assign": "lastPowerNeeded = lastPowerProduced = 1f;",
-		"return_expr": "return;",
-		"consumers_empty": consumers_empty,
-		"first_cheating": first_cheating,
-		"consumers": source_consumers,
-		"returned": returned,
-		"last_power_needed": last_power_needed,
-		"last_power_produced": last_power_produced,
-	}
+	return SourcePowerGraphState.update_cheat_state(consumers)
 
 func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
-	var power_needed_state := source_power_graph_power_needed_state(consumers)
-	var power_produced_state := source_power_graph_power_produced_state(producers)
-	var battery_state := source_power_graph_battery_state(batteries)
-	var power_needed := float(power_needed_state.get("power_needed", 0.0))
-	var power_produced := float(power_produced_state.get("power_produced", 0.0))
-	var last_power_needed := power_needed
-	var last_power_produced := power_produced
-	var last_scaled_power_in := (power_produced + energy_delta) / source_delta
-	var last_scaled_power_out := power_needed / source_delta
-	var last_capacity := float(battery_state.get("total_capacity", 0.0))
-	var last_power_stored := float(battery_state.get("stored", 0.0))
-	var power_balance_value := (last_power_produced - last_power_needed + energy_delta) / source_delta
-	var source_power_balance_samples: Array = power_balance_samples.duplicate(true)
-	source_power_balance_samples.append(power_balance_value)
-	var next_energy_delta := 0.0
-	return {
-		"method": "public void update(){",
-		"power_needed_expr": "float powerNeeded = getPowerNeeded();",
-		"power_produced_expr": "float powerProduced = getPowerProduced();",
-		"last_power_needed_expr": "lastPowerNeeded = powerNeeded;",
-		"last_power_produced_expr": "lastPowerProduced = powerProduced;",
-		"last_scaled_power_in_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;",
-		"last_scaled_power_out_expr": "lastScaledPowerOut = powerNeeded / Time.delta;",
-		"last_capacity_expr": "lastCapacity = getTotalBatteryCapacity();",
-		"last_power_stored_expr": "lastPowerStored = getBatteryStored();",
-		"power_balance_expr": "powerBalance.add((lastPowerProduced - lastPowerNeeded + energyDelta) / Time.delta);",
-		"energy_delta_zero_expr": "energyDelta = 0f;",
-		"power_needed": power_needed,
-		"power_produced": power_produced,
-		"last_power_needed": last_power_needed,
-		"last_power_produced": last_power_produced,
-		"last_scaled_power_in": last_scaled_power_in,
-		"last_scaled_power_out": last_scaled_power_out,
-		"last_capacity": last_capacity,
-		"last_power_stored": last_power_stored,
-		"power_balance_value": power_balance_value,
-		"power_balance_samples": source_power_balance_samples,
-		"energy_delta": next_energy_delta,
-		"source_delta": source_delta,
-	}
+	return SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples, Callable(self, "source_consume_power_requested_power_state"))
 
 func source_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:
-	var source_consumers: Array = []
-	for consumer in consumers:
-		if typeof(consumer) != TYPE_DICTIONARY:
-			continue
-		source_consumers.append(consumer.duplicate(true))
-	var source_producers: Array = []
-	for producer in producers:
-		if typeof(producer) != TYPE_DICTIONARY:
-			continue
-		source_producers.append(producer.duplicate(true))
-	var source_batteries: Array = []
-	for battery in batteries:
-		if typeof(battery) != TYPE_DICTIONARY:
-			continue
-		source_batteries.append(battery.duplicate(true))
-	var branch_entered: bool = not (source_consumers.is_empty() and source_producers.is_empty() and source_batteries.is_empty())
-	var charged := false
-	var power_battery_used := 0.0
-	var power_battery_charged := 0.0
-	var next_power_produced := power_produced
-	var next_last_power_produced := last_power_produced
-	var coverage := 0.0
-	if branch_entered:
-		if abs(power_needed - next_power_produced) > SOURCE_FLOAT_ROUNDING_ERROR:
-			if power_needed > next_power_produced:
-				var use_state := source_power_graph_use_batteries_state(source_batteries, power_needed - next_power_produced)
-				power_battery_used = float(use_state.get("used", 0.0))
-				source_batteries = use_state.get("batteries", source_batteries)
-				next_power_produced += power_battery_used
-				next_last_power_produced += power_battery_used
-			elif next_power_produced > power_needed:
-				charged = true
-				var charge_state := source_power_graph_charge_batteries_state(source_batteries, next_power_produced - power_needed)
-				power_battery_charged = float(charge_state.get("charged", 0.0))
-				source_batteries = charge_state.get("batteries", source_batteries)
-				next_power_produced -= power_battery_charged
-		var distribute_state := source_power_graph_distribute_power_state(source_consumers, power_needed, next_power_produced, charged, last_power_stored)
-		source_consumers = distribute_state.get("consumers", source_consumers)
-		coverage = float(distribute_state.get("coverage", 0.0))
-	return {
-		"method": "public void update(){",
-		"nonempty_guard": "if(!(consumers.size == 0 && producers.size == 0 && batteries.size == 0)){",
-		"charged_init": "boolean charged = false;",
-		"unequal_guard_expr": "if(!Mathf.equal(powerNeeded, powerProduced)){",
-		"deficit_gate": "if(powerNeeded > powerProduced){",
-		"power_battery_used_expr": "float powerBatteryUsed = useBatteries(powerNeeded - powerProduced);",
-		"power_produced_battery_add_expr": "powerProduced += powerBatteryUsed;",
-		"last_power_produced_battery_add_expr": "lastPowerProduced += powerBatteryUsed;",
-		"surplus_gate": "}else if(powerProduced > powerNeeded){",
-		"charged_true_expr": "charged = true;",
-		"power_produced_charge_sub_expr": "powerProduced -= chargeBatteries(powerProduced - powerNeeded);",
-		"distribute_power_expr": "distributePower(powerNeeded, powerProduced, charged);",
-		"mathf_equal": "return Math.abs(a - b) <= FLOAT_ROUNDING_ERROR;",
-		"branch_entered": branch_entered,
-		"charged": charged,
-		"power_battery_used": power_battery_used,
-		"power_battery_charged": power_battery_charged,
-		"power_needed": power_needed,
-		"power_produced": next_power_produced,
-		"last_power_produced": next_last_power_produced,
-		"last_power_stored": last_power_stored,
-		"coverage": coverage,
-		"consumers": source_consumers,
-		"producers": source_producers,
-		"batteries": source_batteries,
-	}
+	return SourcePowerGraphState.update_battery_distribute_state(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)
 
 func power_graph_role_for_block(block) -> Dictionary:
 	if block == null:
@@ -6372,16 +4060,16 @@ func power_graph_role_for_block(block) -> Dictionary:
 	var has_cons_power: bool = block.properties.has("powerUsage") or block.properties.has("consumePower") or block.properties.has("powerBuffered") or block.properties.has("consumePowerBuffered")
 	return source_power_graph_add_role_state(
 		true,
-		bool(block.properties.get("hasPower", false)),
+		bool(block.properties.get("hasPower", SOURCE_BLOCK_HAS_POWER_DEFAULT)),
 		false,
 		false,
 		false,
 		false,
 		false,
-		bool(block.properties.get("outputsPower", false)),
-		bool(block.properties.get("consumesPower", true)),
+		bool(block.properties.get("outputsPower", SOURCE_BLOCK_OUTPUTS_POWER_DEFAULT)),
+		bool(block.properties.get("consumesPower", SOURCE_BLOCK_CONSUMES_POWER_DEFAULT)),
 		has_cons_power,
-		bool(block.properties.get("powerBuffered", false))
+		bool(block.properties.get("powerBuffered", SOURCE_BLOCK_POWER_BUFFERED_DEFAULT))
 	)
 
 func placed_power_graph_role_counts() -> Dictionary:
@@ -6410,9 +4098,9 @@ func placed_power_needed_state() -> Dictionary:
 			continue
 		consumers.append({
 			"shouldConsumePower": true,
-			"buffered": bool(block.properties.get("powerBuffered", false)),
-			"usage": float(block.properties.get("powerUsage", 0.0)),
-			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+			"buffered": bool(block.properties.get("powerBuffered", SOURCE_BLOCK_POWER_BUFFERED_DEFAULT)),
+			"usage": float(block.properties.get("powerUsage", SOURCE_BLOCK_POWER_USAGE_DEFAULT)),
+			"capacity": float(block.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT)),
 			"power_status": 0.0,
 			"should_consume": true,
 			"delta": SOURCE_TICK_RATE,
@@ -6429,7 +4117,7 @@ func placed_power_produced_state() -> Dictionary:
 		if not bool(role_state.get("add_producer", false)):
 			continue
 		producers.append({
-			"power_production": float(block.properties.get("powerProduction", 0.0)),
+			"power_production": float(block.properties.get("powerProduction", SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT)),
 			"delta": SOURCE_TICK_RATE,
 		})
 	return source_power_graph_power_produced_state(producers)
@@ -6446,7 +4134,7 @@ func placed_power_battery_state() -> Dictionary:
 		batteries.append({
 			"enabled": true,
 			"power_status": 0.0,
-			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+			"capacity": float(block.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT)),
 		})
 	return source_power_graph_battery_state(batteries)
 
@@ -6462,7 +4150,7 @@ func placed_power_battery_runtime_state() -> Dictionary:
 		batteries.append({
 			"enabled": true,
 			"power_status": 0.0,
-			"capacity": float(block.properties.get("powerCapacity", 0.0)),
+			"capacity": float(block.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT)),
 		})
 	var needed := placed_power_needed_state()
 	var produced := placed_power_produced_state()
@@ -6499,9 +4187,9 @@ func placed_power_distribution_runtime_state() -> Dictionary:
 		if bool(role_state.get("add_consumer", false)):
 			var consumer_state := {
 				"shouldConsumePower": true,
-				"buffered": bool(block.properties.get("powerBuffered", false)),
-				"usage": float(block.properties.get("powerUsage", 0.0)),
-				"capacity": float(block.properties.get("powerCapacity", 0.0)),
+				"buffered": bool(block.properties.get("powerBuffered", SOURCE_BLOCK_POWER_BUFFERED_DEFAULT)),
+				"usage": float(block.properties.get("powerUsage", SOURCE_BLOCK_POWER_USAGE_DEFAULT)),
+				"capacity": float(block.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT)),
 				"power_status": 0.0,
 				"should_consume": true,
 				"delta": SOURCE_TICK_RATE,
@@ -6517,14 +4205,14 @@ func placed_power_distribution_runtime_state() -> Dictionary:
 			consumers.append(consumer_state)
 		if bool(role_state.get("add_producer", false)):
 			producers.append({
-				"power_production": float(block.properties.get("powerProduction", 0.0)),
+				"power_production": float(block.properties.get("powerProduction", SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT)),
 				"delta": SOURCE_TICK_RATE,
 			})
 		if bool(role_state.get("add_battery", false)):
 			batteries.append({
 				"enabled": true,
 				"power_status": 0.0,
-				"capacity": float(block.properties.get("powerCapacity", 0.0)),
+				"capacity": float(block.properties.get("powerCapacity", SOURCE_BLOCK_POWER_CAPACITY_DEFAULT)),
 			})
 	var balance := source_power_graph_update_balance_state(consumers, producers, batteries, 0.0, SOURCE_TICK_RATE)
 	var distribution := source_power_graph_update_battery_distribute_state(
@@ -6573,884 +4261,6 @@ func placed_power_runtime_state() -> Dictionary:
 		"battery_capacity": float(battery.get("capacity", 0.0)),
 	}
 
-func queue_builder_plan(block_id: String, x: int, y: int, rotation_value: int = 0) -> Dictionary:
-	if content_catalog == null:
-		return {"queued": false, "reason": "content_catalog_null", "runtime": builder_runtime_state()}
-	var block = content_catalog.get_by_id(block_id)
-	if block == null:
-		return {"queued": false, "reason": "block_null", "runtime": builder_runtime_state()}
-	var cell := Vector2i(x, y)
-	if not can_place_block_at_cell(block, cell):
-		return {"queued": false, "reason": "invalid_place", "runtime": builder_runtime_state()}
-	var plan := {
-		"block_id": block_id,
-		"x": x,
-		"y": y,
-		"rotation": rotation_value,
-		"breaking": false,
-		"initialized": false,
-		"progress": builder_construct_progress,
-		"stuck": false,
-	}
-	var can_build := bool(source_builder_can_build_state(builder_type_build_speed, builder_build_speed_multiplier).get("can_build", false))
-	var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_construct_progress)
-	builder_plans = add_state.get("plans_after", [])
-	builder_last_active = source_builder_build_plan_state(builder_plans.size(), builder_plans[0] if builder_plans.size() > 0 else null).get("build_plan", null)
-	return {
-		"queued": builder_plans.size() > 0,
-		"add_build": add_state,
-		"runtime": builder_runtime_state(),
-	}
-
-func queue_builder_deconstruct_plan(x: int, y: int) -> Dictionary:
-	var cell := Vector2i(x, y)
-	var sprite = block_sprite_at_cell(cell)
-	if not is_instance_valid(sprite):
-		return {"queued": false, "reason": "missing_block", "runtime": builder_deconstruct_runtime_state()}
-	var block = block_from_sprite(sprite)
-	if block == null:
-		return {"queued": false, "reason": "block_null", "runtime": builder_deconstruct_runtime_state()}
-	builder_deconstruct_progress = 1.0
-	builder_last_deconstruct_block_id = block.id
-	builder_last_deconstruct_cell = cell
-	builder_last_deconstruct_build_cost = construct_block_build_cost(block)
-	builder_last_deconstruct_speed_delta = 0.0
-	builder_last_deconstruct_refund_items = []
-	builder_last_deconstruct_removed = false
-	var plan := {
-		"block_id": block.id,
-		"x": x,
-		"y": y,
-		"rotation": 0,
-		"breaking": true,
-		"initialized": false,
-		"progress": builder_deconstruct_progress,
-		"stuck": false,
-	}
-	var can_build := bool(source_builder_can_build_state(builder_type_build_speed, builder_build_speed_multiplier).get("can_build", false))
-	var add_state := source_builder_add_build_state(builder_plans, plan, true, can_build, true, false, builder_deconstruct_progress)
-	builder_plans = add_state.get("plans_after", [])
-	builder_last_active = source_builder_build_plan_state(builder_plans.size(), builder_plans[0] if builder_plans.size() > 0 else null).get("build_plan", null)
-	return {
-		"queued": builder_plans.size() > 0,
-		"add_build": add_state,
-		"runtime": builder_deconstruct_runtime_state(),
-	}
-
-func step_builder_deconstruct_runtime(delta: float) -> Dictionary:
-	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
-	if not (first_plan is Dictionary) or not bool(first_plan.get("breaking", false)):
-		return {
-			"stepped": false,
-			"reason": "no_deconstruct_plan",
-			"runtime": builder_deconstruct_runtime_state(),
-		}
-	return step_builder_runtime(delta)
-
-func builder_plan_requirement_state(block) -> Dictionary:
-	var requirements = block.properties.get("requirements", []) if block != null else []
-	var core_items_has_plan_block_requirements := true
-	var structs_contains_missing_requirement := false
-	for requirement in requirements:
-		var item_id := str(requirement.get("item", ""))
-		var amount := int(requirement.get("amount", 0))
-		var min_amount := mini(int(requirement.get("amount", 0)), 15)
-		var rounded_cost := roundi(float(amount) * 1.0)
-		if item_id != "" and core_item_count(item_id) < amount:
-			core_items_has_plan_block_requirements = false
-		if item_id != "" and core_item_count(item_id) < min_amount and rounded_cost > 0:
-			structs_contains_missing_requirement = true
-	return {
-		"core_items_has_plan_block_requirements_expr": "core.items.has(plan.block.requirements)",
-		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
-		"requirements": requirements,
-		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
-		"structs_contains_missing_requirement": structs_contains_missing_requirement,
-	}
-
-func builder_plan_gate_runtime_state(plan: Variant = null, block_id: String = "") -> Dictionary:
-	var plan_value: Dictionary = plan if plan is Dictionary else {}
-	var resolved_block_id := block_id if block_id != "" else str(plan_value.get("block_id", ""))
-	var block = content_catalog.get_by_id(resolved_block_id) if content_catalog != null and resolved_block_id != "" else null
-	var requirements := builder_plan_requirement_state(block)
-	var plan_breaking := bool(plan_value.get("breaking", false))
-	var plan_stuck := bool(plan_value.get("stuck", false))
-	var core_items_has_plan_block_requirements := bool(requirements.get("core_items_has_plan_block_requirements", true))
-	var structs_contains_missing_requirement := bool(requirements.get("structs_contains_missing_requirement", false))
-	var should_skip := source_builder_should_skip_state(false, false, plan_breaking, false, false, false, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
-	return {
-		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
-		"should_skip_method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
-		"should_skip_guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
-		"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
-		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
-		"plan": plan_value,
-		"block_id": resolved_block_id,
-		"requirement_state": requirements,
-		"plan_breaking": plan_breaking,
-		"plan_stuck": plan_stuck,
-		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
-		"structs_contains_missing_requirement": structs_contains_missing_requirement,
-		"should_skip_state": should_skip,
-		"should_skip": bool(should_skip.get("should_skip", false)),
-	}
-
-func select_next_unskipped_builder_plan() -> Dictionary:
-	var inspected: Array = []
-	var rotations := 0
-	var plan_count := builder_plans.size()
-	if plan_count > 1:
-		while rotations < plan_count:
-			var candidate: Variant = builder_plans[0]
-			var gate := builder_plan_gate_runtime_state(candidate)
-			inspected.append(gate)
-			if not bool(gate.get("should_skip", false)):
-				break
-			builder_plans.remove_at(0)
-			builder_plans.append(candidate)
-			rotations += 1
-	return {
-		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
-		"find_next_plan_comment": "//find the next build plan",
-		"skip_gate_expr": "if(within && !shouldSkip(plan, core)){",
-		"rotate_expr": "plans.removeFirst(); plans.addLast(plan);",
-		"inspected": inspected,
-		"rotations": rotations,
-		"plan_count": builder_plans.size(),
-		"active_plan": builder_plans[0] if builder_plans.size() > 0 else null,
-	}
-
-func step_builder_runtime(delta: float) -> Dictionary:
-	var progress_before := builder_construct_progress
-	var completed := false
-	builder_build_counter = min(builder_build_counter + delta, 10.0)
-	while builder_build_counter >= 1.0 and builder_plans.size() > 0:
-		builder_build_counter -= 1.0
-		select_next_unskipped_builder_plan()
-		var current: Dictionary = builder_plans[0] if builder_plans[0] is Dictionary else {}
-		var block = content_catalog.get_by_id(str(current.get("block_id", ""))) if content_catalog != null else null
-		if block == null:
-			builder_plans.remove_at(0)
-			continue
-		builder_last_active = current
-		builder_build_alpha = 1.0
-		builder_last_construct_block_id = str(current.get("block_id", ""))
-		builder_last_construct_cell = Vector2i(int(current.get("x", 0)), int(current.get("y", 0)))
-		builder_last_build_cost = construct_block_build_cost(block)
-		builder_last_build_speed_delta = 1.0 / builder_last_build_cost * builder_type_build_speed * builder_build_speed_multiplier * builder_rules_build_speed
-		if bool(current.get("breaking", false)):
-			var sprite = block_sprite_at_cell(builder_last_construct_cell)
-			if not is_instance_valid(sprite):
-				builder_plans.remove_at(0)
-				continue
-			var deconstruct_progress_before := builder_deconstruct_progress
-			builder_deconstruct_progress = clamp(float(current.get("progress", builder_deconstruct_progress)) - builder_last_build_speed_delta, 0.0, 1.0)
-			builder_last_deconstruct_block_id = str(current.get("block_id", ""))
-			builder_last_deconstruct_cell = builder_last_construct_cell
-			builder_last_deconstruct_build_cost = builder_last_build_cost
-			builder_last_deconstruct_speed_delta = builder_last_build_speed_delta
-			builder_last_active = current
-			builder_build_alpha = 1.0
-			current["initialized"] = true
-			current["progress"] = builder_deconstruct_progress
-			current["stuck"] = abs(deconstruct_progress_before - builder_deconstruct_progress) <= SOURCE_FLOAT_ROUNDING_ERROR
-			builder_plans[0] = current
-			if builder_deconstruct_progress <= deconstruct_threshold_for_block(block):
-				builder_last_deconstruct_refund_items = refund_deconstruct_requirements(block)
-				remove_placed_block_sprite(sprite)
-				builder_plans.remove_at(0)
-				builder_deconstruct_finished_count += 1
-				builder_last_deconstruct_removed = true
-				completed = true
-				break
-			continue
-		if not can_afford(block):
-			current["stuck"] = true
-			builder_plans[0] = current
-			break
-		var max_progress := builder_last_build_speed_delta
-		builder_construct_progress = clamp(builder_construct_progress + max_progress, 0.0, 1.0)
-		current["initialized"] = true
-		current["progress"] = builder_construct_progress
-		current["stuck"] = false
-		builder_plans[0] = current
-		if builder_construct_progress >= 1.0:
-			var blocks := get_node("World/BlockLayer")
-			spend_requirements(block)
-			var sprite := Sprite2D.new()
-			configure_block_sprite(sprite, block, builder_last_construct_cell)
-			blocks.add_child(sprite)
-			record_placed_block(sprite, block, builder_last_construct_cell)
-			register_turret_cell(builder_last_construct_cell, block)
-			builder_plans.remove_at(0)
-			builder_construct_progress = 0.0
-			builder_finished_count += 1
-			last_placed_block_id = block.id
-			last_placed_block_size = block_size(block)
-			last_placed_block_requirements = block.properties.get("requirements", []).duplicate(true)
-			last_placed_cell = builder_last_construct_cell
-			last_placed_occupied_cell_count = block_size(block) * block_size(block)
-			last_place_blocked = false
-			completed = true
-			break
-	return {
-		"progress_before": progress_before,
-		"progress_after": builder_construct_progress,
-		"completed": completed,
-		"plan_count": builder_plans.size(),
-		"active_plan": builder_last_active,
-		"runtime": builder_runtime_state(),
-	}
-
-func builder_deconstruct_runtime_state() -> Dictionary:
-	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
-	var build_plan_state := source_builder_build_plan_state(builder_plans.size(), first_plan)
-	return {
-		"source_owner": "core/src/mindustry/world/blocks/ConstructBlock.java",
-		"builder_source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
-		"block_source_owner": "core/src/mindustry/world/Block.java",
-		"rules_source_owner": "core/src/mindustry/game/Rules.java",
-		"set_deconstruct_method": "public void setDeconstruct(Block previous){",
-		"set_deconstruct_progress_expr": "this.progress = 1f;",
-		"set_deconstruct_current_expr": "this.current = previous;",
-		"set_deconstruct_build_cost_expr": "this.buildCost = previous.buildTime * state.rules.buildCostMultiplier;",
-		"builder_breaking_branch_expr": "if(current.breaking){",
-		"builder_deconstruct_call_expr": "entity.deconstruct(self(), core, bs);",
-		"deconstruct_method": "public void deconstruct(Unit builder, @Nullable CoreBuild core, float amount){",
-		"deconstruct_progress_expr": "progress = Mathf.clamp(progress - amount);",
-		"deconstruct_finish_expr": "if(progress <= current.deconstructThreshold || state.rules.infiniteResources){",
-		"deconstruct_refund_target_expr": "int target = Mathf.round(requirements[i].amount * state.rules.buildCostMultiplier * state.rules.deconstructRefundMultiplier);",
-		"deconstruct_finish_call_expr": "Call.deconstructFinish(tile, this.current, lastBuilder);",
-		"deconstruct_finish_method": "public static void deconstructFinish(Tile tile, Block block, Unit builder){",
-		"tile_remove_expr": "tile.remove();",
-		"deconstruct_threshold_expr": "public float deconstructThreshold = 0f;",
-		"deconstruct_refund_multiplier_expr": "public float deconstructRefundMultiplier = 0.5f;",
-		"plan_count": builder_plans.size(),
-		"build_plan": build_plan_state,
-		"deconstruct_progress": builder_deconstruct_progress,
-		"last_deconstruct_block_id": builder_last_deconstruct_block_id,
-		"last_deconstruct_cell": {"x": builder_last_deconstruct_cell.x, "y": builder_last_deconstruct_cell.y},
-		"last_deconstruct_build_cost": builder_last_deconstruct_build_cost,
-		"last_deconstruct_speed_delta": builder_last_deconstruct_speed_delta,
-		"last_deconstruct_refund_items": builder_last_deconstruct_refund_items.duplicate(true),
-		"deconstruct_finished_count": builder_deconstruct_finished_count,
-		"last_deconstruct_removed": builder_last_deconstruct_removed,
-	}
-
-func runtime_block_snapshot() -> Array:
-	var blocks_snapshot: Array = []
-	for key in placed_block_origins.keys():
-		var sprite = placed_block_origins.get(key)
-		if not is_instance_valid(sprite):
-			continue
-		var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-		blocks_snapshot.append({
-			"block_id": str(sprite.get_meta("source_block_id", "")),
-			"x": origin_cell.x,
-			"y": origin_cell.y,
-			"health": float(sprite.get_meta("source_block_health", 0.0)),
-			"max_health": float(sprite.get_meta("source_block_max_health", 0.0)),
-			"time_scale": float(sprite.get_meta("source_block_time_scale", 1.0)),
-			"time_scale_duration": float(sprite.get_meta("source_block_time_scale_duration", 0.0)),
-		})
-	blocks_snapshot.sort_custom(func(left, right):
-		var left_y := int(left.get("y", 0))
-		var right_y := int(right.get("y", 0))
-		if left_y == right_y:
-			return int(left.get("x", 0)) < int(right.get("x", 0))
-		return left_y < right_y
-	)
-	return blocks_snapshot
-
-func restore_runtime_blocks(blocks_snapshot: Array) -> void:
-	var block_layer := get_node_or_null("World/BlockLayer")
-	if block_layer == null:
-		return
-	for child in block_layer.get_children():
-		block_layer.remove_child(child)
-		child.queue_free()
-	placed_blocks.clear()
-	placed_block_origins.clear()
-	turret_cells.clear()
-	turret_cooldowns.clear()
-	turret_ammo_stacks.clear()
-	turret_total_ammo.clear()
-	turret_barrel_counters.clear()
-	turret_rotations.clear()
-	turret_recoils.clear()
-	for block_state in blocks_snapshot:
-		var block_value: Dictionary = block_state if block_state is Dictionary else {}
-		var block_id := str(block_value.get("block_id", ""))
-		var cell := Vector2i(int(block_value.get("x", 0)), int(block_value.get("y", 0)))
-		add_source_block(block_layer, block_id, cell)
-		var sprite = block_sprite_at_cell(cell)
-		if is_instance_valid(sprite):
-			sprite.set_meta("source_block_health", float(block_value.get("health", sprite.get_meta("source_block_health", 0.0))))
-			sprite.set_meta("source_block_max_health", float(block_value.get("max_health", sprite.get_meta("source_block_max_health", 0.0))))
-			sprite.set_meta("source_block_time_scale", float(block_value.get("time_scale", 1.0)))
-			sprite.set_meta("source_block_time_scale_duration", float(block_value.get("time_scale_duration", 0.0)))
-
-func runtime_save_snapshot(slot_name: String = "runtime") -> Dictionary:
-	return {
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"save_version_source_owner": "core/src/mindustry/io/SaveVersion.java",
-		"save_meta_source_owner": "core/src/mindustry/io/SaveMeta.java",
-		"world_context_source_owner": "core/src/mindustry/world/WorldContext.java",
-		"save_slot_source_owner": "core/src/mindustry/game/Saves.java",
-		"header_expr": "public static final byte[] header = {'M', 'S', 'A', 'V'};",
-		"write_header_expr": "stream.write(header);",
-		"write_version_expr": "stream.writeInt(ver.version);",
-		"latest_writer_expr": "return versionArray.peek();",
-		"latest_writer_version": 13,
-		"write_meta_region_expr": "writeRegion(\"meta\", stream, out -> writeMeta(out, options.extraTags));",
-		"read_meta_region_expr": "readRegion(\"meta\", stream, counter, in -> readMeta(in, context));",
-		"write_map_region_expr": "writeRegion(\"map\", stream, this::writeMap);",
-		"read_map_region_expr": "readRegion(\"map\", stream, counter, in -> readMap(in, context));",
-		"write_entities_region_expr": "writeRegion(\"entities\", stream, this::writeEntities);",
-		"read_entities_region_expr": "readRegion(\"entities\", stream, counter, this::readEntities);",
-		"save_slot_save_expr": "SaveIO.save(file);",
-		"save_slot_load_expr": "SaveIO.load(file, context);",
-		"world_context_resize_expr": "void resize(int width, int height);",
-		"world_context_create_expr": "Tile create(int x, int y, int floorID, int overlayID, int wallID);",
-		"slot_name": slot_name,
-		"header": "MSAV",
-		"version": 13,
-		"meta": {
-			"mapname": "GodotRuntime",
-			"wave": wave_index,
-			"width": world_width_tiles,
-			"height": world_height_tiles,
-			"build": 0,
-			"rules": {"waves": true},
-		},
-		"runtime": {
-			"core_inventory": core_inventory,
-			"core_items": core_items.duplicate(true),
-			"core_health": core_health,
-			"core_damage_taken_total": core_damage_taken_total,
-			"produced_total": produced_total,
-			"wave_index": wave_index,
-			"game_over": game_over,
-			"last_game_over_winner": last_game_over_winner,
-			"builder_plans": builder_plans.duplicate(true),
-			"builder_construct_progress": builder_construct_progress,
-			"builder_deconstruct_progress": builder_deconstruct_progress,
-			"builder_finished_count": builder_finished_count,
-			"builder_deconstruct_finished_count": builder_deconstruct_finished_count,
-		},
-		"blocks": runtime_block_snapshot(),
-		"placed_block_count": placed_block_origins.size(),
-		"occupied_cell_count": placed_blocks.size(),
-	}
-
-func runtime_load_snapshot(snapshot: Dictionary) -> Dictionary:
-	var runtime: Dictionary = snapshot.get("runtime", {}) if snapshot.get("runtime", {}) is Dictionary else {}
-	var blocks_snapshot: Array = snapshot.get("blocks", []) if snapshot.get("blocks", []) is Array else []
-	var core_items_value = runtime.get("core_items", {})
-	core_items = core_items_value.duplicate(true) if core_items_value is Dictionary else {}
-	core_inventory = int(runtime.get("core_inventory", int(core_items.get(primary_item_id, core_inventory))))
-	core_health = float(runtime.get("core_health", core_health))
-	core_damage_taken_total = float(runtime.get("core_damage_taken_total", core_damage_taken_total))
-	produced_total = int(runtime.get("produced_total", produced_total))
-	wave_index = int(runtime.get("wave_index", wave_index))
-	game_over = bool(runtime.get("game_over", game_over))
-	last_game_over_winner = str(runtime.get("last_game_over_winner", last_game_over_winner))
-	var plans_value = runtime.get("builder_plans", [])
-	builder_plans = plans_value.duplicate(true) if plans_value is Array else []
-	builder_construct_progress = float(runtime.get("builder_construct_progress", builder_construct_progress))
-	builder_deconstruct_progress = float(runtime.get("builder_deconstruct_progress", builder_deconstruct_progress))
-	builder_finished_count = int(runtime.get("builder_finished_count", builder_finished_count))
-	builder_deconstruct_finished_count = int(runtime.get("builder_deconstruct_finished_count", builder_deconstruct_finished_count))
-	restore_runtime_blocks(blocks_snapshot)
-	return {
-		"loaded": true,
-		"source_owner": "core/src/mindustry/io/SaveIO.java",
-		"load_expr": "SaveIO.load(file, context);",
-		"read_expr": "ver.read(stream, counter, context);",
-		"save_load_event_expr": "Events.fire(new SaveLoadEvent(context.isMap()));",
-		"snapshot": snapshot,
-		"current": runtime_save_snapshot(str(snapshot.get("slot_name", "runtime"))),
-		"restored_block_count": placed_block_origins.size(),
-		"restored_occupied_cell_count": placed_blocks.size(),
-	}
-
-func runtime_save_slot_path(slot_name: String = "runtime") -> String:
-	var safe_slot := slot_name.strip_edges()
-	if safe_slot.is_empty():
-		safe_slot = "runtime"
-	safe_slot = safe_slot.replace("\\", "_").replace("/", "_")
-	return "%s/%s.json" % [RUNTIME_SAVE_SLOT_DIR, safe_slot]
-
-func runtime_write_save_slot(slot_name: String = "runtime") -> Dictionary:
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(RUNTIME_SAVE_SLOT_DIR))
-	var save_path := runtime_save_slot_path(slot_name)
-	var snapshot := runtime_save_snapshot(slot_name)
-	var payload := JSON.stringify(snapshot)
-	var file := FileAccess.open(save_path, FileAccess.WRITE)
-	if file == null:
-		return {
-			"saved": false,
-			"source_owner": "core/src/mindustry/game/Saves.java",
-			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-			"save_slot_save_expr": "SaveIO.save(file);",
-			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-			"path": save_path,
-			"open_error": FileAccess.get_open_error(),
-		}
-	file.store_string(JSON.stringify(snapshot))
-	file.close()
-	return {
-		"saved": true,
-		"source_owner": "core/src/mindustry/game/Saves.java",
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"save_slot_save_expr": "SaveIO.save(file);",
-		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-		"write_expr": "stream.write(header); stream.writeInt(ver.version); ver.write(stream, options);",
-		"path": save_path,
-		"exists": FileAccess.file_exists(save_path),
-		"payload_size": payload.length(),
-		"snapshot": snapshot,
-	}
-
-func runtime_read_save_slot(slot_name: String = "runtime") -> Dictionary:
-	var save_path := runtime_save_slot_path(slot_name)
-	if not FileAccess.file_exists(save_path):
-		return {
-			"loaded": false,
-			"source_owner": "core/src/mindustry/game/Saves.java",
-			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-			"save_slot_load_expr": "SaveIO.load(file, context);",
-			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-			"path": save_path,
-			"missing": true,
-		}
-	var file := FileAccess.open(save_path, FileAccess.READ)
-	if file == null:
-		return {
-			"loaded": false,
-			"source_owner": "core/src/mindustry/game/Saves.java",
-			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-			"save_slot_load_expr": "SaveIO.load(file, context);",
-			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-			"path": save_path,
-			"open_error": FileAccess.get_open_error(),
-		}
-	var payload := file.get_as_text()
-	file.close()
-	var parsed: Variant = JSON.parse_string(payload)
-	if not parsed is Dictionary:
-		return {
-			"loaded": false,
-			"source_owner": "core/src/mindustry/game/Saves.java",
-			"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-			"save_slot_load_expr": "SaveIO.load(file, context);",
-			"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-			"path": save_path,
-			"parse_failed": true,
-		}
-	var parsed_snapshot: Dictionary = parsed
-	parsed_snapshot["path"] = save_path
-	return {
-		"loaded": true,
-		"source_owner": "core/src/mindustry/game/Saves.java",
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"save_slot_load_expr": "SaveIO.load(file, context);",
-		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-		"read_expr": "readHeader(stream); int version = stream.readInt(); ver.read(stream, counter, context);",
-		"path": save_path,
-		"payload_size": payload.length(),
-		"snapshot": parsed_snapshot,
-	}
-
-func runtime_load_save_slot(slot_name: String = "runtime") -> Dictionary:
-	var read_result := runtime_read_save_slot(slot_name)
-	if not bool(read_result.get("loaded", false)):
-		return read_result
-	var load_result := runtime_load_snapshot(read_result.get("snapshot", {}))
-	return {
-		"loaded": true,
-		"source_owner": "core/src/mindustry/game/Saves.java",
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"save_slot_load_expr": "SaveIO.load(file, context);",
-		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-		"path": read_result.get("path", runtime_save_slot_path(slot_name)),
-		"read": read_result,
-		"load": load_result,
-	}
-
-func runtime_save_slot_valid_state(snapshot: Dictionary) -> Dictionary:
-	var runtime: Dictionary = snapshot.get("runtime", {}) if snapshot.get("runtime", {}) is Dictionary else {}
-	return {
-		"source_owner": "core/src/mindustry/game/Saves.java",
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"saves_load_walk_expr": "saveDirectory.walk(file -> {",
-		"saves_load_backup_filter_expr": "if(!file.name().contains(\"backup\") && SaveIO.isSaveValid(file)){",
-		"saves_load_meta_expr": "slot.meta = SaveIO.getMeta(file);",
-		"slot_name": str(snapshot.get("slot_name", "")),
-		"path": str(snapshot.get("path", "")),
-		"valid": true,
-		"header": str(snapshot.get("header", "")),
-		"version": int(snapshot.get("version", 0)),
-		"core_inventory": int(runtime.get("core_inventory", 0)),
-		"wave_index": int(runtime.get("wave_index", 0)),
-	}
-
-func runtime_list_save_slots() -> Array:
-	var slots: Array = []
-	var dir := DirAccess.open(RUNTIME_SAVE_SLOT_DIR)
-	if dir == null:
-		return slots
-	dir.list_dir_begin()
-	var file_name := dir.get_next()
-	while file_name != "":
-		if file_name.contains("backup"):
-			file_name = dir.get_next()
-			continue
-		if not dir.current_is_dir() and file_name.ends_with(".json"):
-			var slot_name := file_name.trim_suffix(".json")
-			var read_result := runtime_read_save_slot(slot_name)
-			if bool(read_result.get("loaded", false)):
-				var snapshot: Dictionary = read_result.get("snapshot", {}) if read_result.get("snapshot", {}) is Dictionary else {}
-				slots.append(runtime_save_slot_valid_state(snapshot))
-		file_name = dir.get_next()
-	dir.list_dir_end()
-	slots.sort_custom(func(left, right):
-		return str(left.get("path", "")) < str(right.get("path", ""))
-	)
-	return slots
-
-func runtime_save_slot_file_state() -> Dictionary:
-	var save_path := runtime_save_slot_path("runtime")
-	return {
-		"source_owner": "core/src/mindustry/game/Saves.java",
-		"save_io_source_owner": "core/src/mindustry/io/SaveIO.java",
-		"save_slot_save_expr": "SaveIO.save(file);",
-		"save_slot_load_expr": "SaveIO.load(file, context);",
-		"save_slot_meta_expr": "meta = SaveIO.getMeta(file);",
-		"backup_expr": "if(exists) file.moveTo(backupFileFor(file));",
-		"path": save_path,
-		"exists": FileAccess.file_exists(save_path),
-		"snapshot": runtime_save_snapshot("runtime"),
-		"runtime_save_slots": runtime_list_save_slots(),
-	}
-
-func runtime_persistence_state() -> Dictionary:
-	var snapshot := runtime_save_snapshot("runtime")
-	return {
-		"source_owner": "core/src/mindustry/io/SaveIO.java",
-		"snapshot": snapshot,
-		"header": snapshot.get("header", ""),
-		"version": int(snapshot.get("version", 0)),
-		"meta": snapshot.get("meta", {}),
-		"placed_block_count": int(snapshot.get("placed_block_count", 0)),
-		"occupied_cell_count": int(snapshot.get("occupied_cell_count", 0)),
-		"core_inventory": int(snapshot.get("runtime", {}).get("core_inventory", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
-		"produced_total": int(snapshot.get("runtime", {}).get("produced_total", 0)) if snapshot.get("runtime", {}) is Dictionary else 0,
-	}
-
-func reset_liquid_transfer_runtime(source_amount: float = -1.0, destination_amount: float = -1.0) -> Dictionary:
-	if gameplay_defaults != null:
-		if source_amount < 0.0:
-			source_amount = gameplay_defaults.liquid_transfer_source_amount()
-		if destination_amount < 0.0:
-			destination_amount = gameplay_defaults.liquid_transfer_destination_amount()
-	liquid_transfer_source_amount = source_amount
-	liquid_transfer_destination_amount = destination_amount
-	liquid_transfer_last_move_state = {}
-	liquid_transfer_last_transfer_state = source_building_transfer_liquid_state(liquid_transfer_liquid,
-		source_amount,
-		liquid_transfer_destination_capacity,
-		destination_amount,
-		true,
-		source_amount
-	)
-	return liquid_transfer_runtime_state()
-
-func step_liquid_transfer_runtime() -> Dictionary:
-	var move_state := source_building_move_liquid_state(liquid_transfer_liquid,
-		true,
-		true,
-		true,
-		liquid_transfer_source_amount,
-		liquid_transfer_destination_amount,
-		liquid_transfer_source_capacity,
-		liquid_transfer_pressure,
-		liquid_transfer_destination_capacity,
-		true
-	)
-	liquid_transfer_last_move_state = move_state
-	liquid_transfer_source_amount = float(move_state.get("current_liquid_amount_after", liquid_transfer_source_amount))
-	liquid_transfer_destination_amount = float(move_state.get("destination_liquid_amount_after", liquid_transfer_destination_amount))
-	liquid_transfer_last_transfer_state = source_building_transfer_liquid_state(liquid_transfer_liquid,
-		float(move_state.get("flow_value", 0.0)),
-		liquid_transfer_destination_capacity,
-		liquid_transfer_destination_amount - float(move_state.get("flow_value", 0.0)),
-		true,
-		liquid_transfer_source_amount + float(move_state.get("flow_value", 0.0))
-	)
-	return liquid_transfer_runtime_state()
-
-func liquid_transfer_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/gen/Building.java",
-		"liquid": liquid_transfer_liquid,
-		"source_amount": liquid_transfer_source_amount,
-		"destination_amount": liquid_transfer_destination_amount,
-		"source_capacity": liquid_transfer_source_capacity,
-		"destination_capacity": liquid_transfer_destination_capacity,
-		"pressure": liquid_transfer_pressure,
-		"move_state": liquid_transfer_last_move_state,
-		"transfer_state": liquid_transfer_last_transfer_state,
-	}
-
-func reset_liquid_leak_runtime(amount: float = -1.0) -> Dictionary:
-	if amount < 0.0:
-		if gameplay_defaults != null:
-			amount = gameplay_defaults.liquid_leak_amount()
-	liquid_leak_amount = amount
-	liquid_leak_last_state = {}
-	return liquid_leak_runtime_state()
-
-func step_liquid_leak_runtime() -> Dictionary:
-	var leak_state := source_building_move_liquid_forward_state(true, liquid_leak_liquid,
-		true,
-		false,
-		false,
-		false,
-		liquid_leak_amount,
-		0.0
-	)
-	liquid_leak_last_state = leak_state
-	liquid_leak_amount = float(leak_state.get("current_liquid_amount_after", liquid_leak_amount))
-	return liquid_leak_runtime_state()
-
-func liquid_leak_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/gen/Building.java",
-		"liquid": liquid_leak_liquid,
-		"amount": liquid_leak_amount,
-		"last_leak": liquid_leak_last_state,
-	}
-
-func reset_item_dump_runtime(source_count: int = 3, core_count: int = 2, capacity: int = 10) -> Dictionary:
-	drill_items[item_dump_item] = source_count
-	core_item_capacity = capacity
-	set_core_item_count(item_dump_item, core_count)
-	set_drill_dump_cursor(0)
-	item_dump_last_state = {}
-	return item_dump_runtime_state()
-
-func step_item_dump_runtime() -> Dictionary:
-	var before_source_count := drill_item_count(item_dump_item)
-	var before_core_count := core_item_count(item_dump_item)
-	var before_dump_cursor := drill_dump_cursor
-	var remove_stack_state := source_building_remove_stack_state(true, before_source_count, 1)
-	var can_dump_state := source_building_can_dump_item_default_state({"block": "core"}, item_dump_item)
-	var move_forward_accept_state := source_move_forward_accept_state(true, true, source_core_accept_item(item_dump_item))
-	var dumped := source_dump_drill_item_to_core(item_dump_item)
-	item_dump_last_state = {
-		"source_owner": "core/src/mindustry/gen/Building.java",
-		"method": SOURCE_DUMP_DRILL_ITEM_TO_CORE_METHOD,
-		"initial_guard": SOURCE_DUMP_DRILL_ITEM_TO_CORE_INITIAL_GUARD,
-		"accept_can_dump_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_ACCEPT_CAN_DUMP,
-		"handle_item_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_HANDLE_ITEM,
-		"remove_item_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_REMOVE_ITEM,
-		"increment_dump_expr": SOURCE_DUMP_DRILL_ITEM_TO_CORE_INCREMENT_DUMP,
-		"item": item_dump_item,
-		"source_count_before": before_source_count,
-		"core_count_before": before_core_count,
-		"dump_cursor_before": before_dump_cursor,
-		"can_dump_state": can_dump_state,
-		"move_forward_accept_state": move_forward_accept_state,
-		"remove_stack_state": remove_stack_state,
-		"dumped": dumped,
-		"source_count_after": drill_item_count(item_dump_item),
-		"core_count_after": core_item_count(item_dump_item),
-		"dump_cursor_after": drill_dump_cursor,
-	}
-	return item_dump_runtime_state()
-
-func item_dump_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/gen/Building.java",
-		"item": item_dump_item,
-		"source_count": drill_item_count(item_dump_item),
-		"core_count": core_item_count(item_dump_item),
-		"core_capacity": core_item_capacity,
-		"dump_cursor": drill_dump_cursor,
-		"last_dump": item_dump_last_state,
-	}
-
-func reset_put_item_runtime(dump_cursor: int = 0) -> Dictionary:
-	put_item_dump_cursor = dump_cursor
-	put_item_last_state = {}
-	return put_item_runtime_state()
-
-func step_put_item_runtime() -> Dictionary:
-	var put_state := source_building_put_item_state(put_item_item, 3, put_item_dump_cursor,
-		[false, true, false],
-		[true, true, true]
-	)
-	put_item_last_state = put_state
-	put_item_dump_cursor = int(put_state.get("cdump", put_item_dump_cursor))
-	return put_item_runtime_state()
-
-func put_item_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/gen/Building.java",
-		"item": put_item_item,
-		"dump_cursor": put_item_dump_cursor,
-		"last_put": put_item_last_state,
-	}
-
-func reset_payload_runtime(dump_cursor: int = 0) -> Dictionary:
-	payload_runtime_dump_cursor = dump_cursor
-	payload_runtime_move_last_state = {}
-	payload_runtime_dump_last_state = {}
-	return payload_runtime_state()
-
-func step_payload_move_runtime(has_next_tile: bool = true, has_next_build: bool = true, same_team: bool = true, accepts_payload: bool = true) -> Dictionary:
-	var forward_offset := source_payload_forward_offset(int(payload_runtime_payload.get("size", 1)))
-	var moved := source_move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)
-	payload_runtime_move_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
-		"move_method": SOURCE_MOVE_PAYLOAD_STATE_METHOD,
-		"forward_offset_expr": SOURCE_MOVE_PAYLOAD_STATE_TRNS,
-		"next_tile_expr": SOURCE_MOVE_PAYLOAD_STATE_NEXT,
-		"move_gate": SOURCE_MOVE_PAYLOAD_STATE_GATE,
-		"move_handle_deferred": SOURCE_MOVE_PAYLOAD_STATE_HANDLE_DEFERRED,
-		"return_true": SOURCE_MOVE_PAYLOAD_STATE_RETURN_TRUE,
-		"return_false": SOURCE_MOVE_PAYLOAD_STATE_RETURN_FALSE,
-		"payload": payload_runtime_payload.duplicate(true),
-		"forward_offset": forward_offset,
-		"has_next_tile": has_next_tile,
-		"has_next_build": has_next_build,
-		"same_team": same_team,
-		"accepts_payload": accepts_payload,
-		"handle_payload_called": moved,
-		"moved": moved,
-		"return_value": moved,
-	}
-	return payload_runtime_state()
-
-func step_payload_dump_runtime() -> Dictionary:
-	var dump_state := source_dump_payload_state(3, payload_runtime_dump_cursor, [false, true, false])
-	payload_runtime_dump_cursor = int(dump_state.get("cdump", payload_runtime_dump_cursor))
-	payload_runtime_dump_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
-		"dump_method": SOURCE_DUMP_PAYLOAD_STATE_METHOD,
-		"dump_field": SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD,
-		"proximity_get": SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET,
-		"index_expr": SOURCE_DUMP_PAYLOAD_INDEX_EXPR,
-		"empty_proximity_guard": SOURCE_DUMP_PAYLOAD_STATE_EMPTY_PROXIMITY_GUARD,
-		"dump_accept_payload": SOURCE_DUMP_PAYLOAD_STATE_ACCEPT_PAYLOAD,
-		"dump_handle_payload": SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD,
-		"dump_increment": SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP,
-		"payload": payload_runtime_payload.duplicate(true),
-		"proximity_size": 3,
-		"accepts_payload_by_index": [false, true, false],
-		"result": dump_state,
-		"handled_index": int(dump_state.get("handled_index", -1)),
-		"handle_payload_called": bool(dump_state.get("moved", false)),
-		"moved": bool(dump_state.get("moved", false)),
-		"return_value": bool(dump_state.get("moved", false)),
-		"cdump": payload_runtime_dump_cursor,
-	}
-	return payload_runtime_state()
-
-func payload_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
-		"payload": payload_runtime_payload.duplicate(true),
-		"dump_cursor": payload_runtime_dump_cursor,
-		"move_last": payload_runtime_move_last_state.duplicate(true),
-		"dump_last": payload_runtime_dump_last_state.duplicate(true),
-	}
-
-func reset_payload_default_runtime() -> Dictionary:
-	payload_default_last_state = {}
-	return payload_default_runtime_state()
-
-func step_payload_default_runtime() -> Dictionary:
-	var get_payload_state := source_building_get_payload_default_state()
-	var take_payload_state := source_building_take_payload_default_state()
-	var get_payloads_state := source_building_get_payloads_default_state()
-	payload_default_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
-		"get_payload": get_payload_state,
-		"take_payload": take_payload_state,
-		"get_payloads": get_payloads_state,
-	}
-	return payload_default_runtime_state()
-
-func payload_default_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/BuildingComp.java",
-		"last_state": payload_default_last_state.duplicate(true),
-	}
-
-func builder_skip_range_runtime_state() -> Dictionary:
-	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
-	var live_plan_gate := builder_plan_gate_runtime_state(first_plan)
-	var out_of_range_active := source_builder_actively_building_state(1, {"block_id": "conveyor", "x": 23, "y": 15, "breaking": false}, false, false, source_builder_unit_build_range(), false, true)
-	var breaking_should_skip := source_builder_should_skip_state(false, false, true, false, false, false, true, false, true)
-	var stuck_missing_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, true, false, false)
-	var missing_requirement_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, false, true, true)
-	var all_clear_should_skip := source_builder_should_skip_state(false, false, false, false, false, false, false, true, false)
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
-		"plan_dst_expr": "float dst = plan.dst2(this);",
-		"within_expr": "boolean within = dst <= finalPlaceDst*finalPlaceDst;",
-		"skip_gate_expr": "if(within && !shouldSkip(plan, core)){",
-		"tile_range_continue_expr": "if(!within(tile, finalPlaceDst)) continue;",
-		"should_skip_guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
-		"requirement_missing_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
-		"out_of_range_active": out_of_range_active,
-		"breaking_should_skip": breaking_should_skip,
-		"stuck_missing_should_skip": stuck_missing_should_skip,
-		"missing_requirement_should_skip": missing_requirement_should_skip,
-		"all_clear_should_skip": all_clear_should_skip,
-		"live_plan_gate": live_plan_gate,
-	}
-
-func builder_runtime_state() -> Dictionary:
-	var first_plan: Variant = builder_plans[0] if builder_plans.size() > 0 else null
-	var build_plan_state := source_builder_build_plan_state(builder_plans.size(), first_plan)
-	var active_state := source_builder_actively_building_state(builder_plans.size(), first_plan, false, false, source_builder_unit_build_range(), true, true)
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/BuilderComp.java",
-		"construct_source_owner": "core/src/mindustry/world/blocks/ConstructBlock.java",
-		"unit_type_source_owner": "core/src/mindustry/type/UnitType.java",
-		"vars_source_owner": "core/src/mindustry/Vars.java",
-		"rules_source_owner": "core/src/mindustry/game/Rules.java",
-		"plans_field": "@SyncLocal Queue<BuildPlan> plans = new Queue<>(1);",
-		"update_building_field": "@SyncLocal boolean updateBuilding = true;",
-		"build_counter_field": "private transient float buildCounter;",
-		"last_active_field": "private transient BuildPlan lastActive;",
-		"build_alpha_field": "transient float buildAlpha = 0f;",
-		"build_speed_formula": "1f / entity.buildCost * type.buildSpeed * buildSpeedMultiplier * state.rules.buildSpeed(team)",
-		"construct_progress_expr": "progress = Mathf.clamp(progress + maxProgress);",
-		"construct_finish_expr": "if(progress >= 1f || state.rules.infiniteResources){",
-		"construct_build_cost_expr": "this.buildCost = block.buildTime * state.rules.buildCostMultiplier;",
-		"unit_build_range_expr": "buildRange = Vars.buildingRange",
-		"vars_building_range_expr": "public static final float buildingRange = 220f;",
-		"rules_build_cost_multiplier_expr": "public float buildCostMultiplier = 1f;",
-		"rules_build_speed_multiplier_expr": "public float buildSpeedMultiplier = 1f;",
-		"alpha_build_speed_expr": "buildSpeed = 0.5f;",
-		"plan_count": builder_plans.size(),
-		"build_counter": builder_build_counter,
-		"build_alpha": builder_build_alpha,
-		"last_active": builder_last_active,
-		"construct_progress": builder_construct_progress,
-		"last_construct_block_id": builder_last_construct_block_id,
-		"last_construct_cell": {"x": builder_last_construct_cell.x, "y": builder_last_construct_cell.y},
-		"last_build_cost": builder_last_build_cost,
-		"last_build_speed_delta": builder_last_build_speed_delta,
-		"finished_count": builder_finished_count,
-		"build_plan": build_plan_state,
-		"actively_building": active_state,
-	}
-
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
 
@@ -7480,7 +4290,7 @@ func place_selected_block_at_world(world_pos: Vector2) -> bool:
 	last_placed_block_size = block_size(block)
 	last_placed_block_requirements = block.properties.get("requirements", []).duplicate(true)
 	last_placed_cell = cell
-	last_placed_occupied_cell_count = block_size(block) * block_size(block)
+	last_placed_occupied_cell_count = SourceBlockFootprint.occupied_cell_count(block_size(block))
 	last_place_blocked = false
 	register_turret_cell(cell, block)
 	return true
@@ -7498,36 +4308,14 @@ func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
 	register_turret_cell(cell, block)
 
 func occupied_cells(cell: Vector2i, block) -> Array[Vector2i]:
-	var cells: Array[Vector2i] = []
-	for y in block_size(block):
-		for x in block_size(block):
-			cells.append(cell + Vector2i(x, y))
-	return cells
-
-func is_cell_in_world(cell: Vector2i) -> bool:
-	return cell.x >= 0 and cell.y >= 0 and cell.x < world_width_tiles and cell.y < world_height_tiles
+	return SourceBlockFootprint.occupied_cells(cell, block_size(block))
 
 func can_place_block_at_cell(block, cell: Vector2i) -> bool:
-	for occupied_cell in occupied_cells(cell, block):
-		if not is_cell_in_world(occupied_cell):
-			return false
-		if placed_blocks.has(cell_key(occupied_cell)):
-			return false
-	return true
+	return SourceBlockPlacement.can_place(occupied_cells(cell, block), placed_blocks, SourcePlayableScenarioDefaults.WORLD_SIZE)
 
 func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:
-	var cell_keys: Array[String] = []
-	placed_block_origins[cell_key(cell)] = sprite
-	for occupied_cell in occupied_cells(cell, block):
-		cell_keys.append(cell_key(occupied_cell))
-		placed_blocks[cell_key(occupied_cell)] = sprite
-	sprite.set_meta("occupied_cells", cell_keys)
-	sprite.set_meta("origin_cell", cell)
-	sprite.set_meta("source_block_id", block.id)
-	sprite.set_meta("source_block_max_health", float(block.properties.get("health", 0.0)))
-	sprite.set_meta("source_block_health", float(block.properties.get("health", 0.0)))
-	sprite.set_meta("source_block_time_scale", 1.0)
-	sprite.set_meta("source_block_time_scale_duration", 0.0)
+	var cell_keys: Array[String] = SourceBlockPlacement.record_cells(placed_block_origins, placed_blocks, cell, occupied_cells(cell, block), sprite)
+	SourcePlacedBlockState.initialize_sprite(sprite, block, cell, cell_keys, SOURCE_BLOCK_HEALTH_DEFAULT, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
 
 func block_sprite_at_cell(cell: Vector2i):
 	return placed_blocks.get(cell_key(cell))
@@ -7537,58 +4325,23 @@ func block_from_sprite(sprite):
 		return null
 	return content_catalog.get_by_id(str(sprite.get_meta("source_block_id", "")))
 
-func deconstruct_threshold_for_block(block) -> float:
-	if block == null:
-		return SOURCE_DECONSTRUCT_THRESHOLD
-	return float(block.properties.get("deconstructThreshold", SOURCE_DECONSTRUCT_THRESHOLD))
-
-func refund_deconstruct_requirements(block) -> Array:
-	var refunds: Array = []
-	if block == null:
-		return refunds
-	for requirement in block.properties.get("requirements", []):
-		var item_id := str(requirement.get("item", ""))
-		var amount := int(floor(float(requirement.get("amount", 0)) * SOURCE_DECONSTRUCT_REFUND_MULTIPLIER + 0.5))
-		if item_id == "" or amount <= 0:
-			continue
-		add_core_item(item_id, amount)
-		refunds.append({"item": item_id, "amount": amount})
-	return refunds
-
-func remove_placed_block_sprite(sprite) -> void:
-	if not is_instance_valid(sprite):
-		return
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	for occupied_key in sprite.get_meta("occupied_cells", []):
-		placed_blocks.erase(str(occupied_key))
-	placed_block_origins.erase(cell_key(origin_cell))
-	turret_cells.erase(origin_cell)
-	sprite.queue_free()
-
 func source_block_health_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	return float(sprite.get_meta("source_block_health", 0.0))
+	return SourcePlacedBlockState.health(sprite)
 
 func source_block_time_scale_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 1.0
-	return float(sprite.get_meta("source_block_time_scale", 1.0))
+	return SourcePlacedBlockState.time_scale(sprite, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
 
 func source_block_time_scale_duration_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	return float(sprite.get_meta("source_block_time_scale_duration", 0.0))
+	return SourcePlacedBlockState.time_scale_duration(sprite)
 
 func decay_block_time_scale_sprite(sprite, source_delta: float) -> void:
 	if not is_instance_valid(sprite):
 		return
-	var result := source_building_time_scale_decay_state(float(sprite.get_meta("source_block_time_scale", 1.0)), float(sprite.get_meta("source_block_time_scale_duration", 0.0)), source_delta)
-	sprite.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))
-	sprite.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))
+	var result := source_building_time_scale_decay_state(float(sprite.get_meta("source_block_time_scale", SOURCE_BLOCK_TIME_SCALE_DEFAULT)), float(sprite.get_meta("source_block_time_scale_duration", 0.0)), source_delta)
+	SourcePlacedBlockState.apply_time_scale_decay(sprite, result, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
 
 func simulate_block_time_scales(delta: float) -> void:
 	var source_delta := delta * SOURCE_TICK_RATE
@@ -7625,29 +4378,20 @@ func boost_mend_projector_at_cell(x: int, y: int) -> bool:
 	var block = block_from_sprite(sprite)
 	if block == null or block.implementation != "MendProjector":
 		return false
-	var item_id := str(block.properties.get("boosterItem", ""))
-	if item_id == "" or core_item_count(item_id) <= 0:
+	var boost_input := SourceProjectorBoostState.boost_input(sprite, block)
+	var item_id := str(boost_input.get("item_id", ""))
+	if not bool(boost_input.get("has_booster_item", false)) or core_item_count(item_id) <= 0:
 		return false
-	core_items[item_id] = int(core_items.get(item_id, 0)) - 1
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	var key := cell_key(origin_cell)
-	mend_projector_booster_items[key] = int(mend_projector_booster_items.get(key, 0)) + 1
-	mend_projector_optional_efficiency[key] = 1.0
+	SourceProjectorBoostState.apply_boost_stock(core_items, mend_projector_booster_items, mend_projector_optional_efficiency, boost_input)
 	return true
 
 func mend_projector_phase_heat_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(mend_projector_phase_heat.get(cell_key(origin_cell), 0.0))
+	return SourceMendProjectorState.state_value(sprite, mend_projector_phase_heat, 0.0)
 
 func mend_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(mend_projector_smooth_efficiency.get(cell_key(origin_cell), 0.0))
+	return SourceMendProjectorState.state_value(sprite, mend_projector_smooth_efficiency, 0.0)
 
 func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -7658,17 +4402,11 @@ func mend_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
 
 func mend_projector_heat_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(mend_projector_heat.get(cell_key(origin_cell), 0.0))
+	return SourceMendProjectorState.state_value(sprite, mend_projector_heat, 0.0)
 
 func mend_projector_charge_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(mend_projector_charges.get(cell_key(origin_cell), 0.0))
+	return SourceMendProjectorState.state_value(sprite, mend_projector_charges, 0.0)
 
 func mend_projector_progress_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -7690,55 +4428,44 @@ func mend_projector_draw_state_at_cell(x: int, y: int, source_time_ticks := 0.0)
 		return source_mend_projector_draw_state(null, 0.0, 0.0, source_time_ticks, false, 0.0)
 	return source_mend_projector_draw_state(block, mend_projector_heat_at_cell(x, y), mend_projector_phase_heat_at_cell(x, y), source_time_ticks)
 
+func mend_projector_state_at_cell(x: int, y: int) -> Dictionary:
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	var mend_state := SourceMendProjectorState.capture_state(sprite, mend_projector_heat, mend_projector_smooth_efficiency, mend_projector_phase_heat, mend_projector_charges)
+	var block = block_from_sprite(sprite)
+	mend_state["progress"] = source_mend_projector_progress(block, float(mend_state.get("charge", 0.0))) if block != null and block.implementation == "MendProjector" else 0.0
+	return mend_state
+
 func boost_overdrive_projector_at_cell(x: int, y: int) -> bool:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	var block = block_from_sprite(sprite)
 	if block == null or block.implementation != "OverdriveProjector":
 		return false
-	var item_id := str(block.properties.get("boosterItem", ""))
-	if item_id == "" or core_item_count(item_id) <= 0:
+	var boost_input := SourceProjectorBoostState.boost_input(sprite, block)
+	var item_id := str(boost_input.get("item_id", ""))
+	if not bool(boost_input.get("has_booster_item", false)) or core_item_count(item_id) <= 0:
 		return false
-	core_items[item_id] = int(core_items.get(item_id, 0)) - 1
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	var key := cell_key(origin_cell)
-	overdrive_projector_booster_items[key] = int(overdrive_projector_booster_items.get(key, 0)) + 1
-	overdrive_projector_optional_efficiency[key] = 1.0
+	SourceProjectorBoostState.apply_boost_stock(core_items, overdrive_projector_booster_items, overdrive_projector_optional_efficiency, boost_input)
 	return true
 
 func overdrive_projector_phase_heat_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(overdrive_projector_phase_heat.get(cell_key(origin_cell), 0.0))
+	return SourceOverdriveProjectorState.state_value(sprite, overdrive_projector_phase_heat, 0.0)
 
 func overdrive_projector_smooth_efficiency_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(overdrive_projector_smooth_efficiency.get(cell_key(origin_cell), 0.0))
+	return SourceOverdriveProjectorState.state_value(sprite, overdrive_projector_smooth_efficiency, 0.0)
 
 func overdrive_projector_heat_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(overdrive_projector_heat.get(cell_key(origin_cell), 0.0))
+	return SourceOverdriveProjectorState.state_value(sprite, overdrive_projector_heat, 0.0)
 
 func overdrive_projector_charge_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(overdrive_projector_charges.get(cell_key(origin_cell), 0.0))
+	return SourceOverdriveProjectorState.state_value(sprite, overdrive_projector_charges, 0.0)
 
 func overdrive_projector_use_progress_at_cell(x: int, y: int) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
-	if not is_instance_valid(sprite):
-		return 0.0
-	var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
-	return float(overdrive_projector_use_progress.get(cell_key(origin_cell), 0.0))
+	return SourceOverdriveProjectorState.state_value(sprite, overdrive_projector_use_progress, 0.0)
 
 func overdrive_projector_light_state_at_cell(x: int, y: int) -> Dictionary:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -7755,48 +4482,35 @@ func overdrive_projector_draw_state_at_cell(x: int, y: int, source_time_ticks :=
 	return source_overdrive_projector_draw_state(block, overdrive_projector_heat_at_cell(x, y), overdrive_projector_phase_heat_at_cell(x, y), source_time_ticks)
 
 func overdrive_projector_state_at_cell(x: int, y: int) -> Dictionary:
-	return {
-		"heat": overdrive_projector_heat_at_cell(x, y),
-		"smooth_efficiency": overdrive_projector_smooth_efficiency_at_cell(x, y),
-		"phase_heat": overdrive_projector_phase_heat_at_cell(x, y),
-		"charge": overdrive_projector_charge_at_cell(x, y),
-		"use_progress": overdrive_projector_use_progress_at_cell(x, y),
-	}
+	var sprite = block_sprite_at_cell(Vector2i(x, y))
+	return SourceOverdriveProjectorState.capture_state(sprite, overdrive_projector_heat, overdrive_projector_smooth_efficiency, overdrive_projector_phase_heat, overdrive_projector_charges, overdrive_projector_use_progress)
 
 func block_size(block) -> int:
-	return max(1, int(block.properties.get("size", 1)))
+	return max(SOURCE_BLOCK_SIZE_DEFAULT, int(block.properties.get("size", SOURCE_BLOCK_SIZE_DEFAULT)))
 
 func source_block_health(block_id: String) -> float:
 	if content_catalog == null:
-		return 0.0
+		return SOURCE_BLOCK_HEALTH_DEFAULT
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return 0.0
-	return float(block.properties.get("health", 0.0))
+		return SOURCE_BLOCK_HEALTH_DEFAULT
+	return float(block.properties.get("health", SOURCE_BLOCK_HEALTH_DEFAULT))
 
 func source_block_item_capacity(block_id: String) -> int:
 	if content_catalog == null:
-		return 0
+		return SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return 0
-	return int(block.properties.get("itemCapacity", factory_defaults.block_item_capacity()))
+		return SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT
+	return int(block.properties.get("itemCapacity", SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT))
 
 func source_block_dump_time(block_id: String) -> float:
 	if content_catalog == null:
-		return factory_defaults.block_dump_time()
+		return SOURCE_BLOCK_DUMP_TIME
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return factory_defaults.block_dump_time()
-	return float(block.properties.get("dumpTime", factory_defaults.block_dump_time()))
-
-func source_builder_unit_build_range() -> float:
-	return gameplay_defaults.building_range()
-
-func construct_block_build_cost(block) -> float:
-	if block == null:
-		return SOURCE_DEFAULT_BLOCK_BUILD_TIME
-	return float(block.properties.get("buildTime", SOURCE_DEFAULT_BLOCK_BUILD_TIME))
+		return SOURCE_BLOCK_DUMP_TIME
+	return float(block.properties.get("dumpTime", SOURCE_BLOCK_DUMP_TIME))
 
 const SOURCE_DRILL_DUMP_INTERVAL_TIMER_GATE := "if(timer(timerDump, dumpTime / timeScale)){"
 const SOURCE_DRILL_DUMP_INTERVAL_DUMP_CALL := "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);"
@@ -7811,6 +4525,7 @@ const SOURCE_DRILL_INACTIVE_WARMUP_WARMUP_SPEED_FIELD := "public float warmupSpe
 const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
 const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
 const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"
+const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := SourceFactoryDefaults.DRILL_WARMUP_SPEED
 const SOURCE_DRILL_WARMUP_STATE_ACTIVE_WARMUP := "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);"
 const SOURCE_DRILL_WARMUP_STATE_CURRENT_WARMUP := "warmup"
 const SOURCE_DRILL_WARMUP_STATE_SPEED := "speed"
@@ -7862,7 +4577,7 @@ func source_drill_delay(block_id: String, item_id: String) -> float:
 	var drill_multiplier := 1.0
 	if typeof(drill_multipliers) == TYPE_DICTIONARY:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
-	return (float(block.properties.get("drillTime", factory_defaults.drill_time_default())) + factory_defaults.drill_hardness_multiplier() * float(item.properties.get("hardness", factory_defaults.item_hardness_default()))) / drill_multiplier
+	return (float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))) / drill_multiplier
 
 func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: String) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd")
@@ -7877,13 +4592,13 @@ func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: Stri
 			"canonical": source_drill_delay(block_id, item_id),
 			"matches": false,
 		}
-	var drill_time := float(block.properties.get("drillTime", factory_defaults.drill_time_default()))
-	var item_hardness := float(item.properties.get("hardness", factory_defaults.item_hardness_default()))
+	var drill_time := float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))
+	var item_hardness := float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))
 	var drill_multipliers = block.properties.get("drillMultipliers", {})
 	var drill_multiplier := 1.0
 	if typeof(drill_multipliers) == TYPE_DICTIONARY:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
-	var result = instance.java_method_getDrillTime_6([drill_time, factory_defaults.drill_hardness_multiplier(), item_hardness, drill_multiplier])
+	var result = instance.java_method_getDrillTime_6([drill_time, SOURCE_DRILL_HARDNESS_MULTIPLIER, item_hardness, drill_multiplier])
 	var canonical := source_drill_delay(block_id, item_id)
 	return {
 		"source_owner": "PortGame.source_drill_delay",
@@ -7904,15 +4619,15 @@ func source_drill_output_rate(block_id: String, item_id: String, return_count: i
 	var delay := source_drill_delay(block_id, item_id)
 	if delay <= 0.0:
 		return 0.0
-	return 60.0 * float(return_count) / delay
+	return SOURCE_TICK_RATE * float(return_count) / delay
 
 func source_drill_warmup_speed(block_id: String) -> float:
 	if content_catalog == null:
-		return factory_defaults.drill_warmup_speed()
+		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
-		return factory_defaults.drill_warmup_speed()
-	return float(block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, factory_defaults.drill_warmup_speed()))
+		return SOURCE_DRILL_WARMUP_SPEED_DEFAULT
+	return float(block.properties.get(SOURCE_DRILL_WARMUP_SPEED_KEY, SOURCE_DRILL_WARMUP_SPEED_DEFAULT))
 
 func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
 	return source_approach_delta(current_warmup, speed, warmup_speed, source_delta)
@@ -7976,7 +4691,7 @@ func step_drill_time_drilled_cell(x: int, y: int, seconds: float, warmup: float)
 	if not is_instance_valid(sprite):
 		return 0.0
 	var key := cell_key(Vector2i(x, y))
-	var value := float(drill_time_drilled.get(key, 0.0)) + source_drill_time_drilled_delta(warmup, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)))
+	var value := float(drill_time_drilled.get(key, 0.0)) + source_drill_time_drilled_delta(warmup, seconds, float(sprite.get_meta("source_block_time_scale", SOURCE_BLOCK_TIME_SCALE_DEFAULT)))
 	drill_time_drilled[key] = value
 	return value
 
@@ -8013,7 +4728,7 @@ func source_drill_output_delta_for_cell(x: int, y: int, dominant_items: int, sec
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
 		return 0.0
-	return source_drill_output_delta(dominant_items, seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), warmup, speed)
+	return source_drill_output_delta(dominant_items, seconds, float(sprite.get_meta("source_block_time_scale", SOURCE_BLOCK_TIME_SCALE_DEFAULT)), warmup, speed)
 
 const SOURCE_DRILL_OUTPUT_BATCH_GATE := "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){"
 const SOURCE_DRILL_OUTPUT_BATCH_AMOUNT := "int amount = (int)(progress / delay);"
@@ -8042,6 +4757,7 @@ const SOURCE_CONVEYOR_WORLD_SPEED_UNIT_IMPULSE := "unit.impulse((tx * mspeed + c
 const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_COMMENT := "/** size of tiles in units */"
 const SOURCE_CONVEYOR_WORLD_SPEED_TILESIZE_FIELD := "public static final int tilesize = 8;"
 const SOURCE_CONVEYOR_WORLD_SPEED_KEY := "speed"
+const SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE := SourceFactoryDefaults.CONVEYOR_TILE_SPEED_SCALE
 
 func source_conveyor_world_speed(block_id: String) -> float:
 	if content_catalog == null:
@@ -8049,7 +4765,7 @@ func source_conveyor_world_speed(block_id: String) -> float:
 	var block = content_catalog.get_by_id(block_id)
 	if block == null:
 		return 0.0
-	return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, 0.0)) * float(tile_size) * factory_defaults.conveyor_tile_speed_scale()
+	return float(block.properties.get(SOURCE_CONVEYOR_WORLD_SPEED_KEY, SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT)) * float(tile_size) * SOURCE_CONVEYOR_WORLD_SPEED_TILE_SPEED_SCALE
 
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_SPEED_FIELD := "public float speed = 0f;"
 const SOURCE_CONVEYOR_PATH_PROGRESS_RATE_UNIT_WORLD_SPEED := "float mspeed = speed * tilesize * 55f;"
@@ -8087,13 +4803,13 @@ func source_conveyor_path_progress_delta_for_cell(x: int, y: int, seconds: float
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
 	if not is_instance_valid(sprite):
 		return 0.0
-	return source_conveyor_path_progress_delta(str(sprite.get_meta("source_block_id", "")), seconds, float(sprite.get_meta("source_block_time_scale", 1.0)), efficiency)
+	return source_conveyor_path_progress_delta(str(sprite.get_meta("source_block_id", "")), seconds, float(sprite.get_meta("source_block_time_scale", SOURCE_BLOCK_TIME_SCALE_DEFAULT)), efficiency)
 
 func block_world_size(block) -> float:
-	return float(tile_size * block_size(block))
+	return SourceBlockGeometry.block_world_size(block_size(block), tile_size)
 
 func source_block_sprite_base_position(block, cell: Vector2i) -> Vector2:
-	return grid_to_world(cell) + Vector2.ONE * (block_world_size(block) - float(tile_size)) * 0.5
+	return SourceBlockGeometry.block_base_position(grid_to_world(cell), block_size(block), tile_size)
 
 func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	sprite.texture = block_texture(block)
@@ -8101,7 +4817,7 @@ func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
-			sprite.scale = Vector2(block_world_size(block) / size.x, block_world_size(block) / size.y)
+			sprite.scale = SourceBlockGeometry.block_sprite_scale(size, block_size(block), tile_size)
 
 func register_turret_cell(cell: Vector2i, block) -> void:
 	if block == null or not block.is_turret():
@@ -8173,26 +4889,32 @@ func spend_requirements(block) -> void:
 		if item_id != "":
 			set_core_item_count(item_id, core_item_count(item_id) - amount)
 
+func playable_core_item_id() -> String:
+	return SourcePlayableScenarioDefaults.ITEM_COPPER
+
+func playable_core_item_name() -> String:
+	var core_item = content_catalog.get_by_id(playable_core_item_id()) if content_catalog else null
+	return core_item.display_name() if core_item else SourcePlayableScenarioDefaults.ITEM_COPPER.capitalize()
+
 func sync_copper_inventory_alias() -> void:
-	if primary_item_id == "":
-		return
-	core_items[primary_item_id] = clamp_core_item_amount(max(int(core_items.get(primary_item_id, 0)), core_inventory))
-	core_inventory = int(core_items.get(primary_item_id, 0))
+	var item_id := playable_core_item_id()
+	core_items[item_id] = clamp_core_item_amount(max(int(core_items.get(item_id, 0)), core_inventory))
+	core_inventory = int(core_items.get(item_id, 0))
 
 func clamp_core_item_amount(amount: int) -> int:
 	return mini(max(0, amount), core_item_capacity)
 
 func set_core_item_count(item_id: String, amount: int) -> void:
 	core_items[item_id] = clamp_core_item_amount(amount)
-	if item_id == primary_item_id:
-		core_inventory = int(core_items.get(primary_item_id, 0))
+	if item_id == playable_core_item_id():
+		core_inventory = int(core_items.get(item_id, 0))
 
 func add_core_item(item_id: String, amount: int) -> void:
 	set_core_item_count(item_id, core_item_count(item_id) + amount)
 
 func core_item_count(item_id: String) -> int:
-	if item_id == primary_item_id and core_inventory > int(core_items.get(primary_item_id, 0)):
-		core_items[primary_item_id] = core_inventory
+	if item_id == playable_core_item_id() and core_inventory > int(core_items.get(item_id, 0)):
+		core_items[item_id] = core_inventory
 	return int(core_items.get(item_id, 0))
 
 const SOURCE_CORE_ACCEPT_ITEM_METHOD := "public boolean acceptItem(Building source, Item item){"
@@ -8215,11 +4937,11 @@ func source_core_accept_item(item_id: String) -> bool:
 func source_core_handle_item(item_id: String) -> bool:
 	if not source_core_accept_item(item_id):
 		return false
-	var item_buildable := true
+	var item_buildable := SourceItemDefaults.BUILDABLE_DEFAULT
 	if content_catalog != null:
 		var item = content_catalog.get_by_id(item_id)
 		if item != null:
-			item_buildable = bool(item.properties.get("buildable", true))
+			item_buildable = bool(item.properties.get("buildable", SourceItemDefaults.BUILDABLE_DEFAULT))
 	var incinerate := core_incinerate_non_buildable and not item_buildable
 	if core_item_count(item_id) >= core_item_capacity or incinerate:
 		return true
@@ -8230,57 +4952,28 @@ func source_building_handle_item_count(current_count: int) -> int:
 	return current_count + 1
 
 func source_building_accept_item_state(consumes_item: bool, item_count: int, maximum_accepted: int) -> bool:
-	return consumes_item and item_count < maximum_accepted
+	return SourceBuildingItemState.accept_item_state(consumes_item, item_count, maximum_accepted)
 
 func source_building_maximum_accepted(block_item_capacity: int) -> int:
-	return block_item_capacity
+	return SourceBuildingItemState.maximum_accepted(block_item_capacity)
 
 func source_building_handle_stack_count(current_count: int, amount: int) -> int:
-	return current_count + amount
+	return SourceBuildingItemState.handle_stack_count(current_count, amount)
 
 func source_building_accept_stack_state(accepts_item: bool, has_items: bool, same_team_or_null_source: bool, maximum_accepted: int, item_count: int, amount: int) -> int:
-	if accepts_item and has_items and same_team_or_null_source:
-		return mini(maximum_accepted - item_count, amount)
-	return 0
+	return SourceBuildingItemState.accept_stack_state(accepts_item, has_items, same_team_or_null_source, maximum_accepted, item_count, amount)
 
 func source_building_remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:
-	if not has_items_module:
-		return {
-			"method": "public int removeStack(Item item, int amount){",
-			"null_guard": "if(items == null) return 0;",
-			"min_assign": "",
-			"no_sleep_call": "",
-			"items_remove_call": "",
-			"return_amount": "return 0;",
-			"has_items_module": has_items_module,
-			"item_count": item_count,
-			"amount": amount,
-			"removed": 0,
-			"remaining": item_count,
-		}
-	var removed := mini(amount, item_count)
-	return {
-		"method": "public int removeStack(Item item, int amount){",
-		"null_guard": "",
-		"min_assign": "amount = Math.min(amount, items.get(item));",
-		"no_sleep_call": "noSleep();",
-		"items_remove_call": "items.remove(item, amount);",
-		"return_amount": "return amount;",
-		"has_items_module": has_items_module,
-		"item_count": item_count,
-		"amount": amount,
-		"removed": removed,
-		"remaining": item_count - removed,
-	}
+	return SourceBuildingItemState.remove_stack_state(has_items_module, item_count, amount)
 
 func source_building_accept_payload_state() -> bool:
-	return false
+	return SourceBuildingPayloadState.accept_payload_state()
 
 func source_building_handle_payload_state(payload_state: Variant) -> Variant:
-	return payload_state
+	return SourceBuildingPayloadState.handle_payload_state(payload_state)
 
 func source_payload_forward_offset(payload_block_size: int) -> int:
-	return floori(float(payload_block_size) / 2.0) + 1
+	return SourceBuildingPayloadState.payload_forward_offset(payload_block_size)
 
 const SOURCE_PAYLOAD_FORWARD_OFFSET_METHOD := "public boolean movePayload(Payload todump){"
 const SOURCE_PAYLOAD_FORWARD_OFFSET_TRNS := "int trns = block.size/2 + 1;"
@@ -8295,7 +4988,7 @@ const SOURCE_MOVE_PAYLOAD_STATE_RETURN_TRUE := "return true;"
 const SOURCE_MOVE_PAYLOAD_STATE_RETURN_FALSE := "return false;"
 
 func source_move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:
-	return has_next_tile and has_next_build and same_team and accepts_payload
+	return SourceBuildingPayloadState.move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)
 
 const SOURCE_DUMP_PAYLOAD_INDEX_DUMP_FIELD := "int dump = this.cdump;"
 const SOURCE_DUMP_PAYLOAD_INDEX_PROXIMITY_GET := "Building other = proximity.get((i + dump) % proximity.size);"
@@ -8307,61 +5000,34 @@ const SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD := "other.handlePayload(self(), t
 const SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP := "incrementDump(proximity.size);"
 
 func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:
-	return (loop_index + dump_cursor) % proximity_size
+	return SourceBuildingPayloadState.dump_payload_index(loop_index, dump_cursor, proximity_size)
 
 func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:
-	if proximity_size == 0:
-		return {"moved": false, "cdump": dump_cursor, "handled_index": -1}
-	var dump := dump_cursor
-	var next_dump := dump_cursor
-	for i in range(proximity_size):
-		var other_index := source_dump_payload_index(i, dump, proximity_size)
-		next_dump = source_increment_dump_cursor(next_dump, proximity_size)
-		if other_index < accepts_payload_by_index.size() and bool(accepts_payload_by_index[other_index]):
-			return {"moved": true, "cdump": next_dump, "handled_index": other_index}
-	return {"moved": false, "cdump": next_dump, "handled_index": -1}
+	return SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, Callable(self, "source_increment_dump_cursor"))
 
 func source_block_can_replace_state(existing_always_replace: bool, existing_privileged: bool, existing_replaceable: bool, same_block: bool, new_rotate: bool, new_quick_rotate: bool, new_group_is_none: bool, same_group: bool, new_size: int, existing_size: int, same_subclass: bool, group_any_replace: bool) -> bool:
-	if existing_always_replace:
-		return true
-	if existing_privileged:
-		return false
-	return existing_replaceable and (not same_block or (new_rotate and new_quick_rotate)) and ((not new_group_is_none and same_group) or same_block) and (new_size == existing_size or (new_size >= existing_size and (same_subclass or group_any_replace)))
+	return SourceBuildingCoreState.block_can_replace_state(existing_always_replace, existing_privileged, existing_replaceable, same_block, new_rotate, new_quick_rotate, new_group_is_none, same_group, new_size, existing_size, same_subclass, group_any_replace)
 
 func source_building_can_be_replaced_state(other_can_replace_block: bool) -> bool:
-	return other_can_replace_block
+	return SourceBuildingCoreState.building_can_be_replaced_state(other_can_replace_block)
 
 func source_building_should_consume_state(enabled_state: bool) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public boolean shouldConsume(){",
-		"return_enabled": "return enabled;",
-	}
-	var result: Dictionary = {"should_consume": enabled_state}
-	result.merge(source_exprs)
-	return result
+	return SourceBuildingCoreState.should_consume_state(enabled_state)
 
 func source_building_production_valid_state() -> Dictionary:
-	return {
-		"method": "public boolean productionValid(){",
-		"default_return": "return true;",
-		"production_valid": true,
-	}
+	return SourceBuildingCoreState.production_valid_state()
 
 func source_building_consume_trigger_valid_state() -> bool:
-	return false
+	return SourceBuildingCoreState.consume_trigger_valid_state()
 
 func source_building_power_production_state() -> Dictionary:
-	return {
-		"method": "public float getPowerProduction(){",
-		"default_return": "return 0f;",
-		"power_production": 0.0,
-	}
+	return SourceBuildingCoreState.power_production_state()
 
 func source_building_progress_increase(base_time: float, edelta_value: float) -> float:
-	return 1.0 / base_time * edelta_value
+	return SourceBuildingTimeState.progress_increase(base_time, edelta_value)
 
 func source_building_display_efficiency(edelta_value: float) -> float:
-	return source_building_progress_increase(1.0, edelta_value) / edelta_value
+	return SourceBuildingTimeState.display_efficiency(edelta_value)
 
 func generated_building_comp_get_progress_increase_bridge_state(base_time: float, edelta_value: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -8713,6 +5379,39 @@ func generated_building_comp_splash_liquid_bridge_state(liquid: Variant, amount:
 		"canonical": canonical,
 	}
 
+func generated_building_comp_splash_liquid_source_tilesize_default_bridge_state(liquid: Variant, amount: float, source_block_size: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_splashLiquid_153([liquid, amount, source_block_size])
+	var canonical = source_building_splash_liquid_state(liquid, amount, source_block_size, SOURCE_TILESIZE)
+	var matches := generated_state_matches_generated_subset(result, canonical)
+	return {
+		"source_owner": "PortGame.source_building_splash_liquid_state",
+		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": SOURCE_TILESIZE,
+		"matches": matches,
+		"result": result,
+		"canonical": canonical,
+	}
+
+func generated_building_comp_splash_liquid_source_block_size_default_bridge_state(liquid: Variant, amount: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_splashLiquid_153([liquid, amount])
+	var canonical = source_building_splash_liquid_state(liquid, amount, SOURCE_BLOCK_SIZE_DEFAULT, SOURCE_TILESIZE)
+	var matches := generated_state_matches_generated_subset(result, canonical)
+	return {
+		"source_owner": "PortGame.source_building_splash_liquid_state",
+		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"defaulted_arg": "source_block_size",
+		"source_block_size": SOURCE_BLOCK_SIZE_DEFAULT,
+		"source_tilesize": SOURCE_TILESIZE,
+		"matches": matches,
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_on_deconstructed_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
@@ -8721,6 +5420,26 @@ func generated_building_comp_on_deconstructed_bridge_state(has_liquids_module: b
 	return {
 		"source_owner": "PortGame.source_building_on_deconstructed_liquid_state",
 		"generated_owner": "BuildingComp.java_method_onDeconstructed_154",
+		"result": result,
+		"canonical": canonical,
+	}
+
+func generated_building_comp_on_deconstructed_source_block_size_default_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onDeconstructed_154([has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid])
+	var canonical = source_building_on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, SOURCE_BLOCK_SIZE_DEFAULT)
+	var on_deconstructed_matches = result.get("source_block_size", null) == canonical.get("source_block_size", null) \
+		and result.get("can_drop_liquid", null) == canonical.get("can_drop_liquid", null) \
+		and result.get("deposit_linked_tiles", null) == canonical.get("deposit_linked_tiles", null) \
+		and result.get("per_cell", null) == canonical.get("per_cell", null) \
+		and result.get("deposit_call", null) == canonical.get("deposit_call", null)
+	return {
+		"source_owner": "PortGame.source_building_on_deconstructed_liquid_state",
+		"generated_owner": "BuildingComp.java_method_onDeconstructed_154",
+		"defaulted_arg": "source_block_size",
+		"source_block_size": SOURCE_BLOCK_SIZE_DEFAULT,
+		"matches": on_deconstructed_matches,
 		"result": result,
 		"canonical": canonical,
 	}
@@ -8803,6 +5522,64 @@ func generated_building_comp_on_destroyed_dynamic_explosion_bridge_state(base_ex
 		"buffered_power_canonical": buffered_power_canonical,
 		"splash_canonical": splash_canonical,
 		"canonical": canonical,
+	}
+
+func generated_building_comp_on_destroyed_dynamic_explosion_source_tilesize_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale])
+	var item_canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
+	var liquid_canonical = source_building_on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
+	var buffered_power_canonical = source_building_on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
+	var splash_canonical = source_building_on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
+	var canonical = source_building_on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, SOURCE_TILESIZE, SOURCE_BLOCK_SIZE_DEFAULT, damage_explosions, "", 0.0)
+	var dynamic_explosion_matches = result.get("dynamic_explosion_x", null) == canonical.get("x", null) \
+		and result.get("dynamic_explosion_y", null) == canonical.get("y", null) \
+		and result.get("dynamic_explosion_flammability", null) == canonical.get("flammability", null) \
+		and result.get("dynamic_explosion_explosiveness", null) == canonical.get("explosiveness", null) \
+		and result.get("dynamic_explosion_power", null) == canonical.get("power", null) \
+		and result.get("dynamic_explosion_radius", null) == canonical.get("radius", null) \
+		and result.get("dynamic_explosion_damage_explosions", null) == canonical.get("damage_explosions", null) \
+		and result.get("dynamic_explosion_effect", null) == canonical.get("effect", null) \
+		and result.get("dynamic_explosion_shake", null) == canonical.get("shake", null)
+	return {
+		"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
+		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": SOURCE_TILESIZE,
+		"source_block_size": SOURCE_BLOCK_SIZE_DEFAULT,
+		"matches": dynamic_explosion_matches,
+		"result": result,
+		"item_canonical": item_canonical,
+		"liquid_canonical": liquid_canonical,
+		"buffered_power_canonical": buffered_power_canonical,
+		"splash_canonical": splash_canonical,
+		"canonical": canonical,
+	}
+
+func generated_building_comp_on_destroyed_source_block_size_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize])
+	var item_canonical = source_building_on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
+	var liquid_canonical = source_building_on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
+	var buffered_power_canonical = source_building_on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
+	var splash_canonical = source_building_on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
+	var dynamic_explosion_canonical = source_building_on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, SOURCE_BLOCK_SIZE_DEFAULT, damage_explosions, "", 0.0)
+	var on_destroyed_matches = result.get("dynamic_explosion_radius", null) == dynamic_explosion_canonical.get("radius", null)
+	return {
+		"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
+		"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state",
+		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"defaulted_arg": "source_block_size",
+		"source_block_size": SOURCE_BLOCK_SIZE_DEFAULT,
+		"matches": on_destroyed_matches,
+		"result": result,
+		"item_canonical": item_canonical,
+		"liquid_canonical": liquid_canonical,
+		"buffered_power_canonical": buffered_power_canonical,
+		"splash_canonical": splash_canonical,
+		"dynamic_explosion_canonical": dynamic_explosion_canonical,
 	}
 
 func generated_building_comp_on_destroyed_rubble_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool) -> Dictionary:
@@ -9035,6 +5812,22 @@ func generated_building_comp_draw_configure_bridge_state(source_x: float, source
 		"generated_owner": "BuildingComp.java_method_drawConfigure_171",
 		"result": result,
 		"canonical": canonical,
+	}
+
+func generated_building_comp_draw_configure_source_tilesize_default_bridge_state(source_x: float, source_y: float, block_size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value])
+	var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, SOURCE_TILESIZE)
+	var matches := generated_state_matches_generated_subset(result, canonical)
+	return {
+		"source_owner": "PortGame.source_building_draw_configure_state",
+		"generated_owner": "BuildingComp.java_method_drawConfigure_171",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": result.get("source_tilesize", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": matches,
 	}
 
 func generated_building_comp_check_solid_bridge_state() -> Dictionary:
@@ -9648,7 +6441,7 @@ func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: 
 func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity])
+	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, SOURCE_TICK_RATE])
 	var canonical = source_building_sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity)
 	return {
 		"source_owner": "PortGame.source_building_sense_capacity_power_net_state",
@@ -9722,13 +6515,7 @@ func generated_building_comp_display_bridge_state(block_ui_icon: Variant, locali
 	}
 
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public boolean shouldAmbientSound(){",
-		"return_should_consume": "return shouldConsume();",
-	}
-	var result: Dictionary = {"should_ambient_sound": should_consume_state}
-	result.merge(source_exprs)
-	return result
+	return SourceBuildingTimeState.should_ambient_sound(should_consume_state)
 
 func source_building_draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
 	if not (enable_draw_status and consumers_length > 0):
@@ -10161,6 +6948,7 @@ func source_building_splash_liquid_state(liquid: Variant, amount: float, source_
 	for i in deposit_count:
 		delays.append(float(i) / 2.0)
 	return {
+		"source_owner": "PortGame.source_building_splash_liquid_state",
 		"method": "public void splashLiquid(Liquid liquid, float amount){",
 		"splash_expr": "float splash = Mathf.clamp(amount / 4f, 0f, 10f);",
 		"loop": "for(int i = 0; i < Mathf.clamp(amount / 5, 0, 30); i++){",
@@ -10169,6 +6957,9 @@ func source_building_splash_liquid_state(liquid: Variant, amount: float, source_
 		"deposit_guard": "if(other != null){",
 		"deposit": "Puddles.deposit(other, liquid, splash);",
 		"liquid": liquid,
+		"amount": amount,
+		"source_block_size": source_block_size,
+		"source_tilesize": source_tilesize,
 		"splash": splash,
 		"deposit_count": deposit_count,
 		"delays": delays,
@@ -10532,6 +7323,7 @@ func source_building_block_half_extent(block_size_value: int, source_tilesize: f
 func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	var half_extent := source_building_block_half_extent(block_size_value, source_tilesize)
 	return {
+		"source_owner": "PortGame.source_building_draw_configure_state",
 		"method": "public void drawConfigure(){",
 		"color": "Pal.accent",
 		"stroke": 1.0,
@@ -10549,211 +7341,67 @@ func source_building_draw_configure_state(source_x: float, source_y: float, bloc
 		"source_tilesize": source_tilesize,
 	}
 func source_building_check_solid_state() -> bool:
-	return false
+	return SourceBuildingCoreState.check_solid_state()
 
 func source_building_handle_damage_state(amount: float) -> float:
-	return amount
+	return SourceBuildingDamageState.handle_damage_state(amount)
 
 func source_building_absorb_lasers_state(block_absorb_lasers: bool) -> bool:
-	return block_absorb_lasers
+	return SourceBuildingCoreState.absorb_lasers_state(block_absorb_lasers)
 
 func source_building_is_insulated_state(block_insulated: bool) -> bool:
-	return block_insulated
+	return SourceBuildingCoreState.is_insulated_state(block_insulated)
 
 func source_building_collide_state(_other: Variant) -> bool:
-	return true
+	return SourceBuildingCoreState.collide_state(_other)
 
 func source_building_collision_damage_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:
-	var damage := bullet_building_damage
-	var armor := block_armor * bullet_armor_multiplier * bullet_block_armor_multiplier
-	if not bullet_pierce_armor:
-		damage = max(damage - armor, 0.1 * damage)
-	return {
-		"was_dead": current_health <= 0.0,
-		"raw_damage": bullet_building_damage,
-		"armor": armor,
-		"damage": damage,
-		"removed": true,
-	}
+	return SourceBuildingDamageState.collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier, SOURCE_DAMAGE_MIN_ARMOR_DAMAGE)
 
 func source_building_damage_delegate_state(source_team: Variant, damage_amount: float) -> Dictionary:
-	return {
-		"source_team": source_team,
-		"damage": damage_amount,
-		"delegates_to_damage": true,
-	}
+	return SourceBuildingDamageState.damage_delegate_state(source_team, damage_amount)
 
 func source_building_bullet_damage_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
-	return {
-		"bullet": bullet,
-		"source_team": source_team,
-		"damage": damage_amount,
-		"delegates_to_source_damage": true,
-		"fires_bullet_damage_event": true,
-	}
+	return SourceBuildingDamageState.bullet_damage_state(bullet, source_team, damage_amount)
 
 func source_building_change_team_delegate_state(next_team: Variant) -> Dictionary:
-	return {
-		"next_team": next_team,
-		"delegates_to_change_team": true,
-		"update_power": true,
-	}
+	return SourceBuildingLifecycleState.change_team_delegate_state(next_team)
 
 func source_building_change_team_initial_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	if current_team == next_team:
-		return {
-			"team": current_team,
-			"last_team": current_team,
-			"returned": true,
-			"remove_index": false,
-			"assign_next": false,
-		}
-	var team_after_force = force_team if force_team != null else current_team
-	var last_team = team_after_force
-	if last_team == next_team:
-		return {
-			"team": team_after_force,
-			"last_team": last_team,
-			"returned": true,
-			"remove_index": false,
-			"assign_next": false,
-		}
-	return {
-		"team": next_team,
-		"last_team": last_team,
-		"returned": false,
-		"remove_index": was_valid,
-		"assign_next": true,
-	}
+	return SourceBuildingLifecycleState.change_team_initial_state(current_team, next_team, force_team, was_valid)
 
 func source_building_change_team_power_proximity_state(power_present: bool, update_power: bool, old_graph: Variant, team: Variant) -> Dictionary:
-	if power_present and update_power:
-		return {
-			"old_graph": old_graph,
-			"team": team,
-			"proximity_reflow": true,
-		}
-	return {
-		"old_graph": old_graph,
-		"team": team,
-		"proximity_reflow": false,
-	}
+	return SourceBuildingLifecycleState.change_team_power_proximity_state(power_present, update_power, old_graph, team)
 
 func source_building_change_team_power_links_state(link_count: int, team: Variant, old_graph: Variant) -> Dictionary:
-	if link_count <= 0:
-		return {
-			"link_count": link_count,
-			"team": team,
-			"old_graph": old_graph,
-			"remove_index": false,
-			"reflow_self": false,
-			"update_power_graph": false,
-		}
-	return {
-		"link_count": link_count,
-		"team": team,
-		"old_graph": old_graph,
-		"remove_index": true,
-		"reflow_self": true,
-		"update_power_graph": true,
-	}
+	return SourceBuildingLifecycleState.change_team_power_links_state(link_count, team, old_graph)
 
 func source_building_change_team_final_state(was: bool, last_team: Variant) -> Dictionary:
-	return {
-		"was": was,
-		"add_index": was,
-		"team_change_event": was,
-		"event_last": last_team,
-		"check_allow_update": true,
-	}
+	return SourceBuildingLifecycleState.change_team_final_state(was, last_team)
 
 func source_building_can_pickup_state(block_can_pickup: bool) -> bool:
-	return block_can_pickup
+	return SourceBuildingLifecycleState.can_pickup_state(block_can_pickup)
 
 func source_building_picked_up_state(previous_state: Variant) -> Dictionary:
-	return {
-		"method": "public void pickedUp(){",
-		"comment": "Called right before this building is picked up.",
-		"no_op": true,
-		"previous_state": previous_state,
-	}
+	return SourceBuildingLifecycleState.picked_up_state(previous_state)
 
 func source_building_after_picked_up_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	if power_present and has_cons_power and not cons_power_buffered:
-		return {
-			"power_present": power_present,
-			"new_power_graph": power_present,
-			"clear_links": power_present,
-			"status": 0.0,
-		}
-	return {
-		"power_present": power_present,
-		"new_power_graph": power_present,
-		"clear_links": power_present,
-		"status": current_status,
-	}
+	return SourceBuildingLifecycleState.after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
 
 func source_building_remove_from_proximity_state(nearby_count: int, removable_count: int) -> Dictionary:
-	return {
-		"method": "public void removeFromProximity(){",
-		"on_proximity_removed_call": "onProximityRemoved();",
-		"tmp_tiles_clear_call": "tmpTiles.clear();",
-		"edges_get_call": "Point2[] nearby = Edges.getEdges(block.size);",
-		"world_build_call": "Building other = world.build(tile.x + point.x, tile.y + point.y);",
-		"tmp_tiles_add_call": "tmpTiles.add(other);",
-		"remove_self_call": "other.proximity.remove(self(), true);",
-		"other_update_call": "other.onProximityUpdate();",
-		"proximity_clear_call": "proximity.clear();",
-		"on_proximity_removed": true,
-		"tmp_tiles_cleared": true,
-		"nearby_count": nearby_count,
-		"queued_removals": clampi(removable_count, 0, nearby_count),
-		"proximity_updates": clampi(removable_count, 0, nearby_count),
-		"proximity_cleared": true,
-	}
-
-const SOURCE_BUILDING_UPDATE_PROXIMITY_METHOD := "public void updateProximity(){"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TMP_CLEAR := "tmpTiles.clear();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_PROXIMITY_CLEAR := "proximity.clear();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_EDGES := "Point2[] nearby = Edges.getEdges(block.size);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_WORLD_BUILD := "Building other = world.build(tile.x + point.x, tile.y + point.y);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TEAM_GUARD := "if(other == null || other.team != team) continue;"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADD_UNIQUE := "other.proximity.addUnique(self());"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_TMP_ADD := "tmpTiles.add(other);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADD_SELF := "proximity.add(tile);"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_ADDED := "onProximityAdded();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_UPDATE := "onProximityUpdate();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_OTHER_UPDATE := "other.onProximityUpdate();"
-const SOURCE_BUILDING_UPDATE_PROXIMITY_RECACHE := "if(!headless && block.drawCached) recache();"
+	return SourceBuildingLifecycleState.remove_from_proximity_state(nearby_count, removable_count)
 
 func source_building_update_proximity_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	return {
-		"tmp_tiles_cleared": true,
-		"proximity_cleared": true,
-		"nearby_count": nearby_count,
-		"same_team_count": clampi(same_team_count, 0, nearby_count),
-		"add_unique_calls": clampi(same_team_count, 0, nearby_count),
-		"on_proximity_added": true,
-		"self_proximity_update": true,
-		"other_proximity_updates": clampi(same_team_count, 0, nearby_count),
-		"recache": (not headless) and draw_cached,
-	}
+	return SourceBuildingLifecycleState.update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
 
 func source_building_on_nearby_build_added_state(other_state: Variant) -> Dictionary:
-	return {
-		"method": "public void onNearbyBuildAdded(Building other){}",
-		"no_op": true,
-		"other_state": other_state,
-	}
+	return SourceBuildingLifecycleState.on_nearby_build_added_state(other_state)
 
 func source_building_consume_state(consumers: Array, self_state: Variant) -> Dictionary:
-	var triggered: Array = []
-	for consumer in consumers:
-		triggered.append({"consumer": consumer, "self": self_state})
-	return {"triggered": triggered}
+	return SourceBuildingEfficiencyState.consume_state(consumers, self_state)
 
 func source_building_can_consume_state(potential_efficiency: float) -> bool:
-	return potential_efficiency > 0.0
+	return SourceBuildingEfficiencyState.can_consume_state(potential_efficiency)
 
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_COMMENT := "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_METHOD := "public void updateEfficiencyMultiplier(){"
@@ -10762,13 +7410,10 @@ const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_EFFICIENCY := "efficiency *= 
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_OPTIONAL := "optionalEfficiency *= scale;"
 
 func source_building_efficiency_scale_state() -> float:
-	return 1.0
+	return SourceBuildingEfficiencyState.efficiency_scale_state()
 
 func source_building_update_efficiency_multiplier_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
-	return {
-		"efficiency": efficiency * efficiency_scale,
-		"optional_efficiency": optional_efficiency * efficiency_scale,
-	}
+	return SourceBuildingEfficiencyState.update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_COMMENT := "//everything is valid when cheating"
@@ -10780,18 +7425,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_MULTIPLIER := "updateEfficiency
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_RETURN := "return;"
 
 func source_building_update_consumption_initial_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
-	if has_consumers and not cheating:
-		return {"returned": false}
-	var potential_efficiency := 1.0 if enabled_state and production_valid else 0.0
-	var efficiency := potential_efficiency if should_consume_state else 0.0
-	var multiplied := source_building_update_efficiency_multiplier_state(efficiency, efficiency, efficiency_scale)
-	return {
-		"potential_efficiency": potential_efficiency,
-		"efficiency": multiplied.get("efficiency", efficiency),
-		"optional_efficiency": multiplied.get("optional_efficiency", efficiency),
-		"should_consume_power": true,
-		"returned": true,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_COMMENT := "//disabled -> nothing works"
@@ -10801,15 +7435,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_POWER := "shouldConsumePower =
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_RETURN := "return;"
 
 func source_building_update_consumption_disabled_state(enabled_state: bool) -> Dictionary:
-	if enabled_state:
-		return {"returned": false}
-	return {
-		"potential_efficiency": 0.0,
-		"efficiency": 0.0,
-		"optional_efficiency": 0.0,
-		"should_consume_power": false,
-		"returned": true,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_disabled_state(enabled_state)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_UPDATE := "boolean update = shouldConsume() && productionValid();"
@@ -10819,13 +7445,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_EFFICIENCIES := "efficiency = opt
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_POWER := "shouldConsumePower = true;"
 
 func source_building_update_consumption_setup_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
-	return {
-		"update": should_consume_state and production_valid,
-		"min_efficiency": 1.0,
-		"efficiency": 1.0,
-		"optional_efficiency": 1.0,
-		"should_consume_power": true,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_setup_state(should_consume_state, production_valid)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_COMMENT := "//first pass: get the minimum efficiency of any consumer"
@@ -10836,17 +7456,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_POWER_STATE := "shouldCons
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_MIN := "minEfficiency = Math.min(minEfficiency, result);"
 
 func source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results: Array) -> Dictionary:
-	var min_efficiency := 1.0
-	var should_consume_power := true
-	for consumer in non_optional_consumer_results:
-		var result := float(consumer.get("result", 0.0))
-		if not bool(consumer.get("is_power", false)) and result <= 0.0000001:
-			should_consume_power = false
-		min_efficiency = min(min_efficiency, result)
-	return {
-		"min_efficiency": min_efficiency,
-		"should_consume_power": should_consume_power,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_non_optional_pass_state(non_optional_consumer_results)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_COMMENT := "//same for optionals"
@@ -10854,12 +7464,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_LOOP := "for(var cons : block.
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_MIN := "optionalEfficiency = Math.min(optionalEfficiency, cons.efficiency(self()));"
 
 func source_building_update_consumption_optional_pass_state(optional_consumer_results: Array) -> Dictionary:
-	var optional_efficiency := 1.0
-	for result in optional_consumer_results:
-		optional_efficiency = min(optional_efficiency, float(result))
-	return {
-		"optional_efficiency": optional_efficiency,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_optional_pass_state(optional_consumer_results)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_COMMENT := "//efficiency is now this minimum value"
@@ -10869,17 +7474,7 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_POTENTIAL_ASSIGN := "potenti
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_NO_UPDATE_ZERO := "efficiency = optionalEfficiency = 0f;"
 
 func source_building_update_consumption_efficiency_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	var efficiency := min_efficiency
-	optional_efficiency = min(optional_efficiency, min_efficiency)
-	var potential_efficiency := efficiency
-	if not update:
-		efficiency = 0.0
-		optional_efficiency = 0.0
-	return {
-		"efficiency": efficiency,
-		"optional_efficiency": optional_efficiency,
-		"potential_efficiency": potential_efficiency,
-	}
+	return SourceBuildingEfficiencyState.update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_METHOD := "public void updateConsumption(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_MULTIPLIER := "updateEfficiencyMultiplier();"
@@ -10889,94 +7484,40 @@ const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_LOOP := "for(var cons : block.up
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_UPDATE := "cons.update(self());"
 
 func source_building_update_consumption_second_pass_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	var updated_consumers := []
-	if update and efficiency > 0.0:
-		for consumer in update_consumers:
-			updated_consumers.append({
-				"consumer": consumer,
-				"self": self_state,
-			})
-	return {
-		"updated_consumers": updated_consumers,
-		"update_count": updated_consumers.size(),
-	}
+	return SourceBuildingEfficiencyState.update_consumption_second_pass_state(update, efficiency, update_consumers, self_state)
 
 func source_building_ambient_volume(efficiency: float) -> float:
-	return efficiency
+	return SourceBuildingEfficiencyState.ambient_volume(efficiency)
 
 func source_building_config_default() -> Variant:
-	return null
+	return SourceBuildingLifecycleState.config_default()
 
 func source_building_is_valid(tile_build_matches_self: bool, dead_state: bool) -> bool:
-	return tile_build_matches_self and not dead_state
+	return SourceBuildingLifecycleState.is_valid(tile_build_matches_self, dead_state)
 
 func source_building_heal_state(_amount: Variant = null) -> Dictionary:
-	return {
-		"amount": _amount,
-		"health_changed": true,
-	}
+	return SourceBuildingLifecycleState.heal_state(_amount)
 
 func source_building_hit_size(block_size_value: int, source_tilesize: float) -> float:
-	return float(block_size_value) * source_tilesize
+	return SourceBlockGeometry.building_hit_size(block_size_value, source_tilesize)
 
 func source_building_kill_state(self_state := {}) -> Dictionary:
-	return {
-		"method": "public void kill(){",
-		"build_destroyed_call": "Call.buildDestroyed(self());",
-		"self_state": self_state,
-		"call": "buildDestroyed",
-		"self": self_state,
-	}
+	return SourceBuildingLifecycleState.kill_state(self_state)
 
 func source_building_damage_dead_guard_state(dead_state: bool) -> Dictionary:
-	return {
-		"returned": dead_state,
-		"continues": not dead_state,
-	}
+	return SourceBuildingDamageState.dead_guard_state(dead_state)
 
 func source_building_damage_block_health_scale_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:
-	if is_zero_approx(block_health_multiplier):
-		return {
-			"damage": health + 1.0,
-			"last_damage_time": source_time,
-		}
-	return {
-		"damage": damage_amount / block_health_multiplier,
-		"last_damage_time": source_time,
-	}
+	return SourceBuildingDamageState.block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)
 
 func source_building_damage_handle_damage_gate_state(net_client: bool, health: float, damage_amount: float, handled_damage: float) -> Dictionary:
-	if not net_client:
-		return {
-			"health": health - handled_damage,
-			"damage": damage_amount,
-			"handled_damage": handled_damage,
-			"handle_damage_called": true,
-		}
-	return {
-		"health": health,
-		"damage": damage_amount,
-		"handled_damage": null,
-		"handle_damage_called": false,
-	}
+	return SourceBuildingDamageState.handle_damage_gate_state(net_client, health, damage_amount, handled_damage)
 
 func source_building_damage_health_changed_call_state() -> Dictionary:
-	return {
-		"health_changed": true,
-	}
+	return SourceBuildingDamageState.health_changed_call_state()
 
 func source_building_damage_destroy_gate_state(health: float, self_state := {}) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"destroy_gate": "if(health <= 0){",
-		"build_destroyed_call": "Call.buildDestroyed(self());",
-	}
-	if health <= 0.0:
-		var destroyed_result: Dictionary = {"build_destroyed_called": true, "build_destroyed": self_state}
-		destroyed_result.merge(source_exprs)
-		return destroyed_result
-	var alive_result: Dictionary = {"build_destroyed_called": false, "build_destroyed": null}
-	alive_result.merge(source_exprs)
-	return alive_result
+	return SourceBuildingDamageState.destroy_gate_state(health, self_state)
 
 func source_building_health_changed_state(net_server: bool, self_state := {}) -> Dictionary:
 	var build_health_update = self_state
@@ -10989,199 +7530,28 @@ func source_building_health_changed_state(net_server: bool, self_state := {}) ->
 	}
 
 func source_building_sense_position_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:
-	return {
-		"method": "public double sense(LAccess sensor){",
-		"switch_case": "return switch(sensor){",
-		"x_case": "case x -> World.conv(x);",
-		"y_case": "case y -> World.conv(y);",
-		"world_conv_method": "public static float conv(float coord){",
-		"world_conv_return": "return coord / tilesize;",
-		"world_x": world_x,
-		"world_y": world_y,
-		"source_tilesize": source_tilesize,
-		"x": world_x / source_tilesize,
-		"y": world_y / source_tilesize,
-	}
+	return SourceBuildingSenseState.sense_position_state(world_x, world_y, source_tilesize)
 
 func source_building_sense_health_process_state(health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:
-	var source_state := {
-		"method": "public double sense(LAccess sensor){",
-		"health_case": "case health -> health;",
-		"max_health_case": "case maxHealth -> maxHealth;",
-		"efficiency_case": "case efficiency -> efficiency;",
-		"timescale_case": "case timescale -> timeScale;",
-		"range_case": "case range -> this instanceof Ranged r ? r.range() / tilesize : 0;",
-		"rotation_case": "case rotation -> rotation;",
-		"health_input": health,
-		"max_health_input": max_health,
-		"efficiency_input": efficiency,
-		"time_scale": time_scale,
-		"ranged_range": ranged_range,
-		"source_tilesize": source_tilesize,
-		"has_range": has_range,
-		"rotation_value": rotation_value,
-	}
-	source_state["health"] = health
-	source_state["max_health"] = max_health
-	source_state["efficiency"] = efficiency
-	source_state["timescale"] = time_scale
-	source_state["range"] = ranged_range / source_tilesize if has_range else 0.0
-	source_state["rotation"] = rotation_value
-	return source_state
+	return SourceBuildingSenseState.sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)
 
 func source_building_sense_totals_state(total_items: float, total_liquids: float, total_power: float) -> Dictionary:
-	return {
-		"method": "public double sense(LAccess sensor){",
-		"total_items_case": "case totalItems -> items == null ? 0 : items.total();",
-		"total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
-		"total_liquids_case": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
-		"total_power_case": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
-		"total_items": total_items,
-		"total_liquids": total_liquids,
-		"total_power": total_power,
-	}
+	return SourceBuildingSenseState.sense_totals_state(total_items, total_liquids, total_power)
 
 func source_building_sense_capacity_power_net_state(block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float) -> Dictionary:
-	var power_net_in := 0.0
-	var power_net_out := 0.0
-	var power_net_stored := 0.0
-	var power_net_capacity := 0.0
-	if has_power_module:
-		power_net_in = last_scaled_power_in * SOURCE_TICK_RATE
-		power_net_out = last_scaled_power_out * SOURCE_TICK_RATE
-		power_net_stored = last_power_stored
-		power_net_capacity = last_power_capacity
-	return {
-		"method": "public double sense(LAccess sensor){",
-		"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;",
-		"liquid_capacity_case": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;",
-		"power_capacity_case": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;",
-		"power_net_in_case": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;",
-		"power_net_out_case": "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;",
-		"power_net_stored_case": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();",
-		"power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();",
-		"block_has_items": block_has_items,
-		"block_item_capacity": block_item_capacity,
-		"block_has_liquids": block_has_liquids,
-		"block_liquid_capacity": block_liquid_capacity,
-		"has_cons_power": has_cons_power,
-		"cons_power_capacity": cons_power_capacity,
-		"has_power_module": has_power_module,
-		"last_scaled_power_in": last_scaled_power_in,
-		"last_scaled_power_out": last_scaled_power_out,
-		"last_power_stored": last_power_stored,
-		"last_power_capacity": last_power_capacity,
-		"item_capacity": block_item_capacity if block_has_items else 0.0,
-		"liquid_capacity": block_liquid_capacity if block_has_liquids else 0.0,
-		"power_capacity": cons_power_capacity if has_cons_power else 0.0,
-		"power_net_in": power_net_in,
-		"power_net_out": power_net_out,
-		"power_net_stored": power_net_stored,
-		"power_net_capacity": power_net_capacity,
-	}
+	return SourceBuildingSenseState.sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, SOURCE_TICK_RATE)
 
 func source_building_sense_enabled_controlled_state(enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float) -> Dictionary:
-	var source_state := {
-		"method": "public double sense(LAccess sensor){",
-		"enabled_case": "case enabled -> enabled ? 1 : 0;",
-		"controlled_case": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
-		"enabled_state": enabled_state,
-		"is_control_block": is_control_block,
-		"is_controlled": is_controlled,
-		"ctrl_player_value": ctrl_player_value,
-	}
-	source_state["enabled"] = 1.0 if enabled_state else 0.0
-	source_state["controlled"] = ctrl_player_value if is_control_block and is_controlled else 0.0
-	return source_state
+	return SourceBuildingSenseState.sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)
 
 func source_building_sense_payload_size_state(has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float) -> Dictionary:
-	var payload_count := 0.0
-	if has_payload_seq:
-		payload_count += payload_seq_total
-	if has_single_payload:
-		payload_count += 1.0
-	return {
-		"method": "public double sense(LAccess sensor){",
-		"payload_count_case": "case payloadCount -> (getPayloads() != null ? getPayloads().total() : 0) + (getPayload() != null ? 1 : 0);",
-		"size_case": "case size -> block.size;",
-		"has_payload_seq": has_payload_seq,
-		"payload_seq_total": payload_seq_total,
-		"has_single_payload": has_single_payload,
-		"block_size_value": block_size_value,
-		"payload_count": payload_count,
-		"size": block_size_value,
-	}
+	return SourceBuildingSenseState.sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)
 
 func source_building_sense_object_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
-	var source_state := {
-		"method": "public Object senseObject(LAccess sensor){",
-		"type_case": "case type -> block;",
-		"first_item_case": "case firstItem -> items == null ? null : items.first();",
-		"config_case": "case config -> block.configSenseable() ? config() : null;",
-		"payload_type_case": "case payloadType -> getPayload() instanceof UnitPayload p1 ? p1.unit.type : getPayload() instanceof BuildPayload p2 ? p2.block() : null;",
-		"default_case": "default -> noSensed;",
-		"sensor": sensor,
-		"block_value": block_value,
-		"has_items_module": has_items_module,
-		"first_item_value": first_item_value,
-		"config_senseable": config_senseable,
-		"config_value": config_value,
-		"single_payload_kind": single_payload_kind,
-		"single_payload_content": single_payload_content,
-		"no_sensed": false,
-		"value": null,
-	}
-	match sensor:
-		"type":
-			source_state["value"] = block_value
-			return source_state
-		"firstItem":
-			source_state["value"] = first_item_value if has_items_module else null
-			return source_state
-		"config":
-			source_state["value"] = config_value if config_senseable else null
-			return source_state
-		"payloadType":
-			if single_payload_kind == "unit" or single_payload_kind == "block":
-				source_state["value"] = single_payload_content
-				return source_state
-			return source_state
-		_:
-			source_state["no_sensed"] = true
-			return source_state
+	return SourceBuildingSenseState.sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)
 
 func source_building_sense_content_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
-	var source_state := {
-		"method": "public double sense(Content content){",
-		"item_case": "if(content instanceof Item i && items != null) return items.get(i);",
-		"liquid_case": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
-		"payloads_guard": "if(getPayloads() != null){",
-		"unit_payload_case": "if(content instanceof UnitType u) return getPayloads().get(u);",
-		"block_payload_case": "if(content instanceof Block b) return getPayloads().get(b);",
-		"invalid_return": "return Float.NaN; //invalid sense",
-		"content_type": content_type,
-		"has_items_module": has_items_module,
-		"item_amount": item_amount,
-		"has_liquids_module": has_liquids_module,
-		"liquid_amount": liquid_amount,
-		"has_payloads": has_payloads,
-		"payload_amount": payload_amount,
-	}
-	if content_type == "item" and has_items_module:
-		source_state["sensed"] = true
-		source_state["value"] = item_amount
-		return source_state
-	if content_type == "liquid" and has_liquids_module:
-		source_state["sensed"] = true
-		source_state["value"] = liquid_amount
-		return source_state
-	if (content_type == "unit" or content_type == "block") and has_payloads:
-		source_state["sensed"] = true
-		source_state["value"] = payload_amount
-		return source_state
-	source_state["sensed"] = false
-	source_state["value"] = null
-	return source_state
+	return SourceBuildingSenseState.sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
 
 func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11196,26 +7566,7 @@ func generated_building_comp_sense_content_bridge_state(content_type: String, ha
 	}
 
 func source_building_sense_camera_default_state(is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float) -> Dictionary:
-	var camera_x := unit_camera_x if is_control_block else 0.0
-	var camera_y := unit_camera_y if is_control_block else 0.0
-	var camera_width := unit_camera_width if is_control_block else 0.0
-	var camera_height := unit_camera_height if is_control_block else 0.0
-	var source_state := {
-		"method": "public double sense(LAccess sensor){",
-		"camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-		"default_case": "default -> Float.NaN; //gets converted to null in logic",
-		"is_control_block": is_control_block,
-		"unit_camera_x": unit_camera_x,
-		"unit_camera_y": unit_camera_y,
-		"unit_camera_width": unit_camera_width,
-		"unit_camera_height": unit_camera_height,
-		"camera_x": camera_x,
-		"camera_y": camera_y,
-		"camera_width": camera_width,
-		"camera_height": camera_height,
-		"invalid_sensor": null,
-	}
-	return source_state
+	return SourceBuildingSenseState.sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)
 
 func source_building_control_enabled_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
 	var next_enabled := current_enabled
@@ -11253,28 +7604,7 @@ func generated_building_comp_control_config_bridge_state(control_type: String, b
 	}
 
 func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(LAccess prop, double value){",
-		"switch_prop": "switch(prop){",
-		"health_case": "case health -> {",
-		"clamp_assign": "health = (float)Mathf.clamp(value, 0, maxHealth);",
-		"destroy_gate": "if(health <= 0f && !dead()){",
-		"build_destroyed_call": "Call.buildDestroyed(self());",
-		"else_branch": "}else{",
-		"health_changed_call": "healthChanged();",
-	}
-	if prop != "health":
-		var non_health_result: Dictionary = {"health": current_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": false}
-		non_health_result.merge(source_exprs)
-		return non_health_result
-	var next_health := clampf(value, 0.0, max_health_value)
-	if next_health <= 0.0 and not dead_state:
-		var destroyed_result: Dictionary = {"health": next_health, "build_destroyed_called": true, "build_destroyed": self_state, "health_changed": false}
-		destroyed_result.merge(source_exprs)
-		return destroyed_result
-	var changed_result: Dictionary = {"health": next_health, "build_destroyed_called": false, "build_destroyed": null, "health_changed": true}
-	changed_result.merge(source_exprs)
-	return changed_result
+	return SourceBuildingSetPropState.health_state(prop, current_health, max_health_value, value, dead_state, self_state)
 
 func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11289,25 +7619,7 @@ func generated_building_comp_set_prop_health_bridge_state(prop: String, current_
 	}
 
 func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(LAccess prop, double value){",
-		"team_case": "case team -> {",
-		"team_lookup": "Team team = Team.get((int)value);",
-		"change_gate": "if(this.team != team){",
-		"change_team_call": "changeTeam(team);",
-	}
-	if prop != "team":
-		var non_team_result: Dictionary = {"team_id": current_team_id, "change_team_called": false, "change_team": null}
-		non_team_result.merge(source_exprs)
-		return non_team_result
-	var next_team_id := int(value)
-	if current_team_id != next_team_id:
-		var changed_result: Dictionary = {"team_id": next_team_id, "change_team_called": true, "change_team": next_team_id}
-		changed_result.merge(source_exprs)
-		return changed_result
-	var same_result: Dictionary = {"team_id": current_team_id, "change_team_called": false, "change_team": null}
-	same_result.merge(source_exprs)
-	return same_result
+	return SourceBuildingSetPropState.team_double_state(prop, current_team_id, value)
 
 func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11322,20 +7634,7 @@ func generated_building_comp_set_prop_team_double_bridge_state(prop: String, cur
 	}
 
 func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(LAccess prop, double value){",
-		"total_power_case": "case totalPower -> {",
-		"total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){",
-		"status_assign": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));",
-	}
-	if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:
-		var next_status := clampf(value / cons_power_capacity, 0.0, 1.0)
-		var updated_result: Dictionary = {"power_status": next_status, "updated": true}
-		updated_result.merge(source_exprs)
-		return updated_result
-	var unchanged_result: Dictionary = {"power_status": current_power_status, "updated": false}
-	unchanged_result.merge(source_exprs)
-	return unchanged_result
+	return SourceBuildingSetPropState.total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
 
 func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11350,20 +7649,7 @@ func generated_building_comp_set_prop_total_power_bridge_state(prop: String, cur
 	}
 
 func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(LAccess prop, Object value){",
-		"switch_prop": "switch(prop){",
-		"team_case": "case team -> {",
-		"team_gate": "if(value instanceof Team team && this.team != team){",
-		"change_team_call": "changeTeam(team);",
-	}
-	if prop == "team" and value_is_team and current_team_value != team_value:
-		var changed_result: Dictionary = {"team": team_value, "change_team_called": true, "change_team": team_value}
-		changed_result.merge(source_exprs)
-		return changed_result
-	var same_result: Dictionary = {"team": current_team_value, "change_team_called": false, "change_team": null}
-	same_result.merge(source_exprs)
-	return same_result
+	return SourceBuildingSetPropState.team_object_state(prop, current_team_value, value_is_team, team_value)
 
 func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11402,61 +7688,10 @@ func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: 
 	}
 
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(UnlockableContent content, double value){",
-		"item_gate": "if(content instanceof Item item && items != null){",
-		"amount_assign": "int amount = (int)value;",
-		"amount_diff_gate": "if(items.get(item) != amount){",
-		"increase_gate": "if(items.get(item) < amount){",
-		"handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
-		"remove_gate": "}else if(amount >= 0){",
-		"remove_stack_call": "removeStack(item, items.get(item) - amount);",
-	}
-	if content_type != "item" or not has_items_module:
-		var no_item_result: Dictionary = {"action": "none", "item": item_value, "amount": current_amount, "delta": 0, "accepted": 0}
-		no_item_result.merge(source_exprs)
-		return no_item_result
-	var amount := int(value)
-	if current_amount == amount:
-		var same_result: Dictionary = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
-		same_result.merge(source_exprs)
-		return same_result
-	if current_amount < amount:
-		var handle_result: Dictionary = {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}
-		handle_result.merge(source_exprs)
-		return handle_result
-	if amount >= 0:
-		var remove_result: Dictionary = {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
-		remove_result.merge(source_exprs)
-		return remove_result
-	var negative_result: Dictionary = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
-	negative_result.merge(source_exprs)
-	return negative_result
+	return SourceBuildingSetPropState.item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)
 
 func source_building_set_prop_liquid_content_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:
-	var source_exprs: Dictionary = {
-		"method": "public void setProp(UnlockableContent content, double value){",
-		"liquid_gate": "}else if(content instanceof Liquid liquid && liquids != null){",
-		"clamp_assign": "float amount = Mathf.clamp((float)value, 0f, block.liquidCapacity);",
-		"decreasing_comment": "//decreasing amount is always allowed",
-		"set_gate": "if(amount < liquids.get(liquid) || (acceptLiquid(self(), liquid) && (liquids.current() == liquid || liquids.currentAmount() <= 0.1f || block.consumesLiquid(liquid)))){",
-		"liquids_set_call": "liquids.set(liquid, amount);",
-	}
-	if content_type != "liquid" or not has_liquids_module:
-		var no_liquid_result: Dictionary = {"action": "none", "liquid": liquid_value, "amount": current_amount}
-		no_liquid_result.merge(source_exprs)
-		return no_liquid_result
-	var amount := clampf(value, 0.0, block_liquid_capacity)
-	var can_set := amount < current_amount
-	if not can_set:
-		can_set = accept_liquid_result and (current_liquid_matches or current_liquid_amount <= 0.1 or block_consumes_liquid)
-	if can_set:
-		var set_result: Dictionary = {"action": "set_liquid", "liquid": liquid_value, "amount": amount}
-		set_result.merge(source_exprs)
-		return set_result
-	var blocked_result: Dictionary = {"action": "none", "liquid": liquid_value, "amount": current_amount}
-	blocked_result.merge(source_exprs)
-	return blocked_result
+	return SourceBuildingSetPropState.liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
 
 func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11495,32 +7730,13 @@ func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_valu
 	}
 
 func source_building_in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dictionary:
-	if same_team or not rules_fog:
-		return {"returned": true, "value": false}
-	return {"returned": false, "value": null}
+	return SourceBuildingVisibilityState.in_fog_initial_gate_state(same_team, rules_fog)
 
 func source_building_in_fog_discovery_gate_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:
-	var grid := {
-		"size": block_size_value,
-		"offset": block_size_offset,
-		"tile_x": tile_x,
-		"tile_y": tile_y,
-	}
-	if not is_discovered:
-		return {"returned": true, "value": true, "grid": grid}
-	return {"returned": false, "value": null, "grid": grid}
+	return SourceBuildingVisibilityState.in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)
 
 func source_building_in_fog_visibility_loop_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
-	var checked_tiles: Array = []
-	for x in range(block_size_value):
-		for y in range(block_size_value):
-			var check_x := tile_x + x + block_size_offset
-			var check_y := tile_y + y + block_size_offset
-			checked_tiles.append({"x": check_x, "y": check_y})
-			for visible_tile in visible_tiles:
-				if int(visible_tile.get("x", -2147483648)) == check_x and int(visible_tile.get("y", -2147483648)) == check_y:
-					return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}
-	return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}
+	return SourceBuildingVisibilityState.in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 
 func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11547,24 +7763,10 @@ func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value
 	}
 
 func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
-	return {
-		"method": "public void killed(){",
-		"tile_value": tile_value,
-		"dead": true,
-		"event": {"type": "BlockDestroyEvent", "tile": tile_value},
-		"on_destroyed_called": true,
-		"next_step": "tile_remove_gate",
-	}
+	return SourceBuildingLifecycleState.killed_initial_side_effects_state(tile_value)
 
 func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dictionary:
-	return {
-		"method": "public void killed(){",
-		"tile_not_empty_tile": tile_not_empty_tile,
-		"tile_remove_gate": tile_not_empty_tile,
-		"tile_remove_called": tile_not_empty_tile,
-		"remove_called": true,
-		"after_destroyed_called": true,
-	}
+	return SourceBuildingLifecycleState.killed_removal_side_effects_state(tile_not_empty_tile)
 
 func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11579,9 +7781,52 @@ func generated_building_comp_check_allow_update_bridge_state(current_enabled: bo
 	}
 
 func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	if not allow_update_result:
-		return {"enabled": false, "changed": current_enabled}
-	return {"enabled": current_enabled, "changed": false}
+	return SourceBuildingLifecycleState.check_allow_update_state(current_enabled, allow_update_result)
+
+func source_building_write_base_timescale_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
+	return SourceBuildingTimeState.write_base_timescale_state(current_time_scale, current_time_scale_duration, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+
+func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_writeBase_5([current_time_scale, current_time_scale_duration])
+	var canonical = source_building_write_base_timescale_state(current_time_scale, current_time_scale_duration)
+	return {
+		"source_owner": "PortGame.source_building_write_base_timescale_state",
+		"generated_owner": "BuildingComp.java_method_writeBase_5",
+		"result": result,
+		"canonical": canonical,
+	}
+
+func source_building_read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
+	return SourceBuildingTimeState.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+
+func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_readBase_6([current_module_bits, read_time_scale, read_time_scale_duration])
+	var canonical = source_building_read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration)
+	return {
+		"source_owner": "PortGame.source_building_read_base_timescale_state",
+		"generated_owner": "BuildingComp.java_method_readBase_6",
+		"result": result,
+		"canonical": canonical,
+	}
+
+func source_building_module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
+	return SourceBuildingTimeState.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+
+func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_moduleBitmask_7([has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler])
+	var canonical = source_building_module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)
+	return {
+		"source_owner": "PortGame.source_building_module_bitmask_state",
+		"generated_owner": "BuildingComp.java_method_moduleBitmask_7",
+		"result": result,
+		"canonical": canonical,
+	}
 
 func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11603,13 +7848,13 @@ const SOURCE_BUILDING_UPDATE_TIMESCALE_DECAY_RESET := "timeScale = 1f;"
 func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
 	var next_duration := current_time_scale_duration - time_delta
 	if next_duration <= 0.0:
-		return {"time_scale": 1.0, "time_scale_duration": next_duration}
+		return {"time_scale": SOURCE_BLOCK_TIME_SCALE_DEFAULT, "time_scale_duration": next_duration}
 	return {"time_scale": current_time_scale, "time_scale_duration": next_duration}
 
 func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
-	var result = instance.java_method_update_217([1.0, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])
+	var result = instance.java_method_update_217([SOURCE_BLOCK_TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])
 	var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
 	return {
 		"source_owner": "PortGame.source_building_update_ambient_sound_gate_state",
@@ -11624,21 +7869,18 @@ const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_LOOP := "control.sound.loop(block.amb
 const SOURCE_BUILDING_UPDATE_AMBIENT_SOUND_VOLUME_EXPR := "block.ambientSoundVolume * ambientVolume()"
 
 func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
-	var should_loop: bool = not headless_mode and ambient_sound_value != sounds_none_value and should_ambient_sound_result
-	if not should_loop:
-		return {"loop_called": false, "sound": ambient_sound_value, "volume": 0.0}
-	return {"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value}
+	return SourceBuildingTimeState.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
 
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL := "updateConsumption();"
 
 func source_building_update_consumption_call_state() -> Dictionary:
-	return {"update_consumption_called": true}
+	return SourceBuildingEfficiencyState.update_consumption_call_state()
 
 func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
-	var result = instance.java_method_update_217([1.0, 0.0, 0.0])
+	var result = instance.java_method_update_217([SOURCE_BLOCK_TIME_SCALE_DEFAULT, 0.0, 0.0])
 	var canonical = source_building_update_consumption_call_state()
 	return {
 		"source_owner": "PortGame.source_building_update_consumption_call_state",
@@ -11652,13 +7894,12 @@ const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDi
 const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"
 
 func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	var update_tile_called: bool = enabled_state or not block_no_update_disabled
-	return {"update_tile_called": update_tile_called}
+	return SourceBuildingLifecycleState.update_tile_gate_state(enabled_state, block_no_update_disabled)
 
 func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()
-	var result = instance.java_method_update_217([1.0, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])
+	var result = instance.java_method_update_217([SOURCE_BLOCK_TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])
 	var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)
 	return {
 		"source_owner": "PortGame.source_building_update_tile_gate_state",
@@ -11676,21 +7917,7 @@ const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_SHADOW := "renderer.blocks.updateSha
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_MINIMAP := "renderer.minimap.update(tile);"
 
 func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
-	var should_update: bool = not was_visible and not in_fog_to_player_team
-	if not should_update:
-		return {
-			"visible_flags": visible_flags,
-			"was_visible": was_visible,
-			"update_shadow": null,
-			"minimap_update": null,
-		}
-	var updated_flags: int = visible_flags | (1 << player_team_id)
-	return {
-		"visible_flags": updated_flags,
-		"was_visible": true,
-		"update_shadow": self_state,
-		"minimap_update": tile_state,
-	}
+	return SourceBuildingVisibilityState.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 
 func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11705,10 +7932,7 @@ func generated_building_comp_update_fog_visibility_bridge_state(was_visible: boo
 	}
 
 func source_building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	var hitbox_size: float = float(block_size_value) * source_tilesize
-	return {
-		"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size},
-	}
+	return SourceBlockGeometry.building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
 
 func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
@@ -11746,21 +7970,7 @@ func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value:
 	}
 
 func source_building_tether_update_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
-	var guard: bool = (not building_exists) or (not building_is_valid) or building_team_value != team_value
-	var despawn_call: Variant = null
-	if guard:
-		despawn_call = {
-			"call": "Call.unitDespawn(self())",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"buildingExists": building_exists,
-		"buildingIsValid": building_is_valid,
-		"buildingTeam": building_team_value,
-		"team": team_value,
-		"despawn": despawn_call,
-	}
+	return SourceBuildingTetherState.update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
 
 func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd")
@@ -11941,11 +8151,7 @@ func generated_shielder_comp_absorb_bridge_state() -> Dictionary:
 	}
 
 func source_sync_snap_sync_state() -> Dictionary:
-	return {
-		"method": "void snapSync(){}",
-		"empty_body": "void snapSync(){}",
-		"no_op": true,
-	}
+	return SourceSyncState.snap_sync_state()
 
 func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -11961,11 +8167,7 @@ func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:
 	}
 
 func source_sync_snap_interpolation_state() -> Dictionary:
-	return {
-		"method": "void snapInterpolation(){}",
-		"empty_body": "void snapInterpolation(){}",
-		"no_op": true,
-	}
+	return SourceSyncState.snap_interpolation_state()
 
 func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -11981,11 +8183,7 @@ func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:
 	}
 
 func source_sync_read_sync_state() -> Dictionary:
-	return {
-		"method": "void readSync(Reads read){}",
-		"empty_body": "void readSync(Reads read){}",
-		"no_op": true,
-	}
+	return SourceSyncState.read_sync_state()
 
 func generated_sync_comp_read_sync_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12001,11 +8199,7 @@ func generated_sync_comp_read_sync_bridge_state() -> Dictionary:
 	}
 
 func source_sync_write_sync_state() -> Dictionary:
-	return {
-		"method": "void writeSync(Writes write){}",
-		"empty_body": "void writeSync(Writes write){}",
-		"no_op": true,
-	}
+	return SourceSyncState.write_sync_state()
 
 func generated_sync_comp_write_sync_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12021,11 +8215,7 @@ func generated_sync_comp_write_sync_bridge_state() -> Dictionary:
 	}
 
 func source_sync_read_sync_manual_state() -> Dictionary:
-	return {
-		"method": "void readSyncManual(FloatBuffer buffer){}",
-		"empty_body": "void readSyncManual(FloatBuffer buffer){}",
-		"no_op": true,
-	}
+	return SourceSyncState.read_sync_manual_state()
 
 func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12041,11 +8231,7 @@ func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:
 	}
 
 func source_sync_write_sync_manual_state() -> Dictionary:
-	return {
-		"method": "void writeSyncManual(FloatBuffer buffer){}",
-		"empty_body": "void writeSyncManual(FloatBuffer buffer){}",
-		"no_op": true,
-	}
+	return SourceSyncState.write_sync_manual_state()
 
 func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12061,11 +8247,7 @@ func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:
 	}
 
 func source_sync_after_sync_state() -> Dictionary:
-	return {
-		"method": "void afterSync(){}",
-		"empty_body": "void afterSync(){}",
-		"no_op": true,
-	}
+	return SourceSyncState.after_sync_state()
 
 func generated_sync_comp_after_sync_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12081,11 +8263,7 @@ func generated_sync_comp_after_sync_bridge_state() -> Dictionary:
 	}
 
 func source_sync_interpolate_state() -> Dictionary:
-	return {
-		"method": "void interpolate(){}",
-		"empty_body": "void interpolate(){}",
-		"no_op": true,
-	}
+	return SourceSyncState.interpolate_state()
 
 func generated_sync_comp_interpolate_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12101,12 +8279,7 @@ func generated_sync_comp_interpolate_bridge_state() -> Dictionary:
 	}
 
 func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:
-	return {
-		"method": "boolean isSyncHidden(Player player){",
-		"player": player,
-		"return_expr": "return false;",
-		"is_sync_hidden": false,
-	}
+	return SourceSyncState.is_sync_hidden_state(player)
 
 func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12122,11 +8295,7 @@ func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> 
 	}
 
 func source_sync_handle_sync_hidden_state() -> Dictionary:
-	return {
-		"method": "void handleSyncHidden(){",
-		"empty_body": "void handleSyncHidden(){\n\n}",
-		"no_op": true,
-	}
+	return SourceSyncState.handle_sync_hidden_state()
 
 func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12142,20 +8311,7 @@ func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:
 	}
 
 func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
-	var interpolate_called: bool = (net_client and not is_local) or is_remote
-	var interpolate_result: Variant = null
-	if interpolate_called:
-		interpolate_result = source_sync_interpolate_state()
-	return {
-		"method": "public void update(){",
-		"condition": "if((Vars.net.client() && !isLocal()) || isRemote()){",
-		"interpolate_call": "interpolate();",
-		"net_client": net_client,
-		"is_local": is_local,
-		"is_remote": is_remote,
-		"interpolate_called": interpolate_called,
-		"interpolate": interpolate_result,
-	}
+	return SourceSyncState.update_interpolate_state(net_client, is_local, is_remote)
 
 func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12171,17 +8327,7 @@ func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_lo
 	}
 
 func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:
-	var add_removed_entity_call: Variant = null
-	if net_client:
-		add_removed_entity_call = {"call": "Vars.netClient.addRemovedEntity(id());", "entity_id": entity_id}
-	return {
-		"method": "public void remove(){",
-		"condition": "if(Vars.net.client()){",
-		"add_removed_entity_call": add_removed_entity_call,
-		"id_call": "id()",
-		"net_client": net_client,
-		"entity_id": entity_id,
-	}
+	return SourceSyncState.remove_client_removed_entity_state(net_client, entity_id)
 
 func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
@@ -12197,11 +8343,7 @@ func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: b
 	}
 
 func source_block_unit_ammof_state(ammo: float) -> Dictionary:
-	return {
-		"method": "public float ammof(){",
-		"return_expr": "return ammo;",
-		"ammo": ammo,
-	}
+	return SourceBlockUnitState.ammof_state(ammo)
 
 func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12217,11 +8359,7 @@ func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
 	}
 
 func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:
-	return {
-		"method": "public TextureRegion icon(){",
-		"return_expr": "return tile.block.uiIcon;",
-		"tile_block_ui_icon": tile_block_ui_icon,
-	}
+	return SourceBlockUnitState.icon_state(tile_block_ui_icon)
 
 func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12237,28 +8375,7 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 	}
 
 func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
-	var this_tile_after: Variant = tile
-	var hit_size: float = tile_block_size * tilesize * 0.7
-	var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}
-	var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}
-	var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}
-	var set_call: Dictionary = {"call": "set(tile);", "tile": tile}
-	return {
-		"method": "public void tile(Building tile){",
-		"tile_assignment_expr": "this.tile = tile;",
-		"comment": "//sets up block stats",
-		"max_health_call": max_health_call,
-		"health_call": health_call,
-		"hit_size_call": hit_size_call,
-		"set_call": set_call,
-		"tile": tile,
-		"tile_block_health": tile_block_health,
-		"tile_health": tile_health,
-		"tile_block_size": tile_block_size,
-		"tilesize": tilesize,
-		"this_tile_after": this_tile_after,
-		"hit_size": hit_size,
-	}
+	return SourceBlockUnitState.tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
 
 func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12273,17 +8390,23 @@ func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_healt
 		"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null),
 	}
 
-func source_block_unit_add_state(tile_null: bool) -> Dictionary:
-	var runtime_exception_thrown: bool = tile_null
-	var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""
+func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size])
+	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, SOURCE_TILESIZE)
 	return {
-		"method": "public void add(){",
-		"guard_expr": "if(tile == null){",
-		"throw_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
-		"tile_null": tile_null,
-		"runtime_exception_thrown": runtime_exception_thrown,
-		"runtime_exception_message": runtime_exception_message,
+		"source_owner": "PortGame.source_block_unit_tile_state",
+		"generated_owner": "BlockUnitComp.java_method_tile_0",
+		"defaulted_arg": "tilesize",
+		"tilesize": SOURCE_TILESIZE,
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null),
 	}
+
+func source_block_unit_add_state(tile_null: bool) -> Dictionary:
+	return SourceBlockUnitState.add_state(tile_null)
 
 func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12299,20 +8422,7 @@ func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
 	}
 
 func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
-	var tile_guard: bool = tile_exists
-	var team_after: Variant = team
-	if tile_guard:
-		team_after = tile_team
-	return {
-		"method": "public void update(){",
-		"guard_expr": "if(tile != null){",
-		"team_assignment_expr": "team = tile.team;",
-		"tile_exists": tile_exists,
-		"team": team,
-		"tile_team": tile_team,
-		"tile_guard": tile_guard,
-		"team_after": team_after,
-	}
+	return SourceBlockUnitState.update_state(tile_exists, team, tile_team)
 
 func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12328,13 +8438,7 @@ func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Vari
 	}
 
 func source_block_unit_killed_state() -> Dictionary:
-	var tile_kill_call: String = "tile.kill();"
-	var tile_kill_called: bool = true
-	return {
-		"method": "public void killed(){",
-		"tile_kill_call": tile_kill_call,
-		"tile_kill_called": tile_kill_called,
-	}
+	return SourceBlockUnitState.killed_state()
 
 func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12350,15 +8454,7 @@ func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
 	}
 
 func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:
-	var tile_damage_call: String = "tile.damage(v, b);"
-	var tile_damage_called: bool = true
-	return {
-		"method": "public void damage(float v, boolean b){",
-		"tile_damage_call": tile_damage_call,
-		"tile_damage_called": tile_damage_called,
-		"v": v,
-		"b": b,
-	}
+	return SourceBlockUnitState.damage_state(v, b)
 
 func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12374,33 +8470,7 @@ func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Diction
 	}
 
 func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
-	var outer_guard: bool = tile_exists and this_team != team
-	var this_team_after: Variant = this_team
-	var inner_guard: bool = false
-	var tile_change_team_call: Variant = null
-	var tile_change_team_called: bool = false
-	if outer_guard:
-		this_team_after = team
-		inner_guard = tile_team != team
-		if inner_guard:
-			tile_change_team_call = {"call": "tile.changeTeam(team);", "team": team}
-			tile_change_team_called = true
-	return {
-		"method": "public void team(Team team){",
-		"outer_guard_expr": "if(tile != null && this.team != team){",
-		"this_team_assignment_expr": "this.team = team;",
-		"inner_guard_expr": "if(tile.team != team){",
-		"tile_change_team_call_expr": "tile.changeTeam(team);",
-		"tile_exists": tile_exists,
-		"this_team": this_team,
-		"team": team,
-		"tile_team": tile_team,
-		"outer_guard": outer_guard,
-		"inner_guard": inner_guard,
-		"this_team_after": this_team_after,
-		"tile_change_team_call": tile_change_team_call,
-		"tile_change_team_called": tile_change_team_called,
-	}
+	return SourceBlockUnitState.team_state(tile_exists, this_team, team, tile_team)
 
 func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12416,14 +8486,7 @@ func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: V
 	}
 
 func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
-	var dead: bool = tile_null or tile_dead
-	return {
-		"method": "public boolean dead(){",
-		"return_expr": "return tile == null || tile.dead();",
-		"tile_null": tile_null,
-		"tile_dead": tile_dead,
-		"dead": dead,
-	}
+	return SourceBlockUnitState.dead_state(tile_null, tile_dead)
 
 func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12439,14 +8502,7 @@ func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: boo
 	}
 
 func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var is_valid: bool = tile_exists and tile_is_valid
-	return {
-		"method": "public boolean isValid(){",
-		"return_expr": "return tile != null && tile.isValid();",
-		"tile_exists": tile_exists,
-		"tile_is_valid": tile_is_valid,
-		"is_valid": is_valid,
-	}
+	return SourceBlockUnitState.is_valid_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12462,14 +8518,7 @@ func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_
 	}
 
 func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var is_added: bool = tile_exists and tile_is_valid
-	return {
-		"method": "public boolean isAdded(){",
-		"return_expr": "return tile != null && tile.isValid();",
-		"tile_exists": tile_exists,
-		"tile_is_valid": tile_is_valid,
-		"is_added": is_added,
-	}
+	return SourceBlockUnitState.is_added_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
@@ -12485,18 +8534,7 @@ func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_
 	}
 
 func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
-	var type_build_speed_positive: bool = type_build_speed > 0
-	var build_speed_multiplier_positive: bool = build_speed_multiplier > 0
-	var can_build: bool = type_build_speed_positive and build_speed_multiplier_positive
-	return {
-		"method": "public boolean canBuild(){",
-		"return_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;",
-		"type_build_speed": type_build_speed,
-		"build_speed_multiplier": build_speed_multiplier,
-		"type_build_speed_positive": type_build_speed_positive,
-		"build_speed_multiplier_positive": build_speed_multiplier_positive,
-		"can_build": can_build,
-	}
+	return SourceBuilderRuntimeState.can_build_state(type_build_speed, build_speed_multiplier)
 
 func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12512,13 +8550,7 @@ func generated_builder_comp_can_build_bridge_state(type_build_speed: float, buil
 	}
 
 func source_builder_update_state() -> Dictionary:
-	var update_build_logic_call: String = "updateBuildLogic();"
-	var update_build_logic_called: bool = true
-	return {
-		"method": "public void update(){",
-		"update_build_logic_call": update_build_logic_call,
-		"update_build_logic_called": update_build_logic_called,
-	}
+	return SourceBuilderRuntimeState.update_state()
 
 func generated_builder_comp_update_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12534,17 +8566,7 @@ func generated_builder_comp_update_bridge_state() -> Dictionary:
 	}
 
 func source_builder_after_read_state(plans_null: bool) -> Dictionary:
-	var queue_reset: bool = plans_null
-	var plans_capacity: int = 1 if queue_reset else 0
-	return {
-		"method": "public void afterRead(){",
-		"comment": "//why would this happen?",
-		"guard_expr": "if(plans == null){",
-		"queue_constructor": "new Queue<>(1)",
-		"plans_null": plans_null,
-		"queue_reset": queue_reset,
-		"plans_capacity": plans_capacity,
-	}
+	return SourceBuilderRuntimeState.after_read_state(plans_null)
 
 func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12560,13 +8582,7 @@ func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Diction
 	}
 
 func source_builder_is_building_state(plans_size: int) -> Dictionary:
-	var is_building: bool = plans_size != 0
-	return {
-		"method": "boolean isBuilding(){",
-		"return_expr": "return plans.size != 0;",
-		"plans_size": plans_size,
-		"is_building": is_building,
-	}
+	return SourceBuilderRuntimeState.is_building_state(plans_size)
 
 func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12582,13 +8598,7 @@ func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Diction
 	}
 
 func source_builder_clear_building_state() -> Dictionary:
-	var plans_clear_call: String = "plans.clear();"
-	var plans_clear_called: bool = true
-	return {
-		"method": "void clearBuilding(){",
-		"plans_clear_call": plans_clear_call,
-		"plans_clear_called": plans_clear_called,
-	}
+	return SourceBuilderRuntimeState.clear_building_state()
 
 func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12604,32 +8614,7 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 	}
 
 func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
-	var plan_anim_scale: float = 1.0
-	var draw_plan_valid: bool = build_valid_place or control_input_plan_matches
-	var draw_breaking_call: Variant = null
-	var draw_plan_call: Variant = null
-	if plan_breaking:
-		draw_breaking_call = {"call": "control.input.drawBreaking(plan);", "plan": plan}
-	else:
-		draw_plan_call = {"call": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);", "plan": plan, "all_plans": all_plans, "valid": draw_plan_valid, "alpha": alpha}
-	return {
-		"method": "void drawPlan(BuildPlan plan, float alpha){",
-		"anim_scale_expr": "plan.animScale = 1f;",
-		"breaking_guard_expr": "if(plan.breaking){",
-		"draw_breaking_expr": "control.input.drawBreaking(plan);",
-		"draw_plan_expr": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);",
-		"draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)",
-		"plan": plan,
-		"all_plans": all_plans,
-		"plan_breaking": plan_breaking,
-		"alpha": alpha,
-		"build_valid_place": build_valid_place,
-		"control_input_plan_matches": control_input_plan_matches,
-		"plan_anim_scale": plan_anim_scale,
-		"draw_plan_valid": draw_plan_valid,
-		"draw_breaking_call": draw_breaking_call,
-		"draw_plan_call": draw_plan_call,
-	}
+	return SourceBuilderDrawState.draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 
 func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12645,83 +8630,7 @@ func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Arr
 	}
 
 func source_builder_draw_building_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
-	var inactive_without_last_active: bool = not active and last_active == null
-	var plan: Variant = build_plan if active else last_active
-	var z_flying_unit_call: Variant = null
-	var outside_range_blocked: bool = not tile_exists or not within_plan
-	var remote_plan_draw: bool = false
-	var z_plans_call: Variant = null
-	var draw_plan_call: Variant = null
-	var draw_plan_top_call: Variant = null
-	var z_restore_call: Variant = null
-	var focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6
-	var px: float = x + angles_trnsx_rotation_focus_len
-	var py: float = y + angles_trnsy_rotation_focus_len
-	var draw_building_beam_call: Variant = null
-	if not inactive_without_last_active:
-		z_flying_unit_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
-		if not outside_range_blocked:
-			remote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused
-			if remote_plan_draw:
-				z_plans_call = {"call": "Draw.z(Layer.plans - 1f);", "layer": "Layer.plans - 1f"}
-				draw_plan_call = {"call": "drawPlan(plan, 0.5f);", "plan": plan, "alpha": 0.5}
-				draw_plan_top_call = {"call": "drawPlanTop(plan, 0.5f);", "plan": plan, "alpha": 0.5}
-				z_restore_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
-			if type_draw_build_beam:
-				draw_building_beam_call = {"call": "drawBuildingBeam(px, py);", "px": px, "py": py}
-	return {
-		"method": "public void drawBuilding(){",
-		"todo_comment": "//TODO make this more generic so it works with builder \"weapons\"",
-		"active_expr": "boolean active = activelyBuilding();",
-		"inactive_guard_expr": "if(!active && lastActive == null) return;",
-		"z_flying_expr": "Draw.z(Layer.flyingUnit);",
-		"plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
-		"tile_expr": "Tile tile = plan.tile();",
-		"core_expr": "var core = team.core();",
-		"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
-		"remote_comment": "//draw remote plans.",
-		"remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
-		"z_plans_expr": "Draw.z(Layer.plans - 1f);",
-		"draw_plan_expr": "drawPlan(plan, 0.5f);",
-		"draw_plan_top_expr": "drawPlanTop(plan, 0.5f);",
-		"beam_guard_expr": "if(type.drawBuildBeam){",
-		"focus_len_expr": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
-		"px_expr": "float px = x + Angles.trnsx(rotation, focusLen);",
-		"py_expr": "float py = y + Angles.trnsy(rotation, focusLen);",
-		"draw_beam_expr": "drawBuildingBeam(px, py);",
-		"active": active,
-		"last_active": last_active,
-		"build_plan": build_plan,
-		"plan": plan,
-		"tile_exists": tile_exists,
-		"core_exists": core_exists,
-		"within_plan": within_plan,
-		"state_rules_infinite_resources": state_rules_infinite_resources,
-		"type_build_range": type_build_range,
-		"is_local": is_local,
-		"tile_block_is_construct_block": tile_block_is_construct_block,
-		"state_is_paused": state_is_paused,
-		"type_draw_build_beam": type_draw_build_beam,
-		"type_build_beam_offset": type_build_beam_offset,
-		"mathf_absin_time_3_0_6": mathf_absin_time_3_0_6,
-		"x": x,
-		"y": y,
-		"rotation": rotation_value,
-		"angles_trnsx_rotation_focus_len": angles_trnsx_rotation_focus_len,
-		"angles_trnsy_rotation_focus_len": angles_trnsy_rotation_focus_len,
-		"inactive_without_last_active": inactive_without_last_active,
-		"z_flying_unit_call": z_flying_unit_call,
-		"outside_range_blocked": outside_range_blocked,
-		"remote_plan_draw": remote_plan_draw,
-		"z_plans_call": z_plans_call,
-		"draw_plan_call": draw_plan_call,
-		"draw_plan_top_call": draw_plan_top_call,
-		"z_restore_call": z_restore_call,
-		"focus_len": focus_len,
-		"px": px,
-		"py": py,
-		"draw_building_beam_call": draw_building_beam_call,
-	}
+	return SourceBuilderDrawState.draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
 
 func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12737,94 +8646,7 @@ func generated_builder_comp_draw_building_bridge_state(active: bool, last_active
 	}
 
 func source_builder_draw_building_beam_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
-	var inactive_without_last_active: bool = not active and last_active == null
-	var plan: Variant = build_plan if active else last_active
-	var outside_range_blocked: bool = not tile_exists or not within_plan
-	var size: int = tile_block_size if plan_breaking and active else last_size if plan_breaking else plan_block_size
-	var tx: float = plan_drawx
-	var ty: float = plan_drawy
-	var stroke_color: String = "Pal.remove" if plan_breaking else "Pal.accent"
-	var z_flying_unit_call: Variant = null
-	var stroke_call: Variant = null
-	var z_build_beam_call: Variant = null
-	var draw_alpha_call: Variant = null
-	var fill_last_active_square_call: Variant = null
-	var build_beam_call: Variant = null
-	var focus_square_radius: float = 1.8 + mathf_absin_time_2_2_1_1
-	var focus_square_rotation: float = rotation_value + 45.0
-	var focus_square_call: Variant = null
-	var draw_reset_call: Variant = null
-	var z_restore_call: Variant = null
-	if not inactive_without_last_active:
-		z_flying_unit_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
-		if not outside_range_blocked:
-			stroke_call = {"call": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);", "width": 1.0, "color": stroke_color}
-			z_build_beam_call = {"call": "Draw.z(Layer.buildBeam);", "layer": "Layer.buildBeam"}
-			draw_alpha_call = {"call": "Draw.alpha(buildAlpha);", "alpha": build_alpha}
-			if not active and not tile_build_is_construct_build:
-				fill_last_active_square_call = {"call": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);", "x": plan_drawx, "y": plan_drawy, "radius": float(size) * source_tilesize / 2.0}
-			build_beam_call = {"call": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);", "px": px, "py": py, "tx": tx, "ty": ty, "radius": source_tilesize * float(size) / 2.0}
-			focus_square_call = {"call": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);", "x": px, "y": py, "radius": focus_square_radius, "rotation": focus_square_rotation}
-			draw_reset_call = {"call": "Draw.reset();"}
-			z_restore_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
-	return {
-		"method": "public void drawBuildingBeam(float px, float py){",
-		"active_expr": "boolean active = activelyBuilding();",
-		"inactive_guard_expr": "if(!active && lastActive == null) return;",
-		"z_flying_expr": "Draw.z(Layer.flyingUnit);",
-		"plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
-		"tile_expr": "Tile tile = world.tile(plan.x, plan.y);",
-		"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
-		"size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;",
-		"draw_xy_expr": "float tx = plan.drawx(), ty = plan.drawy();",
-		"stroke_expr": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);",
-		"z_build_beam_expr": "Draw.z(Layer.buildBeam);",
-		"alpha_expr": "Draw.alpha(buildAlpha);",
-		"fill_last_active_guard_expr": "if(!active && !(tile.build instanceof ConstructBuild)){",
-		"fill_last_active_square_expr": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);",
-		"build_beam_expr": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);",
-		"focus_square_expr": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);",
-		"draw_reset_expr": "Draw.reset();",
-		"z_restore_expr": "Draw.z(Layer.flyingUnit);",
-		"px": px,
-		"py": py,
-		"active": active,
-		"last_active": last_active,
-		"build_plan": build_plan,
-		"plan": plan,
-		"tile_exists": tile_exists,
-		"within_plan": within_plan,
-		"state_rules_infinite_resources": state_rules_infinite_resources,
-		"type_build_range": type_build_range,
-		"plan_breaking": plan_breaking,
-		"tile_block_size": tile_block_size,
-		"last_size": last_size,
-		"plan_block_size": plan_block_size,
-		"plan_drawx": plan_drawx,
-		"plan_drawy": plan_drawy,
-		"build_alpha": build_alpha,
-		"tile_build_is_construct_build": tile_build_is_construct_build,
-		"source_tilesize": source_tilesize,
-		"mathf_absin_time_2_2_1_1": mathf_absin_time_2_2_1_1,
-		"rotation": rotation_value,
-		"inactive_without_last_active": inactive_without_last_active,
-		"outside_range_blocked": outside_range_blocked,
-		"size": size,
-		"tx": tx,
-		"ty": ty,
-		"stroke_color": stroke_color,
-		"z_flying_unit_call": z_flying_unit_call,
-		"stroke_call": stroke_call,
-		"z_build_beam_call": z_build_beam_call,
-		"draw_alpha_call": draw_alpha_call,
-		"fill_last_active_square_call": fill_last_active_square_call,
-		"build_beam_call": build_beam_call,
-		"focus_square_radius": focus_square_radius,
-		"focus_square_rotation": focus_square_rotation,
-		"focus_square_call": focus_square_call,
-		"draw_reset_call": draw_reset_call,
-		"z_restore_call": z_restore_call,
-	}
+	return SourceBuilderDrawState.draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
 
 func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12839,33 +8661,23 @@ func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float
 		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null),
 	}
 
-func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
-	var draw_top: bool = not plan_breaking
-	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28
-	var draw_reset_called: bool = draw_top
-	var draw_alpha_call: Variant = null
-	var draw_plan_config_top_call: Variant = null
-	if draw_top:
-		draw_alpha_call = {"call": "Draw.alpha(alpha);", "alpha": alpha}
-		draw_plan_config_top_call = {"call": "plan.block.drawPlanConfigTop(plan, plans);", "plan": plan, "plans": plans}
+func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build])
+	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SOURCE_TILESIZE, 0.0, 0.0)
 	return {
-		"method": "void drawPlanTop(BuildPlan plan, float alpha){",
-		"guard_expr": "if(!plan.breaking){",
-		"draw_reset_expr": "Draw.reset();",
-		"mixcol_expr": "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
-		"draw_alpha_expr": "Draw.alpha(alpha);",
-		"draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);",
-		"plan": plan,
-		"plans": plans,
-		"plan_breaking": plan_breaking,
-		"alpha": alpha,
-		"mathf_absin_time_global_6_0_28": mathf_absin_time_global_6_0_28,
-		"draw_top": draw_top,
-		"mixcol_alpha": mixcol_alpha,
-		"draw_reset_called": draw_reset_called,
-		"draw_alpha_call": draw_alpha_call,
-		"draw_plan_config_top_call": draw_plan_config_top_call,
+		"source_owner": "PortGame.source_builder_draw_building_beam_state",
+		"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": SOURCE_TILESIZE,
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null),
 	}
+
+func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
+	return SourceBuilderDrawState.draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
 
 func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12881,27 +8693,7 @@ func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Arr
 	}
 
 func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
-	var guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair
-	var stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements
-	var should_skip: bool = false if guard_returns_false else (stuck_missing_requirements or structs_contains_missing_requirement)
-	return {
-		"method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
-		"comment": "/** @return whether this plan should be skipped, in favor of the next one. */",
-		"guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
-		"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
-		"state_rules_infinite_resources": state_rules_infinite_resources,
-		"team_rules_infinite_resources": team_rules_infinite_resources,
-		"plan_breaking": plan_breaking,
-		"core_null": core_null,
-		"plan_is_rotation": plan_is_rotation,
-		"plan_is_derelict_repair": plan_is_derelict_repair,
-		"plan_stuck": plan_stuck,
-		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
-		"structs_contains_missing_requirement": structs_contains_missing_requirement,
-		"guard_returns_false": guard_returns_false,
-		"stuck_missing_requirements": stuck_missing_requirements,
-		"should_skip": should_skip,
-	}
+	return SourceBuilderRuntimeState.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
 
 func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12917,32 +8709,7 @@ func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resour
 	}
 
 func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
-	var idx: int = -1
-	for i in range(plans.size()):
-		var plan: Dictionary = plans[i] if plans[i] is Dictionary else {}
-		if bool(plan.get("breaking", false)) == breaking and int(plan.get("x", 0)) == x and int(plan.get("y", 0)) == y:
-			idx = i
-			break
-	var plans_after: Array = plans.duplicate(true)
-	var remove_index_call: Variant = null
-	if idx != -1:
-		plans_after.remove_at(idx)
-		remove_index_call = {"call": "plans.removeIndex(idx);", "idx": idx}
-	return {
-		"method": "void removeBuild(int x, int y, boolean breaking){",
-		"comment": "//remove matching plan",
-		"index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
-		"guard_expr": "if(idx != -1){",
-		"remove_index_expr": "plans.removeIndex(idx);",
-		"plans": plans,
-		"x": x,
-		"y": y,
-		"breaking": breaking,
-		"idx": idx,
-		"removed": idx != -1,
-		"remove_index_call": remove_index_call,
-		"plans_after": plans_after,
-	}
+	return SourceBuilderRuntimeState.remove_build_state(plans, x, y, breaking)
 
 func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12958,15 +8725,7 @@ func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: i
 	}
 
 func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
-	var tail: bool = true
-	var add_build_call: Dictionary = {"call": "addBuild(place, true);", "place": place, "tail": tail}
-	return {
-		"method": "void addBuild(BuildPlan place){",
-		"place": place,
-		"tail": tail,
-		"add_build_call": add_build_call,
-		"add_build_called": true,
-	}
+	return SourceBuilderRuntimeState.add_build_tail_state(place)
 
 func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -12982,64 +8741,7 @@ func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dicti
 	}
 
 func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
-	var place_after: Dictionary = (place if place is Dictionary else {}).duplicate(true)
-	var place_value: Dictionary = place_after.duplicate(true)
-	var plans_after: Array = plans.duplicate(true)
-	var replace_index: int = -1
-	var removed_replace: bool = false
-	var world_tile_call: Variant = null
-	var progress_copied: bool = false
-	var add_last_call: Variant = null
-	var add_first_call: Variant = null
-	if can_build:
-		for i in range(plans_after.size()):
-			var plan: Dictionary = plans_after[i] if plans_after[i] is Dictionary else {}
-			if int(plan.get("x", 0)) == int(place_after.get("x", 0)) and int(plan.get("y", 0)) == int(place_after.get("y", 0)):
-				replace_index = i
-				break
-		if replace_index != -1:
-			plans_after.remove_at(replace_index)
-			removed_replace = true
-		world_tile_call = {"call": "world.tile(place.x, place.y);", "x": int(place_after.get("x", 0)), "y": int(place_after.get("y", 0))}
-		if world_tile_exists and tile_build_is_construct_build:
-			place_after["progress"] = construct_progress
-			progress_copied = true
-		if tail:
-			plans_after.append(place_after)
-			add_last_call = {"call": "plans.addLast(place);", "place": place_after}
-		else:
-			plans_after.insert(0, place_after)
-			add_first_call = {"call": "plans.addFirst(place);", "place": place_after}
-	return {
-		"method": "void addBuild(BuildPlan place, boolean tail){",
-		"comment": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
-		"guard_expr": "if(!canBuild()) return;",
-		"replace_init_expr": "BuildPlan replace = null;",
-		"replace_match_expr": "plan.x == place.x && plan.y == place.y",
-		"remove_replace_expr": "plans.remove(replace);",
-		"tile_lookup_expr": "Tile tile = world.tile(place.x, place.y);",
-		"construct_guard_expr": "if(tile != null && tile.build instanceof ConstructBuild cons){",
-		"progress_expr": "place.progress = cons.progress;",
-		"tail_guard_expr": "if(tail){",
-		"add_last_expr": "plans.addLast(place);",
-		"add_first_expr": "plans.addFirst(place);",
-		"plans": plans,
-		"place": place_value,
-		"tail": tail,
-		"can_build": can_build,
-		"world_tile_exists": world_tile_exists,
-		"tile_build_is_construct_build": tile_build_is_construct_build,
-		"construct_progress": construct_progress,
-		"returned_early": not can_build,
-		"replace_index": replace_index,
-		"removed_replace": removed_replace,
-		"world_tile_call": world_tile_call,
-		"progress_copied": progress_copied,
-		"add_last_call": add_last_call,
-		"add_first_call": add_first_call,
-		"plans_after": plans_after,
-		"place_after": place_after,
-	}
+	return SourceBuilderRuntimeState.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
 
 func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -13055,14 +8757,7 @@ func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant,
 	}
 
 func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:
-	var build_plan: Variant = null if plans_size == 0 else plans_first
-	return {
-		"method": "BuildPlan buildPlan(){",
-		"return_expr": "return plans.size == 0 ? null : plans.first();",
-		"plans_size": plans_size,
-		"plans_first": plans_first,
-		"build_plan": build_plan,
-	}
+	return SourceBuilderRuntimeState.build_plan_state(plans_size, plans_first)
 
 func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -13078,32 +8773,10 @@ func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first
 	}
 
 func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
-	var is_building: bool = plans_size != 0
-	var build_plan: Variant = null if plans_size == 0 else plans_first
-	var final_place_dst: float = 3.4028234663852886e38 if state_rules_infinite_resources else type_build_range
-	var outside_range_blocked: bool = is_building and not state_is_editor and build_plan != null and not within_plan
-	var actively_building: bool = false if outside_range_blocked else is_building and update_building
-	return {
-		"method": "boolean activelyBuilding(){",
-		"comment": "//not actively building when not near the build plan",
-		"guard_expr": "if(isBuilding()){",
-		"plan_assignment": "var plan = buildPlan();",
-		"range_expr": "state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange",
-		"return_false_expr": "return false;",
-		"return_expr": "return isBuilding() && updateBuilding;",
-		"plans_size": plans_size,
-		"plans_first": plans_first,
-		"is_building": is_building,
-		"build_plan": build_plan,
-		"state_is_editor": state_is_editor,
-		"state_rules_infinite_resources": state_rules_infinite_resources,
-		"type_build_range": type_build_range,
-		"final_place_dst": final_place_dst,
-		"within_plan": within_plan,
-		"update_building": update_building,
-		"outside_range_blocked": outside_range_blocked,
-		"actively_building": actively_building,
-	}
+	return SourceBuilderRuntimeState.actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
+
+func source_builder_build_step_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:
+	return SourceBuilderRuntimeState.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
 
 func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
@@ -13119,20 +8792,7 @@ func generated_builder_comp_actively_building_bridge_state(plans_size: int, plan
 	}
 
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var guard: bool = spawner_unit_id != -1
-	var spawner_value: Variant = null
-	var groups_unit_get_by_id_call: Variant = null
-	if guard:
-		groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}
-		spawner_value = groups_unit_get_by_id_result
-	return {
-		"method": "public void afterRead(){",
-		"guard": guard,
-		"spawnerUnitIdBefore": spawner_unit_id,
-		"groupsUnitGetById": groups_unit_get_by_id_call,
-		"spawner": spawner_value,
-		"spawnerUnitId": -1,
-	}
+	return SourceUnitTetherState.after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
@@ -13148,20 +8808,7 @@ func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, gr
 	}
 
 func source_unit_tether_after_sync_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var guard: bool = spawner_unit_id != -1
-	var spawner_value: Variant = null
-	var groups_unit_get_by_id_call: Variant = null
-	if guard:
-		groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}
-		spawner_value = groups_unit_get_by_id_result
-	return {
-		"method": "public void afterSync(){",
-		"guard": guard,
-		"spawnerUnitIdBefore": spawner_unit_id,
-		"groupsUnitGetById": groups_unit_get_by_id_call,
-		"spawner": spawner_value,
-		"spawnerUnitId": -1,
-	}
+	return SourceUnitTetherState.after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
@@ -13177,25 +8824,7 @@ func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, gr
 	}
 
 func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
-	var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value
-	var despawn_call: Variant = null
-	var next_spawner_unit_id := -1
-	if guard:
-		despawn_call = {
-			"call": "Call.unitDespawn(self())",
-			"unit": unit_id,
-		}
-	else:
-		next_spawner_unit_id = spawner_id
-	return {
-		"guard": guard,
-		"spawnerExists": spawner_exists,
-		"spawnerIsValid": spawner_is_valid,
-		"spawnerTeam": spawner_team_value,
-		"team": team_value,
-		"despawn": despawn_call,
-		"spawnerUnitId": next_spawner_unit_id,
-	}
+	return SourceUnitTetherState.update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
 
 func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
@@ -13785,56 +9414,10 @@ func source_building_move_liquid_reaction_setup_state(main_guard_passed: bool, t
 	}
 
 func source_building_move_liquid_fire_reaction_state(block_reactive_guard_passed: bool, other_flammability: float, liquid_temperature: float, liquid_flammability: float, other_temperature: float, fire_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
-	var fire_reaction_guard_passed := block_reactive_guard_passed and ((other_flammability > 0.3 and liquid_temperature > 0.7) or (liquid_flammability > 0.3 and other_temperature > 0.7))
-	var self_damage_continuous_called := fire_reaction_guard_passed
-	var next_damage_continuous_called := fire_reaction_guard_passed
-	var fire_effect_called := fire_reaction_guard_passed and fire_chance_delta_passed
-	return {
-		"fire_reaction_guard": "if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)){",
-		"fire_reaction_guard_passed": fire_reaction_guard_passed,
-		"self_damage_call": "damageContinuous(1);",
-		"self_damage_continuous_called": self_damage_continuous_called,
-		"next_damage_call": "next.damageContinuous(1);",
-		"next_damage_continuous_called": next_damage_continuous_called,
-		"fire_chance_guard": "if(Mathf.chanceDelta(0.1)){",
-		"fire_chance_delta_passed": fire_chance_delta_passed,
-		"fire_effect_call": "Fx.fire.at(fx, fy);",
-		"fire_effect_called": fire_effect_called,
-		"block_reactive_guard_passed": block_reactive_guard_passed,
-		"other_flammability": other_flammability,
-		"liquid_temperature": liquid_temperature,
-		"liquid_flammability": liquid_flammability,
-		"other_temperature": other_temperature,
-		"fx": fx,
-		"fy": fy,
-	}
+	return SourceLiquidReactionState.fire_reaction_state(block_reactive_guard_passed, other_flammability, liquid_temperature, liquid_flammability, other_temperature, fire_chance_delta_passed, fx, fy)
 
 func source_building_move_liquid_steam_reaction_state(block_reactive_guard_passed: bool, fire_reaction_guard_passed: bool, liquid_temperature: float, other_temperature: float, current_liquid_amount: float, source_delta: float, steam_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
-	var steam_reaction_guard_passed := block_reactive_guard_passed and not fire_reaction_guard_passed and ((liquid_temperature > 0.7 and other_temperature < 0.55) or (other_temperature > 0.7 and liquid_temperature < 0.55))
-	var remove_amount := 0.0
-	if steam_reaction_guard_passed:
-		remove_amount = min(current_liquid_amount, 0.7 * source_delta)
-	var current_liquid_amount_after := current_liquid_amount - remove_amount
-	var steam_effect_called := steam_reaction_guard_passed and steam_chance_delta_passed
-	return {
-		"steam_reaction_guard": "}else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){",
-		"steam_reaction_guard_passed": steam_reaction_guard_passed,
-		"remove_liquid_call": "liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));",
-		"remove_amount": remove_amount,
-		"current_liquid_amount_after": current_liquid_amount_after,
-		"steam_chance_guard": "if(Mathf.chanceDelta(0.2f)){",
-		"steam_chance_delta_passed": steam_chance_delta_passed,
-		"steam_effect_call": "Fx.steam.at(fx, fy);",
-		"steam_effect_called": steam_effect_called,
-		"block_reactive_guard_passed": block_reactive_guard_passed,
-		"fire_reaction_guard_passed": fire_reaction_guard_passed,
-		"liquid_temperature": liquid_temperature,
-		"other_temperature": other_temperature,
-		"current_liquid_amount": current_liquid_amount,
-		"source_delta": source_delta,
-		"fx": fx,
-		"fy": fy,
-	}
+	return SourceLiquidReactionState.steam_reaction_state(block_reactive_guard_passed, fire_reaction_guard_passed, liquid_temperature, other_temperature, current_liquid_amount, source_delta, steam_chance_delta_passed, fx, fy)
 
 func source_building_move_liquid_return_zero_state(next_present: bool, transfer_guard_passed: bool) -> Dictionary:
 	var fallthrough_return_reached := next_present and not transfer_guard_passed
@@ -14073,7 +9656,7 @@ func add_sprite(parent: Node, key: String, pos: Vector2) -> Sprite2D:
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
-			sprite.scale = Vector2(tile_size / size.x, tile_size / size.y)
+			sprite.scale = SourceWorldGrid.sprite_tile_scale(size, tile_size)
 	parent.add_child(sprite)
 	return sprite
 
@@ -14082,13 +9665,13 @@ func add_ore_cell(parent: Node, key: String, item_id: String, cell: Vector2i) ->
 	return add_sprite(parent, key, grid_to_world(cell))
 
 func grid_to_world(cell: Vector2i) -> Vector2:
-	return Vector2(cell.x * tile_size, cell.y * tile_size)
+	return SourceWorldGrid.grid_to_world(cell, tile_size)
 
 func world_to_grid(pos: Vector2) -> Vector2i:
-	return Vector2i(floori(pos.x / tile_size), floori(pos.y / tile_size))
+	return SourceWorldGrid.world_to_grid(pos, tile_size)
 
 func cell_key(cell: Vector2i) -> String:
-	return "%d,%d" % [cell.x, cell.y]
+	return SourceWorldGrid.cell_key(cell)
 
 func build_hud() -> void:
 	update_hud()
@@ -14112,16 +9695,16 @@ func simulate_factory(delta: float) -> void:
 		step_drill_time_drilled_cell(drill_pos.x, drill_pos.y, delta, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, source_drill_last_speed_for_cell(drill_pos.x, drill_pos.y, drill_output_item_id, drill_ore_cell_count, drill_warmup_at_cell(drill_pos.x, drill_pos.y)))
 		var drill_warmup := step_drill_warmup_cell(drill_pos.x, drill_pos.y, delta)
-		var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)
+		var drill_delay := source_drill_delay(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id)
 		var raw_progress := item_progress * drill_delay
 		raw_progress += source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, delta, drill_warmup)
-		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(drill_block_id))
+		var output_batch := source_drill_output_batch(raw_progress, drill_delay, drill_ore_cell_count, drill_items_total(), source_block_item_capacity(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL))
 		item_progress = source_drill_progress_fraction(float(output_batch["progress"]), drill_delay, drill_ore_cell_count > 0)
 		source_offload_to_inventory(drill_output_item_id, int(output_batch["amount"]))
 		produced_total += int(output_batch["amount"])
 	else:
 		set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, 0.0)
-		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(drill_block_id), delta * SOURCE_TICK_RATE))
+		set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, source_drill_inactive_warmup_state(drill_warmup_at_cell(drill_pos.x, drill_pos.y), source_drill_warmup_speed(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL), delta * SOURCE_TICK_RATE))
 	simulate_drill_dump(delta)
 	transport_progress = fmod(transport_progress + source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, delta), 1.0)
 	for i in item_sprites.size():
@@ -14134,7 +9717,7 @@ func simulate_factory(delta: float) -> void:
 
 func simulate_drill_dump(delta: float) -> void:
 	drill_dump_timer += delta * SOURCE_TICK_RATE
-	var dump_interval := source_drill_dump_interval(drill_block_id, source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))
+	var dump_interval := source_drill_dump_interval(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, source_block_time_scale_at_cell(drill_pos.x, drill_pos.y))
 	if dump_interval <= 0.0:
 		return
 	if drill_dump_timer >= dump_interval:
@@ -14172,7 +9755,7 @@ func step_factory_drill(seconds: float) -> Dictionary:
 	}
 
 func factory_runtime_state() -> Dictionary:
-	var drill_delay := source_drill_delay(drill_block_id, drill_output_item_id)
+	var drill_delay := source_drill_delay(SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id)
 	var drill_output_delta := source_drill_output_delta_for_cell(drill_pos.x, drill_pos.y, drill_ore_cell_count, 1.0, drill_warmup_at_cell(drill_pos.x, drill_pos.y))
 	var conveyor_progress_delta := source_conveyor_path_progress_delta_for_cell(drill_pos.x + 1, drill_pos.y, 1.0)
 	return {
@@ -14197,7 +9780,7 @@ func factory_runtime_state() -> Dictionary:
 func source_block_is_damaged(sprite) -> bool:
 	if not is_instance_valid(sprite):
 		return false
-	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0)) - 0.001
+	return float(sprite.get_meta("source_block_health", 0.0)) < float(sprite.get_meta("source_block_max_health", 0.0)) - SOURCE_BLOCK_HEALTH_DAMAGED_EPSILON
 
 const SOURCE_MEND_PROJECTOR_RANGE_METHOD := "public float range(){\n            return range;\n        }"
 const SOURCE_MEND_PROJECTOR_RANGE_RETURN := "return range;"
@@ -14206,9 +9789,7 @@ const SOURCE_MEND_PROJECTOR_RANGE_PHASE_RANGE_BOOST_FIELD := "public float phase
 const SOURCE_MEND_PROJECTOR_RANGE_REAL_RANGE_EXPR := "float realRange = range + phaseHeat * phaseRangeBoost;"
 
 func source_mend_projector_range(mend_projector, phase_heat := 0.0) -> float:
-	if mend_projector == null:
-		return 0.0
-	return float(mend_projector.properties.get("range", 0.0)) + phase_heat * float(mend_projector.properties.get("phaseRangeBoost", 0.0))
+	return SourceMendProjectorState.projector_range(mend_projector, phase_heat)
 
 func find_damaged_block_in_mend_range(mend_cell: Vector2i, mend_projector, phase_heat := 0.0):
 	var mend_origin := source_block_sprite_base_position(mend_projector, mend_cell)
@@ -14235,17 +9816,17 @@ func simulate_mend_projectors(delta: float) -> void:
 			continue
 		if block.implementation != "MendProjector":
 			continue
-		mend_projector_smooth_efficiency[key] = source_lerp_delta(float(mend_projector_smooth_efficiency.get(key, 0.0)), 1.0, 0.08, source_delta)
-		mend_projector_heat[key] = source_lerp_delta(float(mend_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)
+		mend_projector_smooth_efficiency[key] = source_lerp_delta(float(mend_projector_smooth_efficiency.get(key, 0.0)), 1.0, SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, source_delta)
+		mend_projector_heat[key] = source_lerp_delta(float(mend_projector_heat.get(key, 0.0)), 1.0, SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, source_delta)
 		mend_projector_optional_efficiency[key] = 1.0 if int(mend_projector_booster_items.get(key, 0)) > 0 else 0.0
-		mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)
+		mend_projector_phase_heat[key] = source_lerp_delta(float(mend_projector_phase_heat.get(key, 0.0)), float(mend_projector_optional_efficiency.get(key, 0.0)), SOURCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS, source_delta)
 		mend_projector_booster_timers[key] = float(mend_projector_booster_timers.get(key, 0.0)) + source_delta
-		if float(mend_projector_booster_timers.get(key, 0.0)) >= float(block.properties.get("boosterUseTime", 0.0)):
+		if float(mend_projector_booster_timers.get(key, 0.0)) >= source_mend_projector_use_time(block):
 			mend_projector_booster_items[key] = max(0, int(mend_projector_booster_items.get(key, 0)) - 1)
 			mend_projector_booster_timers[key] = 0.0
 			mend_projector_optional_efficiency[key] = 1.0 if int(mend_projector_booster_items.get(key, 0)) > 0 else 0.0
 		mend_projector_charges[key] = float(mend_projector_charges.get(key, 0.0)) + float(mend_projector_heat.get(key, 0.0)) * source_delta
-		if float(mend_projector_charges.get(key, 0.0)) < float(block.properties.get("reload", 0.0)):
+		if float(mend_projector_charges.get(key, 0.0)) < source_mend_projector_reload(block):
 			continue
 		mend_projector_charges[key] = 0.0
 		var mend_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
@@ -14255,15 +9836,33 @@ func simulate_mend_projectors(delta: float) -> void:
 		if target_block == null:
 			continue
 		var healed := repair_block_sprite(target, source_mend_projector_repair_amount(block, target_block, phase_heat))
-		last_mend_projector_healed_amount = healed
-		last_mend_projector_healed_block_id = str(target.get_meta("source_block_id", ""))
-		last_mend_projector_healed_cell = target.get_meta("origin_cell", Vector2i.ZERO)
-		last_mend_projector_target_health = float(target.get_meta("source_block_health", 0.0))
-		last_mend_projector_target_max_health = float(target.get_meta("source_block_max_health", 0.0))
+		var healed_state := SourceMendProjectorState.capture_heal_result(target, healed)
+		last_mend_projector_healed_amount = float(healed_state.get("healed_amount", 0.0))
+		last_mend_projector_healed_block_id = str(healed_state.get("block_id", ""))
+		last_mend_projector_healed_cell = healed_state.get("cell", Vector2i.ZERO)
+		last_mend_projector_target_health = float(healed_state.get("target_health", 0.0))
+		last_mend_projector_target_max_health = float(healed_state.get("target_max_health", 0.0))
 
 func step_mend_projectors(seconds: float) -> Dictionary:
 	simulate_mend_projectors(seconds)
+	for key in placed_block_origins.keys():
+		var sprite = placed_block_origins.get(key)
+		var block = block_from_sprite(sprite)
+		if block != null and block.implementation == "MendProjector":
+			var origin_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
+			var state := mend_projector_state_at_cell(origin_cell.x, origin_cell.y)
+			state["last_mend_projector_healed_amount"] = last_mend_projector_healed_amount
+			state["last_mend_projector_healed_block_id"] = last_mend_projector_healed_block_id
+			state["last_mend_projector_healed_cell"] = {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y}
+			state["last_mend_projector_target_health"] = last_mend_projector_target_health
+			state["last_mend_projector_target_max_health"] = last_mend_projector_target_max_health
+			return state
 	return {
+		"heat": 0.0,
+		"smooth_efficiency": 0.0,
+		"phase_heat": 0.0,
+		"charge": 0.0,
+		"progress": 0.0,
 		"last_mend_projector_healed_amount": last_mend_projector_healed_amount,
 		"last_mend_projector_healed_block_id": last_mend_projector_healed_block_id,
 		"last_mend_projector_healed_cell": {"x": last_mend_projector_healed_cell.x, "y": last_mend_projector_healed_cell.y},
@@ -14294,11 +9893,11 @@ func apply_overdrive_boost_to_sprite(target, intensity: float, duration: float) 
 	var target_block = block_from_sprite(target)
 	if target_block == null:
 		return
-	var result := source_building_apply_boost_state(float(target.get_meta("source_block_time_scale", 1.0)), float(target.get_meta("source_block_time_scale_duration", 0.0)), intensity, duration, bool(target_block.properties.get("canOverdrive", true)))
-	target.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))
-	target.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))
-	last_overdrive_projector_boosted_block_id = str(target.get_meta("source_block_id", ""))
-	last_overdrive_projector_boosted_cell = target.get_meta("origin_cell", Vector2i.ZERO)
+	var boost_input := SourceOverdriveBoostState.boost_input(target, target_block, SOURCE_BLOCK_TIME_SCALE_DEFAULT, SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT)
+	var result := source_building_apply_boost_state(float(boost_input.get("time_scale", SOURCE_BLOCK_TIME_SCALE_DEFAULT)), float(boost_input.get("time_scale_duration", 0.0)), intensity, duration, bool(boost_input.get("can_overdrive", SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT)))
+	var boosted_state := SourceOverdriveBoostState.apply_boost_result(target, result, SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+	last_overdrive_projector_boosted_block_id = str(boosted_state.get("block_id", ""))
+	last_overdrive_projector_boosted_cell = boosted_state.get("cell", Vector2i.ZERO)
 
 func simulate_overdrive_projectors(delta: float) -> void:
 	var source_delta := delta * SOURCE_TICK_RATE
@@ -14309,25 +9908,26 @@ func simulate_overdrive_projectors(delta: float) -> void:
 			continue
 		if block.implementation != "OverdriveProjector":
 			continue
-		overdrive_projector_smooth_efficiency[key] = source_lerp_delta(float(overdrive_projector_smooth_efficiency.get(key, 0.0)), 1.0, 0.08, source_delta)
-		overdrive_projector_heat[key] = source_lerp_delta(float(overdrive_projector_heat.get(key, 0.0)), 1.0, 0.08, source_delta)
+		overdrive_projector_smooth_efficiency[key] = source_lerp_delta(float(overdrive_projector_smooth_efficiency.get(key, 0.0)), 1.0, SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, source_delta)
+		overdrive_projector_heat[key] = source_lerp_delta(float(overdrive_projector_heat.get(key, 0.0)), 1.0, SOURCE_PROJECTOR_HEAT_LERP_PROGRESS, source_delta)
 		overdrive_projector_charges[key] = float(overdrive_projector_charges.get(key, 0.0)) + float(overdrive_projector_heat.get(key, 0.0)) * source_delta
 		overdrive_projector_optional_efficiency[key] = 1.0 if int(overdrive_projector_booster_items.get(key, 0)) > 0 else 0.0
-		if bool(block.properties.get("hasBoost", false)):
-			overdrive_projector_phase_heat[key] = source_lerp_delta(float(overdrive_projector_phase_heat.get(key, 0.0)), float(overdrive_projector_optional_efficiency.get(key, 0.0)), 0.1, source_delta)
-		if float(overdrive_projector_charges.get(key, 0.0)) >= float(block.properties.get("reload", 0.0)):
+		if source_overdrive_projector_has_boost(block):
+			overdrive_projector_phase_heat[key] = source_lerp_delta(float(overdrive_projector_phase_heat.get(key, 0.0)), float(overdrive_projector_optional_efficiency.get(key, 0.0)), SOURCE_PROJECTOR_PHASE_HEAT_LERP_PROGRESS, source_delta)
+		if float(overdrive_projector_charges.get(key, 0.0)) >= source_overdrive_projector_reload(block):
 			var phase_heat := float(overdrive_projector_phase_heat.get(key, 0.0))
 			overdrive_projector_charges[key] = 0.0
 			last_overdrive_projector_boost_range = source_overdrive_projector_range(block, phase_heat)
 			last_overdrive_projector_boost = source_overdrive_projector_real_boost(block, phase_heat, 1.0)
-			last_overdrive_projector_boost_duration = float(block.properties.get("reload", 0.0)) + 1.0
+			last_overdrive_projector_boost_duration = source_overdrive_projector_reload(block) + 1.0
 			var overdrive_cell: Vector2i = sprite.get_meta("origin_cell", Vector2i.ZERO)
 			var target = find_overdrive_boost_target(overdrive_cell, block, phase_heat)
 			apply_overdrive_boost_to_sprite(target, last_overdrive_projector_boost, last_overdrive_projector_boost_duration)
 		overdrive_projector_use_progress[key] = float(overdrive_projector_use_progress.get(key, 0.0)) + source_delta
-		if float(block.properties.get("useTime", 0.0)) > 0.0 and float(overdrive_projector_use_progress.get(key, 0.0)) >= float(block.properties.get("useTime", 0.0)):
+		var use_time := source_overdrive_projector_use_time(block)
+		if use_time > 0.0 and float(overdrive_projector_use_progress.get(key, 0.0)) >= use_time:
 			overdrive_projector_booster_items[key] = max(0, int(overdrive_projector_booster_items.get(key, 0)) - 1)
-			overdrive_projector_use_progress[key] = fmod(float(overdrive_projector_use_progress.get(key, 0.0)), float(block.properties.get("useTime", 0.0)))
+			overdrive_projector_use_progress[key] = fmod(float(overdrive_projector_use_progress.get(key, 0.0)), use_time)
 			overdrive_projector_optional_efficiency[key] = 1.0 if int(overdrive_projector_booster_items.get(key, 0)) > 0 else 0.0
 
 func step_overdrive_projectors(seconds: float) -> Dictionary:
@@ -14364,19 +9964,11 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 func selected_enemy_unit():
 	if content_catalog == null:
 		return null
-	var preferred_id := first_wave_unit_id()
-	if preferred_id != "":
-		var preferred = content_catalog.get_by_id(preferred_id)
-		if preferred != null:
-			return preferred
+	var dagger = content_catalog.get_by_id("dagger")
+	if dagger != null:
+		return dagger
 	var units: Array = content_catalog.get_many("unit")
 	return units[0] if not units.is_empty() else null
-
-func first_wave_unit_id() -> String:
-	if wave_groups.is_empty():
-		return ""
-	var group: Dictionary = wave_groups[0] if wave_groups[0] is Dictionary else {}
-	return str(group.get("unit", ""))
 
 func spawn_enemy_wave() -> void:
 	var spawned := 0
@@ -14384,7 +9976,7 @@ func spawn_enemy_wave() -> void:
 	last_spawned_wave_count = 0
 	last_spawned_wave_groups = []
 	var wave_zero := wave_index - 1
-	for group in wave_groups:
+	for group in ContentRegistry.WAVES.get("groups", []):
 		var count := spawned_for_wave(group, wave_zero)
 		var group_proof := {"unit": str(group.get("unit", "")), "begin": int(group.get("begin", 0)), "end": int(group.get("end", 2147483647)), "spacing": max(1, int(group.get("spacing", 1))), "unitAmount": int(group.get("unitAmount", 1)), "unitScaling": float(group.get("unitScaling", 2147483647.0)), "max": int(group.get("max", 40)), "spawned": count}
 		last_spawned_wave_groups.append(group_proof)
@@ -14418,7 +10010,7 @@ func spawn_enemy_unit(unit_type, index: int) -> void:
 	var units_layer := get_node("World/UnitLayer")
 	var sprite := Sprite2D.new()
 	sprite.texture = textures.get("unit:" + unit_type.id)
-	sprite.position = grid_to_world(Vector2i(world_width_tiles - 2 + index, 6 + (index % 5)))
+	sprite.position = grid_to_world(SourcePlayableScenarioDefaults.enemy_spawn_cell(index))
 	if sprite.texture:
 		var size := sprite.texture.get_size()
 		if size.x > 0 and size.y > 0:
@@ -14547,8 +10139,6 @@ func enemy_runtime_state() -> Dictionary:
 		"wave_index": wave_index,
 		"last_spawned_wave_index": last_spawned_wave_index,
 		"last_spawned_wave_count": last_spawned_wave_count,
-		"wave_group_count": wave_groups.size(),
-		"selected_enemy_unit_id": first_wave_unit_id(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type),
 		"selected_enemy_world_speed": source_unit_world_speed(unit_type),
 		"selected_enemy_hit_size": source_unit_hit_size(unit_type),
@@ -14567,12 +10157,12 @@ func source_unit_weapon_damage(unit_type) -> float:
 		return 0.0
 	var weapon: Dictionary = weapons[0]
 	var bullet: Dictionary = weapon.get("bullet", {})
-	return float(bullet.get("damage", 0.0))
+	return source_bullet_damage(bullet)
 
 func source_unit_world_speed(unit_type) -> float:
 	if unit_type == null:
 		return 0.0
-	return float(unit_type.properties.get("speed", SOURCE_UNIT_WORLD_SPEED_DEFAULT)) * 60.0
+	return float(unit_type.properties.get("speed", SOURCE_UNIT_SPEED_DEFAULT_VALUE)) * SOURCE_TICK_RATE
 
 const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"
 const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"
@@ -14594,13 +10184,13 @@ const SOURCE_UNIT_IS_GROUNDED_METHOD := "public boolean isGrounded(){"
 const SOURCE_UNIT_IS_GROUNDED_RETURN := "return elevation < 0.001f;"
 
 func source_unit_is_grounded(elevation_value: float) -> bool:
-	return elevation_value < 0.001
+	return elevation_value < SOURCE_UNIT_GROUNDED_EPSILON
 
 const SOURCE_UNIT_IS_FLYING_METHOD := "public boolean isFlying(){"
 const SOURCE_UNIT_IS_FLYING_RETURN := "return elevation >= 0.09f;"
 
 func source_unit_is_flying(elevation_value: float) -> bool:
-	return elevation_value >= 0.09
+	return elevation_value >= SOURCE_UNIT_FLYING_ELEVATION_MIN
 
 const SOURCE_UNIT_CHECK_TARGET_METHOD := "public boolean checkTarget(boolean targetAir, boolean targetGround){"
 const SOURCE_UNIT_CHECK_TARGET_RETURN := "return (isGrounded() && targetGround) || (isFlying() && targetAir);"
@@ -14643,8 +10233,8 @@ func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
 
 func source_unit_wobble_state(current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:
 	var wobble_input := source_time + float(unit_id % 10) * 12.0
-	var dx := source_arc_mathf_sin_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value
-	var dy := source_arc_mathf_cos_scaled(wobble_input, 25.0, 0.05) * source_delta * elevation_value
+	var dx := source_arc_mathf_sin_scaled(wobble_input, SOURCE_UNIT_WOBBLE_SIN_SCL, SOURCE_UNIT_WOBBLE_MAG) * source_delta * elevation_value
+	var dy := source_arc_mathf_cos_scaled(wobble_input, SOURCE_UNIT_WOBBLE_SIN_SCL, SOURCE_UNIT_WOBBLE_MAG) * source_delta * elevation_value
 	return {
 		"x": current_x + dx,
 		"y": current_y + dy,
@@ -15019,7 +10609,7 @@ func source_weapons_setup_mounts_state(weapon_states: Array) -> Dictionary:
 			"weapon": str(weapon_state.get("weapon", "weapon%d" % index)),
 			"call": "mounts[i] = def.weapons.get(i).mountType.get(def.weapons.get(i));",
 			"constructor": "public WeaponMount(Weapon weapon){",
-			"rotation": float(weapon_state.get("baseRotation", 0.0)),
+			"rotation": float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT)),
 		})
 	return {
 		"method": "void setupWeapons(UnitType def){",
@@ -15243,14 +10833,15 @@ func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_s
 	var mount_shoot := bool(mount_state.get("shoot", false))
 	var bullet_state = mount_state.get("bullet", null)
 	var has_bullet: bool = bullet_state != null and not (bullet_state is Dictionary and bullet_state.is_empty())
-	var reload_time := float(weapon_state.get("reload", 1.0))
-	var recoil_time := float(weapon_state.get("recoilTime", reload_time))
-	var recoils_count := int(weapon_state.get("recoils", -1))
-	var smooth_reload_speed := float(weapon_state.get("smoothReloadSpeed", 0.15))
-	var first_shot_delay := float(weapon_state.get("firstShotDelay", 0.0))
-	var continuous := bool(weapon_state.get("continuous", false))
-	var shoot_warmup_speed := float(weapon_state.get("shootWarmupSpeed", 0.1))
-	var linear_warmup := bool(weapon_state.get("linearWarmup", false))
+	var reload_time := float(weapon_state.get("reload", SOURCE_WEAPON_RELOAD_DEFAULT))
+	var raw_recoil_time := float(weapon_state.get("recoilTime", SOURCE_WEAPON_RECOIL_TIME_DEFAULT))
+	var recoil_time := reload_time if raw_recoil_time < 0.0 else raw_recoil_time
+	var recoils_count := int(weapon_state.get("recoils", SOURCE_WEAPON_RECOILS_DEFAULT))
+	var smooth_reload_speed := float(weapon_state.get("smoothReloadSpeed", SOURCE_WEAPON_SMOOTH_RELOAD_SPEED_DEFAULT))
+	var first_shot_delay := float(weapon_state.get("firstShotDelay", SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
+	var shoot_warmup_speed := float(weapon_state.get("shootWarmupSpeed", SOURCE_WEAPON_SHOOT_WARMUP_SPEED_DEFAULT))
+	var linear_warmup := bool(weapon_state.get("linearWarmup", SOURCE_WEAPON_LINEAR_WARMUP_DEFAULT))
 	var new_reload: float = maxf(current_reload - source_delta * reload_multiplier, 0.0)
 	var new_recoil := source_mathf_approach_delta(current_recoil, 0.0, reload_multiplier / recoil_time, source_delta)
 	var new_recoils: Array = []
@@ -15289,6 +10880,7 @@ func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_s
 		"warmupTargetSource": "float warmupTarget = (can && mount.shoot) || (continuous && mount.bullet != null) || mount.charging ? 1f : 0f;",
 		"warmupMode": "Mathf.approachDelta" if linear_warmup else "Mathf.lerpDelta",
 		"deltaSource": "Time.delta",
+		"recoilTimeInitSource": "if(w.recoilTime < 0) w.recoilTime = w.reload;",
 	}
 
 func source_arc_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
@@ -15309,8 +10901,8 @@ func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_stat
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
-	var weapon_x := float(weapon_state.get("x", 5.0))
-	var weapon_y := float(weapon_state.get("y", 0.0))
+	var weapon_x := float(weapon_state.get("x", SOURCE_WEAPON_X_DEFAULT))
+	var weapon_y := float(weapon_state.get("y", SOURCE_WEAPON_Y_DEFAULT))
 	var angle_degrees := unit_rotation - 90.0
 	var rotated := source_arc_angles_trns_vec(angle_degrees, weapon_x, weapon_y)
 	var mount_x := unit_x + float(rotated["x"])
@@ -15329,11 +10921,11 @@ func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_stat
 	}
 
 func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:
-	var controllable := bool(weapon_state.get("controllable", true))
-	var auto_target := bool(weapon_state.get("autoTarget", false))
+	var controllable := bool(weapon_state.get("controllable", SOURCE_WEAPON_CONTROLLABLE_DEFAULT))
+	var auto_target := bool(weapon_state.get("autoTarget", SOURCE_WEAPON_AUTO_TARGET_DEFAULT))
 	var current_retarget := float(mount_state.get("retarget", 0.0))
-	var target_interval := float(weapon_state.get("targetInterval", 40.0))
-	var target_switch_interval := float(weapon_state.get("targetSwitchInterval", 70.0))
+	var target_interval := float(weapon_state.get("targetInterval", SOURCE_WEAPON_TARGET_INTERVAL_DEFAULT))
+	var target_switch_interval := float(weapon_state.get("targetSwitchInterval", SOURCE_WEAPON_TARGET_SWITCH_INTERVAL_DEFAULT))
 	var current_target_exists := bool(mount_state.get("targetExists", false))
 	var gate := (not controllable) and auto_target
 	var retarget_after_decrement := current_retarget - source_delta
@@ -15367,8 +10959,8 @@ func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, we
 	}
 
 func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:
-	var controllable := bool(weapon_state.get("controllable", true))
-	var auto_target := bool(weapon_state.get("autoTarget", false))
+	var controllable := bool(weapon_state.get("controllable", SOURCE_WEAPON_CONTROLLABLE_DEFAULT))
+	var auto_target := bool(weapon_state.get("autoTarget", SOURCE_WEAPON_AUTO_TARGET_DEFAULT))
 	var target_exists := bool(mount_state.get("targetExists", false))
 	var gate := (not controllable) and auto_target
 	var check_called := gate and target_exists
@@ -15379,8 +10971,8 @@ func source_weapon_update_auto_target_invalidation_state(mount_state: Dictionary
 			"mountX": mount_x,
 			"mountY": mount_y,
 			"range": float(bullet_state.get("range", 0.0)),
-			"shootY": float(weapon_state.get("shootY", 3.0)),
-			"rangeWithShootY": float(bullet_state.get("range", 0.0)) + absf(float(weapon_state.get("shootY", 3.0))),
+		"shootY": float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT)),
+		"rangeWithShootY": float(bullet_state.get("range", 0.0)) + absf(float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT))),
 		}
 	if check_called and check_target_result:
 		target_exists = false
@@ -15403,9 +10995,9 @@ func source_weapon_update_auto_target_shoot_aim_state(mount_state: Dictionary, w
 	var aim_x := float(mount_state.get("aimX", 0.0))
 	var aim_y := float(mount_state.get("aimY", 0.0))
 	var bullet_range := float(bullet_state.get("range", 0.0))
-	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var shoot_y := float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT))
 	var target_hit_size := float(mount_state.get("targetHitSize", 0.0)) if bool(mount_state.get("targetSized", false)) else 0.0
-	var predict_target := bool(weapon_state.get("predictTarget", true))
+	var predict_target := bool(weapon_state.get("predictTarget", SOURCE_WEAPON_PREDICT_TARGET_DEFAULT))
 	var within_range := bullet_range + absf(shoot_y) + target_hit_size / 2.0
 	var shoot := false
 	if target_exists:
@@ -15452,16 +11044,16 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 	var current_target_rotation := float(mount_state.get("targetRotation", 0.0))
 	var aim_x := float(mount_state.get("aimX", 0.0))
 	var aim_y := float(mount_state.get("aimY", 0.0))
-	var weapon_x := float(weapon_state.get("x", 5.0))
-	var weapon_y := float(weapon_state.get("y", 0.0))
-	var rotate_speed := float(weapon_state.get("rotateSpeed", 20.0))
-	var rotation_limit := float(weapon_state.get("rotationLimit", 361.0))
-	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
+	var weapon_x := float(weapon_state.get("x", SOURCE_WEAPON_X_DEFAULT))
+	var weapon_y := float(weapon_state.get("y", SOURCE_WEAPON_Y_DEFAULT))
+	var rotate_speed := float(weapon_state.get("rotateSpeed", SOURCE_WEAPON_ROTATE_SPEED_DEFAULT))
+	var rotation_limit := float(weapon_state.get("rotationLimit", SOURCE_WEAPON_ROTATION_LIMIT_DEFAULT))
+	var base_rotation := float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
-	var gate := bool(weapon_state.get("rotate", false)) and (mount_rotate or mount_shoot) and can_shoot
-	var non_rotate_branch := not bool(weapon_state.get("rotate", false))
+	var gate := bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT)) and (mount_rotate or mount_shoot) and can_shoot
+	var non_rotate_branch := not bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT))
 	var axis_angle := unit_rotation - 90.0
 	var axis_vec := source_arc_angles_trns_vec(axis_angle, weapon_x, weapon_y)
 	var axis_x := unit_x + float(axis_vec["x"])
@@ -15508,13 +11100,13 @@ func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_st
 	}
 
 func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
-	var rotate_weapon := bool(weapon_state.get("rotate", false))
+	var rotate_weapon := bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT))
 	var mount_rotation := float(mount_state.get("rotation", 0.0))
 	var aim_x := float(mount_state.get("aimX", 0.0))
 	var aim_y := float(mount_state.get("aimY", 0.0))
-	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
-	var shoot_x := float(weapon_state.get("shootX", 0.0))
-	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var base_rotation := float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))
+	var shoot_x := float(weapon_state.get("shootX", SOURCE_WEAPON_SHOOT_X_DEFAULT))
+	var shoot_y := float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT))
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
@@ -15550,7 +11142,7 @@ func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_st
 
 func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
 	var shoot := bool(mount_state.get("shoot", false))
-	var always_shooting := bool(weapon_state.get("alwaysShooting", false))
+	var always_shooting := bool(weapon_state.get("alwaysShooting", SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT))
 	if always_shooting:
 		shoot = true
 	return {
@@ -15561,7 +11153,7 @@ func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_
 	}
 
 func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var bullet_is_added := bool(bullet_state.get("isAdded", false))
 	var bullet_time := float(bullet_state.get("time", 0.0))
@@ -15586,7 +11178,7 @@ func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary,
 	}
 
 func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var bullet_is_added := bool(bullet_state.get("isAdded", false))
 	var bullet_time := float(bullet_state.get("time", 0.0))
@@ -15595,7 +11187,7 @@ func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_
 	var gate := continuous and bullet_exists
 	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
 	var live := gate and not invalid
-	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var weapon_reload := float(weapon_state.get("reload", SOURCE_WEAPON_RELOAD_DEFAULT))
 	var bullet_recoil := float(bullet_state.get("recoil", 0.0))
 	var next_reload := float(mount_state.get("reload", 0.0))
 	var next_recoil := float(mount_state.get("recoil", 0.0))
@@ -15636,7 +11228,7 @@ func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_
 	}
 
 func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var bullet_is_added := bool(bullet_state.get("isAdded", false))
 	var bullet_time := float(bullet_state.get("time", 0.0))
@@ -15680,7 +11272,7 @@ func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon
 	}
 
 func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var bullet_is_added := bool(bullet_state.get("isAdded", false))
 	var bullet_time := float(bullet_state.get("time", 0.0))
@@ -15694,7 +11286,7 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 	var bullet_aim_x := float(bullet_state.get("aimX", bullet_x))
 	var bullet_aim_y := float(bullet_state.get("aimY", bullet_y))
 	var weapon_range := float(bullet_state.get("range", 0.0))
-	var aim_change_speed := float(weapon_state.get("aimChangeSpeed", 0.0))
+	var aim_change_speed := float(weapon_state.get("aimChangeSpeed", SOURCE_WEAPON_AIM_CHANGE_SPEED_DEFAULT))
 	var shoot_length: float = min(source_mathf_dst(bullet_x, bullet_y, mount_aim_x, mount_aim_y), weapon_range)
 	var cur_length: float = source_mathf_dst(bullet_x, bullet_y, bullet_aim_x, bullet_aim_y)
 	var result_length: float = source_mathf_approach_delta(cur_length, shoot_length, aim_change_speed, source_delta)
@@ -15747,7 +11339,7 @@ func source_status_apply_result(status_effect: String, duration: float, status_i
 	}
 
 func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var bullet_is_added := bool(bullet_state.get("isAdded", false))
 	var bullet_time := float(bullet_state.get("time", 0.0))
@@ -15756,7 +11348,7 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 	var gate := continuous and bullet_exists
 	var invalid := gate and ((not bullet_is_added) or bullet_time >= bullet_lifetime or (not bullet_type_matches))
 	var live := gate and not invalid
-	var always_continuous := bool(weapon_state.get("alwaysContinuous", false))
+	var always_continuous := bool(weapon_state.get("alwaysContinuous", SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT))
 	var mount_shoot := bool(mount_state.get("shoot", false))
 	var mount_warmup := float(mount_state.get("warmup", 0.0))
 	var optimal_life_fract := float(bullet_state.get("optimalLifeFract", 0.0))
@@ -15767,7 +11359,7 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 		next_bullet_time = bullet_lifetime * optimal_life_fract * mount_warmup
 		next_keep_alive = true
 	var shoot_status := "" if weapon_state.get("shootStatus", "none") == null else str(weapon_state.get("shootStatus", "none"))
-	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", 0.0))
+	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT))
 	var status_immune := bool(unit_state.get("statusImmune", false))
 	var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)
 	var status_applied := keepalive_gate and bool(status_result.get("statusApplied", false))
@@ -15796,13 +11388,13 @@ func source_weapon_update_always_continuous_keepalive_state(mount_state: Diction
 	}
 
 func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var bullet_exists := bool(mount_state.get("bulletExists", false))
 	var continuous_live_gate := continuous and bullet_exists
 	var idle_gate := not continuous_live_gate
 	var current_heat := float(mount_state.get("heat", 0.0))
 	var reload_multiplier := float(unit_state.get("reloadMultiplier", 1.0))
-	var cooldown_time := float(weapon_state.get("cooldownTime", 20.0))
+	var cooldown_time := float(weapon_state.get("cooldownTime", SOURCE_WEAPON_COOLDOWN_TIME_DEFAULT))
 	var next_heat := current_heat
 	if idle_gate:
 		next_heat = max(current_heat - source_delta * reload_multiplier / cooldown_time, 0.0)
@@ -15832,12 +11424,12 @@ func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictiona
 func source_weapon_update_alternating_side_flip_state(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:
 	var current_side := bool(mount_state.get("side", false))
 	var was_flipped := current_side
-	var flip_sprite := bool(weapon_state.get("flipSprite", false))
-	var alternate := bool(weapon_state.get("alternate", true))
-	var other_side := int(weapon_state.get("otherSide", -1))
+	var flip_sprite := bool(weapon_state.get("flipSprite", SOURCE_WEAPON_FLIP_SPRITE_DEFAULT))
+	var alternate := bool(weapon_state.get("alternate", SOURCE_WEAPON_ALTERNATE_DEFAULT))
+	var other_side := int(weapon_state.get("otherSide", SOURCE_WEAPON_OTHER_SIDE_DEFAULT))
 	var current_reload := float(mount_state.get("reload", 0.0))
 	var last_reload := float(mount_state.get("lastReload", current_reload))
-	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var weapon_reload := float(weapon_state.get("reload", SOURCE_WEAPON_RELOAD_DEFAULT))
 	var crosses_half_reload := current_reload <= weapon_reload / 2.0 and last_reload > weapon_reload / 2.0
 	var flip_gate := other_side >= 0 and alternate and current_side == flip_sprite and other_side < unit_mount_states.size() and crosses_half_reload
 	var next_unit_mount_states: Array = []
@@ -15868,8 +11460,8 @@ func source_weapon_update_active_sound_loop_state(mount_state: Dictionary, weapo
 	var active_sound := str(weapon_state.get("activeSound", "none"))
 	var mount_shoot := bool(mount_state.get("shoot", false))
 	var mount_warmup := float(mount_state.get("warmup", 0.0))
-	var min_warmup := float(weapon_state.get("minWarmup", 0.0))
-	var active_sound_volume := float(weapon_state.get("activeSoundVolume", 1.0))
+	var min_warmup := float(weapon_state.get("minWarmup", SOURCE_WEAPON_MIN_WARMUP_DEFAULT))
+	var active_sound_volume := float(weapon_state.get("activeSoundVolume", SOURCE_WEAPON_ACTIVE_SOUND_VOLUME_DEFAULT))
 	var active_sound_gate := not headless and active_sound != "none" and mount_shoot and can_shoot and mount_warmup >= min_warmup
 	var sound_loop_call = null
 	if active_sound_gate:
@@ -15922,10 +11514,10 @@ func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapo
 	var mount_shoot := bool(mount_state.get("shoot", false))
 	var mount_warmup := float(mount_state.get("warmup", 0.0))
 	var total_shots := int(mount_state.get("totalShots", 0))
-	var alternate := bool(weapon_state.get("alternate", true))
-	var flip_sprite := bool(weapon_state.get("flipSprite", false))
-	var min_warmup := float(weapon_state.get("minWarmup", 0.0))
-	var min_shoot_velocity := float(weapon_state.get("minShootVelocity", -1.0))
+	var alternate := bool(weapon_state.get("alternate", SOURCE_WEAPON_ALTERNATE_DEFAULT))
+	var flip_sprite := bool(weapon_state.get("flipSprite", SOURCE_WEAPON_FLIP_SPRITE_DEFAULT))
+	var min_warmup := float(weapon_state.get("minWarmup", SOURCE_WEAPON_MIN_WARMUP_DEFAULT))
+	var min_shoot_velocity := float(weapon_state.get("minShootVelocity", SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT))
 	var bullet_kill_shooter := bool(bullet_state.get("killShooter", false))
 	var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0
 	var alternate_gate := (not alternate) or was_flipped == flip_sprite
@@ -15955,7 +11547,7 @@ func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapo
 
 func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
 	var mount_reload := float(mount_state.get("reload", 0.0))
-	var always_continuous := bool(weapon_state.get("alwaysContinuous", false))
+	var always_continuous := bool(weapon_state.get("alwaysContinuous", SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT))
 	var mount_bullet_null := not bool(mount_state.get("hasBullet", false))
 	var reload_ready := mount_reload <= 0.0001
 	var always_continuous_ready := always_continuous and mount_bullet_null
@@ -15982,10 +11574,10 @@ const SOURCE_RULES_BLOCK_DAMAGE_METHOD := "public float blockDamage(Team team){\
 const SOURCE_DAMAGE_CONTINUOUS_PIERCE_METHOD := "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }"
 
 func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	var always_shooting := bool(weapon_state.get("alwaysShooting", false))
-	var weapon_rotate := bool(weapon_state.get("rotate", false))
-	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
-	var shoot_cone := float(weapon_state.get("shootCone", 5.0))
+	var always_shooting := bool(weapon_state.get("alwaysShooting", SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT))
+	var weapon_rotate := bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT))
+	var base_rotation := float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))
+	var shoot_cone := float(weapon_state.get("shootCone", SOURCE_WEAPON_SHOOT_CONE_DEFAULT))
 	var mount_rotation := float(mount_state.get("rotation", 0.0))
 	var target_rotation := float(mount_state.get("targetRotation", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
@@ -16010,7 +11602,7 @@ func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state:
 
 func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
 	var current_reload := float(mount_state.get("reload", 0.0))
-	var weapon_reload := float(weapon_state.get("reload", 1.0))
+	var weapon_reload := float(weapon_state.get("reload", SOURCE_WEAPON_RELOAD_DEFAULT))
 	var next_reload := weapon_reload if shoot_gate else current_reload
 	var shoot_call = null
 	if shoot_gate:
@@ -16034,18 +11626,18 @@ func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapo
 
 func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:
 	var shoot_status := "" if weapon_state.get("shootStatus", "none") == null else str(weapon_state.get("shootStatus", "none"))
-	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", 300.0))
+	var shoot_status_duration := float(weapon_state.get("shootStatusDuration", SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT))
 	var status_immune := bool(unit_state.get("statusImmune", false))
 	var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)
-	var first_shot_delay := float(weapon_state.get("firstShotDelay", 0.0))
+	var first_shot_delay := float(weapon_state.get("firstShotDelay", SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT))
 	var charge_gate := first_shot_delay > 0.0
 	var mount_charging := bool(mount_state.get("charging", false))
 	var charge_sound := str(weapon_state.get("chargeSound", "none"))
-	var sound_pitch_min := float(weapon_state.get("soundPitchMin", 1.0))
-	var sound_pitch_max := float(weapon_state.get("soundPitchMax", 1.0))
+	var sound_pitch_min := float(weapon_state.get("soundPitchMin", SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT))
+	var sound_pitch_max := float(weapon_state.get("soundPitchMax", SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT))
 	var charge_sound_call: Variant = null
 	var keep_velocity := bool(bullet_state.get("keepVelocity", true))
-	var parentize_effects := bool(weapon_state.get("parentizeEffects", false))
+	var parentize_effects := bool(weapon_state.get("parentizeEffects", SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT))
 	var unit_id := int(unit_state.get("id", 0))
 	var charge_effect_parent: Variant = null
 	if keep_velocity or parentize_effects:
@@ -16095,9 +11687,9 @@ const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_HANDLER_CALL := "handler.shoot(0, 0, 0
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_MOVER_NULL := "shoot(x, y, rotation, delay, null);"
 
 func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
-	var shots := int(shoot_state.get("shots", 1))
-	var first_shot_delay := float(shoot_state.get("firstShotDelay", 0.0))
-	var shot_delay := float(shoot_state.get("shotDelay", 0.0))
+	var shots := int(shoot_state.get("shots", SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT))
+	var first_shot_delay := float(shoot_state.get("firstShotDelay", SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT))
+	var shot_delay := float(shoot_state.get("shotDelay", SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT))
 	var events := []
 	for i in shots:
 		events.append({
@@ -16123,6 +11715,20 @@ func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_
 		"generated_owner": "ShootPattern.java_method_shoot_1",
 		"result": result,
 		"canonical": canonical,
+		"matches": result.get("events", []) == canonical,
+	}
+
+func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
+	var instance = script.new()
+	var result = instance.java_method_shoot_1([])
+	var canonical = source_shoot_pattern_default_events({})
+	return {
+		"source_owner": "PortGame.source_shoot_pattern_default_events",
+		"generated_owner": "ShootPattern.java_method_shoot_1",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["shots", "firstShotDelay", "shotDelay"],
 		"matches": result.get("events", []) == canonical,
 	}
 
@@ -16244,13 +11850,13 @@ func source_weapon_bullet_geometry_state(unit_state: Dictionary, mount_state: Di
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
-	var weapon_x := float(weapon_state.get("x", 5.0))
-	var weapon_y := float(weapon_state.get("y", 0.0))
-	var weapon_rotate := bool(weapon_state.get("rotate", false))
+	var weapon_x := float(weapon_state.get("x", SOURCE_WEAPON_X_DEFAULT))
+	var weapon_y := float(weapon_state.get("y", SOURCE_WEAPON_Y_DEFAULT))
+	var weapon_rotate := bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT))
 	var mount_rotation := float(mount_state.get("rotation", 0.0))
-	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
-	var shoot_x := float(weapon_state.get("shootX", 0.0))
-	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var base_rotation := float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))
+	var shoot_x := float(weapon_state.get("shootX", SOURCE_WEAPON_SHOOT_X_DEFAULT))
+	var shoot_y := float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT))
 	var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)
 	var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)
 	var mount_x := unit_x + float(mount_vec["x"])
@@ -16300,8 +11906,8 @@ func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: 
 	var bullet_x := float(geometry_state["bulletX"])
 	var bullet_y := float(geometry_state["bulletY"])
 	var adjusted_weapon_state := weapon_state.duplicate(true)
-	adjusted_weapon_state["shootX"] = float(weapon_state.get("shootX", 0.0)) + x_offset + x_spread
-	adjusted_weapon_state["shootY"] = float(weapon_state.get("shootY", 3.0)) + y_offset + y_spread
+	adjusted_weapon_state["shootX"] = float(weapon_state.get("shootX", SOURCE_WEAPON_SHOOT_X_DEFAULT)) + x_offset + x_spread
+	adjusted_weapon_state["shootY"] = float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT)) + y_offset + y_spread
 	var bullet_rotation_state := source_weapon_update_bullet_origin_state(mount_state, adjusted_weapon_state, unit_state, mount_x, mount_y)
 	var shoot_angle := float(bullet_rotation_state["shootAngle"]) + angle_offset
 	var life_scl := 1.0
@@ -16311,7 +11917,7 @@ func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: 
 	if bullet_scale_life:
 		var life_ratio := target_distance / bullet_range
 		life_scl = clampf(life_ratio, 0.0, 1.0)
-	var weapon_inaccuracy := float(weapon_state.get("inaccuracy", 0.0))
+	var weapon_inaccuracy := float(weapon_state.get("inaccuracy", SOURCE_WEAPON_INACCURACY_DEFAULT))
 	var bullet_inaccuracy := float(bullet_state.get("inaccuracy", 0.0))
 	var angle := shoot_angle + angle_spread
 	return {
@@ -16371,8 +11977,8 @@ func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state:
 			"bulletCreateCallSource": "mount.bullet = bullet.create(unit, shooter, unit.team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd) + extraVelocity, lifeScl, null, mover, mount.aimX, mount.aimY, mount.target)",
 		}
 	var shooter_state := source_weapon_bullet_shooter_state(unit_state, controller_state)
-	var velocity_rnd := float(weapon_state.get("velocityRnd", 0.0))
-	var extra_velocity := float(weapon_state.get("extraVelocity", 0.0))
+	var velocity_rnd := float(weapon_state.get("velocityRnd", SOURCE_WEAPON_VELOCITY_RND_DEFAULT))
+	var extra_velocity := float(weapon_state.get("extraVelocity", SOURCE_WEAPON_EXTRA_VELOCITY_DEFAULT))
 	var velocity_scl := (1.0 - velocity_rnd) + velocity_random + extra_velocity
 	var bullet_create_call := {
 		"owner": unit_state.get("id", null),
@@ -16433,7 +12039,7 @@ func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state:
 	}
 
 func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	if not continuous:
 		return {
 			"continuous": false,
@@ -16443,13 +12049,13 @@ func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionar
 	var unit_x := float(unit_state.get("x", 0.0))
 	var unit_y := float(unit_state.get("y", 0.0))
 	var unit_rotation := float(unit_state.get("rotation", 0.0))
-	var weapon_rotate := bool(weapon_state.get("rotate", false))
+	var weapon_rotate := bool(weapon_state.get("rotate", SOURCE_WEAPON_ROTATE_DEFAULT))
 	var mount_rotation := float(mount_state.get("rotation", 0.0))
-	var base_rotation := float(weapon_state.get("baseRotation", 0.0))
-	var weapon_x := float(weapon_state.get("x", 5.0))
-	var weapon_y := float(weapon_state.get("y", 0.0))
-	var shoot_x := float(weapon_state.get("shootX", 0.0))
-	var shoot_y := float(weapon_state.get("shootY", 3.0))
+	var base_rotation := float(weapon_state.get("baseRotation", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))
+	var weapon_x := float(weapon_state.get("x", SOURCE_WEAPON_X_DEFAULT))
+	var weapon_y := float(weapon_state.get("y", SOURCE_WEAPON_Y_DEFAULT))
+	var shoot_x := float(weapon_state.get("shootX", SOURCE_WEAPON_SHOOT_X_DEFAULT))
+	var shoot_y := float(weapon_state.get("shootY", SOURCE_WEAPON_SHOOT_Y_DEFAULT))
 	var weapon_rotation := unit_rotation - 90.0 + (mount_rotation if weapon_rotate else base_rotation)
 	var mount_vec := source_arc_angles_trns_vec(unit_rotation - 90.0, weapon_x, weapon_y)
 	var mount_x := unit_x + float(mount_vec["x"])
@@ -16535,7 +12141,7 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 			"soundSkipped": true,
 			"effectsReservedSource": "if(mount.allowShootEffects){",
 		}
-	var continuous := bool(weapon_state.get("continuous", false))
+	var continuous := bool(weapon_state.get("continuous", SOURCE_WEAPON_CONTINUOUS_DEFAULT))
 	var sound_name := str(weapon_state.get("shootSound", "shoot"))
 	var branch_source := "if(!continuous)"
 	var call_source := "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);"
@@ -16548,14 +12154,14 @@ func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_stat
 		"x": float(bullet_create_call.get("x", 0.0)),
 		"y": float(bullet_create_call.get("y", 0.0)),
 		"pitch": sound_pitch,
-		"volume": float(weapon_state.get("shootSoundVolume", 1.0)),
+		"volume": float(weapon_state.get("shootSoundVolume", SOURCE_WEAPON_SHOOT_SOUND_VOLUME_DEFAULT)),
 	}
 	return {
 		"bulletContinues": true,
 		"continuous": continuous,
 		"soundCall": sound_call,
-		"soundPitchMin": float(weapon_state.get("soundPitchMin", 0.8)),
-		"soundPitchMax": float(weapon_state.get("soundPitchMax", 1.0)),
+		"soundPitchMin": float(weapon_state.get("soundPitchMin", SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT)),
+		"soundPitchMax": float(weapon_state.get("soundPitchMax", SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT)),
 		"soundBranchSource": branch_source,
 		"soundCallSource": "shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
 		"initialSoundCallSource": "initialShootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax), shootSoundVolume);",
@@ -16582,7 +12188,7 @@ func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_sta
 			"effectsGateSource": "if(mount.allowShootEffects)",
 			"recoilReservedSource": "unit.vel.add(Tmp.v1.trns(shootAngle + 180f, bullet.recoil))",
 		}
-	var weapon_x := float(weapon_state.get("x", 5.0))
+	var weapon_x := float(weapon_state.get("x", SOURCE_WEAPON_X_DEFAULT))
 	var x_sign := -1.0 if weapon_x < 0.0 else 1.0
 	var mount_x := float(create_call_state.get("mountX", bullet_create_call.get("x", 0.0)))
 	var mount_y := float(create_call_state.get("mountY", bullet_create_call.get("y", 0.0)))
@@ -16696,7 +12302,7 @@ func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_stat
 			"effectPrivateShakeSource": "private static void shake(float intensity, float duration)",
 			"mountRecoilReservedSource": "mount.recoil = 1f",
 		}
-	var shake_intensity := float(weapon_state.get("shake", 0.0))
+	var shake_intensity := float(weapon_state.get("shake", SOURCE_WEAPON_SHAKE_DEFAULT))
 	var effect_shake_call := {
 		"intensity": shake_intensity,
 		"duration": shake_intensity,
@@ -16740,7 +12346,7 @@ func source_weapon_bullet_mount_recoil_state(create_call_state: Dictionary, moun
 	}
 
 func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	var recoils_count := int(weapon_state.get("recoils", -1))
+	var recoils_count := int(weapon_state.get("recoils", SOURCE_WEAPON_RECOILS_DEFAULT))
 	var barrel_counter := int(mount_state.get("barrelCounter", 0))
 	var raw_recoils = mount_state.get("recoils", [])
 	var recoils_values: Array = []
@@ -17111,7 +12717,7 @@ func source_bullet_type_create_lifetime_payload_damage_state(velocity_position_s
 			"trailClearReservedSource": "if(bullet.trail != null){",
 			"addReservedSource": "bullet.add()",
 		}
-	var lifetime := float(bullet_type_state.get("lifetime", SOURCE_BULLET_LIFETIME_DEFAULT))
+	var lifetime := float(bullet_type_state.get("lifetime", 40.0))
 	var lifetime_scl := float(bullet_create_call.get("lifetimeScl", 1.0))
 	var life_scale_rand_min := float(bullet_type_state.get("lifeScaleRandMin", 1.0))
 	var life_scale_rand_max := float(bullet_type_state.get("lifeScaleRandMax", 1.0))
@@ -17686,7 +13292,7 @@ func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: 
 const SOURCE_BULLET_ROTATION_COMMENT := "/** @return the bullet's rotation. */"
 const SOURCE_BULLET_ROTATION_METHOD := "public float rotation(){"
 const SOURCE_BULLET_ROTATION_RETURN := "return vel.isZero(0.001f) ? rotation : vel.angle();"
-const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001
+const SOURCE_BULLET_ROTATION_ZERO_MARGIN := SourceBulletDefaults.ROTATION_ZERO_MARGIN
 
 func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:
 	var velocity_state: Dictionary = bullet_state.get("velocity", {})
@@ -17724,7 +13330,7 @@ func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictiona
 	var tmp_offset: Dictionary = {"x": 0.0, "y": 0.0}
 	if trail_spread > 0.0:
 		tmp_offset = random_offset_state.duplicate(true)
-	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", 2.0))
+	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", SOURCE_BULLET_TRAIL_PARAM_DEFAULT))
 	var effect_call := {"x": float(update_bullet_state.get("x", 0.0)) + float(tmp_offset.get("x", 0.0)), "y": float(update_bullet_state.get("y", 0.0)) + float(tmp_offset.get("y", 0.0)), "rotation": effect_rotation, "color": bullet_type_state.get("trailColor", "Pal.missileYellowBack"), "effect": bullet_type_state.get("trailEffect", "Fx.missileTrail")}
 	return {
 		"bullet": update_bullet_state,
@@ -17765,7 +13371,7 @@ func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictio
 	var tmp_offset: Dictionary = {"x": 0.0, "y": 0.0}
 	if trail_spread > 0.0:
 		tmp_offset = random_offset_state.duplicate(true)
-	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", 2.0))
+	var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get("trailRotation", false)) else float(bullet_type_state.get("trailParam", SOURCE_BULLET_TRAIL_PARAM_DEFAULT))
 	var effect_call := {"x": float(update_bullet_state.get("x", 0.0)) + float(tmp_offset.get("x", 0.0)), "y": float(update_bullet_state.get("y", 0.0)) + float(tmp_offset.get("y", 0.0)), "rotation": effect_rotation, "color": bullet_type_state.get("trailColor", "Pal.missileYellowBack"), "effect": bullet_type_state.get("trailEffect", "Fx.missileTrail")}
 	effect_calls.append(effect_call)
 	return {
@@ -18109,7 +13715,7 @@ func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bulle
 	if heal_gate_passed:
 		heal_effect_call = {"call": "healEffect.at(build.x, build.y, 0f, healColor, build.block)", "x": build_x, "y": build_y, "rotation": 0.0, "color": heal_color, "block": build_block}
 		build_heal_call = {"call": "build.heal(healPercent / 100f * build.maxHealth + healAmount)", "amount": heal_applied_amount}
-		heal_sound_call = {"call": "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)", "pitchBase": 1.0, "pitchRange": 0.1, "volume": heal_sound_volume}
+		heal_sound_call = {"call": "healSound.at(build, 1f + Mathf.range(0.1f), healSoundVolume)", "pitchBase": 1.0, "pitchRange": SOURCE_BULLET_HEAL_SOUND_PITCH_RANGE, "volume": heal_sound_volume}
 	return {
 		"bulletType": update_type_state,
 		"bullet": update_bullet_state,
@@ -18341,7 +13947,7 @@ func source_bullet_type_hit_effects_state(bullet_type_state: Dictionary, bullet_
 	var hit_effect: Variant = update_type_state.get("hitEffect", "Fx.hitBulletSmall")
 	var hit_sound: Variant = update_type_state.get("hitSound", "Sounds.none")
 	var hit_sound_pitch := float(update_type_state.get("hitSoundPitch", 1.0))
-	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", 0.1))
+	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", SOURCE_BULLET_HIT_SOUND_PITCH_RANGE_DEFAULT))
 	var hit_sound_volume := float(update_type_state.get("hitSoundVolume", 1.0))
 	var hit_shake := float(update_type_state.get("hitShake", 0.0))
 	var hit_color: Variant = update_type_state.get("hitColor", "Color.white")
@@ -18486,7 +14092,7 @@ func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bulle
 	var incend_x := float(update_create_incend_state.get("x", 0.0))
 	var incend_y := float(update_create_incend_state.get("y", 0.0))
 	var incend_chance := float(update_type_state.get("incendChance", 1.0))
-	var incend_spread := float(update_type_state.get("incendSpread", 8.0))
+	var incend_spread := float(update_type_state.get("incendSpread", SOURCE_BULLET_INCEND_SPREAD_DEFAULT))
 	var incend_amount := int(update_type_state.get("incendAmount", 0))
 	var chance_passed: Variant = update_random_state.get("chancePassed", null)
 	var incend_gate_passed: bool = incend_chance > 0.0 and chance_passed == true
@@ -18530,7 +14136,7 @@ func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary
 	var despawn_unit: Variant = update_type_state.get("despawnUnit", null)
 	var despawn_unit_chance := float(update_type_state.get("despawnUnitChance", 1.0))
 	var despawn_unit_count := int(update_type_state.get("despawnUnitCount", 1))
-	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", 0.1))
+	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", SOURCE_BULLET_DESPAWN_UNIT_RADIUS_DEFAULT))
 	var face_outwards := bool(update_type_state.get("faceOutwards", false))
 	var bullet_team: Variant = update_bullet_state.get("team", null)
 	var chance_passed: Variant = update_random_state.get("chancePassed", null)
@@ -18573,7 +14179,7 @@ func source_bullet_type_create_units_random_offset_state(bullet_type_state: Dict
 	var unit_offset_plans: Array = []
 	var create_units_gate_passed := bool(update_initial_state.get("createUnitsGatePassed", false))
 	var loop_iterations := int(update_initial_state.get("loopIterations", 0))
-	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", update_initial_state.get("despawnUnitRadius", 0.1)))
+	var despawn_unit_radius := float(update_type_state.get("despawnUnitRadius", update_initial_state.get("despawnUnitRadius", SOURCE_BULLET_DESPAWN_UNIT_RADIUS_DEFAULT)))
 	var base_x := float(update_initial_state.get("x", 0.0))
 	var base_y := float(update_initial_state.get("y", 0.0))
 	if create_units_gate_passed:
@@ -18795,7 +14401,7 @@ func source_bullet_type_despawned_sound_state(bullet_type_state: Dictionary, bul
 	var update_despawned_effect_state: Dictionary = despawned_effect_state.duplicate(true)
 	var update_despawn_sound_random_state: Dictionary = despawn_sound_random_state.duplicate(true)
 	var despawn_sound: Variant = update_type_state.get("despawnSound", "Sounds.none")
-	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", 0.1))
+	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", SOURCE_BULLET_HIT_SOUND_PITCH_RANGE_DEFAULT))
 	var range_sample: Variant = update_despawn_sound_random_state.get("rangeSample", null)
 	var sound_pitch: Variant = null
 	if range_sample != null:
@@ -18844,7 +14450,7 @@ func source_bullet_type_removed_trail_fade_state(bullet_type_state: Dictionary, 
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
 	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
 	var trail_length := int(update_type_state.get("trailLength", -1))
-	var trail_width := float(update_type_state.get("trailWidth", 2.0))
+	var trail_width := float(update_type_state.get("trailWidth", SOURCE_BULLET_TRAIL_WIDTH_DEFAULT))
 	var trail_color: Variant = update_type_state.get("trailColor", "Pal.missileYellowBack")
 	var bullet_x: Variant = update_bullet_state.get("x", null)
 	var bullet_y: Variant = update_bullet_state.get("y", null)
@@ -18931,7 +14537,7 @@ func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bul
 	var bullet_y := float(update_bullet_state.get("y", 0.0))
 	var bullet_team: Variant = update_bullet_state.get("team", null)
 	var suppression_range := float(update_type_state.get("suppressionRange", -1.0))
-	var suppression_duration := float(update_type_state.get("suppressionDuration", 60.0 * 8.0))
+	var suppression_duration := float(update_type_state.get("suppressionDuration", SOURCE_BULLET_SUPPRESSION_DURATION_DEFAULT))
 	var suppression_effect_chance := float(update_type_state.get("suppressionEffectChance", 50.0))
 	var suppress_color: Variant = update_type_state.get("suppressColor", "Pal.sapBullet")
 	var suppression_gate_passed := suppression_range > 0.0
@@ -19069,7 +14675,7 @@ func source_bullet_type_create_splash_damage_status_dispatch_state(bullet_type_s
 	var bullet_team: Variant = update_bullet_state.get("team", null)
 	var splash_damage_radius := float(update_damage_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
 	var status := str(update_type_state.get("status", "none"))
-	var status_duration := float(update_type_state.get("statusDuration", 60.0 * 8.0))
+	var status_duration := float(update_type_state.get("statusDuration", SOURCE_BULLET_STATUS_DURATION_DEFAULT))
 	var collides_air := bool(update_damage_dispatch_state.get("collidesAir", update_type_state.get("collidesAir", true)))
 	var collides_ground := bool(update_damage_dispatch_state.get("collidesGround", update_type_state.get("collidesGround", true)))
 	var splash_damage_gate_passed := bool(update_damage_dispatch_state.get("splashDamageGatePassed", false))
@@ -19449,7 +15055,7 @@ func source_bullet_type_create_puddles_initial_state(bullet_type_state: Dictiona
 	var puddle_liquid: Variant = update_type_state.get("puddleLiquid", "water")
 	var puddles := int(update_type_state.get("puddles", 0))
 	var puddle_range := float(update_type_state.get("puddleRange", 0.0))
-	var puddle_amount := float(update_type_state.get("puddleAmount", 5.0))
+	var puddle_amount := float(update_type_state.get("puddleAmount", SOURCE_BULLET_PUDDLE_AMOUNT_DEFAULT))
 	var puddle_gate_passed := puddle_liquid != null and puddles > 0
 	var loop_iterations := puddles if puddle_gate_passed else 0
 	return {
@@ -19532,7 +15138,7 @@ func source_bullet_type_create_puddles_deposit_state(bullet_type_state: Dictiona
 	var deposit_calls: Array = []
 	var puddle_gate_passed := bool(update_tile_world_state.get("puddleGatePassed", false))
 	var puddle_liquid: Variant = update_type_state.get("puddleLiquid", update_tile_world_state.get("puddleLiquid", "water"))
-	var puddle_amount := float(update_type_state.get("puddleAmount", update_tile_world_state.get("puddleAmount", 5.0)))
+	var puddle_amount := float(update_type_state.get("puddleAmount", update_tile_world_state.get("puddleAmount", SOURCE_BULLET_PUDDLE_AMOUNT_DEFAULT)))
 	if puddle_gate_passed:
 		for tile_call in tile_world_calls:
 			var tile_world_call: Dictionary = tile_call
@@ -19733,7 +15339,7 @@ func source_bullet_type_hit_entity_unit_effects_state(bullet_type_state: Diction
 	var knockback := float(update_type_state.get("knockback", 0.0))
 	var impact := bool(update_type_state.get("impact", false))
 	var status = update_type_state.get("status", null)
-	var status_duration := float(update_type_state.get("statusDuration", 480.0))
+	var status_duration := float(update_type_state.get("statusDuration", SOURCE_BULLET_STATUS_DURATION_DEFAULT))
 	var entity_x := float(update_entity_state.get("x", 0.0))
 	var entity_y := float(update_entity_state.get("y", 0.0))
 	var bullet_x := float(update_bullet_state.get("x", 0.0))
@@ -19919,7 +15525,7 @@ func source_bullet_type_draw_trail_state(bullet_type_state: Dictionary, bullet_s
 	var trail_exists := update_bullet_state.get("trail", null) != null
 	var gate_passed := trail_length > 0 and trail_exists
 	var draw_z_below := current_draw_z - 0.0001
-	var trail_width := float(update_type_state.get("trailWidth", 2.0))
+	var trail_width := float(update_type_state.get("trailWidth", SOURCE_BULLET_TRAIL_WIDTH_DEFAULT))
 	var trail_color := str(update_type_state.get("trailColor", "Pal.missileYellowBack"))
 	var trail_draw_call: Variant = null
 	if gate_passed:
@@ -20002,7 +15608,6 @@ func source_bullet_type_draw_light_state(bullet_type_state: Dictionary, bullet_s
 
 const SOURCE_UNIT_PLAYER_CONTROLLABLE_METHOD := "public boolean playerControllable(){"
 const SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN := "return type.playerControllable && !(controller instanceof LogicAI ai && ai.controller != null && ai.controller.block.privileged);"
-const SOURCE_UNIT_PLAYER_CONTROLLABLE_DEFAULT := "playerControllable = true,"
 
 func source_unit_player_controllable_state(type_player_controllable: bool, controller_is_logic_ai: bool, logic_controller_exists: bool, logic_controller_block_privileged: bool) -> Dictionary:
 	var logic_privileged_blocked := controller_is_logic_ai and logic_controller_exists and logic_controller_block_privileged
@@ -20012,28 +15617,6 @@ func source_unit_player_controllable_state(type_player_controllable: bool, contr
 		"playerControllable": type_player_controllable and not logic_privileged_blocked,
 		"logicPrivilegedBlocked": logic_privileged_blocked,
 		"call": "playerControllable()",
-	}
-
-func reset_unit_player_controllable_runtime() -> Dictionary:
-	unit_player_controllable_last_state = {}
-	return unit_player_controllable_runtime_state()
-
-func step_unit_player_controllable_runtime(type_player_controllable: bool = true, controller_is_logic_ai: bool = false, logic_controller_exists: bool = false, logic_controller_block_privileged: bool = false) -> Dictionary:
-	var controllable_state := source_unit_player_controllable_state(type_player_controllable, controller_is_logic_ai, logic_controller_exists, logic_controller_block_privileged)
-	unit_player_controllable_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"type_source_owner": "core/src/mindustry/type/UnitType.java",
-		"player_controllable": controllable_state,
-		"return_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_RETURN,
-		"default_expr": SOURCE_UNIT_PLAYER_CONTROLLABLE_DEFAULT,
-	}
-	return unit_player_controllable_runtime_state()
-
-func unit_player_controllable_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"type_source_owner": "core/src/mindustry/type/UnitType.java",
-		"last_state": unit_player_controllable_last_state.duplicate(true),
 	}
 
 const SOURCE_UNIT_TARGETABLE_METHOD := "public boolean targetable(Team targeter){"
@@ -20069,25 +15652,6 @@ func source_unit_killable_state(type_killable: bool) -> Dictionary:
 		"call": "type.killable(self())",
 	}
 
-func reset_unit_killable_runtime() -> Dictionary:
-	unit_killable_last_state = {}
-	return unit_killable_runtime_state()
-
-func step_unit_killable_runtime(type_killable: bool = true) -> Dictionary:
-	var killable_state := source_unit_killable_state(type_killable)
-	unit_killable_last_state = {
-		"source_owner": "core/src/mindustry/type/UnitType.java",
-		"killable": killable_state,
-		"return_expr": SOURCE_UNIT_KILLABLE_TYPE_RETURN,
-	}
-	return unit_killable_runtime_state()
-
-func unit_killable_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/UnitType.java",
-		"last_state": unit_killable_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_HITTABLE_METHOD := "public boolean hittable(){"
 const SOURCE_UNIT_HITTABLE_UNIT_RETURN := "return type.hittable(self());"
 const SOURCE_UNIT_HITTABLE_TYPE_METHOD := "public boolean hittable(Unit unit){"
@@ -20107,31 +15671,6 @@ func source_unit_hittable_state(type_hittable: bool, type_vulnerable_with_payloa
 		"call": SOURCE_UNIT_HITTABLE_CALL,
 	}
 
-func reset_unit_payload_targeting_runtime() -> Dictionary:
-	unit_payload_targeting_last_state = {}
-	return unit_payload_targeting_runtime_state()
-
-func step_unit_payload_targeting_runtime() -> Dictionary:
-	var targetable_state := source_unit_targetable_state(false, true, true, true, 1)
-	var hittable_state := source_unit_hittable_state(false, true, true, true)
-	unit_payload_targeting_last_state = {
-		"source_owner": "core/src/mindustry/type/UnitType.java",
-		"payload_source_owner": "core/src/mindustry/entities/comp/PayloadComp.java",
-		"targetable": targetable_state,
-		"hittable": hittable_state,
-		"targetable_payload_path": bool(targetable_state.get("payloadTargetable", false)),
-		"hittable_payload_path": bool(hittable_state.get("payloadHittable", false)),
-		"payload_has_payload_expr": SOURCE_UNIT_TARGETABLE_PAYLOAD_HAS_PAYLOAD_RETURN,
-	}
-	return unit_payload_targeting_runtime_state()
-
-func unit_payload_targeting_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/UnitType.java",
-		"payload_source_owner": "core/src/mindustry/entities/comp/PayloadComp.java",
-		"last_state": unit_payload_targeting_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_AFTER_SYNC_METHOD := "public void afterSync(){"
 const SOURCE_UNIT_AFTER_SYNC_COMMENT := "set up type info after reading"
 const SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL := "setType(this.type);"
@@ -20147,26 +15686,6 @@ func source_unit_after_sync_state(type_id: int, controller_exists: bool) -> Dict
 		"call_order": ["setType", "controller.unit"],
 		"setType_arg": SOURCE_UNIT_AFTER_SYNC_SET_TYPE_ARG,
 		"controllerUnitArg": SOURCE_UNIT_AFTER_SYNC_SELF_ARG,
-	}
-
-func reset_unit_after_sync_runtime() -> Dictionary:
-	unit_after_sync_last_state = {}
-	return unit_after_sync_runtime_state()
-
-func step_unit_after_sync_runtime(type_id: int = 1, controller_exists: bool = true) -> Dictionary:
-	var after_sync_state := source_unit_after_sync_state(type_id, controller_exists)
-	unit_after_sync_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"after_sync": after_sync_state,
-		"set_type_call": SOURCE_UNIT_AFTER_SYNC_SET_TYPE_CALL,
-		"controller_unit_call": SOURCE_UNIT_AFTER_SYNC_CONTROLLER_UNIT_CALL,
-	}
-	return unit_after_sync_runtime_state()
-
-func unit_after_sync_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_after_sync_last_state.duplicate(true),
 	}
 
 const SOURCE_UNIT_AFTER_READ_METHOD := "public void afterRead(){"
@@ -20194,26 +15713,6 @@ func source_unit_after_read_state(type_id: int, controller_is_ai_controller: boo
 		"createControllerArg": SOURCE_UNIT_AFTER_READ_SELF_ARG,
 	}
 
-func reset_unit_after_read_runtime() -> Dictionary:
-	unit_after_read_last_state = {}
-	return unit_after_read_runtime_state()
-
-func step_unit_after_read_runtime(type_id: int = 1, controller_is_ai_controller: bool = false, ai_keep_state: bool = false, controller_exists: bool = true) -> Dictionary:
-	var after_read_state := source_unit_after_read_state(type_id, controller_is_ai_controller, ai_keep_state, controller_exists)
-	unit_after_read_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"after_read": after_read_state,
-		"reset_guard": SOURCE_UNIT_AFTER_READ_RESET_GUARD,
-		"create_controller_call": SOURCE_UNIT_AFTER_READ_CREATE_CONTROLLER_CALL,
-	}
-	return unit_after_read_runtime_state()
-
-func unit_after_read_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_after_read_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_AFTER_READ_ALL_OVERRIDE := "@Override"
 const SOURCE_UNIT_AFTER_READ_ALL_METHOD := "public void afterReadAll(){"
 const SOURCE_UNIT_AFTER_READ_ALL_CALL := "controller.afterRead(self());"
@@ -20225,25 +15724,6 @@ func source_unit_after_read_all_state(controller_exists: bool) -> Dictionary:
 		"controller_exists": controller_exists,
 		"call": SOURCE_UNIT_AFTER_READ_ALL_CALL,
 		"afterReadArg": SOURCE_UNIT_AFTER_READ_ALL_SELF_ARG,
-	}
-
-func reset_unit_after_read_all_runtime() -> Dictionary:
-	unit_after_read_all_last_state = {}
-	return unit_after_read_all_runtime_state()
-
-func step_unit_after_read_all_runtime(controller_exists: bool = true) -> Dictionary:
-	var after_read_all_state := source_unit_after_read_all_state(controller_exists)
-	unit_after_read_all_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"after_read_all": after_read_all_state,
-		"controller_after_read_call": SOURCE_UNIT_AFTER_READ_ALL_CALL,
-	}
-	return unit_after_read_all_runtime_state()
-
-func unit_after_read_all_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_after_read_all_last_state.duplicate(true),
 	}
 
 const SOURCE_UNIT_ADD_METHOD := "public void add(){"
@@ -20278,26 +15758,6 @@ func source_unit_add_state(type_use_unit_cap: bool, count_after_add: int, cap_va
 		"unitCapDeath": over_cap,
 		"rollbackUpdateCount": rollback_update_count,
 		"call_order": ["team.data().updateCount(+1)", "Call.unitCapDeath", "team.data().updateCount(-1)"] if over_cap else ["team.data().updateCount(+1)"],
-	}
-
-func reset_unit_add_runtime() -> Dictionary:
-	unit_add_last_state = {}
-	return unit_add_runtime_state()
-
-func step_unit_add_runtime(type_use_unit_cap: bool = true, count_after_add: int = 6, cap_value: int = 5, spawned_by_core: bool = false, dead: bool = false, rules_editor: bool = false) -> Dictionary:
-	var add_state := source_unit_add_state(type_use_unit_cap, count_after_add, cap_value, spawned_by_core, dead, rules_editor)
-	unit_add_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_add": add_state,
-		"unit_cap_death_call": SOURCE_UNIT_ADD_UNIT_CAP_DEATH_CALL,
-		"cap_guard": SOURCE_UNIT_ADD_CAP_GUARD,
-	}
-	return unit_add_runtime_state()
-
-func unit_add_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_add_last_state.duplicate(true),
 	}
 
 const SOURCE_UNIT_REMOVE_METHOD := "@Override\n    public void remove(){"
@@ -20337,33 +15797,13 @@ func source_unit_remove_state(trail_exists: bool, trail_size: int, trail_width: 
 		"call_order": ["team.data().updateCount(-1)", "controller.removed", "Fx.trailFade.at"] if fade_trail else ["team.data().updateCount(-1)", "controller.removed"],
 	}
 
-func reset_unit_remove_runtime() -> Dictionary:
-	unit_remove_last_state = {}
-	return unit_remove_runtime_state()
-
-func step_unit_remove_runtime(trail_exists: bool = true, trail_size: int = 3, trail_width: float = 2.0, type_trail_color_exists: bool = false, team_color: String = "blue", type_trail_color: String = "green") -> Dictionary:
-	var remove_state := source_unit_remove_state(trail_exists, trail_size, trail_width, type_trail_color_exists, team_color, type_trail_color)
-	unit_remove_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_remove": remove_state,
-		"controller_removed_call": SOURCE_UNIT_REMOVE_CONTROLLER_REMOVED,
-		"trail_fade_call": SOURCE_UNIT_REMOVE_TRAIL_FADE,
-	}
-	return unit_remove_runtime_state()
-
-func unit_remove_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_remove_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_LANDED_METHOD := "@Override\n    public void landed(){"
 const SOURCE_UNIT_LANDED_SHAKE_GUARD := "if(type.mechLandShake > 0f){"
 const SOURCE_UNIT_LANDED_SHAKE_CALL := "Effect.shake(type.mechLandShake, type.mechLandShake, this);"
 const SOURCE_UNIT_LANDED_TYPE_CALL := "type.landed(self());"
 
 func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
-	var shake := type_mech_land_shake > 0.0
+	var shake := type_mech_land_shake > SOURCE_UNIT_LANDED_SHAKE_THRESHOLD
 	var shake_call: Variant = null
 	if shake:
 		shake_call = {
@@ -20379,26 +15819,6 @@ func source_unit_landed_state(type_mech_land_shake: float) -> Dictionary:
 		"call_order": ["Effect.shake", "type.landed"] if shake else ["type.landed"],
 	}
 
-func reset_unit_landed_runtime() -> Dictionary:
-	unit_landed_last_state = {}
-	return unit_landed_runtime_state()
-
-func step_unit_landed_runtime(type_mech_land_shake: float = 3.0) -> Dictionary:
-	var landed_state := source_unit_landed_state(type_mech_land_shake)
-	unit_landed_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_landed": landed_state,
-		"shake_call": SOURCE_UNIT_LANDED_SHAKE_CALL,
-		"type_landed_call": SOURCE_UNIT_LANDED_TYPE_CALL,
-	}
-	return unit_landed_runtime_state()
-
-func unit_landed_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_landed_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_HEAL_OVERRIDE := "@Override\n    public void heal(float amount){"
 const SOURCE_UNIT_HEAL_GUARD := "if(health < maxHealth && amount > 0){"
 const SOURCE_UNIT_HEAL_WAS_HEALED := "wasHealed = true;"
@@ -20411,9 +15831,9 @@ func source_unit_heal_state(current_health: float, max_health: float, amount: fl
 	next_health = min(next_health, max_health)
 	if is_nan(next_health):
 		next_health = 0.0
-	var set_was_healed := next_health < max_health and amount > 0.0
+	var set_was_healed := next_health < max_health and amount > SOURCE_UNIT_HEAL_AMOUNT_POSITIVE_THRESHOLD
 	return {
-		"guard": {"healthLessThanMax": next_health < max_health, "amountPositive": amount > 0.0},
+		"guard": {"healthLessThanMax": next_health < max_health, "amountPositive": amount > SOURCE_UNIT_HEAL_AMOUNT_POSITIVE_THRESHOLD},
 		"health": next_health,
 		"healthDelta": next_health - current_health,
 		"healthCompAdd": SOURCE_UNIT_HEAL_HEALTH_COMP_ADD,
@@ -20425,215 +15845,20 @@ func source_unit_heal_state(current_health: float, max_health: float, amount: fl
 		"override": SOURCE_UNIT_HEAL_OVERRIDE,
 	}
 
-func reset_unit_heal_runtime() -> Dictionary:
-	unit_heal_last_state = {}
-	return unit_heal_runtime_state()
-
-func step_unit_heal_runtime(current_health: float = 90.0, max_health: float = 100.0, amount: float = 5.0, current_was_healed: bool = false) -> Dictionary:
-	var heal_state := source_unit_heal_state(current_health, max_health, amount, current_was_healed)
-	unit_heal_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_heal": heal_state,
-		"heal_guard": SOURCE_UNIT_HEAL_GUARD,
-		"was_healed_assignment": SOURCE_UNIT_HEAL_WAS_HEALED,
-	}
-	return unit_heal_runtime_state()
-
-func unit_heal_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_heal_last_state.duplicate(true),
-	}
-
 func source_unit_update_heal_time_state(was_healed_value: bool, current_heal_time: float, source_delta: float) -> Dictionary:
-	var reset_heal_time := was_healed_value and current_heal_time <= -1.0
-	var heal_time := 1.0 if reset_heal_time else current_heal_time
-	heal_time -= source_delta / 20.0
-	return {
-		"healTime": heal_time,
-		"wasHealed": false,
-		"resetHealTime": reset_heal_time,
-		"decay": source_delta / 20.0,
-		"order": ["updateDrowning", "healTime gate", "healTime decay", "wasHealed reset"],
-	}
-
-func reset_unit_update_heal_time_runtime() -> Dictionary:
-	unit_update_heal_time_last_state = {}
-	return unit_update_heal_time_runtime_state()
-
-func step_unit_update_heal_time_runtime(was_healed_value: bool = true, current_heal_time: float = -1.0, source_delta: float = 1.0) -> Dictionary:
-	var heal_time_state := source_unit_update_heal_time_state(was_healed_value, current_heal_time, source_delta)
-	unit_update_heal_time_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_heal_time": heal_time_state,
-		"update_order": heal_time_state.get("order", []),
-	}
-	return unit_update_heal_time_runtime_state()
-
-func unit_update_heal_time_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_heal_time_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.heal_time_state(was_healed_value, current_heal_time, source_delta)
 
 func source_unit_update_captured_sector_death_state(team_is_only_ai: bool, state_is_campaign: bool, sector_is_captured: bool) -> Dictionary:
-	var kill_unit := team_is_only_ai and state_is_campaign and sector_is_captured
-	return {
-		"guard": {"team.isOnlyAI()": team_is_only_ai, "state.isCampaign()": state_is_campaign, "state.getSector().isCaptured()": sector_is_captured},
-		"kill": kill_unit,
-		"call": "kill()" if kill_unit else "",
-	}
-
-func reset_unit_update_captured_sector_death_runtime() -> Dictionary:
-	unit_update_captured_sector_death_last_state = {}
-	return unit_update_captured_sector_death_runtime_state()
-
-func step_unit_update_captured_sector_death_runtime(team_is_only_ai: bool = true, state_is_campaign: bool = true, sector_is_captured: bool = true) -> Dictionary:
-	var captured_sector_death_state := source_unit_update_captured_sector_death_state(team_is_only_ai, state_is_campaign, sector_is_captured)
-	unit_update_captured_sector_death_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_captured_sector_death": captured_sector_death_state,
-		"guard": captured_sector_death_state.get("guard", {}),
-		"kill_call": captured_sector_death_state.get("call", ""),
-	}
-	return unit_update_captured_sector_death_runtime_state()
-
-func unit_update_captured_sector_death_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_captured_sector_death_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.captured_sector_death_state(team_is_only_ai, state_is_campaign, sector_is_captured)
 
 func source_unit_update_sound_loop_state(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
-	var sound_enabled := not headless_value
-	var velocity_len := sqrt(velocity_x * velocity_x + velocity_y * velocity_y)
-	var progress := clampf(velocity_len / type_speed, 0.0, 1.0) if type_speed != 0.0 else 1.0
-	var pitch := type_move_sound_pitch_min + (type_move_sound_pitch_max - type_move_sound_pitch_min) * progress
-	var loop_sound_call: Variant = null
-	var move_sound_call: Variant = null
-	if sound_enabled:
-		loop_sound_call = {
-			"call": "control.sound.loop(type.loopSound, this, type.loopSoundVolume)",
-			"sound": type_loop_sound,
-			"volume": type_loop_sound_volume,
-		}
-		if type_move_sound != "Sounds.none":
-			move_sound_call = {
-				"call": "control.sound.loop(type.moveSound, this, type.moveSoundVolume * progress, pitch)",
-				"sound": type_move_sound,
-				"progress": progress,
-				"volume": type_move_sound_volume * progress,
-				"pitch": pitch,
-			}
-	return {
-		"soundEnabled": sound_enabled,
-		"velocityLen": velocity_len,
-		"progress": progress,
-		"pitch": pitch,
-		"loopSound": loop_sound_call,
-		"moveSound": move_sound_call,
-	}
-
-func reset_unit_update_sound_loop_runtime() -> Dictionary:
-	unit_update_sound_loop_last_state = {}
-	return unit_update_sound_loop_runtime_state()
-
-func step_unit_update_sound_loop_runtime(headless_value: bool, type_loop_sound: String, type_loop_sound_volume: float, type_move_sound: String, type_move_sound_volume: float, type_move_sound_pitch_min: float, type_move_sound_pitch_max: float, velocity_x: float, velocity_y: float, type_speed: float) -> Dictionary:
-	var sound_loop_state := source_unit_update_sound_loop_state(headless_value, type_loop_sound, type_loop_sound_volume, type_move_sound, type_move_sound_volume, type_move_sound_pitch_min, type_move_sound_pitch_max, velocity_x, velocity_y, type_speed)
-	unit_update_sound_loop_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_sound_loop": sound_loop_state,
-		"loop_sound_call": sound_loop_state.get("loopSound"),
-		"move_sound_call": sound_loop_state.get("moveSound"),
-	}
-	return unit_update_sound_loop_runtime_state()
-
-func unit_update_sound_loop_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_sound_loop_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.sound_loop_state(headless_value, type_loop_sound, type_loop_sound_volume, type_move_sound, type_move_sound_volume, type_move_sound_pitch_min, type_move_sound_pitch_max, velocity_x, velocity_y, type_speed)
 
 func source_unit_update_unsupported_env_state(type_supports_env: bool, dead_value: bool) -> Dictionary:
-	var env_death := not type_supports_env and not dead_value
-	var unit_env_death_call: Variant = null
-	var update_count_call: Variant = null
-	if env_death:
-		unit_env_death_call = {
-			"call": "Call.unitEnvDeath(self())",
-		}
-		update_count_call = {
-			"call": "team.data().updateCount(type, -1)",
-			"amount": -1,
-		}
-	return {
-		"envDeath": env_death,
-		"guard": {"!type.supportsEnv(state.rules.env)": not type_supports_env, "!dead": not dead_value},
-		"unitEnvDeath": unit_env_death_call,
-		"updateCount": update_count_call,
-		"callOrder": ["Call.unitEnvDeath(self())", "team.data().updateCount(type, -1)"] if env_death else [],
-	}
-
-func reset_unit_update_unsupported_env_runtime() -> Dictionary:
-	unit_update_unsupported_env_last_state = {}
-	return unit_update_unsupported_env_runtime_state()
-
-func step_unit_update_unsupported_env_runtime(type_supports_env: bool, dead_value: bool) -> Dictionary:
-	var unsupported_env_state := source_unit_update_unsupported_env_state(type_supports_env, dead_value)
-	unit_update_unsupported_env_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_unsupported_env": unsupported_env_state,
-		"unit_env_death": unsupported_env_state.get("unitEnvDeath"),
-		"update_count": unsupported_env_state.get("updateCount"),
-	}
-	return unit_update_unsupported_env_runtime_state()
-
-func unit_update_unsupported_env_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_unsupported_env_last_state.duplicate(true),
-	}
-
-const SOURCE_UNIT_UPDATE_ABILITIES_FIELD := "Ability[] abilities = {};"
-const SOURCE_UNIT_UPDATE_ABILITIES_LOOP := "for(Ability a : abilities){"
-const SOURCE_UNIT_UPDATE_ABILITIES_CALL := "a.update(self());"
-const SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD := "public void update(Unit unit){}"
+	return SourceUnitUpdateState.unsupported_env_state(type_supports_env, dead_value)
 
 func source_unit_update_abilities_loop_state(ability_ids: Array) -> Dictionary:
-	var updates := []
-	for ability_id in ability_ids:
-		updates.append({
-			"call": SOURCE_UNIT_UPDATE_ABILITIES_CALL,
-			"ability": ability_id,
-		})
-	return {
-		"abilitiesField": SOURCE_UNIT_UPDATE_ABILITIES_FIELD,
-		"loop": SOURCE_UNIT_UPDATE_ABILITIES_LOOP,
-		"updateCall": SOURCE_UNIT_UPDATE_ABILITIES_CALL,
-		"abilityUpdateMethod": SOURCE_UNIT_UPDATE_ABILITIES_ABILITY_UPDATE_METHOD,
-		"updates": updates,
-		"updateCount": updates.size(),
-	}
-
-func reset_unit_update_abilities_loop_runtime() -> Dictionary:
-	unit_update_abilities_loop_last_state = {}
-	return unit_update_abilities_loop_runtime_state()
-
-func step_unit_update_abilities_loop_runtime(ability_ids: Array) -> Dictionary:
-	var abilities_loop_state := source_unit_update_abilities_loop_state(ability_ids)
-	unit_update_abilities_loop_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_abilities_loop": abilities_loop_state,
-		"updates": abilities_loop_state.get("updates", []),
-		"update_count": abilities_loop_state.get("updateCount"),
-	}
-	return unit_update_abilities_loop_runtime_state()
-
-func unit_update_abilities_loop_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_abilities_loop_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.abilities_loop_state(ability_ids)
 
 func source_ability_update_state(unit: Variant) -> Dictionary:
 	return {
@@ -20861,12 +16086,13 @@ func generated_ability_display_bridge_state(table_state: Variant, localized_valu
 		"outer_chain": result.get("outer_chain", "}).pad(5).margin(10).growX().top().uniformX();"),
 		"table_mutation": result.get("table_mutation", false),
 	}
+	var matches := generated_state_matches_generated_subset(ability_display_result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_display_state",
 		"generated_owner": "Ability.java_method_display_6",
 		"result": ability_display_result,
 		"canonical": canonical,
-		"matches": ability_display_result == canonical,
+		"matches": matches,
 	}
 
 func source_ability_add_stats_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:
@@ -20920,12 +16146,13 @@ func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_v
 		"add_description_call": result.get("add_description_call", null),
 		"row_call": result.get("row_call", null),
 	}
+	var matches := generated_state_matches_generated_subset(ability_add_stats_result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_add_stats_state",
 		"generated_owner": "Ability.java_method_addStats_7",
 		"result": ability_add_stats_result,
 		"canonical": canonical,
-		"matches": ability_add_stats_result == canonical,
+		"matches": matches,
 	}
 
 func source_ability_ability_stat_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:
@@ -20949,12 +16176,13 @@ func generated_ability_ability_stat_bridge_state(stat_value: String, values: Arr
 	var instance = script.new()
 	var result = instance.java_method_abilityStat_8([stat_value, values, formatted_value])
 	var canonical = source_ability_ability_stat_state(stat_value, values, formatted_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_ability_stat_state",
 		"generated_owner": "Ability.java_method_abilityStat_8",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_ability_copy_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:
@@ -20987,12 +16215,13 @@ func generated_ability_copy_bridge_state(clone_supported: bool, clone_value: Var
 	var instance = script.new()
 	var result = instance.java_method_copy_9([clone_supported, clone_value, exception_value])
 	var canonical = source_ability_copy_state(clone_supported, clone_value, exception_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_copy_state",
 		"generated_owner": "Ability.java_method_copy_9",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_ability_localized_state(get_bundle_value: String, bundle_value: String) -> Dictionary:
@@ -21013,12 +16242,13 @@ func generated_ability_localized_bridge_state(get_bundle_value: String, bundle_v
 	var instance = script.new()
 	var result = instance.java_method_localized_10([get_bundle_value, bundle_value])
 	var canonical = source_ability_localized_state(get_bundle_value, bundle_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_localized_state",
 		"generated_owner": "Ability.java_method_localized_10",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_ability_get_bundle_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:
@@ -21047,600 +16277,56 @@ func generated_ability_get_bundle_bridge_state(class_simple_name: String, is_ano
 	var instance = script.new()
 	var result = instance.java_method_getBundle_11([class_simple_name, is_anonymous_class, superclass_simple_name])
 	var canonical = source_ability_get_bundle_state(class_simple_name, is_anonymous_class, superclass_simple_name)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_ability_get_bundle_state",
 		"generated_owner": "Ability.java_method_getBundle_11",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
-	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
-	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale
-	var angle := source_rotation_degrees + 180.0
-	var cx := x_value + cos(deg_to_rad(angle)) * offset
-	var cy := y_value + sin(deg_to_rad(angle)) * offset
-	if not trail_exists:
-		return {
-			"trailExists": false,
-			"scale": trail_scale,
-			"offset": offset,
-			"position": {"x": cx, "y": cy},
-			"lengthSet": null,
-			"trailUpdate": null,
-		}
-	return {
-		"trailExists": true,
-		"scale": trail_scale,
-		"offset": offset,
-		"position": {"x": cx, "y": cy},
-		"lengthSet": {"call": "trail.length = type.trailLength", "length": type_trail_length},
-		"trailUpdate": {"call": "trail.update(cx, cy)", "x": cx, "y": cy},
-	}
-
-func reset_unit_update_trail_position_runtime() -> Dictionary:
-	unit_update_trail_position_last_state = {}
-	return unit_update_trail_position_runtime_state()
-
-func step_unit_update_trail_position_runtime(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
-	var trail_position_state := source_unit_update_trail_position_state(trail_exists, type_trail_length, type_use_engine_elevation, elevation_value, type_engine_offset, x_value, y_value, source_rotation_degrees)
-	unit_update_trail_position_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_trail_position": trail_position_state,
-		"trail_update": trail_position_state.get("trailUpdate"),
-		"length_set": trail_position_state.get("lengthSet"),
-	}
-	return unit_update_trail_position_runtime_state()
-
-func unit_update_trail_position_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_trail_position_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.trail_position_state(trail_exists, type_trail_length, type_use_engine_elevation, elevation_value, type_engine_offset, x_value, y_value, source_rotation_degrees)
 
 func source_unit_update_drag_formula_state(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:
-	var floor_factor := floor_drag_multiplier if grounded_value else 1.0
-	var unit_drag := type_drag * floor_factor * unit_drag_multiplier * rules_drag_multiplier
-	return {
-		"drag": unit_drag,
-		"floorFactor": floor_factor,
-		"grounded": grounded_value,
-		"formula": "type.drag * (isGrounded() ? floorOn().dragMultiplier : 1f) * dragMultiplier * state.rules.dragMultiplier",
-		"inputs": {
-			"type.drag": type_drag,
-			"floorOn().dragMultiplier": floor_drag_multiplier,
-			"dragMultiplier": unit_drag_multiplier,
-			"state.rules.dragMultiplier": rules_drag_multiplier,
-		},
-	}
-
-func reset_unit_update_drag_formula_runtime() -> Dictionary:
-	unit_update_drag_formula_last_state = {}
-	return unit_update_drag_formula_runtime_state()
-
-func step_unit_update_drag_formula_runtime(type_drag: float, grounded_value: bool, floor_drag_multiplier: float, unit_drag_multiplier: float, rules_drag_multiplier: float) -> Dictionary:
-	var drag_formula_state := source_unit_update_drag_formula_state(type_drag, grounded_value, floor_drag_multiplier, unit_drag_multiplier, rules_drag_multiplier)
-	unit_update_drag_formula_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_drag_formula": drag_formula_state,
-		"drag": drag_formula_state.get("drag"),
-		"floor_factor": drag_formula_state.get("floorFactor"),
-	}
-	return unit_update_drag_formula_runtime_state()
-
-func unit_update_drag_formula_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_drag_formula_last_state.duplicate(true),
-	}
-
-func reset_unit_update_spawn_knockback_runtime() -> Dictionary:
-	unit_update_spawn_knockback_last_state = {}
-	return unit_update_spawn_knockback_runtime_state()
-
-func step_unit_update_spawn_knockback_runtime(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
-	var spawn_knockback_state := source_unit_update_spawn_knockback_state(team_is_wave_team, state_has_spawns_value, net_client_value, is_local_value, hittable_value, drop_zone_radius, hit_size, unit_x, unit_y, spawns, source_delta)
-	unit_update_spawn_knockback_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_spawn_knockback": spawn_knockback_state,
-		"relative_size": spawn_knockback_state.get("relativeSize"),
-		"knockbacks": spawn_knockback_state.get("knockbacks", []),
-	}
-	return unit_update_spawn_knockback_runtime_state()
-
-func unit_update_spawn_knockback_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_spawn_knockback_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.drag_formula_state(type_drag, grounded_value, floor_drag_multiplier, unit_drag_multiplier, rules_drag_multiplier)
 
 func source_unit_update_spawn_knockback_state(team_is_wave_team: bool, state_has_spawns_value: bool, net_client_value: bool, is_local_value: bool, hittable_value: bool, drop_zone_radius: float, hit_size: float, unit_x: float, unit_y: float, spawns: Array, source_delta: float) -> Dictionary:
-	var guard := (not team_is_wave_team) and state_has_spawns_value and ((not net_client_value) or is_local_value) and hittable_value
-	var relative_size := drop_zone_radius + hit_size / 2.0 + 1.0
-	var knockbacks := []
-	if guard:
-		for spawn in spawns:
-			var spawn_x := float(spawn.get("x", 0.0))
-			var spawn_y := float(spawn.get("y", 0.0))
-			var dx := unit_x - spawn_x
-			var dy := unit_y - spawn_y
-			var distance := sqrt(dx * dx + dy * dy)
-			var within_spawn := distance * distance < relative_size * relative_size
-			if within_spawn:
-				var strength := 0.1 + 1.0 - distance / relative_size
-				var knockback_scale := 0.45 * source_delta
-				var length_factor := strength / distance if distance != 0.0 else 0.0
-				knockbacks.append({
-					"call": "velAddNet(Tmp.v1.set(this).sub(spawn.worldx(), spawn.worldy()).setLength(0.1f + 1f - dst(spawn) / relativeSize).scl(0.45f * Time.delta))",
-					"spawn": {"x": spawn_x, "y": spawn_y},
-					"distance": distance,
-					"strength": strength,
-					"velocity": {"x": dx * length_factor * knockback_scale, "y": dy * length_factor * knockback_scale},
-				})
-	return {
-		"guard": guard,
-		"relativeSize": relative_size,
-		"knockbacks": knockbacks,
-	}
+	return SourceUnitUpdateState.spawn_knockback_state(team_is_wave_team, state_has_spawns_value, net_client_value, is_local_value, hittable_value, drop_zone_radius, hit_size, unit_x, unit_y, spawns, source_delta)
 
 func source_unit_update_falling_drag_state(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:
-	var guard := dead_value or health_value <= 0.0
-	var next_drag := 0.01 if guard else current_drag
-	return {
-		"guard": guard,
-		"drag": next_drag,
-		"call": "drag = 0.01f" if guard else "",
-		"source": "if(dead || health <= 0){",
-	}
-
-func reset_unit_update_falling_drag_runtime() -> Dictionary:
-	unit_update_falling_drag_last_state = {}
-	return unit_update_falling_drag_runtime_state()
-
-func step_unit_update_falling_drag_runtime(dead_value: bool, health_value: float, current_drag: float) -> Dictionary:
-	var falling_drag_state := source_unit_update_falling_drag_state(dead_value, health_value, current_drag)
-	unit_update_falling_drag_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_falling_drag": falling_drag_state,
-		"guard": falling_drag_state.get("guard"),
-		"drag": falling_drag_state.get("drag"),
-	}
-	return unit_update_falling_drag_runtime_state()
-
-func unit_update_falling_drag_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_falling_drag_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.falling_drag_state(dead_value, health_value, current_drag)
 
 func source_unit_update_falling_smoke_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:
-	var falling_guard := dead_value or health_value <= 0.0
-	var effect_call: Variant = null
-	if falling_guard and chance_delta_result:
-		effect_call = {
-			"call": "type.fallEffect.at(x + Tmp.v1.x, y + Tmp.v1.y)",
-			"x": unit_x + tmp_v1_x,
-			"y": unit_y + tmp_v1_y,
-			"tmp": {"call": "Tmp.v1.rnd(Mathf.range(hitSize))", "x": tmp_v1_x, "y": tmp_v1_y},
-			"range": {"call": "Mathf.range(hitSize)", "hitSize": hit_size},
-		}
-	return {
-		"fallingGuard": falling_guard,
-		"chance": {"call": "Mathf.chanceDelta(0.1)", "result": chance_delta_result},
-		"effect": effect_call,
-	}
-
-func reset_unit_update_falling_smoke_runtime() -> Dictionary:
-	unit_update_falling_smoke_last_state = {}
-	return unit_update_falling_smoke_runtime_state()
-
-func step_unit_update_falling_smoke_runtime(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, hit_size: float, tmp_v1_x: float, tmp_v1_y: float) -> Dictionary:
-	var falling_smoke_state := source_unit_update_falling_smoke_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, hit_size, tmp_v1_x, tmp_v1_y)
-	unit_update_falling_smoke_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_falling_smoke": falling_smoke_state,
-		"falling_guard": falling_smoke_state.get("fallingGuard"),
-		"effect": falling_smoke_state.get("effect"),
-	}
-	return unit_update_falling_smoke_runtime_state()
-
-func unit_update_falling_smoke_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_falling_smoke_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.falling_smoke_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, hit_size, tmp_v1_x, tmp_v1_y)
 
 func source_unit_update_falling_engine_trail_state(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:
-	var falling_guard := dead_value or health_value <= 0.0
-	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * elevation_value
-	var angle := source_rotation_degrees + 180.0
-	var effect_call: Variant = null
-	if falling_guard and chance_delta_result:
-		effect_call = {
-			"call": "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())",
-			"x": unit_x + cos(deg_to_rad(angle)) * offset + x_range_value,
-			"y": unit_y + sin(deg_to_rad(angle)) * offset + y_range_value,
-			"rotation": random_rotation_value,
-			"range": {"call": "Mathf.range(type.engineSize)", "value": engine_range_value, "type.engineSize": type_engine_size},
-			"xRange": {"call": "Mathf.range(range)", "value": x_range_value},
-			"yRange": {"call": "Mathf.range(range)", "value": y_range_value},
-			"offset": offset,
-		}
-	return {
-		"fallingGuard": falling_guard,
-		"chance": {"call": "Mathf.chanceDelta(0.2)", "result": chance_delta_result},
-		"angle": angle,
-		"offset": offset,
-		"effect": effect_call,
-	}
-
-func reset_unit_update_falling_engine_trail_runtime() -> Dictionary:
-	unit_update_falling_engine_trail_last_state = {}
-	return unit_update_falling_engine_trail_runtime_state()
-
-func step_unit_update_falling_engine_trail_runtime(dead_value: bool, health_value: float, chance_delta_result: bool, unit_x: float, unit_y: float, source_rotation_degrees: float, elevation_value: float, type_engine_offset: float, type_engine_size: float, engine_range_value: float, x_range_value: float, y_range_value: float, random_rotation_value: float) -> Dictionary:
-	var falling_engine_trail_state := source_unit_update_falling_engine_trail_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, source_rotation_degrees, elevation_value, type_engine_offset, type_engine_size, engine_range_value, x_range_value, y_range_value, random_rotation_value)
-	unit_update_falling_engine_trail_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_falling_engine_trail": falling_engine_trail_state,
-		"falling_guard": falling_engine_trail_state.get("fallingGuard"),
-		"effect": falling_engine_trail_state.get("effect"),
-		"offset": falling_engine_trail_state.get("offset"),
-		"angle": falling_engine_trail_state.get("angle"),
-	}
-	return unit_update_falling_engine_trail_runtime_state()
-
-func unit_update_falling_engine_trail_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_falling_engine_trail_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.falling_engine_trail_state(dead_value, health_value, chance_delta_result, unit_x, unit_y, source_rotation_degrees, elevation_value, type_engine_offset, type_engine_size, engine_range_value, x_range_value, y_range_value, random_rotation_value)
 
 func source_unit_update_falling_descent_state(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
-	var falling_guard := dead_value or health_value <= 0.0
-	var next_elevation := elevation_value
-	if falling_guard:
-		next_elevation -= type_fall_speed * source_delta
-	var wreck_health_threshold := -max_health * type_wreck_health_multiplier
-	var destroy_call: Variant = null
-	if falling_guard and (is_grounded_value or health_value <= wreck_health_threshold):
-		destroy_call = {
-			"call": "Call.unitDestroy(id)",
-			"id": unit_id,
-		}
-	return {
-		"fallingGuard": falling_guard,
-		"elevationBefore": elevation_value,
-		"elevation": next_elevation,
-		"descent": {"call": "elevation -= type.fallSpeed * Time.delta", "type.fallSpeed": type_fall_speed, "Time.delta": source_delta},
-		"grounded": is_grounded_value,
-		"wreckHealthThreshold": wreck_health_threshold,
-		"destroy": destroy_call,
-	}
-
-func reset_unit_update_falling_descent_runtime() -> Dictionary:
-	unit_update_falling_descent_last_state = {}
-	return unit_update_falling_descent_runtime_state()
-
-func step_unit_update_falling_descent_runtime(dead_value: bool, health_value: float, elevation_value: float, type_fall_speed: float, source_delta: float, is_grounded_value: bool, max_health: float, type_wreck_health_multiplier: float, unit_id: int) -> Dictionary:
-	var falling_descent_state := source_unit_update_falling_descent_state(dead_value, health_value, elevation_value, type_fall_speed, source_delta, is_grounded_value, max_health, type_wreck_health_multiplier, unit_id)
-	unit_update_falling_descent_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_falling_descent": falling_descent_state,
-		"falling_guard": falling_descent_state.get("fallingGuard"),
-		"elevation": falling_descent_state.get("elevation"),
-		"destroy": falling_descent_state.get("destroy"),
-		"wreck_health_threshold": falling_descent_state.get("wreckHealthThreshold"),
-	}
-	return unit_update_falling_descent_runtime_state()
-
-func unit_update_falling_descent_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_falling_descent_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.falling_descent_state(dead_value, health_value, elevation_value, type_fall_speed, source_delta, is_grounded_value, max_health, type_wreck_health_multiplier, unit_id)
 
 func source_unit_update_tile_unit_on_any_state(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	var guard := tile_exists and tile_build_exists
-	var callback: Variant = null
-	if guard:
-		callback = {
-			"call": "tile.build.unitOnAny(self())",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"tileExists": tile_exists,
-		"tileBuildExists": tile_build_exists,
-		"unitOnAny": callback,
-	}
-
-func reset_unit_update_tile_unit_on_any_runtime() -> Dictionary:
-	unit_update_tile_unit_on_any_last_state = {}
-	return unit_update_tile_unit_on_any_runtime_state()
-
-func step_unit_update_tile_unit_on_any_runtime(tile_exists: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	var tile_unit_on_any_state := source_unit_update_tile_unit_on_any_state(tile_exists, tile_build_exists, unit_id)
-	unit_update_tile_unit_on_any_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_tile_unit_on_any": tile_unit_on_any_state,
-		"guard": tile_unit_on_any_state.get("guard"),
-		"unit_on_any": tile_unit_on_any_state.get("unitOnAny"),
-		"tile_exists": tile_unit_on_any_state.get("tileExists"),
-		"tile_build_exists": tile_unit_on_any_state.get("tileBuildExists"),
-	}
-	return unit_update_tile_unit_on_any_runtime_state()
-
-func unit_update_tile_unit_on_any_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_tile_unit_on_any_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.tile_unit_on_any_state(tile_exists, tile_build_exists, unit_id)
 
 func source_unit_update_tile_unit_on_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	var guard := tile_exists and is_grounded_value and not type_hovering
-	var callback: Variant = null
-	if guard and tile_build_exists:
-		callback = {
-			"call": "tile.build.unitOn(self())",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"tileExists": tile_exists,
-		"isGrounded": is_grounded_value,
-		"typeHovering": type_hovering,
-		"tileBuildExists": tile_build_exists,
-		"unitOn": callback,
-	}
-
-func reset_unit_update_tile_unit_on_runtime() -> Dictionary:
-	unit_update_tile_unit_on_last_state = {}
-	return unit_update_tile_unit_on_runtime_state()
-
-func step_unit_update_tile_unit_on_runtime(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, tile_build_exists: bool, unit_id: int) -> Dictionary:
-	var tile_unit_on_state := source_unit_update_tile_unit_on_state(tile_exists, is_grounded_value, type_hovering, tile_build_exists, unit_id)
-	unit_update_tile_unit_on_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_tile_unit_on": tile_unit_on_state,
-		"guard": tile_unit_on_state.get("guard"),
-		"unit_on": tile_unit_on_state.get("unitOn"),
-		"is_grounded": tile_unit_on_state.get("isGrounded"),
-		"type_hovering": tile_unit_on_state.get("typeHovering"),
-		"tile_build_exists": tile_unit_on_state.get("tileBuildExists"),
-	}
-	return unit_update_tile_unit_on_runtime_state()
-
-func unit_update_tile_unit_on_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_tile_unit_on_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.tile_unit_on_state(tile_exists, is_grounded_value, type_hovering, tile_build_exists, unit_id)
 
 func source_unit_update_floor_damage_state(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:
-	var guard := tile_exists and is_grounded_value and not type_hovering
-	var damage_call: Variant = null
-	if guard and floor_damage_taken > 0.0:
-		var scaled_damage := floor_damage_taken * source_delta
-		var with_effect := hit_time <= -10.0 + hit_duration
-		damage_call = {
-			"call": "damageContinuous(floor.damageTaken)",
-			"floor.damageTaken": floor_damage_taken,
-			"Time.delta": source_delta,
-			"scaledDamage": scaled_damage,
-			"withEffect": with_effect,
-		}
-	return {
-		"guard": guard,
-		"tileExists": tile_exists,
-		"isGrounded": is_grounded_value,
-		"typeHovering": type_hovering,
-		"damage": damage_call,
-	}
-
-func reset_unit_update_floor_damage_runtime() -> Dictionary:
-	unit_update_floor_damage_last_state = {}
-	return unit_update_floor_damage_runtime_state()
-
-func step_unit_update_floor_damage_runtime(tile_exists: bool, is_grounded_value: bool, type_hovering: bool, floor_damage_taken: float, source_delta: float, hit_time: float, hit_duration: float) -> Dictionary:
-	var floor_damage_state := source_unit_update_floor_damage_state(tile_exists, is_grounded_value, type_hovering, floor_damage_taken, source_delta, hit_time, hit_duration)
-	unit_update_floor_damage_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_floor_damage": floor_damage_state,
-		"guard": floor_damage_state.get("guard"),
-		"damage": floor_damage_state.get("damage"),
-		"is_grounded": floor_damage_state.get("isGrounded"),
-		"type_hovering": floor_damage_state.get("typeHovering"),
-	}
-	return unit_update_floor_damage_runtime_state()
-
-func unit_update_floor_damage_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_floor_damage_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.floor_damage_state(tile_exists, is_grounded_value, type_hovering, floor_damage_taken, source_delta, hit_time, hit_duration)
 
 func source_unit_update_solid_tile_response_state(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
-	var guard := tile_exists and not can_pass_on_value
-	var next_elevation := current_elevation
-	var kill_call: Variant = null
-	if guard and type_can_boost:
-		next_elevation = 1.0
-	elif guard and (not net_client_value) and not ((not headless_value) and is_remote_value):
-		kill_call = {
-			"call": "kill()",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"canPassOn": can_pass_on_value,
-		"typeCanBoost": type_can_boost,
-		"elevation": next_elevation,
-		"netClient": net_client_value,
-		"headless": headless_value,
-		"isRemote": is_remote_value,
-		"kill": kill_call,
-	}
-
-func reset_unit_update_solid_tile_response_runtime() -> Dictionary:
-	unit_update_solid_tile_response_last_state = {}
-	return unit_update_solid_tile_response_runtime_state()
-
-func step_unit_update_solid_tile_response_runtime(tile_exists: bool, can_pass_on_value: bool, type_can_boost: bool, current_elevation: float, net_client_value: bool, headless_value: bool, is_remote_value: bool, unit_id: int) -> Dictionary:
-	var solid_tile_state := source_unit_update_solid_tile_response_state(tile_exists, can_pass_on_value, type_can_boost, current_elevation, net_client_value, headless_value, is_remote_value, unit_id)
-	unit_update_solid_tile_response_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_solid_tile_response": solid_tile_state,
-		"guard": solid_tile_state.get("guard"),
-		"elevation": solid_tile_state.get("elevation"),
-		"kill": solid_tile_state.get("kill"),
-		"can_pass_on": solid_tile_state.get("canPassOn"),
-	}
-	return unit_update_solid_tile_response_runtime_state()
-
-func unit_update_solid_tile_response_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_solid_tile_response_last_state.duplicate(true),
-	}
-
-const SOURCE_UNIT_UPDATE_AI_CONTROLLER_FIELD := "private UnitController controller;"
-const SOURCE_UNIT_UPDATE_AI_DEAD_IMPORT := "@Import boolean dead, disarmed;"
-const SOURCE_UNIT_UPDATE_AI_COMMENT := "//AI only updates on the server"
-const SOURCE_UNIT_UPDATE_AI_GUARD := "if(!net.client() && !dead && shouldUpdateController()){"
-const SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL := "controller.updateUnit();"
-const SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_METHOD := "public boolean shouldUpdateController(){"
-const SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_DEFAULT := "return true;"
-const SOURCE_UNIT_UPDATE_AI_UNIT_CONTROLLER_UPDATE := "default void updateUnit(){"
-const SOURCE_UNIT_UPDATE_AI_NET_CLIENT_METHOD := "public boolean client(){"
-const SOURCE_UNIT_UPDATE_AI_NET_CLIENT_BODY := "return !server && active;"
+	return SourceUnitUpdateState.solid_tile_response_state(tile_exists, can_pass_on_value, type_can_boost, current_elevation, net_client_value, headless_value, is_remote_value, unit_id)
 
 func source_unit_update_ai_controller_server_gate_state(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
-	var guard := (not net_client_value) and (not dead_value) and should_update_controller_value
-	var controller_update: Variant = null
-	if guard:
-		controller_update = {
-			"call": SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL,
-			"unit": unit_id,
-		}
-	return {
-		"controllerField": SOURCE_UNIT_UPDATE_AI_CONTROLLER_FIELD,
-		"deadImport": SOURCE_UNIT_UPDATE_AI_DEAD_IMPORT,
-		"comment": SOURCE_UNIT_UPDATE_AI_COMMENT,
-		"guardSource": SOURCE_UNIT_UPDATE_AI_GUARD,
-		"controllerUpdateCall": SOURCE_UNIT_UPDATE_AI_CONTROLLER_CALL,
-		"shouldUpdateMethod": SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_METHOD,
-		"shouldUpdateDefault": SOURCE_UNIT_UPDATE_AI_SHOULD_UPDATE_DEFAULT,
-		"unitControllerUpdate": SOURCE_UNIT_UPDATE_AI_UNIT_CONTROLLER_UPDATE,
-		"netClientMethod": SOURCE_UNIT_UPDATE_AI_NET_CLIENT_METHOD,
-		"netClientBody": SOURCE_UNIT_UPDATE_AI_NET_CLIENT_BODY,
-		"guard": guard,
-		"netClient": net_client_value,
-		"dead": dead_value,
-		"shouldUpdateController": should_update_controller_value,
-		"controllerUpdate": controller_update,
-	}
-
-func reset_unit_update_ai_controller_runtime() -> Dictionary:
-	unit_update_ai_controller_last_state = {}
-	return unit_update_ai_controller_runtime_state()
-
-func step_unit_update_ai_controller_runtime(net_client_value: bool, dead_value: bool, should_update_controller_value: bool, unit_id: int) -> Dictionary:
-	var ai_controller_state := source_unit_update_ai_controller_server_gate_state(net_client_value, dead_value, should_update_controller_value, unit_id)
-	unit_update_ai_controller_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_ai_controller": ai_controller_state,
-		"guard": ai_controller_state.get("guard"),
-		"controller_update": ai_controller_state.get("controllerUpdate"),
-		"net_client": ai_controller_state.get("netClient"),
-		"dead": ai_controller_state.get("dead"),
-		"should_update_controller": ai_controller_state.get("shouldUpdateController"),
-	}
-	return unit_update_ai_controller_runtime_state()
-
-func unit_update_ai_controller_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_ai_controller_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.ai_controller_server_gate_state(net_client_value, dead_value, should_update_controller_value, unit_id)
 
 func source_unit_update_invalid_controller_reset_state(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
-	var guard := not controller_is_valid_value
-	var reset_controller: Variant = null
-	if guard:
-		reset_controller = {
-			"call": "resetController()",
-			"effect": "controller(type.createController(self()))",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"controllerIsValid": controller_is_valid_value,
-		"resetController": reset_controller,
-	}
-
-func reset_unit_update_invalid_controller_reset_runtime() -> Dictionary:
-	unit_update_invalid_controller_reset_last_state = {}
-	return unit_update_invalid_controller_reset_runtime_state()
-
-func step_unit_update_invalid_controller_reset_runtime(controller_is_valid_value: bool, unit_id: int) -> Dictionary:
-	var invalid_controller_reset_state := source_unit_update_invalid_controller_reset_state(controller_is_valid_value, unit_id)
-	unit_update_invalid_controller_reset_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_invalid_controller_reset": invalid_controller_reset_state,
-		"guard": invalid_controller_reset_state.get("guard"),
-		"controller_is_valid": invalid_controller_reset_state.get("controllerIsValid"),
-		"reset_controller": invalid_controller_reset_state.get("resetController"),
-	}
-	return unit_update_invalid_controller_reset_runtime_state()
-
-func unit_update_invalid_controller_reset_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_invalid_controller_reset_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.invalid_controller_reset_state(controller_is_valid_value, unit_id)
 
 func source_unit_update_spawned_core_despawn_state(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
-	var guard := spawned_by_core_value and (not is_player_value) and (not dead_value)
-	var despawn_call: Variant = null
-	if guard:
-		despawn_call = {
-			"call": "Call.unitDespawn(self())",
-			"effect": "Fx.unitDespawn.at(unit.x, unit.y, 0, unit)",
-			"remove": "unit.remove()",
-			"unit": unit_id,
-		}
-	return {
-		"guard": guard,
-		"spawnedByCore": spawned_by_core_value,
-		"isPlayer": is_player_value,
-		"dead": dead_value,
-		"despawn": despawn_call,
-	}
-
-func reset_unit_update_spawned_core_despawn_runtime() -> Dictionary:
-	unit_update_spawned_core_despawn_last_state = {}
-	return unit_update_spawned_core_despawn_runtime_state()
-
-func step_unit_update_spawned_core_despawn_runtime(spawned_by_core_value: bool, is_player_value: bool, dead_value: bool, unit_id: int) -> Dictionary:
-	var spawned_core_despawn_state := source_unit_update_spawned_core_despawn_state(spawned_by_core_value, is_player_value, dead_value, unit_id)
-	unit_update_spawned_core_despawn_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_update_spawned_core_despawn": spawned_core_despawn_state,
-		"guard": spawned_core_despawn_state.get("guard"),
-		"spawned_by_core": spawned_core_despawn_state.get("spawnedByCore"),
-		"is_player": spawned_core_despawn_state.get("isPlayer"),
-		"dead": spawned_core_despawn_state.get("dead"),
-		"despawn": spawned_core_despawn_state.get("despawn"),
-	}
-	return unit_update_spawned_core_despawn_runtime_state()
-
-func unit_update_spawned_core_despawn_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_update_spawned_core_despawn_last_state.duplicate(true),
-	}
+	return SourceUnitUpdateState.spawned_core_despawn_state(spawned_by_core_value, is_player_value, dead_value, unit_id)
 
 const SOURCE_UNIT_ICON_COMMENT := "/** @return a preview UI icon for this unit. */"
 const SOURCE_UNIT_ICON_METHOD := "public TextureRegion icon(){"
@@ -21657,1189 +16343,6 @@ func source_unit_icon_state(type_ui_icon: String) -> Dictionary:
 		"uiIcon": type_ui_icon,
 	}
 
-func reset_unit_icon_runtime() -> Dictionary:
-	unit_icon_last_state = {}
-	return unit_icon_runtime_state()
-
-func step_unit_icon_runtime(type_ui_icon: String) -> Dictionary:
-	var unit_icon_state := source_unit_icon_state(type_ui_icon)
-	unit_icon_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_icon": unit_icon_state,
-		"call": unit_icon_state.get("call"),
-		"return": unit_icon_state.get("return"),
-		"ui_icon": unit_icon_state.get("uiIcon"),
-	}
-	return unit_icon_runtime_state()
-
-func unit_icon_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_icon_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_initial_payload_runtime() -> Dictionary:
-	unit_destroy_initial_payload_last_state = {}
-	return unit_destroy_initial_payload_runtime_state()
-
-func step_unit_destroy_initial_payload_runtime(is_added_value: bool, killable_value: bool, item_explosiveness: float, item_flammability: float, item_charge: float, stack_amount: int) -> Dictionary:
-	var initial_payload_state := source_unit_destroy_initial_payload_state(is_added_value, killable_value, item_explosiveness, item_flammability, item_charge, stack_amount)
-	unit_destroy_initial_payload_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_initial_payload": initial_payload_state,
-		"return_guard": initial_payload_state.get("returnGuard"),
-		"source_guard": initial_payload_state.get("sourceGuard"),
-		"is_added": initial_payload_state.get("isAdded"),
-		"killable": initial_payload_state.get("killable"),
-		"explosiveness": initial_payload_state.get("explosiveness"),
-		"flammability": initial_payload_state.get("flammability"),
-		"power": initial_payload_state.get("power"),
-	}
-	return unit_destroy_initial_payload_runtime_state()
-
-func unit_destroy_initial_payload_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_initial_payload_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_explosion_dispatch_runtime() -> Dictionary:
-	unit_destroy_explosion_dispatch_last_state = {}
-	return unit_destroy_explosion_dispatch_runtime_state()
-
-func step_unit_destroy_explosion_dispatch_runtime(spawned_by_core_value: bool, source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, bounds_value: float, type_leg_length: float, rules_damage_explosions: bool, rules_unit_crash_damage: float, item_flammability: float, team_id: int, death_explosion_effect: String) -> Dictionary:
-	var dispatch_state := source_unit_destroy_explosion_dispatch_state(spawned_by_core_value, source_x, source_y, flammability, explosiveness, power, bounds_value, type_leg_length, rules_damage_explosions, rules_unit_crash_damage, item_flammability, team_id, death_explosion_effect)
-	unit_destroy_explosion_dispatch_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_explosion_dispatch": dispatch_state,
-		"call": dispatch_state.get("call"),
-		"source_call": dispatch_state.get("sourceCall"),
-		"guard": dispatch_state.get("guard"),
-		"else_branch": dispatch_state.get("elseBranch"),
-		"x": dispatch_state.get("x"),
-		"y": dispatch_state.get("y"),
-		"flammability": dispatch_state.get("flammability"),
-		"explosiveness": dispatch_state.get("explosiveness"),
-		"power": dispatch_state.get("power"),
-		"radius": dispatch_state.get("radius"),
-		"damage": dispatch_state.get("damage"),
-		"fire": dispatch_state.get("fire"),
-		"team": dispatch_state.get("team"),
-		"explosion_fx": dispatch_state.get("explosionFx"),
-		"base_shake": dispatch_state.get("baseShake"),
-		"rotation": dispatch_state.get("rotation"),
-		"effect": dispatch_state.get("effect"),
-	}
-	return unit_destroy_explosion_dispatch_runtime_state()
-
-func unit_destroy_explosion_dispatch_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_explosion_dispatch_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_visual_effects_runtime() -> Dictionary:
-	unit_destroy_visual_effects_last_state = {}
-	return unit_destroy_visual_effects_runtime_state()
-
-func step_unit_destroy_visual_effects_runtime(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
-	var visual_effects_state := source_unit_destroy_visual_effects_state(source_x, source_y, hit_size, type_death_shake, type_create_scorch, unit_id)
-	unit_destroy_visual_effects_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_visual_effects": visual_effects_state,
-		"method": visual_effects_state.get("method"),
-		"shake_formula": visual_effects_state.get("shakeFormula"),
-		"scorch_guard": visual_effects_state.get("scorchGuard"),
-		"scorch_call": visual_effects_state.get("scorchCall"),
-		"shake_call": visual_effects_state.get("shakeCall"),
-		"shake": visual_effects_state.get("shake"),
-		"scorch": visual_effects_state.get("scorch"),
-		"shake_effect": visual_effects_state.get("shakeEffect"),
-		"unit": visual_effects_state.get("unit"),
-	}
-	return unit_destroy_visual_effects_runtime_state()
-
-func unit_destroy_visual_effects_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_visual_effects_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_sound_and_event_runtime() -> Dictionary:
-	unit_destroy_sound_and_event_last_state = {}
-	return unit_destroy_sound_and_event_runtime_state()
-
-func step_unit_destroy_sound_and_event_runtime(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
-	var sound_event_state := source_unit_destroy_sound_and_event_state(death_sound, death_sound_volume, unit_id)
-	var sound_call: Dictionary = sound_event_state.get("soundCall", {})
-	var event_call: Dictionary = sound_event_state.get("eventCall", {})
-	unit_destroy_sound_and_event_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_sound_and_event": sound_event_state,
-		"method": sound_event_state.get("method"),
-		"sound_call": sound_event_state.get("soundCall"),
-		"event_call": sound_event_state.get("eventCall"),
-		"sound": sound_call.get("sound"),
-		"pitch": sound_call.get("pitch"),
-		"volume": sound_call.get("volume"),
-		"event_class": event_call.get("eventClass"),
-		"unit": event_call.get("unit"),
-	}
-	return unit_destroy_sound_and_event_runtime_state()
-
-func unit_destroy_sound_and_event_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_sound_and_event_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_suicide_bomb_trigger_runtime() -> Dictionary:
-	unit_destroy_suicide_bomb_trigger_last_state = {}
-	return unit_destroy_suicide_bomb_trigger_runtime_state()
-
-func step_unit_destroy_suicide_bomb_trigger_runtime(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:
-	var suicide_bomb_state := source_unit_destroy_suicide_bomb_trigger_state(explosiveness, is_local_value, was_player_value)
-	unit_destroy_suicide_bomb_trigger_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_suicide_bomb_trigger": suicide_bomb_state,
-		"method": suicide_bomb_state.get("method"),
-		"guard": suicide_bomb_state.get("guard"),
-		"trigger": suicide_bomb_state.get("trigger"),
-		"event": suicide_bomb_state.get("event"),
-		"events_fire": suicide_bomb_state.get("eventsFire"),
-		"events_fire_body": suicide_bomb_state.get("eventsFireBody"),
-		"trigger_enum": suicide_bomb_state.get("triggerEnum"),
-		"trigger_member": suicide_bomb_state.get("triggerMember"),
-		"explosiveness": suicide_bomb_state.get("explosiveness"),
-		"is_local": suicide_bomb_state.get("isLocal"),
-		"was_player": suicide_bomb_state.get("wasPlayer"),
-	}
-	return unit_destroy_suicide_bomb_trigger_runtime_state()
-
-func unit_destroy_suicide_bomb_trigger_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_suicide_bomb_trigger_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_shoot_on_death_mounts_runtime() -> Dictionary:
-	unit_destroy_shoot_on_death_mounts_last_state = {}
-	return unit_destroy_shoot_on_death_mounts_runtime_state()
-
-func step_unit_destroy_shoot_on_death_mounts_runtime(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
-	var shoot_on_death_mounts_state := source_unit_destroy_shoot_on_death_mounts_state(mount_states, has_target_value, source_x, source_y, source_rotation_degrees, unit_id)
-	unit_destroy_shoot_on_death_mounts_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_shoot_on_death_mounts": shoot_on_death_mounts_state,
-		"method": shoot_on_death_mounts_state.get("method"),
-		"loop": shoot_on_death_mounts_state.get("loop"),
-		"has_target": shoot_on_death_mounts_state.get("hasTarget"),
-		"actions": shoot_on_death_mounts_state.get("actions"),
-	}
-	return unit_destroy_shoot_on_death_mounts_runtime_state()
-
-func unit_destroy_shoot_on_death_mounts_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_shoot_on_death_mounts_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_crash_landing_damage_runtime() -> Dictionary:
-	unit_destroy_crash_landing_damage_last_state = {}
-	return unit_destroy_crash_landing_damage_runtime_state()
-
-func step_unit_destroy_crash_landing_damage_runtime(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:
-	var crash_landing_damage_state := source_unit_destroy_crash_landing_damage_state(type_flying, spawned_by_core_value, type_create_wreck, rules_unit_crash_damage, hit_size, type_crash_damage_multiplier, shields_empty, shield_absorbed, team_id, source_x, source_y)
-	unit_destroy_crash_landing_damage_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_crash_landing_damage": crash_landing_damage_state,
-		"guard": crash_landing_damage_state.get("guard"),
-		"should_check_crash": crash_landing_damage_state.get("shouldCheckCrash"),
-		"shield_lookup": crash_landing_damage_state.get("shieldLookup"),
-		"crash_damage": crash_landing_damage_state.get("crashDamage"),
-		"shield_guard": crash_landing_damage_state.get("shieldGuard"),
-		"shield_absorbed": crash_landing_damage_state.get("shieldAbsorbed"),
-		"damage_radius": crash_landing_damage_state.get("damageRadius"),
-		"damage_call": crash_landing_damage_state.get("damageCall"),
-	}
-	return unit_destroy_crash_landing_damage_runtime_state()
-
-func unit_destroy_crash_landing_damage_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_crash_landing_damage_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_wreck_decal_runtime() -> Dictionary:
-	unit_destroy_wreck_decal_last_state = {}
-	return unit_destroy_wreck_decal_runtime_state()
-
-func step_unit_destroy_wreck_decal_runtime(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:
-	var wreck_decal_state := source_unit_destroy_wreck_decal_state(headless_value, type_create_scorch, wreck_regions, tmp_offsets, source_x, source_y, source_rotation_degrees, type_hit_size)
-	unit_destroy_wreck_decal_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_wreck_decal": wreck_decal_state,
-		"method": wreck_decal_state.get("method"),
-		"guard": wreck_decal_state.get("guard"),
-		"should_create_decals": wreck_decal_state.get("shouldCreateDecals"),
-		"loop": wreck_decal_state.get("loop"),
-		"found_guard": wreck_decal_state.get("foundGuard"),
-		"range_formula": wreck_decal_state.get("rangeFormula"),
-		"random_call": wreck_decal_state.get("randomCall"),
-		"decal_call": wreck_decal_state.get("decalCall"),
-		"range": wreck_decal_state.get("range"),
-		"decals": wreck_decal_state.get("decals"),
-	}
-	return unit_destroy_wreck_decal_runtime_state()
-
-func unit_destroy_wreck_decal_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_wreck_decal_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_ability_death_runtime() -> Dictionary:
-	unit_destroy_ability_death_last_state = {}
-	return unit_destroy_ability_death_runtime_state()
-
-func step_unit_destroy_ability_death_runtime(ability_states: Array, unit_id: int) -> Dictionary:
-	var ability_death_state := source_unit_destroy_ability_death_state(ability_states, unit_id)
-	unit_destroy_ability_death_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_ability_death": ability_death_state,
-		"loop": ability_death_state.get("loop"),
-		"calls": ability_death_state.get("calls"),
-	}
-	return unit_destroy_ability_death_runtime_state()
-
-func unit_destroy_ability_death_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_ability_death_last_state.duplicate(true),
-	}
-
-func reset_unit_destroy_type_killed_remove_runtime() -> Dictionary:
-	unit_destroy_type_killed_remove_last_state = {}
-	return unit_destroy_type_killed_remove_runtime_state()
-
-func step_unit_destroy_type_killed_remove_runtime(unit_id: int) -> Dictionary:
-	var type_killed_remove_state := source_unit_destroy_type_killed_remove_state(unit_id)
-	unit_destroy_type_killed_remove_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_destroy_type_killed_remove": type_killed_remove_state,
-		"method": type_killed_remove_state.get("method"),
-		"order": type_killed_remove_state.get("order"),
-		"type_killed_call": type_killed_remove_state.get("typeKilledCall"),
-		"remove_call": type_killed_remove_state.get("removeCall"),
-		"unit_type_default": type_killed_remove_state.get("unitTypeDefault"),
-		"unit_remove_override": type_killed_remove_state.get("unitRemoveOverride"),
-		"self_method": type_killed_remove_state.get("selfMethod"),
-		"unit": type_killed_remove_state.get("unit"),
-	}
-	return unit_destroy_type_killed_remove_runtime_state()
-
-func unit_destroy_type_killed_remove_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_destroy_type_killed_remove_last_state.duplicate(true),
-	}
-
-func reset_unit_killed_runtime() -> Dictionary:
-	unit_killed_last_state = {}
-	return unit_killed_runtime_state()
-
-func step_unit_killed_runtime(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:
-	var unit_killed_state := source_unit_killed_state(is_local_value, current_health, type_flying, type_create_wreck, wreck_sound, wreck_sound_volume, unit_id)
-	unit_killed_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_killed": unit_killed_state,
-		"was_player": unit_killed_state.get("wasPlayer"),
-		"health": unit_killed_state.get("health"),
-		"dead": unit_killed_state.get("dead"),
-		"guard": unit_killed_state.get("guard"),
-		"destroy_called": unit_killed_state.get("destroyCalled"),
-		"destroy_call": unit_killed_state.get("destroyCall"),
-		"wreck_sound_call": unit_killed_state.get("wreckSoundCall"),
-	}
-	return unit_killed_runtime_state()
-
-func unit_killed_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_killed_last_state.duplicate(true),
-	}
-
-func reset_unit_kill_sync_runtime() -> Dictionary:
-	unit_kill_sync_last_state = {}
-	return unit_kill_sync_runtime_state()
-
-func step_unit_kill_sync_runtime(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:
-	var unit_kill_sync_state := source_unit_kill_sync_state(dead_value, net_client, killable_value, unit_id)
-	unit_kill_sync_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"unit_kill_sync": unit_kill_sync_state,
-		"guard": unit_kill_sync_state.get("guard"),
-		"should_return": unit_kill_sync_state.get("shouldReturn"),
-		"dead": unit_kill_sync_state.get("dead"),
-		"net_client": unit_kill_sync_state.get("netClient"),
-		"killable": unit_kill_sync_state.get("killable"),
-		"remote_call": unit_kill_sync_state.get("remoteCall"),
-	}
-	return unit_kill_sync_runtime_state()
-
-func unit_kill_sync_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/UnitComp.java",
-		"last_state": unit_kill_sync_last_state.duplicate(true),
-	}
-
-func reset_weapons_setup_mounts_runtime() -> Dictionary:
-	weapons_setup_mounts_last_state = {}
-	return weapons_setup_mounts_runtime_state()
-
-func step_weapons_setup_mounts_runtime(weapon_states: Array) -> Dictionary:
-	var weapons_setup_mounts_state := source_weapons_setup_mounts_state(weapon_states)
-	weapons_setup_mounts_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_setup_mounts": weapons_setup_mounts_state,
-		"method": weapons_setup_mounts_state.get("method"),
-		"array": weapons_setup_mounts_state.get("array"),
-		"loop": weapons_setup_mounts_state.get("loop"),
-		"mounts": weapons_setup_mounts_state.get("mounts"),
-	}
-	return weapons_setup_mounts_runtime_state()
-
-func weapons_setup_mounts_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_setup_mounts_last_state.duplicate(true),
-	}
-
-func reset_weapons_set_rotation_runtime() -> Dictionary:
-	weapons_set_rotation_last_state = {}
-	return weapons_set_rotation_runtime_state()
-
-func step_weapons_set_rotation_runtime(mount_states: Array, source_rotation: float) -> Dictionary:
-	var weapons_set_rotation_state := source_weapons_set_rotation_state(mount_states, source_rotation)
-	weapons_set_rotation_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_set_rotation": weapons_set_rotation_state,
-		"method": weapons_set_rotation_state.get("method"),
-		"loop": weapons_set_rotation_state.get("loop"),
-		"mounts": weapons_set_rotation_state.get("mounts"),
-	}
-	return weapons_set_rotation_runtime_state()
-
-func weapons_set_rotation_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_set_rotation_last_state.duplicate(true),
-	}
-
-func reset_weapons_control_runtime() -> Dictionary:
-	weapons_control_last_state = {}
-	return weapons_control_runtime_state()
-
-func step_weapons_control_runtime(mount_states: Array, rotate_value: bool, shoot_value: bool) -> Dictionary:
-	var weapons_control_state := source_weapons_control_state(mount_states, rotate_value, shoot_value)
-	weapons_control_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_control": weapons_control_state,
-		"control_method": weapons_control_state.get("controlMethod"),
-		"rotate_shoot_method": weapons_control_state.get("rotateShootMethod"),
-		"rotate_shoot_delegate": weapons_control_state.get("rotateShootDelegate"),
-		"loop": weapons_control_state.get("loop"),
-		"is_rotate": weapons_control_state.get("isRotate"),
-		"is_shooting": weapons_control_state.get("isShooting"),
-		"mounts": weapons_control_state.get("mounts"),
-	}
-	return weapons_control_runtime_state()
-
-func step_weapons_control_rotate_shoot_runtime(mount_states: Array, rotate_shoot: bool) -> Dictionary:
-	var weapons_control_state := source_weapons_control_rotate_shoot_state(mount_states, rotate_shoot)
-	weapons_control_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_control": weapons_control_state,
-		"control_method": weapons_control_state.get("controlMethod"),
-		"rotate_shoot_method": weapons_control_state.get("rotateShootMethod"),
-		"rotate_shoot_delegate": weapons_control_state.get("rotateShootDelegate"),
-		"loop": weapons_control_state.get("loop"),
-		"is_rotate": weapons_control_state.get("isRotate"),
-		"is_shooting": weapons_control_state.get("isShooting"),
-		"mounts": weapons_control_state.get("mounts"),
-	}
-	return weapons_control_runtime_state()
-
-func weapons_control_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_control_last_state.duplicate(true),
-	}
-
-func reset_weapons_aim_runtime() -> Dictionary:
-	weapons_aim_last_state = {}
-	return weapons_aim_runtime_state()
-
-func step_weapons_aim_runtime(mount_states: Array, unit_x: float, unit_y: float, target_x: float, target_y: float, aim_dst: float) -> Dictionary:
-	var weapons_aim_state := source_weapons_aim_state(mount_states, unit_x, unit_y, target_x, target_y, aim_dst)
-	weapons_aim_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_aim": weapons_aim_state,
-		"float_method": weapons_aim_state.get("floatMethod"),
-		"position_method": weapons_aim_state.get("positionMethod"),
-		"position_delegate": weapons_aim_state.get("positionDelegate"),
-		"tmp": weapons_aim_state.get("tmp"),
-		"min_distance": weapons_aim_state.get("minDistance"),
-		"zero_vector_set_length": weapons_aim_state.get("zeroVectorSetLength"),
-		"aim_x": weapons_aim_state.get("aimX"),
-		"aim_y": weapons_aim_state.get("aimY"),
-		"mounts": weapons_aim_state.get("mounts"),
-	}
-	return weapons_aim_runtime_state()
-
-func step_weapons_aim_position_runtime(mount_states: Array, unit_x: float, unit_y: float, position_x: float, position_y: float, aim_dst: float) -> Dictionary:
-	var weapons_aim_state := source_weapons_aim_position_state(mount_states, unit_x, unit_y, position_x, position_y, aim_dst)
-	weapons_aim_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_aim": weapons_aim_state,
-		"float_method": weapons_aim_state.get("floatMethod"),
-		"position_method": weapons_aim_state.get("positionMethod"),
-		"position_delegate": weapons_aim_state.get("positionDelegate"),
-		"tmp": weapons_aim_state.get("tmp"),
-		"min_distance": weapons_aim_state.get("minDistance"),
-		"zero_vector_set_length": weapons_aim_state.get("zeroVectorSetLength"),
-		"aim_x": weapons_aim_state.get("aimX"),
-		"aim_y": weapons_aim_state.get("aimY"),
-		"mounts": weapons_aim_state.get("mounts"),
-	}
-	return weapons_aim_runtime_state()
-
-func weapons_aim_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_aim_last_state.duplicate(true),
-	}
-
-func reset_weapons_can_shoot_runtime() -> Dictionary:
-	weapons_can_shoot_last_state = {}
-	return weapons_can_shoot_runtime_state()
-
-func step_weapons_can_shoot_runtime(disarmed_value: bool) -> Dictionary:
-	var weapons_can_shoot_state := source_weapons_can_shoot_state(disarmed_value)
-	weapons_can_shoot_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_can_shoot": weapons_can_shoot_state,
-		"can_shoot_method": weapons_can_shoot_state.get("canShootMethod"),
-		"return_expr": weapons_can_shoot_state.get("return"),
-		"disarmed": weapons_can_shoot_state.get("disarmed"),
-		"can_shoot": weapons_can_shoot_state.get("canShoot"),
-	}
-	return weapons_can_shoot_runtime_state()
-
-func weapons_can_shoot_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_can_shoot_last_state.duplicate(true),
-	}
-
-func reset_weapons_remove_continuous_bullet_cleanup_runtime() -> Dictionary:
-	weapons_remove_continuous_bullet_cleanup_last_state = {}
-	return weapons_remove_continuous_bullet_cleanup_runtime_state()
-
-func step_weapons_remove_continuous_bullet_cleanup_runtime(mount_states: Array, unit_id: int) -> Dictionary:
-	var weapons_remove_continuous_bullet_cleanup_state := source_weapons_remove_continuous_bullet_cleanup_state(mount_states, unit_id)
-	weapons_remove_continuous_bullet_cleanup_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_remove_continuous_bullet_cleanup": weapons_remove_continuous_bullet_cleanup_state,
-		"remove_method": weapons_remove_continuous_bullet_cleanup_state.get("removeMethod"),
-		"loop": weapons_remove_continuous_bullet_cleanup_state.get("loop"),
-		"unit": weapons_remove_continuous_bullet_cleanup_state.get("unit"),
-		"mounts": weapons_remove_continuous_bullet_cleanup_state.get("mounts"),
-	}
-	return weapons_remove_continuous_bullet_cleanup_runtime_state()
-
-func weapons_remove_continuous_bullet_cleanup_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_remove_continuous_bullet_cleanup_last_state.duplicate(true),
-	}
-
-func reset_weapons_remove_sound_stop_runtime() -> Dictionary:
-	weapons_remove_sound_stop_last_state = {}
-	return weapons_remove_sound_stop_runtime_state()
-
-func step_weapons_remove_sound_stop_runtime(mount_states: Array) -> Dictionary:
-	var weapons_remove_sound_stop_state := source_weapons_remove_sound_stop_state(mount_states)
-	weapons_remove_sound_stop_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_remove_sound_stop": weapons_remove_sound_stop_state,
-		"loop": weapons_remove_sound_stop_state.get("loop"),
-		"mounts": weapons_remove_sound_stop_state.get("mounts"),
-	}
-	return weapons_remove_sound_stop_runtime_state()
-
-func weapons_remove_sound_stop_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_remove_sound_stop_last_state.duplicate(true),
-	}
-
-func reset_weapons_update_dispatch_runtime() -> Dictionary:
-	weapons_update_dispatch_last_state = {}
-	return weapons_update_dispatch_runtime_state()
-
-func step_weapons_update_dispatch_runtime(mount_states: Array, unit_id: int) -> Dictionary:
-	var weapons_update_dispatch_state := source_weapons_update_dispatch_state(mount_states, unit_id)
-	weapons_update_dispatch_last_state = {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"weapons_update_dispatch": weapons_update_dispatch_state,
-		"update_comment": weapons_update_dispatch_state.get("updateComment"),
-		"update_override": weapons_update_dispatch_state.get("updateOverride"),
-		"loop": weapons_update_dispatch_state.get("loop"),
-		"mounts_field": weapons_update_dispatch_state.get("mountsField"),
-		"dispatches": weapons_update_dispatch_state.get("dispatches"),
-	}
-	return weapons_update_dispatch_runtime_state()
-
-func weapons_update_dispatch_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/entities/comp/WeaponsComp.java",
-		"last_state": weapons_update_dispatch_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_passive_timers_runtime() -> Dictionary:
-	weapon_update_passive_timers_last_state = {}
-	return weapon_update_passive_timers_runtime_state()
-
-func step_weapon_update_passive_timers_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
-	var weapon_update_passive_timers_state := source_weapon_update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta)
-	weapon_update_passive_timers_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_passive_timers": weapon_update_passive_timers_state,
-		"can_shoot_call": weapon_update_passive_timers_state.get("canShootCall"),
-		"reload": weapon_update_passive_timers_state.get("reload"),
-		"recoil": weapon_update_passive_timers_state.get("recoil"),
-		"recoils": weapon_update_passive_timers_state.get("recoils"),
-		"smooth_reload": weapon_update_passive_timers_state.get("smoothReload"),
-		"charge": weapon_update_passive_timers_state.get("charge"),
-		"warmup_target": weapon_update_passive_timers_state.get("warmupTarget"),
-		"warmup": weapon_update_passive_timers_state.get("warmup"),
-	}
-	return weapon_update_passive_timers_runtime_state()
-
-func weapon_update_passive_timers_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_passive_timers_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_mount_origin_runtime() -> Dictionary:
-	weapon_update_mount_origin_last_state = {}
-	return weapon_update_mount_origin_runtime_state()
-
-func step_weapon_update_mount_origin_runtime(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	var weapon_update_mount_origin_state := source_weapon_update_mount_origin_state(unit_state, weapon_state)
-	weapon_update_mount_origin_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_mount_origin": weapon_update_mount_origin_state,
-		"method_source": weapon_update_mount_origin_state.get("methodSource"),
-		"angle": weapon_update_mount_origin_state.get("angle"),
-		"trnsx": weapon_update_mount_origin_state.get("trnsx"),
-		"trnsy": weapon_update_mount_origin_state.get("trnsy"),
-		"mount_x": weapon_update_mount_origin_state.get("mountX"),
-		"mount_y": weapon_update_mount_origin_state.get("mountY"),
-		"mount_x_source": weapon_update_mount_origin_state.get("mountXSource"),
-		"mount_y_source": weapon_update_mount_origin_state.get("mountYSource"),
-	}
-	return weapon_update_mount_origin_runtime_state()
-
-func weapon_update_mount_origin_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_mount_origin_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_auto_target_retarget_runtime() -> Dictionary:
-	weapon_update_auto_target_retarget_last_state = {}
-	return weapon_update_auto_target_retarget_runtime_state()
-
-func step_weapon_update_auto_target_retarget_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:
-	var weapon_update_auto_target_retarget_state := source_weapon_update_auto_target_retarget_state(mount_state, weapon_state, bullet_state, source_delta, mount_x, mount_y, find_target_result_exists)
-	weapon_update_auto_target_retarget_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_auto_target_retarget": weapon_update_auto_target_retarget_state,
-		"gate": weapon_update_auto_target_retarget_state.get("gate"),
-		"retarget": weapon_update_auto_target_retarget_state.get("retarget"),
-		"retarget_after_decrement": weapon_update_auto_target_retarget_state.get("retargetAfterDecrement"),
-		"find_target_called": weapon_update_auto_target_retarget_state.get("findTargetCalled"),
-		"find_target_call": weapon_update_auto_target_retarget_state.get("findTargetCall"),
-		"target_exists": weapon_update_auto_target_retarget_state.get("targetExists"),
-		"retarget_source": weapon_update_auto_target_retarget_state.get("retargetSource"),
-		"find_target_source": weapon_update_auto_target_retarget_state.get("findTargetSource"),
-		"interval_source": weapon_update_auto_target_retarget_state.get("intervalSource"),
-	}
-	return weapon_update_auto_target_retarget_runtime_state()
-
-func weapon_update_auto_target_retarget_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_auto_target_retarget_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_auto_target_invalidation_runtime() -> Dictionary:
-	weapon_update_auto_target_invalidation_last_state = {}
-	return weapon_update_auto_target_invalidation_runtime_state()
-
-func step_weapon_update_auto_target_invalidation_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, mount_x: float, mount_y: float, check_target_result: bool) -> Dictionary:
-	var weapon_update_auto_target_invalidation_state := source_weapon_update_auto_target_invalidation_state(mount_state, weapon_state, bullet_state, mount_x, mount_y, check_target_result)
-	weapon_update_auto_target_invalidation_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_auto_target_invalidation": weapon_update_auto_target_invalidation_state,
-		"gate": weapon_update_auto_target_invalidation_state.get("gate"),
-		"check_target_called": weapon_update_auto_target_invalidation_state.get("checkTargetCalled"),
-		"check_target_call": weapon_update_auto_target_invalidation_state.get("checkTargetCall"),
-		"check_target_result": weapon_update_auto_target_invalidation_state.get("checkTargetResult"),
-		"target_exists": weapon_update_auto_target_invalidation_state.get("targetExists"),
-		"target_cleared": weapon_update_auto_target_invalidation_state.get("targetCleared"),
-		"guard_source": weapon_update_auto_target_invalidation_state.get("guardSource"),
-		"clear_source": weapon_update_auto_target_invalidation_state.get("clearSource"),
-		"check_target_source": weapon_update_auto_target_invalidation_state.get("checkTargetSource"),
-	}
-	return weapon_update_auto_target_invalidation_runtime_state()
-
-func weapon_update_auto_target_invalidation_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_auto_target_invalidation_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_auto_target_shoot_aim_runtime() -> Dictionary:
-	weapon_update_auto_target_shoot_aim_last_state = {}
-	return weapon_update_auto_target_shoot_aim_runtime_state()
-
-func step_weapon_update_auto_target_shoot_aim_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, mount_x: float, mount_y: float, target_within_result: bool, predicted_aim: Dictionary) -> Dictionary:
-	var weapon_update_auto_target_shoot_aim_state := source_weapon_update_auto_target_shoot_aim_state(mount_state, weapon_state, bullet_state, can_shoot, mount_x, mount_y, target_within_result, predicted_aim)
-	weapon_update_auto_target_shoot_aim_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_auto_target_shoot_aim": weapon_update_auto_target_shoot_aim_state,
-		"shoot": weapon_update_auto_target_shoot_aim_state.get("shoot"),
-		"rotate": weapon_update_auto_target_shoot_aim_state.get("rotate"),
-		"aim_x": weapon_update_auto_target_shoot_aim_state.get("aimX"),
-		"aim_y": weapon_update_auto_target_shoot_aim_state.get("aimY"),
-		"target_exists": weapon_update_auto_target_shoot_aim_state.get("targetExists"),
-		"target_within": weapon_update_auto_target_shoot_aim_state.get("targetWithin"),
-		"within_range": weapon_update_auto_target_shoot_aim_state.get("withinRange"),
-		"predict_target": weapon_update_auto_target_shoot_aim_state.get("predictTarget"),
-		"shoot_source": weapon_update_auto_target_shoot_aim_state.get("shootSource"),
-		"predict_source": weapon_update_auto_target_shoot_aim_state.get("predictSource"),
-		"direct_aim_x_source": weapon_update_auto_target_shoot_aim_state.get("directAimXSource"),
-		"shoot_rotate_source": weapon_update_auto_target_shoot_aim_state.get("shootRotateSource"),
-	}
-	return weapon_update_auto_target_shoot_aim_runtime_state()
-
-func weapon_update_auto_target_shoot_aim_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_auto_target_shoot_aim_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_rotate_toward_runtime() -> Dictionary:
-	weapon_update_rotate_toward_last_state = {}
-	return weapon_update_rotate_toward_runtime_state()
-
-func step_weapon_update_rotate_toward_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:
-	var weapon_update_rotate_toward_state := source_weapon_update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta)
-	weapon_update_rotate_toward_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_rotate_toward": weapon_update_rotate_toward_state,
-		"gate": weapon_update_rotate_toward_state.get("gate"),
-		"axis_angle": weapon_update_rotate_toward_state.get("axisAngle"),
-		"axis_x": weapon_update_rotate_toward_state.get("axisX"),
-		"axis_y": weapon_update_rotate_toward_state.get("axisY"),
-		"target_rotation": weapon_update_rotate_toward_state.get("targetRotation"),
-		"rotation": weapon_update_rotate_toward_state.get("rotation"),
-		"rotation_limit": weapon_update_rotate_toward_state.get("rotationLimit"),
-		"base_rotation": weapon_update_rotate_toward_state.get("baseRotation"),
-		"limit_distance": weapon_update_rotate_toward_state.get("limitDistance"),
-		"rotation_limit_applied": weapon_update_rotate_toward_state.get("rotationLimitApplied"),
-		"non_rotate_applied": weapon_update_rotate_toward_state.get("nonRotateApplied"),
-		"can_shoot": weapon_update_rotate_toward_state.get("canShoot"),
-		"mount_rotate": weapon_update_rotate_toward_state.get("mountRotate"),
-		"mount_shoot": weapon_update_rotate_toward_state.get("mountShoot"),
-		"rotation_source": weapon_update_rotate_toward_state.get("rotationSource"),
-		"limit_move_source": weapon_update_rotate_toward_state.get("limitMoveSource"),
-		"non_rotate_source": weapon_update_rotate_toward_state.get("nonRotateSource"),
-	}
-	return weapon_update_rotate_toward_runtime_state()
-
-func weapon_update_rotate_toward_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_rotate_toward_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_bullet_origin_runtime() -> Dictionary:
-	weapon_update_bullet_origin_last_state = {}
-	return weapon_update_bullet_origin_runtime_state()
-
-func step_weapon_update_bullet_origin_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
-	var weapon_update_bullet_origin_state := source_weapon_update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y)
-	weapon_update_bullet_origin_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_bullet_origin": weapon_update_bullet_origin_state,
-		"weapon_rotation": weapon_update_bullet_origin_state.get("weaponRotation"),
-		"bullet_x": weapon_update_bullet_origin_state.get("bulletX"),
-		"bullet_y": weapon_update_bullet_origin_state.get("bulletY"),
-		"shoot_angle": weapon_update_bullet_origin_state.get("shootAngle"),
-		"mount_x": weapon_update_bullet_origin_state.get("mountX"),
-		"mount_y": weapon_update_bullet_origin_state.get("mountY"),
-		"rotate": weapon_update_bullet_origin_state.get("rotate"),
-		"weapon_rotation_source": weapon_update_bullet_origin_state.get("weaponRotationSource"),
-		"bullet_x_source": weapon_update_bullet_origin_state.get("bulletXSource"),
-		"bullet_y_source": weapon_update_bullet_origin_state.get("bulletYSource"),
-		"shoot_angle_source": weapon_update_bullet_origin_state.get("shootAngleSource"),
-		"bullet_rotation_source": weapon_update_bullet_origin_state.get("bulletRotationSource"),
-	}
-	return weapon_update_bullet_origin_runtime_state()
-
-func weapon_update_bullet_origin_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_bullet_origin_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_always_shooting_runtime() -> Dictionary:
-	weapon_update_always_shooting_last_state = {}
-	return weapon_update_always_shooting_runtime_state()
-
-func step_weapon_update_always_shooting_runtime(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	var weapon_update_always_shooting_state := source_weapon_update_always_shooting_state(mount_state, weapon_state)
-	weapon_update_always_shooting_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_always_shooting": weapon_update_always_shooting_state,
-		"shoot": weapon_update_always_shooting_state.get("shoot"),
-		"always_shooting": weapon_update_always_shooting_state.get("alwaysShooting"),
-		"always_shooting_source": weapon_update_always_shooting_state.get("alwaysShootingSource"),
-		"continuous_reserved_source": weapon_update_always_shooting_state.get("continuousReservedSource"),
-	}
-	return weapon_update_always_shooting_runtime_state()
-
-func weapon_update_always_shooting_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_always_shooting_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_continuous_invalidation_runtime() -> Dictionary:
-	weapon_update_continuous_invalidation_last_state = {}
-	return weapon_update_continuous_invalidation_runtime_state()
-
-func step_weapon_update_continuous_invalidation_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	var weapon_update_continuous_invalidation_state := source_weapon_update_continuous_invalidation_state(mount_state, weapon_state, bullet_state)
-	weapon_update_continuous_invalidation_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_continuous_invalidation": weapon_update_continuous_invalidation_state,
-		"gate": weapon_update_continuous_invalidation_state.get("gate"),
-		"invalid": weapon_update_continuous_invalidation_state.get("invalid"),
-		"bullet_exists": weapon_update_continuous_invalidation_state.get("bulletExists"),
-		"continuous": weapon_update_continuous_invalidation_state.get("continuous"),
-		"bullet_is_added": weapon_update_continuous_invalidation_state.get("bulletIsAdded"),
-		"bullet_time": weapon_update_continuous_invalidation_state.get("bulletTime"),
-		"bullet_lifetime": weapon_update_continuous_invalidation_state.get("bulletLifetime"),
-		"bullet_type_matches": weapon_update_continuous_invalidation_state.get("bulletTypeMatches"),
-		"guard_source": weapon_update_continuous_invalidation_state.get("guardSource"),
-		"invalid_condition_source": weapon_update_continuous_invalidation_state.get("invalidConditionSource"),
-		"clear_source": weapon_update_continuous_invalidation_state.get("clearSource"),
-	}
-	return weapon_update_continuous_invalidation_runtime_state()
-
-func weapon_update_continuous_invalidation_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_continuous_invalidation_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_continuous_live_runtime() -> Dictionary:
-	weapon_update_continuous_live_last_state = {}
-	return weapon_update_continuous_live_runtime_state()
-
-func step_weapon_update_continuous_live_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
-	var weapon_update_continuous_live_state := source_weapon_update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation)
-	weapon_update_continuous_live_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_continuous_live": weapon_update_continuous_live_state,
-		"gate": weapon_update_continuous_live_state.get("gate"),
-		"invalid": weapon_update_continuous_live_state.get("invalid"),
-		"live": weapon_update_continuous_live_state.get("live"),
-		"bullet_rotation": weapon_update_continuous_live_state.get("bulletRotation"),
-		"bullet_x": weapon_update_continuous_live_state.get("bulletX"),
-		"bullet_y": weapon_update_continuous_live_state.get("bulletY"),
-		"reload": weapon_update_continuous_live_state.get("reload"),
-		"recoil": weapon_update_continuous_live_state.get("recoil"),
-		"vel_x": weapon_update_continuous_live_state.get("velX"),
-		"vel_y": weapon_update_continuous_live_state.get("velY"),
-		"vel_add_x": weapon_update_continuous_live_state.get("velAddX"),
-		"vel_add_y": weapon_update_continuous_live_state.get("velAddY"),
-		"bullet_rotation_source": weapon_update_continuous_live_state.get("bulletRotationSource"),
-		"bullet_set_source": weapon_update_continuous_live_state.get("bulletSetSource"),
-		"reload_source": weapon_update_continuous_live_state.get("reloadSource"),
-		"recoil_source": weapon_update_continuous_live_state.get("recoilSource"),
-		"velocity_add_source": weapon_update_continuous_live_state.get("velocityAddSource"),
-		"sound_reserved_source": weapon_update_continuous_live_state.get("soundReservedSource"),
-	}
-	return weapon_update_continuous_live_runtime_state()
-
-func weapon_update_continuous_live_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_continuous_live_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_continuous_sound_runtime() -> Dictionary:
-	weapon_update_continuous_sound_last_state = {}
-	return weapon_update_continuous_sound_runtime_state()
-
-func step_weapon_update_continuous_sound_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
-	var weapon_update_continuous_sound_state := source_weapon_update_continuous_sound_state(mount_state, weapon_state, bullet_state, runtime_state, bullet_x, bullet_y)
-	weapon_update_continuous_sound_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_continuous_sound": weapon_update_continuous_sound_state,
-		"gate": weapon_update_continuous_sound_state.get("gate"),
-		"invalid": weapon_update_continuous_sound_state.get("invalid"),
-		"live": weapon_update_continuous_sound_state.get("live"),
-		"sound_gate": weapon_update_continuous_sound_state.get("soundGate"),
-		"has_sound": weapon_update_continuous_sound_state.get("hasSound"),
-		"created_sound": weapon_update_continuous_sound_state.get("createdSound"),
-		"sound_update_call": weapon_update_continuous_sound_state.get("soundUpdateCall"),
-		"shoot_sound_is_none": weapon_update_continuous_sound_state.get("shootSoundIsNone"),
-		"headless": weapon_update_continuous_sound_state.get("headless"),
-		"sound_guard_source": weapon_update_continuous_sound_state.get("soundGuardSource"),
-		"sound_create_source": weapon_update_continuous_sound_state.get("soundCreateSource"),
-		"sound_update_source": weapon_update_continuous_sound_state.get("soundUpdateSource"),
-		"sound_loop_constructor_source": weapon_update_continuous_sound_state.get("soundLoopConstructorSource"),
-		"sound_loop_update_source": weapon_update_continuous_sound_state.get("soundLoopUpdateSource"),
-		"sound_loop_update_delegate_source": weapon_update_continuous_sound_state.get("soundLoopUpdateDelegateSource"),
-		"laser_length_reserved_source": weapon_update_continuous_sound_state.get("laserLengthReservedSource"),
-	}
-	return weapon_update_continuous_sound_runtime_state()
-
-func weapon_update_continuous_sound_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_continuous_sound_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_continuous_laser_aim_runtime() -> Dictionary:
-	weapon_update_continuous_laser_aim_last_state = {}
-	return weapon_update_continuous_laser_aim_runtime_state()
-
-func step_weapon_update_continuous_laser_aim_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
-	var weapon_update_continuous_laser_aim_state := source_weapon_update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle)
-	weapon_update_continuous_laser_aim_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_continuous_laser_aim": weapon_update_continuous_laser_aim_state,
-		"gate": weapon_update_continuous_laser_aim_state.get("gate"),
-		"invalid": weapon_update_continuous_laser_aim_state.get("invalid"),
-		"live": weapon_update_continuous_laser_aim_state.get("live"),
-		"shoot_length": weapon_update_continuous_laser_aim_state.get("shootLength"),
-		"cur_length": weapon_update_continuous_laser_aim_state.get("curLength"),
-		"result_length": weapon_update_continuous_laser_aim_state.get("resultLength"),
-		"last_length": weapon_update_continuous_laser_aim_state.get("lastLength"),
-		"bullet_aim_x": weapon_update_continuous_laser_aim_state.get("bulletAimX"),
-		"bullet_aim_y": weapon_update_continuous_laser_aim_state.get("bulletAimY"),
-		"weapon_range": weapon_update_continuous_laser_aim_state.get("weaponRange"),
-		"aim_change_speed": weapon_update_continuous_laser_aim_state.get("aimChangeSpeed"),
-		"shoot_length_source": weapon_update_continuous_laser_aim_state.get("shootLengthSource"),
-		"cur_length_source": weapon_update_continuous_laser_aim_state.get("curLengthSource"),
-		"result_length_source": weapon_update_continuous_laser_aim_state.get("resultLengthSource"),
-		"aim_endpoint_source": weapon_update_continuous_laser_aim_state.get("aimEndpointSource"),
-		"bullet_aim_x_source": weapon_update_continuous_laser_aim_state.get("bulletAimXSource"),
-		"bullet_aim_y_source": weapon_update_continuous_laser_aim_state.get("bulletAimYSource"),
-		"range_source": weapon_update_continuous_laser_aim_state.get("rangeSource"),
-		"always_continuous_reserved_source": weapon_update_continuous_laser_aim_state.get("alwaysContinuousReservedSource"),
-	}
-	return weapon_update_continuous_laser_aim_runtime_state()
-
-func weapon_update_continuous_laser_aim_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_continuous_laser_aim_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_always_continuous_keepalive_runtime() -> Dictionary:
-	weapon_update_always_continuous_keepalive_last_state = {}
-	return weapon_update_always_continuous_keepalive_runtime_state()
-
-func step_weapon_update_always_continuous_keepalive_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	var weapon_update_always_continuous_keepalive_state := source_weapon_update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state)
-	weapon_update_always_continuous_keepalive_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_always_continuous_keepalive": weapon_update_always_continuous_keepalive_state,
-		"gate": weapon_update_always_continuous_keepalive_state.get("gate"),
-		"invalid": weapon_update_always_continuous_keepalive_state.get("invalid"),
-		"live": weapon_update_always_continuous_keepalive_state.get("live"),
-		"always_continuous": weapon_update_always_continuous_keepalive_state.get("alwaysContinuous"),
-		"mount_shoot": weapon_update_always_continuous_keepalive_state.get("mountShoot"),
-		"keepalive_gate": weapon_update_always_continuous_keepalive_state.get("keepaliveGate"),
-		"bullet_time": weapon_update_always_continuous_keepalive_state.get("bulletTime"),
-		"keep_alive": weapon_update_always_continuous_keepalive_state.get("keepAlive"),
-		"shoot_status": weapon_update_always_continuous_keepalive_state.get("shootStatus"),
-		"shoot_status_duration": weapon_update_always_continuous_keepalive_state.get("shootStatusDuration"),
-		"status_immune": weapon_update_always_continuous_keepalive_state.get("statusImmune"),
-		"status_applied": weapon_update_always_continuous_keepalive_state.get("statusApplied"),
-		"status_application": weapon_update_always_continuous_keepalive_state.get("statusApplication"),
-		"guard_source": weapon_update_always_continuous_keepalive_state.get("guardSource"),
-		"time_source": weapon_update_always_continuous_keepalive_state.get("timeSource"),
-		"keep_alive_source": weapon_update_always_continuous_keepalive_state.get("keepAliveSource"),
-		"unit_apply_source": weapon_update_always_continuous_keepalive_state.get("unitApplySource"),
-		"status_apply_guard_source": weapon_update_always_continuous_keepalive_state.get("statusApplyGuardSource"),
-	}
-	return weapon_update_always_continuous_keepalive_runtime_state()
-
-func weapon_update_always_continuous_keepalive_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_always_continuous_keepalive_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_continuous_idle_heat_sound_runtime() -> Dictionary:
-	weapon_update_continuous_idle_heat_sound_last_state = {}
-	return weapon_update_continuous_idle_heat_sound_runtime_state()
-
-func step_weapon_update_continuous_idle_heat_sound_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
-	var weapon_update_continuous_idle_heat_sound_state := source_weapon_update_continuous_idle_heat_sound_state(mount_state, weapon_state, unit_state, source_delta, bullet_x, bullet_y)
-	weapon_update_continuous_idle_heat_sound_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_continuous_idle_heat_sound": weapon_update_continuous_idle_heat_sound_state,
-		"continuous": weapon_update_continuous_idle_heat_sound_state.get("continuous"),
-		"bullet_exists": weapon_update_continuous_idle_heat_sound_state.get("bulletExists"),
-		"continuous_live_gate": weapon_update_continuous_idle_heat_sound_state.get("continuousLiveGate"),
-		"idle_gate": weapon_update_continuous_idle_heat_sound_state.get("idleGate"),
-		"heat": weapon_update_continuous_idle_heat_sound_state.get("heat"),
-		"reload_multiplier": weapon_update_continuous_idle_heat_sound_state.get("reloadMultiplier"),
-		"cooldown_time": weapon_update_continuous_idle_heat_sound_state.get("cooldownTime"),
-		"has_sound": weapon_update_continuous_idle_heat_sound_state.get("hasSound"),
-		"sound_update_call": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateCall"),
-		"heat_source": weapon_update_continuous_idle_heat_sound_state.get("heatSource"),
-		"sound_guard_source": weapon_update_continuous_idle_heat_sound_state.get("soundGuardSource"),
-		"sound_update_source": weapon_update_continuous_idle_heat_sound_state.get("soundUpdateSource"),
-	}
-	return weapon_update_continuous_idle_heat_sound_runtime_state()
-
-func weapon_update_continuous_idle_heat_sound_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_continuous_idle_heat_sound_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_alternating_side_flip_runtime() -> Dictionary:
-	weapon_update_alternating_side_flip_last_state = {}
-	return weapon_update_alternating_side_flip_runtime_state()
-
-func step_weapon_update_alternating_side_flip_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_mount_states: Array) -> Dictionary:
-	var weapon_update_alternating_side_flip_state := source_weapon_update_alternating_side_flip_state(mount_state, weapon_state, unit_mount_states)
-	weapon_update_alternating_side_flip_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_alternating_side_flip": weapon_update_alternating_side_flip_state,
-		"was_flipped": weapon_update_alternating_side_flip_state.get("wasFlipped"),
-		"flip_gate": weapon_update_alternating_side_flip_state.get("flipGate"),
-		"crosses_half_reload": weapon_update_alternating_side_flip_state.get("crossesHalfReload"),
-		"mount_side": weapon_update_alternating_side_flip_state.get("mountSide"),
-		"other_side": weapon_update_alternating_side_flip_state.get("otherSide"),
-		"unit_mounts": weapon_update_alternating_side_flip_state.get("unitMounts"),
-		"guard_source": weapon_update_alternating_side_flip_state.get("guardSource"),
-		"other_side_flip_source": weapon_update_alternating_side_flip_state.get("otherSideFlipSource"),
-		"mount_side_flip_source": weapon_update_alternating_side_flip_state.get("mountSideFlipSource"),
-		"shoot_gate_source": weapon_update_alternating_side_flip_state.get("shootGateSource"),
-	}
-	return weapon_update_alternating_side_flip_runtime_state()
-
-func weapon_update_alternating_side_flip_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_alternating_side_flip_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_active_sound_loop_runtime() -> Dictionary:
-	weapon_update_active_sound_loop_last_state = {}
-	return weapon_update_active_sound_loop_runtime_state()
-
-func step_weapon_update_active_sound_loop_runtime(mount_state: Dictionary, weapon_state: Dictionary, runtime_state: Dictionary, can_shoot: bool, unit_id: int) -> Dictionary:
-	var weapon_update_active_sound_loop_state := source_weapon_update_active_sound_loop_state(mount_state, weapon_state, runtime_state, can_shoot, unit_id)
-	weapon_update_active_sound_loop_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_active_sound_loop": weapon_update_active_sound_loop_state,
-		"active_sound_gate": weapon_update_active_sound_loop_state.get("activeSoundGate"),
-		"headless": weapon_update_active_sound_loop_state.get("headless"),
-		"active_sound": weapon_update_active_sound_loop_state.get("activeSound"),
-		"mount_shoot": weapon_update_active_sound_loop_state.get("mountShoot"),
-		"can_shoot": weapon_update_active_sound_loop_state.get("canShoot"),
-		"mount_warmup": weapon_update_active_sound_loop_state.get("mountWarmup"),
-		"min_warmup": weapon_update_active_sound_loop_state.get("minWarmup"),
-		"active_sound_volume": weapon_update_active_sound_loop_state.get("activeSoundVolume"),
-		"sound_loop_call": weapon_update_active_sound_loop_state.get("soundLoopCall"),
-		"guard_source": weapon_update_active_sound_loop_state.get("guardSource"),
-		"loop_source": weapon_update_active_sound_loop_state.get("loopSource"),
-		"sound_control_guard_source": weapon_update_active_sound_loop_state.get("soundControlGuardSource"),
-		"vel_len_reserved_source": weapon_update_active_sound_loop_state.get("velLenReservedSource"),
-	}
-	return weapon_update_active_sound_loop_runtime_state()
-
-func weapon_update_active_sound_loop_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_active_sound_loop_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_velocity_length_runtime() -> Dictionary:
-	weapon_update_velocity_length_last_state = {}
-	return weapon_update_velocity_length_runtime_state()
-
-func step_weapon_update_velocity_length_runtime(unit_state: Dictionary, source_delta: float) -> Dictionary:
-	var weapon_update_velocity_length_state := source_weapon_update_velocity_length_state(unit_state, source_delta)
-	weapon_update_velocity_length_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_velocity_length": weapon_update_velocity_length_state,
-		"vel_len": weapon_update_velocity_length_state.get("velLen"),
-		"is_remote": weapon_update_velocity_length_state.get("isRemote"),
-		"remote_vel_len": weapon_update_velocity_length_state.get("remoteVelLen"),
-		"local_delta_len": weapon_update_velocity_length_state.get("localDeltaLen"),
-		"source_delta": weapon_update_velocity_length_state.get("sourceDelta"),
-		"branch": weapon_update_velocity_length_state.get("branch"),
-		"vel_len_source": weapon_update_velocity_length_state.get("velLenSource"),
-		"is_remote_source": weapon_update_velocity_length_state.get("isRemoteSource"),
-		"delta_len_source": weapon_update_velocity_length_state.get("deltaLenSource"),
-		"vec2_len_source": weapon_update_velocity_length_state.get("vec2LenSource"),
-		"time_delta_source": weapon_update_velocity_length_state.get("timeDeltaSource"),
-		"shoot_gate_source": weapon_update_velocity_length_state.get("shootGateSource"),
-	}
-	return weapon_update_velocity_length_runtime_state()
-
-func weapon_update_velocity_length_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_velocity_length_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_shoot_gate_prefix_runtime() -> Dictionary:
-	weapon_update_shoot_gate_prefix_last_state = {}
-	return weapon_update_shoot_gate_prefix_runtime_state()
-
-func step_weapon_update_shoot_gate_prefix_runtime(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:
-	var weapon_update_shoot_gate_prefix_state := source_weapon_update_shoot_gate_prefix_state(mount_state, weapon_state, bullet_state, can_shoot, was_flipped, vel_len)
-	weapon_update_shoot_gate_prefix_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_shoot_gate_prefix": weapon_update_shoot_gate_prefix_state,
-		"shoot_gate_prefix": weapon_update_shoot_gate_prefix_state.get("shootGatePrefix"),
-		"mount_shoot": weapon_update_shoot_gate_prefix_state.get("mountShoot"),
-		"can_shoot": weapon_update_shoot_gate_prefix_state.get("canShoot"),
-		"kill_shooter_once_blocked": weapon_update_shoot_gate_prefix_state.get("killShooterOnceBlocked"),
-		"alternate_gate": weapon_update_shoot_gate_prefix_state.get("alternateGate"),
-		"warmup_gate": weapon_update_shoot_gate_prefix_state.get("warmupGate"),
-		"velocity_gate": weapon_update_shoot_gate_prefix_state.get("velocityGate"),
-		"total_shots": weapon_update_shoot_gate_prefix_state.get("totalShots"),
-		"vel_len": weapon_update_shoot_gate_prefix_state.get("velLen"),
-		"min_shoot_velocity": weapon_update_shoot_gate_prefix_state.get("minShootVelocity"),
-		"shoot_comment_source": weapon_update_shoot_gate_prefix_state.get("shootCommentSource"),
-		"mount_shoot_gate_source": weapon_update_shoot_gate_prefix_state.get("mountShootGateSource"),
-		"can_gate_source": weapon_update_shoot_gate_prefix_state.get("canGateSource"),
-		"kill_shooter_gate_source": weapon_update_shoot_gate_prefix_state.get("killShooterGateSource"),
-		"alternate_gate_source": weapon_update_shoot_gate_prefix_state.get("alternateGateSource"),
-		"warmup_gate_source": weapon_update_shoot_gate_prefix_state.get("warmupGateSource"),
-		"velocity_gate_source": weapon_update_shoot_gate_prefix_state.get("velocityGateSource"),
-		"reload_gate_reserved_source": weapon_update_shoot_gate_prefix_state.get("reloadGateReservedSource"),
-	}
-	return weapon_update_shoot_gate_prefix_runtime_state()
-
-func weapon_update_shoot_gate_prefix_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_shoot_gate_prefix_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_reload_gate_runtime() -> Dictionary:
-	weapon_update_reload_gate_last_state = {}
-	return weapon_update_reload_gate_runtime_state()
-
-func step_weapon_update_reload_gate_runtime(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	var weapon_update_reload_gate_state := source_weapon_update_reload_gate_state(mount_state, weapon_state)
-	weapon_update_reload_gate_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_reload_gate": weapon_update_reload_gate_state,
-		"reload_gate": weapon_update_reload_gate_state.get("reloadGate"),
-		"reload_ready": weapon_update_reload_gate_state.get("reloadReady"),
-		"always_continuous_ready": weapon_update_reload_gate_state.get("alwaysContinuousReady"),
-		"mount_reload": weapon_update_reload_gate_state.get("mountReload"),
-		"always_continuous": weapon_update_reload_gate_state.get("alwaysContinuous"),
-		"mount_bullet_null": weapon_update_reload_gate_state.get("mountBulletNull"),
-		"reload_gate_source": weapon_update_reload_gate_state.get("reloadGateSource"),
-		"cone_gate_reserved_source": weapon_update_reload_gate_state.get("coneGateReservedSource"),
-	}
-	return weapon_update_reload_gate_runtime_state()
-
-func weapon_update_reload_gate_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_reload_gate_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_cone_gate_runtime() -> Dictionary:
-	weapon_update_cone_gate_last_state = {}
-	return weapon_update_cone_gate_runtime_state()
-
-func step_weapon_update_cone_gate_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	var weapon_update_cone_gate_state := source_weapon_update_cone_gate_state(mount_state, weapon_state, unit_state)
-	weapon_update_cone_gate_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_cone_gate": weapon_update_cone_gate_state,
-		"cone_gate": weapon_update_cone_gate_state.get("coneGate"),
-		"always_shooting": weapon_update_cone_gate_state.get("alwaysShooting"),
-		"rotate": weapon_update_cone_gate_state.get("rotate"),
-		"current_rotation": weapon_update_cone_gate_state.get("currentRotation"),
-		"target_rotation": weapon_update_cone_gate_state.get("targetRotation"),
-		"shoot_cone": weapon_update_cone_gate_state.get("shootCone"),
-		"angle_distance": weapon_update_cone_gate_state.get("angleDistance"),
-		"within_cone": weapon_update_cone_gate_state.get("withinCone"),
-		"cone_gate_source": weapon_update_cone_gate_state.get("coneGateSource"),
-		"angles_within_source": weapon_update_cone_gate_state.get("anglesWithinSource"),
-		"angles_angle_dist_source": weapon_update_cone_gate_state.get("anglesAngleDistSource"),
-		"shoot_call_reserved_source": weapon_update_cone_gate_state.get("shootCallReservedSource"),
-	}
-	return weapon_update_cone_gate_runtime_state()
-
-func weapon_update_cone_gate_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_cone_gate_last_state.duplicate(true),
-	}
-
-func reset_weapon_update_shoot_call_reload_runtime() -> Dictionary:
-	weapon_update_shoot_call_reload_last_state = {}
-	return weapon_update_shoot_call_reload_runtime_state()
-
-func step_weapon_update_shoot_call_reload_runtime(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
-	var weapon_update_shoot_call_reload_state := source_weapon_update_shoot_call_reload_state(mount_state, weapon_state, unit_id, bullet_x, bullet_y, shoot_angle, shoot_gate)
-	weapon_update_shoot_call_reload_last_state = {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"weapon_update_shoot_call_reload": weapon_update_shoot_call_reload_state,
-		"shoot_gate": weapon_update_shoot_call_reload_state.get("shootGate"),
-		"mount_reload": weapon_update_shoot_call_reload_state.get("mountReload"),
-		"previous_reload": weapon_update_shoot_call_reload_state.get("previousReload"),
-		"weapon_reload": weapon_update_shoot_call_reload_state.get("weaponReload"),
-		"shoot_call": weapon_update_shoot_call_reload_state.get("shootCall"),
-		"shoot_call_source": weapon_update_shoot_call_reload_state.get("shootCallSource"),
-		"reload_reset_source": weapon_update_shoot_call_reload_state.get("reloadResetSource"),
-		"shoot_method_reserved_source": weapon_update_shoot_call_reload_state.get("shootMethodReservedSource"),
-		"shoot_status_apply_reserved_source": weapon_update_shoot_call_reload_state.get("shootStatusApplyReservedSource"),
-	}
-	return weapon_update_shoot_call_reload_runtime_state()
-
-func weapon_update_shoot_call_reload_runtime_state() -> Dictionary:
-	return {
-		"source_owner": "core/src/mindustry/type/Weapon.java",
-		"last_state": weapon_update_shoot_call_reload_last_state.duplicate(true),
-	}
-
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_METHOD := "public void destroy(){"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_COMMENT := "/** Actually destroys the unit, removing it and creating explosions. **/"
 const SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD := "if(!isAdded() || !killable()) return;"
@@ -22853,9 +16356,9 @@ func source_unit_destroy_initial_payload_state(is_added_value: bool, killable_va
 	var flammability: Variant = null
 	var power: Variant = null
 	if not should_return:
-		explosiveness = 2.0 + item_explosiveness * float(stack_amount) * 1.53
-		flammability = item_flammability * float(stack_amount) / 1.9
-		power = item_charge * pow(float(stack_amount), 1.11) * 160.0
+		explosiveness = SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_BASE + item_explosiveness * float(stack_amount) * SOURCE_UNIT_DESTROY_INITIAL_EXPLOSIVENESS_MULTIPLIER
+		flammability = item_flammability * float(stack_amount) / SOURCE_UNIT_DESTROY_INITIAL_FLAMMABILITY_DIVISOR
+		power = item_charge * pow(float(stack_amount), SOURCE_UNIT_DESTROY_INITIAL_POWER_EXPONENT) * SOURCE_UNIT_DESTROY_INITIAL_POWER_MULTIPLIER
 	return {
 		"returnGuard": should_return,
 		"sourceGuard": SOURCE_UNIT_DESTROY_INITIAL_PAYLOAD_GUARD,
@@ -22886,7 +16389,7 @@ func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, s
 			"flammability": flammability,
 			"explosiveness": explosiveness,
 			"power": power,
-			"radius": (bounds_value + type_leg_length / 1.7) / 2.0,
+			"radius": (bounds_value + type_leg_length / SOURCE_UNIT_DESTROY_EXPLOSION_LEG_LENGTH_DIVISOR) / SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR,
 			"damage": rules_damage_explosions and rules_unit_crash_damage > 0.0,
 			"fire": item_flammability > 1.0,
 			"team": team_id,
@@ -22900,544 +16403,57 @@ func source_unit_destroy_explosion_dispatch_state(spawned_by_core_value: bool, s
 		"elseBranch": SOURCE_UNIT_DESTROY_EXPLOSION_DISPATCH_ELSE,
 		"x": source_x,
 		"y": source_y,
-		"rotation": bounds_value / 2.0 / 8.0,
+		"rotation": bounds_value / SOURCE_UNIT_DESTROY_EXPLOSION_RADIUS_DIVISOR / SOURCE_UNIT_DESTROY_EXPLOSION_CORE_ROTATION_DIVISOR,
 		"effect": death_explosion_effect,
 	}
 
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA := "float shake = type.deathShake < 0 ? 3f + hitSize / 3f : type.deathShake;"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD := "if(type.createScorch){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL := "Effect.scorch(x, y, (int)(hitSize / 5));"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL := "Effect.shake(shake, shake, this);"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT := "deathShake = -1f,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT := "createScorch = true,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT := "hitSize = 6f,"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION := "public static void shake(float intensity, float duration, Position loc){"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY := "shake(intensity, duration, loc.getX(), loc.getY());"
-const SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD := "public static void scorch(float x, float y, int size){"
-
 func source_unit_destroy_visual_effects_state(source_x: float, source_y: float, hit_size: float, type_death_shake: float, type_create_scorch: bool, unit_id: int) -> Dictionary:
-	var shake := 3.0 + hit_size / 3.0 if type_death_shake < 0.0 else type_death_shake
-	var scorch_call: Variant = null
-	if type_create_scorch:
-		scorch_call = {
-			"call": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL,
-			"x": source_x,
-			"y": source_y,
-			"size": int(hit_size / 5.0),
-		}
-	return {
-		"method": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_METHOD,
-		"shakeFormula": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_FORMULA,
-		"scorchGuard": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_GUARD,
-		"scorchCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SCORCH_CALL,
-		"shakeCall": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL,
-		"deathShakeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_DEATH_SHAKE_DEFAULT,
-		"createScorchDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_CREATE_SCORCH_DEFAULT,
-		"hitSizeDefault": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_HIT_SIZE_DEFAULT,
-		"effectShakePosition": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION,
-		"effectShakePositionBody": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SHAKE_POSITION_BODY,
-		"effectScorchMethod": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_EFFECT_SCORCH_METHOD,
-		"shake": shake,
-		"scorch": scorch_call,
-		"shakeEffect": {
-			"call": SOURCE_UNIT_DESTROY_VISUAL_EFFECTS_SHAKE_CALL,
-			"intensity": shake,
-			"duration": shake,
-			"unit": unit_id,
-		},
-		"unit": unit_id,
-	}
-
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL := "type.deathSound.at(this, 1f, type.deathSoundVolume);"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL := "Events.fire(new UnitDestroyEvent(self()));"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION := "public int at(Position pos, float pitch, float volume){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY := "return at(pos.getX(), pos.getY(), pitch, volume);"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE := "public static <T> void fire(T type){"
-const SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY := "fire(type.getClass(), type);"
+	return SourceUnitDestroyState.visual_effects_state(source_x, source_y, hit_size, type_death_shake, type_create_scorch, unit_id)
 
 func source_unit_destroy_sound_and_event_state(death_sound: String, death_sound_volume: float, unit_id: int) -> Dictionary:
-	return {
-		"method": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_METHOD,
-		"soundCall": {
-			"call": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_CALL,
-			"sourcePositionOverload": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION,
-			"sourcePositionBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_SOUND_AT_POSITION_BODY,
-			"sound": death_sound,
-			"pitch": 1.0,
-			"volume": death_sound_volume,
-			"unit": unit_id,
-		},
-		"eventCall": {
-			"event": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENT_CALL,
-			"eventsFire": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE,
-			"eventsFireBody": SOURCE_UNIT_DESTROY_SOUND_AND_EVENT_EVENTS_FIRE_BODY,
-			"eventClass": "UnitDestroyEvent",
-			"unit": unit_id,
-		},
-	}
-
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD := "if(explosiveness > 7f && (isLocal() || wasPlayer)){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT := "Events.fire(Trigger.suicideBomb);"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM := "public static <T extends Enum<T>> void fire(Enum<T> type){"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY := "items[i].get(type);"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM := "public enum Trigger{"
-const SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER := "suicideBomb,"
+	return SourceUnitDestroyState.sound_and_event_state(death_sound, death_sound_volume, unit_id)
 
 func source_unit_destroy_suicide_bomb_trigger_state(explosiveness: float, is_local_value: bool, was_player_value: bool) -> Dictionary:
-	var trigger := explosiveness > 7.0 and (is_local_value or was_player_value)
-	return {
-		"method": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_METHOD,
-		"guard": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_GUARD,
-		"explosiveness": explosiveness,
-		"isLocal": is_local_value,
-		"wasPlayer": was_player_value,
-		"trigger": trigger,
-		"event": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENT if trigger else "",
-		"eventsFire": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM,
-		"eventsFireBody": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_EVENTS_FIRE_ENUM_BODY,
-		"triggerEnum": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM,
-		"triggerMember": SOURCE_UNIT_DESTROY_SUICIDE_BOMB_TRIGGER_ENUM_MEMBER,
-	}
-
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := "for(WeaponMount mount : mounts){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD := "if(mount.weapon.shootOnDeathEffect != null && !hasTarget){"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS := "mount.allowShootEffects = false;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT := "mount.weapon.shootOnDeathEffect.at(x, y, rotation);"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD := "mount.reload = 0f;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT := "mount.shoot = true;"
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE := "mount.weapon.update(self(), mount);"
+	return SourceUnitDestroyState.suicide_bomb_trigger_state(explosiveness, is_local_value, was_player_value)
 
 func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:
-	var actions: Array = []
-	for index in mount_states.size():
-		var mount_state: Dictionary = mount_states[index]
-		var shoot_on_death := bool(mount_state.get("shootOnDeath", false))
-		var bullet_kill_shooter := bool(mount_state.get("bulletKillShooter", false))
-		var total_shots := int(mount_state.get("totalShots", 0))
-		var shoot_on_death_effect := str(mount_state.get("shootOnDeathEffect", ""))
-		var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > 0)
-		var action := {
-			"mount": int(mount_state.get("mount", index)),
-			"guard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD,
-			"updateMount": should_update,
-		}
-		if should_update:
-			var effect_call: Variant = null
-			if shoot_on_death_effect != "" and not has_target_value:
-				effect_call = {
-					"allowShootEffects": false,
-					"allowShootEffectsSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_ALLOW_EFFECTS,
-					"effectGuard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_GUARD,
-					"effectCall": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_EFFECT_AT,
-					"effect": shoot_on_death_effect,
-					"x": source_x,
-					"y": source_y,
-					"rotation": source_rotation_degrees,
-				}
-			action = {
-				"mount": int(mount_state.get("mount", index)),
-				"guard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD,
-				"updateMount": should_update,
-				"effect": effect_call,
-				"reload": 0.0,
-				"shoot": true,
-				"reloadSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD,
-				"shootSource": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT,
-				"update": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE,
-				"unit": unit_id,
-			}
-		actions.append(action)
-	return {
-		"method": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD,
-		"loop": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP,
-		"hasTarget": has_target_value,
-		"actions": actions,
-	}
-
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_COMMENT := "//if this unit crash landed (was flying), damage stuff in a radius"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_GUARD := "if(type.flying && !spawnedByCore && type.createWreck && state.rules.unitCrashDamage(team) > 0){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_LOOKUP := "var shields = indexer.getEnemy(team, BlockFlag.shield);"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_FORMULA := "float crashDamage = Mathf.pow(hitSize, 0.75f) * type.crashDamageMultiplier * 2.5f * state.rules.unitCrashDamage(team);"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_GUARD := "if(shields.isEmpty() || !shields.contains(b -> b instanceof ExplosionShield s && s.absorbExplosion(x, y, crashDamage))){"
-const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_CALL := "Damage.damage(team, x, y, Mathf.pow(hitSize, 0.94f) * 1.25f, crashDamage, true, false, true);"
+	return SourceUnitDestroyState.shoot_on_death_mounts_state(mount_states, has_target_value, source_x, source_y, source_rotation_degrees, unit_id)
 
 func source_unit_destroy_crash_landing_damage_state(type_flying: bool, spawned_by_core_value: bool, type_create_wreck: bool, rules_unit_crash_damage: float, hit_size: float, type_crash_damage_multiplier: float, shields_empty: bool, shield_absorbed: bool, team_id: int, source_x: float, source_y: float) -> Dictionary:
-	var should_check_crash := type_flying and not spawned_by_core_value and type_create_wreck and rules_unit_crash_damage > 0.0
-	var crash_damage_value: Variant = null
-	var damage_radius_value: Variant = null
-	var shield_lookup: Variant = null
-	var shield_guard: Variant = null
-	var damage_call: Variant = null
-	if should_check_crash:
-		shield_lookup = SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_LOOKUP
-		var crash_damage := pow(hit_size, 0.75) * type_crash_damage_multiplier * 2.5 * rules_unit_crash_damage
-		var damage_radius := pow(hit_size, 0.94) * 1.25
-		crash_damage_value = crash_damage
-		damage_radius_value = damage_radius
-		var should_damage := shields_empty or not shield_absorbed
-		shield_guard = SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_SHIELD_GUARD
-		if should_damage:
-			damage_call = {
-				"damageCall": SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_CALL,
-				"team": team_id,
-				"x": source_x,
-				"y": source_y,
-				"radius": damage_radius,
-				"damage": crash_damage,
-				"complete": true,
-				"air": false,
-				"ground": true,
-			}
-	return {
-		"guard": SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_GUARD,
-		"shouldCheckCrash": should_check_crash,
-		"shieldLookup": shield_lookup,
-		"crashDamage": crash_damage_value,
-		"shieldGuard": shield_guard,
-		"shieldAbsorbed": shield_absorbed if should_check_crash else false,
-		"damageRadius": damage_radius_value,
-		"damageCall": damage_call,
-	}
-
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD := "if(!headless && type.createScorch){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP := "for(int i = 0; i < type.wreckRegions.length; i++){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD := "if(type.wreckRegions[i].found()){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA := "float range = type.hitSize /4f;"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL := "Tmp.v1.rnd(range);"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL := "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGIONS := "public TextureRegion[] wreckRegions, segmentRegions, segmentCellRegions, segmentOutlineRegions;"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_INIT := "wreckRegions = new TextureRegion[3];"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_LOAD := "wreckRegions[i] = Core.atlas.find(name + \"-wreck\" + i);"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_TEXTURE_REGION_FOUND := "public boolean found(){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_EFFECT_DECAL := "public static void decal(TextureRegion region, float x, float y, float rotation){"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_TMP_V1 := "public static final Vec2 v1 = new Vec2();"
-const SOURCE_UNIT_DESTROY_WRECK_DECAL_VEC2_RND := "public Vec2 rnd(float length){"
+	return SourceUnitDestroyState.crash_landing_damage_state(type_flying, spawned_by_core_value, type_create_wreck, rules_unit_crash_damage, hit_size, type_crash_damage_multiplier, shields_empty, shield_absorbed, team_id, source_x, source_y)
 
 func source_unit_destroy_wreck_decal_state(headless_value: bool, type_create_scorch: bool, wreck_regions: Array, tmp_offsets: Array, source_x: float, source_y: float, source_rotation_degrees: float, type_hit_size: float) -> Dictionary:
-	var should_create_decals := not headless_value and type_create_scorch
-	var range_value := type_hit_size / 4.0
-	var reported_range: Variant = null
-	var decals: Array = []
-	if should_create_decals:
-		reported_range = range_value
-		for index in wreck_regions.size():
-			var region_state: Dictionary = wreck_regions[index]
-			if bool(region_state.get("found", false)):
-				var offset_state: Dictionary = {}
-				if index < tmp_offsets.size():
-					offset_state = tmp_offsets[index]
-				var offset_x := float(offset_state.get("x", 0.0))
-				var offset_y := float(offset_state.get("y", 0.0))
-				decals.append({
-					"region": str(region_state.get("region", "wreck%d" % index)),
-					"index": index,
-					"foundGuard": SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD,
-					"randomCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL,
-					"range": range_value,
-					"x": source_x + offset_x,
-					"y": source_y + offset_y,
-					"rotation": source_rotation_degrees - 90.0,
-					"decalCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL,
-				})
-	return {
-		"method": SOURCE_UNIT_DESTROY_WRECK_DECAL_METHOD,
-		"guard": SOURCE_UNIT_DESTROY_WRECK_DECAL_GUARD,
-		"shouldCreateDecals": should_create_decals,
-		"loop": SOURCE_UNIT_DESTROY_WRECK_DECAL_LOOP,
-		"foundGuard": SOURCE_UNIT_DESTROY_WRECK_DECAL_FOUND_GUARD,
-		"rangeFormula": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA,
-		"randomCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL,
-		"decalCall": SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL,
-		"wreckRegions": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGIONS,
-		"wreckRegionInit": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_INIT,
-		"wreckRegionLoad": SOURCE_UNIT_DESTROY_WRECK_DECAL_WRECK_REGION_LOAD,
-		"textureRegionFound": SOURCE_UNIT_DESTROY_WRECK_DECAL_TEXTURE_REGION_FOUND,
-		"effectDecal": SOURCE_UNIT_DESTROY_WRECK_DECAL_EFFECT_DECAL,
-		"tmpV1": SOURCE_UNIT_DESTROY_WRECK_DECAL_TMP_V1,
-		"vec2Rnd": SOURCE_UNIT_DESTROY_WRECK_DECAL_VEC2_RND,
-		"range": reported_range,
-		"decals": decals,
-	}
-
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_IMPORT := "import mindustry.entities.abilities.*;"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_FIELD := "Ability[] abilities = {};"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP := "for(Ability a : abilities){"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL := "a.death(self());"
-const SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT := "public void death(Unit unit){}"
+	return SourceUnitDestroyState.wreck_decal_state(headless_value, type_create_scorch, wreck_regions, tmp_offsets, source_x, source_y, source_rotation_degrees, type_hit_size)
 
 func source_unit_destroy_ability_death_state(ability_states: Array, unit_id: int) -> Dictionary:
-	var calls: Array = []
-	for index in ability_states.size():
-		var ability_state: Dictionary = ability_states[index]
-		calls.append({
-			"index": index,
-			"ability": str(ability_state.get("ability", "ability%d" % index)),
-			"call": SOURCE_UNIT_DESTROY_ABILITY_DEATH_CALL,
-			"unit": unit_id,
-			"abilityDefault": SOURCE_UNIT_DESTROY_ABILITY_DEATH_DEFAULT,
-		})
-	return {
-		"loop": SOURCE_UNIT_DESTROY_ABILITY_DEATH_LOOP,
-		"calls": calls,
-	}
-
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD := "public void destroy(){"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED := "type.killed(self());"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE := "remove();"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT := "public void killed(Unit unit){}"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE := "public void remove(){"
-const SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD := "<T extends Entityc> T self(){"
+	return SourceUnitDestroyState.ability_death_state(ability_states, unit_id)
 
 func source_unit_destroy_type_killed_remove_state(unit_id: int) -> Dictionary:
-	return {
-		"method": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_METHOD,
-		"typeKilledCall": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED,
-		"removeCall": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE,
-		"unitTypeDefault": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT,
-		"unitRemoveOverride": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE,
-		"selfMethod": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD,
-		"unit": unit_id,
-		"order": [
-			{
-				"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_TYPE_KILLED,
-				"unit": unit_id,
-				"unitTypeDefault": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_UNIT_TYPE_DEFAULT,
-				"selfMethod": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_SELF_METHOD,
-			},
-			{
-				"call": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE,
-				"unit": unit_id,
-				"unitRemoveOverride": SOURCE_UNIT_DESTROY_TYPE_KILLED_REMOVE_REMOVE_OVERRIDE,
-			},
-		],
-	}
-
-const SOURCE_UNIT_KILLED_METHOD := "public void killed(){"
-const SOURCE_UNIT_KILLED_WAS_PLAYER := "wasPlayer = isLocal();"
-const SOURCE_UNIT_KILLED_HEALTH_CLAMP := "health = Math.min(health, 0);"
-const SOURCE_UNIT_KILLED_DEAD_ASSIGNMENT := "dead = true;"
-const SOURCE_UNIT_KILLED_DESTROY_GUARD := "if(!type.flying || !type.createWreck){"
-const SOURCE_UNIT_KILLED_DESTROY_CALL := "destroy();"
-const SOURCE_UNIT_KILLED_WRECK_SOUND_CALL := "type.wreckSound.at(this, 1f, type.wreckSoundVolume);"
+	return SourceUnitDestroyState.type_killed_remove_state(unit_id)
 
 func source_unit_killed_state(is_local_value: bool, current_health: float, type_flying: bool, type_create_wreck: bool, wreck_sound: String, wreck_sound_volume: float, unit_id: int) -> Dictionary:
-	var should_destroy := not type_flying or not type_create_wreck
-	var clamped_health: float = minf(current_health, 0.0)
-	var destroy_call: Variant = null
-	var wreck_sound_call: Variant = null
-	if should_destroy:
-		destroy_call = SOURCE_UNIT_KILLED_DESTROY_CALL.trim_suffix(";")
-	else:
-		wreck_sound_call = {
-			"call": SOURCE_UNIT_KILLED_WRECK_SOUND_CALL.trim_suffix(";"),
-			"sound": wreck_sound,
-			"pitch": 1.0,
-			"volume": wreck_sound_volume,
-			"unit": unit_id,
-		}
-	return {
-		"wasPlayer": is_local_value,
-		"health": clamped_health,
-		"dead": true,
-		"guard": SOURCE_UNIT_KILLED_DESTROY_GUARD,
-		"destroyCalled": should_destroy,
-		"destroyCall": destroy_call,
-		"wreckSoundCall": wreck_sound_call,
-	}
-
-const SOURCE_UNIT_KILL_SYNC_METHOD := "@Replace\n    public void kill(){"
-const SOURCE_UNIT_KILL_SYNC_GUARD := "if(dead || net.client() || !killable()) return;"
-const SOURCE_UNIT_KILL_SYNC_CALL := "Call.unitDeath(id);"
+	return SourceUnitDestroyState.killed_state(is_local_value, current_health, type_flying, type_create_wreck, wreck_sound, wreck_sound_volume, unit_id)
 
 func source_unit_kill_sync_state(dead_value: bool, net_client: bool, killable_value: bool, unit_id: int) -> Dictionary:
-	var should_return := dead_value or net_client or not killable_value
-	var remote_call: Variant = null
-	if not should_return:
-		remote_call = {
-			"call": "Call.unitDeath(id)",
-			"unit": unit_id,
-			"remote": "@Remote(called = Loc.server)",
-			"serverLookup": "Groups.unit.getByID(uid)",
-			"serverHandler": "unit.killed()",
-			"removedEntity": "netClient.addRemovedEntity(uid)",
-		}
-	return {
-		"guard": "dead || net.client() || !killable()",
-		"shouldReturn": should_return,
-		"dead": dead_value,
-		"netClient": net_client,
-		"killable": killable_value,
-		"remoteCall": remote_call,
-	}
+	return SourceUnitDestroyState.kill_sync_state(dead_value, net_client, killable_value, unit_id)
 
 func source_unit_update_drowning_state(floor_exists: bool, floor_is_liquid: bool, floor_drown_time: float, can_drown_value: bool, current_drown_time: float, source_delta: float, hit_size: float, type_drown_time_multiplier: float, chance_delta_result: bool, net_client: bool) -> Dictionary:
-	var can_drown_on_floor := floor_exists and floor_is_liquid and floor_drown_time > 0.0 and can_drown_value
-	var drown_time_before_clamp := current_drown_time
-	var drown_increment := 0.0
-	var effect_call: Variant = null
-	var kill_unit := false
-	var event_call: Variant = null
-	var last_drown_floor_set := false
-	if can_drown_on_floor:
-		last_drown_floor_set = true
-		drown_increment = source_delta / (hit_size / 8.0 * type_drown_time_multiplier * floor_drown_time)
-		drown_time_before_clamp += drown_increment
-		if chance_delta_result:
-			effect_call = {
-				"call": "floor.drownUpdateEffect.at(x, y, hitSize, floor.mapColor)",
-				"chance": "Mathf.chanceDelta(0.05f)",
-			}
-		kill_unit = drown_time_before_clamp >= 0.999 and not net_client
-		if kill_unit:
-			event_call = {"event": "Events.fire(new UnitDrownEvent(self()))"}
-	else:
-		drown_time_before_clamp -= source_delta / 50.0
-	var clamped_drown_time: float = clampf(drown_time_before_clamp, 0.0, 1.0)
-	return {
-		"canDrownOnFloor": can_drown_on_floor,
-		"lastDrownFloorSet": last_drown_floor_set,
-		"drownIncrement": drown_increment,
-		"drownTimeBeforeClamp": drown_time_before_clamp,
-		"drownTime": clamped_drown_time,
-		"effectCall": effect_call,
-		"kill": kill_unit,
-		"eventCall": event_call,
-		"netClient": net_client,
-	}
+	return SourceUnitUpdateState.drowning_state(floor_exists, floor_is_liquid, floor_drown_time, can_drown_value, current_drown_time, source_delta, hit_size, type_drown_time_multiplier, chance_delta_result, net_client)
 
 func source_unit_update_type_hook_state() -> Dictionary:
-	return {
-		"call": "type.update(self())",
-		"arg": "self()",
-		"unitTypeHook": "public void update(Unit unit)",
-		"order": "first statement in UnitComp.update()",
-	}
+	return SourceUnitUpdateState.type_hook_state()
 
 func source_unit_update_bounds_state(type_bounded: bool, world_unit_height: float, world_unit_width: float, rules_limit_map_area: bool, team_is_ai: bool, rules_limit_x: int, rules_limit_y: int, rules_limit_width: int, rules_limit_height: int, current_x: float, current_y: float, elevation_value: float, net_client: bool, is_local: bool, source_delta: float) -> Dictionary:
-	var unit_warp_dst := gameplay_defaults.unit_warp_dst()
-	var final_world_bounds := gameplay_defaults.final_world_bounds()
-	var next_x := current_x
-	var next_y := current_y
-	var bot := 0.0
-	var left := 0.0
-	var top := world_unit_height
-	var right := world_unit_width
-	var dx := 0.0
-	var dy := 0.0
-	var vel_add_net: Variant = null
-	var can_apply_net_local := false
-	var grounded: bool = source_unit_is_grounded(elevation_value)
-	var use_limited_area := rules_limit_map_area and not team_is_ai
-	if not type_bounded:
-		return {
-			"bounded": false,
-			"x": next_x,
-			"y": next_y,
-			"velAddNet": vel_add_net,
-			"grounded": grounded,
-			"kill": false,
-		}
-	if use_limited_area:
-		bot = float(rules_limit_y) * source_tile_size
-		left = float(rules_limit_x) * source_tile_size
-		top = float(rules_limit_height) * source_tile_size + bot
-		right = float(rules_limit_width) * source_tile_size + left
-	if (not net_client) or is_local:
-		can_apply_net_local = true
-		if next_x < left:
-			dx += (-(next_x - left) / unit_warp_dst)
-		if next_y < bot:
-			dy += (-(next_y - bot) / unit_warp_dst)
-		if next_x > right - source_tile_size:
-			dx -= (next_x - (right - source_tile_size)) / unit_warp_dst
-		if next_y > top - source_tile_size:
-			dy -= (next_y - (top - source_tile_size)) / unit_warp_dst
-		vel_add_net = {"x": dx * source_delta, "y": dy * source_delta}
-		var margin := source_tile_size * 1.0
-		next_x = clampf(next_x, left - margin, right - source_tile_size + margin)
-		next_y = clampf(next_y, bot - margin, top - source_tile_size + margin)
-	if grounded:
-		next_x = clampf(next_x, left, right - source_tile_size)
-		next_y = clampf(next_y, bot, top - source_tile_size)
-	var kill_unit := next_x < -final_world_bounds + left or next_y < -final_world_bounds + bot or next_x >= right + final_world_bounds or next_y >= top + final_world_bounds
-	return {
-		"bounded": true,
-		"limits": {"bot": bot, "left": left, "top": top, "right": right, "limitedArea": use_limited_area},
-		"canApplyNetLocal": can_apply_net_local,
-		"dx": dx,
-		"dy": dy,
-		"velAddNet": vel_add_net,
-		"grounded": grounded,
-		"x": next_x,
-		"y": next_y,
-		"kill": kill_unit,
-	}
+	return SourceUnitUpdateState.bounds_state(type_bounded, world_unit_height, world_unit_width, rules_limit_map_area, team_is_ai, rules_limit_x, rules_limit_y, rules_limit_width, rules_limit_height, current_x, current_y, elevation_value, net_client, is_local, source_delta)
 
 func source_unit_update_nan_health_state(current_health: float) -> Dictionary:
-	var health_is_nan := is_nan(current_health)
-	return {
-		"guard": "Float.isNaN(health)",
-		"health": 0.0 if health_is_nan else current_health,
-		"kill": health_is_nan,
-	}
+	return SourceUnitUpdateState.nan_health_state(current_health)
 
 func source_unit_update_flying_transition_state(is_flying_value: bool, was_flying_value: bool, tile_exists: bool, floor_is_liquid: bool, tile_floor_color: String) -> Dictionary:
-	var changed := is_flying_value != was_flying_value
-	var land_effect: Variant = null
-	if changed and was_flying_value and tile_exists:
-		land_effect = {
-			"call": "Fx.unitLand.at(x, y, floor.isLiquid ? 1f : 0.5f, tile.getFloorColor())",
-			"rotation": 1.0 if floor_is_liquid else 0.5,
-			"color": tile_floor_color,
-		}
-	return {
-		"changed": changed,
-		"landEffect": land_effect,
-		"wasFlying": is_flying_value,
-	}
+	return SourceUnitUpdateState.flying_transition_state(is_flying_value, was_flying_value, tile_exists, floor_is_liquid, tile_floor_color)
 
 func source_unit_update_walk_effect_state(type_hovering: bool, elevation_value: float, type_emit_walk_effect: bool, type_emit_walk_sound: bool, current_splash_timer: float, delta_x: float, delta_y: float, hit_size_value: float, tile_exists: bool, tile_floor_color: String, floor_map_color: String, floor_walk_sound_pitch_min: float, floor_walk_sound_pitch_max: float, floor_walk_sound_volume: float, random_pitch_value: float) -> Dictionary:
-	var grounded := source_unit_is_grounded(elevation_value)
-	var gate := (not type_hovering) and grounded and type_emit_walk_effect
-	var distance := sqrt(delta_x * delta_x + delta_y * delta_y)
-	var threshold := 7.0 + hit_size_value / 8.0
-	var splash_timer := current_splash_timer
-	var walk_effect: Variant = null
-	var walk_sound: Variant = null
-	if gate:
-		splash_timer += distance
-		if splash_timer >= threshold:
-			walk_effect = {
-				"call": "floor.walkEffect.at(x, y, hitSize() / 8f, tile != null ? tile.getFloorColor() : floor.mapColor)",
-				"rotation": hit_size_value / 8.0,
-				"color": tile_floor_color if tile_exists else floor_map_color,
-			}
-			splash_timer = 0.0
-			if type_emit_walk_sound:
-				walk_sound = {
-					"call": "floor.walkSound.at(x, y, Mathf.random(floor.walkSoundPitchMin, floor.walkSoundPitchMax), floor.walkSoundVolume)",
-					"pitch": random_pitch_value,
-					"pitchMin": floor_walk_sound_pitch_min,
-					"pitchMax": floor_walk_sound_pitch_max,
-					"volume": floor_walk_sound_volume,
-				}
-	return {
-		"grounded": grounded,
-		"gate": gate,
-		"distance": distance,
-		"threshold": threshold,
-		"splashTimer": splash_timer,
-		"walkEffect": walk_effect,
-		"walkSound": walk_sound,
-	}
+	return SourceUnitUpdateState.walk_effect_state(type_hovering, elevation_value, type_emit_walk_effect, type_emit_walk_sound, current_splash_timer, delta_x, delta_y, hit_size_value, tile_exists, tile_floor_color, floor_map_color, floor_walk_sound_pitch_min, floor_walk_sound_pitch_max, floor_walk_sound_volume, random_pitch_value)
 
 const SOURCE_UNIT_MOVE_PREF_METHOD := "public void movePref(Vec2 movement){"
 const SOURCE_UNIT_MOVE_PREF_OMNI_GATE := "if(type.omniMovement){"
@@ -23483,94 +16499,36 @@ const SOURCE_UNIT_UNLOADED_EMPTY_BODY := "public void unloaded(){\n\n    }"
 func source_unit_unloaded_state(unit_state: Variant) -> Variant:
 	return unit_state
 
-const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD := "public void updateBoosting(boolean boost){"
-const SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL := "updateBoosting(boost, false);"
 const SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD := "public void updateBoosting(boolean boost, boolean event){"
-
-func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
-	return {
-		"method": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_METHOD,
-		"delegateCall": SOURCE_UNIT_UPDATE_BOOSTING_DEFAULT_CALL,
-		"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD,
-		"boost": boost,
-		"event": false,
-	}
-
 const SOURCE_UNIT_UPDATE_BOOSTING_GUARD := "if(!type.canBoost || dead) return;"
 
-func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:
-	var returned: bool = (not type_can_boost) or dead_state
-	return {
-		"overloadMethod": SOURCE_UNIT_UPDATE_BOOSTING_OVERLOAD_METHOD,
-		"guard": SOURCE_UNIT_UPDATE_BOOSTING_GUARD,
-		"returned": returned,
-		"can_update_boosting": not returned,
-		"elevation": elevation_value,
-	}
+func source_unit_update_boosting_default_event_state(boost: bool) -> Dictionary:
+	return SourceUnitUpdateState.boosting_default_event_state(boost)
 
-const SOURCE_UNIT_UPDATE_BOOSTING_SHOULD_BOOST := "boolean shouldBoost = boost || onSolid() || (isFlying() && !canLand());"
+func source_unit_update_boosting_guard_state(type_can_boost: bool, dead_state: bool, elevation_value: float) -> Dictionary:
+	return SourceUnitUpdateState.boosting_guard_state(type_can_boost, dead_state, elevation_value)
 
 func source_unit_update_boosting_should_boost_state(boost: bool, on_solid_result: bool, elevation_value: float, can_land_result: bool) -> Dictionary:
-	var flying: bool = source_unit_is_flying(elevation_value)
-	var should_boost: bool = boost or on_solid_result or (flying and not can_land_result)
-	return {
-		"shouldBoostSource": SOURCE_UNIT_UPDATE_BOOSTING_SHOULD_BOOST,
-		"isFlyingReturn": SOURCE_UNIT_IS_FLYING_RETURN,
-		"flying": flying,
-		"should_boost": should_boost,
-	}
-
-const SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT := "elevation = Mathf.approachDelta(elevation, type.canBoost ? Mathf.num(shouldBoost) : 0f, shouldBoost ? type.riseSpeed : type.descentSpeed);"
-const SOURCE_ARC_MATHF_NUM_METHOD := "public static int num(boolean b){"
-const SOURCE_ARC_MATHF_NUM_RETURN := "return b ? 1 : 0;"
-const SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){"
-const SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN := "return approach(from, to, Time.delta * speed);"
-const SOURCE_ARC_MATHF_APPROACH_METHOD := "public static float approach(float from, float to, float speed){"
-const SOURCE_ARC_MATHF_APPROACH_RETURN := "return from + Mathf.clamp(to - from, -speed, speed);"
-const SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD := "public static float clamp(float value, float min, float max){"
-const SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN := "return Math.max(Math.min(value, max), min);"
+	return SourceUnitUpdateState.boosting_should_boost_state(boost, on_solid_result, elevation_value, can_land_result)
 
 func source_arc_mathf_num(value: bool) -> int:
 	return 1 if value else 0
 
 func source_unit_update_boosting_elevation_state(current_elevation: float, type_can_boost: bool, should_boost: bool, type_rise_speed: float, type_descent_speed: float, source_delta: float) -> Dictionary:
-	var target_elevation: float = float(source_arc_mathf_num(should_boost)) if type_can_boost else 0.0
-	var speed: float = type_rise_speed if should_boost else type_descent_speed
-	var next_elevation: float = source_approach_delta(current_elevation, target_elevation, speed, source_delta)
-	return {
-		"elevationAssignment": SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT,
-		"target_elevation": target_elevation,
-		"speed": speed,
-		"elevation": next_elevation,
-		"mathfNumMethod": SOURCE_ARC_MATHF_NUM_METHOD,
-		"mathfNumReturn": SOURCE_ARC_MATHF_NUM_RETURN,
-		"mathfApproachDeltaMethod": SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD,
-		"mathfApproachDeltaReturn": SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN,
-		"mathfApproachMethod": SOURCE_ARC_MATHF_APPROACH_METHOD,
-		"mathfApproachReturn": SOURCE_ARC_MATHF_APPROACH_RETURN,
-		"mathfClampFloatMethod": SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD,
-		"mathfClampFloatReturn": SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN,
-	}
-
-const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE := "if(event){"
-const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER := "Events.fire(Trigger.unitCommandBoost);"
-const SOURCE_EVENT_TYPE_TRIGGER_ENUM := "public enum Trigger{"
-const SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST := "unitCommandBoost,"
+	return SourceUnitUpdateState.boosting_elevation_state(current_elevation, type_can_boost, should_boost, type_rise_speed, type_descent_speed, source_delta)
 
 func source_unit_update_boosting_event_state(event: bool) -> Dictionary:
-	return {
-		"eventGate": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE,
-		"fireTrigger": SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER,
-		"triggerEnum": SOURCE_EVENT_TYPE_TRIGGER_ENUM,
-		"unitCommandBoost": SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST,
-		"event_fired": event,
-		"trigger": "unitCommandBoost" if event else "",
-	}
+	return SourceUnitUpdateState.boosting_event_state(event)
+
+func selected_playable_turret():
+	if content_catalog == null:
+		return null
+	return content_catalog.get_by_id(SourcePlayableScenarioDefaults.BLOCK_DUO)
 
 func simulate_turrets(delta: float) -> void:
 	if content_catalog == null or turret_cells.is_empty():
 		return
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return
 	for cell in turret_cells:
@@ -23623,7 +16581,7 @@ func simulate_turrets(delta: float) -> void:
 func selected_turret_ammo_sprite() -> String:
 	if content_catalog == null:
 		return ""
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return ""
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23635,7 +16593,7 @@ func selected_turret_ammo_sprite() -> String:
 func selected_turret_ammo_lifetime_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23647,15 +16605,15 @@ func selected_turret_ammo_lifetime_seconds() -> float:
 func selected_turret_limit_range_margin() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
-	return float(duo.properties.get("limitRangeMargin", 0.0))
+	return float(duo.properties.get("limitRangeMargin", SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT))
 
 func selected_turret_ammo_world_speed() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23667,20 +16625,19 @@ func selected_turret_ammo_world_speed() -> float:
 func selected_turret_ammo_dimensions() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return {}
 	var ammo: Array = duo.properties.get("ammo", [])
 	if ammo.is_empty():
 		return {}
 	var data: Dictionary = ammo[0]
-	var width := float(data.get("width", 4.0))
-	return {"width": width, "height": float(data.get("height", width))}
+	return source_bullet_dimensions(data)
 
 func selected_turret_ammo_hit_size() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23692,7 +16649,7 @@ func selected_turret_ammo_hit_size() -> float:
 func selected_turret_ammo_damage() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23704,7 +16661,7 @@ func selected_turret_ammo_damage() -> float:
 func selected_turret_ammo_multiplier() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23716,7 +16673,7 @@ func selected_turret_ammo_multiplier() -> float:
 func selected_turret_ammo_reload_multiplier() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23728,7 +16685,7 @@ func selected_turret_ammo_reload_multiplier() -> float:
 func selected_turret_ammo_range_change() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	var ammo: Array = duo.properties.get("ammo", [])
@@ -23740,7 +16697,7 @@ func selected_turret_ammo_range_change() -> float:
 func selected_turret_ammo_count() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
 	return duo.properties.get("ammo", []).size()
@@ -23748,26 +16705,26 @@ func selected_turret_ammo_count() -> int:
 func selected_turret_max_ammo() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
-	return int(duo.properties.get("maxAmmo", 30))
+	return int(duo.properties.get("maxAmmo", SOURCE_TURRET_MAX_AMMO_DEFAULT))
 
 func selected_turret_ammo_per_shot() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
-	return int(duo.properties.get("ammoPerShot", 1))
+	return int(duo.properties.get("ammoPerShot", SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT))
 
 func selected_turret_consume_ammo_once() -> bool:
 	if content_catalog == null:
 		return false
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return false
-	return bool(duo.properties.get("consumeAmmoOnce", true))
+	return bool(duo.properties.get("consumeAmmoOnce", SOURCE_TURRET_CONSUME_AMMO_ONCE_DEFAULT))
 
 func selected_turret_total_ammo() -> int:
 	return int(turret_total_ammo.get(cell_key(duo_pos), 0))
@@ -23832,12 +16789,13 @@ func generated_block_outputs_items_bridge_state(has_items: bool) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_outputsItems_17([has_items])
 	var canonical = source_block_outputs_items_state(has_items)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_outputs_items_state",
 		"generated_owner": "Block.java_method_outputsItems_17",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_can_place_on_state(tile: Variant, team: Variant, rotation_value: int) -> Dictionary:
@@ -23858,12 +16816,13 @@ func generated_block_can_place_on_bridge_state(tile: Variant, team: Variant, rot
 	var instance = script.new()
 	var result = instance.java_method_canPlaceOn_18([tile, team, rotation_value])
 	var canonical = source_block_can_place_on_state(tile, team, rotation_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_can_place_on_state",
 		"generated_owner": "Block.java_method_canPlaceOn_18",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_can_break_state(tile: Variant) -> Dictionary:
@@ -23882,12 +16841,13 @@ func generated_block_can_break_bridge_state(tile: Variant) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_canBreak_19([tile])
 	var canonical = source_block_can_break_state(tile)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_can_break_state",
 		"generated_owner": "Block.java_method_canBreak_19",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_rotated_output_state(rotate_value: bool, x_value: int, y_value: int) -> Dictionary:
@@ -23909,12 +16869,13 @@ func generated_block_rotated_output_bridge_state(rotate_value: bool, x_value: in
 	var instance = script.new()
 	var result = instance.java_method_rotatedOutput_20([rotate_value, x_value, y_value])
 	var canonical = source_block_rotated_output_state(rotate_value, x_value, y_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_rotated_output_state",
 		"generated_owner": "Block.java_method_rotatedOutput_20",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_rotated_output_tile_state(rotate_value: bool, from_x: int, from_y: int, destination: Variant) -> Dictionary:
@@ -23938,12 +16899,13 @@ func generated_block_rotated_output_tile_bridge_state(rotate_value: bool, from_x
 	var instance = script.new()
 	var result = instance.java_method_rotatedOutput_21([rotate_value, from_x, from_y, destination])
 	var canonical = source_block_rotated_output_tile_state(rotate_value, from_x, from_y, destination)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_rotated_output_tile_state",
 		"generated_owner": "Block.java_method_rotatedOutput_21",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_synthetic_state(update_value: bool, destructible_value: bool) -> Dictionary:
@@ -23963,12 +16925,13 @@ func generated_block_synthetic_bridge_state(update_value: bool, destructible_val
 	var instance = script.new()
 	var result = instance.java_method_synthetic_22([update_value, destructible_value])
 	var canonical = source_block_synthetic_state(update_value, destructible_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_synthetic_state",
 		"generated_owner": "Block.java_method_synthetic_22",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_check_force_dark_state(force_dark_value: bool, tile: Variant) -> Dictionary:
@@ -23987,12 +16950,13 @@ func generated_block_check_force_dark_bridge_state(force_dark_value: bool, tile:
 	var instance = script.new()
 	var result = instance.java_method_checkForceDark_23([force_dark_value, tile])
 	var canonical = source_block_check_force_dark_state(force_dark_value, tile)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_check_force_dark_state",
 		"generated_owner": "Block.java_method_checkForceDark_23",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_is_darkened_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:
@@ -24018,12 +16982,13 @@ func generated_block_is_darkened_bridge_state(solid_value: bool, update_value: b
 	var instance = script.new()
 	var result = instance.java_method_isDarkened_24([solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile])
 	var canonical = source_block_is_darkened_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_is_darkened_state",
 		"generated_owner": "Block.java_method_isDarkened_24",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consumes_item_state(item_filter: Array, item_id: int, item: Variant) -> Dictionary:
@@ -24044,12 +17009,13 @@ func generated_block_consumes_item_bridge_state(item_filter: Array, item_id: int
 	var instance = script.new()
 	var result = instance.java_method_consumesItem_33([item_filter, item_id, item])
 	var canonical = source_block_consumes_item_state(item_filter, item_id, item)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consumes_item_state",
 		"generated_owner": "Block.java_method_consumesItem_33",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consumes_liquid_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:
@@ -24070,12 +17036,13 @@ func generated_block_consumes_liquid_bridge_state(liquid_filter: Array, liquid_i
 	var instance = script.new()
 	var result = instance.java_method_consumesLiquid_34([liquid_filter, liquid_id, liq])
 	var canonical = source_block_consumes_liquid_state(liquid_filter, liquid_id, liq)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consumes_liquid_state",
 		"generated_owner": "Block.java_method_consumesLiquid_34",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_has_building_state(destructible_value: bool, update_value: bool) -> Dictionary:
@@ -24095,12 +17062,13 @@ func generated_block_has_building_bridge_state(destructible_value: bool, update_
 	var instance = script.new()
 	var result = instance.java_method_hasBuilding_70([destructible_value, update_value])
 	var canonical = source_block_has_building_state(destructible_value, update_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_has_building_state",
 		"generated_owner": "Block.java_method_hasBuilding_70",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_is_multiblock_state(size_value: int) -> Dictionary:
@@ -24119,12 +17087,13 @@ func generated_block_is_multiblock_bridge_state(size_value: int) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_isMultiblock_74([size_value])
 	var canonical = source_block_is_multiblock_state(size_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_is_multiblock_state",
 		"generated_owner": "Block.java_method_isMultiblock_74",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_is_air_state(id_value: int) -> Dictionary:
@@ -24143,12 +17112,13 @@ func generated_block_is_air_bridge_state(id_value: int) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_isAir_91([id_value])
 	var canonical = source_block_is_air_state(id_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_is_air_state",
 		"generated_owner": "Block.java_method_isAir_91",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_can_be_built_state(build_visibility_value: String) -> Dictionary:
@@ -24169,12 +17139,13 @@ func generated_block_can_be_built_bridge_state(build_visibility_value: String) -
 	var instance = script.new()
 	var result = instance.java_method_canBeBuilt_92([build_visibility_value])
 	var canonical = source_block_can_be_built_state(build_visibility_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_can_be_built_state",
 		"generated_owner": "Block.java_method_canBeBuilt_92",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_is_static_state(cache_layer_value: String) -> Dictionary:
@@ -24195,12 +17166,13 @@ func generated_block_is_static_bridge_state(cache_layer_value: String) -> Dictio
 	var instance = script.new()
 	var result = instance.java_method_isStatic_94([cache_layer_value])
 	var canonical = source_block_is_static_state(cache_layer_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_is_static_state",
 		"generated_owner": "Block.java_method_isStatic_94",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_has_consumer_state(consume_builder_contains: bool, cons: Variant) -> Dictionary:
@@ -24219,12 +17191,13 @@ func generated_block_has_consumer_bridge_state(consume_builder_contains: bool, c
 	var instance = script.new()
 	var result = instance.java_method_hasConsumer_96([consume_builder_contains, cons])
 	var canonical = source_block_has_consumer_state(consume_builder_contains, cons)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_has_consumer_state",
 		"generated_owner": "Block.java_method_hasConsumer_96",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_remove_consumer_state(consumers_length: int, cons: Variant) -> Dictionary:
@@ -24249,12 +17222,13 @@ func generated_block_remove_consumer_bridge_state(consumers_length: int, cons: V
 	var instance = script.new()
 	var result = instance.java_method_removeConsumer_97([consumers_length, cons])
 	var canonical = source_block_remove_consumer_state(consumers_length, cons)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_remove_consumer_state",
 		"generated_owner": "Block.java_method_removeConsumer_97",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_remove_consumers_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:
@@ -24291,12 +17265,13 @@ func generated_block_remove_consumers_bridge_state(consume_builder_contains_powe
 		"consume_builder_remove_all_called": result.get("consume_builder_remove_all_called", true),
 		"cons_power_cleared": result.get("cons_power_cleared", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_remove_consumers_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_remove_consumers_state",
 		"generated_owner": "Block.java_method_removeConsumers_98",
 		"result": block_remove_consumers_result,
 		"canonical": canonical,
-		"matches": block_remove_consumers_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_liquid_state(liquid: Variant, amount: float) -> Dictionary:
@@ -24331,12 +17306,13 @@ func generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float)
 		"constructed_consume": result.get("constructed_consume", {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_liquid_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_liquid_state",
 		"generated_owner": "Block.java_method_consumeLiquid_99",
 		"result": block_consume_liquid_result,
 		"canonical": canonical,
-		"matches": block_consume_liquid_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_liquids_state(stacks: Variant) -> Dictionary:
@@ -24369,12 +17345,13 @@ func generated_block_consume_liquids_bridge_state(stacks: Variant) -> Dictionary
 		"constructed_consume": result.get("constructed_consume", {"type": "ConsumeLiquids", "stacks": stacks}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_liquids_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_liquids_state",
 		"generated_owner": "Block.java_method_consumeLiquids_100",
 		"result": block_consume_liquids_result,
 		"canonical": canonical,
-		"matches": block_consume_liquids_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_power_state(power_per_tick: float) -> Dictionary:
@@ -24415,12 +17392,13 @@ func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictio
 		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_power_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_power_state",
 		"generated_owner": "Block.java_method_consumePower_101",
 		"result": block_consume_power_result,
 		"canonical": canonical,
-		"matches": block_consume_power_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:
@@ -24459,12 +17437,13 @@ func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant
 		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_power_cond_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_power_cond_state",
 		"generated_owner": "Block.java_method_consumePowerCond_102",
 		"result": block_consume_power_cond_result,
 		"canonical": canonical,
-		"matches": block_consume_power_cond_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_power_dynamic_state(usage: Variant) -> Dictionary:
@@ -24501,12 +17480,13 @@ func generated_block_consume_power_dynamic_bridge_state(usage: Variant) -> Dicti
 		"constructed_consume": result.get("constructed_consume", {"type": "ConsumePowerDynamic", "usage": usage}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_power_dynamic_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_power_dynamic_state",
 		"generated_owner": "Block.java_method_consumePowerDynamic_103",
 		"result": block_consume_power_dynamic_result,
 		"canonical": canonical,
-		"matches": block_consume_power_dynamic_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_power_dynamic_displayed_state(displayed: float, usage: Variant) -> Dictionary:
@@ -24545,12 +17525,13 @@ func generated_block_consume_power_dynamic_displayed_bridge_state(displayed: flo
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_power_dynamic_displayed_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
 		"generated_owner": "Block.java_method_consumePowerDynamic_104",
 		"result": block_consume_power_dynamic_displayed_result,
 		"canonical": canonical,
-		"matches": block_consume_power_dynamic_displayed_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_power_buffered_state(power_capacity: float) -> Dictionary:
@@ -24591,12 +17572,13 @@ func generated_block_consume_power_buffered_bridge_state(power_capacity: float) 
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_power_buffered_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_power_buffered_state",
 		"generated_owner": "Block.java_method_consumePowerBuffered_105",
 		"result": block_consume_power_buffered_result,
 		"canonical": canonical,
-		"matches": block_consume_power_buffered_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_item_single_state(item: Variant) -> Dictionary:
@@ -24626,12 +17608,13 @@ func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictiona
 		"amount": result.get("amount", 0),
 		"delegate_called": result.get("delegate_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_item_single_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_item_single_state",
 		"generated_owner": "Block.java_method_consumeItem_106",
 		"result": block_consume_item_single_result,
 		"canonical": canonical,
-		"matches": block_consume_item_single_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_item_amount_state(item: Variant, amount: int) -> Dictionary:
@@ -24673,12 +17656,13 @@ func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_item_amount_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_item_amount_state",
 		"generated_owner": "Block.java_method_consumeItem_107",
 		"result": block_consume_item_amount_result,
 		"canonical": canonical,
-		"matches": block_consume_item_amount_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_items_varargs_state(items: Array) -> Dictionary:
@@ -24711,12 +17695,13 @@ func generated_block_consume_items_varargs_bridge_state(items: Array) -> Diction
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_items_varargs_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_items_varargs_state",
 		"generated_owner": "Block.java_method_consumeItems_108",
 		"result": block_consume_items_varargs_result,
 		"canonical": canonical,
-		"matches": block_consume_items_varargs_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_coolant_single_state(amount: float) -> Dictionary:
@@ -24749,12 +17734,13 @@ func generated_block_consume_coolant_single_bridge_state(amount: float) -> Dicti
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_coolant_single_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_coolant_single_state",
 		"generated_owner": "Block.java_method_consumeCoolant_109",
 		"result": block_consume_coolant_single_result,
 		"canonical": canonical,
-		"matches": block_consume_coolant_single_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_coolant_filtered_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
@@ -24791,12 +17777,13 @@ func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_
 		"constructed_consume": result.get("constructed_consume", {}),
 		"consume_called": result.get("consume_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_coolant_filtered_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_coolant_filtered_state",
 		"generated_owner": "Block.java_method_consumeCoolant_110",
 		"result": block_consume_coolant_filtered_result,
 		"canonical": canonical,
-		"matches": block_consume_coolant_filtered_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_consume_generic_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
@@ -24852,12 +17839,13 @@ func generated_block_consume_generic_bridge_state(consume: Variant, consume_is_p
 		"add_called": result.get("add_called", false),
 		"returned_consume": result.get("returned_consume", null),
 	}
+	var matches := generated_state_matches_generated_subset(block_consume_generic_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_consume_generic_state",
 		"generated_owner": "Block.java_method_consume_111",
 		"result": block_consume_generic_result,
 		"canonical": canonical,
-		"matches": block_consume_generic_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_setup_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:
@@ -24885,12 +17873,13 @@ func generated_block_setup_requirements_simple_bridge_state(cat: Variant, stacks
 		"stacks": result.get("stacks", null),
 		"delegate_called": result.get("delegate_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_setup_requirements_simple_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_setup_requirements_simple_state",
 		"generated_owner": "Block.java_method_setupRequirements_112",
 		"result": block_setup_requirements_simple_result,
 		"canonical": canonical,
-		"matches": block_setup_requirements_simple_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_setup_requirements_visible_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:
@@ -24920,12 +17909,13 @@ func generated_block_setup_requirements_visible_bridge_state(cat: Variant, build
 		"stacks": result.get("stacks", null),
 		"delegate_called": result.get("delegate_called", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_setup_requirements_visible_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_setup_requirements_visible_state",
 		"generated_owner": "Block.java_method_setupRequirements_113",
 		"result": block_setup_requirements_visible_result,
 		"canonical": canonical,
-		"matches": block_setup_requirements_visible_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_requirements_unlocked_state(cat: Variant, stacks: Variant, unlocked: bool) -> Dictionary:
@@ -24963,12 +17953,13 @@ func generated_block_requirements_unlocked_bridge_state(cat: Variant, stacks: Va
 		"always_unlocked_assigned": result.get("always_unlocked_assigned", false),
 		"always_unlocked_after": result.get("always_unlocked_after", false),
 	}
+	var matches := generated_state_matches_generated_subset(block_requirements_unlocked_result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_requirements_unlocked_state",
 		"generated_owner": "Block.java_method_requirements_114",
 		"result": block_requirements_unlocked_result,
 		"canonical": canonical,
-		"matches": block_requirements_unlocked_result == canonical,
+		"matches": matches,
 	}
 
 func source_block_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:
@@ -24988,12 +17979,13 @@ func generated_block_requirements_simple_bridge_state(cat: Variant, stacks: Vari
 	var instance = script.new()
 	var result = instance.java_method_requirements_115([cat, stacks])
 	var canonical = source_block_requirements_simple_state(cat, stacks)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_requirements_simple_state",
 		"generated_owner": "Block.java_method_requirements_115",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_requirements_visible_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:
@@ -25024,12 +18016,13 @@ func generated_block_requirements_visible_bridge_state(cat: Variant, build_visib
 	var instance = script.new()
 	var result = instance.java_method_requirements_116([cat, build_visibility, stacks])
 	var canonical = source_block_requirements_visible_state(cat, build_visibility, stacks)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_requirements_visible_state",
 		"generated_owner": "Block.java_method_requirements_116",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_building_default_state(build_type_before: Variant) -> Dictionary:
@@ -25052,12 +18045,13 @@ func generated_block_init_building_default_bridge_state(build_type_before: Varia
 	var instance = script.new()
 	var result = instance.java_method_initBuilding_117([build_type_before])
 	var canonical = source_block_init_building_default_state(build_type_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_building_default_state",
 		"generated_owner": "Block.java_method_initBuilding_117",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_research_cost_state(research_cost: Variant) -> Dictionary:
@@ -25080,12 +18074,13 @@ func generated_block_research_requirements_research_cost_bridge_state(research_c
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost])
 	var canonical = source_block_research_requirements_research_cost_state(research_cost)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_research_cost_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_empty_state(research_cost: Variant, research_cost_multiplier: float) -> Dictionary:
@@ -25114,12 +18109,13 @@ func generated_block_research_requirements_empty_bridge_state(research_cost: Var
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier])
 	var canonical = source_block_research_requirements_empty_state(research_cost, research_cost_multiplier)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_empty_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_loop_shape_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array) -> Dictionary:
@@ -25153,12 +18149,13 @@ func generated_block_research_requirements_loop_shape_bridge_state(research_cost
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements])
 	var canonical = source_block_research_requirements_loop_shape_state(research_cost, research_cost_multiplier, requirements)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_loop_shape_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_quantity_formula_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
@@ -25169,9 +18166,9 @@ func source_block_research_requirements_quantity_formula_state(research_cost: Va
 		for requirement in requirements:
 			var item_key: String = str(requirement.get("item", ""))
 			var cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))
-			var amount_power: float = pow(float(requirement.get("amount", 0.0)), 1.11)
-			var quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier
-			var quantity: int = int(quantity_float / 10.0) * 10
+			var amount_power: float = pow(float(requirement.get("amount", 0.0)), SOURCE_BLOCK_RESEARCH_REQUIREMENTS_AMOUNT_EXPONENT)
+			var quantity_float: float = SOURCE_BLOCK_RESEARCH_REQUIREMENTS_BASE_QUANTITY * research_cost_multiplier + amount_power * SOURCE_BLOCK_RESEARCH_REQUIREMENTS_AMOUNT_SCALE * research_cost_multiplier * cost_multiplier
+			var quantity: int = int(quantity_float / SOURCE_BLOCK_RESEARCH_REQUIREMENTS_ROUND_STEP) * int(SOURCE_BLOCK_RESEARCH_REQUIREMENTS_ROUND_STEP)
 			multiplier_values.append(cost_multiplier)
 			amount_power_values.append(amount_power)
 			quantity_values.append(quantity)
@@ -25196,12 +18193,13 @@ func generated_block_research_requirements_quantity_formula_bridge_state(researc
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers])
 	var canonical = source_block_research_requirements_quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_round_amount_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
@@ -25240,12 +18238,13 @@ func generated_block_research_requirements_round_amount_bridge_state(research_co
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers, true])
 	var canonical = source_block_research_requirements_round_amount_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_round_amount_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_research_requirements_output_fill_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
@@ -25273,12 +18272,13 @@ func generated_block_research_requirements_output_fill_bridge_state(research_cos
 	var instance = script.new()
 	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers, true, true])
 	var canonical = source_block_research_requirements_output_fill_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_research_requirements_output_fill_state",
 		"generated_owner": "Block.java_method_researchRequirements_118",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_get_dependencies_requirements_state(requirements: Array) -> Dictionary:
@@ -25301,12 +18301,13 @@ func generated_block_get_dependencies_requirements_bridge_state(requirements: Ar
 	var instance = script.new()
 	var result = instance.java_method_getDependencies_119([requirements])
 	var canonical = source_block_get_dependencies_requirements_state(requirements)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_get_dependencies_requirements_state",
 		"generated_owner": "Block.java_method_getDependencies_119",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_get_dependencies_consume_builder_optional_state(requirements: Array, consume_builder: Array) -> Dictionary:
@@ -25342,12 +18343,13 @@ func generated_block_get_dependencies_consume_builder_optional_bridge_state(requ
 	var instance = script.new()
 	var result = instance.java_method_getDependencies_119([requirements, consume_builder])
 	var canonical = source_block_get_dependencies_consume_builder_optional_state(requirements, consume_builder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
 		"generated_owner": "Block.java_method_getDependencies_119",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_get_dependencies_consume_items_state(requirements: Array, consume_builder: Array) -> Dictionary:
@@ -25390,12 +18392,13 @@ func generated_block_get_dependencies_consume_items_bridge_state(requirements: A
 	var instance = script.new()
 	var result = instance.java_method_getDependencies_119([requirements, consume_builder, true])
 	var canonical = source_block_get_dependencies_consume_items_state(requirements, consume_builder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_get_dependencies_consume_items_state",
 		"generated_owner": "Block.java_method_getDependencies_119",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_get_content_type_state() -> Dictionary:
@@ -25412,12 +18415,13 @@ func generated_block_get_content_type_bridge_state() -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_getContentType_120([])
 	var canonical = source_block_get_content_type_state()
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_get_content_type_state",
 		"generated_owner": "Block.java_method_getContentType_120",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_logic_visible_state(build_visibility_value: String) -> Dictionary:
@@ -25436,12 +18440,13 @@ func generated_block_logic_visible_bridge_state(build_visibility_value: String) 
 	var instance = script.new()
 	var result = instance.java_method_logicVisible_121([build_visibility_value])
 	var canonical = source_block_logic_visible_state(build_visibility_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_logic_visible_state",
 		"generated_owner": "Block.java_method_logicVisible_121",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_post_init_database_tag_state(database_tag_before: Variant, category_name: String) -> Dictionary:
@@ -25467,12 +18472,13 @@ func generated_block_post_init_database_tag_bridge_state(database_tag_before: Va
 	var instance = script.new()
 	var result = instance.java_method_postInit_122([database_tag_before, category_name])
 	var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_post_init_database_tag_state",
 		"generated_owner": "Block.java_method_postInit_122",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_post_init_shown_planets_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:
@@ -25526,12 +18532,13 @@ func generated_block_post_init_shown_planets_bridge_state(requirements: Array, s
 	var instance = script.new()
 	var result = instance.java_method_postInit_122([requirements, shown_planets_before, content_planets])
 	var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_post_init_shown_planets_state",
 		"generated_owner": "Block.java_method_postInit_122",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
@@ -25565,12 +18572,13 @@ func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Varia
 	var instance = script.new()
 	var result = instance.java_method_init_123([destroy_sound_before, size_value])
 	var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_destroy_sound_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_place_sound_state(place_sound_before: Variant, size_value: int) -> Dictionary:
@@ -25605,12 +18613,13 @@ func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, 
 	instance.set_meta("mindustry_init_bridge_mode", "place_sound")
 	var result = instance.java_method_init_123([place_sound_before, size_value])
 	var canonical = source_block_init_place_sound_state(place_sound_before, size_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_place_sound_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_break_sound_state(break_sound_before: Variant, size_value: int) -> Dictionary:
@@ -25645,12 +18654,13 @@ func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, 
 	instance.set_meta("mindustry_init_bridge_mode", "break_sound")
 	var result = instance.java_method_init_123([break_sound_before, size_value])
 	var canonical = source_block_init_break_sound_state(break_sound_before, size_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_break_sound_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
@@ -25678,12 +18688,13 @@ func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_sh
 	instance.set_meta("mindustry_init_bridge_mode", "custom_shadow")
 	var result = instance.java_method_init_123([custom_shadow, has_shadow_before])
 	var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_custom_shadow_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_under_bullets_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
@@ -25711,12 +18722,13 @@ func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priori
 	instance.set_meta("mindustry_init_bridge_mode", "under_bullets")
 	var result = instance.java_method_init_123([under_bullets, priority_before])
 	var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_under_bullets_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_fog_radius_flag_state(fog_radius: int, flags_before: Array) -> Dictionary:
@@ -25744,12 +18756,13 @@ func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_be
 	instance.set_meta("mindustry_init_bridge_mode", "fog_radius_flag")
 	var result = instance.java_method_init_123([fog_radius, flags_before])
 	var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_fog_radius_flag_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary:
@@ -25777,12 +18790,13 @@ func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before:
 	instance.set_meta("mindustry_init_bridge_mode", "sync_flag")
 	var result = instance.java_method_init_123([sync_value, flags_before])
 	var canonical = source_block_init_sync_flag_state(sync_value, flags_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_sync_flag_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_health_scaled_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
@@ -25815,12 +18829,13 @@ func generated_block_init_health_scaled_bridge_state(health_before: int, size_va
 	instance.set_meta("mindustry_init_bridge_mode", "health_scaled")
 	var result = instance.java_method_init_123([health_before, size_value, scaled_health])
 	var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_health_scaled_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_health_requirements_scaling_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
@@ -25868,12 +18883,13 @@ func generated_block_init_health_requirements_scaling_bridge_state(health_before
 	instance.set_meta("mindustry_init_bridge_mode", "health_requirements_scaling")
 	var result = instance.java_method_init_123([health_before, size_value, scaled_health_before, requirement_health_scalings])
 	var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_health_requirements_scaling_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_clip_size_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
@@ -25901,12 +18917,13 @@ func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_v
 	instance.set_meta("mindustry_init_bridge_mode", "clip_size")
 	var result = instance.java_method_init_123([clip_size_before, size_value, source_tilesize])
 	var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_clip_size_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_light_clip_size_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
@@ -25929,12 +18946,13 @@ func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: f
 	instance.set_meta("mindustry_init_bridge_mode", "light_clip_size")
 	var result = instance.java_method_init_123([light_clip_size_before, clip_size])
 	var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_light_clip_size_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_liquid_light_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
@@ -25967,12 +18985,13 @@ func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liqu
 	instance.set_meta("mindustry_init_bridge_mode", "liquid_light")
 	var result = instance.java_method_init_123([has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value])
 	var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_liquid_light_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_liquid_capacity_default_state(liquid_capacity_before: float) -> Dictionary:
@@ -26003,12 +19022,13 @@ func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_b
 	instance.set_meta("mindustry_init_bridge_mode", "liquid_capacity_default")
 	var result = instance.java_method_init_123([liquid_capacity_before])
 	var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_liquid_capacity_default_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_emit_light_radius_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
@@ -26034,12 +19054,13 @@ func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light
 	instance.set_meta("mindustry_init_bridge_mode", "emit_light_radius")
 	var result = instance.java_method_init_123([emit_light, light_clip_size_before, light_radius])
 	var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_emit_light_radius_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_accepts_items_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
@@ -26065,12 +19086,13 @@ func generated_block_init_accepts_items_bridge_state(block_group: Variant, categ
 	instance.set_meta("mindustry_init_bridge_mode", "accepts_items")
 	var result = instance.java_method_init_123([block_group, category_value, accepts_items_before])
 	var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_accepts_items_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_offset_state(size_value: int, source_tilesize: float) -> Dictionary:
@@ -26097,12 +19119,13 @@ func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: 
 	instance.set_meta("mindustry_init_bridge_mode", "offset")
 	var result = instance.java_method_init_123([size_value, source_tilesize])
 	var canonical = source_block_init_offset_state(size_value, source_tilesize)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_offset_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_build_time_requirements_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
@@ -26139,12 +19162,13 @@ func generated_block_init_build_time_requirements_bridge_state(build_time_before
 	instance.set_meta("mindustry_init_bridge_mode", "build_time_requirements")
 	var result = instance.java_method_init_123([build_time_before, requirement_stacks])
 	var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_build_time_requirements_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_build_time_default_state(build_time_before: float) -> Dictionary:
@@ -26168,12 +19192,13 @@ func generated_block_init_build_time_default_bridge_state(build_time_before: flo
 	instance.set_meta("mindustry_init_bridge_mode", "build_time_default")
 	var result = instance.java_method_init_123([build_time_before])
 	var canonical = source_block_init_build_time_default_state(build_time_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_build_time_default_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_build_time_multiplier_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
@@ -26196,12 +19221,13 @@ func generated_block_init_build_time_multiplier_bridge_state(build_time_before: 
 	instance.set_meta("mindustry_init_bridge_mode", "build_time_multiplier")
 	var result = instance.java_method_init_123([build_time_before, build_cost_multiplier])
 	var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_build_time_multiplier_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictionary:
@@ -26248,12 +19274,13 @@ func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -
 	instance.set_meta("mindustry_init_bridge_mode", "consumer_arrays")
 	var result = instance.java_method_init_123([consume_builder])
 	var canonical = source_block_init_consumer_arrays_state(consume_builder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_consumer_arrays_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_reinitialize_consumers_arrays_state(consume_builder: Array) -> Dictionary:
@@ -26304,12 +19331,13 @@ func generated_block_reinitialize_consumers_arrays_bridge_state(consume_builder:
 	var instance = script.new()
 	var result = instance.java_method_reinitializeConsumers_124([consume_builder])
 	var canonical = source_block_reinitialize_consumers_arrays_state(consume_builder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
 		"generated_owner": "Block.java_method_reinitializeConsumers_124",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_reinitialize_consumers_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
@@ -26339,12 +19367,13 @@ func generated_block_reinitialize_consumers_item_liquid_filters_bridge_state(con
 	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "item_liquid_filters")
 	var result = instance.java_method_reinitializeConsumers_124([content_items_size, content_liquids_size])
 	var canonical = source_block_reinitialize_consumers_item_liquid_filters_state(content_items_size, content_liquids_size)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
 		"generated_owner": "Block.java_method_reinitializeConsumers_124",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_reinitialize_consumers_outputs_power_state(outputs_power: bool, has_power_before: bool) -> Dictionary:
@@ -26365,12 +19394,13 @@ func generated_block_reinitialize_consumers_outputs_power_bridge_state(outputs_p
 	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "outputs_power")
 	var result = instance.java_method_reinitializeConsumers_124([outputs_power, has_power_before])
 	var canonical = source_block_reinitialize_consumers_outputs_power_state(outputs_power, has_power_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state",
 		"generated_owner": "Block.java_method_reinitializeConsumers_124",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_reinitialize_consumers_apply_loop_state(consumers: Array) -> Dictionary:
@@ -26396,12 +19426,13 @@ func generated_block_reinitialize_consumers_apply_loop_bridge_state(consumers: A
 	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_apply_loop")
 	var result = instance.java_method_reinitializeConsumers_124([consumers])
 	var canonical = source_block_reinitialize_consumers_apply_loop_state(consumers)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
 		"generated_owner": "Block.java_method_reinitializeConsumers_124",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_check_content_array_capacity_state(item_filter: Array, liquid_filter: Array, items: int, liquids: int) -> Dictionary:
@@ -26430,12 +19461,13 @@ func generated_block_check_content_array_capacity_bridge_state(item_filter: Arra
 	var instance = script.new()
 	var result = instance.java_method_checkContentArrayCapacity_125([item_filter, liquid_filter, items, liquids])
 	var canonical = source_block_check_content_array_capacity_state(item_filter, liquid_filter, items, liquids)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_check_content_array_capacity_state",
 		"generated_owner": "Block.java_method_checkContentArrayCapacity_125",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_load_base_regions_state(name_value: String) -> Dictionary:
@@ -26458,12 +19490,13 @@ func generated_block_load_base_regions_bridge_state(name_value: String) -> Dicti
 	var instance = script.new()
 	var result = instance.java_method_load_126([name_value])
 	var canonical = source_block_load_base_regions_state(name_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_load_base_regions_state",
 		"generated_owner": "Block.java_method_load_126",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_load_team_regions_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
@@ -26506,12 +19539,13 @@ func generated_block_load_team_regions_bridge_state(name_value: String, team_reg
 	instance.set_meta("mindustry_load_bridge_mode", "team_regions")
 	var result = instance.java_method_load_126([name_value, team_region_found, team_region, teams])
 	var canonical = source_block_load_team_regions_state(name_value, team_region_found, team_region, teams)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_load_team_regions_state",
 		"generated_owner": "Block.java_method_load_126",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_load_variant_regions_state(name_value: String, variants: int) -> Dictionary:
@@ -26545,12 +19579,13 @@ func generated_block_load_variant_regions_bridge_state(name_value: String, varia
 	instance.set_meta("mindustry_load_bridge_mode", "variant_regions")
 	var result = instance.java_method_load_126([name_value, variants])
 	var canonical = source_block_load_variant_regions_state(name_value, variants)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_load_variant_regions_state",
 		"generated_owner": "Block.java_method_load_126",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_load_variant_shadow_regions_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
@@ -26583,12 +19618,13 @@ func generated_block_load_variant_shadow_regions_bridge_state(name_value: String
 	instance.set_meta("mindustry_load_bridge_mode", "variant_shadow_regions")
 	var result = instance.java_method_load_126([name_value, variants, custom_shadow])
 	var canonical = source_block_load_variant_shadow_regions_state(name_value, variants, custom_shadow)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_load_variant_shadow_regions_state",
 		"generated_owner": "Block.java_method_load_126",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_is_hidden_state(build_visibility_visible: bool, revealed_blocks_contains_self: bool) -> Dictionary:
@@ -26609,12 +19645,13 @@ func generated_block_is_hidden_bridge_state(build_visibility_visible: bool, reve
 	var instance = script.new()
 	var result = instance.java_method_isHidden_127([build_visibility_visible, revealed_blocks_contains_self])
 	var canonical = source_block_is_hidden_state(build_visibility_visible, revealed_blocks_contains_self)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_is_hidden_state",
 		"generated_owner": "Block.java_method_isHidden_127",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_plan_rotation_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
@@ -26635,12 +19672,13 @@ func generated_block_plan_rotation_bridge_state(rotate_value: bool, lock_rotatio
 	var instance = script.new()
 	var result = instance.java_method_planRotation_129([rotate_value, lock_rotation, rot])
 	var canonical = source_block_plan_rotation_state(rotate_value, lock_rotation, rot)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_plan_rotation_state",
 		"generated_owner": "Block.java_method_planRotation_129",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_flip_rotation_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
@@ -26673,12 +19711,13 @@ func generated_block_flip_rotation_bridge_state(rotation_before: int, x_value: b
 	var instance = script.new()
 	var result = instance.java_method_flipRotation_130([rotation_before, x_value, invert_flip, rotate_value, lock_rotation])
 	var canonical = source_block_flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_flip_rotation_state",
 		"generated_owner": "Block.java_method_flipRotation_130",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_get_plan_configs_state(options_before: Array, item_configured: bool, liquid_configured: bool, content_items: Array, content_liquids: Array) -> Dictionary:
@@ -26713,12 +19752,13 @@ func generated_block_get_plan_configs_bridge_state(options_before: Array, item_c
 	var instance = script.new()
 	var result = instance.java_method_getPlanConfigs_131([options_before, item_configured, liquid_configured, content_items, content_liquids])
 	var canonical = source_block_get_plan_configs_state(options_before, item_configured, liquid_configured, content_items, content_liquids)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_get_plan_configs_state",
 		"generated_owner": "Block.java_method_getPlanConfigs_131",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_sense_laccess_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
@@ -26780,9 +19820,9 @@ func generated_block_sense_laccess_bridge_state(sensor: String, map_color_double
 	var instance = script.new()
 	var result = instance.java_method_sense_132([sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id])
 	var canonical = source_block_sense_laccess_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)
-	var result_nan: bool = bool(result.get("sense_value_is_nan", false))
-	var canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
-	var matches: bool = result == canonical or (result_nan and canonical_nan and result.get("sensor", "") == canonical.get("sensor", ""))
+	var _result_nan: bool = bool(result.get("sense_value_is_nan", false))
+	var _canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
+	var matches: bool = generated_state_matches_generated_subset_or_nan(result, canonical, "sense_value_is_nan", "sensor")
 	return {
 		"source_owner": "PortGame.source_block_sense_laccess_state",
 		"generated_owner": "Block.java_method_sense_132",
@@ -26843,9 +19883,9 @@ func generated_block_sense_content_bridge_state(content_type: String, content_it
 	var instance = script.new()
 	var result = instance.java_method_sense_133([content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier])
 	var canonical = source_block_sense_content_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)
-	var result_nan: bool = bool(result.get("sense_value_is_nan", false))
-	var canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
-	var matches: bool = result == canonical or (result_nan and canonical_nan and result.get("content_type", "") == canonical.get("content_type", ""))
+	var _result_nan: bool = bool(result.get("sense_value_is_nan", false))
+	var _canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
+	var matches: bool = generated_state_matches_generated_subset_or_nan(result, canonical, "sense_value_is_nan", "content_type")
 	return {
 		"source_owner": "PortGame.source_block_sense_content_state",
 		"generated_owner": "Block.java_method_sense_133",
@@ -26876,12 +19916,13 @@ func generated_block_sense_object_bridge_state(sensor: String, block_name: Varia
 	var instance = script.new()
 	var result = instance.java_method_senseObject_134([sensor, block_name, no_sensed])
 	var canonical = source_block_sense_object_state(sensor, block_name, no_sensed)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_sense_object_state",
 		"generated_owner": "Block.java_method_senseObject_134",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_block_state(build_block: Variant) -> Dictionary:
@@ -26900,12 +19941,13 @@ func generated_build_payload_block_bridge_state(build_block: Variant) -> Diction
 	var instance = script.new()
 	var result = instance.java_method_block_0([build_block])
 	var canonical = source_build_payload_block_state(build_block)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_block_state",
 		"generated_owner": "BuildPayload.java_method_block_0",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_constructor_block_team_state(block: Variant, team: Variant) -> Dictionary:
@@ -26930,12 +19972,13 @@ func generated_build_payload_constructor_block_team_bridge_state(block: Variant,
 	var instance = script.new()
 	var result = instance.java_constructor_BuildPayload_0([block, team])
 	var canonical = source_build_payload_constructor_block_team_state(block, team)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_constructor_block_team_state",
 		"generated_owner": "BuildPayload.java_constructor_BuildPayload_0",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_constructor_build_state(build: Variant) -> Dictionary:
@@ -26955,12 +19998,13 @@ func generated_build_payload_constructor_build_bridge_state(build: Variant) -> D
 	var instance = script.new()
 	var result = instance.java_constructor_BuildPayload_1([build])
 	var canonical = source_build_payload_constructor_build_state(build)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_constructor_build_state",
 		"generated_owner": "BuildPayload.java_constructor_BuildPayload_1",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:
@@ -26980,12 +20024,13 @@ func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionar
 	var instance = script.new()
 	var result = instance.java_constructor_UnitPayload_0([unit])
 	var canonical = source_unit_payload_constructor_state(unit)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_constructor_state",
 		"generated_owner": "UnitPayload.java_constructor_UnitPayload_0",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_show_overlay_texture_region_state(icon: Variant) -> Dictionary:
@@ -27008,12 +20053,13 @@ func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Varia
 	var instance = script.new()
 	var result = instance.java_method_showOverlay_0([icon])
 	var canonical = source_unit_payload_show_overlay_texture_region_state(icon)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
 		"generated_owner": "UnitPayload.java_method_showOverlay_0",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_show_overlay_drawable_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
@@ -27049,12 +20095,13 @@ func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, 
 	var instance = script.new()
 	var result = instance.java_method_showOverlay_1([icon_null, headless, region])
 	var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
 		"generated_owner": "UnitPayload.java_method_showOverlay_1",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_content_equals_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
@@ -27078,12 +20125,13 @@ func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: b
 	var instance = script.new()
 	var result = instance.java_method_contentEquals_2([other_is_unit_payload, other_unit_type, unit_type])
 	var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_content_equals_state",
 		"generated_owner": "UnitPayload.java_method_contentEquals_2",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_update_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
@@ -27110,12 +20158,13 @@ func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Varian
 	var instance = script.new()
 	var result = instance.java_method_update_3([unit_type, unit, unit_holder, building_holder])
 	var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_update_state",
 		"generated_owner": "UnitPayload.java_method_update_3",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_content_state(unit_type: Variant) -> Dictionary:
@@ -27136,12 +20185,13 @@ func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictiona
 	var instance = script.new()
 	var result = instance.java_method_content_4([unit_type])
 	var canonical = source_unit_payload_content_state(unit_type)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_content_state",
 		"generated_owner": "UnitPayload.java_method_content_4",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_requirements_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
@@ -27164,12 +20214,13 @@ func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_
 	var instance = script.new()
 	var result = instance.java_method_requirements_5([unit_type, total_requirements])
 	var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_requirements_state",
 		"generated_owner": "UnitPayload.java_method_requirements_5",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_build_time_state(unit_type: Variant, build_time: float) -> Dictionary:
@@ -27192,12 +20243,13 @@ func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_ti
 	var instance = script.new()
 	var result = instance.java_method_buildTime_6([unit_type, build_time])
 	var canonical = source_unit_payload_build_time_state(unit_type, build_time)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_build_time_state",
 		"generated_owner": "UnitPayload.java_method_buildTime_6",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> Dictionary:
@@ -27227,12 +20279,13 @@ func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id:
 	var instance = script.new()
 	var result = instance.java_method_write_7([payload_unit, unit_class_id])
 	var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_write_state",
 		"generated_owner": "UnitPayload.java_method_write_7",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_set_state(x: float, y: float, rotation_value: float) -> Dictionary:
@@ -27258,12 +20311,13 @@ func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value:
 	var instance = script.new()
 	var result = instance.java_method_set_8([x, y, rotation_value])
 	var canonical = source_unit_payload_set_state(x, y, rotation_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_set_state",
 		"generated_owner": "UnitPayload.java_method_set_8",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_x_state(unit_x: float) -> Dictionary:
@@ -27284,12 +20338,13 @@ func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_x_9([unit_x])
 	var canonical = source_unit_payload_x_state(unit_x)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_x_state",
 		"generated_owner": "UnitPayload.java_method_x_9",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_y_state(unit_y: float) -> Dictionary:
@@ -27310,12 +20365,13 @@ func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_y_10([unit_y])
 	var canonical = source_unit_payload_y_state(unit_y)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_y_state",
 		"generated_owner": "UnitPayload.java_method_y_10",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_rotation_state(unit_rotation: float) -> Dictionary:
@@ -27336,12 +20392,13 @@ func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dicti
 	var instance = script.new()
 	var result = instance.java_method_rotation_11([unit_rotation])
 	var canonical = source_unit_payload_rotation_state(unit_rotation)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_rotation_state",
 		"generated_owner": "UnitPayload.java_method_rotation_11",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_size_state(unit_hit_size: float) -> Dictionary:
@@ -27362,434 +20419,106 @@ func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionar
 	var instance = script.new()
 	var result = instance.java_method_size_12([unit_hit_size])
 	var canonical = source_unit_payload_size_state(unit_hit_size)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_size_state",
 		"generated_owner": "UnitPayload.java_method_size_12",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_dump_type_null_guard_state(unit_type_null: bool) -> Dictionary:
-	var returned: bool = unit_type_null
-	var dump_result: Variant = null
-	if returned:
-		dump_result = true
-	var deferred_remaining_dump: bool = not returned
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
-		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-		"class_expr": "public class UnitPayload implements Payload{",
-		"field_expr": "public Unit unit;",
-		"override_expr": "@Override",
-		"method": "public boolean dump(){",
-		"todo_comment_expr": "//TODO should not happen",
-		"guard_expr": "if(unit.type == null) return true;",
-		"return_expr": "return true",
-		"unit_type_null": unit_type_null,
-		"returned": returned,
-		"dump": dump_result,
-		"deferred_remaining_dump": deferred_remaining_dump,
-	}
+	return SourceUnitPayloadDumpState.type_null_guard_state(unit_type_null)
 
 func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null])
 	var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)
+	var matches := generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
+const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS := ["guard_expr", "return_expr"]
+
 func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
-	var can_create_evaluated: bool = not unit_type_null
-	var can_create_guard: bool = can_create_evaluated and not units_can_create
-	var returned: bool = unit_type_null or can_create_guard
-	var dump_result: Variant = null
-	if unit_type_null:
-		dump_result = true
-	elif can_create_guard:
-		dump_result = false
-	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
-	var overlayRegion_after: Variant = null
-	var deferred_remaining_dump: bool = not returned
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
-		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-		"class_expr": "public class UnitPayload implements Payload{",
-		"field_expr": "public Unit unit;",
-		"field_overlay_time_expr": "public float overlayTime = 0f;",
-		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
-		"override_expr": "@Override",
-		"method": "public boolean dump(){",
-		"todo_comment_expr": "//TODO should not happen",
-		"type_null_guard_expr": "if(unit.type == null) return true;",
-		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
-		"overlay_time_assign_expr": "overlayTime = 1f;",
-		"overlay_region_assign_expr": "overlayRegion = null;",
-		"return_false_expr": "return false;",
-		"unit_type_null": unit_type_null,
-		"units_can_create": units_can_create,
-		"can_create_evaluated": can_create_evaluated,
-		"can_create_guard": can_create_guard,
-		"returned": returned,
-		"dump": dump_result,
-		"overlayTime_after": overlayTime_after,
-		"overlayRegion_after": overlayRegion_after,
-		"deferred_remaining_dump": deferred_remaining_dump,
-	}
+	return SourceUnitPayloadDumpState.can_create_guard_state(unit_type_null, units_can_create)
 
 func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null, units_can_create])
 	var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_dump_solidity_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
-	var can_create_evaluated: bool = not unit_type_null
-	var can_create_guard: bool = can_create_evaluated and not units_can_create
-	var before_solid_returned: bool = unit_type_null or can_create_guard
-	var solid_evaluated: bool = not before_solid_returned
-	var solid_present_guard: bool = solid_evaluated and solid_present
-	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var solid_solid_evaluated: bool = solid_present_guard
-	var solid_guard: bool = solid_solid_evaluated and solid_solid
-	var returned: bool = before_solid_returned or solid_guard
-	var dump_result: Variant = null
-	if unit_type_null:
-		dump_result = true
-	elif can_create_guard:
-		dump_result = false
-	elif solid_guard:
-		dump_result = false
-	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
-	var overlayRegion_after: Variant = null
-	var solid_call: Dictionary = {}
-	if solid_solid_evaluated:
-		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
-	var deferred_remaining_dump: bool = not returned
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
-		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-		"arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java",
-		"world_source": "core/src/mindustry/core/World.java",
-		"vars_source": "core/src/mindustry/Vars.java",
-		"class_expr": "public class UnitPayload implements Payload{",
-		"field_expr": "public Unit unit;",
-		"field_overlay_time_expr": "public float overlayTime = 0f;",
-		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
-		"override_expr": "@Override",
-		"method": "public boolean dump(){",
-		"todo_comment_expr": "//TODO should not happen",
-		"type_null_guard_expr": "if(unit.type == null) return true;",
-		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
-		"overlay_time_assign_expr": "overlayTime = 1f;",
-		"overlay_region_assign_expr": "overlayRegion = null;",
-		"solidity_comment_expr": "//check if unit can be dumped here",
-		"solid_assign_expr": "SolidPred solid = unit.solidity();",
-		"solid_guard_expr": "if(solid != null){",
-		"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
-		"vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
-		"vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
-		"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
-		"world_to_tile_method": "public static int toTile(float coord){",
-		"world_to_tile_return": "return Math.round(coord / tilesize);",
-		"vars_tilesize_field": "public static final int tilesize = 8;",
-		"solid_block_comment_expr": "//cannot dump on solid blocks",
-		"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
-		"return_false_expr": "return false;",
-		"unit_type_null": unit_type_null,
-		"units_can_create": units_can_create,
-		"solid_present": solid_present,
-		"unit_rotation": unit_rotation,
-		"unit_x": unit_x,
-		"unit_y": unit_y,
-		"solid_solid": solid_solid,
-		"can_create_evaluated": can_create_evaluated,
-		"can_create_guard": can_create_guard,
-		"before_solid_returned": before_solid_returned,
-		"solid_evaluated": solid_evaluated,
-		"solid_present_guard": solid_present_guard,
-		"trns_vec": trns_vec,
-		"tx": tx,
-		"ty": ty,
-		"solid_solid_evaluated": solid_solid_evaluated,
-		"solid_call": solid_call,
-		"solid_guard": solid_guard,
-		"returned": returned,
-		"dump": dump_result,
-		"overlayTime_after": overlayTime_after,
-		"overlayRegion_after": overlayRegion_after,
-		"deferred_remaining_dump": deferred_remaining_dump,
-	}
+	return SourceUnitPayloadDumpState.solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 
 func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid])
 	var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
+	var matches := generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_dump_overlap_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
-	var can_create_evaluated: bool = not unit_type_null
-	var can_create_guard: bool = can_create_evaluated and not units_can_create
-	var before_solid_returned: bool = unit_type_null or can_create_guard
-	var solid_evaluated: bool = not before_solid_returned
-	var solid_present_guard: bool = solid_evaluated and solid_present
-	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var solid_solid_evaluated: bool = solid_present_guard
-	var solid_guard: bool = solid_solid_evaluated and solid_solid
-	var before_overlap_returned: bool = before_solid_returned or solid_guard
-	var overlap_evaluated: bool = not before_overlap_returned
-	var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying
-	var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0
-	var overlap_guard: bool = units_count_evaluated and units_count > 0
-	var returned: bool = before_overlap_returned or overlap_guard
-	var dump_result: Variant = null
-	if unit_type_null:
-		dump_result = true
-	elif can_create_guard:
-		dump_result = false
-	elif solid_guard:
-		dump_result = false
-	elif overlap_guard:
-		dump_result = false
-	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
-	var overlayRegion_after: Variant = null
-	var solid_call: Dictionary = {}
-	if solid_solid_evaluated:
-		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
-	var units_count_call: Dictionary = {}
-	if units_count_evaluated:
-		units_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
-	var deferred_remaining_dump: bool = not returned
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
-		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-		"arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java",
-		"world_source": "core/src/mindustry/core/World.java",
-		"vars_source": "core/src/mindustry/Vars.java",
-		"class_expr": "public class UnitPayload implements Payload{",
-		"field_expr": "public Unit unit;",
-		"field_overlay_time_expr": "public float overlayTime = 0f;",
-		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
-		"override_expr": "@Override",
-		"method": "public boolean dump(){",
-		"todo_comment_expr": "//TODO should not happen",
-		"type_null_guard_expr": "if(unit.type == null) return true;",
-		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
-		"overlay_time_assign_expr": "overlayTime = 1f;",
-		"overlay_region_assign_expr": "overlayRegion = null;",
-		"solidity_comment_expr": "//check if unit can be dumped here",
-		"solid_assign_expr": "SolidPred solid = unit.solidity();",
-		"solid_guard_expr": "if(solid != null){",
-		"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
-		"vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
-		"vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
-		"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
-		"world_to_tile_method": "public static int toTile(float coord){",
-		"world_to_tile_return": "return Math.round(coord / tilesize);",
-		"vars_tilesize_field": "public static final int tilesize = 8;",
-		"solid_block_comment_expr": "//cannot dump on solid blocks",
-		"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
-		"overlap_comment_expr": "//cannot dump when there's a lot of overlap going on",
-		"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
-		"unit_type_flying_expr": "unit.type.flying",
-		"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
-		"physic_size_expr": "unit.physicSize()",
-		"radius_multiplier_expr": "1.05f",
-		"predicate_is_grounded_expr": "o.isGrounded()",
-		"predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep",
-		"return_false_expr": "return false;",
-		"client_dumping_comment_expr": "//no client dumping",
-		"unit_type_null": unit_type_null,
-		"units_can_create": units_can_create,
-		"solid_present": solid_present,
-		"unit_rotation": unit_rotation,
-		"unit_x": unit_x,
-		"unit_y": unit_y,
-		"solid_solid": solid_solid,
-		"unit_type_flying": unit_type_flying,
-		"unit_physic_size": unit_physic_size,
-		"units_count": units_count,
-		"can_create_evaluated": can_create_evaluated,
-		"can_create_guard": can_create_guard,
-		"before_solid_returned": before_solid_returned,
-		"solid_evaluated": solid_evaluated,
-		"solid_present_guard": solid_present_guard,
-		"trns_vec": trns_vec,
-		"tx": tx,
-		"ty": ty,
-		"solid_solid_evaluated": solid_solid_evaluated,
-		"solid_call": solid_call,
-		"solid_guard": solid_guard,
-		"before_overlap_returned": before_overlap_returned,
-		"overlap_evaluated": overlap_evaluated,
-		"units_count_evaluated": units_count_evaluated,
-		"units_count_call": units_count_call,
-		"overlap_radius": overlap_radius,
-		"overlap_guard": overlap_guard,
-		"returned": returned,
-		"dump": dump_result,
-		"overlayTime_after": overlayTime_after,
-		"overlayRegion_after": overlayRegion_after,
-		"deferred_remaining_dump": deferred_remaining_dump,
-	}
+	return SourceUnitPayloadDumpState.overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
+
+func generated_state_matches_generated_subset(result: Variant, canonical: Dictionary, ignored_keys: Array = []) -> bool:
+	if not result is Dictionary:
+		return false
+	for key in canonical.keys():
+		if key == "source_owner" or ignored_keys.has(key):
+			continue
+		if not result.has(key) or result.get(key) != canonical.get(key):
+			return false
+	return true
+
+func generated_state_matches_generated_subset_or_nan(result: Variant, canonical: Dictionary, nan_key: String, identity_key: String, ignored_keys: Array = []) -> bool:
+	if generated_state_matches_generated_subset(result, canonical, ignored_keys):
+		return true
+	if not result is Dictionary:
+		return false
+	var result_nan: bool = bool(result.get(nan_key, false))
+	var canonical_nan: bool = bool(canonical.get(nan_key, false))
+	return result_nan and canonical_nan and result.get(identity_key, "") == canonical.get(identity_key, "")
 
 func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count])
 	var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
+	var matches := generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
-	var can_create_evaluated: bool = not unit_type_null
-	var can_create_guard: bool = can_create_evaluated and not units_can_create
-	var before_solid_returned: bool = unit_type_null or can_create_guard
-	var solid_evaluated: bool = not before_solid_returned
-	var solid_present_guard: bool = solid_evaluated and solid_present
-	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tile_size)) if solid_present_guard else 0
-	var solid_solid_evaluated: bool = solid_present_guard
-	var solid_guard: bool = solid_solid_evaluated and solid_solid
-	var before_overlap_returned: bool = before_solid_returned or solid_guard
-	var overlap_evaluated: bool = not before_overlap_returned
-	var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying
-	var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0
-	var overlap_guard: bool = units_count_evaluated and units_count > 0
-	var before_client_returned: bool = before_overlap_returned or overlap_guard
-	var net_client_evaluated: bool = not before_client_returned
-	var client_guard: bool = net_client_evaluated and net_client
-	var returned: bool = before_client_returned or client_guard
-	var dump_result: Variant = null
-	if unit_type_null:
-		dump_result = true
-	elif can_create_guard:
-		dump_result = false
-	elif solid_guard:
-		dump_result = false
-	elif overlap_guard:
-		dump_result = false
-	elif client_guard:
-		dump_result = true
-	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
-	var overlayRegion_after: Variant = null
-	var solid_call: Dictionary = {}
-	if solid_solid_evaluated:
-		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
-	var units_count_call: Dictionary = {}
-	if units_count_evaluated:
-		units_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
-	var deferred_remaining_dump: bool = not returned
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
-		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-		"arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java",
-		"world_source": "core/src/mindustry/core/World.java",
-		"vars_source": "core/src/mindustry/Vars.java",
-		"class_expr": "public class UnitPayload implements Payload{",
-		"field_expr": "public Unit unit;",
-		"field_overlay_time_expr": "public float overlayTime = 0f;",
-		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
-		"override_expr": "@Override",
-		"method": "public boolean dump(){",
-		"todo_comment_expr": "//TODO should not happen",
-		"type_null_guard_expr": "if(unit.type == null) return true;",
-		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
-		"overlay_time_assign_expr": "overlayTime = 1f;",
-		"overlay_region_assign_expr": "overlayRegion = null;",
-		"solidity_comment_expr": "//check if unit can be dumped here",
-		"solid_assign_expr": "SolidPred solid = unit.solidity();",
-		"solid_guard_expr": "if(solid != null){",
-		"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
-		"vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
-		"vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
-		"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
-		"world_to_tile_method": "public static int toTile(float coord){",
-		"world_to_tile_return": "return Math.round(coord / tilesize);",
-		"vars_tilesize_field": "public static final int tilesize = 8;",
-		"solid_block_comment_expr": "//cannot dump on solid blocks",
-		"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
-		"overlap_comment_expr": "//cannot dump when there's a lot of overlap going on",
-		"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
-		"unit_type_flying_expr": "unit.type.flying",
-		"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
-		"physic_size_expr": "unit.physicSize()",
-		"radius_multiplier_expr": "1.05f",
-		"predicate_is_grounded_expr": "o.isGrounded()",
-		"predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep",
-		"return_false_expr": "return false;",
-		"client_dumping_comment_expr": "//no client dumping",
-		"net_client_guard_expr": "if(Vars.net.client()) return true;",
-		"vars_net_field": "public static Net net;",
-		"return_true_expr": "return true;",
-		"prevents_stacking_comment_expr": "//prevents stacking",
-		"unit_type_null": unit_type_null,
-		"units_can_create": units_can_create,
-		"solid_present": solid_present,
-		"unit_rotation": unit_rotation,
-		"unit_x": unit_x,
-		"unit_y": unit_y,
-		"solid_solid": solid_solid,
-		"unit_type_flying": unit_type_flying,
-		"unit_physic_size": unit_physic_size,
-		"units_count": units_count,
-		"net_client": net_client,
-		"can_create_evaluated": can_create_evaluated,
-		"can_create_guard": can_create_guard,
-		"before_solid_returned": before_solid_returned,
-		"solid_evaluated": solid_evaluated,
-		"solid_present_guard": solid_present_guard,
-		"trns_vec": trns_vec,
-		"tx": tx,
-		"ty": ty,
-		"solid_solid_evaluated": solid_solid_evaluated,
-		"solid_call": solid_call,
-		"solid_guard": solid_guard,
-		"before_overlap_returned": before_overlap_returned,
-		"overlap_evaluated": overlap_evaluated,
-		"units_count_evaluated": units_count_evaluated,
-		"units_count_call": units_count_call,
-		"overlap_radius": overlap_radius,
-		"overlap_guard": overlap_guard,
-		"before_client_returned": before_client_returned,
-		"net_client_evaluated": net_client_evaluated,
-		"client_guard": client_guard,
-		"returned": returned,
-		"dump": dump_result,
-		"overlayTime_after": overlayTime_after,
-		"overlayRegion_after": overlayRegion_after,
-		"deferred_remaining_dump": deferred_remaining_dump,
-	}
+	return SourceUnitPayloadDumpState.no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
 
 func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
@@ -27816,63 +20545,20 @@ func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bo
 
 func source_unit_payload_dump_spawn_side_effects_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
 	var state := source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
-	var before_spawn_returned: bool = bool(state.get("before_client_returned", false)) or bool(state.get("client_guard", false))
-	var spawn_evaluated: bool = not before_spawn_returned
-	var velocity_add_call: Dictionary = {}
-	var unit_add_called: bool = false
-	var unit_unloaded_called: bool = false
-	var event_fire_call: Dictionary = {}
-	var notify_unit_spawn_call: Dictionary = {}
-	if spawn_evaluated:
-		velocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));", "x": range_x, "y": range_y, "unit": unit_id}
-		unit_add_called = true
-		unit_unloaded_called = true
-		event_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));", "event": "new UnitUnloadEvent(unit)", "unit": unit_id}
-		notify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);", "unit": unit_id}
-		state["dump"] = true
-	state["source_owner"] = "PortGame.source_unit_payload_dump_spawn_side_effects_state"
-	state["arc_mathf_source"] = "arc-core/src/arc/math/Mathf.java"
-	state["units_source"] = "core/src/mindustry/entities/Units.java"
-	state["event_type_source"] = "core/src/mindustry/game/EventType.java"
-	state["prevents_stacking_comment_expr"] = "//prevents stacking"
-	state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"
-	state["mathf_range_float_method"] = "public static float range(float range){"
-	state["mathf_range_float_return"] = "return random(-range, range);"
-	state["unit_add_expr"] = "unit.add();"
-	state["unit_unloaded_expr"] = "unit.unloaded();"
-	state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"
-	state["unit_unload_event_comment"] = "/** Called when a unit is dumped from any payload block. */"
-	state["unit_unload_event_class"] = "public static class UnitUnloadEvent{"
-	state["unit_unload_event_constructor"] = "public UnitUnloadEvent(Unit unit){"
-	state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"
-	state["notify_unit_spawn_method"] = "public static void notifyUnitSpawn(Unit unit){"
-	state["notify_unit_spawn_guard"] = "if(net.server()){"
-	state["final_return_true_expr"] = "return true;"
-	state["range_x"] = range_x
-	state["range_y"] = range_y
-	state["unit_id"] = unit_id
-	state["before_spawn_returned"] = before_spawn_returned
-	state["spawn_evaluated"] = spawn_evaluated
-	state["velocity_add_call"] = velocity_add_call
-	state["unit_add_called"] = unit_add_called
-	state["unit_unloaded_called"] = unit_unloaded_called
-	state["event_fire_call"] = event_fire_call
-	state["notify_unit_spawn_call"] = notify_unit_spawn_call
-	state["returned"] = true
-	state["deferred_remaining_dump"] = false
-	return state
+	return SourceUnitPayloadDumpState.spawn_side_effects_state(state, range_x, range_y, unit_id)
 
 func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
 	var instance = script.new()
 	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id])
 	var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)
+	var matches := generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
@@ -27904,12 +20590,13 @@ func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: b
 	var instance = script.new()
 	var result = instance.java_method_drawShadow_14([unit_type_null, alpha, unit_id])
 	var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
 		"generated_owner": "UnitPayload.java_method_drawShadow_14",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_draw_type_null_state(unit_type_null: bool) -> Dictionary:
@@ -27935,12 +20622,13 @@ func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) ->
 	var instance = script.new()
 	var result = instance.java_method_draw_15([unit_type_null])
 	var canonical = source_unit_payload_draw_type_null_state(unit_type_null)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
 		"generated_owner": "UnitPayload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_draw_elevation_setup_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
@@ -27990,25 +20678,26 @@ func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bo
 	var instance = script.new()
 	var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id])
 	var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
 		"generated_owner": "UnitPayload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_draw_overlay_warning_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
 	var returned_early: bool = unit_type_null
-	var overlay_duration: float = 40.0
+	var overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION
 	var overlay_guard: bool = (not returned_early) and overlay_time > 0.0
 	var draw_z_snapshot: float = draw_z_before
 	var draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}
 	var overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"
 	var draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}
-	var draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0
+	var draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0
 	var draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}
-	var warning_size: float = 8.0
+	var warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE
 	var draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}
 	var draw_reset_called: bool = overlay_guard
 	var overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time
@@ -28065,12 +20754,13 @@ func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bo
 	var instance = script.new()
 	var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
 	var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
 		"generated_owner": "UnitPayload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_unit_payload_icon_state(unit_type_full_icon: Variant) -> Dictionary:
@@ -28091,12 +20781,13 @@ func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> D
 	var instance = script.new()
 	var result = instance.java_method_icon_16([unit_type_full_icon])
 	var canonical = source_unit_payload_icon_state(unit_type_full_icon)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_icon_state",
 		"generated_owner": "UnitPayload.java_method_icon_16",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
@@ -28119,12 +20810,13 @@ func generated_build_payload_place_default_bridge_state(tile: Variant, build_blo
 	var instance = script.new()
 	var result = instance.java_method_place_1([tile, build_block, build_team])
 	var canonical = source_build_payload_place_default_state(tile, build_block, build_team)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_place_default_state",
 		"generated_owner": "BuildPayload.java_method_place_1",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_place_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
@@ -28150,12 +20842,13 @@ func generated_build_payload_place_bridge_state(tile: Variant, build_block: Vari
 	var instance = script.new()
 	var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])
 	var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_place_state",
 		"generated_owner": "BuildPayload.java_method_place_2",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_update_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
@@ -28195,12 +20888,13 @@ func generated_build_payload_update_bridge_state(unit_holder_present: bool, buil
 	var instance = script.new()
 	var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])
 	var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_update_state",
 		"generated_owner": "BuildPayload.java_method_update_5",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_destroyed_state() -> Dictionary:
@@ -28224,12 +20918,13 @@ func generated_build_payload_destroyed_bridge_state() -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_destroyed_6([])
 	var canonical = source_build_payload_destroyed_state()
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_destroyed_state",
 		"generated_owner": "BuildPayload.java_method_destroyed_6",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
@@ -28253,12 +20948,13 @@ func generated_build_payload_content_equals_bridge_state(other_is_build_payload:
 	var instance = script.new()
 	var result = instance.java_method_contentEquals_3([other_is_build_payload, other_block, build_block])
 	var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_content_equals_state",
 		"generated_owner": "BuildPayload.java_method_contentEquals_3",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_content_state(build_block: Variant) -> Dictionary:
@@ -28278,12 +20974,13 @@ func generated_build_payload_content_bridge_state(build_block: Variant) -> Dicti
 	var instance = script.new()
 	var result = instance.java_method_content_4([build_block])
 	var canonical = source_build_payload_content_state(build_block)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_content_state",
 		"generated_owner": "BuildPayload.java_method_content_4",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_build_time_state(build_time: float) -> Dictionary:
@@ -28303,12 +21000,13 @@ func generated_build_payload_build_time_bridge_state(build_time: float) -> Dicti
 	var instance = script.new()
 	var result = instance.java_method_buildTime_8([build_time])
 	var canonical = source_build_payload_build_time_state(build_time)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_build_time_state",
 		"generated_owner": "BuildPayload.java_method_buildTime_8",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_requirements_state(requirements: Variant) -> Dictionary:
@@ -28328,12 +21026,13 @@ func generated_build_payload_requirements_bridge_state(requirements: Variant) ->
 	var instance = script.new()
 	var result = instance.java_method_requirements_7([requirements])
 	var canonical = source_build_payload_requirements_state(requirements)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_requirements_state",
 		"generated_owner": "BuildPayload.java_method_requirements_7",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_x_state(build_x: float) -> Dictionary:
@@ -28353,12 +21052,13 @@ func generated_build_payload_x_bridge_state(build_x: float) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_x_9([build_x])
 	var canonical = source_build_payload_x_state(build_x)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_x_state",
 		"generated_owner": "BuildPayload.java_method_x_9",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_y_state(build_y: float) -> Dictionary:
@@ -28378,12 +21078,13 @@ func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_y_10([build_y])
 	var canonical = source_build_payload_y_state(build_y)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_y_state",
 		"generated_owner": "BuildPayload.java_method_y_10",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_size_state(build_block_size: float, source_tilesize: float) -> Dictionary:
@@ -28407,12 +21108,29 @@ func generated_build_payload_size_bridge_state(build_block_size: float, source_t
 	var instance = script.new()
 	var result = instance.java_method_size_11([build_block_size, source_tilesize])
 	var canonical = source_build_payload_size_state(build_block_size, source_tilesize)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_size_state",
 		"generated_owner": "BuildPayload.java_method_size_11",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
+	}
+
+func generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_size_11([build_block_size])
+	var canonical = source_build_payload_size_state(build_block_size, SOURCE_TILESIZE)
+	var matches := generated_state_matches_generated_subset(result, canonical)
+	return {
+		"source_owner": "PortGame.source_build_payload_size_state",
+		"generated_owner": "BuildPayload.java_method_size_11",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": result.get("source_tilesize", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_remove_state() -> Dictionary:
@@ -28432,12 +21150,13 @@ func generated_build_payload_remove_bridge_state() -> Dictionary:
 	var instance = script.new()
 	var result = instance.java_method_remove_12([])
 	var canonical = source_build_payload_remove_state()
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_remove_state",
 		"generated_owner": "BuildPayload.java_method_remove_12",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_write_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
@@ -28470,12 +21189,13 @@ func generated_build_payload_write_bridge_state(payload_block: int, build_block_
 	var instance = script.new()
 	var result = instance.java_method_write_13([payload_block, build_block_id, build_version])
 	var canonical = source_build_payload_write_state(payload_block, build_block_id, build_version)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_write_state",
 		"generated_owner": "BuildPayload.java_method_write_13",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_set_state(x: float, y: float, rotation_value: float) -> Dictionary:
@@ -28500,12 +21220,13 @@ func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value
 	var instance = script.new()
 	var result = instance.java_method_set_14([x, y, rotation_value])
 	var canonical = source_build_payload_set_state(x, y, rotation_value)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_set_state",
 		"generated_owner": "BuildPayload.java_method_set_14",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_draw_shadow_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
@@ -28540,12 +21261,13 @@ func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: f
 	var instance = script.new()
 	var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])
 	var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_draw_shadow_state",
 		"generated_owner": "BuildPayload.java_method_drawShadow_15",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_draw_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
@@ -28600,12 +21322,13 @@ func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_
 	var instance = script.new()
 	var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])
 	var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_draw_state",
 		"generated_owner": "BuildPayload.java_method_draw_16",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_build_payload_icon_state(full_icon: Variant) -> Dictionary:
@@ -28626,12 +21349,13 @@ func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary
 	var instance = script.new()
 	var result = instance.java_method_icon_17([full_icon])
 	var canonical = source_build_payload_icon_state(full_icon)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_build_payload_icon_state",
 		"generated_owner": "BuildPayload.java_method_icon_17",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_icons_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
@@ -28654,12 +21378,13 @@ func generated_block_producer_icons_bridge_state(region: Variant, out_region: Va
 	var instance = script.new()
 	var result = instance.java_method_icons_0([region, out_region, top_region])
 	var canonical = source_block_producer_icons_state(region, out_region, top_region)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_icons_state",
 		"generated_owner": "BlockProducer.java_method_icons_0",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_draw_plan_region_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
@@ -28693,12 +21418,13 @@ func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out
 	var instance = script.new()
 	var result = instance.java_method_drawPlanRegion_1([region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])
 	var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_draw_plan_region_state",
 		"generated_owner": "BlockProducer.java_method_drawPlanRegion_1",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_set_bars_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:
@@ -28729,12 +21455,13 @@ func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_pr
 	var instance = script.new()
 	var result = instance.java_method_setBars_2([recipe_null, entity_progress, recipe_build_time])
 	var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_set_bars_state",
 		"generated_owner": "BlockProducer.java_method_setBars_2",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_accept_item_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
@@ -28758,12 +21485,13 @@ func generated_block_producer_build_accept_item_bridge_state(source_building: Va
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_acceptItem_1([source_building, item, item_count, maximum_accepted])
 	var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_accept_item_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.acceptItem",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_get_maximum_accepted_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
@@ -28800,12 +21528,13 @@ func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Vari
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2([item, recipe_null, requirements])
 	var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_accept_payload_state(source_building: Variant, payload: Variant) -> Dictionary:
@@ -28827,12 +21556,13 @@ func generated_block_producer_build_accept_payload_bridge_state(source_building:
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_acceptPayload_3([source_building, payload])
 	var canonical = source_block_producer_build_accept_payload_state(source_building, payload)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_accept_payload_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_should_consume_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
@@ -28854,12 +21584,13 @@ func generated_block_producer_build_should_consume_bridge_state(super_should_con
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_shouldConsume_4([super_should_consume, recipe_null])
 	var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_should_consume_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_produce_gate_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
@@ -28884,12 +21615,13 @@ func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_5([recipe_null, efficiency, payload_null])
 	var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_progress_accumulation_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
@@ -28916,12 +21648,13 @@ func generated_block_producer_build_update_tile_progress_accumulation_bridge_sta
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5([produce, progress_before, build_speed, edelta])
 	var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_completion_guard_state(progress: float, recipe_build_time: float) -> Dictionary:
@@ -28946,12 +21679,13 @@ func generated_block_producer_build_update_tile_completion_guard_bridge_state(pr
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5([progress, recipe_build_time])
 	var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_payload_creation_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
@@ -28987,12 +21721,13 @@ func generated_block_producer_build_update_tile_payload_creation_bridge_state(co
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5([completion_guard, recipe, team, x, y, payload_size, tilesize])
 	var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
@@ -29026,17 +21761,18 @@ func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5([completion_guard, pay_vector_x, pay_vector_y, progress_before])
 	var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_producer_build_update_tile_heat_time_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
 	var produce_num: float = float(source_arc_mathf_num(produce))
-	var heat_after: float = source_mathf_lerp_delta(heat_before, produce_num, 0.15, time_delta)
+	var heat_after: float = source_mathf_lerp_delta(heat_before, produce_num, SOURCE_FACTORY_HEAT_LERP_PROGRESS, time_delta)
 	var time_after: float = time_before + heat_after * time_delta
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
@@ -29066,12 +21802,13 @@ func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: 
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5([produce, heat_before, time_before, time_delta])
 	var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func _source_payload_move_out_dest(rotdeg_value: float, half_extent: float) -> Dictionary:
@@ -29131,7 +21868,7 @@ func source_block_producer_build_update_tile_move_out_payload_state(payload_pres
 		distance_to_dest = sqrt(distance_to_dest2)
 		if can_dump and not can_move:
 			pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)
-		arrived = distance_to_dest2 < 0.001 * 0.001
+		arrived = distance_to_dest2 < SOURCE_PAYLOAD_ARRIVAL_EPSILON * SOURCE_PAYLOAD_ARRIVAL_EPSILON
 		if arrived:
 			pay_vector_after = _source_vec2_clamp_rect(pay_vector_after, -half_extent, -half_extent, half_extent, half_extent)
 			if can_move:
@@ -29199,12 +21936,13 @@ func generated_block_producer_build_update_tile_move_out_payload_bridge_state(pa
 	var instance = script.new()
 	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5([payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result])
 	var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
 		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
@@ -29235,12 +21973,13 @@ func generated_block_init_item_liquid_filters_bridge_state(content_items_size: i
 	instance.set_meta("mindustry_init_bridge_mode", "item_liquid_filters")
 	var result = instance.java_method_init_123([content_items_size, content_liquids_size])
 	var canonical = source_block_init_item_liquid_filters_state(content_items_size, content_liquids_size)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_item_liquid_filters_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_consumer_apply_loop_state(consumers: Array) -> Dictionary:
@@ -29267,12 +22006,13 @@ func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> 
 	instance.set_meta("mindustry_init_bridge_mode", "consumer_apply_loop")
 	var result = instance.java_method_init_123([consumers])
 	var canonical = source_block_init_consumer_apply_loop_state(consumers)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_consumer_apply_loop_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_set_bars_call_state() -> Dictionary:
@@ -29295,12 +22035,13 @@ func generated_block_init_set_bars_call_bridge_state() -> Dictionary:
 	instance.set_meta("mindustry_init_bridge_mode", "set_bars_call")
 	var result = instance.java_method_init_123([])
 	var canonical = source_block_init_set_bars_call_state()
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_set_bars_call_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_stats_categories_state(stats_use_categories_before: bool) -> Dictionary:
@@ -29322,12 +22063,13 @@ func generated_block_init_stats_categories_bridge_state(stats_use_categories_bef
 	instance.set_meta("mindustry_init_bridge_mode", "stats_categories")
 	var result = instance.java_method_init_123([stats_use_categories_before])
 	var canonical = source_block_init_stats_categories_state(stats_use_categories_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_stats_categories_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_logic_configurable_state(logic_configurable_before: bool, config_key_assignable_to_unlockable_content: bool) -> Dictionary:
@@ -29352,12 +22094,13 @@ func generated_block_init_logic_configurable_bridge_state(logic_configurable_bef
 	instance.set_meta("mindustry_init_bridge_mode", "logic_configurable")
 	var result = instance.java_method_init_123([logic_configurable_before, config_key_assignable_to_unlockable_content])
 	var canonical = source_block_init_logic_configurable_state(logic_configurable_before, config_key_assignable_to_unlockable_content)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_logic_configurable_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_buffered_power_state(outputs_power: bool, has_cons_power: bool, cons_power_buffered_before: bool) -> Dictionary:
@@ -29388,12 +22131,13 @@ func generated_block_init_buffered_power_bridge_state(outputs_power: bool, has_c
 	instance.set_meta("mindustry_init_bridge_mode", "buffered_power")
 	var result = instance.java_method_init_123([outputs_power, has_cons_power, cons_power_buffered_before])
 	var canonical = source_block_init_buffered_power_state(outputs_power, has_cons_power, cons_power_buffered_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_buffered_power_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_block_init_sandbox_visibility_state(build_visibility: String, hide_details_before: bool) -> Dictionary:
@@ -29423,12 +22167,13 @@ func generated_block_init_sandbox_visibility_bridge_state(build_visibility: Stri
 	instance.set_meta("mindustry_init_bridge_mode", "sandbox_visibility")
 	var result = instance.java_method_init_123([build_visibility, hide_details_before])
 	var canonical = source_block_init_sandbox_visibility_state(build_visibility, hide_details_before)
+	var matches := generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_block_init_sandbox_visibility_state",
 		"generated_owner": "Block.java_method_init_123",
 		"result": result,
 		"canonical": canonical,
-		"matches": result == canonical,
+		"matches": matches,
 	}
 
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
@@ -29490,7 +22235,86 @@ func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infi
 		"generated_owner": "Turret.java_method_init_3",
 		"result": result,
 		"canonical": canonical,
-		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
+		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
+	}
+
+func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, SOURCE_TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": result.get("source_tilesize", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("source_tilesize", null) == canonical.get("source_tilesize", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null),
+	}
+
+func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, SOURCE_BLOCK_SIZE_DEFAULT, SOURCE_TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"defaulted_arg": "size",
+		"size": result.get("size", null),
+		"source_tilesize": result.get("source_tilesize", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("size", null) == canonical.get("size", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null),
+	}
+
+func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"defaulted_arg": "disable_overlap_check",
+		"disable_overlap_check": result.get("disable_overlap_check", null),
+		"disable_overlap_check_after": result.get("disable_overlap_check_after", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("disable_overlap_check", null) == canonical.get("disable_overlap_check", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
+	}
+
+func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, SOURCE_TURRET_RANGE_DEFAULT, 0.0)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"defaulted_arg": "range",
+		"range": result.get("range", null),
+		"tracking_range_after": result.get("tracking_range_after", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("range", null) == canonical.get("range", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
+	}
+
+func generated_turret_init_tracking_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, SourceTurretDefaults.TRACKING_RANGE_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"defaulted_arg": "tracking_range",
+		"tracking_range": result.get("tracking_range", null),
+		"tracking_range_after": result.get("tracking_range_after", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("tracking_range", null) == canonical.get("tracking_range", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
 	}
 
 func source_base_turret_init_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
@@ -29649,13 +22473,28 @@ func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rot
 		"matches": result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null) and result.get("fog_dash_circle_call", null) == canonical.get("fog_dash_circle_call", null) and result.get("super_draw_place_called", null) == canonical.get("super_draw_place_called", null),
 	}
 
+func generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid])
+	var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, SOURCE_TILESIZE, 0.0, SOURCE_TURRET_RANGE_DEFAULT, SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT, false)
+	return {
+		"source_owner": "PortGame.source_base_turret_draw_place_state",
+		"generated_owner": "BaseTurret.java_method_drawPlace_3",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": result.get("source_tilesize", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null) and result.get("fog_dash_circle_call", null) == canonical.get("fog_dash_circle_call", null) and result.get("super_draw_place_called", null) == canonical.get("super_draw_place_called", null),
+	}
+
 func source_base_turret_set_stats_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
 	var shoot_range_blocks: float = range_value / source_tilesize
 	var shoot_range_stat_call: Dictionary = {"call": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "stat": "Stat.shootRange", "value": shoot_range_blocks, "unit": "StatUnit.blocks"}
 	var activation_time_stat_called: bool = activation_time > 0.0
 	var activation_time_stat_call: Dictionary = {}
 	if activation_time_stat_called:
-		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / 60.0, "unit": "StatUnit.seconds"}
+		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / SOURCE_TICK_RATE, "unit": "StatUnit.seconds"}
 	return {
 		"source_owner": "PortGame.source_base_turret_set_stats_state",
 		"method": "public void setStats(){",
@@ -29677,7 +22516,7 @@ func source_base_turret_set_stats_state(range_value: float, source_tilesize: flo
 func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
 	var instance = script.new()
-	var result = instance.java_method_setStats_4([range_value, source_tilesize, activation_time])
+	var result = instance.java_method_setStats_4([range_value, source_tilesize, activation_time, SOURCE_TICK_RATE])
 	var canonical = source_base_turret_set_stats_state(range_value, source_tilesize, activation_time)
 	return {
 		"source_owner": "PortGame.source_base_turret_set_stats_state",
@@ -29697,7 +22536,7 @@ func source_base_turret_set_bars_state(activation_time: float, entity_activation
 	if activation_bar_added:
 		activation_bar_fraction = 1.0 - entity_activation_timer / activation_time
 		if activation_timer_positive:
-			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / 60.0)}
+			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / SOURCE_TICK_RATE)}
 			activation_bar_color = "Pal.lightOrange"
 		else:
 			activation_bar_text_call = {"call": "Core.bundle.get(\"bar.activated\")", "key": "bar.activated"}
@@ -29729,7 +22568,7 @@ func source_base_turret_set_bars_state(activation_time: float, entity_activation
 func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
 	var instance = script.new()
-	var result = instance.java_method_setBars_5([activation_time, entity_activation_timer])
+	var result = instance.java_method_setBars_5([activation_time, entity_activation_timer, SOURCE_TICK_RATE])
 	var canonical = source_base_turret_set_bars_state(activation_time, entity_activation_timer)
 	return {
 		"source_owner": "PortGame.source_base_turret_set_bars_state",
@@ -29741,7 +22580,7 @@ func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_
 
 func source_turret_set_stats_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:
 	var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)
-	var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots
+	var reload_stat_rate: float = SOURCE_TICK_RATE / reload_stat_denominator * shoot_shots
 	var inaccuracy_stat_call: Dictionary = {"call": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);", "stat": "Stat.inaccuracy", "value": int(inaccuracy_value), "unit": "StatUnit.degrees"}
 	var reload_stat_call: Dictionary = {"call": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);", "stat": "Stat.reload", "value": reload_stat_rate, "unit": "StatUnit.perSecond", "denominator": reload_stat_denominator}
 	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
@@ -29809,6 +22648,41 @@ func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_val
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("ammo_use_stat_call", null) == canonical.get("ammo_use_stat_call", null) and result.get("max_efficiency_stat_call", null) == canonical.get("max_efficiency_stat_call", null),
+	}
+
+func source_point_defense_turret_set_stats_state(bullet_damage: float, reload_value: float) -> Dictionary:
+	var reload_stat_rate: float = SOURCE_TICK_RATE / reload_value
+	var reload_stat_call: Dictionary = {"call": "stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);", "stat": "Stat.reload", "value": reload_stat_rate, "unit": "StatUnit.perSecond", "denominator": reload_value}
+	var damage_stat_call: Dictionary = {"call": "stats.add(Stat.damage, bulletDamage, StatUnit.none);", "stat": "Stat.damage", "value": bullet_damage, "unit": "StatUnit.none"}
+	return {
+		"source_owner": "PortGame.source_point_defense_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"reload_stat_expr": "stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);",
+		"damage_stat_expr": "stats.add(Stat.damage, bulletDamage, StatUnit.none);",
+		"bullet_damage": bullet_damage,
+		"reload_value": reload_value,
+		"reload_stat_rate": reload_stat_rate,
+		"super_set_stats_called": true,
+		"reload_stat_call": reload_stat_call,
+		"damage_stat_call": damage_stat_call,
+	}
+
+func generated_point_defense_turret_set_stats_default_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_1([])
+	var canonical = source_point_defense_turret_set_stats_state(SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT, SOURCE_TURRET_RELOAD_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_point_defense_turret_set_stats_state",
+		"generated_owner": "PointDefenseTurret.java_method_setStats_1",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["bullet_damage", "reload"],
+		"bullet_damage": SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT,
+		"reload": SOURCE_TURRET_RELOAD_DEFAULT,
+		"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("damage_stat_call", null) == canonical.get("damage_stat_call", null),
 	}
 
 func source_turret_set_bars_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
@@ -29991,7 +22865,7 @@ func source_tractor_beam_turret_set_stats_state(target_air: bool, target_ground:
 func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
-	var result = instance.java_method_setStats_1([target_air, target_ground, damage])
+	var result = instance.java_method_setStats_1([target_air, target_ground, damage, SOURCE_TICK_RATE])
 	var canonical = source_tractor_beam_turret_set_stats_state(target_air, target_ground, damage)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
@@ -30070,7 +22944,7 @@ func generated_tractor_beam_turret_build_should_consume_bridge_state(super_shoul
 
 func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
 	var zero_guard: bool = (not any_state) or damage <= 0.0
-	var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier
+	var estimate_dps: float = 0.0 if zero_guard else damage * SOURCE_TICK_RATE * efficiency * coolant_multiplier
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
 		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
@@ -30089,7 +22963,7 @@ func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage
 func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
 	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier])
+	var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier, SOURCE_TICK_RATE])
 	var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
@@ -30485,7 +23359,7 @@ func generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state
 	}
 
 func source_tractor_beam_turret_build_update_tile_coolant_effect_state(coolant_guard: bool, used: float, chance_result: bool, x: float, y: float, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:
-	var chance_threshold: float = 0.06 * used if coolant_guard else 0.0
+	var chance_threshold: float = SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE * used if coolant_guard else 0.0
 	var particle_range: float = size * source_tilesize / 2.0 if coolant_guard else 0.0
 	var chance_called: bool = coolant_guard
 	var cool_effect_called: bool = coolant_guard and chance_result
@@ -30646,7 +23520,7 @@ func source_tractor_beam_turret_build_update_tile_look_target_guard_state(activa
 	if target_check_evaluated:
 		target_check_call = {"call": "target.checkTarget(targetAir, targetGround)", "target_air": target_air, "target_ground": target_ground, "result": target_check_result}
 	var efficiency_gate_evaluated: bool = target_check_evaluated and target_check_result
-	var look_target_guard: bool = efficiency_gate_evaluated and efficiency > 0.02
+	var look_target_guard: bool = efficiency_gate_evaluated and efficiency > SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
 		"method": "public void updateTile(){",
@@ -30907,7 +23781,7 @@ func generated_tractor_beam_turret_build_update_tile_last_target_position_bridge
 
 func source_tractor_beam_turret_build_update_tile_active_strength_state(last_target_position_evaluated: bool, strength_before: float, time_delta: float) -> Dictionary:
 	var strength_lerp_evaluated: bool = last_target_position_evaluated
-	var strength_lerp_progress: float = 0.1
+	var strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS
 	var strength_lerp_scaled_progress: float = strength_lerp_progress * time_delta if strength_lerp_evaluated else 0.0
 	var strength_lerp_clamped_progress: float = clampf(strength_lerp_scaled_progress, 0.0, 1.0)
 	var strength_after: float = source_mathf_lerp_delta(strength_before, 1.0, strength_lerp_progress, time_delta) if strength_lerp_evaluated else strength_before
@@ -30944,7 +23818,7 @@ func generated_tractor_beam_turret_build_update_tile_active_strength_bridge_stat
 		"strength_before": strength_before,
 		"time_delta": time_delta,
 		"strength_lerp_evaluated": result.get("strength_lerp_evaluated", false),
-		"strength_lerp_progress": result.get("strength_lerp_progress", 0.1),
+		"strength_lerp_progress": result.get("strength_lerp_progress", SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS),
 		"strength_lerp_scaled_progress": result.get("strength_lerp_scaled_progress", 0.0),
 		"strength_lerp_clamped_progress": result.get("strength_lerp_clamped_progress", 0.0),
 		"strength_after": result.get("strength_after", strength_before) if result.get("strength_lerp_evaluated", false) else strength_before,
@@ -30962,7 +23836,7 @@ func generated_tractor_beam_turret_build_update_tile_active_strength_bridge_stat
 
 func source_tractor_beam_turret_build_update_tile_inactive_strength_state(activation_returned_early: bool, look_target_guard: bool, strength_before: float, time_delta: float) -> Dictionary:
 	var inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard
-	var inactive_strength_lerp_progress: float = 0.1
+	var inactive_strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS
 	var inactive_strength_lerp_scaled_progress: float = inactive_strength_lerp_progress * time_delta if inactive_strength_evaluated else 0.0
 	var inactive_strength_lerp_clamped_progress: float = clampf(inactive_strength_lerp_scaled_progress, 0.0, 1.0)
 	var inactive_strength_after: float = source_mathf_lerp_delta(strength_before, 0.0, inactive_strength_lerp_progress, time_delta) if inactive_strength_evaluated else strength_before
@@ -31001,7 +23875,7 @@ func generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_st
 		"strength_before": strength_before,
 		"time_delta": time_delta,
 		"inactive_strength_evaluated": result.get("inactive_strength_evaluated", false),
-		"inactive_strength_lerp_progress": result.get("inactive_strength_lerp_progress", 0.1),
+		"inactive_strength_lerp_progress": result.get("inactive_strength_lerp_progress", SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS),
 		"inactive_strength_lerp_scaled_progress": result.get("inactive_strength_lerp_scaled_progress", 0.0),
 		"inactive_strength_lerp_clamped_progress": result.get("inactive_strength_lerp_clamped_progress", 0.0),
 		"inactive_strength_after": result.get("inactive_strength_after", strength_before) if result.get("inactive_strength_evaluated", false) else strength_before,
@@ -31411,10 +24285,10 @@ func generated_turret_get_regions_to_outline_bridge_state(out: Variant) -> Dicti
 	}
 
 func source_turret_limit_range_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
-	var bullet_range_change: float = float(bullet.get("rangeChange", 0.0))
+	var bullet_range_change: float = source_bullet_range_change(bullet)
 	var real_range: float = bullet_range_change + turret_range
-	var bullet_extra_range_margin: float = float(bullet.get("extraRangeMargin", 0.0))
-	var bullet_speed: float = float(bullet.get("speed", 1.0))
+	var bullet_extra_range_margin: float = source_bullet_extra_range_margin(bullet)
+	var bullet_speed: float = source_bullet_world_speed_per_tick(bullet)
 	var bullet_lifetime: float = (real_range + margin + bullet_extra_range_margin + 10.0) / bullet_speed
 	bullet["lifetime"] = bullet_lifetime
 	return {
@@ -31487,6 +24361,22 @@ func generated_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation
 	return {
 		"source_owner": "PortGame.source_turret_draw_place_state",
 		"generated_owner": "Turret.java_method_drawPlace_9",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null),
+	}
+
+@warning_ignore("shadowed_variable_base_class")
+func generated_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlace_9([tile_x, tile_y, rotation, valid, draw_min_range])
+	var canonical = source_turret_draw_place_state(tile_x, tile_y, rotation, valid, draw_min_range, SOURCE_TILESIZE, 0.0, 0.0)
+	return {
+		"source_owner": "PortGame.source_turret_draw_place_state",
+		"generated_owner": "Turret.java_method_drawPlace_9",
+		"defaulted_arg": "source_tilesize",
+		"source_tilesize": result.get("source_tilesize", null),
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null),
@@ -31949,6 +24839,23 @@ func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_valu
 		"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null) and result.get("stats_ammo_add_call", null) == canonical.get("stats_ammo_add_call", null) and result.get("stats_item_capacity_remove_call", null) == canonical.get("stats_item_capacity_remove_call", null) and result.get("ammo_capacity", null) == canonical.get("ammo_capacity", null),
 	}
 
+func generated_item_turret_set_stats_default_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_3([])
+	var canonical = source_item_turret_set_stats_state(null, "", SOURCE_TURRET_MAX_AMMO_DEFAULT, SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_item_turret_set_stats_state",
+		"generated_owner": "ItemTurret.java_method_setStats_3",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["max_ammo", "ammo_per_shot"],
+		"max_ammo": SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"ammo_per_shot": SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT,
+		"ammo_capacity": SOURCE_TURRET_MAX_AMMO_DEFAULT / maxf(SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT, 1.0),
+		"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null) and result.get("stats_ammo_add_call", null) == canonical.get("stats_ammo_add_call", null) and result.get("stats_item_capacity_remove_call", null) == canonical.get("stats_item_capacity_remove_call", null) and result.get("ammo_capacity", null) == canonical.get("ammo_capacity", null),
+	}
+
 func source_item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Dictionary:
 	var ammo_bar_fraction: float = total_ammo / max_ammo
 	var bar_call: Dictionary = {"call": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(...));", "name": "ammo", "bar_text": "stat.ammo", "color": "Pal.ammo", "fraction": ammo_bar_fraction}
@@ -31977,6 +24884,22 @@ func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: fl
 		"generated_owner": "ItemTurret.java_method_setBars_4",
 		"result": result,
 		"canonical": canonical,
+		"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null),
+	}
+
+func generated_item_turret_set_bars_default_bridge_state(total_ammo: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setBars_4([total_ammo])
+	var canonical = source_item_turret_set_bars_state(total_ammo, SOURCE_TURRET_MAX_AMMO_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_item_turret_set_bars_state",
+		"generated_owner": "ItemTurret.java_method_setBars_4",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["max_ammo"],
+		"max_ammo": SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"ammo_bar_fraction": total_ammo / SOURCE_TURRET_MAX_AMMO_DEFAULT,
 		"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null),
 	}
 
@@ -32021,6 +24944,26 @@ func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool,
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("place_overlap_updates", null) == canonical.get("place_overlap_updates", null),
+	}
+
+func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_5([])
+	var canonical = source_item_turret_init_ground_overlap_state(SOURCE_TURRET_TARGET_GROUND_DEFAULT, 0.0, SOURCE_TURRET_RANGE_DEFAULT, SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT, [])
+	return {
+		"source_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+		"generated_owner": "ItemTurret.java_method_init_5",
+		"defaulted_args": ["target_ground", "range", "place_overlap_margin"],
+		"target_ground": result.get("target_ground", null),
+		"range_value": result.get("range_value", null),
+		"place_overlap_margin": result.get("place_overlap_margin", null),
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
+			and result.get("target_ground", null) == canonical.get("target_ground", null)
+			and result.get("range_value", null) == canonical.get("range_value", null)
+			and result.get("place_overlap_margin", null) == canonical.get("place_overlap_margin", null),
 	}
 
 func source_item_turret_build_on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
@@ -32145,6 +25088,22 @@ func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: floa
 		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
 	}
 
+func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo])
+	var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, SOURCE_TURRET_MAX_AMMO_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["max_ammo"],
+		"max_ammo": SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"ammo_fraction": total_ammo / SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
+	}
+
 func source_item_turret_build_accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
 	var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)
 	return {
@@ -32174,6 +25133,22 @@ func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount
 		"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack",
 		"result": result,
 		"canonical": canonical,
+		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
+	}
+
+func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount])
+	var canonical = source_item_turret_build_accept_stack_state(item, amount, SOURCE_TURRET_MAX_AMMO_DEFAULT, 0.0, 1.0, false)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_stack_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["max_ammo", "total_ammo", "ammo_multiplier", "ammo_type_null"],
+		"max_ammo": SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"accept_stack": min(int(SOURCE_TURRET_MAX_AMMO_DEFAULT), amount),
 		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
 	}
 
@@ -32340,6 +25315,22 @@ func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_a
 		"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem",
 		"result": result,
 		"canonical": canonical,
+		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
+	}
+
+func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item])
+	var canonical = source_item_turret_build_accept_item_state(item, 0, SOURCE_TURRET_MAX_AMMO_DEFAULT, 0.0, false)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem",
+		"result": result,
+		"canonical": canonical,
+		"defaulted_args": ["total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null"],
+		"max_ammo": SOURCE_TURRET_MAX_AMMO_DEFAULT,
+		"accept_item": result.get("accept_item", null),
 		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
 	}
 
@@ -32767,6 +25758,23 @@ func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_groun
 			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
 	}
 
+func generated_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])
+	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SOURCE_TURRET_RANGE_DEFAULT, SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_init_state",
+		"generated_owner": "LiquidTurret.init",
+		"defaulted_args": ["range", "place_overlap_margin"],
+		"range_value": SOURCE_TURRET_RANGE_DEFAULT,
+		"place_overlap_margin": SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT,
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
+			and result.get("overlap_updates", []) == canonical.get("overlap_updates", []),
+	}
+
 func source_continuous_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
 	var multiplier_result := 1.0
 	if current_ammo_multiplier != null:
@@ -32838,6 +25846,23 @@ func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, t
 			and result.get("multiplier_result", null) == canonical.get("multiplier_result", null)
 			and result.get("consume_call", {}) == canonical.get("consume_call", {})
 			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
+	}
+
+func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])
+	var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SOURCE_TURRET_RANGE_DEFAULT, SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT, 0.0, null, null)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_init_state",
+		"generated_owner": "ContinuousLiquidTurret.init",
+		"defaulted_args": ["range", "place_overlap_margin"],
+		"range_value": SOURCE_TURRET_RANGE_DEFAULT,
+		"place_overlap_margin": SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT,
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
+			and result.get("overlap_updates", []) == canonical.get("overlap_updates", []),
 	}
 
 func source_continuous_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
@@ -33222,7 +26247,7 @@ func source_continuous_liquid_turret_build_accept_liquid_state(source_building: 
 	var current_required_with_epsilon: Variant = null
 	var current_liquid_drained: bool = false
 	if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:
-		current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001
+		current_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON
 		current_liquid_drained = current_liquid_amount <= current_required_with_epsilon
 	var replacement_allowed: bool = false
 	if liquid_has_ammo_type and not same_liquid:
@@ -33563,7 +26588,7 @@ func source_liquid_turret_build_accept_liquid_state(source_building: Variant, li
 	var current_required_with_epsilon: Variant = null
 	var current_liquid_drained: bool = false
 	if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:
-		current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001
+		current_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON
 		current_liquid_drained = current_liquid_amount <= current_required_with_epsilon
 	var replacement_allowed: bool = false
 	if liquid_has_ammo_type and not same_liquid:
@@ -33699,7 +26724,7 @@ func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:
 func bootstrap_selected_turret_ammo() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
 	var ammo_entries: Array = duo.properties.get("ammo", [])
@@ -33719,7 +26744,7 @@ func bootstrap_selected_turret_ammo() -> int:
 func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
 	var loaded := 0
@@ -33733,7 +26758,7 @@ func load_selected_turret_ammo(item_id: String, amount: int) -> int:
 func use_selected_turret_ammo_once() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return {}
 	return use_turret_ammo(duo_pos, duo)
@@ -33741,7 +26766,7 @@ func use_selected_turret_ammo_once() -> Dictionary:
 func selected_turret_reload_seconds() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_reload_seconds(duo)
@@ -33749,7 +26774,7 @@ func selected_turret_reload_seconds() -> float:
 func selected_turret_range() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_range(duo)
@@ -33757,7 +26782,7 @@ func selected_turret_range() -> float:
 func selected_turret_shoot_y() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_shoot_y(duo)
@@ -33765,7 +26790,7 @@ func selected_turret_shoot_y() -> float:
 func selected_turret_shoot_pattern() -> Dictionary:
 	if content_catalog == null:
 		return {}
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return {}
 	return source_turret_shoot_pattern(duo)
@@ -33773,7 +26798,7 @@ func selected_turret_shoot_pattern() -> Dictionary:
 func selected_turret_inaccuracy() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_inaccuracy(duo)
@@ -33781,7 +26806,7 @@ func selected_turret_inaccuracy() -> float:
 func selected_turret_rotate_speed() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_rotate_speed(duo)
@@ -33789,7 +26814,7 @@ func selected_turret_rotate_speed() -> float:
 func selected_turret_shoot_cone() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_shoot_cone(duo)
@@ -33797,7 +26822,7 @@ func selected_turret_shoot_cone() -> float:
 func selected_turret_recoil() -> float:
 	if content_catalog == null:
 		return 0.0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0.0
 	return source_turret_recoil(duo)
@@ -33805,7 +26830,7 @@ func selected_turret_recoil() -> float:
 func selected_turret_recoils() -> int:
 	if content_catalog == null:
 		return 0
-	var duo = content_catalog.get_by_id(turret_block_id)
+	var duo = selected_playable_turret()
 	if duo == null:
 		return 0
 	return source_turret_recoils(duo)
@@ -33850,8 +26875,7 @@ const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"
 func source_turret_shoot_y(turret) -> float:
 	if turret == null:
 		return 0.0
-	var source_default := turret_defaults.shoot_y_default(float(turret.properties.get("size", 0.0)), source_tile_size)
-	return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, source_default))
+	return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, SOURCE_TURRET_SHOOT_Y_DEFAULT))
 
 const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"
 const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
@@ -33923,7 +26947,7 @@ func source_turret_recoil_time(turret) -> float:
 	return recoil_time
 
 func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
-	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))
+	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT) * source_turret_recoil(turret))
 
 func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
 	var key := cell_key(cell)
@@ -33979,8 +27003,8 @@ func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotati
 	var turret_properties: Dictionary = {}
 	if turret != null:
 		turret_properties = turret.get("properties", {}) if turret is Dictionary else turret.properties
-	var shoot_x := float(turret_properties.get("shootX", 0.0))
-	var shoot_y := float(turret_properties.get("shootY", float(turret_properties.get("size", 0.0)) * source_tile_size / 2.0))
+	var shoot_x := float(turret_properties.get("shootX", SOURCE_TURRET_SHOOT_X_DEFAULT))
+	var shoot_y := float(turret_properties.get("shootY", float(turret_properties.get("size", SOURCE_BLOCK_SIZE_DEFAULT)) * SOURCE_TILESIZE / 2.0))
 	var rotation_minus_90 := turret_rotation_degrees - 90.0
 	var trns := source_arc_angles_trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y + y_offset)
 	return {
@@ -34037,6 +27061,11 @@ const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"
 func source_bullet_range_change(data: Dictionary) -> float:
 	return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))
 
+const SOURCE_BULLET_EXTRA_RANGE_MARGIN_KEY := "extraRangeMargin"
+
+func source_bullet_extra_range_margin(data: Dictionary) -> float:
+	return float(data.get(SOURCE_BULLET_EXTRA_RANGE_MARGIN_KEY, SOURCE_BULLET_EXTRA_RANGE_MARGIN_DEFAULT))
+
 const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"
 const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"
 const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"
@@ -34063,15 +27092,20 @@ func source_turret_range_for_ammo(turret, data: Dictionary) -> float:
 const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"
 const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"
 const SOURCE_BULLET_LIFETIME_KEY := "lifetime"
+
 func source_bullet_lifetime_seconds(data: Dictionary) -> float:
-	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_TICK_RATE
+	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND
 
 const SOURCE_BULLET_WORLD_SPEED_COMMENT := "/** Speed in units/tick. */"
 const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"
 const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"
 const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"
+
+func source_bullet_world_speed_per_tick(data: Dictionary) -> float:
+	return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT))
+
 func source_bullet_world_speed(data: Dictionary) -> float:
-	return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_TICK_RATE
+	return source_bullet_world_speed_per_tick(data) * SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND
 
 const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"
 const SOURCE_BULLET_VELOCITY_INIT_VEL_CALL := "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"
@@ -34112,9 +27146,15 @@ const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"
 const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"
 const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"
 
-func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
+func source_bullet_dimensions(data: Dictionary) -> Dictionary:
 	var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))
 	var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))
+	return {"width": width, "height": height}
+
+func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
+	var dimensions := source_bullet_dimensions(data)
+	var width := float(dimensions.get("width", SOURCE_BULLET_SCALE_WIDTH_DEFAULT))
+	var height := float(dimensions.get("height", SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Vector2.ONE
 	return Vector2(width / texture_size.x, height / texture_size.y)
@@ -34148,7 +27188,7 @@ func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_
 		if size.x > 0 and size.y > 0:
 			sprite.scale = source_bullet_scale(data, size)
 	get_node("World/BulletLayer").add_child(sprite)
-	bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": source_bullet_world_speed(data), "damage": source_bullet_damage(data), "hit_size": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
+	bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": source_bullet_world_speed(data), "damage": source_bullet_damage(data), "hitSize": source_bullet_hit_size(data), "lifetime_remaining": source_bullet_lifetime_seconds(data)})
 
 func simulate_bullets(delta: float) -> void:
 	var active: Array = []
@@ -34167,9 +27207,9 @@ func simulate_bullets(delta: float) -> void:
 			sprite.queue_free()
 			continue
 		var target_direction: Vector2 = target_sprite.position - sprite.position
-		if target_direction.length() <= float(bullet.get("hit_size", 4.0)):
+		if target_direction.length() <= source_bullet_hit_size(bullet):
 			var target_health_before := float(target.get("health", 0.0))
-			var hit_damage := float(bullet.get("damage", 1.0))
+			var hit_damage := source_bullet_damage(bullet)
 			target["health"] = target_health_before - hit_damage
 			bullet_hit_count += 1
 			last_bullet_hit_damage = hit_damage
@@ -34187,30 +27227,21 @@ func simulate_bullets(delta: float) -> void:
 func update_camera(delta: float) -> void:
 	if camera == null:
 		return
-	var camera_changed := false
-	var display_changed := sync_display_profile_for_camera()
-	var movement := control_input.camera_vector()
+	var movement := input_runtime.movement_vector()
 	if movement != Vector2.ZERO:
-		camera.position += movement.normalized() * control_input.camera_pan_speed() * delta
-		camera_changed = true
-	if control_input.is_zoom_in_pressed():
-		camera.zoom *= control_input.keyboard_zoom_in_factor(delta)
-		camera_changed = true
-	if control_input.is_zoom_out_pressed():
-		camera.zoom *= control_input.keyboard_zoom_out_factor(delta)
-		camera_changed = true
-	if camera_changed or display_changed:
-		clamp_camera_to_source_world()
+		var cam_speed := SourceInputDefaults.camera_pan_speed_per_second(SourceInputDefaults.boost_pressed(), SourceTimeDefaults.TICK_RATE)
+		camera.position += movement * cam_speed * delta
 
-func clamp_camera_to_source_world() -> void:
-	if camera == null or display_profile_runtime == null:
-		return
-	sync_display_profile_for_camera()
-	camera.position = display_profile_runtime.clamp_camera_position(camera.position, camera.zoom)
+func source_input_runtime_summary_state() -> Dictionary:
+	var summary := input_runtime.runtime_summary_state()
+	summary["source_owner"] = "PortGame.source_input_runtime_summary_state"
+	return summary
 
 func get_runtime_summary() -> Dictionary:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	return {
+		"input_runtime": source_input_runtime_summary_state(),
+		"world_viewport_fit": world_viewport_fit_runtime_state(),
 		"generated_class_count": generated_class_count,
 		"all_generated_script_count": all_generated_scripts.size(),
 		"all_generated_instance_count": all_generated_instances.size(),
@@ -34219,18 +27250,7 @@ func get_runtime_summary() -> Dictionary:
 		"loaded_generated_class_names": loaded_generated_class_names.duplicate(),
 		"loaded_generated_instance_names": loaded_generated_instance_names.duplicate(),
 		"playthrough_runtime": playthrough_runtime_state(),
-		"primary_liquid_id": primary_liquid_id,
 		"content_counts": content_counts.duplicate(),
-		"control_profile": control_input.runtime_summary(),
-		"display_profile": display_profile_runtime_summary(),
-		"gameplay_profile": gameplay_defaults.runtime_summary(),
-		"construction_profile": construction_defaults.runtime_summary(),
-		"turret_profile": turret_defaults.runtime_summary(),
-		"bullet_profile": bullet_defaults.runtime_summary(),
-		"unit_profile": unit_defaults.runtime_summary(),
-		"factory_profile": factory_defaults.runtime_summary(),
-		"time_profile": time_defaults.runtime_summary(),
-		"math_profile": math_defaults.runtime_summary(),
 		"build_palette_size": build_palette.size(),
 		"initial_world_block_count": initial_world_block_count,
 		"initial_occupied_cell_count": initial_occupied_cell_count,
@@ -34244,18 +27264,6 @@ func get_runtime_summary() -> Dictionary:
 		"placed_power_battery_runtime": placed_power_battery_runtime_state(),
 		"placed_power_distribution_runtime": placed_power_distribution_runtime_state(),
 		"placed_power_runtime": placed_power_runtime_state(),
-		"builder_runtime": builder_runtime_state(),
-		"builder_deconstruct_runtime": builder_deconstruct_runtime_state(),
-		"builder_skip_range_runtime": builder_skip_range_runtime_state(),
-		"runtime_persistence": runtime_persistence_state(),
-		"runtime_save_slot_file": runtime_save_slot_file_state(),
-		"runtime_save_slots": runtime_list_save_slots(),
-		"liquid_transfer_runtime": liquid_transfer_runtime_state(),
-		"liquid_leak_runtime": liquid_leak_runtime_state(),
-		"item_dump_runtime": item_dump_runtime_state(),
-		"put_item_runtime": put_item_runtime_state(),
-		"payload_runtime": payload_runtime_state(),
-		"payload_default_runtime": payload_default_runtime_state(),
 		"last_placed_block_id": last_placed_block_id,
 		"last_placed_block_size": last_placed_block_size,
 		"last_placed_block_requirements": last_placed_block_requirements.duplicate(true),
@@ -34318,8 +27326,6 @@ func get_runtime_summary() -> Dictionary:
 		"conveyor_world_speed": conveyor_world_speed,
 		"conveyor_path_progress_rate": conveyor_path_progress_rate,
 		"wave_index": wave_index,
-		"wave_group_count": wave_groups.size(),
-		"selected_enemy_unit_id": first_wave_unit_id(),
 		"last_spawned_wave_index": last_spawned_wave_index,
 		"last_spawned_wave_count": last_spawned_wave_count,
 		"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true),
@@ -34376,77 +27382,6 @@ func get_runtime_summary() -> Dictionary:
 		"selected_turret_limit_range_margin": selected_turret_limit_range_margin(),
 		"game_over_runtime": game_over_runtime_state(),
 		"enemy_runtime": enemy_runtime_state(),
-		"unit_payload_targeting_runtime": unit_payload_targeting_runtime_state(),
-		"unit_player_controllable_runtime": unit_player_controllable_runtime_state(),
-		"unit_killable_runtime": unit_killable_runtime_state(),
-		"unit_after_sync_runtime": unit_after_sync_runtime_state(),
-		"unit_after_read_runtime": unit_after_read_runtime_state(),
-		"unit_after_read_all_runtime": unit_after_read_all_runtime_state(),
-		"unit_add_runtime": unit_add_runtime_state(),
-		"unit_remove_runtime": unit_remove_runtime_state(),
-		"unit_landed_runtime": unit_landed_runtime_state(),
-		"unit_heal_runtime": unit_heal_runtime_state(),
-		"unit_update_heal_time_runtime": unit_update_heal_time_runtime_state(),
-		"unit_update_captured_sector_death_runtime": unit_update_captured_sector_death_runtime_state(),
-		"unit_update_sound_loop_runtime": unit_update_sound_loop_runtime_state(),
-		"unit_update_unsupported_env_runtime": unit_update_unsupported_env_runtime_state(),
-		"unit_update_abilities_loop_runtime": unit_update_abilities_loop_runtime_state(),
-		"unit_update_trail_position_runtime": unit_update_trail_position_runtime_state(),
-		"unit_update_drag_formula_runtime": unit_update_drag_formula_runtime_state(),
-		"unit_update_spawn_knockback_runtime": unit_update_spawn_knockback_runtime_state(),
-		"unit_update_falling_drag_runtime": unit_update_falling_drag_runtime_state(),
-		"unit_update_falling_smoke_runtime": unit_update_falling_smoke_runtime_state(),
-		"unit_update_falling_engine_trail_runtime": unit_update_falling_engine_trail_runtime_state(),
-		"unit_update_falling_descent_runtime": unit_update_falling_descent_runtime_state(),
-		"unit_update_tile_unit_on_any_runtime": unit_update_tile_unit_on_any_runtime_state(),
-		"unit_update_tile_unit_on_runtime": unit_update_tile_unit_on_runtime_state(),
-		"unit_update_floor_damage_runtime": unit_update_floor_damage_runtime_state(),
-		"unit_update_solid_tile_response_runtime": unit_update_solid_tile_response_runtime_state(),
-		"unit_update_ai_controller_runtime": unit_update_ai_controller_runtime_state(),
-		"unit_update_invalid_controller_reset_runtime": unit_update_invalid_controller_reset_runtime_state(),
-		"unit_update_spawned_core_despawn_runtime": unit_update_spawned_core_despawn_runtime_state(),
-		"unit_icon_runtime": unit_icon_runtime_state(),
-		"unit_destroy_initial_payload_runtime": unit_destroy_initial_payload_runtime_state(),
-		"unit_destroy_explosion_dispatch_runtime": unit_destroy_explosion_dispatch_runtime_state(),
-		"unit_destroy_visual_effects_runtime": unit_destroy_visual_effects_runtime_state(),
-		"unit_destroy_sound_and_event_runtime": unit_destroy_sound_and_event_runtime_state(),
-		"unit_destroy_suicide_bomb_trigger_runtime": unit_destroy_suicide_bomb_trigger_runtime_state(),
-		"unit_destroy_shoot_on_death_mounts_runtime": unit_destroy_shoot_on_death_mounts_runtime_state(),
-		"unit_destroy_crash_landing_damage_runtime": unit_destroy_crash_landing_damage_runtime_state(),
-		"unit_destroy_wreck_decal_runtime": unit_destroy_wreck_decal_runtime_state(),
-		"unit_destroy_ability_death_runtime": unit_destroy_ability_death_runtime_state(),
-		"unit_destroy_type_killed_remove_runtime": unit_destroy_type_killed_remove_runtime_state(),
-		"unit_killed_runtime": unit_killed_runtime_state(),
-		"unit_kill_sync_runtime": unit_kill_sync_runtime_state(),
-		"weapons_setup_mounts_runtime": weapons_setup_mounts_runtime_state(),
-		"weapons_set_rotation_runtime": weapons_set_rotation_runtime_state(),
-		"weapons_control_runtime": weapons_control_runtime_state(),
-		"weapons_aim_runtime": weapons_aim_runtime_state(),
-		"weapons_can_shoot_runtime": weapons_can_shoot_runtime_state(),
-		"weapons_remove_continuous_bullet_cleanup_runtime": weapons_remove_continuous_bullet_cleanup_runtime_state(),
-		"weapons_remove_sound_stop_runtime": weapons_remove_sound_stop_runtime_state(),
-		"weapons_update_dispatch_runtime": weapons_update_dispatch_runtime_state(),
-		"weapon_update_passive_timers_runtime": weapon_update_passive_timers_runtime_state(),
-		"weapon_update_mount_origin_runtime": weapon_update_mount_origin_runtime_state(),
-		"weapon_update_auto_target_retarget_runtime": weapon_update_auto_target_retarget_runtime_state(),
-		"weapon_update_auto_target_invalidation_runtime": weapon_update_auto_target_invalidation_runtime_state(),
-		"weapon_update_auto_target_shoot_aim_runtime": weapon_update_auto_target_shoot_aim_runtime_state(),
-		"weapon_update_rotate_toward_runtime": weapon_update_rotate_toward_runtime_state(),
-		"weapon_update_bullet_origin_runtime": weapon_update_bullet_origin_runtime_state(),
-		"weapon_update_always_shooting_runtime": weapon_update_always_shooting_runtime_state(),
-		"weapon_update_continuous_invalidation_runtime": weapon_update_continuous_invalidation_runtime_state(),
-		"weapon_update_continuous_live_runtime": weapon_update_continuous_live_runtime_state(),
-		"weapon_update_continuous_sound_runtime": weapon_update_continuous_sound_runtime_state(),
-		"weapon_update_continuous_laser_aim_runtime": weapon_update_continuous_laser_aim_runtime_state(),
-		"weapon_update_always_continuous_keepalive_runtime": weapon_update_always_continuous_keepalive_runtime_state(),
-		"weapon_update_continuous_idle_heat_sound_runtime": weapon_update_continuous_idle_heat_sound_runtime_state(),
-		"weapon_update_alternating_side_flip_runtime": weapon_update_alternating_side_flip_runtime_state(),
-		"weapon_update_active_sound_loop_runtime": weapon_update_active_sound_loop_runtime_state(),
-		"weapon_update_velocity_length_runtime": weapon_update_velocity_length_runtime_state(),
-		"weapon_update_shoot_gate_prefix_runtime": weapon_update_shoot_gate_prefix_runtime_state(),
-		"weapon_update_reload_gate_runtime": weapon_update_reload_gate_runtime_state(),
-		"weapon_update_cone_gate_runtime": weapon_update_cone_gate_runtime_state(),
-		"weapon_update_shoot_call_reload_runtime": weapon_update_shoot_call_reload_runtime_state(),
 		"selected_enemy_weapon_damage": source_unit_weapon_damage(selected_enemy_unit()),
 		"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit()),
 		"selected_enemy_hit_size": source_unit_hit_size(selected_enemy_unit()),
@@ -34459,9 +27394,8 @@ func get_runtime_summary() -> Dictionary:
 func update_hud() -> void:
 	if hud_label == null:
 		return
-	var core_item = content_catalog.get_by_id(primary_item_id) if content_catalog and primary_item_id != "" else null
-	var core_item_name: String = core_item.display_name() if core_item else primary_item_id.capitalize()
+	var core_item_name := playable_core_item_name()
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
 	var selected_name: String = selected.display_name() if selected else "None"
 	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\n%s" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, core_item_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health), control_input.hud_hint()]
+	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nWASD move camera, mouse wheel zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, core_item_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
