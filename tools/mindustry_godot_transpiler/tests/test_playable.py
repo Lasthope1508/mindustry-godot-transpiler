@@ -820,13 +820,16 @@ class PlayableManifestTests(unittest.TestCase):
         manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
         shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "turret_profile.json"
         defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
 
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         self.assertTrue(shard_path.exists())
         self.assertTrue(defaults_path.exists())
+        self.assertTrue(runtime_path.exists())
         profile = json.loads(shard_path.read_text(encoding="utf-8"))
         defaults_source = defaults_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("turret_profile", manifest["modules"])
@@ -843,18 +846,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('profile = data.get("turret", {})', defaults_source)
         self.assertIn("func recoil_pow() -> float:", defaults_source)
         self.assertIn("const SourceTurretDefaults := preload(\"res://src/game/SourceTurretDefaults.gd\")", port_source)
+        self.assertIn("const SourceTurretRuntime := preload(\"res://src/game/SourceTurretRuntime.gd\")", port_source)
         self.assertIn("var turret_defaults: SourceTurretDefaults", port_source)
-        self.assertIn("SOURCE_RECOIL_POW = turret_defaults.recoil_pow()", port_source)
+        self.assertIn("defaults.recoil_pow()", runtime_source)
         self.assertIn('"turret_profile": turret_defaults.runtime_summary()', port_source)
         self.assertNotIn("const SOURCE_RECOIL_POW := 1.8", port_source)
 
     def test_turret_profile_owns_runtime_turret_numeric_defaults(self):
         shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "turret_profile.json"
         defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
 
         profile = json.loads(shard_path.read_text(encoding="utf-8"))
         defaults_source = defaults_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
 
         turret = profile["turret"]
@@ -868,6 +874,9 @@ class PlayableManifestTests(unittest.TestCase):
             "recoils": -1,
             "recoil_time": -1.0,
             "recoil_pow": 1.8,
+            "max_ammo": 30,
+            "ammo_per_shot": 1,
+            "consume_ammo_once": True,
         })
         self.assertEqual(turret["source"]["reload_field"], "public float reload = 10f;")
         self.assertEqual(turret["source"]["range_field"], "public float range = 80f;")
@@ -881,6 +890,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(turret["source"]["recoil_field"], "public float recoil = 1f;")
         self.assertEqual(turret["source"]["recoils_field"], "public int recoils = -1;")
         self.assertEqual(turret["source"]["recoil_time_field"], "public float recoilTime = -1f;")
+        self.assertEqual(turret["source"]["max_ammo_field"], "public int maxAmmo = 30;")
+        self.assertEqual(turret["source"]["ammo_per_shot_field"], "public int ammoPerShot = 1;")
+        self.assertEqual(turret["source"]["consume_ammo_once_field"], "public boolean consumeAmmoOnce = true;")
         self.assertIn("core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java", turret["source"]["java_sources"])
         self.assertIn("core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java", turret["source"]["java_sources"])
         self.assertIn("core/src/mindustry/world/blocks/defense/turrets/Turret.java", turret["source"]["java_sources"])
@@ -895,28 +907,31 @@ class PlayableManifestTests(unittest.TestCase):
             "recoils_default",
             "recoil_time_default",
             "recoil_pow",
+            "max_ammo_default",
+            "ammo_per_shot_default",
+            "consume_ammo_once_default",
         ]:
             self.assertIn(f"func {getter}()", defaults_source)
         self.assertIn("func shoot_y_sentinel() -> String:", defaults_source)
         self.assertIn("func shoot_y_default(size: float, source_tilesize: float) -> float:", defaults_source)
         self.assertIn('"defaults": defaults.duplicate()', defaults_source)
 
-        self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_RANGE_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_RECOIL_DEFAULT := 0.0", port_source)
-        self.assertIn("var SOURCE_TURRET_RECOILS_DEFAULT := 0", port_source)
-        self.assertIn("var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0", port_source)
-        self.assertIn("SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()", port_source)
-        self.assertIn("SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()", port_source)
-        self.assertIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()", port_source)
-        self.assertIn("SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()", port_source)
-        self.assertIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()", port_source)
-        self.assertIn("SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()", port_source)
-        self.assertIn("SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()", port_source)
-        self.assertIn("SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()", port_source)
+        self.assertIn("defaults.reload_default()", runtime_source)
+        self.assertIn("defaults.range_default()", runtime_source)
+        self.assertIn("defaults.rotate_speed_default()", runtime_source)
+        self.assertIn("defaults.inaccuracy_default()", runtime_source)
+        self.assertIn("defaults.shoot_cone_default()", runtime_source)
+        self.assertIn("defaults.recoil_default()", runtime_source)
+        self.assertIn("defaults.recoils_default()", runtime_source)
+        self.assertIn("defaults.recoil_time_default()", runtime_source)
+        self.assertNotIn("SOURCE_TURRET_RELOAD_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_RANGE_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_INACCURACY_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_RECOIL_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_RECOILS_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_TURRET_RECOIL_TIME_DEFAULT", port_source)
         self.assertNotIn("const SOURCE_TURRET_RELOAD_DEFAULT := 10.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_RANGE_DEFAULT := 80.0", port_source)
         self.assertNotIn("const SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 5.0", port_source)
@@ -930,13 +945,16 @@ class PlayableManifestTests(unittest.TestCase):
         manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
         shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "bullet_profile.json"
         defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
 
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         self.assertTrue(shard_path.exists())
         self.assertTrue(defaults_path.exists())
+        self.assertTrue(runtime_path.exists())
         profile = json.loads(shard_path.read_text(encoding="utf-8"))
         defaults_source = defaults_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("bullet_profile", manifest["modules"])
@@ -979,16 +997,90 @@ class PlayableManifestTests(unittest.TestCase):
             "reload_multiplier_default",
             "width_default",
             "height_default",
+            "keep_velocity_default",
+            "scale_keep_velocity_default",
         ]:
             self.assertIn(f"func {getter}()", defaults_source)
+        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", defaults_source)
+        self.assertIn("const SCALE_KEEP_VELOCITY_DEFAULT := false", defaults_source)
 
         self.assertIn("const SourceBulletDefaults := preload(\"res://src/game/SourceBulletDefaults.gd\")", port_source)
+        self.assertIn("const SourceBulletRuntime := preload(\"res://src/game/SourceBulletRuntime.gd\")", port_source)
         self.assertIn("var bullet_defaults: SourceBulletDefaults", port_source)
         self.assertIn("bullet_defaults = SourceBulletDefaults.new(SourceSsotCatalog)", port_source)
-        self.assertIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", port_source)
-        self.assertIn("SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()", port_source)
-        self.assertIn("SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()", port_source)
-        self.assertIn("SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()", port_source)
+        for runtime_func in [
+            "range_change",
+            "inaccuracy",
+            "lifetime_seconds",
+            "world_speed",
+            "velocity_vector_state",
+            "create_keep_velocity_state",
+            "hit_size",
+            "damage",
+            "ammo_multiplier",
+            "reload_multiplier",
+            "scale",
+        ]:
+            self.assertIn(f"func {runtime_func}(", runtime_source)
+        self.assertIn("defaults.lifetime_default()", runtime_source)
+        self.assertIn("defaults.speed_default()", runtime_source)
+        self.assertIn("defaults.damage_default()", runtime_source)
+        self.assertIn("defaults.width_default()", runtime_source)
+        for runtime_const in [
+            "SOURCE_BULLET_RANGE_CHANGE_COMMENT",
+            "SOURCE_BULLET_RANGE_CHANGE_FIELD",
+            "SOURCE_BULLET_RANGE_CHANGE_KEY",
+            "SOURCE_BULLET_INACCURACY_COMMENT",
+            "SOURCE_BULLET_INACCURACY_FIELD",
+            "SOURCE_BULLET_INACCURACY_KEY",
+            "SOURCE_BULLET_LIFETIME_COMMENT",
+            "SOURCE_BULLET_LIFETIME_FIELD",
+            "SOURCE_BULLET_LIFETIME_KEY",
+            "SOURCE_BULLET_WORLD_SPEED_COMMENT",
+            "SOURCE_BULLET_WORLD_SPEED_FIELD",
+            "SOURCE_BULLET_WORLD_SPEED_STAT_CASE",
+            "SOURCE_BULLET_WORLD_SPEED_KEY",
+            "SOURCE_BULLET_VELOCITY_SPEED_FIELD",
+            "SOURCE_BULLET_VELOCITY_INIT_VEL_CALL",
+            "SOURCE_BULLET_VELOCITY_COMP_INIT_VEL_METHOD",
+            "SOURCE_BULLET_VELOCITY_COMP_TRNS",
+            "SOURCE_BULLET_VELOCITY_COMP_ROTATION",
+            "SOURCE_BULLET_VELOCITY_VECTOR_FIELD",
+            "SOURCE_BULLET_VELOCITY_VECTOR_INIT_TRNS",
+            "SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD",
+            "SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN",
+            "SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE",
+            "SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE",
+            "SOURCE_BULLET_HIT_SIZE_FIELD",
+            "SOURCE_BULLET_HIT_SIZE_KEY",
+            "SOURCE_BULLET_DAMAGE_FIELD",
+            "SOURCE_BULLET_DAMAGE_KEY",
+            "SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT",
+            "SOURCE_BULLET_AMMO_MULTIPLIER_FIELD",
+            "SOURCE_BULLET_AMMO_MULTIPLIER_KEY",
+            "SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT",
+            "SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD",
+            "SOURCE_BULLET_RELOAD_MULTIPLIER_KEY",
+            "SOURCE_BULLET_SCALE_FIELD",
+            "SOURCE_BULLET_SCALE_WIDTH_KEY",
+            "SOURCE_BULLET_SCALE_HEIGHT_KEY",
+        ]:
+            self.assertIn(f"const {runtime_const} :=", runtime_source)
+            self.assertNotIn(f"const {runtime_const} :=", port_source)
+        for removed_var, removed_assignment in [
+            ("SOURCE_BULLET_RANGE_CHANGE_DEFAULT", "range_change_default"),
+            ("SOURCE_BULLET_INACCURACY_DEFAULT", "inaccuracy_default"),
+            ("SOURCE_BULLET_LIFETIME_DEFAULT", "lifetime_default"),
+            ("SOURCE_BULLET_WORLD_SPEED_DEFAULT", "speed_default"),
+            ("SOURCE_BULLET_HIT_SIZE_DEFAULT", "hit_size_default"),
+            ("SOURCE_BULLET_DAMAGE_DEFAULT", "damage_default"),
+            ("SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT", "ammo_multiplier_default"),
+            ("SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT", "reload_multiplier_default"),
+            ("SOURCE_BULLET_SCALE_WIDTH_DEFAULT", "width_default"),
+            ("SOURCE_BULLET_SCALE_HEIGHT_DEFAULT", "height_default"),
+        ]:
+            self.assertNotIn(f"var {removed_var} := 0.0", port_source)
+            self.assertNotIn(f"{removed_var} = bullet_defaults.{removed_assignment}()", port_source)
         self.assertIn('"bullet_profile": bullet_defaults.runtime_summary()', port_source)
         self.assertNotIn("const SOURCE_BULLET_LIFETIME_DEFAULT := 40.0", port_source)
         self.assertNotIn("const SOURCE_BULLET_WORLD_SPEED_DEFAULT := 1.0", port_source)
@@ -996,10 +1088,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 2.0", port_source)
         self.assertNotIn("const SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 5.0", port_source)
 
-    def test_unit_profile_owns_runtime_unit_numeric_defaults(self):
+    def test_block_profile_owns_runtime_block_boolean_defaults(self):
         manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
-        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "unit_profile.json"
-        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "block_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockDefaults.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
 
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -1007,6 +1099,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(defaults_path.exists())
         profile = json.loads(shard_path.read_text(encoding="utf-8"))
         defaults_source = defaults_path.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("block_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["block_profile"]["root_key"], "block")
+        self.assertEqual(manifest["modules"]["block_profile"]["path"], "src/generated/source_modules/block_profile.json")
+        self.assertEqual(profile["root_key"], "block")
+        block = profile["block"]
+        self.assertEqual(block["defaults"], {"can_overdrive": True})
+        self.assertEqual(block["source"]["can_overdrive_field"], "public boolean canOverdrive = true;")
+        self.assertIn("core/src/mindustry/world/Block.java", block["source"]["java_sources"])
+        self.assertIn("func can_overdrive_default() -> bool:", defaults_source)
+        self.assertIn('catalog.load_document("block_profile")', defaults_source)
+        self.assertIn('const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")', port_source)
+        self.assertIn("var block_defaults: SourceBlockDefaults", port_source)
+        self.assertIn("block_defaults = SourceBlockDefaults.new(SourceSsotCatalog)", port_source)
+        self.assertIn("var SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT := true", port_source)
+        self.assertIn("SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT = block_defaults.can_overdrive_default()", port_source)
+        self.assertIn('"block_profile": block_defaults.runtime_summary()', port_source)
+
+    def test_unit_profile_owns_runtime_unit_numeric_defaults(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "unit_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitRuntime.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        self.assertTrue(runtime_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("unit_profile", manifest["modules"])
@@ -1032,11 +1157,18 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(f"func {getter}()", defaults_source)
 
         self.assertIn("const SourceUnitDefaults := preload(\"res://src/game/SourceUnitDefaults.gd\")", port_source)
+        self.assertIn("const SourceUnitRuntime := preload(\"res://src/game/SourceUnitRuntime.gd\")", port_source)
         self.assertIn("var unit_defaults: SourceUnitDefaults", port_source)
         self.assertIn("unit_defaults = SourceUnitDefaults.new(SourceSsotCatalog)", port_source)
-        self.assertIn("SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()", port_source)
-        self.assertIn("SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()", port_source)
-        self.assertIn("SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()", port_source)
+        self.assertIn("func world_speed(unit_type, defaults: SourceUnitDefaults, tick_rate: float) -> float:", runtime_source)
+        self.assertIn("func hit_size(unit_type, defaults: SourceUnitDefaults) -> float:", runtime_source)
+        self.assertIn("func health(unit_type, defaults: SourceUnitDefaults) -> float:", runtime_source)
+        self.assertIn("defaults.speed_default()", runtime_source)
+        self.assertIn("defaults.hit_size_default()", runtime_source)
+        self.assertIn("defaults.health_default()", runtime_source)
+        self.assertNotIn("SOURCE_UNIT_WORLD_SPEED_DEFAULT", port_source)
+        self.assertNotIn("SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE", port_source)
+        self.assertNotIn("SOURCE_UNIT_HEALTH_DEFAULT_VALUE", port_source)
         self.assertIn('"unit_profile": unit_defaults.runtime_summary()', port_source)
         self.assertNotIn("const SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 6.0", port_source)
         self.assertNotIn("const SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 200.0", port_source)
@@ -1140,11 +1272,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);"', source)
         self.assertIn('"tile_stat_scale": tile_stat_scale', source)
         self.assertIn('"generation_stat_value": generation_stat_value', source)
+        self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source)
+        self.assertIn("var generation_stat_value: float = power_production * source_tick_rate / display_efficiency_scale", source)
+        self.assertNotIn("power_production * 60.0 / display_efficiency_scale", source)
         self.assertIn("func source_thermal_generator_set_stats_output_liquid_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, size: float) -> Dictionary:", source)
+        self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source)
+        self.assertIn("var output_stat_amount: float = output_liquid_amount * size * size * source_tick_rate", source)
+        self.assertNotIn("output_liquid_amount * size * size * 60.0", source)
         self.assertIn('"output_liquid_guard": "if(outputLiquid != null){"', source)
         self.assertIn('"output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));"', source)
         self.assertIn('"output_stat_amount": output_stat_amount', source)
         self.assertIn('"output_stat_added": output_liquid_present', source)
+        self.assertIn("func generated_thermal_generator_set_stats_bridge_state(power_production: float, display_efficiency_scale: float, display_efficiency: bool, size: float, floating: bool, super_set_stats_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setStats_2([power_production, display_efficiency_scale, display_efficiency, size, floating, super_set_stats_state])", source)
+        self.assertIn("var canonical = source_thermal_generator_set_stats_state(power_production, display_efficiency_scale, display_efficiency, size, floating, super_set_stats_state)", source)
+        self.assertIn('"generated_owner": "ThermalGenerator.java_method_setStats_2"', source)
+        self.assertIn('"matches": result.get("generation_stat_value", null) == canonical.get("generation_stat_value", null)', source)
+        self.assertIn("func generated_thermal_generator_set_stats_output_liquid_bridge_state(output_liquid_present: bool, output_liquid_liquid: String, output_liquid_amount: float, size: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setStats_2([0.0, 1.0, true, size, false, {}, output_liquid_present, output_liquid_liquid, output_liquid_amount, size])", source)
+        self.assertIn("var canonical = source_thermal_generator_set_stats_output_liquid_state(output_liquid_present, output_liquid_liquid, output_liquid_amount, size)", source)
+        self.assertIn('"generated_owner": "ThermalGenerator.java_method_setStats_2"', source)
+        self.assertIn('"matches": result.get("output_stat_amount", null) == canonical.get("output_stat_amount", null)', source)
         self.assertIn("func source_thermal_generator_draw_place_state(x: int, y: int, rotation_value: int, valid: bool, display_efficiency: bool, sum_attribute: float, display_efficiency_scale: float) -> Dictionary:", source)
         self.assertIn('"method": "public void drawPlace(int x, int y, int rotation, boolean valid){"', source)
         self.assertIn('"super_draw_place": "super.drawPlace(x, y, rotation, valid);"', source)
@@ -4397,7 +4545,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func selected_build_can_overdrive() -> bool:", source)
-        self.assertIn('return bool(selected.properties.get("canOverdrive", true))', source)
+        self.assertIn('return bool(selected.properties.get("canOverdrive", SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT))', source)
+        self.assertNotIn('selected.properties.get("canOverdrive", true)', source)
         self.assertIn('"selected_build_can_overdrive": selected_build_can_overdrive()', source)
 
     def test_port_game_exposes_overdrive_projector_target_filter_like_source(self):
@@ -4411,7 +4560,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_CAN_OVERDRIVE_PREDICATE := "other.block.canOverdrive"', source)
         self.assertIn('const SOURCE_OVERDRIVE_PROJECTOR_TARGET_FILTER_APPLY_BOOST := "other.applyBoost(realBoost(), reload + 1f)"', source)
         self.assertIn("var real_range := source_overdrive_projector_range(overdrive_projector, phase_heat)", source)
-        self.assertIn('var can_overdrive := bool(target_block.properties.get("canOverdrive", true))', source)
+        self.assertIn('var can_overdrive := bool(target_block.properties.get("canOverdrive", SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT))', source)
+        self.assertNotIn('target_block.properties.get("canOverdrive", true)', source)
         self.assertIn("var in_range := distance <= real_range", source)
         self.assertIn('"eligible": in_range and can_overdrive', source)
         self.assertIn("func selected_build_overdrive_target_filter_state_for_block_id(target_block_id: String, distance: float, phase_heat := 0.0) -> Dictionary:", source)
@@ -4430,7 +4580,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var filter_state := source_overdrive_projector_target_filter_state(overdrive_projector, target_block, distance, phase_heat)", source)
         self.assertIn('if bool(filter_state.get("eligible", false)):', source)
         self.assertIn("func apply_overdrive_boost_to_sprite(target, intensity: float, duration: float) -> void:", source)
-        self.assertIn("var result := source_building_apply_boost_state(float(target.get_meta(\"source_block_time_scale\", 1.0)), float(target.get_meta(\"source_block_time_scale_duration\", 0.0)), intensity, duration, bool(target_block.properties.get(\"canOverdrive\", true)))", source)
+        self.assertIn("var result := source_building_apply_boost_state(float(target.get_meta(\"source_block_time_scale\", 1.0)), float(target.get_meta(\"source_block_time_scale_duration\", 0.0)), intensity, duration, bool(target_block.properties.get(\"canOverdrive\", SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT)))", source)
         self.assertIn('target.set_meta("source_block_time_scale", float(result.get("time_scale", 1.0)))', source)
         self.assertIn('target.set_meta("source_block_time_scale_duration", float(result.get("time_scale_duration", 0.0)))', source)
         self.assertIn("var target = find_overdrive_boost_target(overdrive_cell, block, phase_heat)", source)
@@ -4853,26 +5003,30 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_unit_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_world_speed(unit_type) -> float:", source)
-        self.assertIn("var SOURCE_UNIT_WORLD_SPEED_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_UNIT_WORLD_SPEED_DEFAULT = unit_defaults.speed_default()", source)
-        self.assertIn('return float(unit_type.properties.get("speed", SOURCE_UNIT_WORLD_SPEED_DEFAULT)) * 60.0', source)
+        self.assertIn('const SOURCE_UNIT_SPEED_FIELD := "public float speed = 1.1f,"', runtime_source)
+        self.assertIn('const SOURCE_UNIT_SPEED_KEY := "speed"', runtime_source)
+        self.assertIn("return SourceUnitRuntime.world_speed(unit_type, unit_defaults, SOURCE_TICK_RATE)", source)
+        self.assertNotIn('return float(unit_type.properties.get("speed", SOURCE_UNIT_WORLD_SPEED_DEFAULT)) * 60.0', source)
         self.assertIn("var speed := source_unit_world_speed(unit_type)", source)
         self.assertNotIn('max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)', source)
         self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(selected_enemy_unit())', source)
 
     def test_port_game_uses_source_unit_hit_size_for_sprite_scale(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_hit_size(unit_type) -> float:", source)
-        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"', source)
-        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"', source)
-        self.assertIn("var SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE := 0.0", source)
-        self.assertIn("SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE = unit_defaults.hit_size_default()", source)
-        self.assertIn('return float(unit_type.properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))', source)
+        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DEFAULT := "hitSize = 6f,"', runtime_source)
+        self.assertIn('const SOURCE_UNIT_HIT_SIZE_KEY := "hitSize"', runtime_source)
+        self.assertIn('const SOURCE_UNIT_HIT_SIZE_DAGGER_ASSIGNMENT := "hitSize = 8f;"', runtime_source)
+        self.assertIn("return SourceUnitRuntime.hit_size(unit_type, unit_defaults)", source)
         self.assertIn("var hit_size := source_unit_hit_size(unit_type)", source)
         self.assertIn("sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)", source)
         self.assertEqual(source.count("\n\t\t\tsprite.scale = Vector2(tile_size / size.x, tile_size / size.y)\n"), 1)
@@ -4880,14 +5034,15 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_unit_health_for_spawned_units(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_unit_health(unit_type) -> float:", source)
-        self.assertIn('const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"', source)
-        self.assertIn('const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"', source)
-        self.assertIn("var SOURCE_UNIT_HEALTH_DEFAULT_VALUE := 0.0", source)
-        self.assertIn("SOURCE_UNIT_HEALTH_DEFAULT_VALUE = unit_defaults.health_default()", source)
-        self.assertIn('return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))', source)
+        self.assertIn('const SOURCE_UNIT_HEALTH_DEFAULT := "health = 200f,"', runtime_source)
+        self.assertIn('const SOURCE_UNIT_HEALTH_KEY := "health"', runtime_source)
+        self.assertIn('const SOURCE_UNIT_HEALTH_DAGGER_ASSIGNMENT := "health = 150;"', runtime_source)
+        self.assertIn("return SourceUnitRuntime.health(unit_type, unit_defaults)", source)
         self.assertIn('"health": source_unit_health(unit_type)', source)
         self.assertNotIn('"health": float(unit_type.properties.get("health", 100.0))', source)
         self.assertIn('"selected_enemy_health": source_unit_health(selected_enemy_unit())', source)
@@ -4911,16 +5066,17 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_lifetime(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_lifetime_seconds(data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"', source)
-        self.assertIn('const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"', source)
-        self.assertIn('const SOURCE_BULLET_LIFETIME_KEY := "lifetime"', source)
-        self.assertIn("var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", source)
-        self.assertNotIn("const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := 60.0", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_TICK_RATE", source)
+        self.assertIn("return SourceBulletRuntime.lifetime_seconds(data, bullet_defaults, SOURCE_TICK_RATE)", source)
+        self.assertNotIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SOURCE_BULLET_LIFETIME_DEFAULT)) / SOURCE_TICK_RATE", source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_COMMENT := "/** Lifetime in ticks. */"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_FIELD := "public float lifetime = 40f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_LIFETIME_KEY := "lifetime"', runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, defaults.lifetime_default())) / tick_rate", runtime_source)
         self.assertIn('"lifetime_remaining": source_bullet_lifetime_seconds(data)', source)
         self.assertIn('var lifetime_remaining := float(bullet.get("lifetime_remaining", 0.0)) - delta', source)
         self.assertIn('bullet["lifetime_remaining"] = lifetime_remaining', source)
@@ -4934,34 +5090,40 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_speed(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_world_speed(data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_COMMENT := "/** Speed in units/tick. */"', source)
-        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"', source)
-        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"', source)
-        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"', source)
-        self.assertIn("var SOURCE_BULLET_WORLD_SPEED_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_WORLD_SPEED_DEFAULT = bullet_defaults.speed_default()", source)
-        self.assertNotIn("const SOURCE_BULLET_WORLD_SPEED_TICKS_PER_SECOND := 60.0", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_TICK_RATE", source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_INIT_VEL_CALL := "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_INIT_VEL_METHOD := "public void initVel(float angle, float amount){"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_TRNS := "vel.trns(angle, amount);"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_ROTATION := "rotation = angle;"', source)
+        self.assertIn("return SourceBulletRuntime.world_speed(data, bullet_defaults, SOURCE_TICK_RATE)", source)
+        self.assertNotIn("return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, SOURCE_BULLET_WORLD_SPEED_DEFAULT)) * SOURCE_TICK_RATE", source)
+        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_COMMENT := "/** Speed in units/tick. */"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_FIELD := "public float speed = 1f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_STAT_CASE := "case speed -> type.speed * 60f / tilesize;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_WORLD_SPEED_KEY := "speed"', runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, defaults.speed_default())) * tick_rate", runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_SPEED_FIELD := "public float speed = 1f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_INIT_VEL_CALL := "bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_INIT_VEL_METHOD := "public void initVel(float angle, float amount){"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_TRNS := "vel.trns(angle, amount);"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_ROTATION := "rotation = angle;"', runtime_source)
         self.assertIn("func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:", source)
         self.assertIn('"speed": source_bullet_world_speed(data)', source)
-        self.assertIn("return Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees)) * source_bullet_world_speed(data)", source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_FIELD := "Vec2 vel = new Vec2();"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_INIT_TRNS := "vel.trns(angle, amount);"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD := "public Vec2 trns(float angle, float amount){"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE := "existing Vec2 velocity"', source)
-        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE := "vel.trns(angle, amount)"', source)
+        self.assertIn("return SourceBulletRuntime.velocity(data, bullet_defaults, SOURCE_TICK_RATE, shoot_angle_degrees)", source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_FIELD := "Vec2 vel = new Vec2();"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_INIT_TRNS := "vel.trns(angle, amount);"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD := "public Vec2 trns(float angle, float amount){"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE := "existing Vec2 velocity"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE := "vel.trns(angle, amount)"', runtime_source)
         self.assertIn("func source_bullet_velocity_vector_state(velocity_state: Dictionary) -> Dictionary:", source)
-        self.assertIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE', source)
-        self.assertIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE', source)
+        self.assertIn("return SourceBulletRuntime.velocity_vector_state(velocity_state)", source)
+        self.assertNotIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE', source)
+        self.assertNotIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE', source)
+        self.assertNotIn("var vec := source_arc_angles_trns_vec(angle, speed, 0.0)", source)
+        self.assertIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE', runtime_source)
+        self.assertIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE', runtime_source)
+        self.assertIn("var vec := Vector2.RIGHT.rotated(deg_to_rad(angle)) * speed", runtime_source)
         self.assertNotIn('float(data.get("speed", 2.5)) * float(tile_size) * 4.0', source)
         self.assertIn("func selected_turret_ammo_world_speed() -> float:", source)
         self.assertIn('return source_bullet_world_speed(data)', source)
@@ -4969,19 +5131,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_dimensions(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:", source)
-        self.assertIn('const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"', source)
-        self.assertIn('const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"', source)
-        self.assertIn('const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"', source)
-        self.assertIn("var SOURCE_BULLET_SCALE_WIDTH_DEFAULT := 0.0", source)
-        self.assertIn("var SOURCE_BULLET_SCALE_HEIGHT_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_SCALE_WIDTH_DEFAULT = bullet_defaults.width_default()", source)
-        self.assertIn("SOURCE_BULLET_SCALE_HEIGHT_DEFAULT = bullet_defaults.height_default()", source)
-        self.assertIn("var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))", source)
-        self.assertIn("var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))", source)
-        self.assertIn("return Vector2(width / texture_size.x, height / texture_size.y)", source)
+        self.assertIn("return SourceBulletRuntime.scale(data, bullet_defaults, texture_size)", source)
+        self.assertNotIn("var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, SOURCE_BULLET_SCALE_WIDTH_DEFAULT))", source)
+        self.assertNotIn("var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, SOURCE_BULLET_SCALE_HEIGHT_DEFAULT))", source)
+        self.assertIn('const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"', runtime_source)
+        self.assertIn("var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, defaults.width_default()))", runtime_source)
+        self.assertIn("var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, defaults.height_default()))", runtime_source)
+        self.assertIn("return Vector2(width / texture_size.x, height / texture_size.y)", runtime_source)
         self.assertIn("sprite.scale = source_bullet_scale(data, size)", source)
         self.assertNotIn("sprite.scale = Vector2(tile_size / size.x, tile_size / size.y) * 0.45", source)
         self.assertIn("func selected_turret_ammo_dimensions() -> Dictionary:", source)
@@ -4989,14 +5152,15 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_hit_size(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"', source)
-        self.assertIn('const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"', source)
-        self.assertIn("var SOURCE_BULLET_HIT_SIZE_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_HIT_SIZE_DEFAULT = bullet_defaults.hit_size_default()", source)
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, SOURCE_BULLET_HIT_SIZE_DEFAULT))", source)
+        self.assertIn("return SourceBulletRuntime.hit_size(data, bullet_defaults)", source)
+        self.assertIn('const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"', runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, defaults.hit_size_default()))", runtime_source)
         self.assertIn('"hit_size": source_bullet_hit_size(data)', source)
         self.assertIn('if target_direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
         self.assertNotIn("if direction.length() <= 6.0:", source)
@@ -5005,14 +5169,15 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_damage(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"', source)
-        self.assertIn('const SOURCE_BULLET_DAMAGE_KEY := "damage"', source)
-        self.assertIn("var SOURCE_BULLET_DAMAGE_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_DAMAGE_DEFAULT = bullet_defaults.damage_default()", source)
         self.assertIn("func source_bullet_damage(data: Dictionary) -> float:", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_DAMAGE_KEY, SOURCE_BULLET_DAMAGE_DEFAULT))", source)
+        self.assertIn("return SourceBulletRuntime.damage(data, bullet_defaults)", source)
+        self.assertIn('const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_DAMAGE_KEY := "damage"', runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_DAMAGE_KEY, defaults.damage_default()))", runtime_source)
         self.assertIn('"damage": source_bullet_damage(data)', source)
         self.assertNotIn('"damage": float(data.get("damage", 1.0))', source)
         self.assertIn("func selected_turret_ammo_damage() -> float:", source)
@@ -5054,37 +5219,48 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_bullet_ammo_multiplier(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"', source)
-        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"', source)
-        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"', source)
-        self.assertIn("var SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT = bullet_defaults.ammo_multiplier_default()", source)
         self.assertIn("func source_bullet_ammo_multiplier(data: Dictionary) -> float:", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT))", source)
+        self.assertIn("return SourceBulletRuntime.ammo_multiplier(data, bullet_defaults)", source)
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_COMMENT := "/** How many bullets get created per ammo item/liquid. */"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_FIELD := "public float ammoMultiplier = 2f;"', runtime_source)
+        self.assertIn('const SOURCE_BULLET_AMMO_MULTIPLIER_KEY := "ammoMultiplier"', runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, defaults.ammo_multiplier_default()))", runtime_source)
         self.assertIn("func selected_turret_ammo_multiplier() -> float:", source)
         self.assertIn('return source_bullet_ammo_multiplier(data)', source)
         self.assertIn('"selected_turret_ammo_multiplier": selected_turret_ammo_multiplier()', source)
 
+    def test_source_bullet_rotation_zero_margin_is_owned_by_runtime(self):
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
+        runtime_source = runtime_path.read_text(encoding="utf-8")
+
+        self.assertIn("const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001", runtime_source)
+        self.assertIn("if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:", runtime_source)
+
     def test_port_game_uses_source_bullet_reload_multiplier(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
+        bullet_runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
+        bullet_runtime_source = bullet_runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("var last_turret_fired_reload_multiplier := 1.0", source)
         self.assertIn("func source_bullet_reload_multiplier(data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"', source)
-        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"', source)
-        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"', source)
-        self.assertIn("var SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT = bullet_defaults.reload_multiplier_default()", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, SOURCE_BULLET_RELOAD_MULTIPLIER_DEFAULT))", source)
+        self.assertIn("return SourceBulletRuntime.reload_multiplier(data, bullet_defaults)", source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_COMMENT := "/** Multiplied by turret reload speed to get final shoot speed. */"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_FIELD := "public float reloadMultiplier = 1f;"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_RELOAD_MULTIPLIER_KEY := "reloadMultiplier"', bullet_runtime_source)
+        self.assertIn("return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, defaults.reload_multiplier_default()))", bullet_runtime_source)
         self.assertIn("func source_turret_reload_seconds_for_ammo(turret, data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"', source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := "protected float ammoReloadMultiplier(){"', source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN := "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;"', source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA := "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"', source)
-        self.assertIn("return source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)", source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_UPDATE_RELOAD := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := "protected float ammoReloadMultiplier(){"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_RETURN := "return hasAmmo() ? peekAmmo().reloadMultiplier : 1f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_FORMULA := "source_turret_reload_seconds(turret) / source_bullet_reload_multiplier(data)"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.reload_seconds_for_ammo(turret, data, turret_defaults, SOURCE_TICK_RATE, source_bullet_reload_multiplier(data))", source)
         self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
         self.assertIn("func selected_turret_cooldown_seconds() -> float:", source)
         self.assertIn('return float(turret_cooldowns.get(cell_key(duo_pos), 0.0))', source)
@@ -5098,11 +5274,11 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func selected_turret_max_ammo() -> int:", source)
-        self.assertIn('return int(duo.properties.get("maxAmmo", 30))', source)
+        self.assertIn("return SourceTurretAmmoState.max_ammo(duo)", source)
         self.assertIn("func selected_turret_ammo_per_shot() -> int:", source)
-        self.assertIn('return int(duo.properties.get("ammoPerShot", 1))', source)
+        self.assertIn("return SourceTurretAmmoState.ammo_per_shot(duo)", source)
         self.assertIn("func selected_turret_consume_ammo_once() -> bool:", source)
-        self.assertIn('return bool(duo.properties.get("consumeAmmoOnce", true))', source)
+        self.assertIn("return SourceTurretAmmoState.consume_ammo_once(duo)", source)
         self.assertIn('"selected_turret_max_ammo": selected_turret_max_ammo()', source)
         self.assertIn('"selected_turret_ammo_per_shot": selected_turret_ammo_per_shot()', source)
         self.assertIn('"selected_turret_consume_ammo_once": selected_turret_consume_ammo_once()', source)
@@ -5119,8 +5295,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_AMMO_DATA_ORDERED_MAP := "ammoTypes = OrderedMap.of(objects);"', source)
         self.assertIn('const SOURCE_TURRET_AMMO_DATA_DUO_AMMO_CALL := "ammo("', source)
         self.assertIn('const SOURCE_TURRET_AMMO_DATA_DUO_COPPER_ENTRY := "Items.copper,  new BasicBulletType(2.5f, 9){{"', source)
-        self.assertIn('var turret_properties: Dictionary = turret.get("properties", {}) if turret is Dictionary else turret.properties', source)
-        self.assertIn('for data in turret_properties.get("ammo", []):', source)
+        self.assertIn("return SourceTurretAmmoState.turret_ammo_data(turret, item_id)", source)
         self.assertIn("func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:", source)
         self.assertIn("func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:", source)
         self.assertIn("func load_selected_turret_ammo(item_id: String, amount: int) -> int:", source)
@@ -5128,6 +5303,64 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"selected_turret_total_ammo": selected_turret_total_ammo()', source)
         self.assertIn('"selected_turret_ammo_stack_count": selected_turret_ammo_stack_count()', source)
         self.assertIn('"selected_turret_loaded_ammo_item": selected_turret_loaded_ammo_item()', source)
+
+    def test_turret_ammo_stack_runtime_is_owned_by_canonical_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretAmmoState.gd"
+        self.assertTrue(module_path.exists())
+        module_source = module_path.read_text(encoding="utf-8")
+
+        self.assertIn('const SourceTurretAmmoState := preload("res://src/game/SourceTurretAmmoState.gd")', port_source)
+        self.assertIn("func turret_ammo_data(turret, item_id: String) -> Dictionary:", module_source)
+        self.assertIn("func peek_turret_ammo_state(turret, stacks: Array) -> Dictionary:", module_source)
+        self.assertIn("func handle_turret_item_state(turret, item_id: String, total_ammo: int, stacks: Array) -> Dictionary:", module_source)
+        self.assertIn("func use_turret_ammo_state(turret, stacks: Array, total_ammo: int) -> Dictionary:", module_source)
+        self.assertIn("func max_ammo(turret) -> int:", module_source)
+        self.assertIn("func ammo_per_shot(turret) -> int:", module_source)
+        self.assertIn("func consume_ammo_once(turret) -> bool:", module_source)
+        self.assertIn('SourceTurretDefaults.new(SourceSsotCatalog).max_ammo_default()', module_source)
+        self.assertIn('SourceTurretDefaults.new(SourceSsotCatalog).ammo_per_shot_default()', module_source)
+        self.assertIn('SourceTurretDefaults.new(SourceSsotCatalog).consume_ammo_once_default()', module_source)
+        self.assertIn('return SourceTurretAmmoState.turret_ammo_data(turret, item_id)', port_source)
+        self.assertIn('var peek_state := SourceTurretAmmoState.peek_turret_ammo_state(turret, stacks)', port_source)
+        self.assertIn('var handle_state := SourceTurretAmmoState.handle_turret_item_state(turret, item_id, total, stacks)', port_source)
+        self.assertIn('var use_state := SourceTurretAmmoState.use_turret_ammo_state(turret, stacks, total)', port_source)
+        self.assertNotIn('turret.properties.get("maxAmmo", 30)', port_source)
+        self.assertNotIn('turret.properties.get("ammoPerShot", 1)', port_source)
+        self.assertNotIn('turret.properties.get("consumeAmmoOnce", true)', port_source)
+
+    def test_turret_runtime_geometry_is_owned_by_canonical_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        module_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
+        self.assertTrue(module_path.exists())
+        module_source = module_path.read_text(encoding="utf-8")
+
+        self.assertIn('const SourceTurretRuntime := preload("res://src/game/SourceTurretRuntime.gd")', port_source)
+        self.assertIn("func reload_seconds(turret, defaults: SourceTurretDefaults, tick_rate: float) -> float:", module_source)
+        self.assertIn("func range_value(turret, defaults: SourceTurretDefaults) -> float:", module_source)
+        self.assertIn("func shoot_y(turret, defaults: SourceTurretDefaults, source_tilesize: float) -> float:", module_source)
+        self.assertIn("func inaccuracy(turret, defaults: SourceTurretDefaults) -> float:", module_source)
+        self.assertIn("func rotate_speed(turret, defaults: SourceTurretDefaults) -> float:", module_source)
+        self.assertIn("func shoot_cone(turret, defaults: SourceTurretDefaults) -> float:", module_source)
+        self.assertIn("func recoil_offset(turret, defaults: SourceTurretDefaults, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:", module_source)
+        self.assertIn("func bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, defaults: SourceTurretDefaults, source_tilesize: float, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:", module_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"', module_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"', module_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"', module_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"', module_source)
+        self.assertIn("return SourceTurretRuntime.reload_seconds(turret, turret_defaults, SOURCE_TICK_RATE)", port_source)
+        self.assertIn("return SourceTurretRuntime.range_value(turret, turret_defaults)", port_source)
+        self.assertIn("return SourceTurretRuntime.shoot_y(turret, turret_defaults, source_tile_size)", port_source)
+        self.assertIn("return SourceTurretRuntime.recoil_offset(turret, turret_defaults, recoil_rotation_degrees, cur_recoil)", port_source)
+        self.assertIn("return SourceTurretRuntime.bullet_origin(origin_x, origin_y, turret_rotation_degrees, turret, turret_defaults, source_tile_size, shoot_x_offset, y_offset, x_spread)", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RELOAD_FIELD", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RANGE_FIELD", port_source)
+        self.assertNotIn("const SOURCE_TURRET_RECOIL_OFFSET_FORMULA", port_source)
+        self.assertNotIn("turret.properties.get(SOURCE_TURRET_RELOAD_KEY", port_source)
+        self.assertNotIn("turret.properties.get(SOURCE_TURRET_RANGE_KEY", port_source)
+        self.assertNotIn("turret.properties.get(SOURCE_TURRET_RECOIL_KEY", port_source)
 
     def test_port_game_turret_fire_uses_source_loaded_ammo(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -5177,16 +5410,16 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_reload(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"', source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_KEY := "reload"', source)
-        self.assertIn('const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"', source)
-        self.assertIn('const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"', source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_KEY := "reload"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RELOAD_DUO_VALUE := "reload = 20f;"', runtime_source)
+        self.assertIn('const SOURCE_TIME_TO_SECONDS_FIELD := "public static final float toSeconds = 60f"', runtime_source)
         self.assertIn("func source_turret_reload_seconds(turret) -> float:", source)
-        self.assertIn("var SOURCE_TURRET_RELOAD_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_RELOAD_DEFAULT = turret_defaults.reload_default()", source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RELOAD_KEY, SOURCE_TURRET_RELOAD_DEFAULT)) / SOURCE_TICK_RATE", source)
+        self.assertIn("return SourceTurretRuntime.reload_seconds(turret, turret_defaults, SOURCE_TICK_RATE)", source)
         self.assertIn("cooldown = source_turret_reload_seconds_for_ammo(duo, data)", source)
         self.assertNotIn('max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)', source)
         self.assertIn("func selected_turret_reload_seconds() -> float:", source)
@@ -5195,31 +5428,33 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_range(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
+        bullet_runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
+        bullet_runtime_source = bullet_runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn('const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"', source)
-        self.assertIn('const SOURCE_TURRET_RANGE_METHOD := "public float range(){\\n            return range;\\n        }"', source)
-        self.assertIn('const SOURCE_TURRET_RANGE_KEY := "range"', source)
-        self.assertIn("var SOURCE_TURRET_RANGE_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_RANGE_DEFAULT = turret_defaults.range_default()", source)
-        self.assertIn('const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"', source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FIELD := "public float range = 80f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_METHOD := "public float range(){\\n            return range;\\n        }"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_KEY := "range"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_DUO_VALUE := "range = 160;"', runtime_source)
         self.assertIn("func source_turret_range(turret) -> float:", source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RANGE_KEY, SOURCE_TURRET_RANGE_DEFAULT))", source)
+        self.assertIn("return SourceTurretRuntime.range_value(turret, turret_defaults)", source)
         self.assertIn("func source_bullet_range_change(data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"', source)
-        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"', source)
-        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"', source)
-        self.assertIn("var SOURCE_BULLET_RANGE_CHANGE_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_RANGE_CHANGE_DEFAULT = bullet_defaults.range_change_default()", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))", source)
+        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_RANGE_CHANGE_KEY := "rangeChange"', bullet_runtime_source)
+        self.assertNotIn("const SOURCE_BULLET_RANGE_CHANGE_COMMENT := ", source)
+        self.assertNotIn("const SOURCE_BULLET_RANGE_CHANGE_FIELD := ", source)
+        self.assertNotIn("const SOURCE_BULLET_RANGE_CHANGE_KEY := ", source)
+        self.assertIn("return SourceBulletRuntime.range_change(data, bullet_defaults)", source)
+        self.assertNotIn("return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, SOURCE_BULLET_RANGE_CHANGE_DEFAULT))", source)
         self.assertIn("func source_turret_range_for_ammo(turret, data: Dictionary) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\\n            if(peekAmmo() != null){\\n                return range + peekAmmo().rangeChange;\\n            }\\n            return range;\\n        }"', source)
-        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := "if(peekAmmo() != null){"', source)
-        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := "return range + peekAmmo().rangeChange;"', source)
-        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT := "return range;"', source)
-        self.assertIn("if data.is_empty():", source)
-        self.assertIn("return source_turret_range(turret)", source)
-        self.assertIn("return source_turret_range(turret) + source_bullet_range_change(data)", source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\\n            if(peekAmmo() != null){\\n                return range + peekAmmo().rangeChange;\\n            }\\n            return range;\\n        }"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := "if(peekAmmo() != null){"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := "return range + peekAmmo().rangeChange;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RANGE_FOR_AMMO_FALLBACK_RESULT := "return range;"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.range_for_ammo(turret, data, turret_defaults, source_bullet_range_change(data))", source)
         self.assertIn("var data := peek_turret_ammo(cell, duo)", source)
         self.assertIn("var range_pixels := source_turret_range_for_ammo(duo, data)", source)
         self.assertIn("last_turret_fired_range = range_pixels", source)
@@ -5232,24 +5467,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_shoot_y(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("var last_turret_fired_shoot_y := 0.0", source)
         self.assertIn("func source_turret_shoot_y(turret) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_COMMENT := "/** Turret shoot point. */"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_KEY := "shootY"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_SENTINEL := "Float.NEGATIVE_INFINITY"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"', source)
-        self.assertIn("var source_default := turret_defaults.shoot_y_default(float(turret.properties.get(\"size\", 0.0)), source_tile_size)", source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, source_default))", source)
-        self.assertNotIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_Y_KEY, 0.0))", source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_COMMENT := "/** Turret shoot point. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_KEY := "shootY"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_SENTINEL := "Float.NEGATIVE_INFINITY"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_INIT_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_Y_DUO_VALUE := "shootY = 3f;"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.shoot_y(turret, turret_defaults, source_tile_size)", source)
         self.assertIn("func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:", source)
-        self.assertIn("var rotation_minus_90 := turret_rotation_degrees - 90.0", source)
-        self.assertIn("var trns := source_arc_angles_trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y + y_offset)", source)
-        self.assertIn('"bulletX": origin_x + float(trns.get("x", 0.0))', source)
-        self.assertIn('"bulletY": origin_y + float(trns.get("y", 0.0))', source)
+        self.assertIn("return SourceTurretRuntime.bullet_origin(origin_x, origin_y, turret_rotation_degrees, turret, turret_defaults, source_tile_size, shoot_x_offset, y_offset, x_spread)", source)
+        self.assertIn('const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_POINT_FIELD := "public float shootX = 0f, shootY = Float.NEGATIVE_INFINITY;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT := "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_BULLET_ORIGIN_BULLET_X := "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y := "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"', runtime_source)
         self.assertIn("var bullet_origin_state := source_turret_bullet_origin(turret_origin.x, turret_origin.y, current_rotation, duo, shoot_x_offset)", source)
         self.assertIn('var bullet_origin := Vector2(float(bullet_origin_state.get("bulletX", turret_origin.x)), float(bullet_origin_state.get("bulletY", turret_origin.y)))', source)
         self.assertIn("last_turret_fired_shoot_y = source_turret_shoot_y(duo)", source)
@@ -5286,30 +5522,33 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_inaccuracy(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
+        bullet_runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
+        bullet_runtime_source = bullet_runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("var last_turret_fired_inaccuracy_range := 0.0", source)
         self.assertIn("var last_turret_fired_inaccuracy_offset := 0.0", source)
-        self.assertIn('const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"', source)
-        self.assertIn('const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', source)
-        self.assertIn('const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"', source)
-        self.assertIn("var SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_INACCURACY_DEFAULT = turret_defaults.inaccuracy_default()", source)
-        self.assertNotIn("const SOURCE_TURRET_INACCURACY_DEFAULT := 0.0", source)
-        self.assertIn('const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"', source)
+        self.assertIn('const SOURCE_TURRET_INACCURACY_COMMENT := "/** Bullet angle randomness in degrees. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_INACCURACY_KEY := "inaccuracy"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"', runtime_source)
         self.assertIn("func source_turret_inaccuracy(turret) -> float:", source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_INACCURACY_KEY, SOURCE_TURRET_INACCURACY_DEFAULT))", source)
-        self.assertIn('const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"', source)
-        self.assertIn('const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', source)
-        self.assertIn('const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"', source)
-        self.assertIn("var SOURCE_BULLET_INACCURACY_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_BULLET_INACCURACY_DEFAULT = bullet_defaults.inaccuracy_default()", source)
+        self.assertIn("return SourceTurretRuntime.inaccuracy(turret, turret_defaults)", source)
+        self.assertIn('const SOURCE_BULLET_INACCURACY_COMMENT := "/** Extra inaccuracy when firing. */"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_INACCURACY_FIELD := "public float inaccuracy = 0f;"', bullet_runtime_source)
+        self.assertIn('const SOURCE_BULLET_INACCURACY_KEY := "inaccuracy"', bullet_runtime_source)
+        self.assertNotIn("const SOURCE_BULLET_INACCURACY_COMMENT := ", source)
+        self.assertNotIn("const SOURCE_BULLET_INACCURACY_FIELD := ", source)
+        self.assertNotIn("const SOURCE_BULLET_INACCURACY_KEY := ", source)
         self.assertIn("func source_bullet_inaccuracy(data: Dictionary) -> float:", source)
-        self.assertIn("return float(data.get(SOURCE_BULLET_INACCURACY_KEY, SOURCE_BULLET_INACCURACY_DEFAULT))", source)
-        self.assertIn('const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := "inaccuracy + type.inaccuracy"', source)
-        self.assertIn('const SOURCE_TURRET_TOTAL_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"', source)
+        self.assertIn("return SourceBulletRuntime.inaccuracy(data, bullet_defaults)", source)
+        self.assertNotIn("return float(data.get(SOURCE_BULLET_INACCURACY_KEY, SOURCE_BULLET_INACCURACY_DEFAULT))", source)
+        self.assertIn('const SOURCE_TURRET_TOTAL_INACCURACY_EXPR := "inaccuracy + type.inaccuracy"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_TOTAL_INACCURACY_SHOOT_ANGLE := "shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + type.inaccuracy);"', runtime_source)
         self.assertIn("func source_turret_total_inaccuracy(turret, data: Dictionary) -> float:", source)
-        self.assertIn("return source_turret_inaccuracy(turret) + source_bullet_inaccuracy(data)", source)
+        self.assertIn("return SourceTurretRuntime.total_inaccuracy(turret, turret_defaults, source_bullet_inaccuracy(data))", source)
         self.assertIn("var inaccuracy_range := source_turret_total_inaccuracy(duo, data)", source)
         self.assertIn("var inaccuracy_offset := randf_range(-inaccuracy_range, inaccuracy_range)", source)
         self.assertIn("last_turret_fired_inaccuracy_range = inaccuracy_range", source)
@@ -5324,7 +5563,9 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_rotation_and_shoot_cone(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("var SOURCE_TICK_RATE := 0.0", source)
         self.assertIn("SOURCE_TICK_RATE = time_defaults.tick_rate()", source)
@@ -5335,22 +5576,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("turret_rotations[key] = 0.0", source)
         self.assertIn("turret_rotations.erase(key)", source)
         self.assertIn("func source_turret_rotate_speed(turret) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"', source)
-        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"', source)
-        self.assertIn("var SOURCE_TURRET_ROTATE_SPEED_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_ROTATE_SPEED_DEFAULT = turret_defaults.rotate_speed_default()", source)
-        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"', source)
-        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"', source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_ROTATE_SPEED_KEY, SOURCE_TURRET_ROTATE_SPEED_DEFAULT))", source)
+        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_FIELD := "public float rotateSpeed = 5;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_KEY := "rotateSpeed"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_DUO_VALUE := "rotateSpeed = 10f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_ROTATE_SPEED_TURN_TO_TARGET := "rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * potentialEfficiency);"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.rotate_speed(turret, turret_defaults)", source)
         self.assertIn("func source_turret_shoot_cone(turret) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"', source)
-        self.assertIn("var SOURCE_TURRET_SHOOT_CONE_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_SHOOT_CONE_DEFAULT = turret_defaults.shoot_cone_default()", source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"', source)
-        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"', source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_SHOOT_CONE_KEY, SOURCE_TURRET_SHOOT_CONE_DEFAULT))", source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_COMMENT := "/** Maximum angle difference in degrees at which turret will still try to shoot. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_FIELD := "public float shootCone = 8f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_KEY := "shootCone"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_DUO_VALUE := "shootCone = 15f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_SHOOT_CONE_CAN_SHOOT_GATE := "if(!alwaysShooting && Angles.angleDist(rotation, targetRot) < shootCone && canShoot){"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.shoot_cone(turret, turret_defaults)", source)
         self.assertIn("func source_angle_to_target(origin, target) -> float:", source)
         self.assertIn('if typeof(origin) == TYPE_DICTIONARY:', source)
         self.assertIn('if target.has("x") and target.has("y"):', source)
@@ -5379,10 +5616,11 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_turret_recoil(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
-        self.assertIn("var SOURCE_RECOIL_POW := 0.0", source)
-        self.assertIn("SOURCE_RECOIL_POW = turret_defaults.recoil_pow()", source)
+        self.assertIn("defaults.recoil_pow()", runtime_source)
         self.assertIn("var turret_recoils: Dictionary = {}", source)
         self.assertIn("var last_turret_recoil := 0.0", source)
         self.assertIn("var last_turret_recoils := 0", source)
@@ -5391,40 +5629,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("turret_recoils[key] = 0.0", source)
         self.assertIn("turret_recoils.erase(key)", source)
         self.assertIn("func source_turret_recoil(turret) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_KEY := "recoil"', source)
-        self.assertIn("var SOURCE_TURRET_RECOIL_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_RECOIL_DEFAULT = turret_defaults.recoil_default()", source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"', source)
-        self.assertIn("return float(turret.properties.get(SOURCE_TURRET_RECOIL_KEY, SOURCE_TURRET_RECOIL_DEFAULT))", source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_COMMENT := "/** Visual amount by which the turret recoils back per shot. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_FIELD := "public float recoil = 1f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_KEY := "recoil"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_DUO_VALUE := "recoil = 0.5f;"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.recoil(turret, turret_defaults)", source)
         self.assertIn("func source_turret_recoils(turret) -> int:", source)
-        self.assertIn('const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"', source)
-        self.assertIn('const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOILS_KEY := "recoils"', source)
-        self.assertIn("var SOURCE_TURRET_RECOILS_DEFAULT := 0", source)
-        self.assertIn("SOURCE_TURRET_RECOILS_DEFAULT = turret_defaults.recoils_default()", source)
-        self.assertIn('const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"', source)
-        self.assertIn("return int(turret.properties.get(SOURCE_TURRET_RECOILS_KEY, SOURCE_TURRET_RECOILS_DEFAULT))", source)
+        self.assertIn('const SOURCE_TURRET_RECOILS_COMMENT := "/** Number of additional counters for recoil. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOILS_FIELD := "public int recoils = -1;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOILS_KEY := "recoils"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOILS_DUO_VALUE := "recoils = 2;"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.recoils(turret, turret_defaults)", source)
         self.assertIn("func source_turret_recoil_time(turret) -> float:", source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"', source)
-        self.assertIn("var SOURCE_TURRET_RECOIL_TIME_DEFAULT := 0.0", source)
-        self.assertIn("SOURCE_TURRET_RECOIL_TIME_DEFAULT = turret_defaults.recoil_time_default()", source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"', source)
-        self.assertIn("var recoil_time := float(turret.properties.get(SOURCE_TURRET_RECOIL_TIME_KEY, SOURCE_TURRET_RECOIL_TIME_DEFAULT))", source)
-        self.assertIn("if recoil_time < 0.0:", source)
-        self.assertIn("return source_turret_reload_seconds(turret) * SOURCE_TICK_RATE", source)
-        self.assertIn("return recoil_time", source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_COMMENT := "/** ticks taken for turret to return to starting position in ticks. uses reload time by default  */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_FIELD := "public float recoilTime = -1f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_KEY := "recoilTime"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK := "if(recoilTime < 0f) recoilTime = reload;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_TIME_DECAY_USE := "curRecoil = Mathf.approachDelta(curRecoil, 0, 1 / recoilTime);"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.recoil_time(turret, turret_defaults, source_turret_reload_seconds(turret), SOURCE_TICK_RATE)", source)
         self.assertIn("func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:", source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2();"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"', source)
-        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"', source)
-        self.assertIn("return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, SOURCE_RECOIL_POW) * source_turret_recoil(turret))", source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_COMMENT := "/** Turret sprite offset, based on recoil. Updated every frame. */"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FIELD := "public Vec2 recoilOffset = new Vec2();"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_FIELD := "public float recoilPow = 1.8f;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_CUR_RECOIL_FIELD := "public float curRecoil, heat, logicControlTime = -1;"', runtime_source)
+        self.assertIn('const SOURCE_TURRET_RECOIL_OFFSET_FORMULA := "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);"', runtime_source)
+        self.assertIn("return SourceTurretRuntime.recoil_offset(turret, turret_defaults, recoil_rotation_degrees, cur_recoil)", source)
         self.assertIn("func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:", source)
         self.assertIn("cur_recoil = max(0.0, cur_recoil - delta * SOURCE_TICK_RATE / source_turret_recoil_time(turret))", source)
         self.assertIn("turret_recoils[key] = cur_recoil", source)
@@ -5482,7 +5711,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_drill_delay(block_id: String, item_id: String) -> float:", source)
         self.assertIn("/ drill_multiplier", source)
         self.assertIn("var delay := source_drill_delay(block_id, item_id)", source)
-        self.assertIn("return 60.0 * float(return_count) / delay", source)
+        self.assertIn("return SOURCE_TICK_RATE * float(return_count) / delay", source)
+        self.assertNotIn("return 60.0 * float(return_count) / delay", source)
         self.assertIn('const SOURCE_DRILL_OUTPUT_DELTA_PROGRESS_INCREMENT := "progress += delta() * dominantItems * speed * warmup;"', source)
         self.assertIn('const SOURCE_DRILL_OUTPUT_DELTA_SOURCE_DELTA := "delta()"', source)
         self.assertIn("func source_drill_output_delta(dominant_items: int, seconds: float, time_scale := 1.0, warmup := 1.0, speed := 1.0) -> float:", source)
@@ -13774,9 +14004,33 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_unit_destroy_shoot_on_death_mounts_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        unit_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
+        bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        unit_source = unit_defaults.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        bullet_source = bullet_defaults.read_text(encoding="utf-8")
+        mounts_source = source[
+            source.index("func source_unit_destroy_shoot_on_death_mounts_state"):
+            source.index("const SOURCE_UNIT_DESTROY_CRASH_LANDING_DAMAGE_METHOD")
+        ]
 
         self.assertIn("func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:", source)
+        self.assertIn("const DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := 0", unit_source)
+        self.assertIn("const DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := 0.0", unit_source)
+        self.assertIn("class_name SourceWeaponDefaults", weapon_source)
+        self.assertIn("const SHOOT_ON_DEATH_DEFAULT := false", weapon_source)
+        self.assertIn("const MOUNT_TOTAL_SHOTS_DEFAULT := 0", weapon_source)
+        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
+        self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', source)
+        self.assertIn('const SourceWeaponDefaults := preload("res://src/game/SourceWeaponDefaults.gd")', source)
+        self.assertIn('const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")', source)
+        self.assertIn("const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD", source)
+        self.assertIn("const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_RELOAD_RESET", source)
+        self.assertIn("const SOURCE_WEAPON_SHOOT_ON_DEATH_DEFAULT := SourceWeaponDefaults.SHOOT_ON_DEATH_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT := SourceWeaponDefaults.MOUNT_TOTAL_SHOTS_DEFAULT", source)
+        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := "for(WeaponMount mount : mounts){"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){"', source)
@@ -13786,7 +14040,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_RELOAD := "mount.reload = 0f;"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_SHOOT := "mount.shoot = true;"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_UPDATE := "mount.weapon.update(self(), mount);"', source)
-        self.assertIn("var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > 0)", source)
+        self.assertIn('var shoot_on_death := bool(mount_state.get("shootOnDeath", SOURCE_WEAPON_SHOOT_ON_DEATH_DEFAULT))', mounts_source)
+        self.assertIn('var bullet_kill_shooter := bool(mount_state.get("bulletKillShooter", SOURCE_BULLET_KILL_SHOOTER_DEFAULT))', mounts_source)
+        self.assertIn('var total_shots := int(mount_state.get("totalShots", SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT))', mounts_source)
+        self.assertNotIn('mount_state.get("shootOnDeath", false)', mounts_source)
+        self.assertNotIn('mount_state.get("bulletKillShooter", false)', mounts_source)
+        self.assertNotIn('mount_state.get("totalShots", 0)', mounts_source)
+        self.assertIn("var should_update := shoot_on_death and not (bullet_kill_shooter and total_shots > SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD)", source)
+        self.assertNotIn("total_shots > 0", mounts_source)
+        self.assertIn('"reload": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET', source)
+        self.assertNotIn('"reload": 0.0', mounts_source)
         self.assertIn('"method": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD', source)
         self.assertIn('"loop": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP', source)
         self.assertIn('"guard": SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD', source)
@@ -14762,10 +15025,67 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_update_shoot_gate_prefix_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
+        bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        bullet_source = bullet_defaults.read_text(encoding="utf-8")
+        gate_source = source[
+            source.index("func source_weapon_update_shoot_gate_prefix_state"):
+            source.index("func source_weapon_update_reload_gate_state")
+        ]
+        reload_gate_source = source[
+            source.index("func source_weapon_update_reload_gate_state"):
+            source.index("func source_weapon_update_cone_gate_state")
+        ]
 
         self.assertIn("func source_weapon_update_shoot_gate_prefix_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, can_shoot: bool, was_flipped: bool, vel_len: float) -> Dictionary:", source)
-        self.assertIn("var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0", source)
+        self.assertIn("const ALTERNATE_DEFAULT := true", weapon_source)
+        self.assertIn("const FLIP_SPRITE_DEFAULT := false", weapon_source)
+        self.assertIn("const MIN_WARMUP_DEFAULT := 0.0", weapon_source)
+        self.assertIn("const MIN_SHOOT_VELOCITY_DEFAULT := -1.0", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_ALTERNATE_DEFAULT := SourceWeaponDefaults.ALTERNATE_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_FLIP_SPRITE_DEFAULT := SourceWeaponDefaults.FLIP_SPRITE_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MIN_WARMUP_DEFAULT := SourceWeaponDefaults.MIN_WARMUP_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT := SourceWeaponDefaults.MIN_SHOOT_VELOCITY_DEFAULT", source)
+        self.assertIn("const MOUNT_SHOOT_DEFAULT := false", weapon_source)
+        self.assertIn("const MOUNT_WARMUP_DEFAULT := 0.0", weapon_source)
+        self.assertIn("const MOUNT_RELOAD_DEFAULT := 0.0", weapon_source)
+        self.assertIn("const MOUNT_TOTAL_SHOTS_DEFAULT := 0", weapon_source)
+        self.assertIn("const MOUNT_BARREL_COUNTER_DEFAULT := 0", weapon_source)
+        self.assertIn("const ALWAYS_CONTINUOUS_DEFAULT := false", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_SHOOT_DEFAULT := SourceWeaponDefaults.MOUNT_SHOOT_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_WARMUP_DEFAULT := SourceWeaponDefaults.MOUNT_WARMUP_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_RELOAD_DEFAULT := SourceWeaponDefaults.MOUNT_RELOAD_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT := SourceWeaponDefaults.MOUNT_TOTAL_SHOTS_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_BARREL_COUNTER_DEFAULT := SourceWeaponDefaults.MOUNT_BARREL_COUNTER_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT := SourceWeaponDefaults.ALWAYS_CONTINUOUS_DEFAULT", source)
+        self.assertIn("const KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD := 0", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD := SourceWeaponDefaults.KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD", source)
+        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
+        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
+        self.assertIn('var mount_shoot := bool(mount_state.get("shoot", SOURCE_WEAPON_MOUNT_SHOOT_DEFAULT))', gate_source)
+        self.assertIn('var mount_warmup := float(mount_state.get("warmup", SOURCE_WEAPON_MOUNT_WARMUP_DEFAULT))', gate_source)
+        self.assertIn('var total_shots := int(mount_state.get("totalShots", SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT))', gate_source)
+        self.assertIn('var bullet_kill_shooter := bool(bullet_state.get("killShooter", SOURCE_BULLET_KILL_SHOOTER_DEFAULT))', gate_source)
+        self.assertIn('var mount_reload := float(mount_state.get("reload", SOURCE_WEAPON_MOUNT_RELOAD_DEFAULT))', reload_gate_source)
+        self.assertIn('var always_continuous := bool(weapon_state.get("alwaysContinuous", SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT))', reload_gate_source)
+        self.assertNotIn('mount_state.get("shoot", false)', gate_source)
+        self.assertNotIn('mount_state.get("warmup", 0.0)', gate_source)
+        self.assertNotIn('mount_state.get("totalShots", 0)', gate_source)
+        self.assertNotIn('bullet_state.get("killShooter", false)', gate_source)
+        self.assertNotIn('mount_state.get("reload", 0.0)', reload_gate_source)
+        self.assertNotIn('weapon_state.get("alwaysContinuous", false)', reload_gate_source)
+        self.assertIn('var alternate := bool(weapon_state.get("alternate", SOURCE_WEAPON_ALTERNATE_DEFAULT))', gate_source)
+        self.assertIn('var flip_sprite := bool(weapon_state.get("flipSprite", SOURCE_WEAPON_FLIP_SPRITE_DEFAULT))', gate_source)
+        self.assertIn('var min_warmup := float(weapon_state.get("minWarmup", SOURCE_WEAPON_MIN_WARMUP_DEFAULT))', gate_source)
+        self.assertIn('var min_shoot_velocity := float(weapon_state.get("minShootVelocity", SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT))', gate_source)
+        self.assertNotIn('weapon_state.get("alternate", true)', gate_source)
+        self.assertNotIn('weapon_state.get("flipSprite", false)', gate_source)
+        self.assertNotIn('weapon_state.get("minWarmup", 0.0)', gate_source)
+        self.assertNotIn('weapon_state.get("minShootVelocity", -1.0)', gate_source)
+        self.assertIn("var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > SOURCE_WEAPON_KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD", gate_source)
+        self.assertNotIn("var kill_shooter_once_blocked := bullet_kill_shooter and total_shots > 0", gate_source)
         self.assertIn("var alternate_gate := (not alternate) or was_flipped == flip_sprite", source)
         self.assertIn("var shoot_gate_prefix := mount_shoot and can_shoot and not kill_shooter_once_blocked and alternate_gate and warmup_gate and velocity_gate", source)
         self.assertIn('"mountShootGateSource": "if(mount.shoot && //must be shooting"', source)
@@ -14778,13 +15098,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_update_reload_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        reload_gate_source = source[
+            source.index("func source_weapon_update_reload_gate_state"):
+            source.index("func source_weapon_update_cone_gate_state")
+        ]
 
         self.assertIn("func source_weapon_update_reload_gate_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var mount_reload := float(mount_state.get(\"reload\", 0.0))", source)
-        self.assertIn("var always_continuous := bool(weapon_state.get(\"alwaysContinuous\", false))", source)
-        self.assertIn("var mount_bullet_null := not bool(mount_state.get(\"hasBullet\", false))", source)
-        self.assertIn("var reload_ready := mount_reload <= 0.0001", source)
+        self.assertIn("const RELOAD_READY_EPSILON := 0.0001", weapon_source)
+        self.assertIn("const MOUNT_HAS_BULLET_DEFAULT := false", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_RELOAD_READY_EPSILON := SourceWeaponDefaults.RELOAD_READY_EPSILON", source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_HAS_BULLET_DEFAULT := SourceWeaponDefaults.MOUNT_HAS_BULLET_DEFAULT", source)
+        self.assertIn("var mount_reload := float(mount_state.get(\"reload\", SOURCE_WEAPON_MOUNT_RELOAD_DEFAULT))", reload_gate_source)
+        self.assertIn("var always_continuous := bool(weapon_state.get(\"alwaysContinuous\", SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT))", reload_gate_source)
+        self.assertIn("var mount_bullet_null := not bool(mount_state.get(\"hasBullet\", SOURCE_WEAPON_MOUNT_HAS_BULLET_DEFAULT))", reload_gate_source)
+        self.assertIn("var reload_ready := mount_reload <= SOURCE_WEAPON_RELOAD_READY_EPSILON", reload_gate_source)
+        self.assertNotIn("mount_state.get(\"hasBullet\", false)", reload_gate_source)
+        self.assertNotIn("mount_reload <= 0.0001", reload_gate_source)
         self.assertIn("var reload_gate := reload_ready or (always_continuous and mount_bullet_null)", source)
         self.assertIn('"reloadGateSource": "(mount.reload <= 0.0001f || (alwaysContinuous && mount.bullet == null)) && //reload has to be 0, or it has to be an always-continuous weapon"', source)
         self.assertIn('"coneGateReservedSource": "(alwaysShooting || Angles.within(rotate ? mount.rotation : unit.rotation + baseRotation, mount.targetRotation, shootCone)) //has to be within the cone"', source)
@@ -14812,11 +15144,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_update_cone_gate_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        cone_gate_source = source[
+            source.index("func source_weapon_update_cone_gate_state"):
+            source.index("func source_weapon_update_shoot_call_reload_state")
+        ]
 
         self.assertIn("func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("const ALWAYS_SHOOTING_DEFAULT := false", weapon_source)
+        self.assertIn("const ROTATE_DEFAULT := false", weapon_source)
+        self.assertIn("const BASE_ROTATION_DEFAULT := 0.0", weapon_source)
+        self.assertIn("const SHOOT_CONE_DEFAULT := 5.0", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT := SourceWeaponDefaults.ALWAYS_SHOOTING_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_ROTATE_DEFAULT := SourceWeaponDefaults.ROTATE_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_BASE_ROTATION_DEFAULT := SourceWeaponDefaults.BASE_ROTATION_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_SHOOT_CONE_DEFAULT := SourceWeaponDefaults.SHOOT_CONE_DEFAULT", source)
         self.assertNotIn("var rotate := bool(weapon_state.get(\"rotate\", false))", source)
-        self.assertIn("var weapon_rotate := bool(weapon_state.get(\"rotate\", false))", source)
+        self.assertIn("var always_shooting := bool(weapon_state.get(\"alwaysShooting\", SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT))", cone_gate_source)
+        self.assertIn("var weapon_rotate := bool(weapon_state.get(\"rotate\", SOURCE_WEAPON_ROTATE_DEFAULT))", cone_gate_source)
+        self.assertIn("var base_rotation := float(weapon_state.get(\"baseRotation\", SOURCE_WEAPON_BASE_ROTATION_DEFAULT))", cone_gate_source)
+        self.assertIn("var shoot_cone := float(weapon_state.get(\"shootCone\", SOURCE_WEAPON_SHOOT_CONE_DEFAULT))", cone_gate_source)
+        self.assertNotIn("weapon_state.get(\"alwaysShooting\", false)", cone_gate_source)
+        self.assertNotIn("weapon_state.get(\"rotate\", false)", cone_gate_source)
+        self.assertNotIn("weapon_state.get(\"baseRotation\", 0.0)", cone_gate_source)
+        self.assertNotIn("weapon_state.get(\"shootCone\", 5.0)", cone_gate_source)
         self.assertIn("var current_rotation := mount_rotation if weapon_rotate else unit_rotation + base_rotation", source)
         self.assertIn("func source_angles_angle_dist(a: float, b: float) -> float:", source)
         self.assertIn("return source_arc_angles_angle_dist(a, b)", source)
@@ -14854,9 +15207,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_update_shoot_call_reload_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        shoot_call_reload_source = source[
+            source.index("func source_weapon_update_shoot_call_reload_state"):
+            source.index("func source_weapon_shoot_charge_start_state")
+        ]
 
         self.assertIn("func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:", source)
+        self.assertIn("const WEAPON_RELOAD_DEFAULT := 1.0", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_RELOAD_DEFAULT := SourceWeaponDefaults.WEAPON_RELOAD_DEFAULT", source)
+        self.assertIn("var current_reload := float(mount_state.get(\"reload\", SOURCE_WEAPON_MOUNT_RELOAD_DEFAULT))", shoot_call_reload_source)
+        self.assertIn("var weapon_reload := float(weapon_state.get(\"reload\", SOURCE_WEAPON_RELOAD_DEFAULT))", shoot_call_reload_source)
+        self.assertNotIn("weapon_state.get(\"reload\", 1.0)", shoot_call_reload_source)
         self.assertIn("var next_reload := weapon_reload if shoot_gate else current_reload", source)
         self.assertIn("shoot_call = {", source)
         self.assertIn('"unit": unit_id', source)
@@ -14892,7 +15256,15 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_shoot_charge_start_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
+        bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        bullet_source = bullet_defaults.read_text(encoding="utf-8")
+        charge_start_source = source[
+            source.index("func source_weapon_shoot_charge_start_state"):
+            source.index("const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOTS_FIELD")
+        ]
 
         self.assertIn('const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"', source)
         self.assertIn('const SOURCE_STATUS_APPLY_RESULT_GUARD := "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"', source)
@@ -14903,6 +15275,42 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"statusApplyGuardSource": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return"', source)
         self.assertIn("func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:", source)
         self.assertNotIn("func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, rotation: float) -> Dictionary:", source)
+        self.assertIn('const SHOOT_STATUS_DEFAULT := "none"', weapon_source)
+        self.assertIn("const SHOOT_STATUS_DURATION_DEFAULT := 60.0 * 5.0", weapon_source)
+        self.assertIn("const FIRST_SHOT_DELAY_DEFAULT := 0.0", weapon_source)
+        self.assertIn('const CHARGE_SOUND_DEFAULT := "none"', weapon_source)
+        self.assertIn("const SOUND_PITCH_MIN_DEFAULT := 0.8", weapon_source)
+        self.assertIn("const SOUND_PITCH_MAX_DEFAULT := 1.0", weapon_source)
+        self.assertIn("const PARENTIZE_EFFECTS_DEFAULT := false", weapon_source)
+        self.assertIn('const CHARGE_EFFECT_DEFAULT := "none"', bullet_source)
+        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", bullet_source)
+        self.assertIn("const SOURCE_WEAPON_SHOOT_STATUS_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DURATION_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_FIRST_SHOT_DELAY_DEFAULT := SourceWeaponDefaults.FIRST_SHOT_DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_CHARGE_SOUND_DEFAULT := SourceWeaponDefaults.CHARGE_SOUND_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MIN_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MAX_DEFAULT", source)
+        self.assertIn("const SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT := SourceWeaponDefaults.PARENTIZE_EFFECTS_DEFAULT", source)
+        self.assertIn("const SOURCE_BULLET_CHARGE_EFFECT_DEFAULT := SourceBulletDefaults.CHARGE_EFFECT_DEFAULT", source)
+        self.assertIn("const SOURCE_BULLET_KEEP_VELOCITY_DEFAULT := SourceBulletDefaults.KEEP_VELOCITY_DEFAULT", source)
+        self.assertIn('var shoot_status := "" if weapon_state.get("shootStatus", SOURCE_WEAPON_SHOOT_STATUS_DEFAULT) == null else str(weapon_state.get("shootStatus", SOURCE_WEAPON_SHOOT_STATUS_DEFAULT))', charge_start_source)
+        self.assertIn('var shoot_status_duration := float(weapon_state.get("shootStatusDuration", SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT))', charge_start_source)
+        self.assertIn('var first_shot_delay := float(weapon_state.get("firstShotDelay", SOURCE_WEAPON_FIRST_SHOT_DELAY_DEFAULT))', charge_start_source)
+        self.assertIn('var charge_sound := str(weapon_state.get("chargeSound", SOURCE_WEAPON_CHARGE_SOUND_DEFAULT))', charge_start_source)
+        self.assertIn('var sound_pitch_min := float(weapon_state.get("soundPitchMin", SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT))', charge_start_source)
+        self.assertIn('var sound_pitch_max := float(weapon_state.get("soundPitchMax", SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT))', charge_start_source)
+        self.assertIn('var keep_velocity := bool(bullet_state.get("keepVelocity", SOURCE_BULLET_KEEP_VELOCITY_DEFAULT))', charge_start_source)
+        self.assertIn('var parentize_effects := bool(weapon_state.get("parentizeEffects", SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT))', charge_start_source)
+        self.assertIn('"effect": str(bullet_state.get("chargeEffect", SOURCE_BULLET_CHARGE_EFFECT_DEFAULT))', charge_start_source)
+        self.assertNotIn('weapon_state.get("shootStatus", "none")', charge_start_source)
+        self.assertNotIn('weapon_state.get("shootStatusDuration", 300.0)', charge_start_source)
+        self.assertNotIn('weapon_state.get("firstShotDelay", 0.0)', charge_start_source)
+        self.assertNotIn('weapon_state.get("chargeSound", "none")', charge_start_source)
+        self.assertNotIn('weapon_state.get("soundPitchMin", 1.0)', charge_start_source)
+        self.assertNotIn('weapon_state.get("soundPitchMax", 1.0)', charge_start_source)
+        self.assertNotIn('bullet_state.get("keepVelocity", true)', charge_start_source)
+        self.assertNotIn('weapon_state.get("parentizeEffects", false)', charge_start_source)
+        self.assertNotIn('bullet_state.get("chargeEffect", "none")', charge_start_source)
         self.assertIn("var status_result := source_status_apply_result(shoot_status, shoot_status_duration, status_immune)", source)
         self.assertIn("var charge_gate := first_shot_delay > 0.0", source)
         self.assertIn("mount_charging = true", source)
@@ -14925,8 +15333,31 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_shoot_default_pattern_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        shoot_pattern_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceShootPatternDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        self.assertTrue(shoot_pattern_defaults.exists(), "SourceShootPatternDefaults.gd must own canonical ShootPattern defaults")
+        defaults_source = shoot_pattern_defaults.read_text(encoding="utf-8")
 
+        self.assertIn("class_name SourceShootPatternDefaults", defaults_source)
+        self.assertIn("const SHOTS_DEFAULT := 1", defaults_source)
+        self.assertIn("const FIRST_SHOT_DELAY_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const SHOT_DELAY_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const DELAY_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const DELAY_SCHEDULE_THRESHOLD := 0.0", defaults_source)
+        self.assertIn("const X_OFFSET_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const Y_OFFSET_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const ANGLE_OFFSET_DEFAULT := 0.0", defaults_source)
+        self.assertIn("const MOVER_DEFAULT := null", defaults_source)
+        self.assertIn('const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")', source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_DELAY_DEFAULT := SourceShootPatternDefaults.DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_DELAY_SCHEDULE_THRESHOLD := SourceShootPatternDefaults.DELAY_SCHEDULE_THRESHOLD", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT := SourceShootPatternDefaults.X_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT := SourceShootPatternDefaults.Y_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT := SourceShootPatternDefaults.ANGLE_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_MOVER_DEFAULT := SourceShootPatternDefaults.MOVER_DEFAULT", source)
         self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOTS_FIELD := "public int shots = 1;"', source)
         self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_FIRST_SHOT_DELAY_FIELD := "public float firstShotDelay = 0;"', source)
         self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOT_DELAY_FIELD := "public float shotDelay = 0;"', source)
@@ -14935,19 +15366,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_HANDLER_CALL := "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"', source)
         self.assertIn('const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_MOVER_NULL := "shoot(x, y, rotation, delay, null);"', source)
         self.assertIn("func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:", source)
-        self.assertIn("var shots := int(shoot_state.get(\"shots\", 1))", source)
-        self.assertIn("var first_shot_delay := float(shoot_state.get(\"firstShotDelay\", 0.0))", source)
-        self.assertIn("var shot_delay := float(shoot_state.get(\"shotDelay\", 0.0))", source)
+        self.assertIn("var shots := int(shoot_state.get(\"shots\", SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT))", source)
+        self.assertIn("var first_shot_delay := float(shoot_state.get(\"firstShotDelay\", SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT))", source)
+        self.assertIn("var shot_delay := float(shoot_state.get(\"shotDelay\", SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT))", source)
         self.assertIn("for i in shots:", source)
-        self.assertIn('"xOffset": 0.0', source)
-        self.assertIn('"yOffset": 0.0', source)
-        self.assertIn('"angleOffset": 0.0', source)
+        self.assertIn('"xOffset": SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT', source)
+        self.assertIn('"yOffset": SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT', source)
+        self.assertIn('"angleOffset": SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT', source)
         self.assertIn('"delay": first_shot_delay + shot_delay * float(i)', source)
+        self.assertIn('"mover": SOURCE_SHOOT_PATTERN_MOVER_DEFAULT', source)
         self.assertIn("func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:", source)
+        dispatch_source = source[
+            source.index("func source_weapon_shoot_default_pattern_dispatch_state"):
+            source.index("func source_weapon_bullet_initial_guard_state")
+        ]
+        self.assertIn('var total_shots := int(mount_state.get("totalShots", SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT))', dispatch_source)
+        self.assertIn('var barrel_counter := int(mount_state.get("barrelCounter", SOURCE_WEAPON_MOUNT_BARREL_COUNTER_DEFAULT))', dispatch_source)
+        self.assertIn('var event_delay := float(event.get("delay", SOURCE_SHOOT_PATTERN_DELAY_DEFAULT))', dispatch_source)
+        self.assertIn("if event_delay > SOURCE_SHOOT_PATTERN_DELAY_SCHEDULE_THRESHOLD:", dispatch_source)
+        self.assertNotIn('mount_state.get("totalShots", 0)', dispatch_source)
+        self.assertNotIn('mount_state.get("barrelCounter", 0)', dispatch_source)
+        self.assertNotIn('event.get("delay", 0.0)', dispatch_source)
+        self.assertNotIn("if event_delay > 0.0:", dispatch_source)
         self.assertIn("var pattern_events := source_shoot_pattern_default_events(shoot_state)", source)
         self.assertIn("total_shots += 1", source)
         self.assertIn("var event_barrel := barrel_counter", source)
-        self.assertIn("if event_delay > 0.0:", source)
+        self.assertIn('float(event.get("xOffset", SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT))', dispatch_source)
+        self.assertIn('float(event.get("yOffset", SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT))', dispatch_source)
+        self.assertIn('float(event.get("angleOffset", SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT))', dispatch_source)
+        self.assertIn('event.get("mover", SOURCE_SHOOT_PATTERN_MOVER_DEFAULT)', dispatch_source)
+        self.assertNotIn('event.get("xOffset", 0.0)', dispatch_source)
+        self.assertNotIn('event.get("yOffset", 0.0)', dispatch_source)
+        self.assertNotIn('event.get("angleOffset", 0.0)', dispatch_source)
+        self.assertNotIn('event.get("mover", null)', dispatch_source)
         self.assertIn('"delay": event_delay', source)
         self.assertIn('"setBarrelCounter": event_barrel', source)
         self.assertIn('"restoreBarrelCounter": barrel_counter', source)
@@ -14965,9 +15416,22 @@ class PlayableManifestTests(unittest.TestCase):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
         source = generated.read_text(encoding="utf-8")
 
+        self.assertIn('const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")', source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT := SourceShootPatternDefaults.X_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT := SourceShootPatternDefaults.Y_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT := SourceShootPatternDefaults.ANGLE_OFFSET_DEFAULT", source)
+        self.assertIn("const SOURCE_SHOOT_PATTERN_MOVER_DEFAULT := SourceShootPatternDefaults.MOVER_DEFAULT", source)
         self.assertIn("func java_method_shoot_1(_args: Array = []) -> Variant:", source)
         method_body = source.split("func java_method_shoot_1(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
         self.assertNotIn("return null", method_body)
+        self.assertIn("var shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)", method_body)
+        self.assertIn("var first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertIn("var shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertNotIn("else 1)", method_body)
+        self.assertNotIn("else 0.0)", method_body)
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
         self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
         self.assertIn('"method": "public void shoot(int totalShots, BulletHandler handler){"', method_body)
@@ -14975,9 +15439,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"handler_call": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"', method_body)
         self.assertIn("var events: Array = []", method_body)
         self.assertIn("for i in shots:", method_body)
-        self.assertIn('"xOffset": 0.0', method_body)
+        self.assertIn('"xOffset": SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT', method_body)
+        self.assertIn('"yOffset": SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT', method_body)
+        self.assertIn('"angleOffset": SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT', method_body)
         self.assertIn('"delay": first_shot_delay + shot_delay * float(i)', method_body)
-        self.assertIn('"mover": null', method_body)
+        self.assertIn('"mover": SOURCE_SHOOT_PATTERN_MOVER_DEFAULT', method_body)
 
     def test_generated_shoot_pattern_compat_dispatch_bridge_matches_source_owner(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "pattern" / "ShootPattern.gd"
@@ -14986,6 +15452,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_shoot_0(_args: Array = []) -> Variant:", source)
         method_body = source.split("func java_method_shoot_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
         self.assertNotIn("return null", method_body)
+        self.assertIn("var shots: int = int(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)", method_body)
+        self.assertIn("var first_shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertIn("var shot_delay: float = float(_args[3] if _args.size() > 3 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertNotIn("else 1)", method_body)
+        self.assertNotIn("else 0.0)", method_body)
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', method_body)
         self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
@@ -15018,6 +15489,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func java_method_copy_3(_args: Array = []) -> Variant:", source)
         method_body = source.split("func java_method_copy_3(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
         self.assertNotIn("return null", method_body)
+        self.assertIn("var shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)", method_body)
+        self.assertIn("var first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertIn("var shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)", method_body)
+        self.assertNotIn("else 1)", method_body)
+        self.assertNotIn("else 0.0)", method_body)
         self.assertIn('"source_owner": "ShootPattern.copy"', method_body)
         self.assertIn('"generated_owner": "ShootPattern.java_method_copy_3"', method_body)
         self.assertIn('"source": "core/src/mindustry/entities/pattern/ShootPattern.java"', method_body)
@@ -15278,11 +15754,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_weapon_bullet_recoil_slots_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        weapon_source = weapon_defaults.read_text(encoding="utf-8")
+        slots_source = source[
+            source.index("func source_weapon_bullet_recoil_slots_state"):
+            source.index("func source_weapon_bullet_heat_state")
+        ]
 
         self.assertIn("func source_weapon_bullet_recoil_slots_state(create_call_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("const MOUNT_BARREL_COUNTER_DEFAULT := 0", weapon_source)
+        self.assertIn("const SOURCE_WEAPON_MOUNT_BARREL_COUNTER_DEFAULT := SourceWeaponDefaults.MOUNT_BARREL_COUNTER_DEFAULT", source)
         self.assertIn("var recoils_count := int(weapon_state.get(\"recoils\", -1))", source)
-        self.assertIn("var barrel_counter := int(mount_state.get(\"barrelCounter\", 0))", source)
+        self.assertIn("var barrel_counter := int(mount_state.get(\"barrelCounter\", SOURCE_WEAPON_MOUNT_BARREL_COUNTER_DEFAULT))", slots_source)
+        self.assertNotIn('mount_state.get("barrelCounter", 0)', slots_source)
         self.assertIn("var recoil_index := barrel_counter % recoils_count", source)
         self.assertIn("recoils_values[recoil_index] = 1.0", source)
         self.assertIn('"recoilSlotsSource": "if(recoils > 0){ mount.recoils[mount.barrelCounter % recoils] = 1f; }"', source)
@@ -15316,12 +15801,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_create_spawn_unit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
         source = port_game.read_text(encoding="utf-8")
+        bullet_source = bullet_defaults.read_text(encoding="utf-8")
+        spawn_source = source[
+            source.index("func source_bullet_type_create_spawn_unit_state"):
+            source.index("func source_bullet_type_create_bullet_identity_state")
+        ]
 
         self.assertIn("func source_bullet_type_create_spawn_unit_state(initial_gate_state: Dictionary, bullet_type_state: Dictionary, net_client: bool, owner_health_state: Dictionary, shooter_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
+        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
         self.assertIn("var spawn_unit: Dictionary = bullet_type_state.get(\"spawnUnit\", {})", source)
         self.assertIn("if spawn_unit.is_empty():", source)
-        self.assertIn("var kill_shooter := bool(bullet_type_state.get(\"killShooter\", false))", source)
+        self.assertIn('var kill_shooter := bool(bullet_type_state.get("killShooter", SOURCE_BULLET_KILL_SHOOTER_DEFAULT))', spawn_source)
+        self.assertNotIn('bullet_type_state.get("killShooter", false)', spawn_source)
         self.assertIn("if net_client:", source)
         self.assertIn("var spawned_unit := {", source)
         self.assertIn('"bulletCreateReturnsNull": true', source)
@@ -15409,6 +15903,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("bullet_state[\"mover\"] = bullet_create_call.get(\"mover\", null)", source)
         self.assertIn("bullet_state[\"damage\"] = base_damage * damage_multiplier_factor", source)
         self.assertIn("bullet_state[\"buildingDamageMultiplier\"] = building_damage_multiplier", source)
+        self.assertIn("var lifetime := float(bullet_type_state.get(\"lifetime\", bullet_defaults.lifetime_default()))", source)
+        self.assertNotIn("var lifetime := float(bullet_type_state.get(\"lifetime\", SOURCE_BULLET_LIFETIME_DEFAULT))", source)
+        self.assertNotIn("var lifetime := float(bullet_type_state.get(\"lifetime\", 40.0))", source)
         self.assertIn('"lifetimeSource": "bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f)"', source)
         self.assertIn('"damageSource": "bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier()"', source)
         self.assertIn('"damageMultiplierSource": "return type.damageMultiplier(self())"', source)
@@ -15436,512 +15933,732 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_create_keep_velocity_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
+        runtime_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var raw_bullet_state = trail_add_state.get(\"bullet\", {})", source)
-        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
-        self.assertIn("var keep_velocity := bool(bullet_type_state.get(\"keepVelocity\", true))", source)
-        self.assertIn("var owner_is_velc := bool(owner_state.get(\"isVelc\", false))", source)
-        self.assertIn("var raw_velocity_state = bullet_state.get(\"velocity\", {})", source)
-        self.assertIn("var velocity_state: Dictionary = raw_velocity_state if raw_velocity_state is Dictionary else {}", source)
-        self.assertIn("var bullet_vel_before := source_bullet_velocity_vector_state(velocity_state)", source)
-        self.assertIn("var raw_owner_vel = owner_state.get(\"vel\", {\"x\": 0.0, \"y\": 0.0})", source)
-        self.assertIn("var owner_vel: Dictionary = raw_owner_vel if raw_owner_vel is Dictionary else {\"x\": 0.0, \"y\": 0.0}", source)
-        self.assertIn("var len_before := sqrt(float(bullet_vel_before.get(\"x\", 0.0)) * float(bullet_vel_before.get(\"x\", 0.0)) + float(bullet_vel_before.get(\"y\", 0.0)) * float(bullet_vel_before.get(\"y\", 0.0)))", source)
-        self.assertIn("var bullet_vel_after := {", source)
-        self.assertIn("var new_len := sqrt(float(bullet_vel_after[\"x\"]) * float(bullet_vel_after[\"x\"]) + float(bullet_vel_after[\"y\"]) * float(bullet_vel_after[\"y\"]))", source)
-        self.assertIn("if scale_keep_velocity and new_len > 0.0:", source)
-        self.assertIn("bullet_state[\"lifetime\"] = float(bullet_state.get(\"lifetime\", 0.0)) * minf(1.0, len_before / new_len)", source)
-        self.assertIn("bullet_state[\"velocity\"] = bullet_vel_after", source)
-        self.assertIn('"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){"', source)
-        self.assertIn('"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)"', source)
-        self.assertIn('"vec2AddSource": "x += v.x; y += v.y"', source)
-        self.assertIn('"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)"', source)
-        self.assertIn('"returnSource": "return bullet"', source)
+        self.assertIn("return SourceBulletRuntime.create_keep_velocity_state(trail_add_state, bullet_type_state, owner_state, bullet_defaults)", source)
+        self.assertNotIn("var keep_velocity := bool(bullet_type_state.get(\"keepVelocity\", true))", source)
+        self.assertNotIn("var scale_keep_velocity := bool(bullet_type_state.get(\"scaleKeepVelocity\", false))", source)
+        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", defaults_source)
+        self.assertIn("const SCALE_KEEP_VELOCITY_DEFAULT := false", defaults_source)
+        self.assertIn("func keep_velocity_default() -> bool:", defaults_source)
+        self.assertIn("func scale_keep_velocity_default() -> bool:", defaults_source)
+        self.assertIn("static func create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary, defaults: SourceBulletDefaults) -> Dictionary:", runtime_source)
+        self.assertIn("var raw_bullet_state = trail_add_state.get(\"bullet\", {})", runtime_source)
+        self.assertIn("var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", runtime_source)
+        self.assertIn("var keep_velocity := bool(bullet_type_state.get(\"keepVelocity\", defaults.keep_velocity_default()))", runtime_source)
+        self.assertIn("var scale_keep_velocity := bool(bullet_type_state.get(\"scaleKeepVelocity\", defaults.scale_keep_velocity_default()))", runtime_source)
+        self.assertIn("var owner_is_velc := bool(owner_state.get(\"isVelc\", false))", runtime_source)
+        self.assertIn("var raw_velocity_state = bullet_state.get(\"velocity\", {})", runtime_source)
+        self.assertIn("var velocity_state: Dictionary = raw_velocity_state if raw_velocity_state is Dictionary else {}", runtime_source)
+        self.assertIn("var bullet_vel_before := velocity_vector_state(velocity_state)", runtime_source)
+        self.assertIn("var raw_owner_vel = owner_state.get(\"vel\", {\"x\": 0.0, \"y\": 0.0})", runtime_source)
+        self.assertIn("var owner_vel: Dictionary = raw_owner_vel if raw_owner_vel is Dictionary else {\"x\": 0.0, \"y\": 0.0}", runtime_source)
+        self.assertIn("var len_before := sqrt(float(bullet_vel_before.get(\"x\", 0.0)) * float(bullet_vel_before.get(\"x\", 0.0)) + float(bullet_vel_before.get(\"y\", 0.0)) * float(bullet_vel_before.get(\"y\", 0.0)))", runtime_source)
+        self.assertIn("var bullet_vel_after := {", runtime_source)
+        self.assertIn("var new_len := sqrt(float(bullet_vel_after[\"x\"]) * float(bullet_vel_after[\"x\"]) + float(bullet_vel_after[\"y\"]) * float(bullet_vel_after[\"y\"]))", runtime_source)
+        self.assertIn("if scale_keep_velocity and new_len > 0.0:", runtime_source)
+        self.assertIn("bullet_state[\"lifetime\"] = float(bullet_state.get(\"lifetime\", 0.0)) * minf(1.0, len_before / new_len)", runtime_source)
+        self.assertIn("bullet_state[\"velocity\"] = bullet_vel_after", runtime_source)
+        self.assertIn('"keepVelocitySource": "if(keepVelocity && owner instanceof Velc v){"', runtime_source)
+        self.assertIn('"vec2LenSource": "return (float)Math.sqrt(x * x + y * y)"', runtime_source)
+        self.assertIn('"vec2AddSource": "x += v.x; y += v.y"', runtime_source)
+        self.assertIn('"lifetimeScaleSource": "if(newLen > 0f) bullet.lifetime *= Math.min(1f, len / newLen)"', runtime_source)
+        self.assertIn('"returnSource": "return bullet"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        bullet_source = bullet_defaults.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        init_source = source[
+            source.index("func source_bullet_type_init_initial_state"):
+            source.index("func source_bullet_type_init_spawn_bullets_state")
+        ]
 
         self.assertIn("func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var init_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn("var init_owner_state := owner_health_state.duplicate(true)", source)
-        self.assertIn("var kill_shooter := bool(bullet_type_state.get(\"killShooter\", false))", source)
-        self.assertIn("var owner_is_healthc := bool(init_owner_state.get(\"isHealthc\", false))", source)
-        self.assertIn("var owner_dead := bool(init_owner_state.get(\"dead\", false))", source)
-        self.assertIn("if kill_shooter and owner_is_healthc and not owner_dead:", source)
-        self.assertIn("init_owner_state[\"health\"] = minf(float(init_owner_state.get(\"health\", 0.0)), 0.0)", source)
-        self.assertIn("init_owner_state[\"dead\"] = true", source)
-        self.assertIn("init_owner_state[\"removed\"] = true", source)
-        self.assertIn("var instant_disappear := bool(bullet_type_state.get(\"instantDisappear\", false))", source)
-        self.assertIn("init_bullet_state[\"time\"] = float(bullet_type_state.get(\"lifetime\", 40.0)) + 1.0", source)
-        self.assertIn('"killShooterSource": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){"', source)
-        self.assertIn('"healthKillSource": "health = Math.min(health, 0); dead = true; killed(); remove()"', source)
-        self.assertIn('"instantDisappearSource": "b.time = lifetime + 1f"', source)
-        self.assertIn('"spawnBulletsReservedSource": "if(spawnBullets.size > 0){"', source)
+        self.assertIn("return SourceBulletRuntime.init_initial_state(bullet_state, bullet_type_state, owner_health_state, bullet_defaults)", init_source)
+        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
+        self.assertIn("const INSTANT_DISAPPEAR_DEFAULT := false", bullet_source)
+        self.assertIn("func kill_shooter_default() -> bool:", bullet_source)
+        self.assertIn("func instant_disappear_default() -> bool:", bullet_source)
+        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
+        self.assertIn("const SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT := SourceBulletDefaults.INSTANT_DISAPPEAR_DEFAULT", source)
+        self.assertNotIn("var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0", source)
+        self.assertNotIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", source)
+        self.assertNotIn("var init_bullet_state := bullet_state.duplicate(true)", init_source)
+        self.assertNotIn("var init_owner_state := owner_health_state.duplicate(true)", init_source)
+        self.assertIn("static func init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, defaults: SourceBulletDefaults) -> Dictionary:", runtime_source)
+        self.assertIn("var init_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn("var init_owner_state := owner_health_state.duplicate(true)", runtime_source)
+        self.assertIn('var kill_shooter := bool(bullet_type_state.get("killShooter", defaults.kill_shooter_default()))', runtime_source)
+        self.assertNotIn('bullet_type_state.get("killShooter", false)', init_source)
+        self.assertIn("var owner_is_healthc := bool(init_owner_state.get(\"isHealthc\", false))", runtime_source)
+        self.assertIn("var owner_dead := bool(init_owner_state.get(\"dead\", false))", runtime_source)
+        self.assertIn("if kill_shooter and owner_is_healthc and not owner_dead:", runtime_source)
+        self.assertIn("init_owner_state[\"health\"] = minf(float(init_owner_state.get(\"health\", 0.0)), 0.0)", runtime_source)
+        self.assertIn("init_owner_state[\"dead\"] = true", runtime_source)
+        self.assertIn("init_owner_state[\"removed\"] = true", runtime_source)
+        self.assertIn('var instant_disappear := bool(bullet_type_state.get("instantDisappear", defaults.instant_disappear_default()))', runtime_source)
+        self.assertNotIn('bullet_type_state.get("instantDisappear", false)', init_source)
+        self.assertIn('init_bullet_state["time"] = float(bullet_type_state.get("lifetime", defaults.lifetime_default())) + 1.0', runtime_source)
+        self.assertNotIn('bullet_type_state.get("lifetime", SOURCE_BULLET_LIFETIME_DEFAULT)', init_source)
+        self.assertNotIn('bullet_type_state.get("lifetime", 40.0)', init_source)
+        self.assertIn('"killShooterSource": "if(killShooter && b.owner() instanceof Healthc h && !h.dead()){"', runtime_source)
+        self.assertIn('"healthKillSource": "health = Math.min(health, 0); dead = true; killed(); remove()"', runtime_source)
+        self.assertIn('"instantDisappearSource": "b.time = lifetime + 1f"', runtime_source)
+        self.assertIn('"spawnBulletsReservedSource": "if(spawnBullets.size > 0){"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_spawn_bullets_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        spawn_source = source[
+            source.index("func source_bullet_type_init_spawn_bullets_state"):
+            source.index("func source_bullet_type_update_dispatch_state")
+        ]
 
         self.assertIn("func source_bullet_type_init_spawn_bullets_state(init_initial_state: Dictionary, bullet_type_state: Dictionary, spawn_bullet_random_offsets: Array) -> Dictionary:", source)
-        self.assertIn("var raw_bullet_state = init_initial_state.get(\"bullet\", {})", source)
-        self.assertIn("var init_bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", source)
-        self.assertIn("var spawn_bullets: Array = bullet_type_state.get(\"spawnBullets\", [])", source)
-        self.assertIn("for index in spawn_bullets.size():", source)
-        self.assertIn("var random_offset := float(spawn_bullet_random_offsets[index]) if index < spawn_bullet_random_offsets.size() else 0.0", source)
-        self.assertIn("var create_call := {", source)
-        self.assertIn('"owner": init_bullet_state', source)
-        self.assertIn('"x": float(init_bullet_state.get("x", 0.0))', source)
-        self.assertIn('"y": float(init_bullet_state.get("y", 0.0))', source)
-        self.assertIn('"angle": float(init_bullet_state.get("rotation", 0.0)) + random_offset', source)
-        self.assertIn('"spawnBulletsSource": "if(spawnBullets.size > 0){"', source)
-        self.assertIn('"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))"', source)
-        self.assertIn('"mathfRangeSource": "return random(-range, range)"', source)
+        self.assertIn("return SourceBulletRuntime.init_spawn_bullets_state(init_initial_state, bullet_type_state, spawn_bullet_random_offsets)", spawn_source)
+        self.assertNotIn("var raw_bullet_state = init_initial_state.get(\"bullet\", {})", spawn_source)
+        self.assertIn("static func init_spawn_bullets_state(initial_state: Dictionary, bullet_type_state: Dictionary, spawn_bullet_random_offsets: Array) -> Dictionary:", runtime_source)
+        self.assertIn("var raw_bullet_state = initial_state.get(\"bullet\", {})", runtime_source)
+        self.assertIn("var init_bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}", runtime_source)
+        self.assertIn("var spawn_bullets: Array = bullet_type_state.get(\"spawnBullets\", [])", runtime_source)
+        self.assertIn("for index in spawn_bullets.size():", runtime_source)
+        self.assertIn("var random_offset := float(spawn_bullet_random_offsets[index]) if index < spawn_bullet_random_offsets.size() else 0.0", runtime_source)
+        self.assertIn("var create_call := {", runtime_source)
+        self.assertIn('"owner": init_bullet_state', runtime_source)
+        self.assertIn('"x": float(init_bullet_state.get("x", 0.0))', runtime_source)
+        self.assertIn('"y": float(init_bullet_state.get("y", 0.0))', runtime_source)
+        self.assertIn('"angle": float(init_bullet_state.get("rotation", 0.0)) + random_offset', runtime_source)
+        self.assertIn('"spawnBulletsSource": "if(spawnBullets.size > 0){"', runtime_source)
+        self.assertIn('"spawnBulletCreateSource": "bullet.create(b, b.x, b.y, b.rotation() + Mathf.range(spawnBulletRandomSpread))"', runtime_source)
+        self.assertIn('"mathfRangeSource": "return random(-range, range)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        dispatch_source = source[
+            source.index("func source_bullet_type_update_dispatch_state"):
+            source.index("func source_bullet_type_update_bullet_interval_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_dispatch_state(bullet_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn('"updateTrail(b)"', source)
-        self.assertIn('"updateHoming(b)"', source)
-        self.assertIn('"updateWeaving(b)"', source)
-        self.assertIn('"updateTrailEffects(b)"', source)
-        self.assertIn('"updateBulletInterval(b)"', source)
-        self.assertIn('"updateMethodSource": "public void update(Bullet b){"', source)
-        self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b){"', source)
+        self.assertIn("return SourceBulletRuntime.update_dispatch_state(bullet_state)", dispatch_source)
+        self.assertNotIn("var update_bullet_state := bullet_state.duplicate(true)", dispatch_source)
+        self.assertIn("static func update_dispatch_state(bullet_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn('"updateTrail(b)"', runtime_source)
+        self.assertIn('"updateHoming(b)"', runtime_source)
+        self.assertIn('"updateWeaving(b)"', runtime_source)
+        self.assertIn('"updateTrailEffects(b)"', runtime_source)
+        self.assertIn('"updateBulletInterval(b)"', runtime_source)
+        self.assertIn('"updateMethodSource": "public void update(Bullet b){"', runtime_source)
+        self.assertIn('"nextMethodReservedSource": "public void updateBulletInterval(Bullet b){"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_bullet_interval_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        interval_source = source[
+            source.index("func source_bullet_type_update_bullet_interval_state"):
+            source.index("func source_bullet_type_update_trail_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_bullet_interval_state(bullet_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, interval_random_offsets: Array) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn("var interval_bullet = bullet_type_state.get(\"intervalBullet\", null)", source)
-        self.assertIn("var gate_passed := interval_bullet != null and float(update_bullet_state.get(\"time\", 0.0)) >= float(bullet_type_state.get(\"intervalDelay\", -1.0)) and timer_get_result", source)
-        self.assertIn("var base_angle := float(update_bullet_state.get(\"rotation\", 0.0))", source)
-        self.assertIn("for i in interval_bullets:", source)
-        self.assertIn("var random_offset := float(interval_random_offsets[i]) if i < interval_random_offsets.size() else 0.0", source)
-        self.assertIn("var spread_offset := (float(i) - (float(interval_bullets) - 1.0) / 2.0) * interval_spread", source)
-        self.assertIn('"owner": update_bullet_state', source)
-        self.assertIn('"x": float(update_bullet_state.get("x", 0.0))', source)
-        self.assertIn('"y": float(update_bullet_state.get("y", 0.0))', source)
-        self.assertIn('"angle": base_angle + random_offset + interval_angle + spread_offset', source)
-        self.assertIn('"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){"', source)
-        self.assertIn('"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))"', source)
+        self.assertIn("return SourceBulletRuntime.update_bullet_interval_state(bullet_state, bullet_type_state, timer_get_result, interval_random_offsets)", interval_source)
+        self.assertNotIn("var update_bullet_state := bullet_state.duplicate(true)", interval_source)
+        self.assertIn("static func update_bullet_interval_state(bullet_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, interval_random_offsets: Array) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn("var interval_bullet = bullet_type_state.get(\"intervalBullet\", null)", runtime_source)
+        self.assertIn("var gate_passed := interval_bullet != null and float(update_bullet_state.get(\"time\", 0.0)) >= float(bullet_type_state.get(\"intervalDelay\", -1.0)) and timer_get_result", runtime_source)
+        self.assertIn("var base_angle := float(update_bullet_state.get(\"rotation\", 0.0))", runtime_source)
+        self.assertIn("for i in interval_bullets:", runtime_source)
+        self.assertIn("var random_offset := float(interval_random_offsets[i]) if i < interval_random_offsets.size() else 0.0", runtime_source)
+        self.assertIn("var spread_offset := (float(i) - (float(interval_bullets) - 1.0) / 2.0) * interval_spread", runtime_source)
+        self.assertIn('"owner": update_bullet_state', runtime_source)
+        self.assertIn('"x": float(update_bullet_state.get("x", 0.0))', runtime_source)
+        self.assertIn('"y": float(update_bullet_state.get("y", 0.0))', runtime_source)
+        self.assertIn('"angle": base_angle + random_offset + interval_angle + spread_offset', runtime_source)
+        self.assertIn('"gateSource": "if(intervalBullet != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)){"', runtime_source)
+        self.assertIn('"createSource": "intervalBullet.create(b, b.x, b.y, ang + Mathf.range(intervalRandomSpread) + intervalAngle + ((i - (intervalBullets - 1f)/2f) * intervalSpread))"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_trail_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        trail_source = source[
+            source.index("func source_bullet_type_update_trail_state"):
+            source.index("func source_bullet_type_update_homing_initial_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn("var trail_length := int(bullet_type_state.get(\"trailLength\", -1))", source)
-        self.assertIn("var gate_passed := not headless_value and trail_length > 0", source)
-        self.assertIn("var raw_trail_state = update_bullet_state.get(\"trail\", null)", source)
-        self.assertIn("var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}", source)
-        self.assertIn("trail_state[\"length\"] = trail_length", source)
-        self.assertIn("var sin_scale := 1.0 + (absin_value if float(bullet_type_state.get(\"trailSinMag\", 0.0)) > 0.0 else 0.0)", source)
-        self.assertIn("var width := trail_interp_value * sin_scale", source)
-        self.assertIn("trail_state[\"lastX\"] = float(update_bullet_state.get(\"x\", 0.0))", source)
-        self.assertIn("trail_state[\"lastY\"] = float(update_bullet_state.get(\"y\", 0.0))", source)
-        self.assertIn("trail_state[\"lastW\"] = width", source)
-        self.assertIn("trail_state[\"counter\"] = float(trail_state.get(\"counter\", 0.0)) + source_delta", source)
-        self.assertIn('"gateSource": "if(!headless && trailLength > 0){"', source)
-        self.assertIn('"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))"', source)
+        self.assertIn("return SourceBulletRuntime.update_trail_state(bullet_state, bullet_type_state, headless_value, trail_interp_value, absin_value, source_delta)", trail_source)
+        self.assertNotIn("var update_bullet_state := bullet_state.duplicate(true)", trail_source)
+        self.assertIn("static func update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn("var trail_length := int(bullet_type_state.get(\"trailLength\", -1))", runtime_source)
+        self.assertIn("var gate_passed := not headless_value and trail_length > 0", runtime_source)
+        self.assertIn("var raw_trail_state = update_bullet_state.get(\"trail\", null)", runtime_source)
+        self.assertIn("var trail_state: Dictionary = raw_trail_state if raw_trail_state is Dictionary else {}", runtime_source)
+        self.assertIn("trail_state[\"length\"] = trail_length", runtime_source)
+        self.assertIn("var sin_scale := 1.0 + (absin_value if float(bullet_type_state.get(\"trailSinMag\", 0.0)) > 0.0 else 0.0)", runtime_source)
+        self.assertIn("var width := trail_interp_value * sin_scale", runtime_source)
+        self.assertIn("trail_state[\"lastX\"] = float(update_bullet_state.get(\"x\", 0.0))", runtime_source)
+        self.assertIn("trail_state[\"lastY\"] = float(update_bullet_state.get(\"y\", 0.0))", runtime_source)
+        self.assertIn("trail_state[\"lastW\"] = width", runtime_source)
+        self.assertIn("trail_state[\"counter\"] = float(trail_state.get(\"counter\", 0.0)) + source_delta", runtime_source)
+        self.assertIn('"gateSource": "if(!headless && trailLength > 0){"', runtime_source)
+        self.assertIn('"updateSource": "b.trail.update(b.x, b.y, trailInterp.apply(b.fin()) * (1f + (trailSinMag > 0 ? Mathf.absin(Time.time, trailSinScl, trailSinMag) : 0f)))"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_homing_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        homing_source = source[
+            source.index("func source_bullet_type_update_homing_initial_state"):
+            source.index("func source_bullet_type_update_homing_target_velocity_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn("var homing_power := float(bullet_type_state.get(\"homingPower\", 0.0))", source)
-        self.assertIn("var homing_delay := float(bullet_type_state.get(\"homingDelay\", -1.0))", source)
-        self.assertIn("var gate_passed := homing_power > 0.0001 and float(update_bullet_state.get(\"time\", 0.0)) >= homing_delay", source)
-        self.assertIn("var aim_x := float(update_bullet_state.get(\"aimX\", -1.0))", source)
-        self.assertIn("var real_aim_x := float(update_bullet_state.get(\"x\", 0.0)) if aim_x < 0.0 else aim_x", source)
-        self.assertIn("var real_aim_y := float(update_bullet_state.get(\"y\", 0.0)) if aim_y < 0.0 else aim_y", source)
-        self.assertIn('"gateSource": "if(homingPower > 0.0001f && b.time >= homingDelay){"', source)
-        self.assertIn('"realAimXSource": "float realAimX = b.aimX < 0 ? b.x : b.aimX"', source)
-        self.assertIn('"targetSelectionDeferred": true', source)
-        self.assertIn('"followAimDeferred": true', source)
+        self.assertIn("return SourceBulletRuntime.update_homing_initial_state(bullet_state, bullet_type_state)", homing_source)
+        self.assertNotIn("var update_bullet_state := bullet_state.duplicate(true)", homing_source)
+        self.assertIn("static func update_homing_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn("var homing_power := float(bullet_type_state.get(\"homingPower\", 0.0))", runtime_source)
+        self.assertIn("var homing_delay := float(bullet_type_state.get(\"homingDelay\", -1.0))", runtime_source)
+        self.assertIn("var gate_passed := homing_power > 0.0001 and float(update_bullet_state.get(\"time\", 0.0)) >= homing_delay", runtime_source)
+        self.assertIn("var aim_x := float(update_bullet_state.get(\"aimX\", -1.0))", runtime_source)
+        self.assertIn("var real_aim_x := float(update_bullet_state.get(\"x\", 0.0)) if aim_x < 0.0 else aim_x", runtime_source)
+        self.assertIn("var real_aim_y := float(update_bullet_state.get(\"y\", 0.0)) if aim_y < 0.0 else aim_y", runtime_source)
+        self.assertIn('"gateSource": "if(homingPower > 0.0001f && b.time >= homingDelay){"', runtime_source)
+        self.assertIn('"realAimXSource": "float realAimX = b.aimX < 0 ? b.x : b.aimX"', runtime_source)
+        self.assertIn('"targetSelectionDeferred": true', runtime_source)
+        self.assertIn('"followAimDeferred": true', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_homing_target_velocity_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        target_source = source[
+            source.index("func source_bullet_type_update_homing_target_velocity_state"):
+            source.index("func source_bullet_type_update_homing_follow_aim_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_homing_target_velocity_state(homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state: Dictionary = homing_initial_state.get(\"bullet\", {}).duplicate(true)", source)
-        self.assertIn("var gate_passed := bool(homing_initial_state.get(\"gatePassed\", false)) and target_state is Dictionary", source)
-        self.assertIn("var current_rotation := float(update_bullet_state.get(\"rotation\", float(velocity_state.get(\"angle\", 0.0))))", source)
-        self.assertIn("var target_angle := source_arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(target_state.get(\"x\", 0.0)), float(target_state.get(\"y\", 0.0)))", source)
-        self.assertIn("var max_turn := homing_power * source_delta * 50.0", source)
-        self.assertIn("var next_angle := source_arc_angles_move_toward(current_rotation, target_angle, max_turn)", source)
-        self.assertIn("var speed := float(velocity_state.get(\"speed\", sqrt(velocity_x * velocity_x + velocity_y * velocity_y)))", source)
-        self.assertIn("var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)", source)
-        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", source)
-        self.assertIn('"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))"', source)
-        self.assertIn('"targetGateSource": "if(target != null){"', source)
+        self.assertIn("return SourceBulletRuntime.update_homing_target_velocity_state(homing_initial_state, target_state, source_delta)", target_source)
+        self.assertNotIn("var update_bullet_state: Dictionary = homing_initial_state.get(\"bullet\", {}).duplicate(true)", target_source)
+        self.assertIn("static func update_homing_target_velocity_state(homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state: Dictionary = homing_initial_state.get(\"bullet\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var gate_passed := bool(homing_initial_state.get(\"gatePassed\", false)) and target_state is Dictionary", runtime_source)
+        self.assertIn("var current_rotation := float(update_bullet_state.get(\"rotation\", float(velocity_state.get(\"angle\", 0.0))))", runtime_source)
+        self.assertIn("var target_angle := arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(target_state.get(\"x\", 0.0)), float(target_state.get(\"y\", 0.0)))", runtime_source)
+        self.assertIn("var max_turn := homing_power * source_delta * 50.0", runtime_source)
+        self.assertIn("var next_angle := arc_angles_move_toward(current_rotation, target_angle, max_turn)", runtime_source)
+        self.assertIn("var speed := float(velocity_state.get(\"speed\", sqrt(velocity_x * velocity_x + velocity_y * velocity_y)))", runtime_source)
+        self.assertIn("var next_velocity := arc_angles_trns_vec(next_angle, speed, 0.0)", runtime_source)
+        self.assertIn("static func arc_mathf_mod_float(value: float, mod: float) -> float:", runtime_source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", runtime_source)
+        self.assertIn('"setAngleSource": "b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f))"', runtime_source)
+        self.assertIn('"targetGateSource": "if(target != null){"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_homing_follow_aim_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        follow_source = source[
+            source.index("func source_bullet_type_update_homing_follow_aim_state"):
+            source.index("func source_bullet_type_update_weaving_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_homing_follow_aim_state(homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state: Dictionary = homing_target_velocity_state.get(\"bullet\", {}).duplicate(true)", source)
-        self.assertIn("var follow_aim_speed := float(bullet_type_state.get(\"followAimSpeed\", 0.0))", source)
-        self.assertIn("var gate_passed := follow_aim_speed > 0.0 and shooter_state is Dictionary and bool(shooter_state.get(\"isUnit\", false))", source)
-        self.assertIn("var target_angle := source_arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(shooter_state.get(\"aimX\", 0.0)), float(shooter_state.get(\"aimY\", 0.0)))", source)
-        self.assertIn("var current_velocity_angle := float(velocity_state.get(\"angle\", update_bullet_state.get(\"rotation\", 0.0)))", source)
-        self.assertIn("var max_turn := follow_aim_speed * source_delta", source)
-        self.assertIn("var next_angle := source_arc_angles_move_toward(current_velocity_angle, target_angle, max_turn)", source)
-        self.assertIn("var next_velocity := source_arc_angles_trns_vec(next_angle, speed, 0.0)", source)
-        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", source)
-        self.assertIn('"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){"', source)
-        self.assertIn('"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))"', source)
+        self.assertIn("return SourceBulletRuntime.update_homing_follow_aim_state(homing_target_velocity_state, bullet_type_state, shooter_state, source_delta)", follow_source)
+        self.assertNotIn("var update_bullet_state: Dictionary = homing_target_velocity_state.get(\"bullet\", {}).duplicate(true)", follow_source)
+        self.assertIn("static func update_homing_follow_aim_state(homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state: Dictionary = homing_target_velocity_state.get(\"bullet\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var follow_aim_speed := float(bullet_type_state.get(\"followAimSpeed\", 0.0))", runtime_source)
+        self.assertIn("var gate_passed := follow_aim_speed > 0.0 and shooter_state is Dictionary and bool(shooter_state.get(\"isUnit\", false))", runtime_source)
+        self.assertIn("var target_angle := arc_angles_angle(float(update_bullet_state.get(\"x\", 0.0)), float(update_bullet_state.get(\"y\", 0.0)), float(shooter_state.get(\"aimX\", 0.0)), float(shooter_state.get(\"aimY\", 0.0)))", runtime_source)
+        self.assertIn("var current_velocity_angle := float(velocity_state.get(\"angle\", update_bullet_state.get(\"rotation\", 0.0)))", runtime_source)
+        self.assertIn("var max_turn := follow_aim_speed * source_delta", runtime_source)
+        self.assertIn("var next_angle := arc_angles_move_toward(current_velocity_angle, target_angle, max_turn)", runtime_source)
+        self.assertIn("var next_velocity := arc_angles_trns_vec(next_angle, speed, 0.0)", runtime_source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"angle\": next_angle, \"speed\": speed, \"x\": next_velocity[\"x\"], \"y\": next_velocity[\"y\"]}", runtime_source)
+        self.assertIn('"followAimGateSource": "if(followAimSpeed > 0f && b.shooter instanceof Unit u){"', runtime_source)
+        self.assertIn('"followAimSetAngleSource": "b.vel.setAngle(Angles.moveToward(b.vel.angle(), angle, followAimSpeed * Time.delta))"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_weaving_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        weaving_source = source[
+            source.index("func source_bullet_type_update_weaving_state"):
+            source.index("func source_bullet_type_update_weaving_rotate_speed_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", source)
-        self.assertIn("var weave_mag := float(bullet_type_state.get(\"weaveMag\", 0.0))", source)
-        self.assertIn("var gate_passed := weave_mag != 0.0", source)
-        self.assertIn("var random_sign := -1.0 if bool(bullet_type_state.get(\"weaveRandom\", true)) and random_seed_result == 1 else 1.0", source)
-        self.assertIn("var rotation_radians := sin((float(update_bullet_state.get(\"time\", 0.0)) + PI * weave_scale / 2.0) / weave_scale) * weave_mag * random_sign * source_delta * deg_to_rad(1.0)", source)
-        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", source)
-        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", source)
-        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": source_arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", source)
-        self.assertIn('"weaveGateSource": "if(weaveMag != 0){"', source)
-        self.assertIn('"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)"', source)
+        self.assertIn("return SourceBulletRuntime.update_weaving_state(bullet_state, bullet_type_state, random_seed_result, source_delta)", weaving_source)
+        self.assertNotIn("var update_bullet_state := bullet_state.duplicate(true)", weaving_source)
+        self.assertIn("static func update_weaving_state(bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state := bullet_state.duplicate(true)", runtime_source)
+        self.assertIn("var weave_mag := float(bullet_type_state.get(\"weaveMag\", 0.0))", runtime_source)
+        self.assertIn("var gate_passed := weave_mag != 0.0", runtime_source)
+        self.assertIn("var random_sign := -1.0 if bool(bullet_type_state.get(\"weaveRandom\", true)) and random_seed_result == 1 else 1.0", runtime_source)
+        self.assertIn("var rotation_radians := sin((float(update_bullet_state.get(\"time\", 0.0)) + PI * weave_scale / 2.0) / weave_scale) * weave_mag * random_sign * source_delta * deg_to_rad(1.0)", runtime_source)
+        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", runtime_source)
+        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", runtime_source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", runtime_source)
+        self.assertIn('"weaveGateSource": "if(weaveMag != 0){"', runtime_source)
+        self.assertIn('"rotateRadExactSource": "b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * (weaveRandom ? (Mathf.randomSeed(b.id, 0, 1) == 1 ? -1 : 1) : 1f) * Time.delta * Mathf.degRad)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_weaving_rotate_speed_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        rotate_source = source[
+            source.index("func source_bullet_type_update_weaving_rotate_speed_state"):
+            source.index("func source_bullet_type_update_weaving_circle_shooter_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state: Dictionary = weaving_state.get(\"bullet\", {}).duplicate(true)", source)
-        self.assertIn("var rotate_speed := float(bullet_type_state.get(\"rotateSpeed\", 0.0))", source)
-        self.assertIn("var gate_passed := rotate_speed != 0.0", source)
-        self.assertIn("var rotation_radians := rotate_speed * source_delta * deg_to_rad(1.0)", source)
-        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", source)
-        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", source)
-        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": source_arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", source)
-        self.assertIn('"rotateSpeedGateSource": "if(rotateSpeed != 0){"', source)
-        self.assertIn('"rotateSpeedSource": "b.vel.rotate(rotateSpeed * Time.delta)"', source)
+        self.assertIn("return SourceBulletRuntime.update_weaving_rotate_speed_state(weaving_state, bullet_type_state, source_delta)", rotate_source)
+        self.assertNotIn("var update_bullet_state: Dictionary = weaving_state.get(\"bullet\", {}).duplicate(true)", rotate_source)
+        self.assertIn("static func update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state: Dictionary = weaving_state.get(\"bullet\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var rotate_speed := float(bullet_type_state.get(\"rotateSpeed\", 0.0))", runtime_source)
+        self.assertIn("var gate_passed := rotate_speed != 0.0", runtime_source)
+        self.assertIn("var rotation_radians := rotate_speed * source_delta * deg_to_rad(1.0)", runtime_source)
+        self.assertIn("var next_x := velocity_x * cos(rotation_radians) - velocity_y * sin(rotation_radians)", runtime_source)
+        self.assertIn("var next_y := velocity_x * sin(rotation_radians) + velocity_y * cos(rotation_radians)", runtime_source)
+        self.assertIn("update_bullet_state[\"velocity\"] = {\"x\": next_x, \"y\": next_y, \"angle\": arc_angles_angle(0.0, 0.0, next_x, next_y), \"speed\": sqrt(next_x * next_x + next_y * next_y)}", runtime_source)
+        self.assertIn('"rotateSpeedGateSource": "if(rotateSpeed != 0){"', runtime_source)
+        self.assertIn('"rotateSpeedSource": "b.vel.rotate(rotateSpeed * Time.delta)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_weaving_circle_shooter_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        circle_source = source[
+            source.index("func source_bullet_type_update_weaving_circle_shooter_state"):
+            source.index("const SOURCE_BULLET_ROTATION_COMMENT")
+        ]
 
         self.assertIn("func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state: Dictionary = rotate_speed_state.get(\"bullet\", {}).duplicate(true)", source)
-        self.assertIn("var gate_passed := bool(bullet_type_state.get(\"circleShooter\", false)) and bool(owner_health_state.get(\"isHealthc\", false)) and bool(owner_health_state.get(\"isValid\", false))", source)
-        self.assertIn("var tmp_x := float(owner_health_state.get(\"x\", 0.0)) - float(update_bullet_state.get(\"x\", 0.0))", source)
-        self.assertIn("var tmp_y := float(owner_health_state.get(\"y\", 0.0)) - float(update_bullet_state.get(\"y\", 0.0))", source)
-        self.assertIn("var circle_rotation_degrees: float = 90.0 * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))", source)
-        self.assertIn("var tmp_limit := speed * circle_rotate_speed * source_delta", source)
-        self.assertIn("var limited_tmp := source_vec2_limit(tmp_rotated, tmp_limit)", source)
-        self.assertIn("var limited_velocity := source_vec2_limit({\"x\": velocity_x + float(limited_tmp.get(\"x\", 0.0)), \"y\": velocity_y + float(limited_tmp.get(\"y\", 0.0))}, speed)", source)
-        self.assertIn('"circleShooterGateSource": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){"', source)
-        self.assertIn('"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)"', source)
+        self.assertIn("return SourceBulletRuntime.update_weaving_circle_shooter_state(rotate_speed_state, bullet_type_state, owner_health_state, source_delta)", circle_source)
+        self.assertNotIn("var update_bullet_state: Dictionary = rotate_speed_state.get(\"bullet\", {}).duplicate(true)", circle_source)
+        self.assertIn("static func update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:", runtime_source)
+        self.assertIn("static func vec2_limit(vector_state: Dictionary, limit: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state: Dictionary = rotate_speed_state.get(\"bullet\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var gate_passed := bool(bullet_type_state.get(\"circleShooter\", false)) and bool(owner_health_state.get(\"isHealthc\", false)) and bool(owner_health_state.get(\"isValid\", false))", runtime_source)
+        self.assertIn("var tmp_x := float(owner_health_state.get(\"x\", 0.0)) - float(update_bullet_state.get(\"x\", 0.0))", runtime_source)
+        self.assertIn("var tmp_y := float(owner_health_state.get(\"y\", 0.0)) - float(update_bullet_state.get(\"y\", 0.0))", runtime_source)
+        self.assertIn("var circle_rotation_degrees: float = 90.0 * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))", runtime_source)
+        self.assertIn("var tmp_limit := speed * circle_rotate_speed * source_delta", runtime_source)
+        self.assertIn("var limited_tmp := vec2_limit(tmp_rotated, tmp_limit)", runtime_source)
+        self.assertIn("var limited_velocity := vec2_limit({\"x\": velocity_x + float(limited_tmp.get(\"x\", 0.0)), \"y\": velocity_y + float(limited_tmp.get(\"y\", 0.0))}, speed)", runtime_source)
+        self.assertIn('"circleShooterGateSource": "if(circleShooter && b.owner instanceof Healthc h && h.isValid()){"', runtime_source)
+        self.assertIn('"circleShooterVelocitySource": "b.vel.add(Tmp.v1.limit(speed * circleShooterRotateSpeed * Time.delta)).limit(speed)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_trail_effects_chance_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        chance_source = source[
+            source.index("func source_bullet_type_update_trail_effects_chance_state"):
+            source.index("func source_bullet_type_update_trail_effects_interval_state")
+        ]
 
         self.assertIn("func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:", source)
         self.assertIn('const SOURCE_BULLET_ROTATION_COMMENT := "/** @return the bullet\'s rotation. */"', source)
         self.assertIn('const SOURCE_BULLET_ROTATION_METHOD := "public float rotation(){"', source)
         self.assertIn('const SOURCE_BULLET_ROTATION_RETURN := "return vel.isZero(0.001f) ? rotation : vel.angle();"', source)
-        self.assertIn("const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001", source)
-        self.assertIn("if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:", source)
-        self.assertIn('return float(bullet_state.get("rotation", 0.0))', source)
-        self.assertIn("return source_arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)", source)
+        self.assertIn("const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001", runtime_source)
+        self.assertIn("return SourceBulletRuntime.rotation_degrees(bullet_state)", source)
+        self.assertNotIn("if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:", chance_source)
+        self.assertIn("static func rotation_degrees(bullet_state: Dictionary) -> float:", runtime_source)
+        self.assertIn("if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:", runtime_source)
+        self.assertIn('return float(bullet_state.get("rotation", 0.0))', runtime_source)
+        self.assertIn("return arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)", runtime_source)
         self.assertIn("func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y", source)
-        self.assertIn("var can_spawn := trail_min_velocity <= 0.0 or velocity_len2 >= trail_min_velocity * trail_min_velocity", source)
-        self.assertIn("var gate_passed := trail_chance > 0.0 and can_spawn", source)
-        self.assertIn("if not gate_passed or not chance_delta_result:", source)
-        self.assertIn("if trail_spread > 0.0:", source)
-        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", source)
-        self.assertIn("var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", source)
-        self.assertIn("var effect_call := {\"x\": float(update_bullet_state.get(\"x\", 0.0)) + float(tmp_offset.get(\"x\", 0.0)), \"y\": float(update_bullet_state.get(\"y\", 0.0)) + float(tmp_offset.get(\"y\", 0.0)), \"rotation\": effect_rotation, \"color\": bullet_type_state.get(\"trailColor\", \"Pal.missileYellowBack\"), \"effect\": bullet_type_state.get(\"trailEffect\", \"Fx.missileTrail\")}", source)
-        self.assertIn('"chanceGateSource": "if(trailChance > 0 && canSpawn){"', source)
-        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
+        self.assertIn("return SourceBulletRuntime.update_trail_effects_chance_state(bullet_state, bullet_type_state, chance_delta_result, random_offset_state)", chance_source)
+        self.assertNotIn("var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y", chance_source)
+        self.assertIn("static func update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y", runtime_source)
+        self.assertIn("var can_spawn := trail_min_velocity <= 0.0 or velocity_len2 >= trail_min_velocity * trail_min_velocity", runtime_source)
+        self.assertIn("var gate_passed := trail_chance > 0.0 and can_spawn", runtime_source)
+        self.assertIn("if not gate_passed or not chance_delta_result:", runtime_source)
+        self.assertIn("if trail_spread > 0.0:", runtime_source)
+        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", runtime_source)
+        self.assertIn("var effect_rotation: float = rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", runtime_source)
+        self.assertIn("var effect_call := {\"x\": float(update_bullet_state.get(\"x\", 0.0)) + float(tmp_offset.get(\"x\", 0.0)), \"y\": float(update_bullet_state.get(\"y\", 0.0)) + float(tmp_offset.get(\"y\", 0.0)), \"rotation\": effect_rotation, \"color\": bullet_type_state.get(\"trailColor\", \"Pal.missileYellowBack\"), \"effect\": bullet_type_state.get(\"trailEffect\", \"Fx.missileTrail\")}", runtime_source)
+        self.assertIn('"chanceGateSource": "if(trailChance > 0 && canSpawn){"', runtime_source)
+        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_update_trail_effects_interval_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        interval_source = source[
+            source.index("func source_bullet_type_update_trail_effects_interval_state"):
+            source.index("func source_bullet_type_init_type_defaults_state")
+        ]
 
         self.assertIn("func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_bullet_state: Dictionary = chance_state.get(\"bullet\", {}).duplicate(true)", source)
-        self.assertIn("var effect_calls: Array = chance_state.get(\"effectCalls\", []).duplicate(true)", source)
-        self.assertIn("var gate_passed := trail_interval > 0.0 and can_spawn", source)
-        self.assertIn("if not gate_passed or not timer_get_result:", source)
-        self.assertIn("if trail_spread > 0.0:", source)
-        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", source)
-        self.assertIn("var effect_rotation: float = source_bullet_rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", source)
-        self.assertIn("effect_calls.append(effect_call)", source)
-        self.assertIn('"intervalGateSource": "if(trailInterval > 0f && canSpawn){"', source)
-        self.assertIn('"timerSource": "if(b.timer(0, trailInterval)){"', source)
-        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', source)
-        self.assertIn("var lifetime := float(bullet_type_state.get(\"lifetime\", SOURCE_BULLET_LIFETIME_DEFAULT))", source)
-        self.assertNotIn("var lifetime := float(bullet_type_state.get(\"lifetime\", 40.0))", source)
+        self.assertIn("return SourceBulletRuntime.update_trail_effects_interval_state(chance_state, bullet_type_state, timer_get_result, random_offset_state)", interval_source)
+        self.assertNotIn("var update_bullet_state: Dictionary = chance_state.get(\"bullet\", {}).duplicate(true)", interval_source)
+        self.assertIn("static func update_trail_effects_interval_state(chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_bullet_state: Dictionary = chance_state.get(\"bullet\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var effect_calls: Array = chance_state.get(\"effectCalls\", []).duplicate(true)", runtime_source)
+        self.assertIn("var gate_passed := trail_interval > 0.0 and can_spawn", runtime_source)
+        self.assertIn("if not gate_passed or not timer_get_result:", runtime_source)
+        self.assertIn("if trail_spread > 0.0:", runtime_source)
+        self.assertIn("tmp_offset = random_offset_state.duplicate(true)", runtime_source)
+        self.assertIn("var effect_rotation: float = rotation_degrees(update_bullet_state) if bool(bullet_type_state.get(\"trailRotation\", false)) else float(bullet_type_state.get(\"trailParam\", 2.0))", runtime_source)
+        self.assertIn("effect_calls.append(effect_call)", runtime_source)
+        self.assertIn('"intervalGateSource": "if(trailInterval > 0f && canSpawn){"', runtime_source)
+        self.assertIn('"timerSource": "if(b.timer(0, trailInterval)){"', runtime_source)
+        self.assertIn('"effectAtSource": "trailEffect.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, trailRotation ? b.rotation() : trailParam, trailColor)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_type_defaults_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_type_defaults_state(bullet_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var pierce_cap := int(update_type_state.get(\"pierceCap\", -1))", source)
-        self.assertIn("var pierce_applied := pierce_cap >= 1", source)
-        self.assertIn("if pierce_applied:", source)
-        self.assertIn("update_type_state[\"pierce\"] = true", source)
-        self.assertIn("var set_defaults := bool(update_type_state.get(\"setDefaults\", true))", source)
-        self.assertIn("var lightning := int(update_type_state.get(\"lightning\", 0))", source)
-        self.assertIn("var status_before := str(update_type_state.get(\"status\", \"none\"))", source)
-        self.assertIn("var status_shocked_applied := set_defaults and lightning > 0 and status_before == \"none\"", source)
-        self.assertIn("update_type_state[\"status\"] = \"shocked\"", source)
-        self.assertIn("var despawn_hit_applied := set_defaults and (update_type_state.get(\"fragBullet\", null) != null or float(update_type_state.get(\"splashDamageRadius\", 0.0)) > 0.0 or lightning > 0)", source)
-        self.assertIn("update_type_state[\"despawnHit\"] = true", source)
-        self.assertIn('"pierceGateSource": "if(pierceCap >= 1){"', source)
-        self.assertIn('"statusGateSource": "if(status == StatusEffects.none){"', source)
-        self.assertIn('"statusAssignSource": "status = StatusEffects.shocked"', source)
-        self.assertIn('"despawnHitGateSource": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){"', source)
+        self.assertIn("return SourceBulletRuntime.init_type_defaults_state(bullet_type_state)", source)
+        self.assertIn("static func init_type_defaults_state(bullet_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var pierce_cap := int(update_type_state.get(\"pierceCap\", -1))", runtime_source)
+        self.assertIn("var pierce_applied := pierce_cap >= 1", runtime_source)
+        self.assertIn("if pierce_applied:", runtime_source)
+        self.assertIn("update_type_state[\"pierce\"] = true", runtime_source)
+        self.assertIn("var set_defaults := bool(update_type_state.get(\"setDefaults\", true))", runtime_source)
+        self.assertIn("var lightning := int(update_type_state.get(\"lightning\", 0))", runtime_source)
+        self.assertIn("var status_before := str(update_type_state.get(\"status\", \"none\"))", runtime_source)
+        self.assertIn("var status_shocked_applied := set_defaults and lightning > 0 and status_before == \"none\"", runtime_source)
+        self.assertIn("update_type_state[\"status\"] = \"shocked\"", runtime_source)
+        self.assertIn("var despawn_hit_applied := set_defaults and (update_type_state.get(\"fragBullet\", null) != null or float(update_type_state.get(\"splashDamageRadius\", 0.0)) > 0.0 or lightning > 0)", runtime_source)
+        self.assertIn("update_type_state[\"despawnHit\"] = true", runtime_source)
+        self.assertIn('"pierceGateSource": "if(pierceCap >= 1){"', runtime_source)
+        self.assertIn('"statusGateSource": "if(status == StatusEffects.none){"', runtime_source)
+        self.assertIn('"statusAssignSource": "status = StatusEffects.shocked"', runtime_source)
+        self.assertIn('"despawnHitGateSource": "if(fragBullet != null || splashDamageRadius > 0 || lightning > 0){"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_frag_velocity_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_frag_velocity_state(type_defaults_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = type_defaults_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var frag_bullet_value = update_type_state.get(\"fragBullet\", null)", source)
-        self.assertIn("var gate_passed := frag_bullet_value != null", source)
-        self.assertIn("var frag_bullet_state := (frag_bullet_value as Dictionary).duplicate(true)", source)
-        self.assertIn("frag_bullet_state[\"keepVelocity\"] = false", source)
-        self.assertIn("frag_bullet_state[\"scaleKeepVelocity\"] = false", source)
-        self.assertIn("update_type_state[\"fragBullet\"] = frag_bullet_state", source)
-        self.assertIn('"fragGateSource": "if(fragBullet != null){"', source)
-        self.assertIn('"fragKeepVelocitySource": "fragBullet.keepVelocity = false"', source)
-        self.assertIn('"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false"', source)
+        self.assertIn("return SourceBulletRuntime.init_frag_velocity_state(type_defaults_state)", source)
+        self.assertIn("static func init_frag_velocity_state(type_defaults_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = type_defaults_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var frag_bullet_value = update_type_state.get(\"fragBullet\", null)", runtime_source)
+        self.assertIn("var gate_passed := frag_bullet_value != null", runtime_source)
+        self.assertIn("var frag_bullet_state := (frag_bullet_value as Dictionary).duplicate(true)", runtime_source)
+        self.assertIn("frag_bullet_state[\"keepVelocity\"] = false", runtime_source)
+        self.assertIn("frag_bullet_state[\"scaleKeepVelocity\"] = false", runtime_source)
+        self.assertIn("update_type_state[\"fragBullet\"] = frag_bullet_state", runtime_source)
+        self.assertIn('"fragGateSource": "if(fragBullet != null){"', runtime_source)
+        self.assertIn('"fragKeepVelocitySource": "fragBullet.keepVelocity = false"', runtime_source)
+        self.assertIn('"fragScaleKeepVelocitySource": "fragBullet.scaleKeepVelocity = false"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_lightning_type_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_lightning_type_state(frag_velocity_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = frag_velocity_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var gate_passed := update_type_state.get(\"lightningType\", null) == null", source)
-        self.assertIn("if not bool(update_type_state.get(\"collidesAir\", true)):", source)
-        self.assertIn("lightning_type = \"Bullets.damageLightningGround\"", source)
-        self.assertIn("elif not bool(update_type_state.get(\"collidesGround\", true)):", source)
-        self.assertIn("lightning_type = \"Bullets.damageLightningAir\"", source)
-        self.assertIn("lightning_type = \"Bullets.damageLightning\"", source)
-        self.assertIn("update_type_state[\"lightningType\"] = lightning_type", source)
-        self.assertIn('"lightningTypeGateSource": "if(lightningType == null){"', source)
-        self.assertIn('"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning"', source)
+        self.assertIn("return SourceBulletRuntime.init_lightning_type_state(frag_velocity_state)", source)
+        self.assertIn("static func init_lightning_type_state(frag_velocity_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = frag_velocity_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var gate_passed := update_type_state.get(\"lightningType\", null) == null", runtime_source)
+        self.assertIn("if not bool(update_type_state.get(\"collidesAir\", true)):", runtime_source)
+        self.assertIn("lightning_type = \"Bullets.damageLightningGround\"", runtime_source)
+        self.assertIn("elif not bool(update_type_state.get(\"collidesGround\", true)):", runtime_source)
+        self.assertIn("lightning_type = \"Bullets.damageLightningAir\"", runtime_source)
+        self.assertIn("lightning_type = \"Bullets.damageLightning\"", runtime_source)
+        self.assertIn("update_type_state[\"lightningType\"] = lightning_type", runtime_source)
+        self.assertIn('"lightningTypeGateSource": "if(lightningType == null){"', runtime_source)
+        self.assertIn('"lightningTypeChoiceSource": "!collidesAir ? Bullets.damageLightningGround : !collidesGround ? Bullets.damageLightningAir : Bullets.damageLightning"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_light_radius_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_light_radius_state(lightning_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = lightning_type_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var light_radius := float(update_type_state.get(\"lightRadius\", -1.0))", source)
-        self.assertIn("var gate_passed := light_radius <= -1.0", source)
-        self.assertIn("var resolved_light_radius: float = max(18.0, float(update_type_state.get(\"hitSize\", 4.0)) * 5.0)", source)
-        self.assertIn("update_type_state[\"lightRadius\"] = resolved_light_radius", source)
-        self.assertIn('"lightRadiusGateSource": "if(lightRadius <= -1){"', source)
-        self.assertIn('"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)"', source)
+        self.assertIn("return SourceBulletRuntime.init_light_radius_state(lightning_type_state)", source)
+        self.assertIn("static func init_light_radius_state(lightning_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = lightning_type_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var light_radius := float(update_type_state.get(\"lightRadius\", -1.0))", runtime_source)
+        self.assertIn("var gate_passed := light_radius <= -1.0", runtime_source)
+        self.assertIn("var resolved_light_radius: float = max(18.0, float(update_type_state.get(\"hitSize\", 4.0)) * 5.0)", runtime_source)
+        self.assertIn("update_type_state[\"lightRadius\"] = resolved_light_radius", runtime_source)
+        self.assertIn('"lightRadiusGateSource": "if(lightRadius <= -1){"', runtime_source)
+        self.assertIn('"lightRadiusAssignSource": "lightRadius = Math.max(18, hitSize * 5f)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_draw_size_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_draw_size_state(light_radius_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = light_radius_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var draw_size := float(update_type_state.get(\"drawSize\", 40.0))", source)
-        self.assertIn("var computed_draw_size := float(update_type_state.get(\"trailLength\", -1)) * float(update_type_state.get(\"speed\", 1.0)) * 2.0", source)
-        self.assertIn("var resolved_draw_size: float = max(draw_size, computed_draw_size)", source)
-        self.assertIn("update_type_state[\"drawSize\"] = resolved_draw_size", source)
-        self.assertIn('"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)"', source)
+        self.assertIn("return SourceBulletRuntime.init_draw_size_state(light_radius_state)", source)
+        self.assertIn("static func init_draw_size_state(light_radius_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = light_radius_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var draw_size := float(update_type_state.get(\"drawSize\", 40.0))", runtime_source)
+        self.assertIn("var computed_draw_size := float(update_type_state.get(\"trailLength\", -1)) * float(update_type_state.get(\"speed\", 1.0)) * 2.0", runtime_source)
+        self.assertIn("var resolved_draw_size: float = max(draw_size, computed_draw_size)", runtime_source)
+        self.assertIn("update_type_state[\"drawSize\"] = resolved_draw_size", runtime_source)
+        self.assertIn('"drawSizeAssignSource": "drawSize = Math.max(drawSize, trailLength * speed * 2f)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_init_range_assignment_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_init_range_assignment_state(draw_size_state: Dictionary, calculate_range_result: float) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = draw_size_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("update_type_state[\"range\"] = calculate_range_result", source)
-        self.assertIn('"rangeAssignSource": "range = calculateRange()"', source)
-        self.assertIn('"calculateRangeDeferred": true', source)
+        self.assertIn("return SourceBulletRuntime.init_range_assignment_state(draw_size_state, calculate_range_result)", source)
+        self.assertIn("static func init_range_assignment_state(draw_size_state: Dictionary, calculate_range_result: float) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = draw_size_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("update_type_state[\"range\"] = calculate_range_result", runtime_source)
+        self.assertIn('"rangeAssignSource": "range = calculateRange()"', runtime_source)
+        self.assertIn('"calculateRangeDeferred": true', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_calculate_range_override_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_calculate_range_override_state(bullet_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
-        self.assertIn("var range_override := float(update_type_state.get(\"rangeOverride\", -1.0))", source)
-        self.assertIn("var gate_passed := range_override > 0.0", source)
-        self.assertIn("var resolved_range: Variant = null", source)
-        self.assertIn("if gate_passed:", source)
-        self.assertIn("resolved_range = range_override", source)
-        self.assertIn('"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride"', source)
+        self.assertIn("return SourceBulletRuntime.calculate_range_override_state(bullet_type_state)", source)
+        self.assertIn("static func calculate_range_override_state(bullet_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", runtime_source)
+        self.assertIn("var range_override := float(update_type_state.get(\"rangeOverride\", -1.0))", runtime_source)
+        self.assertIn("var gate_passed := range_override > 0.0", runtime_source)
+        self.assertIn("var resolved_range: Variant = null", runtime_source)
+        self.assertIn("if gate_passed:", runtime_source)
+        self.assertIn("resolved_range = range_override", runtime_source)
+        self.assertIn('"rangeOverrideReturnSource": "if(rangeOverride > 0) return rangeOverride"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_calculate_range_spawn_unit_state(override_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = override_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var prior_return := bool(override_state.get(\"returnEarly\", false))", source)
-        self.assertIn("var spawn_unit_value = update_type_state.get(\"spawnUnit\", null)", source)
-        self.assertIn("var gate_passed := (not prior_return) and spawn_unit_value != null", source)
-        self.assertIn("var spawn_unit_state: Dictionary = {}", source)
-        self.assertIn("spawn_unit_state = (spawn_unit_value as Dictionary).duplicate(true)", source)
-        self.assertIn("resolved_range = float(spawn_unit_state.get(\"lifetime\", 0.0)) * float(spawn_unit_state.get(\"speed\", 0.0))", source)
-        self.assertIn("var returned_spawn_unit: Variant = null", source)
-        self.assertIn("returned_spawn_unit = spawn_unit_state", source)
-        self.assertIn('"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed"', source)
+        self.assertIn("return SourceBulletRuntime.calculate_range_spawn_unit_state(override_state)", source)
+        self.assertIn("static func calculate_range_spawn_unit_state(override_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = override_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var prior_return := bool(override_state.get(\"returnEarly\", false))", runtime_source)
+        self.assertIn("var spawn_unit_value = update_type_state.get(\"spawnUnit\", null)", runtime_source)
+        self.assertIn("var gate_passed := (not prior_return) and spawn_unit_value != null", runtime_source)
+        self.assertIn("var spawn_unit_state: Dictionary = {}", runtime_source)
+        self.assertIn("spawn_unit_state = (spawn_unit_value as Dictionary).duplicate(true)", runtime_source)
+        self.assertIn("resolved_range = float(spawn_unit_state.get(\"lifetime\", 0.0)) * float(spawn_unit_state.get(\"speed\", 0.0))", runtime_source)
+        self.assertIn("var returned_spawn_unit: Variant = null", runtime_source)
+        self.assertIn("returned_spawn_unit = spawn_unit_state", runtime_source)
+        self.assertIn('"spawnUnitReturnSource": "if(spawnUnit != null) return spawnUnit.lifetime * spawnUnit.speed"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_calculate_range_despawn_unit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = spawn_unit_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var prior_return := bool(spawn_unit_state.get(\"returnEarly\", false))", source)
-        self.assertIn("var despawn_unit_value = update_type_state.get(\"despawnUnit\", null)", source)
-        self.assertIn("var gate_passed := (not prior_return) and despawn_unit_value != null", source)
-        self.assertIn("var despawn_unit_state: Dictionary = {}", source)
-        self.assertIn("despawn_unit_state = (despawn_unit_value as Dictionary).duplicate(true)", source)
-        self.assertIn("resolved_range = float(despawn_unit_state.get(\"lifetime\", 0.0)) * float(despawn_unit_state.get(\"speed\", 0.0))", source)
-        self.assertIn("var returned_despawn_unit: Variant = null", source)
-        self.assertIn("returned_despawn_unit = despawn_unit_state", source)
-        self.assertIn('"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed"', source)
+        self.assertIn("return SourceBulletRuntime.calculate_range_despawn_unit_state(spawn_unit_state)", source)
+        self.assertIn("static func calculate_range_despawn_unit_state(spawn_unit_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = spawn_unit_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var prior_return := bool(spawn_unit_state.get(\"returnEarly\", false))", runtime_source)
+        self.assertIn("var despawn_unit_value = update_type_state.get(\"despawnUnit\", null)", runtime_source)
+        self.assertIn("var gate_passed := (not prior_return) and despawn_unit_value != null", runtime_source)
+        self.assertIn("var despawn_unit_state: Dictionary = {}", runtime_source)
+        self.assertIn("despawn_unit_state = (despawn_unit_value as Dictionary).duplicate(true)", runtime_source)
+        self.assertIn("resolved_range = float(despawn_unit_state.get(\"lifetime\", 0.0)) * float(despawn_unit_state.get(\"speed\", 0.0))", runtime_source)
+        self.assertIn("var returned_despawn_unit: Variant = null", runtime_source)
+        self.assertIn("returned_despawn_unit = despawn_unit_state", runtime_source)
+        self.assertIn('"despawnUnitReturnSource": "if(despawnUnit != null) return despawnUnit.lifetime * despawnUnit.speed"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_calculate_range_fallback_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = despawn_unit_state.get(\"bulletType\", {}).duplicate(true)", source)
-        self.assertIn("var prior_return := bool(despawn_unit_state.get(\"returnEarly\", false))", source)
-        self.assertIn("var drag := float(update_type_state.get(\"drag\", 0.0))", source)
-        self.assertIn("var zero_drag := absf(drag) <= 0.000001", source)
-        self.assertIn("fallback_range = speed * lifetime", source)
-        self.assertIn("fallback_range = speed * (1.0 - pow(1.0 - drag, lifetime)) / drag", source)
-        self.assertIn("resolved_range = max(fallback_range, max_range)", source)
-        self.assertIn('"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)"', source)
+        self.assertIn("return SourceBulletRuntime.calculate_range_fallback_state(despawn_unit_state)", source)
+        self.assertIn("static func calculate_range_fallback_state(despawn_unit_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = despawn_unit_state.get(\"bulletType\", {}).duplicate(true)", runtime_source)
+        self.assertIn("var prior_return := bool(despawn_unit_state.get(\"returnEarly\", false))", runtime_source)
+        self.assertIn("var drag := float(update_type_state.get(\"drag\", 0.0))", runtime_source)
+        self.assertIn("var zero_drag := absf(drag) <= 0.000001", runtime_source)
+        self.assertIn("fallback_range = speed * lifetime", runtime_source)
+        self.assertIn("fallback_range = speed * (1.0 - pow(1.0 - drag, lifetime)) / drag", runtime_source)
+        self.assertIn("resolved_range = max(fallback_range, max_range)", runtime_source)
+        self.assertIn('"fallbackReturnSource": "return Math.max(Mathf.zero(drag) ? speed * lifetime : speed * (1f - Mathf.pow(1f - drag, lifetime)) / drag, maxRange)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_continuous_damage_default_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_continuous_damage_default_state(bullet_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
-        self.assertIn('\"continuousDamage\": -1.0', source)
-        self.assertIn('"continuousDamageReturnSource": "return -1f"', source)
+        self.assertIn("return SourceBulletRuntime.continuous_damage_default_state(bullet_type_state)", source)
+        self.assertIn("static func continuous_damage_default_state(bullet_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", runtime_source)
+        self.assertIn('\"continuousDamage\": -1.0', runtime_source)
+        self.assertIn('"continuousDamageReturnSource": "return -1f"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_heals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_heals_state(bullet_type_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", source)
-        self.assertIn("var heal_percent := float(update_type_state.get(\"healPercent\", 0.0))", source)
-        self.assertIn("var heal_amount := float(update_type_state.get(\"healAmount\", 0.0))", source)
-        self.assertIn("var heals := heal_percent > 0.0 or heal_amount > 0.0", source)
-        self.assertIn('"healsReturnSource": "return healPercent > 0 || healAmount > 0"', source)
+        self.assertIn("return SourceBulletRuntime.heals_state(bullet_type_state)", source)
+        self.assertIn("static func heals_state(bullet_type_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_type_state: Dictionary = bullet_type_state.duplicate(true)", runtime_source)
+        self.assertIn("var heal_percent := float(update_type_state.get(\"healPercent\", 0.0))", runtime_source)
+        self.assertIn("var heal_amount := float(update_type_state.get(\"healAmount\", 0.0))", runtime_source)
+        self.assertIn("var heals := heal_percent > 0.0 or heal_amount > 0.0", runtime_source)
+        self.assertIn('"healsReturnSource": "return healPercent > 0 || healAmount > 0"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_test_collision_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_test_collision_state(bullet_type_state: Dictionary, bullet_state: Dictionary, tile_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var heals_state := source_bullet_type_heals_state(update_type_state)", source)
-        self.assertIn("var tile_team = update_tile_state.get(\"team\", null)", source)
-        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
-        self.assertIn("var tile_healthf := float(update_tile_state.get(\"healthf\", 0.0))", source)
-        self.assertIn("var collides_tile: bool = not heals or tile_team != bullet_team or tile_healthf < 1.0", source)
-        self.assertIn('"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f"', source)
+        self.assertIn("return SourceBulletRuntime.test_collision_state(bullet_type_state, bullet_state, tile_state)", source)
+        self.assertIn("static func test_collision_state(bullet_type_state: Dictionary, bullet_state: Dictionary, tile_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var heals_result := heals_state(update_type_state)", runtime_source)
+        self.assertIn("var tile_team = update_tile_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var tile_healthf := float(update_tile_state.get(\"healthf\", 0.0))", runtime_source)
+        self.assertIn("var collides_tile: bool = not heals or tile_team != bullet_team or tile_healthf < 1.0", runtime_source)
+        self.assertIn('"testCollisionReturnSource": "return !heals() || tile.team != bullet.team || tile.healthf() < 1f"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_tile_heal_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var heals_state := source_bullet_type_heals_state(update_type_state)", source)
-        self.assertIn("var build_team = update_build_state.get(\"team\", null)", source)
-        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
-        self.assertIn("var block_is_construct := bool(update_build_state.get(\"blockIsConstructBlock\", false))", source)
-        self.assertIn("var heal_gate_passed: bool = heals and build_team == bullet_team and not block_is_construct", source)
-        self.assertIn("var heal_applied_amount := heal_percent / 100.0 * build_max_health + heal_amount", source)
-        self.assertIn('"hitTileHealGateSource": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))"', source)
-        self.assertIn('"healAmountSource": "healPercent / 100f * build.maxHealth + healAmount"', source)
+        self.assertIn("return SourceBulletRuntime.hit_tile_heal_state(bullet_type_state, bullet_state, build_state)", source)
+        self.assertIn("static func hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var heals_result := heals_state(update_type_state)", runtime_source)
+        self.assertIn("var build_team = update_build_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var block_is_construct := bool(update_build_state.get(\"blockIsConstructBlock\", false))", runtime_source)
+        self.assertIn("var heal_gate_passed: bool = heals and build_team == bullet_team and not block_is_construct", runtime_source)
+        self.assertIn("var heal_applied_amount := heal_percent / 100.0 * build_max_health + heal_amount", runtime_source)
+        self.assertIn('"hitTileHealGateSource": "if(heals() && build.team == b.team && !(build.block instanceof ConstructBlock))"', runtime_source)
+        self.assertIn('"healAmountSource": "healPercent / 100f * build.maxHealth + healAmount"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_tile_fire_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_tile_fire_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var make_fire := bool(update_type_state.get(\"makeFire\", false))", source)
-        self.assertIn("var build_team = update_build_state.get(\"team\", null)", source)
-        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
-        self.assertIn("var fire_gate_passed: bool = make_fire and build_team != bullet_team", source)
-        self.assertIn("var build_tile = update_build_state.get(\"tile\", null)", source)
-        self.assertIn('"hitTileFireGateSource": "if(makeFire && build.team != b.team)"', source)
-        self.assertIn('"firesCreateSource": "Fires.create(build.tile)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_tile_fire_state(bullet_type_state, bullet_state, build_state)", source)
+        self.assertIn("static func hit_tile_fire_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var make_fire := bool(update_type_state.get(\"makeFire\", false))", runtime_source)
+        self.assertIn("var build_team = update_build_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var fire_gate_passed: bool = make_fire and build_team != bullet_team", runtime_source)
+        self.assertIn("var build_tile = update_build_state.get(\"tile\", null)", runtime_source)
+        self.assertIn('"hitTileFireGateSource": "if(makeFire && build.team != b.team)"', runtime_source)
+        self.assertIn('"firesCreateSource": "Fires.create(build.tile)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_tile_enemy_direct_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_tile_enemy_direct_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var direct := bool(update_hit_tile_state.get(\"direct\", false))", source)
-        self.assertIn("var build_team = update_build_state.get(\"team\", null)", source)
-        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", source)
-        self.assertIn("var enemy_direct_gate_passed: bool = build_team != bullet_team and direct", source)
-        self.assertIn('"hitTileEnemyDirectGateSource": "}else if(build.team != b.team && direct)"', source)
-        self.assertIn('"enemyHitCallSource": "hit(b)"', source)
-        self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_tile_enemy_direct_state(bullet_type_state, bullet_state, build_state, hit_tile_state)", source)
+        self.assertIn("static func hit_tile_enemy_direct_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var direct := bool(update_hit_tile_state.get(\"direct\", false))", runtime_source)
+        self.assertIn("var build_team = update_build_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var bullet_team = update_bullet_state.get(\"team\", null)", runtime_source)
+        self.assertIn("var enemy_direct_gate_passed: bool = build_team != bullet_team and direct", runtime_source)
+        self.assertIn('"hitTileEnemyDirectGateSource": "}else if(build.team != b.team && direct)"', runtime_source)
+        self.assertIn('"enemyHitCallSource": "hit(b)"', runtime_source)
+        self.assertIn('"lifestealBoundarySource": "if(lifesteal > 0f && b.owner instanceof Healthc o)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_tile_lifesteal_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_tile_lifesteal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var lifesteal := float(update_type_state.get(\"lifesteal\", 0.0))", source)
-        self.assertIn("var damage := float(update_type_state.get(\"damage\", 0.0))", source)
-        self.assertIn("var build_health := float(update_build_state.get(\"health\", 0.0))", source)
-        self.assertIn("var owner_is_healthc := bool(update_owner_health_state.get(\"isHealthc\", false))", source)
-        self.assertIn("var lifesteal_result := maxf(minf(build_health, damage), 0.0)", source)
-        self.assertIn("var owner_heal_called := enemy_direct_gate_passed and lifesteal_gate_passed", source)
-        self.assertIn("var owner_heal_amount := lifesteal_result * lifesteal if owner_heal_called else 0.0", source)
-        self.assertIn('"lifestealResultSource": "float result = Math.max(Math.min(build.health, damage), 0)"', source)
-        self.assertIn('"ownerHealSource": "o.heal(result * lifesteal)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_tile_lifesteal_state(bullet_type_state, bullet_state, build_state, hit_tile_state, owner_health_state)", source)
+        self.assertIn("static func hit_tile_lifesteal_state(bullet_type_state: Dictionary, bullet_state: Dictionary, build_state: Dictionary, hit_tile_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var lifesteal := float(update_type_state.get(\"lifesteal\", 0.0))", runtime_source)
+        self.assertIn("var lifesteal_damage := float(update_type_state.get(\"damage\", 0.0))", runtime_source)
+        self.assertIn("var build_health := float(update_build_state.get(\"health\", 0.0))", runtime_source)
+        self.assertIn("var owner_is_healthc := bool(update_owner_health_state.get(\"isHealthc\", false))", runtime_source)
+        self.assertIn("var lifesteal_result := maxf(minf(build_health, lifesteal_damage), 0.0)", runtime_source)
+        self.assertIn("var owner_heal_called := enemy_direct_gate_passed and lifesteal_gate_passed", runtime_source)
+        self.assertIn("var owner_heal_amount := lifesteal_result * lifesteal if owner_heal_called else 0.0", runtime_source)
+        self.assertIn('"lifestealResultSource": "float result = Math.max(Math.min(build.health, damage), 0)"', runtime_source)
+        self.assertIn('"ownerHealSource": "o.heal(result * lifesteal)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_handle_pierce_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_handle_pierce_state(bullet_type_state: Dictionary, bullet_state: Dictionary, pierce_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var pierce_damage_factor := float(update_type_state.get(\"pierceDamageFactor\", 0.0))", source)
-        self.assertIn("var remove_after_pierce := bool(update_type_state.get(\"removeAfterPierce\", false))", source)
-        self.assertIn("var initial_health := float(update_pierce_state.get(\"initialHealth\", 0.0))", source)
-        self.assertIn("var zero_pierce_damage_factor := absf(pierce_damage_factor) <= 0.000001", source)
-        self.assertIn("var sub := 0.0 if zero_pierce_damage_factor else maxf(initial_health * pierce_damage_factor, 0.0)", source)
-        self.assertIn("var damage_subtract := bullet_damage if is_nan(sub) else minf(bullet_damage, sub)", source)
-        self.assertIn('"subSource": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)"', source)
-        self.assertIn('"damageSubtractSource": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)"', source)
-        self.assertIn('"removeAfterPierceSource": "if(removeAfterPierce && b.damage <= 0)"', source)
+        self.assertIn("return SourceBulletRuntime.handle_pierce_state(bullet_type_state, bullet_state, pierce_state)", source)
+        self.assertIn("static func handle_pierce_state(bullet_type_state: Dictionary, bullet_state: Dictionary, pierce_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var pierce_damage_factor := float(update_type_state.get(\"pierceDamageFactor\", 0.0))", runtime_source)
+        self.assertIn("var remove_after_pierce := bool(update_type_state.get(\"removeAfterPierce\", false))", runtime_source)
+        self.assertIn("var initial_health := float(update_pierce_state.get(\"initialHealth\", 0.0))", runtime_source)
+        self.assertIn("var zero_pierce_damage_factor := absf(pierce_damage_factor) <= 0.000001", runtime_source)
+        self.assertIn("var sub := 0.0 if zero_pierce_damage_factor else maxf(initial_health * pierce_damage_factor, 0.0)", runtime_source)
+        self.assertIn("var damage_subtract := bullet_damage if is_nan(sub) else minf(bullet_damage, sub)", runtime_source)
+        self.assertIn('"subSource": "float sub = Mathf.zero(pierceDamageFactor) ? 0f : Math.max(initialHealth * pierceDamageFactor, 0)"', runtime_source)
+        self.assertIn('"damageSubtractSource": "b.damage -= Float.isNaN(sub) ? b.damage : Math.min(b.damage, sub)"', runtime_source)
+        self.assertIn('"removeAfterPierceSource": "if(removeAfterPierce && b.damage <= 0)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_entity_damage_cap_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -16134,6 +16851,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", SOURCE_TICK_RATE * 8.0))", source)
+        self.assertNotIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", 60.0 * 8.0))", source)
         self.assertIn("var suppression_gate_passed := suppression_range > 0.0", source)
         self.assertIn("var suppression_vector := {\"x\": bullet_x, \"y\": bullet_y}", source)
         self.assertIn("\"call\": \"Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)\"", source)
@@ -16166,6 +16885,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var status_duration := float(update_type_state.get(\"statusDuration\", SOURCE_TICK_RATE * 8.0))", source)
+        self.assertNotIn("var status_duration := float(update_type_state.get(\"statusDuration\", 60.0 * 8.0))", source)
         self.assertIn("var status_gate_passed := splash_damage_gate_passed and status != \"none\"", source)
         self.assertIn("\"call\": \"Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)\"", source)
         self.assertIn("\"healsBoundarySource\": \"if(heals())\"", source)
@@ -18743,6 +19464,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);"', source)
         self.assertIn('"activation_time_guard_expr": "if(activationTime > 0)"', source)
         self.assertIn('"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"', source)
+        source_body = source.split("func source_base_turret_set_stats_state", 1)[1].split("func generated_base_turret_set_stats_bridge_state", 1)[0]
+        self.assertIn('"value": activation_time / SOURCE_TICK_RATE', source_body)
+        self.assertNotIn("activation_time / 60.0", source_body)
         self.assertIn('"shoot_range_stat_call": shoot_range_stat_call', source)
         self.assertIn('"activation_time_stat_call": activation_time_stat_call', source)
 
@@ -18772,6 +19496,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"bar_text_get_expr": "Core.bundle.get(\\"bar.activated\\")"', source)
         self.assertIn('"bar_color_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue"', source)
         self.assertIn('"bar_progress_expr": "() -> 1 - entity.activationTimer / activationTime"', source)
+        source_body = source.split("func source_base_turret_set_bars_state", 1)[1].split("func generated_base_turret_set_bars_bridge_state", 1)[0]
+        self.assertIn("var source_tick_rate: float = SOURCE_TICK_RATE", source_body)
+        self.assertIn('"seconds": ceil(entity_activation_timer / source_tick_rate)', source_body)
+        self.assertNotIn("entity_activation_timer / 60.0", source_body)
         self.assertIn('"activation_bar_call": activation_bar_call', source)
 
     def test_port_game_exposes_generated_base_turret_set_bars_bridge_state(self):
@@ -18968,7 +19696,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"zero_guard_expr": "if(!any || damage <= 0) return 0f;"', source)
         self.assertIn('"return_expr": "return damage * 60f * efficiency * coolantMultiplier;"', source)
         self.assertIn("var zero_guard: bool = (not any_state) or damage <= 0.0", source)
-        self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier", source)
+        source_body = source.split("func source_tractor_beam_turret_build_estimate_dps_state", 1)[1].split("func generated_tractor_beam_turret_build_estimate_dps_bridge_state", 1)[0]
+        self.assertIn("var source_tick_rate: float = SOURCE_TICK_RATE", source_body)
+        self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier", source_body)
+        self.assertNotIn("damage * 60.0 * efficiency * coolant_multiplier", source_body)
 
     def test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -19748,6 +20479,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
         self.assertIn('"inaccuracy_stat_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);"', source)
         self.assertIn('"reload_stat_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);"', source)
+        self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source)
+        self.assertIn("var reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots", source)
+        self.assertNotIn("var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots", source)
         self.assertIn('"ammo_use_guard_expr": "if(ammoPerShot != 1)"', source)
         self.assertIn('"input_heat_guard_expr": "if(heatRequirement > 0)"', source)
         self.assertIn('"max_efficiency_guard_expr": "if(heatRequirement > 0 && maxHeatEfficiency > 0)"', source)
