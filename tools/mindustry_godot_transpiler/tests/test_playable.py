@@ -16997,53 +16997,96 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"Fires.create(other.tile)\"", runtime_source)
         self.assertIn("\"createFragsBoundarySource\": \"public void createFrags(Bullet b, float x, float y){\"", runtime_source)
 
-    def test_port_game_exposes_source_bullet_type_create_frags_initial_state(self):
+    def test_port_game_exposes_source_bullet_type_create_frags_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var frag_bullet_exists := frag_bullet != null", source)
-        self.assertIn("var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)", source)
-        self.assertIn("var loop_iterations := frag_bullets if frag_gate_passed else 0", source)
-        self.assertIn("\"fragGateSource\": \"if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))\"", source)
-        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < fragBullets; i++){\"", source)
-        self.assertIn("\"randomLenBoundarySource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_initial_state(bullet_type_state, bullet_state, create_frags_state)", source)
+        self.assertIn("func source_bullet_type_create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_random_geometry_state(bullet_type_state, bullet_state, create_frags_initial_state, frag_random_state)", source)
+        self.assertIn("func source_bullet_type_create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_create_call_state(bullet_type_state, bullet_state, create_frags_random_geometry_state, frag_random_state)", source)
+        self.assertIn("func source_bullet_type_create_frags_increment_state(bullet_state: Dictionary, create_frags_create_call_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_increment_state(bullet_state, create_frags_create_call_state)", source)
+
+        self.assertIn("static func create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_frags_increment_state(bullet_state: Dictionary, incoming_create_frags_create_call_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)", runtime_source)
+        self.assertIn("var angle_value: Variant = null", runtime_source)
+        self.assertIn("var frag_velocity_min := float(update_type_state.get(\"fragVelocityMin\", 0.2))", runtime_source)
+        self.assertIn("var frags_incremented := frag_gate_passed", runtime_source)
+        self.assertNotIn("static func create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_frags_increment_state(bullet_state: Dictionary, create_frags_create_call_state: Dictionary) -> Dictionary:", runtime_source)
+
+    def test_port_game_exposes_source_bullet_type_create_frags_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
+        source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_initial_state(bullet_type_state, bullet_state, create_frags_state)", source)
+        self.assertIn("static func create_frags_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var frag_bullet_exists := frag_bullet != null", runtime_source)
+        self.assertIn("var frag_gate_passed := frag_bullet_exists and (frag_on_absorb or not bullet_absorbed) and (pierce_frag_cap < 0 or bullet_frags < pierce_frag_cap)", runtime_source)
+        self.assertIn("var loop_iterations := frag_bullets if frag_gate_passed else 0", runtime_source)
+        self.assertIn("\"fragGateSource\": \"if(fragBullet != null && (fragOnAbsorb || !b.absorbed) && (pierceFragCap < 0 || b.frags < pierceFragCap))\"", runtime_source)
+        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < fragBullets; i++){\"", runtime_source)
+        self.assertIn("\"randomLenBoundarySource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_frags_random_geometry_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var len_samples: Array = update_random_state.get(\"lenSamples\", [])", source)
-        self.assertIn("var range_samples: Array = update_random_state.get(\"rangeSamples\", [])", source)
-        self.assertIn("var fragment_plans: Array = []", source)
-        self.assertIn("var angle_value: Variant = null", source)
-        self.assertIn("angle_value = rotation_value + float(range_sample) + frag_angle + frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0", source)
-        self.assertIn("\"randomLenSource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", source)
-        self.assertIn("\"angleFormulaSource\": \"float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;\"", source)
-        self.assertIn("\"createCallBoundarySource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_random_geometry_state(bullet_type_state, bullet_state, create_frags_initial_state, frag_random_state)", source)
+        self.assertIn("static func create_frags_random_geometry_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_frags_initial_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var len_samples: Array = update_random_state.get(\"lenSamples\", [])", runtime_source)
+        self.assertIn("var range_samples: Array = update_random_state.get(\"rangeSamples\", [])", runtime_source)
+        self.assertIn("var fragment_plans: Array = []", runtime_source)
+        self.assertIn("var angle_value: Variant = null", runtime_source)
+        self.assertIn("angle_value = rotation_value + float(range_sample) + frag_angle + frag_spread * float(i) - (float(frag_bullets) - 1.0) * frag_spread / 2.0", runtime_source)
+        self.assertIn("\"randomLenSource\": \"float len = Mathf.random(fragOffsetMin, fragOffsetMax);\"", runtime_source)
+        self.assertIn("\"angleFormulaSource\": \"float a = b.rotation() + Mathf.range(fragRandomSpread / 2) + fragAngle + fragSpread * i - (fragBullets - 1) * fragSpread / 2f;\"", runtime_source)
+        self.assertIn("\"createCallBoundarySource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_frags_create_call_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var velocity_samples: Array = update_random_state.get(\"velocitySamples\", [])", source)
-        self.assertIn("var life_samples: Array = update_random_state.get(\"lifeSamples\", [])", source)
-        self.assertIn("var offset := source_arc_angles_trns_vec(angle_value, len_value, 0.0)", source)
-        self.assertIn("\"call\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))\"", source)
-        self.assertIn("\"createCallSource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_create_call_state(bullet_type_state, bullet_state, create_frags_random_geometry_state, frag_random_state)", source)
+        self.assertIn("static func create_frags_create_call_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_frags_random_geometry_state: Dictionary, frag_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var velocity_samples: Array = update_random_state.get(\"velocitySamples\", [])", runtime_source)
+        self.assertIn("var life_samples: Array = update_random_state.get(\"lifeSamples\", [])", runtime_source)
+        self.assertIn("var offset := arc_angles_trns_vec(angle_value, len_value, 0.0)", runtime_source)
+        self.assertIn("\"call\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax))\"", runtime_source)
+        self.assertIn("\"createCallSource\": \"fragBullet.create(b, x + Angles.trnsx(a, len), y + Angles.trnsy(a, len), a, Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_frags_increment_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_frags_increment_state(bullet_state: Dictionary, create_frags_create_call_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var frags_incremented := frag_gate_passed", source)
-        self.assertIn("if frags_incremented:", source)
-        self.assertIn("bullet_frags_after = bullet_frags_before + 1", source)
-        self.assertIn("update_bullet_state[\"frags\"] = bullet_frags_after", source)
-        self.assertIn("\"fragsIncrementSource\": \"b.frags++;\"", source)
+        self.assertIn("return SourceBulletRuntime.create_frags_increment_state(bullet_state, create_frags_create_call_state)", source)
+        self.assertIn("static func create_frags_increment_state(bullet_state: Dictionary, incoming_create_frags_create_call_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var frags_incremented := frag_gate_passed", runtime_source)
+        self.assertIn("if frags_incremented:", runtime_source)
+        self.assertIn("bullet_frags_after = bullet_frags_before + 1", runtime_source)
+        self.assertIn("update_bullet_state[\"frags\"] = bullet_frags_after", runtime_source)
+        self.assertIn("\"fragsIncrementSource\": \"b.frags++;\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_puddles_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
