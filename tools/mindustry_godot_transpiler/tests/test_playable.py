@@ -17189,66 +17189,101 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_create_units_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_state: Dictionary, create_units_random_state: Dictionary, net_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var net_client := bool(update_net_state.get(\"client\", false))", source)
-        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", source)
-        self.assertIn("var create_units_gate_passed: bool = not net_client and despawn_unit != null and chance_passed == true", source)
-        self.assertIn("var loop_iterations := despawn_unit_count if create_units_gate_passed else 0", source)
-        self.assertIn("\"gateSource\": \"if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){\"", source)
-        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < despawnUnitCount; i++){\"", source)
-        self.assertIn("\"randomOffsetBoundarySource\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius));\"", source)
-        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_units_initial_state(bullet_type_state, bullet_state, create_units_state, create_units_random_state, net_state)", source)
+        self.assertNotIn("var update_create_units_state: Dictionary = create_units_state.duplicate(true)", source)
+
+        self.assertIn("static func create_units_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_units_state: Dictionary, create_units_random_state: Dictionary, net_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_create_units_state: Dictionary = incoming_create_units_state.duplicate(true)", runtime_source)
+        self.assertIn("var net_client := bool(update_net_state.get(\"client\", false))", runtime_source)
+        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", runtime_source)
+        self.assertIn("var create_units_gate_passed: bool = not net_client and despawn_unit != null and chance_passed == true", runtime_source)
+        self.assertIn("var loop_iterations := despawn_unit_count if create_units_gate_passed else 0", runtime_source)
+        self.assertIn("\"gateSource\": \"if(!net.client() && despawnUnit != null && Mathf.chance(despawnUnitChance)){\"", runtime_source)
+        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < despawnUnitCount; i++){\"", runtime_source)
+        self.assertIn("\"randomOffsetBoundarySource\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius));\"", runtime_source)
+        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_units_random_offset_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_units_random_offset_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_initial_state: Dictionary, create_units_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var length_samples: Array = update_random_state.get(\"lengthSamples\", [])", source)
-        self.assertIn("var theta_samples: Array = update_random_state.get(\"thetaSamples\", [])", source)
-        self.assertIn("var unit_offset_plans: Array = []", source)
-        self.assertIn("tmp_v1_x = cos(float(theta_sample)) * float(length_sample)", source)
-        self.assertIn("tmp_v1_y = sin(float(theta_sample)) * float(length_sample)", source)
-        self.assertIn("\"call\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius))\"", source)
-        self.assertIn("\"randomDirectionSource\": \"float theta = Mathf.random(0f, Mathf.PI2);\"", source)
-        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_units_random_offset_state(bullet_type_state, bullet_state, create_units_initial_state, create_units_random_state)", source)
+        self.assertNotIn("var update_initial_state: Dictionary = create_units_initial_state.duplicate(true)", source)
+
+        self.assertIn("static func create_units_random_offset_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_units_initial_state: Dictionary, create_units_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_initial_state: Dictionary = incoming_create_units_initial_state.duplicate(true)", runtime_source)
+        self.assertIn("var length_samples: Array = update_random_state.get(\"lengthSamples\", [])", runtime_source)
+        self.assertIn("var theta_samples: Array = update_random_state.get(\"thetaSamples\", [])", runtime_source)
+        self.assertIn("var unit_offset_plans: Array = []", runtime_source)
+        self.assertIn("tmp_v1_x = cos(float(theta_sample)) * float(length_sample)", runtime_source)
+        self.assertIn("tmp_v1_y = sin(float(theta_sample)) * float(length_sample)", runtime_source)
+        self.assertIn("\"call\": \"Tmp.v1.rnd(Mathf.random(despawnUnitRadius))\"", runtime_source)
+        self.assertIn("\"randomDirectionSource\": \"float theta = Mathf.random(0f, Mathf.PI2);\"", runtime_source)
+        self.assertIn("\"spawnBoundarySource\": \"var u = despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_units_spawn_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_units_spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_random_offset_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var unit_offset_plans: Array = update_random_offset_state.get(\"unitOffsetPlans\", [])", source)
-        self.assertIn("var spawn_x: Variant = null", source)
-        self.assertIn("spawn_x = float(base_x) + float(tmp_v1_x)", source)
-        self.assertIn("spawn_y = float(base_y) + float(tmp_v1_y)", source)
-        self.assertIn("\"call\": \"despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)\"", source)
-        self.assertIn("\"rotationBoundarySource\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();\"", source)
-        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_units_spawn_state(bullet_type_state, bullet_state, create_units_random_offset_state)", source)
+        self.assertNotIn("var update_random_offset_state: Dictionary = create_units_random_offset_state.duplicate(true)", source)
+
+        self.assertIn("static func create_units_spawn_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_units_random_offset_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_random_offset_state: Dictionary = incoming_create_units_random_offset_state.duplicate(true)", runtime_source)
+        self.assertIn("var unit_offset_plans: Array = update_random_offset_state.get(\"unitOffsetPlans\", [])", runtime_source)
+        self.assertIn("var spawn_x: Variant = null", runtime_source)
+        self.assertIn("spawn_x = float(base_x) + float(tmp_v1_x)", runtime_source)
+        self.assertIn("spawn_y = float(base_y) + float(tmp_v1_y)", runtime_source)
+        self.assertIn("\"call\": \"despawnUnit.spawn(b.team, x + Tmp.v1.x, y + Tmp.v1.y)\"", runtime_source)
+        self.assertIn("\"rotationBoundarySource\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation();\"", runtime_source)
+        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_units_rotation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_units_rotation_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_spawn_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var face_outwards := bool(update_type_state.get(\"faceOutwards\", update_spawn_state.get(\"faceOutwards\", false)))", source)
-        self.assertIn("var bullet_rotation: Variant = update_bullet_state.get(\"rotation\", null)", source)
-        self.assertIn("tmp_v1_angle = rad_to_deg(atan2(float(tmp_v1_y), float(tmp_v1_x)))", source)
-        self.assertIn("if tmp_v1_angle < 0.0:", source)
-        self.assertIn("\"assignment\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()\"", source)
-        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_units_rotation_state(bullet_type_state, bullet_state, create_units_spawn_state)", source)
+        self.assertNotIn("var update_spawn_state: Dictionary = create_units_spawn_state.duplicate(true)", source)
+
+        self.assertIn("static func create_units_rotation_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_units_spawn_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_spawn_state: Dictionary = incoming_create_units_spawn_state.duplicate(true)", runtime_source)
+        self.assertIn("var face_outwards := bool(update_type_state.get(\"faceOutwards\", update_spawn_state.get(\"faceOutwards\", false)))", runtime_source)
+        self.assertIn("var bullet_rotation: Variant = update_bullet_state.get(\"rotation\", null)", runtime_source)
+        self.assertIn("tmp_v1_angle = rad_to_deg(atan2(float(tmp_v1_y), float(tmp_v1_x)))", runtime_source)
+        self.assertIn("if tmp_v1_angle < 0.0:", runtime_source)
+        self.assertIn("\"assignment\": \"u.rotation = faceOutwards ? Tmp.v1.angle() : b.rotation()\"", runtime_source)
+        self.assertIn("\"notifyBoundarySource\": \"Units.notifyUnitSpawn(u);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_units_notify_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_units_notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_rotation_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var rotation_assignments: Array = update_rotation_state.get(\"rotationAssignments\", [])", source)
-        self.assertIn("var notify_calls: Array = []", source)
-        self.assertIn("\"call\": \"Units.notifyUnitSpawn(u)\"", source)
-        self.assertIn("\"notifySource\": \"Units.notifyUnitSpawn(u);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_units_notify_state(bullet_type_state, bullet_state, create_units_rotation_state)", source)
+        self.assertNotIn("var update_rotation_state: Dictionary = create_units_rotation_state.duplicate(true)", source)
+
+        self.assertIn("static func create_units_notify_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_units_rotation_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_rotation_state: Dictionary = incoming_create_units_rotation_state.duplicate(true)", runtime_source)
+        self.assertIn("var rotation_assignments: Array = update_rotation_state.get(\"rotationAssignments\", [])", runtime_source)
+        self.assertIn("var notify_calls: Array = []", runtime_source)
+        self.assertIn("\"call\": \"Units.notifyUnitSpawn(u)\"", runtime_source)
+        self.assertIn("\"notifySource\": \"Units.notifyUnitSpawn(u);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_despawned_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
