@@ -1019,6 +1019,41 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(report["errors"], [])
         self.assertEqual(wave_report["canonical_mirror"]["checked"], len(wave_files))
 
+    def test_source_ssot_content_registry_wave_metadata_shard_declares_canonical_nested_scalar_mirror_contract(self):
+        import importlib
+
+        source_ssot = importlib.import_module("mindustry_port.source_ssot")
+
+        manifest = source_ssot.load_extension_manifest(ROOT / "godot-mindustry")
+        metadata_entry = manifest["modules"]["content_registry_wave_metadata"]
+
+        self.assertEqual(metadata_entry["canonical_module"], "content_registry")
+        self.assertEqual(metadata_entry["canonical_collection_key"], "waves.version")
+        self.assertEqual(metadata_entry["canonical_key_field"], "@scalar")
+        self.assertEqual(metadata_entry["canonical_reference_key"], "canonical_metadata")
+        self.assertEqual(metadata_entry["canonical_reference_prefix"], "content_registry.waves.")
+        self.assertEqual(metadata_entry["canonical_value_field"], "value")
+        self.assertEqual(metadata_entry["root_key"], "metadata")
+        self.assertEqual(metadata_entry["label"], "metadataKey")
+        self.assertEqual(metadata_entry["mirror_fields"], ["value"])
+        self.assertIn("content_registry.json waves metadata", metadata_entry["rule"])
+
+        metadata_files = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry_wave_metadata")["metadata"]
+        canonical_registry = source_ssot.load_registered_json(ROOT / "godot-mindustry", "content_registry")
+        canonical_version = canonical_registry["waves"]["version"]
+
+        self.assertEqual(set(metadata_files), {"version"})
+        self.assertEqual(metadata_files["version"]["canonical_metadata"], "content_registry.waves.version")
+        self.assertEqual(metadata_files["version"]["value"], canonical_version)
+
+        built = source_ssot.build_extension_shard(ROOT / "godot-mindustry", "content_registry_wave_metadata")
+        self.assertEqual(built["metadata"]["version"], metadata_files["version"])
+
+        report = source_ssot.validate_json_modules(ROOT / "godot-mindustry")
+        metadata_report = [entry for entry in report["modules"] if entry["name"] == "content_registry_wave_metadata"][0]
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(metadata_report["canonical_mirror"]["checked"], len(metadata_files))
+
     def test_source_ssot_omits_oversized_port_report_unsupported_features_shard(self):
         import importlib
 

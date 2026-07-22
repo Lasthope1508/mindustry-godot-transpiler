@@ -707,6 +707,8 @@ def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -
     if not entry.canonical_collection_key:
         raise ValueError(f"{entry.name}: canonical module {entry.canonical_module} has no root key")
     canonical_values_raw = _nested_value(canonical_data, entry.canonical_collection_key)
+    if entry.canonical_key_field == "@scalar" and not isinstance(canonical_values_raw, (dict, list)):
+        return {str(entry.canonical_collection_key.split(".")[-1]): canonical_values_raw}
     canonical_values: dict[str, Any] = {}
     if isinstance(canonical_values_raw, dict):
         if entry.canonical_key_field and entry.canonical_key_field in canonical_values_raw:
@@ -724,6 +726,8 @@ def _canonical_values_for_extension(godot_root: Path, entry: SourceSsotModule) -
             else:
                 canonical_values[str(value)] = value
     else:
+        if entry.canonical_key_field == "@scalar":
+            return {str(entry.canonical_collection_key.split(".")[-1]): canonical_values_raw}
         raise ValueError(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array or object")
     return canonical_values
 
@@ -892,7 +896,9 @@ def _validate_extension_canonical_array_mirror(
         errors.append(f"{entry.name}: root key {entry.root_key} must be an object")
         return report
     canonical_values: dict[str, Any] = {}
-    if isinstance(canonical_values_raw, dict):
+    if entry.canonical_key_field == "@scalar" and not isinstance(canonical_values_raw, (dict, list)):
+        canonical_values = {str(entry.canonical_collection_key.split(".")[-1]): canonical_values_raw}
+    elif isinstance(canonical_values_raw, dict):
         if entry.canonical_key_field and entry.canonical_key_field in canonical_values_raw:
             canonical_values = {str(canonical_values_raw[entry.canonical_key_field]): canonical_values_raw}
         else:
@@ -909,6 +915,9 @@ def _validate_extension_canonical_array_mirror(
             else:
                 canonical_values[str(value)] = value
     else:
+        if entry.canonical_key_field == "@scalar":
+            errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be a scalar value")
+            return report
         errors.append(f"{entry.name}: canonical collection {entry.canonical_module}.{entry.canonical_collection_key} must be an array or object")
         return report
     for item_key, shard_entry in sorted(shard_entries.items()):

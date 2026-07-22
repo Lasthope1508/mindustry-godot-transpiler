@@ -617,6 +617,9 @@ func content_registry_count_state(count_name: String = "") -> Dictionary:
 func content_registry_wave_group_state(group_index: String = "") -> Dictionary:
 	return SourceSsotCatalog.lookup_state("content_registry_wave_groups", group_index)
 
+func content_registry_wave_metadata_state(metadata_key: String = "") -> Dictionary:
+	return SourceSsotCatalog.lookup_state("content_registry_wave_metadata", metadata_key)
+
 func emitted_classes_state() -> Dictionary:
 	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
 

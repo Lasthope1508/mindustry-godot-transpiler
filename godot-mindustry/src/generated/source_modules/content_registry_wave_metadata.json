@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "content_registry.waves",
+    "newMetadataRequiresCanonicalWaveField": true
+  },
+  "metadata": {
+    "version": {
+      "canonical_metadata": "content_registry.waves.version",
+      "value": 7
+    }
+  }
+}

@@ -1361,6 +1361,22 @@
         "index",
         "group"
       ]
+    },
+    "content_registry_wave_metadata": {
+      "path": "src/generated/source_modules/content_registry_wave_metadata.json",
+      "root_key": "metadata",
+      "label": "metadataKey",
+      "status": "active",
+      "rule": "Extension shard for content_registry.json waves metadata; canonical wave metadata remains mirrored from content_registry.waves.version before use.",
+      "canonical_module": "content_registry",
+      "canonical_collection_key": "waves.version",
+      "canonical_key_field": "@scalar",
+      "canonical_value_field": "value",
+      "canonical_reference_key": "canonical_metadata",
+      "canonical_reference_prefix": "content_registry.waves.",
+      "mirror_fields": [
+        "value"
+      ]
     }
   },
   "policy": {
