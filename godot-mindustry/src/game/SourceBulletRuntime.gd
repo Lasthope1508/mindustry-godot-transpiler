@@ -1488,6 +1488,481 @@ static func hit_entity_handle_pierce_state(bullet_type_state: Dictionary, bullet
 		"handlePierceMethodSource": "public void handlePierce(Bullet b, float initialHealth, float x, float y)",
 	}
 
+static func hit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var hit_x := float(update_hit_xy_state.get("x", 0.0))
+	var hit_y := float(update_hit_xy_state.get("y", 0.0))
+	var hit_effect: Variant = update_type_state.get("hitEffect", "Fx.hitBulletSmall")
+	var hit_sound: Variant = update_type_state.get("hitSound", "Sounds.none")
+	var hit_sound_pitch := float(update_type_state.get("hitSoundPitch", 1.0))
+	var hit_sound_pitch_range := float(update_type_state.get("hitSoundPitchRange", 0.1))
+	var hit_sound_volume := float(update_type_state.get("hitSoundVolume", 1.0))
+	var hit_shake := float(update_type_state.get("hitShake", 0.0))
+	var hit_color: Variant = update_type_state.get("hitColor", "Color.white")
+	var bullet_rotation := float(update_bullet_state.get("rotation", 0.0))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"x": hit_x,
+		"y": hit_y,
+		"hitEffectCall": {
+			"call": "hitEffect.at(x, y, b.rotation(), hitColor)",
+			"effect": hit_effect,
+			"x": hit_x,
+			"y": hit_y,
+			"rotation": bullet_rotation,
+			"color": hit_color,
+		},
+		"hitSoundCall": {
+			"call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+			"sound": hit_sound,
+			"x": hit_x,
+			"y": hit_y,
+			"pitchBase": hit_sound_pitch,
+			"pitchRange": hit_sound_pitch_range,
+			"volume": hit_sound_volume,
+		},
+		"shakeCall": {
+			"call": "Effect.shake(hitShake, hitShake, b)",
+			"amountX": hit_shake,
+			"amountY": hit_shake,
+			"bullet": update_bullet_state,
+		},
+		"hitEffectCallSource": "hitEffect.at(x, y, b.rotation(), hitColor)",
+		"hitSoundCallSource": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)",
+		"shakeCallSource": "Effect.shake(hitShake, hitShake, b)",
+		"fragBranchBoundarySource": "if(createFrags && fragOnHit)",
+	}
+
+static func hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_frag_state: Dictionary = hit_frag_state.duplicate(true)
+	var hit_x := float(update_hit_xy_state.get("x", 0.0))
+	var hit_y := float(update_hit_xy_state.get("y", 0.0))
+	var create_frags := bool(update_hit_frag_state.get("createFrags", false))
+	var frag_on_hit := bool(update_type_state.get("fragOnHit", true))
+	var delay_frags := bool(update_type_state.get("delayFrags", false))
+	var frag_bullet: Variant = update_type_state.get("fragBullet", null)
+	var frag_bullet_exists := frag_bullet != null
+	var frag_bullet_delay_frags := false
+	if frag_bullet is Dictionary:
+		var frag_bullet_state: Dictionary = frag_bullet
+		frag_bullet_delay_frags = bool(frag_bullet_state.get("delayFrags", false))
+	var frag_gate_passed := create_frags and frag_on_hit
+	var delay_frag_gate_passed := frag_gate_passed and delay_frags and frag_bullet_exists and frag_bullet_delay_frags
+	var time_run_call := {}
+	var create_frags_call := {}
+	if delay_frag_gate_passed:
+		time_run_call = {
+			"call": "Time.run(0f, () -> createFrags(b, x, y))",
+			"delay": 0.0,
+			"x": hit_x,
+			"y": hit_y,
+			"scheduled": true,
+		}
+	elif frag_gate_passed:
+		create_frags_call = {
+			"call": "createFrags(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitFrag": update_hit_frag_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createFrags": create_frags,
+		"fragOnHit": frag_on_hit,
+		"delayFrags": delay_frags,
+		"fragBullet": frag_bullet,
+		"fragBulletExists": frag_bullet_exists,
+		"fragBulletDelayFrags": frag_bullet_delay_frags,
+		"fragGatePassed": frag_gate_passed,
+		"delayFragGatePassed": delay_frag_gate_passed,
+		"timeRunCall": time_run_call,
+		"createFragsCall": create_frags_call,
+		"fragGateSource": "if(createFrags && fragOnHit)",
+		"delayGateSource": "if(delayFrags && fragBullet != null && fragBullet.delayFrags)",
+		"timeRunCallSource": "Time.run(0f, () -> createFrags(b, x, y))",
+		"createFragsCallSource": "createFrags(b, x, y)",
+		"postFragBoundarySource": "createPuddles(b, x, y)",
+	}
+
+static func hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_frag_dispatch_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_frag_dispatch_state: Dictionary = incoming_hit_frag_dispatch_state.duplicate(true)
+	var hit_x := float(update_hit_frag_dispatch_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_frag_dispatch_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitFragDispatch": update_hit_frag_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createPuddlesCall": {
+			"call": "createPuddles(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createIncendCall": {
+			"call": "createIncend(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createUnitsCall": {
+			"call": "createUnits(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createPuddlesCallSource": "createPuddles(b, x, y)",
+		"createIncendCallSource": "createIncend(b, x, y)",
+		"createUnitsCallSource": "createUnits(b, x, y)",
+		"suppressionBoundarySource": "if(suppressionRange > 0)",
+	}
+
+static func hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_post_frag_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_post_frag_dispatch_state: Dictionary = incoming_hit_post_frag_dispatch_state.duplicate(true)
+	var hit_x := float(update_hit_post_frag_dispatch_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_post_frag_dispatch_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	var bullet_x := float(update_bullet_state.get("x", 0.0))
+	var bullet_y := float(update_bullet_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var suppression_range := float(update_type_state.get("suppressionRange", -1.0))
+	var suppression_duration := float(update_type_state.get("suppressionDuration", source_tick_rate * 8.0))
+	var suppression_effect_chance := float(update_type_state.get("suppressionEffectChance", 50.0))
+	var suppress_color: Variant = update_type_state.get("suppressColor", "Pal.sapBullet")
+	var suppression_gate_passed := suppression_range > 0.0
+	var suppression_vector := {"x": bullet_x, "y": bullet_y}
+	var apply_suppression_call := {}
+	if suppression_gate_passed:
+		apply_suppression_call = {
+			"call": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)",
+			"team": bullet_team,
+			"x": bullet_x,
+			"y": bullet_y,
+			"range": suppression_range,
+			"reload": suppression_duration,
+			"maxDelay": 0.0,
+			"applyParticleChance": suppression_effect_chance,
+			"source": suppression_vector,
+			"effectColor": suppress_color,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitPostFragDispatch": update_hit_post_frag_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletX": bullet_x,
+		"bulletY": bullet_y,
+		"bulletTeam": bullet_team,
+		"suppressionRange": suppression_range,
+		"suppressionDuration": suppression_duration,
+		"suppressionEffectChance": suppression_effect_chance,
+		"suppressColor": suppress_color,
+		"suppressionGatePassed": suppression_gate_passed,
+		"suppressionVector": suppression_vector,
+		"applySuppressionCall": apply_suppression_call,
+		"suppressionGateSource": "if(suppressionRange > 0)",
+		"pooledVec2CommentSource": "//bullets are pooled, require separate Vec2 instance",
+		"applySuppressionCallSource": "Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)",
+		"splashDamageBoundarySource": "createSplashDamage(b, x, y)",
+	}
+
+static func hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_suppression_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_xy_state: Dictionary = hit_xy_state.duplicate(true)
+	var update_hit_suppression_state: Dictionary = incoming_hit_suppression_state.duplicate(true)
+	var hit_x := float(update_hit_suppression_state.get("x", update_hit_xy_state.get("x", 0.0)))
+	var hit_y := float(update_hit_suppression_state.get("y", update_hit_xy_state.get("y", 0.0)))
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitXY": update_hit_xy_state,
+		"hitSuppression": update_hit_suppression_state,
+		"x": hit_x,
+		"y": hit_y,
+		"createSplashDamageCall": {
+			"call": "createSplashDamage(b, x, y)",
+			"x": hit_x,
+			"y": hit_y,
+			"called": true,
+		},
+		"createSplashDamageCallSource": "createSplashDamage(b, x, y)",
+		"createSplashDamageMethodBoundarySource": "public void createSplashDamage(Bullet b, float x, float y)",
+		"lightningBoundarySource": "for(int i = 0; i < lightning; i++)",
+	}
+
+static func create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_hit_splash_damage_dispatch_state: Dictionary, incoming_damage_multiplier_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_hit_splash_damage_dispatch_state: Dictionary = incoming_hit_splash_damage_dispatch_state.duplicate(true)
+	var update_damage_multiplier_state: Dictionary = incoming_damage_multiplier_state.duplicate(true)
+	var hit_x := float(update_hit_splash_damage_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_hit_splash_damage_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var bullet_absorbed := bool(update_bullet_state.get("absorbed", false))
+	var splash_damage_radius := float(update_type_state.get("splashDamageRadius", -1.0))
+	var splash_damage := float(update_type_state.get("splashDamage", 0.0))
+	var damage_multiplier := float(update_damage_multiplier_state.get("damageMultiplier", 1.0))
+	var splash_damage_pierce := bool(update_type_state.get("splashDamagePierce", false))
+	var collides_air := bool(update_type_state.get("collidesAir", true))
+	var collides_ground := bool(update_type_state.get("collidesGround", true))
+	var scaled_splash_damage := bool(update_type_state.get("scaledSplashDamage", false))
+	var armor_multiplier := float(update_type_state.get("armorMultiplier", 1.0))
+	var splash_damage_gate_passed := splash_damage_radius > 0.0 and not bullet_absorbed
+	var damage_amount := splash_damage * damage_multiplier
+	var damage_call := {}
+	if splash_damage_gate_passed:
+		damage_call = {
+			"call": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"damage": damage_amount,
+			"complete": splash_damage_pierce,
+			"air": collides_air,
+			"ground": collides_ground,
+			"scaled": scaled_splash_damage,
+			"source": update_bullet_state,
+			"armorMult": armor_multiplier,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"hitSplashDamageDispatch": update_hit_splash_damage_dispatch_state,
+		"damageMultiplierState": update_damage_multiplier_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"bulletAbsorbed": bullet_absorbed,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamage": splash_damage,
+		"damageMultiplier": damage_multiplier,
+		"damageAmount": damage_amount,
+		"splashDamagePierce": splash_damage_pierce,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"scaledSplashDamage": scaled_splash_damage,
+		"armorMultiplier": armor_multiplier,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"damageCall": damage_call,
+		"splashDamageGateSource": "if(splashDamageRadius > 0 && !b.absorbed)",
+		"damageCallSource": "Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)",
+		"statusBoundarySource": "if(status != StatusEffects.none)",
+	}
+
+static func create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_damage_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_damage_dispatch_state: Dictionary = incoming_create_splash_damage_damage_dispatch_state.duplicate(true)
+	var hit_x := float(update_damage_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_damage_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_damage_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var status := str(update_type_state.get("status", "none"))
+	var status_duration := float(update_type_state.get("statusDuration", source_tick_rate * 8.0))
+	var collides_air := bool(update_damage_dispatch_state.get("collidesAir", update_type_state.get("collidesAir", true)))
+	var collides_ground := bool(update_damage_dispatch_state.get("collidesGround", update_type_state.get("collidesGround", true)))
+	var splash_damage_gate_passed := bool(update_damage_dispatch_state.get("splashDamageGatePassed", false))
+	var status_gate_passed := splash_damage_gate_passed and status != "none"
+	var status_call := {}
+	if status_gate_passed:
+		status_call = {
+			"call": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"effect": status,
+			"duration": status_duration,
+			"air": collides_air,
+			"ground": collides_ground,
+			"called": true,
+		}
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageDamageDispatch": update_damage_dispatch_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"status": status,
+		"statusDuration": status_duration,
+		"collidesAir": collides_air,
+		"collidesGround": collides_ground,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"statusGatePassed": status_gate_passed,
+		"statusCall": status_call,
+		"statusGateSource": "if(status != StatusEffects.none)",
+		"statusCallSource": "Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)",
+		"healsBoundarySource": "if(heals())",
+	}
+
+static func create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_status_dispatch_state: Dictionary = incoming_create_splash_damage_status_dispatch_state.duplicate(true)
+	var update_nearby_blocks_state: Dictionary = nearby_blocks_state.duplicate(true)
+	var hit_x := float(update_status_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_status_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_status_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var splash_damage_gate_passed := bool(update_status_dispatch_state.get("splashDamageGatePassed", false))
+	var heal_percent := float(update_type_state.get("healPercent", 0.0))
+	var heal_amount := float(update_type_state.get("healAmount", 0.0))
+	var heal_color: Variant = update_type_state.get("healColor", "Pal.heal")
+	var heal_effect: Variant = update_type_state.get("healEffect", "Fx.healBlockFull")
+	var heals := heal_percent > 0.0 or heal_amount > 0.0
+	var heal_gate_passed := splash_damage_gate_passed and heals
+	var nearby_blocks: Array = update_nearby_blocks_state.get("blocks", [])
+	var each_block_call := {}
+	var heal_applications: Array = []
+	if heal_gate_passed:
+		each_block_call = {
+			"call": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+			"team": bullet_team,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"predicate": "Building::damaged",
+			"called": true,
+		}
+		for raw_block in nearby_blocks:
+			if not raw_block is Dictionary:
+				continue
+			var other: Dictionary = raw_block.duplicate(true)
+			if not bool(other.get("damaged", false)):
+				continue
+			var other_x := float(other.get("x", 0.0))
+			var other_y := float(other.get("y", 0.0))
+			var other_block: Variant = other.get("block", null)
+			var other_max_health := float(other.get("maxHealth", 0.0))
+			var heal_applied_amount := heal_percent / 100.0 * other_max_health + heal_amount
+			heal_applications.append({
+				"other": other,
+				"healAppliedAmount": heal_applied_amount,
+				"healEffectCall": {
+					"call": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+					"effect": heal_effect,
+					"x": other_x,
+					"y": other_y,
+					"rotation": 0.0,
+					"color": heal_color,
+					"block": other_block,
+				},
+				"otherHealCall": {
+					"call": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+					"amount": heal_applied_amount,
+				},
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageStatusDispatch": update_status_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"healPercent": heal_percent,
+		"healAmount": heal_amount,
+		"healColor": heal_color,
+		"healEffect": heal_effect,
+		"heals": heals,
+		"healGatePassed": heal_gate_passed,
+		"eachBlockCall": each_block_call,
+		"healApplications": heal_applications,
+		"healsGateSource": "if(heals())",
+		"eachBlockCallSource": "indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})",
+		"healEffectCallSource": "healEffect.at(other.x, other.y, 0f, healColor, other.block)",
+		"otherHealCallSource": "other.heal(healPercent / 100f * other.maxHealth() + healAmount)",
+		"makeFireBoundarySource": "if(makeFire)",
+	}
+
+static func create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:
+	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
+	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
+	var update_heal_dispatch_state: Dictionary = incoming_create_splash_damage_heal_dispatch_state.duplicate(true)
+	var update_nearby_blocks_state: Dictionary = nearby_blocks_state.duplicate(true)
+	var hit_x := float(update_heal_dispatch_state.get("x", 0.0))
+	var hit_y := float(update_heal_dispatch_state.get("y", 0.0))
+	var bullet_team: Variant = update_bullet_state.get("team", null)
+	var splash_damage_radius := float(update_heal_dispatch_state.get("splashDamageRadius", update_type_state.get("splashDamageRadius", -1.0)))
+	var splash_damage_gate_passed := bool(update_heal_dispatch_state.get("splashDamageGatePassed", false))
+	var make_fire := bool(update_type_state.get("makeFire", false))
+	var make_fire_gate_passed := splash_damage_gate_passed and make_fire
+	var nearby_blocks: Array = update_nearby_blocks_state.get("blocks", [])
+	var each_block_call := {}
+	var fire_applications: Array = []
+	if make_fire_gate_passed:
+		each_block_call = {
+			"call": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",
+			"team": null,
+			"x": hit_x,
+			"y": hit_y,
+			"radius": splash_damage_radius,
+			"predicate": "other.team != b.team",
+			"called": true,
+		}
+		for raw_block in nearby_blocks:
+			if not raw_block is Dictionary:
+				continue
+			var other: Dictionary = raw_block.duplicate(true)
+			if other.get("team", null) == bullet_team:
+				continue
+			var other_tile: Variant = other.get("tile", null)
+			fire_applications.append({
+				"other": other,
+				"firesCreateCall": {
+					"call": "Fires.create(other.tile)",
+					"tile": other_tile,
+				},
+			})
+	return {
+		"bulletType": update_type_state,
+		"bullet": update_bullet_state,
+		"createSplashDamageHealDispatch": update_heal_dispatch_state,
+		"nearbyBlocks": update_nearby_blocks_state,
+		"x": hit_x,
+		"y": hit_y,
+		"bulletTeam": bullet_team,
+		"splashDamageRadius": splash_damage_radius,
+		"splashDamageGatePassed": splash_damage_gate_passed,
+		"makeFire": make_fire,
+		"makeFireGatePassed": make_fire_gate_passed,
+		"eachBlockCall": each_block_call,
+		"fireApplications": fire_applications,
+		"makeFireGateSource": "if(makeFire)",
+		"eachBlockCallSource": "indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))",
+		"firesCreateCallSource": "Fires.create(other.tile)",
+		"createFragsBoundarySource": "public void createFrags(Bullet b, float x, float y){",
+	}
+
 static func hit_size(data: Dictionary, defaults: SourceBulletDefaults) -> float:
 	return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, defaults.hit_size_default()))
 

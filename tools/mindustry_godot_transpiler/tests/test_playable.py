@@ -16834,112 +16834,168 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_hit_effects_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var hit_effect: Variant = update_type_state.get(\"hitEffect\", \"Fx.hitBulletSmall\")", source)
-        self.assertIn("var hit_sound: Variant = update_type_state.get(\"hitSound\", \"Sounds.none\")", source)
-        self.assertIn("var hit_sound_pitch := float(update_type_state.get(\"hitSoundPitch\", 1.0))", source)
-        self.assertIn("var hit_sound_pitch_range := float(update_type_state.get(\"hitSoundPitchRange\", 0.1))", source)
-        self.assertIn("var hit_sound_volume := float(update_type_state.get(\"hitSoundVolume\", 1.0))", source)
-        self.assertIn("var hit_shake := float(update_type_state.get(\"hitShake\", 0.0))", source)
-        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", source)
-        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", source)
-        self.assertIn('"call": "hitEffect.at(x, y, b.rotation(), hitColor)"', source)
-        self.assertIn('"call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)"', source)
-        self.assertIn('"call": "Effect.shake(hitShake, hitShake, b)"', source)
-        self.assertIn('"fragBranchBoundarySource": "if(createFrags && fragOnHit)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_effects_state(bullet_type_state, bullet_state, hit_xy_state)", source)
+        self.assertIn("static func hit_effects_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var hit_effect: Variant = update_type_state.get(\"hitEffect\", \"Fx.hitBulletSmall\")", runtime_source)
+        self.assertIn("var hit_sound: Variant = update_type_state.get(\"hitSound\", \"Sounds.none\")", runtime_source)
+        self.assertIn("var hit_sound_pitch := float(update_type_state.get(\"hitSoundPitch\", 1.0))", runtime_source)
+        self.assertIn("var hit_sound_pitch_range := float(update_type_state.get(\"hitSoundPitchRange\", 0.1))", runtime_source)
+        self.assertIn("var hit_sound_volume := float(update_type_state.get(\"hitSoundVolume\", 1.0))", runtime_source)
+        self.assertIn("var hit_shake := float(update_type_state.get(\"hitShake\", 0.0))", runtime_source)
+        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", runtime_source)
+        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", runtime_source)
+        self.assertIn('"call": "hitEffect.at(x, y, b.rotation(), hitColor)"', runtime_source)
+        self.assertIn('"call": "hitSound.at(x, y, hitSoundPitch + Mathf.range(hitSoundPitchRange), hitSoundVolume)"', runtime_source)
+        self.assertIn('"call": "Effect.shake(hitShake, hitShake, b)"', runtime_source)
+        self.assertIn('"fragBranchBoundarySource": "if(createFrags && fragOnHit)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_frag_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_hit_frag_state: Dictionary = hit_frag_state.duplicate(true)", source)
-        self.assertIn("var create_frags := bool(update_hit_frag_state.get(\"createFrags\", false))", source)
-        self.assertIn("var frag_on_hit := bool(update_type_state.get(\"fragOnHit\", true))", source)
-        self.assertIn("var delay_frags := bool(update_type_state.get(\"delayFrags\", false))", source)
-        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", source)
-        self.assertIn("var frag_gate_passed := create_frags and frag_on_hit", source)
-        self.assertIn("var delay_frag_gate_passed := frag_gate_passed and delay_frags and frag_bullet_exists and frag_bullet_delay_frags", source)
-        self.assertIn('"call": "Time.run(0f, () -> createFrags(b, x, y))"', source)
-        self.assertIn('"call": "createFrags(b, x, y)"', source)
-        self.assertIn('"postFragBoundarySource": "createPuddles(b, x, y)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_frag_dispatch_state(bullet_type_state, bullet_state, hit_xy_state, hit_frag_state)", source)
+        self.assertIn("static func hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_hit_frag_state: Dictionary = hit_frag_state.duplicate(true)", runtime_source)
+        self.assertIn("var create_frags := bool(update_hit_frag_state.get(\"createFrags\", false))", runtime_source)
+        self.assertIn("var frag_on_hit := bool(update_type_state.get(\"fragOnHit\", true))", runtime_source)
+        self.assertIn("var delay_frags := bool(update_type_state.get(\"delayFrags\", false))", runtime_source)
+        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", runtime_source)
+        self.assertIn("var frag_gate_passed := create_frags and frag_on_hit", runtime_source)
+        self.assertIn("var delay_frag_gate_passed := frag_gate_passed and delay_frags and frag_bullet_exists and frag_bullet_delay_frags", runtime_source)
+        self.assertIn('"call": "Time.run(0f, () -> createFrags(b, x, y))"', runtime_source)
+        self.assertIn('"call": "createFrags(b, x, y)"', runtime_source)
+        self.assertIn('"postFragBoundarySource": "createPuddles(b, x, y)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_post_frag_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_dispatch_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_hit_frag_dispatch_state: Dictionary = hit_frag_dispatch_state.duplicate(true)", source)
-        self.assertIn("var hit_x := float(update_hit_frag_dispatch_state.get(\"x\", update_hit_xy_state.get(\"x\", 0.0)))", source)
+        self.assertIn("return SourceBulletRuntime.hit_post_frag_dispatch_state(bullet_type_state, bullet_state, hit_xy_state, hit_frag_dispatch_state)", source)
+        self.assertIn("static func hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_frag_dispatch_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_hit_frag_dispatch_state: Dictionary = incoming_hit_frag_dispatch_state.duplicate(true)", runtime_source)
+        self.assertIn("var hit_x := float(update_hit_frag_dispatch_state.get(\"x\", update_hit_xy_state.get(\"x\", 0.0)))", runtime_source)
+
+    def test_port_game_source_bullet_runtime_avoids_shadowing_static_function_names(self):
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+
+        self.assertIn("static func hit_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_frag_dispatch_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_post_frag_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertIn("static func hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_suppression_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_hit_splash_damage_dispatch_state: Dictionary, incoming_damage_multiplier_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_damage_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func hit_post_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_frag_dispatch_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_suppression_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_splash_damage_dispatch_state: Dictionary, damage_multiplier_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_suppression_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_post_frag_dispatch_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", SOURCE_TICK_RATE * 8.0))", source)
-        self.assertNotIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", 60.0 * 8.0))", source)
-        self.assertIn("var suppression_gate_passed := suppression_range > 0.0", source)
-        self.assertIn("var suppression_vector := {\"x\": bullet_x, \"y\": bullet_y}", source)
-        self.assertIn("\"call\": \"Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)\"", source)
+        self.assertIn("return SourceBulletRuntime.hit_suppression_state(bullet_type_state, bullet_state, hit_xy_state, hit_post_frag_dispatch_state, SOURCE_TICK_RATE)", source)
+        self.assertIn("static func hit_suppression_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_post_frag_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", source_tick_rate * 8.0))", runtime_source)
+        self.assertNotIn("var suppression_duration := float(update_type_state.get(\"suppressionDuration\", 60.0 * 8.0))", runtime_source)
+        self.assertIn("var suppression_gate_passed := suppression_range > 0.0", runtime_source)
+        self.assertIn("var suppression_vector := {\"x\": bullet_x, \"y\": bullet_y}", runtime_source)
+        self.assertIn("\"call\": \"Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y), suppressColor)\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_hit_splash_damage_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, hit_suppression_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var hit_x := float(update_hit_suppression_state.get(\"x\", update_hit_xy_state.get(\"x\", 0.0)))", source)
-        self.assertIn("\"call\": \"createSplashDamage(b, x, y)\"", source)
-        self.assertIn("\"lightningBoundarySource\": \"for(int i = 0; i < lightning; i++)\"", source)
-        self.assertIn('"call": "createPuddles(b, x, y)"', source)
-        self.assertIn('"call": "createIncend(b, x, y)"', source)
-        self.assertIn('"call": "createUnits(b, x, y)"', source)
-        self.assertIn('"suppressionBoundarySource": "if(suppressionRange > 0)"', source)
+        self.assertIn("return SourceBulletRuntime.hit_splash_damage_dispatch_state(bullet_type_state, bullet_state, hit_xy_state, hit_suppression_state)", source)
+        self.assertIn("static func hit_splash_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_xy_state: Dictionary, incoming_hit_suppression_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var hit_x := float(update_hit_suppression_state.get(\"x\", update_hit_xy_state.get(\"x\", 0.0)))", runtime_source)
+        self.assertIn("\"call\": \"createSplashDamage(b, x, y)\"", runtime_source)
+        self.assertIn("\"lightningBoundarySource\": \"for(int i = 0; i < lightning; i++)\"", runtime_source)
+        self.assertIn('"call": "createPuddles(b, x, y)"', runtime_source)
+        self.assertIn('"call": "createIncend(b, x, y)"', runtime_source)
+        self.assertIn('"call": "createUnits(b, x, y)"', runtime_source)
+        self.assertIn('"suppressionBoundarySource": "if(suppressionRange > 0)"', runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_splash_damage_damage_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, hit_splash_damage_dispatch_state: Dictionary, damage_multiplier_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var splash_damage_gate_passed := splash_damage_radius > 0.0 and not bullet_absorbed", source)
-        self.assertIn("var damage_amount := splash_damage * damage_multiplier", source)
-        self.assertIn("\"call\": \"Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)\"", source)
-        self.assertIn("\"statusBoundarySource\": \"if(status != StatusEffects.none)\"", source)
+        self.assertIn("return SourceBulletRuntime.create_splash_damage_damage_dispatch_state(bullet_type_state, bullet_state, hit_splash_damage_dispatch_state, damage_multiplier_state)", source)
+        self.assertIn("static func create_splash_damage_damage_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_hit_splash_damage_dispatch_state: Dictionary, incoming_damage_multiplier_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var splash_damage_gate_passed := splash_damage_radius > 0.0 and not bullet_absorbed", runtime_source)
+        self.assertIn("var damage_amount := splash_damage * damage_multiplier", runtime_source)
+        self.assertIn("\"call\": \"Damage.damage(b.team, x, y, splashDamageRadius, splashDamage * b.damageMultiplier(), splashDamagePierce, collidesAir, collidesGround, scaledSplashDamage, b, armorMultiplier)\"", runtime_source)
+        self.assertIn("\"statusBoundarySource\": \"if(status != StatusEffects.none)\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_splash_damage_status_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_damage_dispatch_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var status_duration := float(update_type_state.get(\"statusDuration\", SOURCE_TICK_RATE * 8.0))", source)
-        self.assertNotIn("var status_duration := float(update_type_state.get(\"statusDuration\", 60.0 * 8.0))", source)
-        self.assertIn("var status_gate_passed := splash_damage_gate_passed and status != \"none\"", source)
-        self.assertIn("\"call\": \"Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)\"", source)
-        self.assertIn("\"healsBoundarySource\": \"if(heals())\"", source)
+        self.assertIn("return SourceBulletRuntime.create_splash_damage_status_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_damage_dispatch_state, SOURCE_TICK_RATE)", source)
+        self.assertIn("static func create_splash_damage_status_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_damage_dispatch_state: Dictionary, source_tick_rate: float) -> Dictionary:", runtime_source)
+        self.assertIn("var status_duration := float(update_type_state.get(\"statusDuration\", source_tick_rate * 8.0))", runtime_source)
+        self.assertNotIn("var status_duration := float(update_type_state.get(\"statusDuration\", 60.0 * 8.0))", runtime_source)
+        self.assertIn("var status_gate_passed := splash_damage_gate_passed and status != \"none\"", runtime_source)
+        self.assertIn("\"call\": \"Damage.status(b.team, x, y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround)\"", runtime_source)
+        self.assertIn("\"healsBoundarySource\": \"if(heals())\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_splash_damage_heal_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var heal_gate_passed := splash_damage_gate_passed and heals", source)
-        self.assertIn("\"call\": \"indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})\"", source)
-        self.assertIn("\"call\": \"healEffect.at(other.x, other.y, 0f, healColor, other.block)\"", source)
-        self.assertIn("\"call\": \"other.heal(healPercent / 100f * other.maxHealth() + healAmount)\"", source)
-        self.assertIn("\"makeFireBoundarySource\": \"if(makeFire)\"", source)
+        self.assertIn("return SourceBulletRuntime.create_splash_damage_heal_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_status_dispatch_state, nearby_blocks_state)", source)
+        self.assertIn("static func create_splash_damage_heal_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_status_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var heal_gate_passed := splash_damage_gate_passed and heals", runtime_source)
+        self.assertIn("\"call\": \"indexer.eachBlock(b.team, x, y, splashDamageRadius, Building::damaged, other -> {...})\"", runtime_source)
+        self.assertIn("\"call\": \"healEffect.at(other.x, other.y, 0f, healColor, other.block)\"", runtime_source)
+        self.assertIn("\"call\": \"other.heal(healPercent / 100f * other.maxHealth() + healAmount)\"", runtime_source)
+        self.assertIn("\"makeFireBoundarySource\": \"if(makeFire)\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_splash_damage_make_fire_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var make_fire_gate_passed := splash_damage_gate_passed and make_fire", source)
-        self.assertIn("\"call\": \"indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))\"", source)
-        self.assertIn("\"predicate\": \"other.team != b.team\"", source)
-        self.assertIn("\"call\": \"Fires.create(other.tile)\"", source)
-        self.assertIn("\"createFragsBoundarySource\": \"public void createFrags(Bullet b, float x, float y){\"", source)
+        self.assertIn("return SourceBulletRuntime.create_splash_damage_make_fire_dispatch_state(bullet_type_state, bullet_state, create_splash_damage_heal_dispatch_state, nearby_blocks_state)", source)
+        self.assertIn("static func create_splash_damage_make_fire_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_splash_damage_heal_dispatch_state: Dictionary, nearby_blocks_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var make_fire_gate_passed := splash_damage_gate_passed and make_fire", runtime_source)
+        self.assertIn("\"call\": \"indexer.eachBlock(null, x, y, splashDamageRadius, other -> other.team != b.team, other -> Fires.create(other.tile))\"", runtime_source)
+        self.assertIn("\"predicate\": \"other.team != b.team\"", runtime_source)
+        self.assertIn("\"call\": \"Fires.create(other.tile)\"", runtime_source)
+        self.assertIn("\"createFragsBoundarySource\": \"public void createFrags(Bullet b, float x, float y){\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_frags_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
