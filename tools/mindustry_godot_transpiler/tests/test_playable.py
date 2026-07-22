@@ -17287,58 +17287,82 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_despawned_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_despawned_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var despawn_hit := bool(update_type_state.get(\"despawnHit\", false))", source)
-        self.assertIn("var bullet_x: Variant = update_bullet_state.get(\"x\", null)", source)
-        self.assertIn("var bullet_y: Variant = update_bullet_state.get(\"y\", null)", source)
-        self.assertIn("\"call\": \"hit(b, b.x, b.y, false)\"", source)
-        self.assertIn("\"call\": \"createUnits(b, b.x, b.y)\"", source)
-        self.assertIn("\"despawnEffectBoundarySource\": \"despawnEffect.at(b.x, b.y, b.rotation(), hitColor);\"", source)
-        self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", source)
-        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
+        self.assertIn("return SourceBulletRuntime.despawned_dispatch_state(bullet_type_state, bullet_state)", source)
+        self.assertNotIn("var despawn_hit := bool(update_type_state.get(\"despawnHit\", false))", source)
+
+        self.assertIn("static func despawned_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var despawn_hit := bool(update_type_state.get(\"despawnHit\", false))", runtime_source)
+        self.assertIn("var bullet_x: Variant = update_bullet_state.get(\"x\", null)", runtime_source)
+        self.assertIn("var bullet_y: Variant = update_bullet_state.get(\"y\", null)", runtime_source)
+        self.assertIn("\"call\": \"hit(b, b.x, b.y, false)\"", runtime_source)
+        self.assertIn("\"call\": \"createUnits(b, b.x, b.y)\"", runtime_source)
+        self.assertIn("\"despawnEffectBoundarySource\": \"despawnEffect.at(b.x, b.y, b.rotation(), hitColor);\"", runtime_source)
+        self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", runtime_source)
+        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_despawned_effect_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_despawned_effect_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_dispatch_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_despawned_dispatch_state: Dictionary = despawned_dispatch_state.duplicate(true)", source)
-        self.assertIn("var despawn_effect: Variant = update_type_state.get(\"despawnEffect\", \"Fx.hitBulletSmall\")", source)
-        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", source)
-        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", source)
-        self.assertIn("\"call\": \"despawnEffect.at(b.x, b.y, b.rotation(), hitColor)\"", source)
-        self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", source)
-        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
+        self.assertIn("return SourceBulletRuntime.despawned_effect_state(bullet_type_state, bullet_state, despawned_dispatch_state)", source)
+        self.assertNotIn("var update_despawned_dispatch_state: Dictionary = despawned_dispatch_state.duplicate(true)", source)
+
+        self.assertIn("static func despawned_effect_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_despawned_dispatch_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_despawned_dispatch_state: Dictionary = incoming_despawned_dispatch_state.duplicate(true)", runtime_source)
+        self.assertIn("var despawn_effect: Variant = update_type_state.get(\"despawnEffect\", \"Fx.hitBulletSmall\")", runtime_source)
+        self.assertIn("var hit_color: Variant = update_type_state.get(\"hitColor\", \"Color.white\")", runtime_source)
+        self.assertIn("var bullet_rotation := float(update_bullet_state.get(\"rotation\", 0.0))", runtime_source)
+        self.assertIn("\"call\": \"despawnEffect.at(b.x, b.y, b.rotation(), hitColor)\"", runtime_source)
+        self.assertIn("\"despawnSoundBoundarySource\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange));\"", runtime_source)
+        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_despawned_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_despawned_sound_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_effect_state: Dictionary, despawn_sound_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_despawned_effect_state: Dictionary = despawned_effect_state.duplicate(true)", source)
-        self.assertIn("var update_despawn_sound_random_state: Dictionary = despawn_sound_random_state.duplicate(true)", source)
-        self.assertIn("var despawn_sound: Variant = update_type_state.get(\"despawnSound\", \"Sounds.none\")", source)
-        self.assertIn("var hit_sound_pitch_range := float(update_type_state.get(\"hitSoundPitchRange\", 0.1))", source)
-        self.assertIn("var range_sample: Variant = update_despawn_sound_random_state.get(\"rangeSample\", null)", source)
-        self.assertIn("sound_pitch = 1.0 + float(range_sample)", source)
-        self.assertIn("\"call\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))\"", source)
-        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", source)
+        self.assertIn("return SourceBulletRuntime.despawned_sound_state(bullet_type_state, bullet_state, despawned_effect_state, despawn_sound_random_state)", source)
+        self.assertNotIn("var update_despawned_effect_state: Dictionary = despawned_effect_state.duplicate(true)", source)
+
+        self.assertIn("static func despawned_sound_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_despawned_effect_state: Dictionary, despawn_sound_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_despawned_effect_state: Dictionary = incoming_despawned_effect_state.duplicate(true)", runtime_source)
+        self.assertIn("var update_despawn_sound_random_state: Dictionary = despawn_sound_random_state.duplicate(true)", runtime_source)
+        self.assertIn("var despawn_sound: Variant = update_type_state.get(\"despawnSound\", \"Sounds.none\")", runtime_source)
+        self.assertIn("var hit_sound_pitch_range := float(update_type_state.get(\"hitSoundPitchRange\", 0.1))", runtime_source)
+        self.assertIn("var range_sample: Variant = update_despawn_sound_random_state.get(\"rangeSample\", null)", runtime_source)
+        self.assertIn("sound_pitch = 1.0 + float(range_sample)", runtime_source)
+        self.assertIn("\"call\": \"despawnSound.at(b, 1f + Mathf.range(hitSoundPitchRange))\"", runtime_source)
+        self.assertIn("\"shakeBoundarySource\": \"Effect.shake(despawnShake, despawnShake, b);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_despawned_shake_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_despawned_shake_state(bullet_type_state: Dictionary, bullet_state: Dictionary, despawned_sound_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_despawned_sound_state: Dictionary = despawned_sound_state.duplicate(true)", source)
-        self.assertIn("var despawn_shake := float(update_type_state.get(\"despawnShake\", 0.0))", source)
-        self.assertIn("\"call\": \"Effect.shake(despawnShake, despawnShake, b)\"", source)
-        self.assertIn("\"intensity\": despawn_shake", source)
-        self.assertIn("\"duration\": despawn_shake", source)
-        self.assertIn("\"position\": update_bullet_state", source)
-        self.assertIn("\"effectShakePositionSource\": \"public static void shake(float intensity, float duration, Position loc){ shake(intensity, duration, loc.getX(), loc.getY()); }\"", source)
-        self.assertIn("\"removedBoundarySource\": \"public void removed(Bullet b){\"", source)
+        self.assertIn("return SourceBulletRuntime.despawned_shake_state(bullet_type_state, bullet_state, despawned_sound_state)", source)
+        self.assertNotIn("var update_despawned_sound_state: Dictionary = despawned_sound_state.duplicate(true)", source)
+
+        self.assertIn("static func despawned_shake_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_despawned_sound_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_despawned_sound_state: Dictionary = incoming_despawned_sound_state.duplicate(true)", runtime_source)
+        self.assertIn("var despawn_shake := float(update_type_state.get(\"despawnShake\", 0.0))", runtime_source)
+        self.assertIn("\"call\": \"Effect.shake(despawnShake, despawnShake, b)\"", runtime_source)
+        self.assertIn("\"intensity\": despawn_shake", runtime_source)
+        self.assertIn("\"duration\": despawn_shake", runtime_source)
+        self.assertIn("\"position\": update_bullet_state", runtime_source)
+        self.assertIn("\"effectShakePositionSource\": \"public static void shake(float intensity, float duration, Position loc){ shake(intensity, duration, loc.getX(), loc.getY()); }\"", runtime_source)
+        self.assertIn("\"removedBoundarySource\": \"public void removed(Bullet b){\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_removed_trail_fade_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
