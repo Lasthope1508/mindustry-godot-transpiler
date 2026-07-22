@@ -17388,44 +17388,7 @@ func source_bullet_type_hit_post_frag_dispatch_state(bullet_type_state: Dictiona
 	return SourceBulletRuntime.hit_post_frag_dispatch_state(bullet_type_state, bullet_state, hit_xy_state, hit_frag_dispatch_state)
 
 func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:
-	var update_type_state: Dictionary = bullet_type_state.duplicate(true)
-	var update_bullet_state: Dictionary = bullet_state.duplicate(true)
-	var update_create_incend_state: Dictionary = create_incend_state.duplicate(true)
-	var update_random_state: Dictionary = incend_random_state.duplicate(true)
-	var incend_x := float(update_create_incend_state.get("x", 0.0))
-	var incend_y := float(update_create_incend_state.get("y", 0.0))
-	var incend_chance := float(update_type_state.get("incendChance", 1.0))
-	var incend_spread := float(update_type_state.get("incendSpread", 8.0))
-	var incend_amount := int(update_type_state.get("incendAmount", 0))
-	var chance_passed: Variant = update_random_state.get("chancePassed", null)
-	var incend_gate_passed: bool = incend_chance > 0.0 and chance_passed == true
-	var create_incend_call: Dictionary = {"called": false}
-	if incend_gate_passed:
-		create_incend_call = {
-			"call": "Damage.createIncend(x, y, incendSpread, incendAmount)",
-			"x": incend_x,
-			"y": incend_y,
-			"incendSpread": incend_spread,
-			"incendAmount": incend_amount,
-			"called": true,
-		}
-	return {
-		"bulletType": update_type_state,
-		"bullet": update_bullet_state,
-		"createIncend": update_create_incend_state,
-		"incendRandom": update_random_state,
-		"x": incend_x,
-		"y": incend_y,
-		"incendChance": incend_chance,
-		"incendSpread": incend_spread,
-		"incendAmount": incend_amount,
-		"chancePassed": chance_passed,
-		"chancePassedProvided": chance_passed != null,
-		"incendGatePassed": incend_gate_passed,
-		"createIncendCall": create_incend_call,
-		"chanceSource": "Mathf.chance(incendChance)",
-		"createIncendSource": "Damage.createIncend(x, y, incendSpread, incendAmount);",
-	}
+	return SourceBulletRuntime.create_incend_state(bullet_type_state, bullet_state, create_incend_state, incend_random_state)
 
 func source_bullet_type_create_units_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_units_state: Dictionary, create_units_random_state: Dictionary, net_state: Dictionary) -> Dictionary:
 	var update_type_state: Dictionary = bullet_type_state.duplicate(true)

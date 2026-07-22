@@ -17163,16 +17163,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("\"call\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount)\"", runtime_source)
         self.assertIn("\"depositSource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", runtime_source)
 
+    def test_port_game_exposes_source_bullet_type_create_incend_dispatch_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
+        source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_incend_state(bullet_type_state, bullet_state, create_incend_state, incend_random_state)", source)
+
+        self.assertIn("static func create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", runtime_source)
+        self.assertIn("var incend_gate_passed: bool = incend_chance > 0.0 and chance_passed == true", runtime_source)
+        self.assertIn("\"call\": \"Damage.createIncend(x, y, incendSpread, incendAmount)\"", runtime_source)
+        self.assertIn("\"chanceSource\": \"Mathf.chance(incendChance)\"", runtime_source)
+        self.assertIn("\"createIncendSource\": \"Damage.createIncend(x, y, incendSpread, incendAmount);\"", runtime_source)
+        self.assertNotIn("static func create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:", runtime_source)
+
     def test_port_game_exposes_source_bullet_type_create_incend_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_incend_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_incend_state: Dictionary, incend_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var chance_passed: Variant = update_random_state.get(\"chancePassed\", null)", source)
-        self.assertIn("var incend_gate_passed: bool = incend_chance > 0.0 and chance_passed == true", source)
-        self.assertIn("\"call\": \"Damage.createIncend(x, y, incendSpread, incendAmount)\"", source)
-        self.assertIn("\"chanceSource\": \"Mathf.chance(incendChance)\"", source)
-        self.assertIn("\"createIncendSource\": \"Damage.createIncend(x, y, incendSpread, incendAmount);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_incend_state(bullet_type_state, bullet_state, create_incend_state, incend_random_state)", source)
 
     def test_port_game_exposes_source_bullet_type_create_units_initial_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
