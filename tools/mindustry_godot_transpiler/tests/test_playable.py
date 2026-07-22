@@ -17366,33 +17366,47 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_bullet_type_removed_trail_fade_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        wrapper_source = source.split("func source_bullet_type_removed_trail_fade_state", 1)[1].split("func source_bullet_type_removed_frag_dispatch_state", 1)[0]
 
         self.assertIn("func source_bullet_type_removed_trail_fade_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var trail_length := int(update_type_state.get(\"trailLength\", -1))", source)
-        self.assertIn("var trail_width := float(update_type_state.get(\"trailWidth\", 2.0))", source)
-        self.assertIn("var trail_color: Variant = update_type_state.get(\"trailColor\", \"Pal.missileYellowBack\")", source)
-        self.assertIn("var trail_size: Variant = null", source)
-        self.assertIn("trail_size = trail_state.get(\"size\", null)", source)
-        self.assertIn("trail_fade_call = {", source)
-        self.assertIn("\"call\": \"Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())\"", source)
-        self.assertIn("\"trailCopy\": trail_copy", source)
-        self.assertIn("\"gateSource\": \"if(trailLength > 0 && b.trail != null && b.trail.size() > 0){\"", source)
-        self.assertIn("\"fragBoundarySource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", source)
+        self.assertIn("return SourceBulletRuntime.removed_trail_fade_state(bullet_type_state, bullet_state)", source)
+        self.assertNotIn("var trail_length := int(update_type_state.get(\"trailLength\", -1))", wrapper_source)
+
+        self.assertIn("static func removed_trail_fade_state(bullet_type_state: Dictionary, bullet_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var trail_length := int(update_type_state.get(\"trailLength\", -1))", runtime_source)
+        self.assertIn("var trail_width := float(update_type_state.get(\"trailWidth\", 2.0))", runtime_source)
+        self.assertIn("var trail_color: Variant = update_type_state.get(\"trailColor\", \"Pal.missileYellowBack\")", runtime_source)
+        self.assertIn("var trail_size: Variant = null", runtime_source)
+        self.assertIn("trail_size = trail_state.get(\"size\", null)", runtime_source)
+        self.assertIn("trail_fade_call = {", runtime_source)
+        self.assertIn("\"call\": \"Fx.trailFade.at(b.x, b.y, trailWidth, trailColor, b.trail.copy())\"", runtime_source)
+        self.assertIn("\"trailCopy\": trail_copy", runtime_source)
+        self.assertIn("\"gateSource\": \"if(trailLength > 0 && b.trail != null && b.trail.size() > 0){\"", runtime_source)
+        self.assertIn("\"fragBoundarySource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_removed_frag_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+        wrapper_source = source.split("func source_bullet_type_removed_frag_dispatch_state", 1)[1].split("func source_bullet_type_hit_suppression_state", 1)[0]
 
         self.assertIn("func source_bullet_type_removed_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, removed_trail_fade_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var update_removed_trail_fade_state: Dictionary = removed_trail_fade_state.duplicate(true)", source)
-        self.assertIn("var bullet_frags := int(update_bullet_state.get(\"frags\", 0))", source)
-        self.assertIn("var frag_on_despawn := bool(update_type_state.get(\"fragOnDespawn\", true))", source)
-        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", source)
-        self.assertIn("var frag_gate_passed := bullet_frags == 0 and frag_on_despawn and frag_bullet_exists", source)
-        self.assertIn("\"call\": \"createFrags(b, b.x, b.y)\"", source)
-        self.assertIn("\"fragGateSource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", source)
-        self.assertIn("\"buildingDamageBoundarySource\": \"public float buildingDamage(Bullet b){\"", source)
+        self.assertIn("return SourceBulletRuntime.removed_frag_dispatch_state(bullet_type_state, bullet_state, removed_trail_fade_state)", source)
+        self.assertNotIn("var update_removed_trail_fade_state: Dictionary = removed_trail_fade_state.duplicate(true)", wrapper_source)
+
+        self.assertIn("static func removed_frag_dispatch_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_removed_trail_fade_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_removed_trail_fade_state: Dictionary = incoming_removed_trail_fade_state.duplicate(true)", runtime_source)
+        self.assertIn("var bullet_frags := int(update_bullet_state.get(\"frags\", 0))", runtime_source)
+        self.assertIn("var frag_on_despawn := bool(update_type_state.get(\"fragOnDespawn\", true))", runtime_source)
+        self.assertIn("var frag_bullet: Variant = update_type_state.get(\"fragBullet\", null)", runtime_source)
+        self.assertIn("var frag_gate_passed := bullet_frags == 0 and frag_on_despawn and frag_bullet_exists", runtime_source)
+        self.assertIn("\"call\": \"createFrags(b, b.x, b.y)\"", runtime_source)
+        self.assertIn("\"fragGateSource\": \"if(b.frags == 0 && fragOnDespawn && fragBullet != null){\"", runtime_source)
+        self.assertIn("\"buildingDamageBoundarySource\": \"public float buildingDamage(Bullet b){\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_building_damage_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
