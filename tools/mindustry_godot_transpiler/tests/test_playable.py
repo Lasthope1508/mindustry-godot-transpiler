@@ -17088,44 +17088,80 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("update_bullet_state[\"frags\"] = bullet_frags_after", runtime_source)
         self.assertIn("\"fragsIncrementSource\": \"b.frags++;\"", runtime_source)
 
-    def test_port_game_exposes_source_bullet_type_create_puddles_initial_state(self):
+    def test_port_game_exposes_source_bullet_type_create_puddles_dispatch_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_puddles_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var puddle_liquid: Variant = update_type_state.get(\"puddleLiquid\", \"water\")", source)
-        self.assertIn("var puddle_gate_passed := puddle_liquid != null and puddles > 0", source)
-        self.assertIn("var loop_iterations := puddles if puddle_gate_passed else 0", source)
-        self.assertIn("\"puddleGateSource\": \"if(puddleLiquid != null && puddles > 0){\"", source)
-        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < puddles; i++){\"", source)
-        self.assertIn("\"tileBoundarySource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", source)
-        self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_initial_state(bullet_type_state, bullet_state, create_puddles_state)", source)
+        self.assertIn("func source_bullet_type_create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_tile_world_state(bullet_type_state, bullet_state, create_puddles_initial_state, puddle_random_state)", source)
+        self.assertIn("func source_bullet_type_create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_tile_world_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_deposit_state(bullet_type_state, bullet_state, create_puddles_tile_world_state)", source)
+
+        self.assertIn("static func create_puddles_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("static func create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_puddles_tile_world_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var puddle_gate_passed := puddle_liquid != null and puddles > 0", runtime_source)
+        self.assertIn("var tile_world_calls: Array = []", runtime_source)
+        self.assertIn("var deposit_calls: Array = []", runtime_source)
+        self.assertNotIn("static func create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertNotIn("static func create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_tile_world_state: Dictionary) -> Dictionary:", runtime_source)
+
+    def test_port_game_exposes_source_bullet_type_create_puddles_initial_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
+        source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
+
+        self.assertIn("func source_bullet_type_create_puddles_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_initial_state(bullet_type_state, bullet_state, create_puddles_state)", source)
+        self.assertIn("static func create_puddles_initial_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var puddle_liquid: Variant = update_type_state.get(\"puddleLiquid\", \"water\")", runtime_source)
+        self.assertIn("var puddle_gate_passed := puddle_liquid != null and puddles > 0", runtime_source)
+        self.assertIn("var loop_iterations := puddles if puddle_gate_passed else 0", runtime_source)
+        self.assertIn("\"puddleGateSource\": \"if(puddleLiquid != null && puddles > 0){\"", runtime_source)
+        self.assertIn("\"loopBoundarySource\": \"for(int i = 0; i < puddles; i++){\"", runtime_source)
+        self.assertIn("\"tileBoundarySource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", runtime_source)
+        self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_puddles_tile_world_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var x_range_samples: Array = update_random_state.get(\"xRangeSamples\", [])", source)
-        self.assertIn("var y_range_samples: Array = update_random_state.get(\"yRangeSamples\", [])", source)
-        self.assertIn("var tile_world_calls: Array = []", source)
-        self.assertIn("tile_x = base_x + float(x_range_sample)", source)
-        self.assertIn("tile_y = base_y + float(y_range_sample)", source)
-        self.assertIn("\"call\": \"world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))\"", source)
-        self.assertIn("\"tileWorldSource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", source)
-        self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_tile_world_state(bullet_type_state, bullet_state, create_puddles_initial_state, puddle_random_state)", source)
+        self.assertIn("static func create_puddles_tile_world_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_puddles_initial_state: Dictionary, puddle_random_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_initial_state: Dictionary = incoming_create_puddles_initial_state.duplicate(true)", runtime_source)
+        self.assertIn("var x_range_samples: Array = update_random_state.get(\"xRangeSamples\", [])", runtime_source)
+        self.assertIn("var y_range_samples: Array = update_random_state.get(\"yRangeSamples\", [])", runtime_source)
+        self.assertIn("var tile_world_calls: Array = []", runtime_source)
+        self.assertIn("tile_x = base_x + float(x_range_sample)", runtime_source)
+        self.assertIn("tile_y = base_y + float(y_range_sample)", runtime_source)
+        self.assertIn("\"call\": \"world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange))\"", runtime_source)
+        self.assertIn("\"tileWorldSource\": \"Tile tile = world.tileWorld(x + Mathf.range(puddleRange), y + Mathf.range(puddleRange));\"", runtime_source)
+        self.assertIn("\"depositBoundarySource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_puddles_deposit_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntime.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = bullet_runtime.read_text(encoding="utf-8")
 
         self.assertIn("func source_bullet_type_create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, create_puddles_tile_world_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var tile_world_calls: Array = update_tile_world_state.get(\"tileWorldCalls\", [])", source)
-        self.assertIn("var deposit_calls: Array = []", source)
-        self.assertIn("var puddle_liquid: Variant = update_type_state.get(\"puddleLiquid\", update_tile_world_state.get(\"puddleLiquid\", \"water\"))", source)
-        self.assertIn("var puddle_amount := float(update_type_state.get(\"puddleAmount\", update_tile_world_state.get(\"puddleAmount\", 5.0)))", source)
-        self.assertIn("\"call\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount)\"", source)
-        self.assertIn("\"depositSource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", source)
+        self.assertIn("return SourceBulletRuntime.create_puddles_deposit_state(bullet_type_state, bullet_state, create_puddles_tile_world_state)", source)
+        self.assertIn("static func create_puddles_deposit_state(bullet_type_state: Dictionary, bullet_state: Dictionary, incoming_create_puddles_tile_world_state: Dictionary) -> Dictionary:", runtime_source)
+        self.assertIn("var update_tile_world_state: Dictionary = incoming_create_puddles_tile_world_state.duplicate(true)", runtime_source)
+        self.assertIn("var tile_world_calls: Array = update_tile_world_state.get(\"tileWorldCalls\", [])", runtime_source)
+        self.assertIn("var deposit_calls: Array = []", runtime_source)
+        self.assertIn("var puddle_liquid: Variant = update_type_state.get(\"puddleLiquid\", update_tile_world_state.get(\"puddleLiquid\", \"water\"))", runtime_source)
+        self.assertIn("var puddle_amount := float(update_type_state.get(\"puddleAmount\", update_tile_world_state.get(\"puddleAmount\", 5.0)))", runtime_source)
+        self.assertIn("\"call\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount)\"", runtime_source)
+        self.assertIn("\"depositSource\": \"Puddles.deposit(tile, puddleLiquid, puddleAmount);\"", runtime_source)
 
     def test_port_game_exposes_source_bullet_type_create_incend_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
