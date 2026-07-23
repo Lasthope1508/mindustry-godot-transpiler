@@ -236,6 +236,36 @@ static func lookup_state(module_name: String, key_value: String = "") -> Diction
 		"policy": parsed.get("policy", {}),
 	}
 
+static func first_registered_content_id(collection_key: String, shard_module_name: String) -> String:
+	var registry_document := load_document("content_registry")
+	var shard_document := load_document(shard_module_name)
+	if not bool(registry_document.get("loaded", false)) or not bool(shard_document.get("loaded", false)):
+		return ""
+	var registry_data: Dictionary = registry_document.get("data", {})
+	var shard_data: Dictionary = shard_document.get("data", {})
+	var registry_entries_value = registry_data.get(collection_key, [])
+	var registry_entries: Array = registry_entries_value if typeof(registry_entries_value) == TYPE_ARRAY else []
+	var shard_entries_value = shard_data.get(collection_key, {})
+	var shard_entries: Dictionary = shard_entries_value if typeof(shard_entries_value) == TYPE_DICTIONARY else {}
+	var metadata := module_metadata(shard_module_name)
+	var canonical_reference_key := str(metadata.get("canonical_reference_key", ""))
+	var canonical_reference_prefix := str(metadata.get("canonical_reference_prefix", ""))
+	for entry_value in registry_entries:
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_value
+		var content_id := str(entry.get("id", ""))
+		if content_id == "" or not shard_entries.has(content_id):
+			continue
+		var shard_entry_value = shard_entries.get(content_id, {})
+		if typeof(shard_entry_value) != TYPE_DICTIONARY:
+			continue
+		var shard_entry: Dictionary = shard_entry_value
+		if canonical_reference_key != "" and str(shard_entry.get(canonical_reference_key, "")) != "%s%s" % [canonical_reference_prefix, content_id]:
+			continue
+		return content_id
+	return ""
+
 static func keyed_array_lookup_state(module_name: String, array_key: String, key_field: String, label: String, key_value: String = "") -> Dictionary:
 	var document := load_document(module_name)
 	if not bool(document.get("loaded", false)):
