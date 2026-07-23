@@ -10,6 +10,14 @@ sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
 from mindustry_port.emitter import emit_gdscript_classes
 
 
+def gdscript_function_body(source_text: str, signature: str) -> str:
+    start = source_text.index(signature)
+    next_start = source_text.find("\nfunc ", start + len(signature))
+    if next_start == -1:
+        return source_text[start:]
+    return source_text[start:next_start]
+
+
 class EmitterTests(unittest.TestCase):
     def test_emit_gdscript_class_skeleton_from_java_ast(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -176,13 +184,22 @@ public class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn('const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_LARGE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_SMALL", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_GRAY_SQUARE_SIZE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_STATUS_SQUARE_SIZE", source_text)
             self.assertIn("func java_method_drawStatus_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var enable_draw_status := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var consumers_length := int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 1)", source_text)
-            self.assertIn("var multiplier := 1.0 if block_size_value > 1 else 0.64", source_text)
-            self.assertIn('"gray_square_size": 2.5 * multiplier', source_text)
-            self.assertIn('"status_square_size": 1.5 * multiplier', source_text)
+            self.assertIn("var source_tilesize := float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)", source_text)
+            self.assertIn("var multiplier := SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE if block_size_value > 1 else SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL", source_text)
+            self.assertIn('"gray_square_size": SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE * multiplier', source_text)
+            self.assertIn('"status_square_size": SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE * multiplier', source_text)
 
     def test_emit_bridges_building_comp_draw_cracks_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -249,10 +266,13 @@ public class BuildingComp{
             self.assertIn('var block_status := str(_args[0] if _args.size() > 0 else "")', source_text)
             self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var source_rotation := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
-            self.assertIn('var inactive_unit_factory := block_status == "inactiveUnitFactory"', source_text)
-            self.assertIn("var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS := SourceBuildingDefaults.DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY := SourceBuildingDefaults.DRAW_SELECT_BUNDLE_KEY", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN := SourceBuildingDefaults.DRAW_SELECT_DELAY_MIN", source_text)
+            self.assertIn("var inactive_unit_factory := block_status == SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS", source_text)
+            self.assertIn("var remaining_activation_delay := maxf(SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN, unit_activation_delay - state_tick)", source_text)
             self.assertIn('"overlay_visible": true', source_text)
-            self.assertIn('"place_text_bundle_key": "rules.unitfactoryactivation.objective"', source_text)
+            self.assertIn('"place_text_bundle_key": SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY', source_text)
 
     def test_emit_bridges_building_comp_draw_item_selection_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -284,12 +304,21 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawItemSelection_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("var has_selection := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("if not has_selection:", source_text)
+            self.assertIn("var source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)", source_text)
             self.assertIn("var dx := source_x - float(block_size_value) * source_tilesize / 2.0", source_text)
-            self.assertIn("var selection_width := icon_small / 4.0 * selection_icon_ratio", source_text)
-            self.assertIn('"shadow_color": "darkGray"', source_text)
-            self.assertIn('"foreground_y": dy', source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_ICON_DIVISOR", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_COLOR", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_ALPHA := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_ALPHA", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET", source_text)
+            self.assertIn("var selection_width := icon_small / SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR * selection_icon_ratio", source_text)
+            self.assertIn('"shadow_color": SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR', source_text)
+            self.assertIn('"foreground_y": dy + SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET', source_text)
 
     def test_emit_bridges_building_comp_draw_disabled_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -318,13 +347,18 @@ public class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_DISABLED_ICON := SourceBuildingDefaults.DRAW_DISABLED_ICON", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_DISABLED_COLOR := SourceBuildingDefaults.DRAW_DISABLED_COLOR", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_DISABLED_ALPHA := SourceBuildingDefaults.DRAW_DISABLED_ALPHA", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE := SourceBuildingDefaults.DRAW_DISABLED_ICON_SIZE", source_text)
             self.assertIn("func java_method_drawDisabled_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var disabled_icon_size := 6.0", source_text)
-            self.assertIn('"icon": "cancel"', source_text)
-            self.assertIn('"color": "scarlet"', source_text)
-            self.assertIn('"alpha": 0.8', source_text)
+            self.assertIn("var disabled_icon_size := SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE", source_text)
+            self.assertIn('"icon": SOURCE_BUILDING_DRAW_DISABLED_ICON', source_text)
+            self.assertIn('"color": SOURCE_BUILDING_DRAW_DISABLED_COLOR', source_text)
+            self.assertIn('"alpha": SOURCE_BUILDING_DRAW_DISABLED_ALPHA', source_text)
             self.assertIn('"width": disabled_icon_size', source_text)
 
     def test_emit_bridges_building_comp_draw_to_source_state(self):
@@ -368,7 +402,8 @@ public class BuildingComp{
             self.assertIn("var draw_rotation := float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0", source_text)
             self.assertIn("if variants == 0 or not has_variant_regions:", source_text)
             self.assertIn("var max_variant_index: int = max(0, variant_region_count - 1)", source_text)
-            self.assertIn("var variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)", source_text)
+            self.assertIn("const SourceMathState := preload(\"res://src/game/SourceMathState.gd\")", source_text)
+            self.assertIn("var variant_index: int = SourceMathState.random_seed_int(tile_pos, 0, max_variant_index)", source_text)
             self.assertIn('"region_kind": "variant_region"', source_text)
             self.assertIn('"draw_team_top": true', source_text)
 
@@ -593,12 +628,16 @@ public class BuildingComp{
             self.assertIn('var light_color := String(_args[3] if _args.size() > 3 else "")', source_text)
             self.assertIn("var light_alpha := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
             self.assertIn("var amount := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
-            self.assertIn("if amount <= 0.01:", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_AMOUNT_MIN", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_RADIUS_SCALE", source_text)
+            self.assertIn("if amount <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN:", source_text)
             self.assertIn('return {"visible": false}', source_text)
-            self.assertIn("var fract: float = 1.0", source_text)
+            self.assertIn("var fract: float = SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT", source_text)
             self.assertIn("var opacity: float = light_alpha * fract", source_text)
-            self.assertIn("if opacity <= 0.001:", source_text)
-            self.assertIn('return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}', source_text)
+            self.assertIn("if opacity <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:", source_text)
+            self.assertIn('"radius": block_size_value * SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE * fract', source_text)
 
     def test_emit_bridges_building_comp_draw_team_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -626,12 +665,19 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawTeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn('var team_color := String(_args[0] if _args.size() > 0 else "")', source_text)
             self.assertIn("var source_x := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var source_y := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var block_size_value := int(_args[3] if _args.size() > 3 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)", source_text)
-            self.assertIn('return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}', source_text)
+            self.assertIn("var source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION := SourceBuildingDefaults.DRAW_TEAM_BORDER_REGION", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET := SourceBuildingDefaults.DRAW_TEAM_BORDER_OFFSET", source_text)
+            self.assertIn('"region": SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION', source_text)
+            self.assertIn('"x": source_x - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET', source_text)
+            self.assertIn('"y": source_y - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET', source_text)
 
     def test_emit_bridges_building_comp_check_suppression_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -663,6 +709,8 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_checkSuppression_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("var block_suppressable := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var source_time := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var heal_suppression_time := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
@@ -670,7 +718,8 @@ public class BuildingComp{
             self.assertIn("var source_x := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
             self.assertIn("var source_y := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
             self.assertIn("var block_size_value := int(_args[6] if _args.size() > 6 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[7] if _args.size() > 7 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)", source_text)
             self.assertIn('var suppress_color := String(_args[8] if _args.size() > 8 else "")', source_text)
             self.assertIn("var suppressed: bool = block_suppressable and source_time <= heal_suppression_time", source_text)
             self.assertIn('return {"suppressed": false, "particle_visible": false}', source_text)
@@ -1266,10 +1315,14 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_splashLiquid_0(_args: Array = []) -> Variant:", source_text)
+            method_body = source_text.split("func java_method_splashLiquid_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("var liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_block_size := int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT", source_text)
+            self.assertIn("var source_block_size := int(_args[2] if _args.size() > 2 else SOURCE_BLOCK_SIZE_DEFAULT)", method_body)
+            self.assertNotIn("var source_block_size := int(_args[2] if _args.size() > 2 else 0)", method_body)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", method_body)
+            self.assertNotIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", method_body)
             self.assertIn("var splash := clampf(amount / 4.0, 0.0, 10.0)", source_text)
             self.assertIn("var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_splash_liquid_state"', source_text)
@@ -1323,7 +1376,10 @@ public class BuildingComp{
             self.assertIn("var current_amount := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var current_incinerable := bool(_args[2] if _args.size() > 2 else false)", source_text)
             self.assertIn("var deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)", source_text)
-            self.assertIn("var source_block_size := int(_args[4] if _args.size() > 4 else 0)", source_text)
+            method_body = source_text.split("func java_method_onDeconstructed_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+            self.assertIn("const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT", source_text)
+            self.assertIn("var source_block_size := int(_args[4] if _args.size() > 4 else SOURCE_BLOCK_SIZE_DEFAULT)", method_body)
+            self.assertNotIn("var source_block_size := int(_args[4] if _args.size() > 4 else 0)", method_body)
             self.assertIn("var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid", source_text)
             self.assertIn("var deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_on_deconstructed_liquid_state"', source_text)
@@ -1449,8 +1505,13 @@ public class BuildingComp{
             self.assertIn("var source_y := float(_args[12] if _args.size() > 12 else 0.0)", source_text)
             self.assertIn("var flammability_scale := float(_args[13] if _args.size() > 13 else 1.0)", source_text)
             self.assertIn("var explosiveness_scale := float(_args[14] if _args.size() > 14 else 1.0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[15] if _args.size() > 15 else 0.0)", source_text)
-            self.assertIn("var source_block_size := int(_args[16] if _args.size() > 16 else 0)", source_text)
+            method_body = source_text.split("func java_method_onDestroyed_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("var source_tilesize := float(_args[15] if _args.size() > 15 else SOURCE_TILESIZE)", method_body)
+            self.assertNotIn("var source_tilesize := float(_args[15] if _args.size() > 15 else 0.0)", method_body)
+            self.assertIn("const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT", source_text)
+            self.assertIn("var source_block_size := int(_args[16] if _args.size() > 16 else SOURCE_BLOCK_SIZE_DEFAULT)", method_body)
+            self.assertNotIn("var source_block_size := int(_args[16] if _args.size() > 16 else 0)", method_body)
             self.assertIn('var destroy_effect := str(_args[17] if _args.size() > 17 else "")', source_text)
             self.assertIn("var base_shake := float(_args[18] if _args.size() > 18 else 0.0)", source_text)
             self.assertIn("var dynamic_explosion_flammability := flammability * flammability_scale", source_text)
@@ -2024,18 +2085,24 @@ public class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawConfigure_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn('const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_STROKE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT", source_text)
             self.assertIn("var source_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var source_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var half_extent := float(block_size_value) * source_tilesize / 2.0", source_text)
-            self.assertIn("var radius_offset := 1.0", source_text)
+            self.assertIn("var radius_offset := SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', source_text)
             self.assertIn('"method": "public void drawConfigure(){"', source_text)
-            self.assertIn('"color": "Pal.accent"', source_text)
-            self.assertIn('"stroke": 1.0', source_text)
-            self.assertIn('"shape": "square"', source_text)
-            self.assertIn('"square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);"', source_text)
+            self.assertIn('"color": SOURCE_BUILDING_DRAW_CONFIGURE_COLOR', source_text)
+            self.assertIn('"stroke": SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT', source_text)
+            self.assertIn('"shape": SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE', source_text)
+            self.assertIn('"square": SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR', source_text)
             self.assertIn('"x": source_x', source_text)
             self.assertIn('"y": source_y', source_text)
             self.assertIn('"halfExtent": half_extent', source_text)
@@ -3745,10 +3812,15 @@ class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)", source_text)
             self.assertIn("var source_x := world_x / source_tilesize", source_text)
             self.assertIn("var source_y := world_y / source_tilesize", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', source_text)
@@ -3908,13 +3980,12 @@ class BuildingComp{
             self.assertIn("var last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)", source_text)
             self.assertIn("var last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)", source_text)
             self.assertIn("var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)", source_text)
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("var source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate := float(_args[37] if _args.size() > 37 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate := float(_args[37] if _args.size() > 37 else 60.0)", source_text)
             self.assertIn("var power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0", source_text)
             self.assertIn("var power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0", source_text)
-            self.assertNotIn("last_scaled_power_in * 60.0", source_text)
-            self.assertNotIn("last_scaled_power_out * 60.0", source_text)
+            self.assertNotIn("var power_net_in := last_scaled_power_in * 60.0 if has_power_module else 0.0", source_text)
+            self.assertNotIn("var power_net_out := last_scaled_power_out * 60.0 if has_power_module else 0.0", source_text)
             self.assertIn('"capacity_power_net_source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source_text)
             self.assertIn('"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;"', source_text)
             self.assertIn('"power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();"', source_text)
@@ -4815,6 +4886,121 @@ class BuildingComp{
             self.assertIn('"check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state"', source_text)
             self.assertIn('"check_allow_update": check_allow_update', source_text)
 
+    def test_emit_bridges_building_comp_write_base_timescale_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public final void writeBase(Writes write){
+        if(timeScale != 1f){
+            write.f(timeScale);
+            write.f(timeScaleDuration);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT", source_text)
+            self.assertIn("func java_method_writeBase_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)", source_text)
+            self.assertIn("var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var write_timescale := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT", source_text)
+            self.assertIn('"gate": "if(timeScale != 1f){"', source_text)
+            self.assertIn('"write_time_scale_call": "write.f(timeScale);"', source_text)
+            self.assertIn('"write_duration_call": "write.f(timeScaleDuration);"', source_text)
+            self.assertIn('"write_timescale": write_timescale', source_text)
+            self.assertIn('"write_base_timescale_source_owner": "PortGame.source_building_write_base_timescale_state"', source_text)
+
+    def test_emit_bridges_building_comp_module_bitmask_timescale_bit_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public int moduleBitmask(){
+        return
+        (items != null ? 1 : 0) |
+        (power != null ? 1 << 1 : 0) |
+        (liquids != null ? 1 << 2 : 0) |
+        1 << 3 |
+        (timeScale != 1f ? 1 << 4 : 0) |
+        (lastDisabler != null && lastDisabler.isValid() ? 1 << 5 : 0);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT", source_text)
+            self.assertIn("func java_method_moduleBitmask_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_time_scale := float(_args[3] if _args.size() > 3 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)", source_text)
+            self.assertIn("var time_scale_changed := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT", source_text)
+            self.assertIn("var module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)", source_text)
+            self.assertIn('"time_scale_bit_expr": "(timeScale != 1f ? 1 << 4 : 0)"', source_text)
+            self.assertIn('"time_scale_changed": time_scale_changed', source_text)
+            self.assertIn('"module_bits": module_bits', source_text)
+            self.assertIn('"module_bitmask_source_owner": "PortGame.source_building_module_bitmask_state"', source_text)
+
+    def test_emit_bridges_building_comp_read_base_timescale_restore_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public final void readBase(Reads read){
+        int moduleBits = moduleBitmask();
+        if((moduleBits & (1 << 4)) != 0){
+            timeScale = read.f();
+            timeScaleDuration = read.f();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT", source_text)
+            self.assertIn("func java_method_readBase_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_module_bits := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var read_time_scale := float(_args[1] if _args.size() > 1 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)", source_text)
+            self.assertIn("var read_time_scale_duration := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var has_time_scale_module := (current_module_bits & (1 << 4)) != 0", source_text)
+            self.assertIn('var read_base_timescale := {"method": "public final void readBase(Reads read){", "module_bits_expr": "moduleBits = moduleBitmask();", "time_scale_module_expr": "if((moduleBits & (1 << 4)) != 0){", "read_time_scale_call": "timeScale = read.f();", "read_time_scale_duration_call": "timeScaleDuration = read.f();", "current_module_bits": current_module_bits, "read_time_scale": read_time_scale, "read_time_scale_duration": read_time_scale_duration, "has_time_scale_module": has_time_scale_module}', source_text)
+            self.assertIn('"read_base_timescale_source_owner": "PortGame.source_building_read_base_timescale_state"', source_text)
+
     def test_emit_bridges_building_comp_update_timescale_decay_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -4841,13 +5027,15 @@ class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT", source_text)
             self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)", source_text)
+            self.assertIn("var current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)", source_text)
             self.assertIn("var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var time_delta := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var next_duration := current_time_scale_duration - time_delta", source_text)
             self.assertIn("if next_duration <= 0.0:", source_text)
-            self.assertIn('update_timescale_decay.merge({"time_scale": 1.0, "time_scale_duration": next_duration})', source_text)
+            self.assertIn('update_timescale_decay.merge({"time_scale": SOURCE_BLOCK_TIME_SCALE_DEFAULT, "time_scale_duration": next_duration})', source_text)
             self.assertIn('update_timescale_decay.merge({"time_scale": current_time_scale, "time_scale_duration": next_duration})', source_text)
             self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source_text)
             self.assertIn('"field": "private transient float timeScale = 1f, timeScaleDuration;"', source_text)
@@ -4955,8 +5143,10 @@ class BuildingComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT := SourceBlockDefaults.NO_UPDATE_DISABLED_DEFAULT", source_text)
             self.assertIn("var enabled_state := bool(_args[9] if _args.size() > 9 else false)", source_text)
-            self.assertIn("var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else false)", source_text)
+            self.assertIn("var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT)", source_text)
             self.assertIn("var update_tile_called := enabled_state or not block_no_update_disabled", source_text)
             self.assertIn('var update_tile_gate := {"method": "public void update(){", "gate": "if(enabled || !block.noUpdateDisabled){", "update_tile_call": "updateTile();", "enabled_state": enabled_state, "block_no_update_disabled": block_no_update_disabled, "update_tile_called": update_tile_called}', source_text)
             self.assertIn('"update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state"', source_text)
@@ -5033,11 +5223,14 @@ class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_hitbox_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var block_size_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)", source_text)
             self.assertIn("var hitbox_size := float(block_size_value) * source_tilesize", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source_text)
             self.assertIn('"method": "public void hitbox(Rect out){"', source_text)
@@ -5281,9 +5474,12 @@ class BuildingComp{
 
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_hitSize_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var block_size_value := int(_args[0] if _args.size() > 0 else 0)", source_text)
-            self.assertIn("var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)", source_text)
             self.assertIn("var hit_size := float(block_size_value) * source_tilesize", source_text)
             self.assertIn('"source_owner": "PortGame.source_building_hit_size"', source_text)
             self.assertIn('"override": "@Override"', source_text)
@@ -6154,6 +6350,41 @@ class BlockUnitComp{
             self.assertIn('"return_expr": "return ammo;"', source_text)
             self.assertIn('"ammo": ammo', source_text)
 
+    def test_emit_bridges_block_unit_comp_tile_uses_source_tilesize_default(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void tile(Building tile){
+        this.tile = tile;
+        maxHealth(tile.block.health);
+        health(tile.health);
+        hitSize(tile.block.size * tilesize * 0.7f);
+        set(tile);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_tile_0(_args: Array = []) -> Variant:", source_text)
+            method_body = source_text.split("func java_method_tile_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+            self.assertIn("var tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)", method_body)
+            self.assertNotIn("var tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)", method_body)
+            self.assertIn("var hit_size: float = tile_block_size * tilesize * 0.7", method_body)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_tile_state"', method_body)
+
     def test_emit_bridges_block_unit_comp_icon_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -6484,11 +6715,13 @@ class BlockUnitComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_tile_0(_args: Array = []) -> Variant:", source_text)
+            method_body = source_text.split("func java_method_tile_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("var tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var tile_block_health: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var tile_health: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var tile_block_size: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
-            self.assertIn("var tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)", method_body)
+            self.assertNotIn("var tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)", method_body)
             self.assertIn("var hit_size: float = tile_block_size * tilesize * 0.7", source_text)
             self.assertIn('var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}', source_text)
             self.assertIn('var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}', source_text)
@@ -7205,8 +7438,11 @@ class BuilderComp{
             emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawBuildingBeam_0(_args: Array = []) -> Variant:", source_text)
+            method_body = source_text.split("func java_method_drawBuildingBeam_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("var px: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var py: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[17] if _args.size() > 17 else SOURCE_TILESIZE)", method_body)
+            self.assertNotIn("var source_tilesize: float = float(_args[17] if _args.size() > 17 else 0.0)", method_body)
             self.assertIn("var inactive_without_last_active: bool = not active and last_active == null", source_text)
             self.assertIn("var plan: Variant = build_plan if active else last_active", source_text)
             self.assertIn("var outside_range_blocked: bool = not tile_exists or not within_plan", source_text)
@@ -9765,11 +10001,14 @@ public class Block{
             block_script = output_root / "mindustry" / "world" / "Block.gd"
             source_text = block_script.read_text(encoding="utf-8")
 
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "clip_size":', source_text)
             self.assertIn("\t\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("\t\tvar clip_size_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
-            self.assertIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else 8.0)", source_text)
+            self.assertIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else 8.0)", source_text)
             self.assertIn("\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize", source_text)
             self.assertIn("\t\tvar clip_size_after: float = max(clip_size_before, size_tilesize)", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_block_init_clip_size_state"', source_text)
@@ -10038,7 +10277,10 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "offset":', source_text)
             self.assertIn("\t\tvar offset_size_value: int = int(_args[0] if _args.size() > 0 else 1)", source_text)
-            self.assertIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
             self.assertIn("\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0", source_text)
             self.assertIn("\t\tvar size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_block_init_offset_state"', source_text)
@@ -11261,7 +11503,48 @@ public class Turret extends ReloadTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn('const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT := SourceTurretDefaults.SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_ELEVATION_DEFAULT := SourceTurretDefaults.ELEVATION_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_RECOIL_TIME_DEFAULT := SourceTurretDefaults.RECOIL_TIME_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_COOLDOWN_TIME_DEFAULT := SourceTurretDefaults.COOLDOWN_TIME_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_NEW_TARGET_INTERVAL_DEFAULT := SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_INTERVAL_DEFAULT := SourceTurretDefaults.TARGET_INTERVAL_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT := SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACKING_RANGE_DEFAULT := SourceTurretDefaults.TRACKING_RANGE_DEFAULT", source_text)
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var size: float = float(_args[2] if _args.size() > 2 else SOURCE_BLOCK_SIZE_DEFAULT)", source_text)
+            self.assertNotIn("var size: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var shoot_y_is_negative_infinity: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT)", source_text)
+            self.assertNotIn("var shoot_y_is_negative_infinity: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[10] if _args.size() > 10 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[10] if _args.size() > 10 else true)", source_text)
+            self.assertIn("var elevation: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_ELEVATION_DEFAULT)", source_text)
+            self.assertNotIn("var elevation: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var recoil_time: float = float(_args[5] if _args.size() > 5 else SOURCE_TURRET_RECOIL_TIME_DEFAULT)", source_text)
+            self.assertNotIn("var recoil_time: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var reload: float = float(_args[6] if _args.size() > 6 else SOURCE_TURRET_RELOAD_DEFAULT)", source_text)
+            self.assertNotIn("var reload: float = float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("var cooldown_time: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_COOLDOWN_TIME_DEFAULT)", source_text)
+            self.assertNotIn("var cooldown_time: float = float(_args[7] if _args.size() > 7 else 0.0)", source_text)
+            self.assertIn("var new_target_interval: float = float(_args[8] if _args.size() > 8 else SOURCE_TURRET_NEW_TARGET_INTERVAL_DEFAULT)", source_text)
+            self.assertNotIn("var new_target_interval: float = float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var target_interval: float = float(_args[9] if _args.size() > 9 else SOURCE_TURRET_TARGET_INTERVAL_DEFAULT)", source_text)
+            self.assertNotIn("var target_interval: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("var disable_overlap_check: bool = bool(_args[11] if _args.size() > 11 else SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT)", source_text)
+            self.assertNotIn("var disable_overlap_check: bool = bool(_args[11] if _args.size() > 11 else false)", source_text)
+            self.assertIn("var range_value: float = float(_args[12] if _args.size() > 12 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[12] if _args.size() > 12 else 0.0)", source_text)
+            self.assertIn("var tracking_range: float = float(_args[13] if _args.size() > 13 else SOURCE_TURRET_TRACKING_RANGE_DEFAULT)", source_text)
+            self.assertNotIn("var tracking_range: float = float(_args[13] if _args.size() > 13 else 0.0)", source_text)
             self.assertIn("var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y", source_text)
             self.assertIn("var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation", source_text)
             self.assertIn("var recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time", source_text)
@@ -11315,7 +11598,24 @@ public class BaseTurret extends Block{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT := SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT", source_text)
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var disable_overlap_check: bool = bool(_args[2] if _args.size() > 2 else SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT)", source_text)
+            self.assertNotIn("var disable_overlap_check: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var range_value: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[4] if _args.size() > 4 else 80.0)", source_text)
+            self.assertIn("var place_overlap_margin: float = float(_args[5] if _args.size() > 5 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)", source_text)
+            self.assertNotIn("var place_overlap_margin: float = float(_args[5] if _args.size() > 5 else 56.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT := SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT", source_text)
+            self.assertIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT)", source_text)
+            self.assertNotIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[6] if _args.size() > 6 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[6] if _args.size() > 6 else 8.0)", source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_init_state"', source_text)
             self.assertIn('"method": "public void init(){"', source_text)
             self.assertIn('"coolant_null_guard_expr": "if(coolant == null){"', source_text)
@@ -11463,7 +11763,16 @@ public class BaseTurret extends Block{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawPlace_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("const SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT := SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT", source_text)
             self.assertIn("var tile_x: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var range_value: float = float(_args[6] if _args.size() > 6 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT)", source_text)
+            self.assertNotIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)", source_text)
             self.assertIn("var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset", source_text)
             self.assertIn("var fog_dash_circle_called: bool = fog_radius_multiplier < 0.99 and rules_fog", source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_draw_place_state"', source_text)
@@ -11529,20 +11838,32 @@ public class BaseTurret extends Block{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_ACTIVATION_TIME_DEFAULT := SourceTurretDefaults.ACTIVATION_TIME_DEFAULT", source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("func java_method_setStats_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var range_value: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[0] if _args.size() > 0 else 80.0)", source_text)
+            self.assertIn("var activation_time: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_ACTIVATION_TIME_DEFAULT)", source_text)
+            self.assertNotIn("var activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
             self.assertIn("var shoot_range_blocks: float = range_value / source_tilesize", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn("var activation_time_stat_called: bool = activation_time > 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn('"value": activation_time / source_tick_rate', source_text)
-            self.assertNotIn("activation_time / 60.0", source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_set_stats_state"', source_text)
             self.assertIn('"method": "public void setStats(){"', source_text)
             self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
             self.assertIn('"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);"', source_text)
             self.assertIn('"activation_time_guard_expr": "if(activationTime > 0)"', source_text)
             self.assertIn('"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"', source_text)
+            self.assertNotIn('"value": activation_time / 60.0', source_text)
 
     def test_emit_bridges_base_turret_set_bars_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11597,13 +11918,19 @@ public class BaseTurret extends Block{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_setBars_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("const SOURCE_TURRET_ACTIVATION_TIME_DEFAULT := SourceTurretDefaults.ACTIVATION_TIME_DEFAULT", source_text)
+            self.assertIn("var activation_time: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_ACTIVATION_TIME_DEFAULT)", source_text)
+            self.assertNotIn("var activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var activation_bar_added: bool = activation_time > 0.0", source_text)
             self.assertIn("var activation_timer_positive: bool = entity_activation_timer > 0.0", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[2] if _args.size() > 2 else 60.0)", source_text)
             self.assertIn("var activation_bar_fraction: float = 0.0", source_text)
             self.assertIn("activation_bar_fraction = 1.0 - entity_activation_timer / activation_time", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn('"seconds": ceil(entity_activation_timer / source_tick_rate)', source_text)
-            self.assertNotIn("entity_activation_timer / 60.0", source_text)
+            self.assertNotIn('"seconds": ceil(entity_activation_timer / 60.0)', source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_set_bars_state"', source_text)
             self.assertIn('"method": "public void setBars(){"', source_text)
             self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
@@ -11779,13 +12106,18 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
-            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_AIR_DEFAULT", source_text)
+            self.assertIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT)", source_text)
+            self.assertNotIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("var damage: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn("var damage_per_second: float = damage * source_tick_rate", source_text)
             self.assertNotIn("var damage_per_second: float = damage * 60.0", source_text)
             self.assertIn("var damage_stat_added: bool = damage > 0.0", source_text)
@@ -11797,6 +12129,45 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"damage_stat_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);"', source_text)
             self.assertIn('"damage_stat_added": damage_stat_added', source_text)
             self.assertIn('"damage_per_second": damage_per_second', source_text)
+
+    def test_emit_bridges_point_defense_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PointDefenseTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class PointDefenseTurret extends ReloadTurret{
+    public float bulletDamage = 10f;
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);
+        stats.add(Stat.damage, bulletDamage, StatUnit.none);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PointDefenseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourcePointDefenseTurretDefaults := preload("res://src/game/SourcePointDefenseTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT := SourcePointDefenseTurretDefaults.BULLET_DAMAGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT", source_text)
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            method_body = source_text.split("func java_method_setStats_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+            self.assertIn("var bullet_damage: float = float(_args[0] if _args.size() > 0 else SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT)", method_body)
+            self.assertIn("var reload_value: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_RELOAD_DEFAULT)", method_body)
+            self.assertIn('return {"source_owner": "PortGame.source_point_defense_turret_set_stats_state"', method_body)
 
     def test_emit_bridges_tractor_beam_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -11825,9 +12196,12 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var range_value: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
             self.assertIn("var clip_radius: float = range_value + source_tilesize", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_init_state"', source_text)
             self.assertIn('"method": "public void init(){"', source_text)
@@ -11847,6 +12221,12 @@ public class TractorBeamTurret extends BaseTurret{
 package mindustry.world.blocks.defense.turrets;
 
 public class TractorBeamTurret extends BaseTurret{
+    public TractorBeamTurret(String name){
+        super(name);
+
+        rotateSpeed = 10f;
+    }
+
     public class TractorBeamBuild extends BaseTurretBuild{
         public @Nullable Unit target;
 
@@ -11908,15 +12288,18 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("func java_inner_class_TractorBeamBuild_method_estimateDps_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var any_state: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var damage: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[4] if _args.size() > 4 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[4] if _args.size() > 4 else 60.0)", source_text)
             self.assertIn("var zero_guard: bool = (not any_state) or damage <= 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier", source_text)
-            self.assertNotIn("damage * 60.0 * efficiency * coolant_multiplier", source_text)
+            self.assertNotIn("var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', source_text)
             self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source_text)
             self.assertIn('"method": "public float estimateDps(){"', source_text)
@@ -11934,6 +12317,8 @@ public class TractorBeamTurret extends BaseTurret{
 package mindustry.world.blocks.defense.turrets;
 
 public class TractorBeamTurret extends BaseTurret{
+    public float shootCone = 6f;
+
     public class TractorBeamBuild extends BaseTurretBuild{
         @Override
         public void write(Writes write){
@@ -11974,6 +12359,8 @@ public class TractorBeamTurret extends BaseTurret{
 package mindustry.world.blocks.defense.turrets;
 
 public class TractorBeamTurret extends BaseTurret{
+    public float shootCone = 6f;
+
     public class TractorBeamBuild extends BaseTurretBuild{
         @Override
         public void read(Reads read, byte revision){
@@ -12015,6 +12402,8 @@ public class TractorBeamTurret extends BaseTurret{
 package mindustry.world.blocks.defense.turrets;
 
 public class TractorBeamTurret extends BaseTurret{
+    public boolean targetAir = true, targetGround = false;
+
     public class TractorBeamBuild extends BaseTurretBuild{
         @Override
         public void updateTile(){
@@ -12145,8 +12534,12 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn("var x: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
             self.assertIn("var y: float = float(_args[10] if _args.size() > 10 else 0.0)", source_text)
             self.assertIn("var range_value: float = float(_args[11] if _args.size() > 11 else 0.0)", source_text)
-            self.assertIn("var target_air: bool = bool(_args[12] if _args.size() > 12 else false)", source_text)
-            self.assertIn("var target_ground: bool = bool(_args[13] if _args.size() > 13 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_AIR_DEFAULT", source_text)
+            self.assertIn("var target_air: bool = bool(_args[12] if _args.size() > 12 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT)", source_text)
+            self.assertNotIn("var target_air: bool = bool(_args[12] if _args.size() > 12 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[13] if _args.size() > 13 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[13] if _args.size() > 13 else false)", source_text)
             self.assertIn("var retarget_evaluated: bool = not activation_returned_early", source_text)
             self.assertIn("var retarget_called: bool = retarget_evaluated and timer_target_ready", source_text)
             self.assertIn("var target_after: Variant = closest_enemy_result if retarget_called else existing_target", source_text)
@@ -12392,12 +12785,17 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE := SourceTurretDefaults.TRACTOR_BEAM_COOLANT_EFFECT_CHANCE", source_text)
             self.assertIn("var chance_result: bool = bool(_args[19] if _args.size() > 19 else false)", source_text)
             self.assertIn("var size: float = float(_args[20] if _args.size() > 20 else 0.0)", source_text)
-            self.assertIn("var source_tilesize: float = float(_args[21] if _args.size() > 21 else 8.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[21] if _args.size() > 21 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[21] if _args.size() > 21 else 8.0)", source_text)
             self.assertIn("var range_x: float = float(_args[22] if _args.size() > 22 else 0.0)", source_text)
             self.assertIn("var range_y: float = float(_args[23] if _args.size() > 23 else 0.0)", source_text)
-            self.assertIn("var chance_threshold: float = 0.06 * used if coolant_guard else 0.0", source_text)
+            self.assertIn("var chance_threshold: float = SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE * used if coolant_guard else 0.0", source_text)
+            self.assertNotIn("var chance_threshold: float = 0.06 * used if coolant_guard else 0.0", source_text)
             self.assertIn("var particle_range: float = size * source_tilesize / 2.0 if coolant_guard else 0.0", source_text)
             self.assertIn("var cool_effect_called: bool = coolant_guard and chance_result", source_text)
             self.assertIn('cool_effect_call = {"call": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));", "x": x + range_x, "y": y + range_y, "range": particle_range}', source_text)
@@ -12594,6 +12992,8 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN := SourceTurretDefaults.LOOK_TARGET_EFFICIENCY_MIN", source_text)
             self.assertIn("var target_within_result: bool = bool(_args[25] if _args.size() > 25 else false)", source_text)
             self.assertIn("var target_team: Variant = _args[26] if _args.size() > 26 else null", source_text)
             self.assertIn("var target_check_result: bool = bool(_args[27] if _args.size() > 27 else false)", source_text)
@@ -12605,10 +13005,11 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn("var target_enemy: bool = target_team != team if target_team_evaluated else false", source_text)
             self.assertIn("var target_check_evaluated: bool = target_team_evaluated and target_enemy", source_text)
             self.assertIn("var efficiency_gate_evaluated: bool = target_check_evaluated and target_check_result", source_text)
-            self.assertIn("var look_target_guard: bool = efficiency_gate_evaluated and efficiency > 0.02", source_text)
+            self.assertIn("var look_target_guard: bool = efficiency_gate_evaluated and efficiency > SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN", source_text)
             self.assertIn('"look_target_comment_expr": "//look at target"', source_text)
             self.assertIn('"look_target_guard_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"', source_text)
             self.assertIn('"look_target_guard": look_target_guard', source_text)
+            self.assertNotIn("var look_target_guard: bool = efficiency_gate_evaluated and efficiency > 0.02", source_text)
 
     def test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -12762,7 +13163,9 @@ public class TractorBeamTurret extends BaseTurret{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("var rotation_before: float = float(_args[32] if _args.size() > 32 else 0.0)", source_text)
-            self.assertIn("var rotate_speed: float = float(_args[33] if _args.size() > 33 else 0.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_ROTATE_SPEED_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_ROTATE_SPEED_DEFAULT", source_text)
+            self.assertIn("var rotate_speed: float = float(_args[33] if _args.size() > 33 else SOURCE_TURRET_TRACTOR_BEAM_ROTATE_SPEED_DEFAULT)", source_text)
+            self.assertNotIn("var rotate_speed: float = float(_args[33] if _args.size() > 33 else 0.0)", source_text)
             self.assertIn("var rotation_move_evaluated: bool = angle_to_target_evaluated", source_text)
             self.assertIn("var rotation_max_delta: float = rotate_speed * edelta if rotation_move_evaluated else 0.0", source_text)
             self.assertIn("var rotation_after: float = rotation_before", source_text)
@@ -12871,15 +13274,18 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS := SourceTurretDefaults.TRACTOR_BEAM_STRENGTH_LERP_PROGRESS", source_text)
             self.assertIn("var strength_before: float = float(_args[36] if _args.size() > 36 else 0.0)", source_text)
             self.assertIn("var strength_lerp_evaluated: bool = last_target_position_evaluated", source_text)
-            self.assertIn("var strength_lerp_progress: float = 0.1", source_text)
+            self.assertIn("var strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS", source_text)
             self.assertIn("var strength_lerp_scaled_progress: float = strength_lerp_progress * time_delta if strength_lerp_evaluated else 0.0", source_text)
             self.assertIn("var strength_lerp_clamped_progress: float = clampf(strength_lerp_scaled_progress, 0.0, 1.0)", source_text)
             self.assertIn("var strength_after: float = strength_before + (1.0 - strength_before) * strength_lerp_clamped_progress if strength_lerp_evaluated else strength_before", source_text)
             self.assertIn('strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);", "from": strength_before, "to": 1.0, "progress": strength_lerp_progress, "time_delta": time_delta, "result": strength_after}', source_text)
             self.assertIn('"strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"', source_text)
             self.assertIn('"strength_after": strength_after', source_text)
+            self.assertNotIn("var strength_lerp_progress: float = 0.1", source_text)
 
     def test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -12919,8 +13325,10 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS := SourceTurretDefaults.TRACTOR_BEAM_STRENGTH_LERP_PROGRESS", source_text)
             self.assertIn("var inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard", source_text)
-            self.assertIn("var inactive_strength_lerp_progress: float = 0.1", source_text)
+            self.assertIn("var inactive_strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS", source_text)
             self.assertIn("var inactive_strength_lerp_scaled_progress: float = inactive_strength_lerp_progress * time_delta if inactive_strength_evaluated else 0.0", source_text)
             self.assertIn("var inactive_strength_after: float = strength_before + (0.0 - strength_before) * inactive_strength_lerp_clamped_progress if inactive_strength_evaluated else strength_after", source_text)
             self.assertIn("if inactive_strength_evaluated:", source_text)
@@ -12929,6 +13337,7 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"inactive_strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 0, 0.1f);"', source_text)
             self.assertIn('"inactive_strength_after": inactive_strength_after', source_text)
             self.assertIn('"inactive_strength_lerp_call": inactive_strength_lerp_call', source_text)
+            self.assertNotIn("var inactive_strength_lerp_progress: float = 0.1", source_text)
 
     def test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -12977,7 +13386,9 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("var shoot_cone: float = float(_args[37] if _args.size() > 37 else 0.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_SHOOT_CONE_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_SHOOT_CONE_DEFAULT", source_text)
+            self.assertIn("var shoot_cone: float = float(_args[37] if _args.size() > 37 else SOURCE_TURRET_TRACTOR_BEAM_SHOOT_CONE_DEFAULT)", source_text)
+            self.assertNotIn("var shoot_cone: float = float(_args[37] if _args.size() > 37 else 0.0)", source_text)
             self.assertIn("var shoot_when_possible_evaluated: bool = strength_lerp_evaluated", source_text)
             self.assertIn("var shoot_within_angle_dist: float = 0.0", source_text)
             self.assertIn("var shoot_within_guard: bool = shoot_when_possible_evaluated and shoot_within_angle_dist <= shoot_cone", source_text)
@@ -13103,7 +13514,8 @@ public class TractorBeamTurret extends BaseTurret{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("var status: Variant = _args[41] if _args.size() > 41 else \"StatusEffects.none\"", source_text)
-            self.assertIn("var status_duration: float = float(_args[42] if _args.size() > 42 else 300.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_STATUS_DURATION_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_STATUS_DURATION_DEFAULT", source_text)
+            self.assertIn("var status_duration: float = float(_args[42] if _args.size() > 42 else SOURCE_TURRET_TRACTOR_BEAM_STATUS_DURATION_DEFAULT)", source_text)
             self.assertIn("var status_gate_evaluated: bool = shoot_within_guard", source_text)
             self.assertIn("var status_is_none: bool = status is String and status == \"StatusEffects.none\"", source_text)
             self.assertIn("var status_gate: bool = status_gate_evaluated and not status_is_none", source_text)
@@ -13229,7 +13641,8 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("var force_value: float = float(_args[43]) if _args.size() > 43 else 0.3", source_text)
+            self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_FORCE_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_FORCE_DEFAULT", source_text)
+            self.assertIn("var force_value: float = float(_args[43]) if _args.size() > 43 else SOURCE_TURRET_TRACTOR_BEAM_FORCE_DEFAULT", source_text)
             self.assertIn("var scaled_force: float = float(_args[44]) if _args.size() > 44 else 0.0", source_text)
             self.assertIn("var target_dst_to_building: float = sqrt(pow(target_x_for_impulse - x, 2) + pow(target_y_for_impulse - y, 2))", source_text)
             self.assertIn("var impulse_limit: float = (force_value + (1.0 - target_dst_to_building / range_value) * scaled_force) * edelta", source_text)
@@ -13809,9 +14222,13 @@ public class Turret extends ReloadTurret{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_drawPlace_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("var tile_x: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("var tile_y: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var draw_min_range: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
             self.assertIn("var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset", source_text)
             self.assertIn("var dash_circle_called: bool = draw_min_range", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_turret_draw_place_state"', source_text)
@@ -13853,12 +14270,42 @@ public class Turret extends ReloadTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("const SOURCE_TURRET_INACCURACY_DEFAULT := SourceTurretDefaults.INACCURACY_DEFAULT", source_text)
+            self.assertIn("var inaccuracy_value: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_INACCURACY_DEFAULT)", source_text)
+            self.assertNotIn("var inaccuracy_value: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT", source_text)
+            self.assertIn("var reload_value: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_RELOAD_DEFAULT)", source_text)
+            self.assertNotIn("var reload_value: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn('const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT", source_text)
+            self.assertIn("var shoot_shots: float = float(_args[4] if _args.size() > 4 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)", source_text)
+            self.assertNotIn("var shoot_shots: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT", source_text)
+            self.assertIn("var shoot_first_shot_delay: float = float(_args[3] if _args.size() > 3 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)", source_text)
+            self.assertNotIn("var shoot_first_shot_delay: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_RELOAD_WHILE_CHARGING_DEFAULT := SourceTurretDefaults.RELOAD_WHILE_CHARGING_DEFAULT", source_text)
+            self.assertNotIn("var reload_while_charging: bool = bool(_args[2] if _args.size() > 2 else true)", source_text)
+            self.assertIn("var reload_while_charging: bool = bool(_args[2] if _args.size() > 2 else SOURCE_TURRET_RELOAD_WHILE_CHARGING_DEFAULT)", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_AIR_DEFAULT := SourceTurretDefaults.TARGET_AIR_DEFAULT", source_text)
+            self.assertNotIn("var target_air: bool = bool(_args[5] if _args.size() > 5 else true)", source_text)
+            self.assertIn("var target_air: bool = bool(_args[5] if _args.size() > 5 else SOURCE_TURRET_TARGET_AIR_DEFAULT)", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[6] if _args.size() > 6 else true)", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[6] if _args.size() > 6 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertIn("const SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT := SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT", source_text)
+            self.assertIn("var ammo_per_shot: int = int(_args[7] if _args.size() > 7 else SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT)", source_text)
+            self.assertNotIn("var ammo_per_shot: int = int(_args[7] if _args.size() > 7 else 1)", source_text)
+            self.assertIn("const SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT := SourceTurretDefaults.HEAT_REQUIREMENT_DEFAULT", source_text)
+            self.assertIn("var heat_requirement: float = float(_args[8] if _args.size() > 8 else SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT)", source_text)
+            self.assertNotIn("var heat_requirement: float = float(_args[8] if _args.size() > 8 else -1.0)", source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT := SourceTurretDefaults.MAX_HEAT_EFFICIENCY_DEFAULT", source_text)
+            self.assertIn("var max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT)", source_text)
+            self.assertNotIn("var max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else 3.0)", source_text)
             self.assertIn("var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
-            self.assertIn("var reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots", source_text)
+            self.assertIn("var reload_stat_rate: float = SOURCE_TICK_RATE / reload_stat_denominator * shoot_shots", source_text)
             self.assertNotIn("var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots", source_text)
             self.assertIn("var ammo_use_stat_called: bool = ammo_per_shot != 1", source_text)
             self.assertIn("var input_heat_stat_called: bool = heat_requirement > 0.0", source_text)
@@ -13903,7 +14350,13 @@ public class Turret extends ReloadTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("const SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT := SourceTurretDefaults.HEAT_REQUIREMENT_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT := SourceTurretDefaults.MAX_HEAT_EFFICIENCY_DEFAULT", source_text)
             self.assertIn("func java_method_setBars_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var heat_requirement: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT)", source_text)
+            self.assertNotIn("var heat_requirement: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
+            self.assertIn("var max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT)", source_text)
+            self.assertNotIn("var max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else 3.0)", source_text)
             self.assertIn("var heat_bar_added: bool = heat_requirement > 0.0", source_text)
             self.assertIn("var heat_bar_percent: int = 0", source_text)
             self.assertIn("heat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * 100.0)", source_text)
@@ -14594,9 +15047,13 @@ public class ItemTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            method_body = source_text.split("func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", source_text)
+            self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", method_body)
+            self.assertNotIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", method_body)
             self.assertIn("var ammo_fraction: float = total_ammo / max_ammo", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state"', source_text)
             self.assertIn('"method": "public float getAmmoFraction(){"', source_text)
@@ -14667,10 +15124,14 @@ public class ItemTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            method_body = source_text.split("func java_inner_class_ItemTurretBuild_method_acceptStack_4(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_inner_class_ItemTurretBuild_method_acceptStack_4(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var amount: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", source_text)
+            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", method_body)
+            self.assertNotIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", method_body)
             self.assertIn("var total_ammo: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var ammo_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var ammo_type_null: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
@@ -14942,10 +15403,14 @@ public class ItemTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            method_body = source_text.split("func java_inner_class_ItemTurretBuild_method_acceptItem_8(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_inner_class_ItemTurretBuild_method_acceptItem_8(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var total_ammo: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", source_text)
+            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", method_body)
+            self.assertNotIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", method_body)
             self.assertIn("var ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
             self.assertIn("var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo", source_text)
@@ -15555,7 +16020,15 @@ public class LiquidTurret extends Turret{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_init_2(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
-            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT", source_text)
+            self.assertIn("var range_value: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertIn("var place_overlap_margin: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertNotIn("var place_overlap_margin: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
             self.assertIn('"source_owner": "PortGame.source_liquid_turret_init_state"', source_text)
             self.assertIn('"method": "public void init(){"', source_text)
             self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){"', source_text)
@@ -15614,6 +16087,15 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT", source_text)
+            self.assertIn("var range_value: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertIn("var place_overlap_margin: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertNotIn("var place_overlap_margin: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
             self.assertIn("var liquid_consumed: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
             self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_init_state"', source_text)
             self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){"', source_text)
@@ -16212,6 +16694,8 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_LIQUID_AMMO_EPSILON := SourceTurretDefaults.LIQUID_AMMO_EPSILON", source_text)
             self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var source_building: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var liquid: Variant = _args[1] if _args.size() > 1 else null", source_text)
@@ -16225,7 +16709,8 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn("var current_liquid_missing_ammo_type: bool = not current_liquid_ammo_type_present", source_text)
             self.assertIn("var current_required_with_epsilon: Variant = null", source_text)
             self.assertIn("if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:", source_text)
-            self.assertIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001", source_text)
+            self.assertIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON", source_text)
+            self.assertNotIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001", source_text)
             self.assertIn("current_liquid_drained = current_liquid_amount <= current_required_with_epsilon", source_text)
             self.assertIn("var accept_liquid: bool = liquid_has_ammo_type and (same_liquid or replacement_allowed)", source_text)
             self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state"', source_text)
@@ -16705,6 +17190,8 @@ public class LiquidTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_LIQUID_AMMO_EPSILON := SourceTurretDefaults.LIQUID_AMMO_EPSILON", source_text)
             self.assertIn("func java_inner_class_LiquidTurretBuild_method_acceptLiquid_9(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var source_building: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var liquid: Variant = _args[1] if _args.size() > 1 else null", source_text)
@@ -16718,7 +17205,8 @@ public class LiquidTurret extends Turret{
             self.assertIn("var current_liquid_missing_ammo_type: bool = not current_liquid_ammo_type_present", source_text)
             self.assertIn("var current_required_with_epsilon: Variant = null", source_text)
             self.assertIn("if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:", source_text)
-            self.assertIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001", source_text)
+            self.assertIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON", source_text)
+            self.assertNotIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001", source_text)
             self.assertIn("current_liquid_drained = current_liquid_amount <= current_required_with_epsilon", source_text)
             self.assertIn("var accept_liquid: bool = liquid_has_ammo_type and (same_liquid or replacement_allowed)", source_text)
             self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state"', source_text)
@@ -16859,11 +17347,16 @@ public class ItemTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT := SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT", source_text)
             self.assertIn("func java_method_setStats_3(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var ammo_types: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn('var name_value: String = str(_args[1] if _args.size() > 1 else "")', source_text)
-            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var ammo_per_shot: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", source_text)
+            self.assertIn("var ammo_per_shot: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT)", source_text)
+            self.assertNotIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertNotIn("var ammo_per_shot: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
             self.assertIn("var ammo_capacity_divisor: float = maxf(ammo_per_shot, 1.0)", source_text)
             self.assertIn("var ammo_capacity: float = max_ammo / ammo_capacity_divisor", source_text)
             self.assertIn("var ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ammoTypes, name)\", \"ammo_types\": ammo_types, \"name\": name_value}", source_text)
@@ -16935,9 +17428,13 @@ public class ItemTurret extends Turret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            method_body = source_text.split("func java_method_setBars_4(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", source_text)
             self.assertIn("func java_method_setBars_4(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", method_body)
+            self.assertNotIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", method_body)
             self.assertIn("var ammo_bar_fraction: float = total_ammo / max_ammo", source_text)
             self.assertIn("var bar_call: Dictionary = {\"call\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(...));\", \"name\": \"ammo\", \"bar_text\": \"stat.ammo\", \"color\": \"Pal.ammo\", \"fraction\": ammo_bar_fraction}", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_item_turret_set_bars_state"', source_text)
@@ -16985,10 +17482,17 @@ public class ItemTurret extends Turret{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var target_ground: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", source_text)
+            self.assertIn("const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[0] if _args.size() > 0 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", source_text)
+            self.assertNotIn("var target_ground: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var place_overlap_range: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var range_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var range_value: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_RANGE_DEFAULT)", source_text)
+            self.assertIn("var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)", source_text)
+            self.assertNotIn("var range_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertNotIn("var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var ammo_entries: Array = _args[4] if _args.size() > 4 else []", source_text)
             self.assertIn("var place_overlap_range_after: float = place_overlap_range", source_text)
             self.assertIn("if target_ground:", source_text)
@@ -17028,14 +17532,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_block_0(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_block_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_block: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_block_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"method": "public Block block(){"', source_text)
-            self.assertIn('"return_expr": "return build.block;"', source_text)
-            self.assertIn('"build_block": build_block', source_text)
+            self.assertIn("return SourceBuildPayloadState.block_state(build_block)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public Block block(){"', body)
+            self.assertNotIn('"return_expr": "return build.block;"', body)
 
     def test_emit_bridges_consume_power_requested_power_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -17223,15 +17727,16 @@ public class ConsumePower extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePower.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var buffered: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var usage: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var buffered_guard: bool = buffered", source_text)
             self.assertIn("var usage_guard: bool = usage > 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn("var power_use_value: float = usage * source_tick_rate", source_text)
             self.assertNotIn("var power_use_value: float = usage * 60.0", source_text)
             self.assertIn('"stat": "Stat.powerCapacity"', source_text)
@@ -17345,12 +17850,13 @@ public class ConsumePowerDynamic extends ConsumePower{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var display_guard: bool = displayed_power_usage != 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else 60.0)", source_text)
             self.assertIn("var power_use_value: float = displayed_power_usage * source_tick_rate", source_text)
             self.assertNotIn("var power_use_value: float = displayed_power_usage * 60.0", source_text)
             self.assertIn('"stat": "Stat.powerUse"', source_text)
@@ -17469,13 +17975,15 @@ public class ConsumeItemFlammable extends ConsumeItemEfficiency{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeItemFlammable_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var min_flammability: float = 0.2", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
+            self.assertIn("var min_flammability: float = SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
             self.assertIn("var min_flammability_after: float = min_flammability", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java"', source_text)
             self.assertIn('"constructor": "public ConsumeItemFlammable(){"', source_text)
             self.assertIn('"default_call_expr": "this(0.2f);"', source_text)
-            self.assertIn('"default_min_flammability": 0.2', source_text)
+            self.assertIn('"default_min_flammability": SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT', source_text)
             self.assertIn('"min_flammability_after": min_flammability_after', source_text)
 
     def test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state(self):
@@ -17587,14 +18095,16 @@ public class ConsumeItemExplosive extends ConsumeItemEfficiency{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemExplosive.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeItemExplosive_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var min_charge: float = 0.2", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT", source_text)
+            self.assertIn("var min_charge: float = SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT", source_text)
             self.assertIn("var min_explosiveness_after: float = min_charge", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"', source_text)
             self.assertIn('"constructor": "public ConsumeItemExplosive(){"', source_text)
             self.assertIn('"default_call_expr": "this(0.2f);"', source_text)
             self.assertIn('"typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){"', source_text)
-            self.assertIn('"default_min_charge": 0.2', source_text)
+            self.assertIn('"default_min_charge": SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT', source_text)
             self.assertIn('"min_explosiveness_after": min_explosiveness_after', source_text)
 
     def test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state(self):
@@ -17706,14 +18216,16 @@ public class ConsumeItemRadioactive extends ConsumeItemEfficiency{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemRadioactive.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeItemRadioactive_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var min_radioactivity: float = 0.2", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT", source_text)
+            self.assertIn("var min_radioactivity: float = SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT", source_text)
             self.assertIn("var min_radioactivity_after: float = min_radioactivity", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"', source_text)
             self.assertIn('"constructor": "public ConsumeItemRadioactive(){"', source_text)
             self.assertIn('"default_call_expr": "this(0.2f);"', source_text)
             self.assertIn('"typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){"', source_text)
-            self.assertIn('"default_min_radioactivity": 0.2', source_text)
+            self.assertIn('"default_min_radioactivity": SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT', source_text)
             self.assertIn('"min_radioactivity_after": min_radioactivity_after', source_text)
 
     def test_emit_bridges_consume_item_charged_item_efficiency_multiplier_to_source_state(self):
@@ -17825,7 +18337,9 @@ public class ConsumeItemCharged extends ConsumeItemEfficiency{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemCharged.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeItemCharged_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var min_charge: float = 0.2", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT", source_text)
+            self.assertIn("var min_charge: float = SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT", source_text)
             self.assertIn("var min_charge_after: float = min_charge", source_text)
             self.assertIn('var filter_expr: String = "item -> item.charge >= this.minCharge"', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state"', source_text)
@@ -17833,7 +18347,7 @@ public class ConsumeItemCharged extends ConsumeItemEfficiency{
             self.assertIn('"constructor": "public ConsumeItemCharged(){"', source_text)
             self.assertIn('"default_call_expr": "this(0.2f);"', source_text)
             self.assertIn('"typed_constructor_expr": "public ConsumeItemCharged(float minCharge){"', source_text)
-            self.assertIn('"default_min_charge": 0.2', source_text)
+            self.assertIn('"default_min_charge": SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT', source_text)
             self.assertIn('"min_charge_after": min_charge_after', source_text)
 
     def test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state(self):
@@ -17939,8 +18453,10 @@ public class ConsumeItemFilter extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn('const SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR', source_text)
             self.assertIn("func java_constructor_ConsumeItemFilter_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('var filter_after: String = "i -> false"', source_text)
+            self.assertIn("var filter_after: String = SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
             self.assertIn('"constructor": "public ConsumeItemFilter(){"', source_text)
@@ -18019,7 +18535,9 @@ public class ConsumeItems extends Consume{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeItems_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var item_stacks: Array = []", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_ITEMS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_ITEMS_EMPTY_STACKS", source_text)
+            self.assertIn("var item_stacks: Array = SOURCE_CONSUME_ITEMS_EMPTY_STACKS.duplicate(true)", source_text)
             self.assertIn("var items_after: Array = item_stacks.duplicate(true)", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_items_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
@@ -18063,7 +18581,9 @@ public class ConsumeLiquids extends Consume{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeLiquids_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var liquid_stacks: Array = []", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_LIQUIDS_EMPTY_STACKS", source_text)
+            self.assertIn("var liquid_stacks: Array = SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS.duplicate(true)", source_text)
             self.assertIn("var liquids_after: Array = liquid_stacks.duplicate(true)", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
@@ -18303,12 +18823,13 @@ public class ConsumeItems extends Consume{
             self.assertIn("var multiplier_get_build: float = float(_args[2] if _args.size() > 2 else 1.0)", source_text)
             self.assertIn("var req_images: Array = []", source_text)
             self.assertIn("var row_calls: Array = []", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
             self.assertIn("for index in item_stacks.size():", source_text)
             self.assertIn('var item_id: int = int(stack.get("item_id", -1))', source_text)
             self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
-            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
             self.assertIn('req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT})', source_text)
+            self.assertNotIn('"pad_right": 8.0})', source_text)
             self.assertIn('row_calls.append({"call": "c.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_items_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
@@ -18410,6 +18931,7 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
             self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
             self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
+            self.assertNotIn("var table_image_size: float = 8.0 * 4.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -18462,6 +18984,7 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
             self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
             self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
+            self.assertNotIn("var table_image_size: float = 8.0 * 4.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -18942,8 +19465,10 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeLiquidFlammable_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
             self.assertIn("var amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var min_flammability: float = 0.2", source_text)
+            self.assertIn("var min_flammability: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
             self.assertIn("var amount_after: float = amount", source_text)
             self.assertIn("var min_flammability_after: float = min_flammability", source_text)
             self.assertIn('var filter_expr: String = "liquid -> liquid.flammability >= this.minFlammability"', source_text)
@@ -18951,7 +19476,7 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             self.assertIn('"constructor": "public ConsumeLiquidFlammable(float amount){"', source_text)
             self.assertIn('"default_call_expr": "this(0.2f, amount);"', source_text)
             self.assertIn('"typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){"', source_text)
-            self.assertIn('"default_min_flammability": 0.2', source_text)
+            self.assertIn('"default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT', source_text)
             self.assertIn('"amount": amount', source_text)
             self.assertIn('"amount_after": amount_after', source_text)
             self.assertIn('"min_flammability_after": min_flammability_after', source_text)
@@ -18993,8 +19518,11 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeLiquidFlammable_2(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var amount: float = 0.2", source_text)
-            self.assertIn("var min_flammability: float = 0.2", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT", source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
+            self.assertIn("var amount: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT", source_text)
+            self.assertIn("var min_flammability: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT", source_text)
             self.assertIn("var amount_after: float = amount", source_text)
             self.assertIn("var min_flammability_after: float = min_flammability", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state"', source_text)
@@ -19003,8 +19531,8 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
             self.assertIn('"amount_constructor_expr": "public ConsumeLiquidFlammable(float amount){"', source_text)
             self.assertIn('"amount_constructor_default_call_expr": "this(0.2f, amount);"', source_text)
             self.assertIn('"typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){"', source_text)
-            self.assertIn('"default_amount": 0.2', source_text)
-            self.assertIn('"default_min_flammability": 0.2', source_text)
+            self.assertIn('"default_amount": SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT', source_text)
+            self.assertIn('"default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT', source_text)
             self.assertIn('"amount_after": amount_after', source_text)
             self.assertIn('"min_flammability_after": min_flammability_after', source_text)
 
@@ -19033,12 +19561,13 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[5] if _args.size() > 5 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[5] if _args.size() > 5 else 60.0)", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_display_state"', source_text)
@@ -19107,12 +19636,13 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_display_state"', source_text)
@@ -19196,12 +19726,16 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn('const SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_LIQUID_FILTER_DEFAULT_EXPR', source_text)
             self.assertIn("func java_constructor_ConsumeLiquidFilter_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var filter_after: String = SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
             self.assertIn('"constructor": "public ConsumeLiquidFilter(){"', source_text)
             self.assertIn('"filter_field": "public Boolf<Liquid> filter = l -> false;"', source_text)
             self.assertIn('"empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }"', source_text)
+            self.assertIn('"filter_after": filter_after', source_text)
             self.assertIn('"no_op": true', source_text)
 
     def test_emit_bridges_consume_liquid_filter_apply_to_source_state(self):
@@ -19386,6 +19920,8 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var consumed_liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
@@ -19393,7 +19929,7 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn("var build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var ed: float = build_edelta", source_text)
-            self.assertIn("var ed_guard: bool = ed <= 0.00000001", source_text)
+            self.assertIn("var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("var has_consumed_liquid: bool = consumed_liquid != null", source_text)
             self.assertIn("var required_liquid_amount: float = amount * ed * multiplier_get_build", source_text)
             self.assertIn("var raw_efficiency: float = build_liquids_get / required_liquid_amount if has_consumed_liquid and not ed_guard else 0.0", source_text)
@@ -19842,51 +20378,6 @@ public class PowerGenerator extends PowerDistributor{
             self.assertIn('"power_production": power_production', source_text)
             self.assertIn('"displayed_power_production": displayed_power_production', source_text)
 
-    def test_emit_bridges_thermal_generator_set_stats_to_source_state(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            source_root = root / "mindustry"
-            thermal_path = source_root / "mindustry" / "world" / "blocks" / "power" / "ThermalGenerator.java"
-            thermal_path.parent.mkdir(parents=True, exist_ok=True)
-            thermal_path.write_text(
-                """
-package mindustry.world.blocks.power;
-
-public class ThermalGenerator extends PowerGenerator{
-    public float displayEfficiencyScale = 1f;
-    public boolean displayEfficiency = true;
-
-    @Override
-    public void setStats(){
-        super.setStats();
-
-        stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);
-        stats.remove(generationType);
-        stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);
-    }
-}
-""",
-                encoding="utf-8",
-            )
-            output_root = root / "godot" / "src" / "generated" / "classes"
-
-            emit_gdscript_classes(source_root, output_root)
-
-            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "ThermalGenerator.gd"
-            source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
-            self.assertIn("var generation_stat_value: float = power_production * source_tick_rate / display_efficiency_scale", source_text)
-            self.assertNotIn("power_production * 60.0 / display_efficiency_scale", source_text)
-            self.assertIn("var output_stat_amount: float = output_liquid_amount * size * size * source_tick_rate", source_text)
-            self.assertNotIn("output_liquid_amount * size * size * 60.0", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_thermal_generator_set_stats_state"', source_text)
-            self.assertIn('"generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);"', source_text)
-            self.assertIn('"generation_stat_value": generation_stat_value', source_text)
-            self.assertIn('"output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));"', source_text)
-
     def test_emit_bridges_power_graph_get_id_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -20277,8 +20768,11 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_constructor_ConsumeLiquid_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var liquid: Variant = null", source_text)
-            self.assertIn("var amount: float = 0.0", source_text)
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_LIQUID", source_text)
+            self.assertIn("const SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_AMOUNT", source_text)
+            self.assertIn("var liquid: Variant = SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID", source_text)
+            self.assertIn("var amount: float = SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT", source_text)
             self.assertIn("var amount_after: float = amount", source_text)
             self.assertIn("var liquid_after: Variant = liquid", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_default_constructor_state"', source_text)
@@ -20289,8 +20783,8 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"base_constructor_expr": "public ConsumeLiquidBase(float amount){"', source_text)
             self.assertIn('"amount_assignment_expr": "this.amount = amount;"', source_text)
             self.assertIn('"liquid_assignment_expr": "this.liquid = liquid;"', source_text)
-            self.assertIn('"default_liquid": null', source_text)
-            self.assertIn('"default_amount": 0.0', source_text)
+            self.assertIn('"default_liquid": SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID', source_text)
+            self.assertIn('"default_amount": SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT', source_text)
             self.assertIn('"liquid_after": liquid_after', source_text)
             self.assertIn('"amount_after": amount_after', source_text)
 
@@ -20371,13 +20865,16 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
-            self.assertIn("var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var valid: bool = build_liquids_get > 0.0", source_text)
-            self.assertIn("var req_image: Dictionary = {\"liquid_id\": liquid_id, \"icon\": \"liquid.uiIcon\", \"valid\": valid, \"valid_expr\": \"build.liquids.get(liquid) > 0\"}", source_text)
             self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
             self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
-            self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
+            self.assertIn("var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)", source_text)
+            self.assertNotIn("var source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else 32.0)", source_text)
+            self.assertIn("var valid: bool = build_liquids_get > 0.0", source_text)
+            self.assertIn("var req_image: Dictionary = {\"liquid_id\": liquid_id, \"icon\": \"liquid.uiIcon\", \"valid\": valid, \"valid_expr\": \"build.liquids.get(liquid) > 0\"}", source_text)
+            self.assertIn("var table_image_size: float = source_ui_icon_med", source_text)
+            self.assertNotIn("var table_image_size: float = 8.0 * 4.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -20423,14 +20920,15 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var liquid_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var amount: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}', source_text)
@@ -20520,6 +21018,8 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_liquids_get: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
@@ -20527,7 +21027,7 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn("var build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source_text)
-            self.assertIn("var ed_guard: bool = ed <= 0.00000001", source_text)
+            self.assertIn("var ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("var required_liquid_amount: float = amount * ed * multiplier_get_build", source_text)
             self.assertIn("var raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0", source_text)
             self.assertIn("var efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)", source_text)
@@ -20633,7 +21133,10 @@ public class ConsumeLiquids extends Consume{
             self.assertIn("var req_images: Array = []", source_text)
             self.assertIn("var row_calls: Array = []", source_text)
             self.assertIn("var icon_size: String = \"Vars.iconMed\"", source_text)
-            self.assertIn("var pad_right: float = 8.0", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn("var pad_right: float = SOURCE_UI_PAD_RIGHT", source_text)
+            self.assertNotIn("var pad_right: float = 8.0", source_text)
             self.assertIn("for index in range(liquid_ids.size()):", source_text)
             self.assertIn('req_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})', source_text)
             self.assertIn("if (index + 1) % 4 == 0:", source_text)
@@ -20731,6 +21234,8 @@ public class ConsumeLiquids extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
             self.assertIn("var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
@@ -20739,7 +21244,7 @@ public class ConsumeLiquids extends Consume{
             self.assertIn("var build_efficiency_scale: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[5] if _args.size() > 5 else 1.0)", source_text)
             self.assertIn("var ed: float = build_edelta * build_efficiency_scale", source_text)
-            self.assertIn("if ed <= 0.00000001:", source_text)
+            self.assertIn("if ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:", source_text)
             self.assertIn("var min_efficiency: float = 1.0", source_text)
             self.assertIn("var denominator: float = stack_amount * ed * multiplier_get_build", source_text)
             self.assertIn("var stack_efficiency: float = liquid_amount / denominator", source_text)
@@ -20783,14 +21288,15 @@ public class ConsumeLiquids extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("var liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = stack_amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = stack_amount * 60.0", source_text)
             self.assertIn('"stat_value_expr": "StatValues.liquids(1f, true, liquids)"', source_text)
@@ -20971,6 +21477,8 @@ public class ConsumeLiquidsDynamic extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON", source_text)
             self.assertIn("func java_method_efficiency_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
             self.assertIn("var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
@@ -20978,7 +21486,7 @@ public class ConsumeLiquidsDynamic extends Consume{
             self.assertIn("var build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var ed: float = build_edelta", source_text)
-            self.assertIn("if ed <= 0.00000001:", source_text)
+            self.assertIn("if ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:", source_text)
             self.assertIn("var min_efficiency: float = 1.0", source_text)
             self.assertIn("var denominator: float = stack_amount * ed * multiplier_get_build", source_text)
             self.assertIn("var stack_efficiency: float = liquid_amount / denominator", source_text)
@@ -21034,13 +21542,19 @@ public class ConsumeLiquidsDynamic extends Consume{
             self.assertIn("var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
             self.assertIn("var liquid_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("var building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
+            self.assertIn("var source_ui_icon_med: float = float(_args[3] if _args.size() > 3 else SOURCE_UI_ICON_MED)", source_text)
+            self.assertNotIn("var source_ui_icon_med: float = float(_args[3] if _args.size() > 3 else 32.0)", source_text)
+            self.assertIn("var source_ui_pad_right: float = float(_args[4] if _args.size() > 4 else SOURCE_UI_PAD_RIGHT)", source_text)
+            self.assertNotIn("var source_ui_pad_right: float = float(_args[4] if _args.size() > 4 else 8.0)", source_text)
             self.assertIn("var req_images: Array = []", source_text)
             self.assertIn("var valid: bool = building_has_liquids and liquid_amount > 0.0", source_text)
-            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
-            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
-            self.assertIn('"size": SOURCE_UI_ICON_MED', source_text)
-            self.assertIn('"pad_right": SOURCE_UI_PAD_RIGHT', source_text)
+            self.assertIn('"size": source_ui_icon_med', source_text)
+            self.assertIn('"pad_right": source_ui_pad_right', source_text)
+            self.assertNotIn('"size": 32.0', source_text)
+            self.assertNotIn('"pad_right": 8.0', source_text)
             self.assertIn("if (index + 1) % 4 == 0:", source_text)
             self.assertIn('row_calls.append({"call": "table.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state"', source_text)
@@ -21261,8 +21775,10 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")', source_text)
+            self.assertIn('const SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR', source_text)
             self.assertIn("func java_constructor_ConsumeItemEfficiency_1(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('var filter_after: String = "i -> false"', source_text)
+            self.assertIn("var filter_after: String = SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_efficiency_default_constructor_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java"', source_text)
             self.assertIn('"constructor": "public ConsumeItemEfficiency(){"', source_text)
@@ -21470,10 +21986,11 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
             self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
             self.assertIn("var valid: bool = building_has_items and item_amount >= required_amount", source_text)
-            self.assertIn('"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))"', source_text)
             self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
             self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn('"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))"', source_text)
             self.assertIn('"pad_right": SOURCE_UI_PAD_RIGHT', source_text)
+            self.assertNotIn('"pad_right": 8.0', source_text)
             self.assertIn('"left": true', source_text)
             self.assertIn('row_calls.append({"call": "table.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state"', source_text)
@@ -21565,8 +22082,6 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
@@ -21574,8 +22089,11 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
             self.assertIn("var item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
             self.assertIn("var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []", source_text)
             self.assertIn("var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)", source_text)
+            self.assertNotIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
-            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source_text)
             self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / source_tick_rate)", source_text)
             self.assertNotIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
@@ -21657,21 +22175,22 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            ctor_block_body = gdscript_function_body(source_text, "func java_constructor_BuildPayload_0(_args: Array = []) -> Variant:")
+            ctor_build_body = gdscript_function_body(source_text, "func java_constructor_BuildPayload_1(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_constructor_BuildPayload_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var block: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var team: Variant = _args[1] if _args.size() > 1 else null", source_text)
-            self.assertIn('var create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_constructor_block_team_state"', source_text)
-            self.assertIn('"constructor": "public BuildPayload(Block block, Team team){"', source_text)
-            self.assertIn('"build_assign_expr": "this.build = block.newBuilding().create(block, team);"', source_text)
-            self.assertIn('"tile_assign_expr": "this.build.tile = emptyTile;"', source_text)
-            self.assertIn('"tile_after": "emptyTile"', source_text)
+            self.assertIn("return SourceBuildPayloadState.constructor_block_team_state(block, team)", ctor_block_body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', ctor_block_body)
+            self.assertNotIn('"constructor": "public BuildPayload(Block block, Team team){"', ctor_block_body)
+            self.assertNotIn('"build_assign_expr": "this.build = block.newBuilding().create(block, team);"', ctor_block_body)
             self.assertIn("func java_constructor_BuildPayload_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_constructor_build_state"', source_text)
-            self.assertIn('"constructor": "public BuildPayload(Building build){"', source_text)
-            self.assertIn('"build_assign_expr": "this.build = build;"', source_text)
-            self.assertIn('"build_after": build', source_text)
+            self.assertIn("return SourceBuildPayloadState.constructor_build_state(build)", ctor_build_body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', ctor_build_body)
+            self.assertNotIn('"constructor": "public BuildPayload(Building build){"', ctor_build_body)
+            self.assertNotIn('"build_assign_expr": "this.build = build;"', ctor_build_body)
 
     def test_emit_bridges_unit_payload_constructor_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21738,18 +22257,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_showOverlay_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_showOverlay_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadBasicState := preload("res://src/game/SourceUnitPayloadBasicState.gd")', source_text)
             self.assertIn("var icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"overlay_time_field_expr": "public float overlayTime = 0f;"', source_text)
-            self.assertIn('"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
-            self.assertIn('"method": "public void showOverlay(TextureRegion icon){"', source_text)
-            self.assertIn('"overlay_region_assign_expr": "overlayRegion = icon;"', source_text)
-            self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source_text)
-            self.assertIn('"overlayRegion_after": icon', source_text)
-            self.assertIn('"overlayTime_after": 1.0', source_text)
+            self.assertIn('"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"overlay_time_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR', body)
+            self.assertIn('"overlay_region_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD', body)
+            self.assertIn('"overlay_region_assign_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR', body)
+            self.assertIn('"overlay_time_assign_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR', body)
+            self.assertIn('"overlayRegion_after": icon', body)
+            self.assertIn('"overlayTime_after": 1.0', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void showOverlay(TextureRegion icon){"', body)
 
     def test_emit_bridges_unit_payload_show_overlay_drawable_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21783,28 +22305,31 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_showOverlay_1", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_showOverlay_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadBasicState := preload("res://src/game/SourceUnitPayloadBasicState.gd")', source_text)
             self.assertIn("var icon_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var headless: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("var region: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("var returned: bool = icon_null or headless", source_text)
-            self.assertIn("var overlay_region_after: Variant = null", source_text)
-            self.assertIn("var overlay_time_after: Variant = null", source_text)
-            self.assertIn("if not returned:", source_text)
-            self.assertIn("overlay_region_after = region", source_text)
-            self.assertIn("overlay_time_after = 1.0", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source_text)
-            self.assertIn('"method": "public void showOverlay(TextureRegionDrawable icon){"', source_text)
-            self.assertIn('"guard_expr": "if(icon == null || headless) return;"', source_text)
-            self.assertIn('"delegate_expr": "showOverlay(icon.getRegion());"', source_text)
-            self.assertIn('"returned": returned', source_text)
-            self.assertIn('"get_region_called": not returned', source_text)
-            self.assertIn('"show_overlay_called": not returned', source_text)
-            self.assertIn('"overlayRegion_after": overlay_region_after', source_text)
-            self.assertIn('"overlayTime_after": overlay_time_after', source_text)
+            self.assertIn("var returned: bool = icon_null or headless", body)
+            self.assertIn("var overlay_region_after: Variant = null", body)
+            self.assertIn("var overlay_time_after: Variant = null", body)
+            self.assertIn("if not returned:", body)
+            self.assertIn("overlay_region_after = region", body)
+            self.assertIn("overlay_time_after = 1.0", body)
+            self.assertIn('"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"import_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD', body)
+            self.assertIn('"guard_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR', body)
+            self.assertIn('"delegate_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR', body)
+            self.assertIn('"returned": returned', body)
+            self.assertIn('"get_region_called": not returned', body)
+            self.assertIn('"show_overlay_called": not returned', body)
+            self.assertIn('"overlayRegion_after": overlay_region_after', body)
+            self.assertIn('"overlayTime_after": overlay_time_after', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void showOverlay(TextureRegionDrawable icon){"', body)
 
     def test_emit_bridges_unit_payload_content_equals_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21839,22 +22364,25 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_contentEquals_2", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_contentEquals_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadContentState := preload("res://src/game/SourceUnitPayloadContentState.gd")', source_text)
             self.assertIn("var other_is_unit_payload: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var other_unit_type: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var unit_type: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_content_equals_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public boolean contentEquals(Payload other){"', source_text)
-            self.assertIn('"return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;"', source_text)
-            self.assertIn('"other_is_unit_payload": other_is_unit_payload', source_text)
-            self.assertIn('"other_unit_type": other_unit_type', source_text)
-            self.assertIn('"unit_type": unit_type', source_text)
-            self.assertIn('"content_equals": content_equals', source_text)
+            self.assertIn("var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type", body)
+            self.assertIn('"source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR', body)
+            self.assertIn('"other_is_unit_payload": other_is_unit_payload', body)
+            self.assertIn('"other_unit_type": other_unit_type', body)
+            self.assertIn('"unit_type": unit_type', body)
+            self.assertIn('"content_equals": content_equals', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public boolean contentEquals(Payload other){"', body)
 
     def test_emit_bridges_unit_payload_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21893,22 +22421,25 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_update_3", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_update_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadContentState := preload("res://src/game/SourceUnitPayloadContentState.gd")', source_text)
             self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var unit: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var unit_holder: Variant = _args[2] if _args.size() > 2 else null", source_text)
             self.assertIn("var building_holder: Variant = _args[3] if _args.size() > 3 else null", source_text)
-            self.assertIn("var update_payload_called: bool = true", source_text)
-            self.assertIn('{"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);"', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_update_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', source_text)
-            self.assertIn('"update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);"', source_text)
-            self.assertIn('"update_payload_called": update_payload_called', source_text)
-            self.assertIn('"update_payload_call": update_payload_call', source_text)
+            self.assertIn("var update_payload_called: bool = true", body)
+            self.assertIn('{"call": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR', body)
+            self.assertIn('"source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_METHOD', body)
+            self.assertIn('"update_payload_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR', body)
+            self.assertIn('"update_payload_called": update_payload_called', body)
+            self.assertIn('"update_payload_call": update_payload_call', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', body)
 
     def test_emit_bridges_unit_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -21950,17 +22481,20 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_content_4", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_content_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadContentState := preload("res://src/game/SourceUnitPayloadContentState.gd")', source_text)
             self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_content_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public UnlockableContent content(){"', source_text)
-            self.assertIn('"return_expr": "return unit.type;"', source_text)
-            self.assertIn('"unit_type": unit_type', source_text)
-            self.assertIn('"content": unit_type', source_text)
+            self.assertIn('"source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR', body)
+            self.assertIn('"unit_type": unit_type', body)
+            self.assertIn('"content": unit_type', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public UnlockableContent content(){"', body)
 
     def test_emit_bridges_unit_payload_requirements_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22006,20 +22540,23 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_requirements_5", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_requirements_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadRequirementsState := preload("res://src/game/SourceUnitPayloadRequirementsState.gd")', source_text)
             self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var total_requirements: Variant = _args[1] if _args.size() > 1 else []", source_text)
-            self.assertIn('{"call": "unit.type.getTotalRequirements();"', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_requirements_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public ItemStack[] requirements(){"', source_text)
-            self.assertIn('"return_expr": "return unit.type.getTotalRequirements();"', source_text)
-            self.assertIn('"unit_type": unit_type', source_text)
-            self.assertIn('"requirements": total_requirements', source_text)
-            self.assertIn('"get_total_requirements_call": get_total_requirements_call', source_text)
+            self.assertIn('{"call": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR', body)
+            self.assertIn('"source": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR', body)
+            self.assertIn('"unit_type": unit_type', body)
+            self.assertIn('"requirements": total_requirements', body)
+            self.assertIn('"get_total_requirements_call": get_total_requirements_call', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public ItemStack[] requirements(){"', body)
 
     def test_emit_bridges_unit_payload_build_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22082,20 +22619,23 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_buildTime_6", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_buildTime_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadRequirementsState := preload("res://src/game/SourceUnitPayloadRequirementsState.gd")', source_text)
             self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var build_time: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn('{"call": "unit.type.getBuildTime();"', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_build_time_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float buildTime(){"', source_text)
-            self.assertIn('"return_expr": "return unit.type.getBuildTime();"', source_text)
-            self.assertIn('"unit_type": unit_type', source_text)
-            self.assertIn('"buildTime": build_time', source_text)
-            self.assertIn('"get_build_time_call": get_build_time_call', source_text)
+            self.assertIn('{"call": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR', body)
+            self.assertIn('"source": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR', body)
+            self.assertIn('"unit_type": unit_type', body)
+            self.assertIn('"buildTime": build_time', body)
+            self.assertIn('"get_build_time_call": get_build_time_call', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public float buildTime(){"', body)
 
     def test_emit_bridges_unit_payload_write_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22151,25 +22691,29 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_write_7", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_write_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var payload_unit: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("var unit_class_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
-            self.assertIn('{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit}', source_text)
-            self.assertIn('{"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id}', source_text)
-            self.assertIn('{"call": "unit.write(write);", "method": "unit.write", "called": true}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_write_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void write(Writes write){"', source_text)
-            self.assertIn('"payload_unit_write_expr": "write.b(payloadUnit);"', source_text)
-            self.assertIn('"unit_class_id_write_expr": "write.b(unit.classId());"', source_text)
-            self.assertIn('"unit_write_expr": "unit.write(write);"', source_text)
-            self.assertIn('"payload_unit": payload_unit', source_text)
-            self.assertIn('"unit_class_id": unit_class_id', source_text)
-            self.assertIn('"unit_write_called": true', source_text)
-            self.assertIn('"write_calls": write_calls', source_text)
+            self.assertIn('{"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR, "method": "write.b", "value": payload_unit}', body)
+            self.assertIn('{"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR, "method": "write.b", "value": unit_class_id}', body)
+            self.assertIn('{"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR, "method": "unit.write", "called": true}', body)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_write_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_METHOD', body)
+            self.assertIn('"payload_unit_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR', body)
+            self.assertIn('"unit_class_id_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR', body)
+            self.assertIn('"unit_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR', body)
+            self.assertIn('"payload_unit": payload_unit', body)
+            self.assertIn('"unit_class_id": unit_class_id', body)
+            self.assertIn('"unit_write_called": true', body)
+            self.assertIn('"write_calls": write_calls', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void write(Writes write){"', body)
 
     def test_emit_bridges_unit_payload_set_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22227,24 +22771,28 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_set_8", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_set_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var rotation_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn('{"call": "unit.set(x, y);", "x": x, "y": y}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_set_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void set(float x, float y, float rotation){"', source_text)
-            self.assertIn('"set_expr": "unit.set(x, y);"', source_text)
-            self.assertIn('"rotation_assign_expr": "unit.rotation = rotation;"', source_text)
-            self.assertIn('"x": x', source_text)
-            self.assertIn('"y": y', source_text)
-            self.assertIn('"rotation": rotation_value', source_text)
-            self.assertIn('"set_called": true', source_text)
-            self.assertIn('"set_call": set_call', source_text)
+            self.assertIn('{"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_EXPR, "x": x, "y": y}', body)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_set_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_METHOD', body)
+            self.assertIn('"set_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_EXPR', body)
+            self.assertIn('"rotation_assign_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR', body)
+            self.assertIn('"x": x', body)
+            self.assertIn('"y": y', body)
+            self.assertIn('"rotation": rotation_value', body)
+            self.assertIn('"set_called": true', body)
+            self.assertIn('"set_call": set_call', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void set(float x, float y, float rotation){"', body)
 
     def test_emit_bridges_unit_payload_x_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22304,17 +22852,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_x_9", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_x_9(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var unit_x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_x_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float x(){"', source_text)
-            self.assertIn('"return_expr": "return unit.x;"', source_text)
-            self.assertIn('"unit_x": unit_x', source_text)
-            self.assertIn('"x": unit_x', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_x_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_X_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR', body)
+            self.assertIn('"unit_x": unit_x', body)
+            self.assertIn('"x": unit_x', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public float x(){"', body)
 
     def test_emit_bridges_unit_payload_y_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22378,17 +22930,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_y_10", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_y_10(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var unit_y: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_y_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float y(){"', source_text)
-            self.assertIn('"return_expr": "return unit.y;"', source_text)
-            self.assertIn('"unit_y": unit_y', source_text)
-            self.assertIn('"y": unit_y', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_y_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_Y_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR', body)
+            self.assertIn('"unit_y": unit_y', body)
+            self.assertIn('"y": unit_y', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public float y(){"', body)
 
     def test_emit_bridges_unit_payload_rotation_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22456,17 +23012,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_rotation_11", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_rotation_11(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var unit_rotation: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_rotation_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float rotation(){"', source_text)
-            self.assertIn('"return_expr": "return unit.rotation;"', source_text)
-            self.assertIn('"unit_rotation": unit_rotation', source_text)
-            self.assertIn('"rotation": unit_rotation', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_rotation_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR', body)
+            self.assertIn('"unit_rotation": unit_rotation', body)
+            self.assertIn('"rotation": unit_rotation', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public float rotation(){"', body)
 
     def test_emit_bridges_unit_payload_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22538,17 +23098,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_size_12", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_size_12(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")', source_text)
             self.assertIn("var unit_hit_size: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_size_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
-            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
-            self.assertIn('"field_expr": "public Unit unit;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float size(){"', source_text)
-            self.assertIn('"return_expr": "return unit.hitSize;"', source_text)
-            self.assertIn('"unit_hit_size": unit_hit_size', source_text)
-            self.assertIn('"size": unit_hit_size', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_size_state"', body)
+            self.assertIn('"source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SIZE_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR', body)
+            self.assertIn('"unit_hit_size": unit_hit_size', body)
+            self.assertIn('"size": unit_hit_size', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public float size(){"', body)
 
     def test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22645,13 +23209,13 @@ public class UnitPayload implements Payload{
             self.assertIn("var overlayRegion_after: Variant = null", source_text)
             self.assertIn("var deferred_remaining_dump: bool = not returned", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
-            self.assertIn('"field_overlay_time_expr": "public float overlayTime = 0f;"', source_text)
-            self.assertIn('"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
-            self.assertIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source_text)
-            self.assertIn('"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){"', source_text)
-            self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source_text)
-            self.assertIn('"overlay_region_assign_expr": "overlayRegion = null;"', source_text)
-            self.assertIn('"return_false_expr": "return false;"', source_text)
+            self.assertIn('"field_overlay_time_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR', source_text)
+            self.assertIn('"field_overlay_region_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR', source_text)
+            self.assertIn('"type_null_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR', source_text)
+            self.assertIn('"can_create_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR', source_text)
+            self.assertIn('"overlay_time_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR', source_text)
+            self.assertIn('"overlay_region_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR', source_text)
+            self.assertIn('"return_false_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR', source_text)
             self.assertIn('"unit_type_null": unit_type_null', source_text)
             self.assertIn('"units_can_create": units_can_create', source_text)
             self.assertIn('"can_create_evaluated": can_create_evaluated', source_text)
@@ -22716,21 +23280,30 @@ public class UnitPayload implements Payload{
             self.assertIn("var solid_present_guard: bool = solid_evaluated and solid_present", source_text)
             self.assertIn("var _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:", source_text)
             self.assertIn('"angle": angle_degrees', source_text)
-            self.assertIn('"source": "rv.set(x, y).rotate(angle)"', source_text)
-            self.assertIn('"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"', source_text)
-            self.assertIn("var source_tilesize: float = 8.0", source_text)
-            self.assertIn("var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source_text)
+            self.assertIn('"source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR', source_text)
+            self.assertIn('"vec2RotateSource": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR', source_text)
+            self.assertIn('const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceUnitPayloadDumpState.SOURCE_TILESIZE", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR", source_text)
+            self.assertIn("var source_tilesize: float = SOURCE_TILESIZE", source_text)
+            self.assertNotIn("var source_tilesize: float = 8.0", source_text)
+            self.assertIn("var solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD", source_text)
+            self.assertIn("var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source_text)
+            self.assertNotIn("var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source_text)
             self.assertIn("var tx: int = int(round((unit_x + float(trns_vec.get(\"x\", 0.0))) / source_tilesize)) if solid_present_guard else 0", source_text)
             self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / source_tilesize)) if solid_present_guard else 0", source_text)
             self.assertIn("var solid_solid_evaluated: bool = solid_present_guard", source_text)
             self.assertIn("var solid_guard: bool = solid_solid_evaluated and solid_solid", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
-            self.assertIn('"solidity_comment_expr": "//check if unit can be dumped here"', source_text)
-            self.assertIn('"solid_assign_expr": "SolidPred solid = unit.solidity();"', source_text)
-            self.assertIn('"solid_guard_expr": "if(solid != null){"', source_text)
-            self.assertIn('"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);"', source_text)
-            self.assertIn('"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);"', source_text)
-            self.assertIn('"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;"', source_text)
+            self.assertIn('"solidity_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR', source_text)
+            self.assertIn('"solid_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR', source_text)
+            self.assertIn('"solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR', source_text)
+            self.assertIn('"trns_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR', source_text)
+            self.assertIn('"tile_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR', source_text)
+            self.assertIn('"solid_solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR', source_text)
+            self.assertIn('"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR', source_text)
+            self.assertNotIn('"call": "solid.solid(tx, ty)"', source_text)
             self.assertIn('"solid_call": solid_call', source_text)
             self.assertIn('"tx": tx', source_text)
             self.assertIn('"ty": ty', source_text)
@@ -22786,19 +23359,24 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")', source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER", source_text)
             self.assertIn("var unit_type_flying: bool = bool(_args[7] if _args.size() > 7 else false)", source_text)
             self.assertIn("var unit_physic_size: float = float(_args[8] if _args.size() > 8 else 0.0)", source_text)
             self.assertIn("var units_count: int = int(_args[9] if _args.size() > 9 else 0)", source_text)
             self.assertIn("var before_overlap_returned: bool = before_solid_returned or solid_guard", source_text)
             self.assertIn("var overlap_evaluated: bool = not before_overlap_returned", source_text)
             self.assertIn("var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying", source_text)
-            self.assertIn("var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0", source_text)
+            self.assertIn("var overlap_radius: float = unit_physic_size * SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER if units_count_evaluated else 0.0", source_text)
             self.assertIn("var overlap_guard: bool = units_count_evaluated and units_count > 0", source_text)
             self.assertIn("elif overlap_guard:", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
-            self.assertIn('"overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on"', source_text)
-            self.assertIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){"', source_text)
-            self.assertIn('"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))"', source_text)
+            self.assertIn('"source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE', source_text)
+            self.assertIn('"overlap_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR', source_text)
+            self.assertIn('"overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR', source_text)
+            self.assertIn('"units_count_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR', source_text)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertNotIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f', source_text)
             self.assertIn('"overlap_radius": overlap_radius', source_text)
             self.assertIn('"units_count_evaluated": units_count_evaluated', source_text)
             self.assertIn('"overlap_guard": overlap_guard', source_text)
@@ -22865,11 +23443,14 @@ public class UnitPayload implements Payload{
             self.assertIn("elif client_guard:", source_text)
             self.assertIn("\t\tdump_result = true", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source_text)
-            self.assertIn('"client_dumping_comment_expr": "//no client dumping"', source_text)
-            self.assertIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', source_text)
-            self.assertIn('"vars_net_field": "public static Net net;"', source_text)
-            self.assertIn('"return_true_expr": "return true;"', source_text)
-            self.assertIn('"prevents_stacking_comment_expr": "//prevents stacking"', source_text)
+            self.assertIn('"source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE', source_text)
+            self.assertIn('"client_dumping_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR', source_text)
+            self.assertIn('"net_client_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR', source_text)
+            self.assertIn('"vars_net_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD', source_text)
+            self.assertIn('"return_true_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR', source_text)
+            self.assertIn('"prevents_stacking_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR', source_text)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertNotIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', source_text)
             self.assertIn('"net_client": net_client', source_text)
             self.assertIn('"net_client_evaluated": net_client_evaluated', source_text)
             self.assertIn('"client_guard": client_guard', source_text)
@@ -22943,21 +23524,61 @@ public class UnitPayload implements Payload{
             self.assertIn("var before_spawn_returned: bool = before_client_returned or client_guard", source_text)
             self.assertIn("var spawn_evaluated: bool = not before_spawn_returned", source_text)
             self.assertIn("if spawn_evaluated:", source_text)
+            self.assertIn('const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")', source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR", source_text)
+            self.assertIn("var velocity_range: float = SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE", source_text)
             self.assertIn("var velocity_add_call: Dictionary = {}", source_text)
-            self.assertIn('"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
+            self.assertIn('"call": SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR', source_text)
+            self.assertIn('"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR', source_text)
+            self.assertIn('"call": SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR', source_text)
+            self.assertIn('"range": velocity_range', source_text)
             self.assertIn('"unit_add_called": unit_add_called', source_text)
             self.assertIn('"unit_unloaded_called": unit_unloaded_called', source_text)
             self.assertIn('"event_fire_call": event_fire_call', source_text)
             self.assertIn('"notify_unit_spawn_call": notify_unit_spawn_call', source_text)
             self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state"', source_text)
-            self.assertIn('state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
-            self.assertIn('state["mathf_range_float_method"] = "public static float range(float range){"', source_text)
-            self.assertIn('state["mathf_range_float_return"] = "return random(-range, range);"', source_text)
-            self.assertIn('state["unit_add_expr"] = "unit.add();"', source_text)
-            self.assertIn('state["unit_unloaded_expr"] = "unit.unloaded();"', source_text)
-            self.assertIn('state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"', source_text)
-            self.assertIn('state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"', source_text)
-            self.assertIn('state["final_return_true_expr"] = "return true;"', source_text)
+            self.assertIn('"source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE', source_text)
+            self.assertIn('"arc_vec2_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE', source_text)
+            self.assertIn('"arc_mathf_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE', source_text)
+            self.assertIn('"world_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE', source_text)
+            self.assertIn('"vars_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE', source_text)
+            self.assertIn('"units_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE', source_text)
+            self.assertIn('"event_type_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE', source_text)
+            self.assertIn('"class_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', source_text)
+            self.assertIn('"field_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', source_text)
+            self.assertIn('"method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_METHOD', source_text)
+            self.assertIn('"type_null_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR', source_text)
+            self.assertIn('"overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR', source_text)
+            self.assertIn('"net_client_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR', source_text)
+            self.assertIn('"prevents_stacking_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR', source_text)
+            self.assertIn('state["velocity_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR', source_text)
+            self.assertIn('state["mathf_range_float_method"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD', source_text)
+            self.assertIn('state["mathf_range_float_return"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN', source_text)
+            self.assertIn('state["unit_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR', source_text)
+            self.assertIn('state["unit_unloaded_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR', source_text)
+            self.assertIn('state["event_fire_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR', source_text)
+            self.assertIn('state["notify_unit_spawn_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR', source_text)
+            self.assertIn('state["final_return_true_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR', source_text)
+            self.assertNotIn('velocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
+            self.assertNotIn('event_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));"', source_text)
+            self.assertNotIn('notify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);"', source_text)
+            self.assertNotIn('state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
+            self.assertNotIn('state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"', source_text)
+            self.assertNotIn('state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"', source_text)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertNotIn('"method": "public boolean dump(){"', source_text)
+            self.assertNotIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source_text)
+            self.assertNotIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f', source_text)
+            self.assertNotIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', source_text)
+            self.assertNotIn('"prevents_stacking_comment_expr": "//prevents stacking"', source_text)
 
     def test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -22989,21 +23610,29 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_drawShadow_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_drawShadow_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")', source_text)
             self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var alpha: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var unit_id: Variant = _args[2] if _args.size() > 2 else null", source_text)
             self.assertIn("var returned_early: bool = unit_type_null", source_text)
             self.assertIn("var draw_soft_shadow_called: bool = not returned_early", source_text)
             self.assertIn('var draw_soft_shadow_call: Dictionary = {}', source_text)
-            self.assertIn('"call": "unit.type.drawSoftShadow(unit, alpha);"', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', source_text)
-            self.assertIn('"method": "public void drawShadow(float alpha){"', source_text)
-            self.assertIn('"todo_comment_expr": "//TODO should not happen"', source_text)
-            self.assertIn('"type_null_guard_expr": "if(unit.type == null) return;"', source_text)
-            self.assertIn('"draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);"', source_text)
-            self.assertIn('"draw_soft_shadow_called": draw_soft_shadow_called', source_text)
-            self.assertIn('"draw_soft_shadow_call": draw_soft_shadow_call', source_text)
+            self.assertIn('"call": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR', body)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', body)
+            self.assertIn('"source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD', body)
+            self.assertIn('"todo_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR', body)
+            self.assertIn('"type_null_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR', body)
+            self.assertIn('"draw_soft_shadow_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR', body)
+            self.assertIn('"draw_soft_shadow_called": draw_soft_shadow_called', body)
+            self.assertIn('"draw_soft_shadow_call": draw_soft_shadow_call', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void drawShadow(float alpha){"', body)
 
     def test_emit_bridges_unit_payload_draw_type_null_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23035,17 +23664,22 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_draw_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")', source_text)
             self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var returned_early: bool = unit_type_null", source_text)
             self.assertIn("var deferred_remaining_draw: bool = not returned_early", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', source_text)
-            self.assertIn('"method": "public void draw(){"', source_text)
-            self.assertIn('"todo_comment_expr": "//TODO should not happen"', source_text)
-            self.assertIn('"type_null_guard_expr": "if(unit.type == null) return;"', source_text)
-            self.assertIn('"next_expr": "float e = unit.elevation;"', source_text)
-            self.assertIn('"returned_early": returned_early', source_text)
-            self.assertIn('"deferred_remaining_draw": deferred_remaining_draw', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', body)
+            self.assertIn('"source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD', body)
+            self.assertIn('"todo_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR', body)
+            self.assertIn('"type_null_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR', body)
+            self.assertIn('"next_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR', body)
+            self.assertIn('"returned_early": returned_early', body)
+            self.assertIn('"deferred_remaining_draw": deferred_remaining_draw', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void draw(){"', body)
 
     def test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23083,7 +23717,9 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_draw_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")', source_text)
             self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var unit_elevation: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var unit_id: Variant = _args[2] if _args.size() > 2 else null", source_text)
@@ -23094,16 +23730,20 @@ public class UnitPayload implements Payload{
             self.assertIn('var unit_type_draw_call: Dictionary = {"unit": unit_id}', source_text)
             self.assertIn("var elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation", source_text)
             self.assertIn("var deferred_remaining_draw: bool = not returned_early", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', source_text)
-            self.assertIn('"elevation_snapshot_expr": "float e = unit.elevation;"', source_text)
-            self.assertIn('"elevation_zero_expr": "unit.elevation = 0f;"', source_text)
-            self.assertIn('"draw_scl_expr": "Draw.scl(1f, 1f);"', source_text)
-            self.assertIn('"unit_type_draw_expr": "unit.type.draw(unit);"', source_text)
-            self.assertIn('"elevation_restore_expr": "unit.elevation = e;"', source_text)
-            self.assertIn('"next_expr": "//draw warning"', source_text)
-            self.assertIn('"draw_scl_called": draw_scl_called', source_text)
-            self.assertIn('"unit_type_draw_called": unit_type_draw_called', source_text)
-            self.assertIn('"elevation_after_restore": elevation_after_restore', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', body)
+            self.assertIn('"source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD', body)
+            self.assertIn('"elevation_snapshot_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR', body)
+            self.assertIn('"elevation_zero_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR', body)
+            self.assertIn('"draw_scl_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR', body)
+            self.assertIn('"unit_type_draw_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR', body)
+            self.assertIn('"elevation_restore_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR', body)
+            self.assertIn('"next_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR', body)
+            self.assertIn('"draw_scl_called": draw_scl_called', body)
+            self.assertIn('"unit_type_draw_called": unit_type_draw_called', body)
+            self.assertIn('"elevation_after_restore": elevation_after_restore', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void draw(){"', body)
 
     def test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23159,7 +23799,9 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_draw_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")', source_text)
             self.assertIn("var overlay_time: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var overlay_region: Variant = _args[4] if _args.size() > 4 else null", source_text)
             self.assertIn("var unit_x: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
@@ -23167,19 +23809,28 @@ public class UnitPayload implements Payload{
             self.assertIn("var time_delta: float = float(_args[7] if _args.size() > 7 else 0.0)", source_text)
             self.assertIn("var draw_z_before: float = float(_args[8] if _args.size() > 8 else 0.0)", source_text)
             self.assertIn("var interp_exp5_out_overlay_time: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
-            self.assertIn("var overlay_duration: float = 40.0", source_text)
+            self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA", source_text)
+            self.assertIn("const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE", source_text)
+            self.assertIn("var overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION", source_text)
             self.assertIn("var overlay_guard: bool = (not returned_early) and overlay_time > 0.0", source_text)
             self.assertIn("var overlay_region_resolved: Variant = overlay_region if overlay_region != null else \"Icon.warning.getRegion()\"", source_text)
-            self.assertIn("var draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0", source_text)
+            self.assertIn("var draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0", source_text)
+            self.assertIn("var warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE", source_text)
             self.assertIn("var overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time", source_text)
             self.assertIn('var draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size}', source_text)
             self.assertIn("if _args.size() <= 3:", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', source_text)
-            self.assertIn('"overlay_guard_expr": "if(overlayTime > 0){"', source_text)
-            self.assertIn('"draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));"', source_text)
-            self.assertIn('"overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);"', source_text)
-            self.assertIn('"draw_z_restore_expr": "Draw.z(z);"', source_text)
-            self.assertIn('"overlay_time_after": overlay_time_after', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', body)
+            self.assertIn('"source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD', body)
+            self.assertIn('"overlay_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR', body)
+            self.assertIn('"draw_alpha_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR', body)
+            self.assertIn('"overlay_time_update_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR', body)
+            self.assertIn('"draw_z_restore_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR', body)
+            self.assertIn('"overlay_time_after": overlay_time_after', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public void draw(){"', body)
 
     def test_emit_bridges_unit_payload_icon_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23208,13 +23859,21 @@ public class UnitPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = source_text.split("func java_method_icon_0", 1)[1].split("\nfunc ", 1)[0]
             self.assertIn("func java_method_icon_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")', source_text)
             self.assertIn("var unit_type_full_icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_icon_state"', source_text)
-            self.assertIn('"method": "public TextureRegion icon(){"', source_text)
-            self.assertIn('"return_expr": "return unit.type.fullIcon;"', source_text)
-            self.assertIn('"unit_type_full_icon": unit_type_full_icon', source_text)
-            self.assertIn('"icon": unit_type_full_icon', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_icon_state"', body)
+            self.assertIn('"source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE', body)
+            self.assertIn('"class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR', body)
+            self.assertIn('"field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
+            self.assertIn('"override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR', body)
+            self.assertIn('"method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_ICON_METHOD', body)
+            self.assertIn('"return_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR', body)
+            self.assertIn('"unit_type_full_icon": unit_type_full_icon', body)
+            self.assertIn('"icon": unit_type_full_icon', body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', body)
+            self.assertNotIn('"method": "public TextureRegion icon(){"', body)
 
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23257,15 +23916,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_content_4(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_content_4(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_block: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_content_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public UnlockableContent content(){"', source_text)
-            self.assertIn('"return_expr": "return build.block;"', source_text)
-            self.assertIn('"content": build_block', source_text)
+            self.assertIn("return SourceBuildPayloadState.content_state(build_block)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public UnlockableContent content(){"', body)
+            self.assertNotIn('"return_expr": "return build.block;"', body)
 
     def test_emit_bridges_build_payload_build_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23322,15 +23980,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_buildTime_8(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_buildTime_8(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_time: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_build_time_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float buildTime(){"', source_text)
-            self.assertIn('"return_expr": "return build.block.buildTime;"', source_text)
-            self.assertIn('"buildTime": build_time', source_text)
+            self.assertIn("return SourceBuildPayloadState.build_time_state(build_time)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public float buildTime(){"', body)
+            self.assertNotIn('"return_expr": "return build.block.buildTime;"', body)
 
     def test_emit_bridges_build_payload_requirements_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23383,15 +24040,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_requirements_7(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_requirements_7(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var requirements: Variant = _args[0] if _args.size() > 0 else []", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_requirements_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public ItemStack[] requirements(){"', source_text)
-            self.assertIn('"return_expr": "return build.block.requirements;"', source_text)
-            self.assertIn('"requirements": requirements', source_text)
+            self.assertIn("return SourceBuildPayloadState.requirements_state(requirements)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public ItemStack[] requirements(){"', body)
+            self.assertNotIn('"return_expr": "return build.block.requirements;"', body)
 
     def test_emit_bridges_build_payload_x_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23452,15 +24108,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_x_9(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_x_9(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_x_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float x(){"', source_text)
-            self.assertIn('"return_expr": "return build.x;"', source_text)
-            self.assertIn('"x": build_x', source_text)
+            self.assertIn("return SourceBuildPayloadState.x_state(build_x)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public float x(){"', body)
+            self.assertNotIn('"return_expr": "return build.x;"', body)
 
     def test_emit_bridges_build_payload_y_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23525,15 +24180,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_y_10(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_y_10(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_y: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_y_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float y(){"', source_text)
-            self.assertIn('"return_expr": "return build.y;"', source_text)
-            self.assertIn('"y": build_y', source_text)
+            self.assertIn("return SourceBuildPayloadState.y_state(build_y)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public float y(){"', body)
+            self.assertNotIn('"return_expr": "return build.y;"', body)
 
     def test_emit_bridges_build_payload_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23604,20 +24258,18 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_size_11(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_size_11(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("var build_block_size: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
-            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var size: float = build_block_size * source_tilesize", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_size_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public float size(){"', source_text)
-            self.assertIn('"return_expr": "return build.block.size * tilesize;"', source_text)
-            self.assertIn('"build_block_size": build_block_size', source_text)
-            self.assertIn('"source_tilesize": source_tilesize', source_text)
-            self.assertIn('"size": size', source_text)
+            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("return SourceBuildPayloadState.size_state(build_block_size, source_tilesize)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public float size(){"', body)
+            self.assertNotIn('"return_expr": "return build.block.size * tilesize;"', body)
 
     def test_emit_bridges_build_payload_remove_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23690,14 +24342,13 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_remove_12(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadLifecycleState := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")', source_text)
             self.assertIn("func java_method_remove_12(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_remove_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void remove(){"', source_text)
-            self.assertIn('"remove_expr": "build.remove();"', source_text)
-            self.assertIn('"remove_called": true', source_text)
+            self.assertIn("return SourceBuildPayloadLifecycleState.remove_state()", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void remove(){"', body)
+            self.assertNotIn('"remove_expr": "build.remove();"', body)
 
     def test_emit_bridges_build_payload_write_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23803,27 +24454,20 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_write_13(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_write_13(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var payload_block: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("var build_block_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var build_version: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
-            self.assertIn('{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block}', source_text)
-            self.assertIn('{"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id}', source_text)
-            self.assertIn('{"call": "write.b(build.version());", "method": "write.b", "value": build_version}', source_text)
-            self.assertIn('{"call": "build.writeAll(write);", "method": "build.writeAll", "called": true}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_write_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void write(Writes write){"', source_text)
-            self.assertIn('"payload_block_write_expr": "write.b(payloadBlock);"', source_text)
-            self.assertIn('"block_id_write_expr": "write.s(build.block.id);"', source_text)
-            self.assertIn('"version_write_expr": "write.b(build.version());"', source_text)
-            self.assertIn('"write_all_expr": "build.writeAll(write);"', source_text)
-            self.assertIn('"payload_block": payload_block', source_text)
-            self.assertIn('"build_block_id": build_block_id', source_text)
-            self.assertIn('"build_version": build_version', source_text)
-            self.assertIn('"write_all_called": true', source_text)
+            self.assertIn("return SourceBuildPayloadState.write_state(payload_block, build_block_id, build_version)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void write(Writes write){"', body)
+            self.assertNotIn('"payload_block_write_expr": "write.b(payloadBlock);"', body)
+            self.assertNotIn('{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block}', body)
+            self.assertNotIn('{"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id}', body)
+            self.assertNotIn('{"call": "write.b(build.version());", "method": "write.b", "value": build_version}', body)
+            self.assertNotIn('{"call": "build.writeAll(write);", "method": "build.writeAll", "called": true}', body)
 
     def test_emit_bridges_build_payload_set_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -23903,21 +24547,17 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_set_14(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_set_14(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var rotation: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn('{"call": "build.set(x, y);", "x": x, "y": y}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_set_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void set(float x, float y, float rotation){"', source_text)
-            self.assertIn('"set_expr": "build.set(x, y);"', source_text)
-            self.assertIn('"x": x', source_text)
-            self.assertIn('"y": y', source_text)
-            self.assertIn('"rotation": rotation', source_text)
-            self.assertIn('"set_called": true', source_text)
+            self.assertIn("return SourceBuildPayloadState.set_state(x, y, rotation)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void set(float x, float y, float rotation){"', body)
+            self.assertNotIn('"set_expr": "build.set(x, y);"', body)
+            self.assertNotIn('{"call": "build.set(x, y);", "x": x, "y": y}', body)
 
     def test_emit_bridges_build_payload_draw_shadow_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -24000,28 +24640,21 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_drawShadow_15(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadDrawState := preload("res://src/game/SourceBuildPayloadDrawState.gd")', source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("func java_method_drawShadow_15(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var build_x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var build_y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var build_block_size: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var alpha: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
-            self.assertIn("var shadow_size: float = build_block_size * source_tilesize * 1.85", source_text)
-            self.assertIn('{"call": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "x": build_x, "y": build_y, "size": shadow_size, "alpha": alpha}', source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_draw_shadow_state"', source_text)
-            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
-            self.assertIn('"field_expr": "public Building build;"', source_text)
-            self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source_text)
-            self.assertIn('"override_expr": "@Override"', source_text)
-            self.assertIn('"method": "public void drawShadow(float alpha){"', source_text)
-            self.assertIn('"shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);"', source_text)
-            self.assertIn('"build_x": build_x', source_text)
-            self.assertIn('"build_y": build_y', source_text)
-            self.assertIn('"build_block_size": build_block_size', source_text)
-            self.assertIn('"source_tilesize": source_tilesize', source_text)
-            self.assertIn('"alpha": alpha', source_text)
-            self.assertIn('"shadow_size": shadow_size', source_text)
-            self.assertIn('"shadow_call": shadow_call', source_text)
+            self.assertIn("return SourceBuildPayloadDrawState.draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void drawShadow(float alpha){"', body)
+            self.assertNotIn('"shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);"', body)
 
     def test_emit_bridges_build_payload_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -24118,24 +24751,16 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_draw_16(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadDrawState := preload("res://src/game/SourceBuildPayloadDrawState.gd")', source_text)
             self.assertIn("func java_method_draw_16(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var prev_z: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var layer_flying_unit_low: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var transform_z: float = float(_args[2] if _args.size() > 2 else prev_z)", source_text)
-            self.assertIn("var shadow_z: float = prev_z - 0.001", source_text)
-            self.assertIn("var transform_threshold: float = layer_flying_unit_low + 1.0", source_text)
-            self.assertIn("var transformed_z: float = transform_z", source_text)
-            self.assertIn("clampf((transform_z - prev_z) / 100.0, -0.0009, 0.9)", source_text)
-            self.assertIn('{"call": "Draw.z(prevZ - 0.001f);", "z": shadow_z}', source_text)
-            self.assertIn('{"call": "drawShadow(1f);", "alpha": 1.0}', source_text)
-            self.assertIn('"z_transform_expr": "Draw.zTransform(z ->"', source_text)
-            self.assertIn('"z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)"', source_text)
-            self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source_text)
-            self.assertIn('"payload_draw_expr": "build.payloadDraw();"', source_text)
-            self.assertIn('"z_transform_reset_expr": "Draw.zTransform();"', source_text)
-            self.assertIn('"final_z_restore_expr": "Draw.z(prevZ);"', source_text)
-            self.assertIn('"payload_draw_called": true', source_text)
-            self.assertIn('"tile_after": "emptyTile"', source_text)
+            self.assertIn("return SourceBuildPayloadDrawState.draw_state(prev_z, layer_flying_unit_low, transform_z)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"z_transform_expr": "Draw.zTransform(z ->"', body)
+            self.assertNotIn('"payload_draw_expr": "build.payloadDraw();"', body)
 
     def test_emit_bridges_build_payload_icon_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -24224,13 +24849,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_icon_17(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadDrawState := preload("res://src/game/SourceBuildPayloadDrawState.gd")', source_text)
             self.assertIn("func java_method_icon_17(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var full_icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
-            self.assertIn('"source_owner": "PortGame.source_build_payload_icon_state"', source_text)
-            self.assertIn('"method": "public TextureRegion icon(){"', source_text)
-            self.assertIn('"return_expr": "return block().fullIcon;"', source_text)
-            self.assertIn('"full_icon": full_icon', source_text)
-            self.assertIn('"icon": full_icon', source_text)
+            self.assertIn("return SourceBuildPayloadDrawState.icon_state(full_icon)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public TextureRegion icon(){"', body)
+            self.assertNotIn('"return_expr": "return block().fullIcon;"', body)
 
     def test_emit_bridges_block_producer_icons_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -24874,7 +25500,10 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn("var time_before: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var time_delta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var produce_num: float = 1.0 if produce else 0.0", source_text)
-            self.assertIn("var heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)", source_text)
+            self.assertIn('const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_FACTORY_HEAT_LERP_PROGRESS := SourceFactoryDefaults.HEAT_LERP_PROGRESS", source_text)
+            self.assertIn("var heat_after: float = heat_before + (produce_num - heat_before) * clampf(SOURCE_FACTORY_HEAT_LERP_PROGRESS * time_delta, 0.0, 1.0)", source_text)
+            self.assertNotIn("var heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)", source_text)
             self.assertIn("var time_after: float = time_before + heat_after * time_delta", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', source_text)
             self.assertIn('"heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);"', source_text)
@@ -24912,11 +25541,15 @@ public abstract class BlockProducer extends PayloadBlock{
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", source_text)
             self.assertIn("var payload_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var pay_vector_x: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var pay_vector_y: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var pay_rotation_before: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
             self.assertIn("var rotdeg_value: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var tilesize: float = float(_args[6] if _args.size() > 6 else SOURCE_TILESIZE)", source_text)
+            self.assertNotIn("var tilesize: float = float(_args[6] if _args.size() > 6 else 8.0)", source_text)
             self.assertIn("var half_extent: float = size_value * tilesize / 2.0", source_text)
             self.assertIn("var dest: Variant = null", source_text)
             self.assertIn('dest = {"x": half_extent * cos(radians), "y": half_extent * sin(radians)}', source_text)
@@ -24927,7 +25560,9 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn("var pushed_output_fraction: Variant = null", source_text)
             self.assertIn("pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)", source_text)
             self.assertIn("var arrived: bool = false", source_text)
-            self.assertIn("arrived = distance_to_dest2 < 0.001 * 0.001", source_text)
+            self.assertIn("const SOURCE_PAYLOAD_ARRIVAL_EPSILON := SourceWorldDefaults.PAYLOAD_ARRIVAL_EPSILON", source_text)
+            self.assertIn("arrived = distance_to_dest2 < SOURCE_PAYLOAD_ARRIVAL_EPSILON * SOURCE_PAYLOAD_ARRIVAL_EPSILON", source_text)
+            self.assertNotIn("arrived = distance_to_dest2 < 0.001 * 0.001", source_text)
             self.assertIn("var move_payload_called: bool = false", source_text)
             self.assertIn("var dump_payload_called: bool = false", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', source_text)
@@ -24974,23 +25609,24 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            place_default_body = gdscript_function_body(source_text, "func java_method_place_1(_args: Array = []) -> Variant:")
+            place_body = gdscript_function_body(source_text, "func java_method_place_2(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadLifecycleState := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")', source_text)
             self.assertIn("func java_method_place_1(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
             self.assertIn("var build_block: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var build_team: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("var rotation_value: int = 0", source_text)
-            self.assertIn('"source_owner": "PortGame.source_build_payload_place_default_state"', source_text)
-            self.assertIn('"method": "public void place(Tile tile){"', source_text)
-            self.assertIn('"delegate_expr": "place(tile, 0);"', source_text)
-            self.assertIn('"delegated_rotation": rotation_value', source_text)
+            self.assertIn("return SourceBuildPayloadLifecycleState.place_default_state(tile, build_block, build_team)", place_default_body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', place_default_body)
+            self.assertNotIn('"method": "public void place(Tile tile){"', place_default_body)
+            self.assertNotIn('"delegate_expr": "place(tile, 0);"', place_default_body)
             self.assertIn("func java_method_place_2(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var rotation_value: int = int(_args[3] if _args.size() > 3 else 0)", source_text)
-            self.assertIn("var set_block_call: Dictionary = {\"call\": \"tile.setBlock(build.block, build.team, rotation, () -> build);\", \"tile\": tile, \"block\": build_block, \"team\": build_team, \"rotation\": rotation_value, \"build_supplier\": \"() -> build\"}", source_text)
-            self.assertIn('"source_owner": "PortGame.source_build_payload_place_state"', source_text)
-            self.assertIn('"method": "public void place(Tile tile, int rotation){"', source_text)
-            self.assertIn('"set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);"', source_text)
-            self.assertIn('"dropped_expr": "build.dropped();"', source_text)
-            self.assertIn('"dropped_called": true', source_text)
+            self.assertIn("return SourceBuildPayloadLifecycleState.place_state(tile, build_block, build_team, rotation_value)", place_body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', place_body)
+            self.assertNotIn('"method": "public void place(Tile tile, int rotation){"', place_body)
+            self.assertNotIn('"set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);"', place_body)
+            self.assertNotIn('"dropped_expr": "build.dropped();"', place_body)
 
     def test_emit_bridges_build_payload_update_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -25024,6 +25660,8 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_update_0(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadLifecycleState := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")', source_text)
             self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var unit_holder_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var build_block_update_in_units: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
@@ -25031,17 +25669,12 @@ public class BuildPayload implements Payload{
             self.assertIn("var build_block_always_update_in_units: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
             self.assertIn("var unit_holder: Variant = _args[4] if _args.size() > 4 else null", source_text)
             self.assertIn("var building_holder: Variant = _args[5] if _args.size() > 5 else null", source_text)
-            self.assertIn("var returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))", source_text)
-            self.assertIn("var tile_after: Variant = null", source_text)
-            self.assertIn("var update_payload_called: bool = false", source_text)
-            self.assertIn("if not returned:", source_text)
-            self.assertIn('tile_after = "emptyTile"', source_text)
-            self.assertIn("update_payload_called = true", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_update_state"', source_text)
-            self.assertIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', source_text)
-            self.assertIn('"guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;"', source_text)
-            self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source_text)
-            self.assertIn('"update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);"', source_text)
+            self.assertIn("return SourceBuildPayloadLifecycleState.update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', body)
+            self.assertNotIn('"guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;"', body)
+            self.assertNotIn('"tile_assign_expr": "build.tile = emptyTile;"', body)
+            self.assertNotIn('"update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);"', body)
 
     def test_emit_bridges_build_payload_destroyed_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -25071,15 +25704,14 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_destroyed_0(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadLifecycleState := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")', source_text)
             self.assertIn("func java_method_destroyed_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn("var dead_after: bool = true", source_text)
-            self.assertIn("var on_destroyed_called: bool = true", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_build_payload_destroyed_state"', source_text)
-            self.assertIn('"method": "public void destroyed(){"', source_text)
-            self.assertIn('"dead_assign_expr": "build.dead = true;"', source_text)
-            self.assertIn('"on_destroyed_expr": "build.onDestroyed();"', source_text)
-            self.assertIn('"dead_after": dead_after', source_text)
-            self.assertIn('"on_destroyed_called": on_destroyed_called', source_text)
+            self.assertIn("return SourceBuildPayloadLifecycleState.destroyed_state()", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public void destroyed(){"', body)
+            self.assertNotIn('"dead_assign_expr": "build.dead = true;"', body)
+            self.assertNotIn('"on_destroyed_expr": "build.onDestroyed();"', body)
 
     def test_emit_bridges_build_payload_content_equals_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -25168,15 +25800,16 @@ public class BuildPayload implements Payload{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            body = gdscript_function_body(source_text, "func java_method_contentEquals_3(_args: Array = []) -> Variant:")
+            self.assertIn('const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")', source_text)
             self.assertIn("func java_method_contentEquals_3(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var other_is_build_payload: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var other_block: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var build_block: Variant = _args[2] if _args.size() > 2 else null", source_text)
-            self.assertIn("var content_equals: bool = other_is_build_payload and other_block == build_block", source_text)
-            self.assertIn('"source_owner": "PortGame.source_build_payload_content_equals_state"', source_text)
-            self.assertIn('"method": "public boolean contentEquals(Payload other){"', source_text)
-            self.assertIn('"return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;"', source_text)
-            self.assertIn('"content_equals": content_equals', source_text)
+            self.assertIn("return SourceBuildPayloadState.content_equals_state(other_is_build_payload, other_block, build_block)", body)
+            self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', body)
+            self.assertNotIn('"method": "public boolean contentEquals(Payload other){"', body)
+            self.assertNotIn('"return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;"', body)
 
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

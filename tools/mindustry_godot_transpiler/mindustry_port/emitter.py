@@ -1,4 +1,4 @@
-﻿import json
+import json
 import re
 from pathlib import Path
 from typing import Any
@@ -26,6 +26,109 @@ def _gd_identifier(value: str) -> str:
 
 
 def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[str]:
+    if (
+        java_file.get("path") == "mindustry/entities/pattern/ShootPattern.java"
+        and type_entry.get("name") == "ShootPattern"
+        and method.get("name") == "shoot"
+    ):
+        parameters = method.get("parameters", [])
+        if len(parameters) == 3:
+            return [
+                "\tvar total_shots: int = int(_args[0] if _args.size() > 0 else 0)",
+                "\tvar shots: int = int(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)",
+                "\tvar first_shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)",
+                "\tvar shot_delay: float = float(_args[3] if _args.size() > 3 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)",
+                "\tvar barrel_incrementer_present: bool = bool(_args[4] if _args.size() > 4 else false)",
+                "\tvar compat_result = java_method_shoot_1([shots, first_shot_delay, shot_delay])",
+                "\treturn {",
+                '\t\t"source_owner": "PortGame.source_shoot_pattern_default_events",',
+                '\t\t"generated_owner": "ShootPattern.java_method_shoot_0",',
+                '\t\t"source": "core/src/mindustry/entities/pattern/ShootPattern.java",',
+                '\t\t"method": "public void shoot(int totalShots, BulletHandler handler, @Nullable Runnable barrelIncrementer){",',
+                '\t\t"compatibility_call": "shoot(totalShots, handler);",',
+                '\t\t"compatibility_comment": "//the default implementation calls the \\"soft deprecated\\" variant for mod compatibility, so overrides from older mods can function properly",',
+                '\t\t"totalShots": total_shots,',
+                '\t\t"shots": shots,',
+                '\t\t"firstShotDelay": first_shot_delay,',
+                '\t\t"shotDelay": shot_delay,',
+                '\t\t"barrelIncrementerPresent": barrel_incrementer_present,',
+                '\t\t"barrelIncrementerCalls": 0,',
+                '\t\t"barrelIncrementerIgnored": true,',
+                '\t\t"compat_result": compat_result,',
+                '\t\t"events": compat_result.get("events", []),',
+                "\t}",
+            ]
+        if len(parameters) == 2:
+            return [
+                "\tvar shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)",
+                "\tvar first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)",
+                "\tvar shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)",
+                "\tvar events: Array = []",
+                "\tfor i in shots:",
+                "\t\tevents.append({",
+                '\t\t\t"xOffset": 0.0,',
+                '\t\t\t"yOffset": 0.0,',
+                '\t\t\t"angleOffset": 0.0,',
+                '\t\t\t"delay": first_shot_delay + shot_delay * float(i),',
+                '\t\t\t"mover": null,',
+                "\t\t})",
+                "\treturn {",
+                '\t\t"source_owner": "PortGame.source_shoot_pattern_default_events",',
+                '\t\t"source": "core/src/mindustry/entities/pattern/ShootPattern.java",',
+                '\t\t"method": "public void shoot(int totalShots, BulletHandler handler){",',
+                '\t\t"loop": "for(int i = 0; i < shots; i++){",',
+                '\t\t"handler_call": "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);",',
+                '\t\t"mover_null": "shoot(x, y, rotation, delay, null);",',
+                '\t\t"shots": shots,',
+                '\t\t"firstShotDelay": first_shot_delay,',
+                '\t\t"shotDelay": shot_delay,',
+                '\t\t"events": events,',
+                "\t}",
+            ]
+    if (
+        java_file.get("path") == "mindustry/entities/pattern/ShootPattern.java"
+        and type_entry.get("name") == "ShootPattern"
+        and method.get("name") == "flip"
+    ):
+        return [
+            "\treturn {",
+            '\t\t"source_owner": "ShootPattern.flip",',
+            '\t\t"generated_owner": "ShootPattern.java_method_flip_2",',
+            '\t\t"source": "core/src/mindustry/entities/pattern/ShootPattern.java",',
+            '\t\t"method": "public void flip(){",',
+            '\t\t"comment": "/** Subclasses should override this to flip its sides. */",',
+            '\t\t"no_op": true,',
+            '\t\t"mutated_fields": [],',
+            "\t}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/pattern/ShootPattern.java"
+        and type_entry.get("name") == "ShootPattern"
+        and method.get("name") == "copy"
+    ):
+        return [
+            "\tvar shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)",
+            "\tvar first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)",
+            "\tvar shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)",
+            "\tvar copy_state := {",
+            '\t\t"shots": shots,',
+            '\t\t"firstShotDelay": first_shot_delay,',
+            '\t\t"shotDelay": shot_delay,',
+            "\t}",
+            "\treturn {",
+            '\t\t"source_owner": "ShootPattern.copy",',
+            '\t\t"generated_owner": "ShootPattern.java_method_copy_3",',
+            '\t\t"source": "core/src/mindustry/entities/pattern/ShootPattern.java",',
+            '\t\t"method": "public ShootPattern copy(){",',
+            '\t\t"try_source": "try{",',
+            '\t\t"clone_return_source": "return (ShootPattern)clone();",',
+            '\t\t"catch_source": "}catch(CloneNotSupportedException absurd){",',
+            '\t\t"throw_source": "throw new RuntimeException(\\"impending doom\\", absurd);",',
+            '\t\t"implements_cloneable": "public class ShootPattern implements Cloneable{",',
+            '\t\t"copy": copy_state,',
+            '\t\t"same_reference": false,',
+            "\t}",
+        ]
     if (
         java_file.get("path") == "mindustry/entities/abilities/Ability.java"
         and type_entry.get("name") == "Ability"
@@ -204,13 +307,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 1)",
             "\tvar source_x := float(_args[3] if _args.size() > 3 else 0.0)",
             "\tvar source_y := float(_args[4] if _args.size() > 4 else 0.0)",
-            "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)",
+            "\tvar source_tilesize := float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)",
             "\tif not (enable_draw_status and consumers_length > 0):",
             "\t\treturn {\"visible\": false}",
-            "\tvar multiplier := 1.0 if block_size_value > 1 else 0.64",
+            "\tvar multiplier := SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE if block_size_value > 1 else SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL",
             "\tvar brcx := source_x + (float(block_size_value) * source_tilesize / 2.0) - (source_tilesize * multiplier / 2.0)",
             "\tvar brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)",
-            "\treturn {\"visible\": true, \"multiplier\": multiplier, \"brcx\": brcx, \"brcy\": brcy, \"gray_square_size\": 2.5 * multiplier, \"status_square_size\": 1.5 * multiplier}",
+            "\treturn {\"visible\": true, \"multiplier\": multiplier, \"brcx\": brcx, \"brcy\": brcy, \"gray_square_size\": SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE * multiplier, \"status_square_size\": SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE * multiplier}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -246,9 +349,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile_y := int(_args[5] if _args.size() > 5 else 0)",
             "\tvar unit_activation_delay := float(_args[6] if _args.size() > 6 else 0.0)",
             "\tvar state_tick := float(_args[7] if _args.size() > 7 else 0.0)",
-            "\tvar inactive_unit_factory := block_status == \"inactiveUnitFactory\"",
-            "\tvar remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)",
-            "\treturn {\"overlay_visible\": true, \"overlay_x\": source_x, \"overlay_y\": source_y, \"overlay_rotation\": source_rotation, \"place_text_visible\": inactive_unit_factory, \"place_text_bundle_key\": \"rules.unitfactoryactivation.objective\", \"place_text_time\": remaining_activation_delay, \"place_text_tile_x\": tile_x, \"place_text_tile_y\": tile_y}",
+            "\tvar inactive_unit_factory := block_status == SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS",
+            "\tvar remaining_activation_delay := maxf(SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN, unit_activation_delay - state_tick)",
+            "\treturn {\"overlay_visible\": true, \"overlay_x\": source_x, \"overlay_y\": source_y, \"overlay_rotation\": source_rotation, \"place_text_visible\": inactive_unit_factory, \"place_text_bundle_key\": SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY, \"place_text_time\": remaining_activation_delay, \"place_text_tile_x\": tile_x, \"place_text_tile_y\": tile_y}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -260,16 +363,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_x := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar source_y := float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar block_size_value := int(_args[3] if _args.size() > 3 else 1)",
-            "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)",
+            "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)",
             "\tvar icon_small := float(_args[5] if _args.size() > 5 else 0.0)",
             "\tvar selection_icon_ratio := float(_args[6] if _args.size() > 6 else 1.0)",
             "\tif not has_selection:",
             "\t\treturn {\"visible\": false}",
             "\tvar dx := source_x - float(block_size_value) * source_tilesize / 2.0",
             "\tvar dy := source_y + float(block_size_value) * source_tilesize / 2.0",
-            "\tvar selection_width := icon_small / 4.0 * selection_icon_ratio",
-            "\tvar selection_height := icon_small / 4.0",
-            "\treturn {\"visible\": true, \"dx\": dx, \"dy\": dy, \"shadow_color\": \"darkGray\", \"shadow_alpha\": 1.0, \"shadow_y\": dy - 1.0, \"foreground_y\": dy, \"selection_width\": selection_width, \"selection_height\": selection_height}",
+            "\tvar selection_width := icon_small / SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR * selection_icon_ratio",
+            "\tvar selection_height := icon_small / SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR",
+            "\treturn {\"visible\": true, \"dx\": dx, \"dy\": dy, \"shadow_color\": SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR, \"shadow_alpha\": SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_ALPHA, \"shadow_y\": dy - SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET, \"foreground_y\": dy + SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET, \"selection_width\": selection_width, \"selection_height\": selection_height}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -279,8 +382,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar source_x := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar disabled_icon_size := 6.0",
-            "\treturn {\"visible\": true, \"icon\": \"cancel\", \"color\": \"scarlet\", \"alpha\": 0.8, \"x\": source_x, \"y\": source_y, \"width\": disabled_icon_size, \"height\": disabled_icon_size}",
+            "\tvar disabled_icon_size := SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE",
+            "\treturn {\"visible\": true, \"icon\": SOURCE_BUILDING_DRAW_DISABLED_ICON, \"color\": SOURCE_BUILDING_DRAW_DISABLED_COLOR, \"alpha\": SOURCE_BUILDING_DRAW_DISABLED_ALPHA, \"x\": source_x, \"y\": source_y, \"width\": disabled_icon_size, \"height\": disabled_icon_size}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -301,7 +404,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tif variants == 0 or not has_variant_regions:",
             "\t\treturn {\"visible\": true, \"region_kind\": \"region\", \"variant_index\": -1, \"x\": source_x, \"y\": source_y, \"rotation_degrees\": draw_rotation, \"draw_team_top\": true}",
             "\tvar max_variant_index: int = max(0, variant_region_count - 1)",
-            "\tvar variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)",
+            "\tvar variant_index: int = SourceMathState.random_seed_int(tile_pos, 0, max_variant_index)",
             "\treturn {\"visible\": true, \"region_kind\": \"variant_region\", \"variant_index\": variant_index, \"x\": source_x, \"y\": source_y, \"rotation_degrees\": draw_rotation, \"draw_team_top\": true}",
         ]
     if (
@@ -415,13 +518,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar light_color := String(_args[3] if _args.size() > 3 else \"\")",
             "\tvar light_alpha := float(_args[4] if _args.size() > 4 else 0.0)",
             "\tvar amount := float(_args[5] if _args.size() > 5 else 0.0)",
-            "\tif amount <= 0.01:",
+            "\tif amount <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN:",
             "\t\treturn {\"visible\": false}",
-            "\tvar fract: float = 1.0",
+            "\tvar fract: float = SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT",
             "\tvar opacity: float = light_alpha * fract",
-            "\tif opacity <= 0.001:",
+            "\tif opacity <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:",
             "\t\treturn {\"visible\": false}",
-            "\treturn {\"visible\": true, \"x\": source_x, \"y\": source_y, \"radius\": block_size_value * 30.0 * fract, \"color\": light_color, \"opacity\": opacity, \"alpha\": opacity * amount, \"fract\": fract}",
+            "\treturn {\"visible\": true, \"x\": source_x, \"y\": source_y, \"radius\": block_size_value * SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE * fract, \"color\": light_color, \"opacity\": opacity, \"alpha\": opacity * amount, \"fract\": fract}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -433,8 +536,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_x := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar source_y := float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar block_size_value := int(_args[3] if _args.size() > 3 else 0)",
-            "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)",
-            "\treturn {\"visible\": true, \"region\": \"block-border\", \"color\": team_color, \"x\": source_x - block_size_value * source_tilesize / 2.0 + 4.0, \"y\": source_y - block_size_value * source_tilesize / 2.0 + 4.0, \"color_reset\": true}",
+            "\tvar source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)",
+            "\treturn {\"visible\": true, \"region\": SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION, \"color\": team_color, \"x\": source_x - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET, \"y\": source_y - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET, \"color_reset\": true}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -449,7 +552,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_x := float(_args[4] if _args.size() > 4 else 0.0)",
             "\tvar source_y := float(_args[5] if _args.size() > 5 else 0.0)",
             "\tvar block_size_value := int(_args[6] if _args.size() > 6 else 0)",
-            "\tvar source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)",
+            "\tvar source_tilesize := float(_args[7] if _args.size() > 7 else SOURCE_TILESIZE)",
             "\tvar suppress_color := String(_args[8] if _args.size() > 8 else \"\")",
             "\tvar suppressed: bool = block_suppressable and source_time <= heal_suppression_time",
             "\tif not suppressed:",
@@ -787,10 +890,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_x := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar source_y := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 0)",
-            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
             "\tvar half_extent := float(block_size_value) * source_tilesize / 2.0",
-            "\tvar radius_offset := 1.0",
-            "\treturn {\"source_owner\": \"PortGame.source_building_draw_configure_state\", \"method\": \"public void drawConfigure(){\", \"color\": \"Pal.accent\", \"stroke\": 1.0, \"shape\": \"square\", \"square\": \"Lines.square(x, y, block.size * tilesize / 2f + 1f);\", \"x\": source_x, \"y\": source_y, \"halfExtent\": half_extent, \"radiusOffset\": radius_offset, \"radius\": half_extent + radius_offset, \"reset\": true, \"source_x\": source_x, \"source_y\": source_y, \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize}",
+            "\tvar radius_offset := SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT",
+            "\treturn {\"source_owner\": \"PortGame.source_building_draw_configure_state\", \"method\": \"public void drawConfigure(){\", \"color\": SOURCE_BUILDING_DRAW_CONFIGURE_COLOR, \"stroke\": SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT, \"shape\": SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE, \"square\": SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR, \"x\": source_x, \"y\": source_y, \"halfExtent\": half_extent, \"radiusOffset\": radius_offset, \"radius\": half_extent + radius_offset, \"reset\": true, \"source_x\": source_x, \"source_y\": source_y, \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize}",
         ]
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
@@ -1184,7 +1287,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar block_size_value := int(_args[0] if _args.size() > 0 else 0)",
-            "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)",
+            "\tvar source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
             "\tvar hit_size := float(block_size_value) * source_tilesize",
             "\treturn {\"source_owner\": \"PortGame.source_building_hit_size\", \"override\": \"@Override\", \"method\": \"public float hitSize(){\", \"return_expr\": \"return tile.block().size * tilesize;\", \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize, \"hit_size\": hit_size}",
         ]
@@ -1197,7 +1300,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar world_x := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar world_y := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar block_size_value := int(_args[2] if _args.size() > 2 else 0)",
-            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)",
+            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
             "\tvar hitbox_size := float(block_size_value) * source_tilesize",
             "\treturn {\"source_owner\": \"PortGame.source_building_hitbox_state\", \"method\": \"public void hitbox(Rect out){\", \"set_centered_expr\": \"out.setCentered(x, y, block.size * tilesize, block.size * tilesize);\", \"hitbox_size_expr\": \"block.size * tilesize\", \"world_x\": world_x, \"world_y\": world_y, \"block_size_value\": block_size_value, \"source_tilesize\": source_tilesize, \"hitbox_size\": hitbox_size, \"set_centered\": {\"x\": world_x, \"y\": world_y, \"width\": hitbox_size, \"height\": hitbox_size}}",
         ]
@@ -1370,9 +1473,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar buffered_guard: bool = buffered",
             "\tvar usage_guard: bool = usage > 0.0",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif buffered_guard:",
@@ -1423,8 +1526,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)",
             "\tvar display_guard: bool = displayed_power_usage != 0.0",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = displayed_power_usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif display_guard:",
@@ -1756,8 +1859,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
             "\tvar liquid_efficiency_values: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar source_tick_rate: float = float(_args[5] if _args.size() > 5 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -1835,7 +1938,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)",
             "\tvar multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)",
             "\tvar ed: float = build_edelta",
-            "\tvar ed_guard: bool = ed <= 0.00000001",
+            "\tvar ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON",
             "\tvar has_consumed_liquid: bool = consumed_liquid != null",
             "\tvar required_liquid_amount: float = amount * ed * multiplier_get_build",
             "\tvar raw_efficiency: float = build_liquids_get / required_liquid_amount if has_consumed_liquid and not ed_guard else 0.0",
@@ -1892,8 +1995,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_liquids: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -2013,35 +2116,6 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}',
         ]
     if (
-        java_file.get("path") == "mindustry/world/blocks/power/ThermalGenerator.java"
-        and type_entry.get("name") == "ThermalGenerator"
-        and method.get("name") == "setStats"
-    ):
-        return [
-            "\tvar power_production: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar display_efficiency_scale: float = float(_args[1] if _args.size() > 1 else 1.0)",
-            "\tvar display_efficiency: bool = bool(_args[2] if _args.size() > 2 else true)",
-            "\tvar size: float = float(_args[3] if _args.size() > 3 else 1.0)",
-            "\tvar floating: bool = bool(_args[4] if _args.size() > 4 else false)",
-            "\tvar super_set_stats_state: Dictionary = _args[5] if _args.size() > 5 and _args[5] is Dictionary else {}",
-            "\tvar parent_state: Dictionary = super_set_stats_state.duplicate(true)",
-            "\tvar tile_stat_scale: float = size * size * display_efficiency_scale",
-            "\tvar tile_stat_start_zero: bool = not display_efficiency",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
-            "\tvar generation_stat_value: float = power_production * source_tick_rate / display_efficiency_scale",
-            '\tvar generation_stat_add: Dictionary = {"call": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);", "stat": "generationType", "value": generation_stat_value, "unit": "StatUnit.powerSecond"}',
-            "\tvar output_liquid_present: bool = bool(_args[6] if _args.size() > 6 else false)",
-            '\tvar output_liquid_liquid: String = str(_args[7] if _args.size() > 7 else "")',
-            "\tvar output_liquid_amount: float = float(_args[8] if _args.size() > 8 else 0.0)",
-            "\tvar output_stat_amount: float = output_liquid_amount * size * size * source_tick_rate",
-            "\tif not output_liquid_present:",
-            "\t\toutput_stat_amount = 0.0",
-            "\tvar output_stat_call: Dictionary = {}",
-            "\tif output_liquid_present:",
-            '\t\toutput_stat_call = {"stat": "Stat.output", "liquid": output_liquid_liquid, "amount": output_stat_amount, "perSecond": true, "statValue": "StatValues.liquid"}',
-            '\treturn {"source_owner": "PortGame.source_thermal_generator_set_stats_state", "source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java", "class": "public class ThermalGenerator extends PowerGenerator{", "attribute_field": "public Attribute attribute = Attribute.heat;", "display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;", "display_efficiency_field": "public boolean displayEfficiency = true;", "override": "@Override", "method": "public void setStats(){", "super_call": "super.setStats();", "tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);", "generation_type_remove": "stats.remove(generationType);", "generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);", "power_production_field": "public float powerProduction;", "generation_type_field": "public Stat generationType = Stat.basePowerGeneration;", "floating_field": "public boolean floating = false;", "stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){", "stats_remove": "public void remove(Stat stat){", "stat_base_power_generation": "basePowerGeneration = new Stat(\\"basePowerGeneration\\", StatCat.power),", "stat_tiles": "tiles = new Stat(\\"tiles\\", StatCat.crafting),", "stat_unit_power_second": "powerSecond = new StatUnit(\\"powerSecond\\", \\"[accent]\\" + Iconc.power + \\"[]\\"),", "output_liquid_field": "public @Nullable LiquidStack outputLiquid;", "output_liquid_guard": "if(outputLiquid != null){", "output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));", "power_production": power_production, "display_efficiency_scale": display_efficiency_scale, "display_efficiency": display_efficiency, "size": size, "floating": floating, "super_set_stats_state": parent_state, "tile_stat_scale": tile_stat_scale, "tile_stat_start_zero": tile_stat_start_zero, "generation_stat_removed": true, "generation_stat_value": generation_stat_value, "generation_stat_unit": "StatUnit.powerSecond", "generation_stat_add": generation_stat_add, "output_liquid_present": output_liquid_present, "output_liquid_liquid": output_liquid_liquid, "output_liquid_amount": output_liquid_amount, "output_stat_amount": output_stat_amount, "output_stat_added": output_liquid_present, "output_stat_call": output_stat_call}',
-        ]
-    if (
         java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
         and type_entry.get("name") == "PowerGraph"
         and method.get("name") == "getId"
@@ -2141,9 +2215,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)",
             "\tvar valid: bool = build_liquids_get > 0.0",
             '\tvar req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}',
-            "\tvar table_image_size: float = SOURCE_UI_ICON_MED",
+            "\tvar table_image_size: float = source_ui_icon_med",
             '\treturn {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}',
         ]
     if (
@@ -2155,8 +2230,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}',
             '\treturn {"source_owner": "PortGame.source_consume_liquid_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void display(Stats stats){", "liquid_field": "public final Liquid liquid;", "amount_field": "public float amount;", "booster_field": "public boolean booster;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){", "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)", "stat_values_liquid_method": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){", "stat_values_display_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();", "booster": booster, "liquid_id": liquid_id, "amount": amount, "selected_stat": selected_stat, "display_amount_per_second": display_amount_per_second, "per_second": true, "stats_add_call": stats_add_call}',
@@ -2186,7 +2261,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_efficiency_scale: float = float(_args[3] if _args.size() > 3 else 1.0)",
             "\tvar multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)",
             "\tvar ed: float = build_edelta * build_efficiency_scale",
-            "\tvar ed_guard: bool = ed <= 0.00000001",
+            "\tvar ed_guard: bool = ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON",
             "\tvar required_liquid_amount: float = amount * ed * multiplier_get_build",
             "\tvar raw_efficiency: float = build_liquids_get / required_liquid_amount if not ed_guard else 0.0",
             "\tvar efficiency: float = 0.0 if ed_guard else min(raw_efficiency, 1.0)",
@@ -2217,7 +2292,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             '\tvar icon_size: String = "Vars.iconMed"',
-            "\tvar pad_right: float = 8.0",
+            "\tvar pad_right: float = SOURCE_UI_PAD_RIGHT",
             "\tfor index in range(liquid_ids.size()):",
             "\t\tvar amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             '\t\treq_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})',
@@ -2255,7 +2330,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_efficiency_scale: float = float(_args[4] if _args.size() > 4 else 1.0)",
             "\tvar multiplier_get_build: float = float(_args[5] if _args.size() > 5 else 1.0)",
             "\tvar ed: float = build_edelta * build_efficiency_scale",
-            "\tif ed <= 0.00000001:",
+            "\tif ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:",
             '\t\treturn {"source_owner": "PortGame.source_consume_liquids_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public float efficiency(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "ed_expr": "float ed = build.edelta() * build.efficiencyScale();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquids_field": "public final LiquidStack[] liquids;", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "liquid_stack_liquid_field": "public Liquid liquid;", "liquid_stack_amount_field": "public float amount;", "building_liquids_field": "@Nullable LiquidModule liquids;", "building_edelta_method": "public float edelta(){", "building_efficiency_scale_method": "public float efficiencyScale(){", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "build_efficiency_scale": build_efficiency_scale, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(var stack : liquids){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * mult), min)", "return_expr": "return min;", "per_stack_efficiencies": [], "efficiency": 0.0}',
             "\tvar min_efficiency: float = 1.0",
             "\tvar per_stack_efficiencies: Array = []",
@@ -2277,8 +2352,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_liquids: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_id: int = int(liquid_ids[index])",
@@ -2423,8 +2498,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_item_ids.size():",
             "\t\tvar item_id: int = int(filtered_item_ids[index])",
@@ -2444,12 +2519,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
             "\tvar liquid_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)",
+            "\tvar source_ui_icon_med: float = float(_args[3] if _args.size() > 3 else SOURCE_UI_ICON_MED)",
+            "\tvar source_ui_pad_right: float = float(_args[4] if _args.size() > 4 else SOURCE_UI_PAD_RIGHT)",
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             "\t\tvar valid: bool = building_has_liquids and liquid_amount > 0.0",
-            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": SOURCE_UI_ICON_MED, "pad_right": SOURCE_UI_PAD_RIGHT})',
+            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": source_ui_icon_med, "pad_right": source_ui_pad_right})',
             "\t\tif (index + 1) % 4 == 0:",
             '\t\t\trow_calls.append({"call": "table.row();", "after_count": index + 1})',
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "private void rebuild(Building build, Table table){", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);", "row_expr": "if(++i % 4 == 0) table.row();", "liquid_ids": liquid_ids, "liquid_amounts": liquid_amounts, "building_has_liquids": building_has_liquids, "req_images": req_images, "row_calls": row_calls, "cleared": true}',
@@ -2483,7 +2560,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)",
             "\tvar multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)",
             "\tvar ed: float = build_edelta",
-            "\tif ed <= 0.00000001:",
+            "\tif ed <= SOURCE_CONSUME_EFFICIENCY_EPSILON:",
             '\t\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public float efficiency(Building build){", "ed_expr": "float ed = build.edelta();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min)", "return_expr": "return min;", "per_stack_efficiencies": [], "efficiency": 0.0}',
             "\tvar min_efficiency: float = 1.0",
             "\tvar per_stack_efficiencies: Array = []",
@@ -2518,7 +2595,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile_block_health: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar tile_health: float = float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar tile_block_size: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)",
             "\tvar this_tile_after: Variant = tile",
             "\tvar hit_size: float = tile_block_size * tilesize * 0.7",
             "\tvar max_health_call: Dictionary = {\"call\": \"maxHealth(tile.block.health);\", \"value\": tile_block_health}",
@@ -2793,7 +2870,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_block: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_build_payload_block_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public Block block(){", "return_expr": "return build.block;", "build_block": build_block}',
+            "\treturn SourceBuildPayloadState.block_state(build_block)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2804,7 +2881,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar icon: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void showOverlay(TextureRegion icon){", "overlay_region_assign_expr": "overlayRegion = icon;", "overlay_time_assign_expr": "overlayTime = 1f;", "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "overlay_time_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "overlay_region_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TEXTURE_REGION_METHOD, "overlay_region_assign_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_REGION_ASSIGN_EXPR, "overlay_time_assign_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_TIME_ASSIGN_EXPR, "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2824,8 +2901,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tif not returned:",
             "\t\toverlay_region_after = region",
             "\t\toverlay_time_after = 1.0",
-            '\t\tdelegate_call = {"call": "showOverlay(icon.getRegion());", "region": region}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "import_expr": "import static mindustry.Vars.*;", "method": "public void showOverlay(TextureRegionDrawable icon){", "guard_expr": "if(icon == null || headless) return;", "delegate_expr": "showOverlay(icon.getRegion());", "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}',
+            '\t\tdelegate_call = {"call": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR, "region": region}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "import_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_IMPORT_STATIC_VARS_EXPR, "method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_METHOD, "guard_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_GUARD_EXPR, "delegate_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SHOW_OVERLAY_DRAWABLE_DELEGATE_EXPR, "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2837,7 +2914,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar other_unit_type: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar unit_type: Variant = _args[2] if _args.size() > 2 else null",
             "\tvar content_equals: bool = other_is_unit_payload and other_unit_type == unit_type",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;", "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_content_equals_state", "source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_METHOD, "return_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_EQUALS_RETURN_EXPR, "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2850,8 +2927,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar unit_holder: Variant = _args[2] if _args.size() > 2 else null",
             "\tvar building_holder: Variant = _args[3] if _args.size() > 3 else null",
             "\tvar update_payload_called: bool = true",
-            '\tvar update_payload_call: Dictionary = {"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}',
+            '\tvar update_payload_call: Dictionary = {"call": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR, "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_update_state", "source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_METHOD, "update_payload_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UPDATE_PAYLOAD_EXPR, "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2860,7 +2937,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_type: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return unit.type;", "unit_type": unit_type, "content": unit_type}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_content_state", "source": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_METHOD, "return_expr": SourceUnitPayloadContentState.SOURCE_UNIT_PAYLOAD_CONTENT_RETURN_EXPR, "unit_type": unit_type, "content": unit_type}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2870,8 +2947,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar unit_type: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar total_requirements: Variant = _args[1] if _args.size() > 1 else []",
-            '\tvar get_total_requirements_call: Dictionary = {"call": "unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}',
+            '\tvar get_total_requirements_call: Dictionary = {"call": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_CALL_EXPR, "unit_type": unit_type, "requirements": total_requirements}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_METHOD, "return_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_REQUIREMENTS_RETURN_EXPR, "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2881,8 +2958,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar unit_type: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar build_time: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            '\tvar get_build_time_call: Dictionary = {"call": "unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}',
+            '\tvar get_build_time_call: Dictionary = {"call": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_CALL_EXPR, "unit_type": unit_type, "buildTime": build_time}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_METHOD, "return_expr": SourceUnitPayloadRequirementsState.SOURCE_UNIT_PAYLOAD_BUILD_TIME_RETURN_EXPR, "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2892,8 +2969,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar payload_unit: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar unit_class_id: int = int(_args[1] if _args.size() > 1 else 0)",
-            '\tvar write_calls: Array = [{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit}, {"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id}, {"call": "unit.write(write);", "method": "unit.write", "called": true}]',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_unit_write_expr": "write.b(payloadUnit);", "unit_class_id_write_expr": "write.b(unit.classId());", "unit_write_expr": "unit.write(write);", "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}',
+            '\tvar write_calls: Array = [{"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR, "method": "write.b", "value": payload_unit}, {"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR, "method": "write.b", "value": unit_class_id}, {"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR, "method": "unit.write", "called": true}]',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_write_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_METHOD, "payload_unit_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_PAYLOAD_UNIT_EXPR, "unit_class_id_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_CLASS_ID_EXPR, "unit_write_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_WRITE_UNIT_EXPR, "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2904,8 +2981,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar x: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar y: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar rotation_value: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            '\tvar set_call: Dictionary = {"call": "unit.set(x, y);", "x": x, "y": y}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "unit.set(x, y);", "rotation_assign_expr": "unit.rotation = rotation;", "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}',
+            '\tvar set_call: Dictionary = {"call": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_EXPR, "x": x, "y": y}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_set_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_METHOD, "set_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_EXPR, "rotation_assign_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SET_ROTATION_ASSIGN_EXPR, "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2914,7 +2991,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_x: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return unit.x;", "unit_x": unit_x, "x": unit_x}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_x_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_X_METHOD, "return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_X_RETURN_EXPR, "unit_x": unit_x, "x": unit_x}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2923,7 +3000,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_y: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return unit.y;", "unit_y": unit_y, "y": unit_y}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_y_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_Y_METHOD, "return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_Y_RETURN_EXPR, "unit_y": unit_y, "y": unit_y}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2932,7 +3009,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_rotation: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_rotation_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float rotation(){", "return_expr": "return unit.rotation;", "unit_rotation": unit_rotation, "rotation": unit_rotation}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_rotation_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_ROTATION_METHOD, "return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_ROTATION_RETURN_EXPR, "unit_rotation": unit_rotation, "rotation": unit_rotation}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2941,7 +3018,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_hit_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return unit.hitSize;", "unit_hit_size": unit_hit_size, "size": unit_hit_size}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_size_state", "source": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SIZE_METHOD, "return_expr": SourceUnitPayloadIoState.SOURCE_UNIT_PAYLOAD_SIZE_RETURN_EXPR, "unit_hit_size": unit_hit_size, "size": unit_hit_size}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -2972,9 +3049,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar radians := deg_to_rad(angle_degrees)",
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
-                    '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = 8.0",
-                    '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
+                    '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "vec2RotateSource": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR}',
+                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                    '\tvar solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD',
+                    '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     "\tvar solid_solid_evaluated: bool = solid_present_guard",
@@ -2982,7 +3060,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\tvar before_overlap_returned: bool = before_solid_returned or solid_guard",
                     "\tvar overlap_evaluated: bool = not before_overlap_returned",
                     "\tvar units_count_evaluated: bool = overlap_evaluated and not unit_type_flying",
-                    "\tvar overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0",
+                    "\tvar overlap_radius: float = unit_physic_size * SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER if units_count_evaluated else 0.0",
                     "\tvar overlap_guard: bool = units_count_evaluated and units_count > 0",
                     "\tvar returned: bool = before_overlap_returned or overlap_guard",
                     "\tvar dump_result: Variant = null",
@@ -2998,12 +3076,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\tvar overlayRegion_after: Variant = null",
                     "\tvar solid_call: Dictionary = {}",
                     "\tif solid_solid_evaluated:",
-                    '\t\tsolid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}',
+                    '\t\tsolid_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR, "tx": tx, "ty": ty, "result": solid_solid}',
                     "\tvar units_count_call: Dictionary = {}",
                     "\tif units_count_evaluated:",
-                    '\t\tunits_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
+                    '\t\tunits_count_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
                     "\tvar deferred_remaining_dump: bool = not returned",
-                    '\treturn {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
+                    '\treturn {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state", "source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE, "arc_vec2_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE, "world_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE, "vars_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE, "class_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "field_overlay_time_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "field_overlay_region_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "override_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_METHOD, "todo_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR, "can_create_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR, "overlay_time_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR, "overlay_region_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR, "solidity_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR, "solid_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR, "solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR, "trns_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR, "vec2_trns_amount_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR, "vec2_trns_amount_return_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "tile_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR, "world_to_tile_method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD, "world_to_tile_return": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN, "vars_tilesize_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD, "solid_block_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR, "solid_solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR, "overlap_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR, "overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR, "unit_type_flying_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR, "units_count_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "physic_size_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR, "radius_multiplier_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR, "predicate_is_grounded_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR, "predicate_allow_leg_step_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR, "return_false_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR, "client_dumping_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR, "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
                 ]
             if "Units.notifyUnitSpawn(unit);" in source_text:
                 return [
@@ -3030,9 +3108,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar radians := deg_to_rad(angle_degrees)",
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
-                    '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = 8.0",
-                    '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
+                    '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "vec2RotateSource": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR}',
+                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                    '\tvar solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD',
+                    '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     "\tvar solid_solid_evaluated: bool = solid_present_guard",
@@ -3040,7 +3119,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\tvar before_overlap_returned: bool = before_solid_returned or solid_guard",
                     "\tvar overlap_evaluated: bool = not before_overlap_returned",
                     "\tvar units_count_evaluated: bool = overlap_evaluated and not unit_type_flying",
-                    "\tvar overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0",
+                    "\tvar overlap_radius: float = unit_physic_size * SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER if units_count_evaluated else 0.0",
                     "\tvar overlap_guard: bool = units_count_evaluated and units_count > 0",
                     "\tvar before_client_returned: bool = before_overlap_returned or overlap_guard",
                     "\tvar net_client_evaluated: bool = not before_client_returned",
@@ -3065,36 +3144,130 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\tvar overlayRegion_after: Variant = null",
                     "\tvar solid_call: Dictionary = {}",
                     "\tif solid_solid_evaluated:",
-                    '\t\tsolid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}',
+                    '\t\tsolid_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR, "tx": tx, "ty": ty, "result": solid_solid}',
                     "\tvar units_count_call: Dictionary = {}",
                     "\tif units_count_evaluated:",
-                    '\t\tunits_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
+                    '\t\tunits_count_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
                     "\tvar velocity_add_call: Dictionary = {}",
                     "\tvar unit_add_called: bool = false",
                     "\tvar unit_unloaded_called: bool = false",
                     "\tvar event_fire_call: Dictionary = {}",
                     "\tvar notify_unit_spawn_call: Dictionary = {}",
+                    "\tvar velocity_range: float = SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE",
                     "\tif spawn_evaluated:",
-                    '\t\tvelocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));", "x": range_x, "y": range_y, "unit": unit_id}',
+                    '\t\tvelocity_add_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR, "range": velocity_range, "x": range_x, "y": range_y, "unit": unit_id}',
                     "\t\tunit_add_called = true",
                     "\t\tunit_unloaded_called = true",
-                    '\t\tevent_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));", "event": "new UnitUnloadEvent(unit)", "unit": unit_id}',
-                    '\t\tnotify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);", "unit": unit_id}',
+                    '\t\tevent_fire_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR, "event": SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR, "unit": unit_id}',
+                    '\t\tnotify_unit_spawn_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR, "unit": unit_id}',
                     "\tvar deferred_remaining_dump: bool = false",
-                    '\tvar state: Dictionary = {"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "units_source": "core/src/mindustry/entities/Units.java", "event_type_source": "core/src/mindustry/game/EventType.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "range_x": range_x, "range_y": range_y, "unit_id": unit_id, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "before_spawn_returned": before_spawn_returned, "spawn_evaluated": spawn_evaluated, "velocity_add_call": velocity_add_call, "unit_add_called": unit_add_called, "unit_unloaded_called": unit_unloaded_called, "event_fire_call": event_fire_call, "notify_unit_spawn_call": notify_unit_spawn_call, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
-                    '\tstate["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"',
-                    '\tstate["mathf_range_float_method"] = "public static float range(float range){"',
-                    '\tstate["mathf_range_float_return"] = "return random(-range, range);"',
-                    '\tstate["unit_add_expr"] = "unit.add();"',
-                    '\tstate["unit_unloaded_expr"] = "unit.unloaded();"',
-                    '\tstate["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"',
-                    '\tstate["unit_unload_event_comment"] = "/** Called when a unit is dumped from any payload block. */"',
-                    '\tstate["unit_unload_event_class"] = "public static class UnitUnloadEvent{"',
-                    '\tstate["unit_unload_event_constructor"] = "public UnitUnloadEvent(Unit unit){"',
-                    '\tstate["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"',
-                    '\tstate["notify_unit_spawn_method"] = "public static void notifyUnitSpawn(Unit unit){"',
-                    '\tstate["notify_unit_spawn_guard"] = "if(net.server()){"',
-                    '\tstate["final_return_true_expr"] = "return true;"',
+                    "\tvar state: Dictionary = {",
+                    '\t\t"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",',
+                    '\t\t"source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE,',
+                    '\t\t"arc_vec2_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE,',
+                    '\t\t"arc_mathf_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE,',
+                    '\t\t"world_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE,',
+                    '\t\t"vars_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE,',
+                    '\t\t"units_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE,',
+                    '\t\t"event_type_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE,',
+                    '\t\t"class_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,',
+                    '\t\t"field_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,',
+                    '\t\t"field_overlay_time_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,',
+                    '\t\t"field_overlay_region_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,',
+                    '\t\t"override_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,',
+                    '\t\t"method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_METHOD,',
+                    '\t\t"todo_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,',
+                    '\t\t"type_null_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,',
+                    '\t\t"can_create_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,',
+                    '\t\t"overlay_time_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,',
+                    '\t\t"overlay_region_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR,',
+                    '\t\t"solidity_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR,',
+                    '\t\t"solid_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR,',
+                    '\t\t"solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR,',
+                    '\t\t"trns_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR,',
+                    '\t\t"vec2_trns_amount_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR,',
+                    '\t\t"vec2_trns_amount_return_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR,',
+                    '\t\t"tile_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR,',
+                    '\t\t"world_to_tile_method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD,',
+                    '\t\t"world_to_tile_return": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN,',
+                    '\t\t"vars_tilesize_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD,',
+                    '\t\t"solid_block_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR,',
+                    '\t\t"solid_solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR,',
+                    '\t\t"overlap_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR,',
+                    '\t\t"overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR,',
+                    '\t\t"unit_type_flying_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR,',
+                    '\t\t"units_count_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR,',
+                    '\t\t"physic_size_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR,',
+                    '\t\t"radius_multiplier_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR,',
+                    '\t\t"predicate_is_grounded_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR,',
+                    '\t\t"predicate_allow_leg_step_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR,',
+                    '\t\t"return_false_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR,',
+                    '\t\t"client_dumping_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR,',
+                    '\t\t"net_client_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR,',
+                    '\t\t"vars_net_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD,',
+                    '\t\t"return_true_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR,',
+                    '\t\t"prevents_stacking_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR,',
+                    '\t\t"unit_type_null": unit_type_null,',
+                    '\t\t"units_can_create": units_can_create,',
+                    '\t\t"solid_present": solid_present,',
+                    '\t\t"unit_rotation": unit_rotation,',
+                    '\t\t"unit_x": unit_x,',
+                    '\t\t"unit_y": unit_y,',
+                    '\t\t"solid_solid": solid_solid,',
+                    '\t\t"unit_type_flying": unit_type_flying,',
+                    '\t\t"unit_physic_size": unit_physic_size,',
+                    '\t\t"units_count": units_count,',
+                    '\t\t"net_client": net_client,',
+                    '\t\t"range_x": range_x,',
+                    '\t\t"range_y": range_y,',
+                    '\t\t"unit_id": unit_id,',
+                    '\t\t"can_create_evaluated": can_create_evaluated,',
+                    '\t\t"can_create_guard": can_create_guard,',
+                    '\t\t"before_solid_returned": before_solid_returned,',
+                    '\t\t"solid_evaluated": solid_evaluated,',
+                    '\t\t"solid_present_guard": solid_present_guard,',
+                    '\t\t"trns_vec": trns_vec,',
+                    '\t\t"tx": tx,',
+                    '\t\t"ty": ty,',
+                    '\t\t"solid_solid_evaluated": solid_solid_evaluated,',
+                    '\t\t"solid_call": solid_call,',
+                    '\t\t"solid_guard": solid_guard,',
+                    '\t\t"before_overlap_returned": before_overlap_returned,',
+                    '\t\t"overlap_evaluated": overlap_evaluated,',
+                    '\t\t"units_count_evaluated": units_count_evaluated,',
+                    '\t\t"units_count_call": units_count_call,',
+                    '\t\t"overlap_radius": overlap_radius,',
+                    '\t\t"overlap_guard": overlap_guard,',
+                    '\t\t"before_client_returned": before_client_returned,',
+                    '\t\t"net_client_evaluated": net_client_evaluated,',
+                    '\t\t"client_guard": client_guard,',
+                    '\t\t"before_spawn_returned": before_spawn_returned,',
+                    '\t\t"spawn_evaluated": spawn_evaluated,',
+                    '\t\t"velocity_add_call": velocity_add_call,',
+                    '\t\t"unit_add_called": unit_add_called,',
+                    '\t\t"unit_unloaded_called": unit_unloaded_called,',
+                    '\t\t"event_fire_call": event_fire_call,',
+                    '\t\t"notify_unit_spawn_call": notify_unit_spawn_call,',
+                    '\t\t"returned": returned,',
+                    '\t\t"dump": dump_result,',
+                    '\t\t"overlayTime_after": overlayTime_after,',
+                    '\t\t"overlayRegion_after": overlayRegion_after,',
+                    '\t\t"deferred_remaining_dump": deferred_remaining_dump',
+                    "\t}",
+                    '\tstate["velocity_range"] = velocity_range',
+                    '\tstate["velocity_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR',
+                    '\tstate["mathf_range_float_method"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD',
+                    '\tstate["mathf_range_float_return"] = SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN',
+                    '\tstate["unit_add_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR',
+                    '\tstate["unit_unloaded_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR',
+                    '\tstate["event_fire_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR',
+                    '\tstate["unit_unload_event_comment"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT',
+                    '\tstate["unit_unload_event_class"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS',
+                    '\tstate["unit_unload_event_constructor"] = SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR',
+                    '\tstate["notify_unit_spawn_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR',
+                    '\tstate["notify_unit_spawn_method"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD',
+                    '\tstate["notify_unit_spawn_guard"] = SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD',
+                    '\tstate["final_return_true_expr"] = SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR',
                     "\treturn state",
                 ]
             return [
@@ -3118,9 +3291,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\t\tvar radians := deg_to_rad(angle_degrees)",
                 "\t\tvar cos_value := cos(radians)",
                 "\t\tvar sin_value := sin(radians)",
-                '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                "\tvar source_tilesize: float = 8.0",
-                '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
+                '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "vec2RotateSource": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR}',
+                "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                '\tvar solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD',
+                '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                 '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                 '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                 "\tvar solid_solid_evaluated: bool = solid_present_guard",
@@ -3128,7 +3302,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\tvar before_overlap_returned: bool = before_solid_returned or solid_guard",
                 "\tvar overlap_evaluated: bool = not before_overlap_returned",
                 "\tvar units_count_evaluated: bool = overlap_evaluated and not unit_type_flying",
-                "\tvar overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0",
+                "\tvar overlap_radius: float = unit_physic_size * SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER if units_count_evaluated else 0.0",
                 "\tvar overlap_guard: bool = units_count_evaluated and units_count > 0",
                 "\tvar before_client_returned: bool = before_overlap_returned or overlap_guard",
                 "\tvar net_client_evaluated: bool = not before_client_returned",
@@ -3149,12 +3323,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\tvar overlayRegion_after: Variant = null",
                 "\tvar solid_call: Dictionary = {}",
                 "\tif solid_solid_evaluated:",
-                '\t\tsolid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}',
+                '\t\tsolid_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR, "tx": tx, "ty": ty, "result": solid_solid}',
                 "\tvar units_count_call: Dictionary = {}",
                 "\tif units_count_evaluated:",
-                '\t\tunits_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
+                '\t\tunits_count_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
                 "\tvar deferred_remaining_dump: bool = not returned",
-                '\treturn {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
+                '\treturn {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state", "source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_SOURCE, "arc_vec2_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE, "world_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE, "vars_source": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE, "class_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "field_overlay_time_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "field_overlay_region_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "override_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_METHOD, "todo_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR, "can_create_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR, "overlay_time_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR, "overlay_region_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_REGION_ASSIGN_EXPR, "solidity_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_COMMENT_EXPR, "solid_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_ASSIGN_EXPR, "solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_GUARD_EXPR, "trns_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TRNS_EXPR, "vec2_trns_amount_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_EXPR, "vec2_trns_amount_return_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR, "tile_assign_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TILE_ASSIGN_EXPR, "world_to_tile_method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_METHOD, "world_to_tile_return": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_WORLD_TO_TILE_RETURN, "vars_tilesize_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_TILESIZE_FIELD, "solid_block_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_BLOCK_COMMENT_EXPR, "solid_solid_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_GUARD_EXPR, "overlap_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_COMMENT_EXPR, "overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR, "unit_type_flying_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_TYPE_FLYING_EXPR, "units_count_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR, "physic_size_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PHYSIC_SIZE_EXPR, "radius_multiplier_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RADIUS_MULTIPLIER_EXPR, "predicate_is_grounded_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_IS_GROUNDED_EXPR, "predicate_allow_leg_step_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREDICATE_ALLOW_LEG_STEP_EXPR, "return_false_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_FALSE_EXPR, "client_dumping_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_CLIENT_DUMPING_COMMENT_EXPR, "net_client_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NET_CLIENT_GUARD_EXPR, "vars_net_field": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VARS_NET_FIELD, "return_true_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR, "prevents_stacking_comment_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_PREVENTS_STACKING_COMMENT_EXPR, "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
             ]
         return [
             "\tvar unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)",
@@ -3178,8 +3352,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar draw_soft_shadow_called: bool = not returned_early",
             "\tvar draw_soft_shadow_call: Dictionary = {}",
             "\tif draw_soft_shadow_called:",
-            '\t\tdraw_soft_shadow_call = {"call": "unit.type.drawSoftShadow(unit, alpha);", "unit": unit_id, "alpha": alpha}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);", "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}',
+            '\t\tdraw_soft_shadow_call = {"call": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR, "unit": unit_id, "alpha": alpha}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state", "source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD, "todo_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "draw_soft_shadow_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR, "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -3210,23 +3384,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation",
             "\tvar deferred_remaining_draw: bool = not returned_early",
             "\tif _args.size() <= 1:",
-            '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}',
+            '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "todo_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "next_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR, "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}',
             "\tif _args.size() <= 3:",
-            '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "elevation_snapshot_expr": "float e = unit.elevation;", "elevation_zero_expr": "unit.elevation = 0f;", "draw_scl_expr": "Draw.scl(1f, 1f);", "unit_type_draw_expr": "unit.type.draw(unit);", "elevation_restore_expr": "unit.elevation = e;", "next_expr": "//draw warning", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}',
-            "\tvar overlay_duration: float = 40.0",
+            '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "todo_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR, "type_null_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR, "elevation_snapshot_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR, "elevation_zero_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR, "draw_scl_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR, "unit_type_draw_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_UNIT_TYPE_EXPR, "elevation_restore_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_RESTORE_EXPR, "next_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR, "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}',
+            "\tvar overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION",
             "\tvar overlay_guard: bool = (not returned_early) and overlay_time > 0.0",
             "\tvar draw_z_snapshot: float = draw_z_before",
             '\tvar draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}',
             '\tvar overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"',
             '\tvar draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}',
-            "\tvar draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0",
+            "\tvar draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0",
             '\tvar draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}',
-            "\tvar warning_size: float = 8.0",
+            "\tvar warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE",
             '\tvar draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}',
             "\tvar draw_reset_called: bool = overlay_guard",
             "\tvar overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time",
             '\tvar draw_z_restore_call: Dictionary = {"z": draw_z_snapshot} if overlay_guard else {}',
-            '\treturn {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_duration_field_expr": "public static final float overlayDuration = 40f;", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void draw(){", "draw_warning_comment_expr": "//draw warning", "overlay_guard_expr": "if(overlayTime > 0){", "draw_z_snapshot_expr": "float z = Draw.z();", "draw_z_warning_expr": "Draw.z(Layer.groundUnit + 1f);", "region_expr": "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;", "draw_color_expr": "Draw.color(Color.scarlet);", "draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));", "size_expr": "float size = 8f;", "draw_rect_expr": "Draw.rect(region, unit.x, unit.y, size, size);", "draw_reset_expr": "Draw.reset();", "overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);", "draw_z_restore_expr": "Draw.z(z);", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "overlay_time": overlay_time, "overlay_region": overlay_region, "unit_x": unit_x, "unit_y": unit_y, "time_delta": time_delta, "draw_z_before": draw_z_before, "interp_exp5_out_overlay_time": interp_exp5_out_overlay_time, "returned_early": returned_early, "overlay_duration": overlay_duration, "overlay_guard": overlay_guard, "draw_z_snapshot": draw_z_snapshot, "draw_z_warning_call": draw_z_warning_call, "overlay_region_resolved": overlay_region_resolved, "draw_color_call": draw_color_call, "draw_alpha_value": draw_alpha_value, "draw_alpha_call": draw_alpha_call, "warning_size": warning_size, "draw_rect_call": draw_rect_call, "draw_reset_called": draw_reset_called, "overlay_time_after": overlay_time_after, "draw_z_restore_call": draw_z_restore_call, "deferred_remaining_draw": false}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state", "source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "overlay_duration_field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR, "overlay_time_field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR, "overlay_region_field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR, "method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD, "draw_warning_comment_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR, "overlay_guard_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR, "draw_z_snapshot_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR, "draw_z_warning_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_Z_WARNING_EXPR, "region_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_REGION_EXPR, "draw_color_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_COLOR_EXPR, "draw_alpha_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_ALPHA_EXPR, "size_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_SIZE_EXPR, "draw_rect_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_RECT_EXPR, "draw_reset_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_RESET_EXPR, "overlay_time_update_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_TIME_UPDATE_EXPR, "draw_z_restore_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_DRAW_Z_RESTORE_EXPR, "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "overlay_time": overlay_time, "overlay_region": overlay_region, "unit_x": unit_x, "unit_y": unit_y, "time_delta": time_delta, "draw_z_before": draw_z_before, "interp_exp5_out_overlay_time": interp_exp5_out_overlay_time, "returned_early": returned_early, "overlay_duration": overlay_duration, "overlay_guard": overlay_guard, "draw_z_snapshot": draw_z_snapshot, "draw_z_warning_call": draw_z_warning_call, "overlay_region_resolved": overlay_region_resolved, "draw_color_call": draw_color_call, "draw_alpha_value": draw_alpha_value, "draw_alpha_call": draw_alpha_call, "warning_size": warning_size, "draw_rect_call": draw_rect_call, "draw_reset_called": draw_reset_called, "overlay_time_after": overlay_time_after, "draw_z_restore_call": draw_z_restore_call, "deferred_remaining_draw": false}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -3235,7 +3409,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar unit_type_full_icon: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_unit_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return unit.type.fullIcon;", "unit_type_full_icon": unit_type_full_icon, "icon": unit_type_full_icon}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_icon_state", "source": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_SOURCE, "class_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR, "field_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR, "override_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR, "method": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_ICON_METHOD, "return_expr": SourceUnitPayloadDrawState.SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR, "unit_type_full_icon": unit_type_full_icon, "icon": unit_type_full_icon}',
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
@@ -3288,8 +3462,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar build_block: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar build_team: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar rotation_value: int = 0",
-            '\treturn {"source_owner": "PortGame.source_build_payload_place_default_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile){", "delegate_expr": "place(tile, 0);", "tile": tile, "build_block": build_block, "build_team": build_team, "delegated_rotation": rotation_value}',
+            "\treturn SourceBuildPayloadLifecycleState.place_default_state(tile, build_block, build_team)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3302,8 +3475,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_block: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar build_team: Variant = _args[2] if _args.size() > 2 else null",
             "\tvar rotation_value: int = int(_args[3] if _args.size() > 3 else 0)",
-            '\tvar set_block_call: Dictionary = {"call": "tile.setBlock(build.block, build.team, rotation, () -> build);", "tile": tile, "block": build_block, "team": build_team, "rotation": rotation_value, "build_supplier": "() -> build"}',
-            '\treturn {"source_owner": "PortGame.source_build_payload_place_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile, int rotation){", "set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);", "dropped_expr": "build.dropped();", "tile": tile, "build_block": build_block, "build_team": build_team, "rotation": rotation_value, "set_block_call": set_block_call, "dropped_called": true}',
+            "\treturn SourceBuildPayloadLifecycleState.place_state(tile, build_block, build_team, rotation_value)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3314,8 +3486,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar other_is_build_payload: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar other_block: Variant = _args[1] if _args.size() > 1 else null",
             "\tvar build_block: Variant = _args[2] if _args.size() > 2 else null",
-            "\tvar content_equals: bool = other_is_build_payload and other_block == build_block",
-            '\treturn {"source_owner": "PortGame.source_build_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;", "other_is_build_payload": other_is_build_payload, "other_block": other_block, "build_block": build_block, "content_equals": content_equals}',
+            "\treturn SourceBuildPayloadState.content_equals_state(other_is_build_payload, other_block, build_block)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3329,15 +3500,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_block_always_update_in_units: bool = bool(_args[3] if _args.size() > 3 else false)",
             "\tvar unit_holder: Variant = _args[4] if _args.size() > 4 else null",
             "\tvar building_holder: Variant = _args[5] if _args.size() > 5 else null",
-            "\tvar returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))",
-            "\tvar tile_after: Variant = null",
-            "\tvar update_payload_called: bool = false",
-            "\tvar update_payload_call: Variant = null",
-            "\tif not returned:",
-            '\t\ttile_after = "emptyTile"',
-            "\t\tupdate_payload_called = true",
-            '\t\tupdate_payload_call = {"call": "build.updatePayload(unitHolder, buildingHolder);", "unitHolder": unit_holder, "buildingHolder": building_holder}',
-            '\treturn {"source_owner": "PortGame.source_build_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;", "tile_assign_expr": "build.tile = emptyTile;", "update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);", "unit_holder_present": unit_holder_present, "build_block_update_in_units": build_block_update_in_units, "unit_payload_update": unit_payload_update, "build_block_always_update_in_units": build_block_always_update_in_units, "unitHolder": unit_holder, "buildingHolder": building_holder, "returned": returned, "tile_after": tile_after, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}',
+            "\treturn SourceBuildPayloadLifecycleState.update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3345,9 +3508,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "destroyed"
     ):
         return [
-            "\tvar dead_after: bool = true",
-            "\tvar on_destroyed_called: bool = true",
-            '\treturn {"source_owner": "PortGame.source_build_payload_destroyed_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void destroyed(){", "dead_assign_expr": "build.dead = true;", "on_destroyed_expr": "build.onDestroyed();", "dead_after": dead_after, "on_destroyed_called": on_destroyed_called}',
+            "\treturn SourceBuildPayloadLifecycleState.destroyed_state()",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3356,7 +3517,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_block: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_build_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return build.block;", "content": build_block}',
+            "\treturn SourceBuildPayloadState.content_state(build_block)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3365,7 +3526,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_build_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return build.block.buildTime;", "buildTime": build_time}',
+            "\treturn SourceBuildPayloadState.build_time_state(build_time)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3374,7 +3535,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar requirements: Variant = _args[0] if _args.size() > 0 else []",
-            '\treturn {"source_owner": "PortGame.source_build_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return build.block.requirements;", "requirements": requirements}',
+            "\treturn SourceBuildPayloadState.requirements_state(requirements)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3383,7 +3544,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_x: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_build_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return build.x;", "x": build_x}',
+            "\treturn SourceBuildPayloadState.x_state(build_x)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3392,7 +3553,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_y: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            '\treturn {"source_owner": "PortGame.source_build_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return build.y;", "y": build_y}',
+            "\treturn SourceBuildPayloadState.y_state(build_y)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3401,9 +3562,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar build_block_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar size: float = build_block_size * source_tilesize",
-            '\treturn {"source_owner": "PortGame.source_build_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return build.block.size * tilesize;", "build_block_size": build_block_size, "source_tilesize": source_tilesize, "size": size}',
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+            "\treturn SourceBuildPayloadState.size_state(build_block_size, source_tilesize)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3411,7 +3571,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "remove"
     ):
         return [
-            '\treturn {"source_owner": "PortGame.source_build_payload_remove_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void remove(){", "remove_expr": "build.remove();", "remove_called": true}',
+            "\treturn SourceBuildPayloadLifecycleState.remove_state()",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3422,8 +3582,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar payload_block: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar build_block_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar build_version: int = int(_args[2] if _args.size() > 2 else 0)",
-            '\tvar write_calls: Array = [{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block}, {"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id}, {"call": "write.b(build.version());", "method": "write.b", "value": build_version}, {"call": "build.writeAll(write);", "method": "build.writeAll", "called": true}]',
-            '\treturn {"source_owner": "PortGame.source_build_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_block_write_expr": "write.b(payloadBlock);", "block_id_write_expr": "write.s(build.block.id);", "version_write_expr": "write.b(build.version());", "write_all_expr": "build.writeAll(write);", "payload_block": payload_block, "build_block_id": build_block_id, "build_version": build_version, "write_all_called": true, "write_calls": write_calls}',
+            "\treturn SourceBuildPayloadState.write_state(payload_block, build_block_id, build_version)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3434,8 +3593,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar x: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar y: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar rotation: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            '\tvar set_call: Dictionary = {"call": "build.set(x, y);", "x": x, "y": y}',
-            '\treturn {"source_owner": "PortGame.source_build_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "build.set(x, y);", "x": x, "y": y, "rotation": rotation, "set_called": true, "set_call": set_call}',
+            "\treturn SourceBuildPayloadState.set_state(x, y, rotation)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3446,11 +3604,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar build_x: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar build_y: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar build_block_size: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
             "\tvar alpha: float = float(_args[4] if _args.size() > 4 else 0.0)",
-            "\tvar shadow_size: float = build_block_size * source_tilesize * 1.85",
-            '\tvar shadow_call: Dictionary = {"call": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "x": build_x, "y": build_y, "size": shadow_size, "alpha": alpha}',
-            '\treturn {"source_owner": "PortGame.source_build_payload_draw_shadow_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "build_x": build_x, "build_y": build_y, "build_block_size": build_block_size, "source_tilesize": source_tilesize, "alpha": alpha, "shadow_size": shadow_size, "shadow_call": shadow_call}',
+            "\treturn SourceBuildPayloadDrawState.draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3461,15 +3617,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar prev_z: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar layer_flying_unit_low: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar transform_z: float = float(_args[2] if _args.size() > 2 else prev_z)",
-            "\tvar shadow_z: float = prev_z - 0.001",
-            "\tvar transform_threshold: float = layer_flying_unit_low + 1.0",
-            "\tvar transform_min_limit: float = layer_flying_unit_low - 1.0",
-            "\tvar transformed_z: float = transform_z",
-            "\tif transform_z < transform_threshold:",
-            "\t\tvar transform_clamped: float = clampf((transform_z - prev_z) / 100.0, -0.0009, 0.9)",
-            "\t\ttransformed_z = 0.0011 + min(transform_clamped + prev_z, transform_min_limit)",
-            '\tvar draw_calls: Array = [{"call": "float prevZ = Draw.z();", "value": prev_z}, {"call": "Draw.z(prevZ - 0.001f);", "z": shadow_z}, {"call": "drawShadow(1f);", "alpha": 1.0}, {"call": "Draw.z(prevZ);", "z": prev_z}, {"call": "Draw.zTransform(z ->", "input_z": transform_z, "result": transformed_z}, {"call": "build.tile = emptyTile;", "tile": "emptyTile"}, {"call": "build.payloadDraw();", "called": true}, {"call": "Draw.zTransform();", "called": true}, {"call": "Draw.z(prevZ);", "z": prev_z}]',
-            '\treturn {"source_owner": "PortGame.source_build_payload_draw_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void draw(){", "prev_z_expr": "float prevZ = Draw.z();", "shadow_z_expr": "Draw.z(prevZ - 0.001f);", "draw_shadow_expr": "drawShadow(1f);", "z_restore_expr": "Draw.z(prevZ);", "z_transform_expr": "Draw.zTransform(z ->", "z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)", "tile_assign_expr": "build.tile = emptyTile;", "payload_draw_expr": "build.payloadDraw();", "z_transform_reset_expr": "Draw.zTransform();", "final_z_restore_expr": "Draw.z(prevZ);", "prev_z": prev_z, "layer_flying_unit_low": layer_flying_unit_low, "transform_z": transform_z, "shadow_z": shadow_z, "transformed_z": transformed_z, "tile_after": "emptyTile", "payload_draw_called": true, "draw_calls": draw_calls}',
+            "\treturn SourceBuildPayloadDrawState.draw_state(prev_z, layer_flying_unit_low, transform_z)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
@@ -3478,7 +3626,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar full_icon: Variant = _args[0] if _args.size() > 0 else null",
-            '\treturn {"source_owner": "PortGame.source_build_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return block().fullIcon;", "full_icon": full_icon, "icon": full_icon}',
+            "\treturn SourceBuildPayloadDrawState.icon_state(full_icon)",
         ]
     if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
@@ -4176,7 +4324,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\tif init_bridge_mode == "clip_size":',
             "\t\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\t\tvar clip_size_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
-            "\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else 8.0)",
+            "\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
             "\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize",
             "\t\tvar clip_size_after: float = max(clip_size_before, size_tilesize)",
             '\t\treturn {"source_owner": "PortGame.source_block_init_clip_size_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "tilesize_comment": "/** size of tiles in units */", "tilesize_field_expr": "public static final int tilesize = 8;", "clip_size_before": clip_size_before, "size": clip_size_size_value, "source_tilesize": source_tilesize, "size_tilesize": size_tilesize, "clip_size_after": clip_size_after}',
@@ -4218,7 +4366,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\t\treturn {"source_owner": "PortGame.source_block_init_accepts_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){", "accepts_items_assign_expr": "acceptsItems = true;", "block_group": block_group, "category": category_value, "accepts_items_before": accepts_items_before, "accepts_items_gate": accepts_items_gate, "accepts_items_after": accepts_items_after}',
             '\tif init_bridge_mode == "offset":',
             "\t\tvar offset_size_value: int = int(_args[0] if _args.size() > 0 else 1)",
-            "\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
+            "\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
             "\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0",
             "\t\tvar size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)",
             '\t\treturn {"source_owner": "PortGame.source_block_init_offset_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;", "size_offset_expr": "sizeOffset = -((size - 1) / 2);", "tilesize_field_expr": "public static final int tilesize = 8;", "size": offset_size_value, "source_tilesize": source_tilesize, "offset_after": offset_after, "size_offset_after": size_offset_after}',
@@ -4371,19 +4519,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar shoot_y: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar shoot_y_is_negative_infinity: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\tvar size: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar elevation: float = float(_args[4] if _args.size() > 4 else 0.0)",
-            "\tvar recoil_time: float = float(_args[5] if _args.size() > 5 else 0.0)",
-            "\tvar reload: float = float(_args[6] if _args.size() > 6 else 0.0)",
-            "\tvar cooldown_time: float = float(_args[7] if _args.size() > 7 else 0.0)",
-            "\tvar new_target_interval: float = float(_args[8] if _args.size() > 8 else 0.0)",
-            "\tvar target_interval: float = float(_args[9] if _args.size() > 9 else 0.0)",
-            "\tvar target_ground: bool = bool(_args[10] if _args.size() > 10 else true)",
-            "\tvar disable_overlap_check: bool = bool(_args[11] if _args.size() > 11 else false)",
-            "\tvar range_value: float = float(_args[12] if _args.size() > 12 else 0.0)",
-            "\tvar tracking_range: float = float(_args[13] if _args.size() > 13 else 0.0)",
+            "\tvar shoot_y_is_negative_infinity: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT)",
+            "\tvar size: float = float(_args[2] if _args.size() > 2 else SOURCE_BLOCK_SIZE_DEFAULT)",
+            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
+            "\tvar elevation: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_ELEVATION_DEFAULT)",
+            "\tvar recoil_time: float = float(_args[5] if _args.size() > 5 else SOURCE_TURRET_RECOIL_TIME_DEFAULT)",
+            "\tvar reload: float = float(_args[6] if _args.size() > 6 else SOURCE_TURRET_RELOAD_DEFAULT)",
+            "\tvar cooldown_time: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_COOLDOWN_TIME_DEFAULT)",
+            "\tvar new_target_interval: float = float(_args[8] if _args.size() > 8 else SOURCE_TURRET_NEW_TARGET_INTERVAL_DEFAULT)",
+            "\tvar target_interval: float = float(_args[9] if _args.size() > 9 else SOURCE_TURRET_TARGET_INTERVAL_DEFAULT)",
+            "\tvar target_ground: bool = bool(_args[10] if _args.size() > 10 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)",
+            "\tvar disable_overlap_check: bool = bool(_args[11] if _args.size() > 11 else SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT)",
+            "\tvar range_value: float = float(_args[12] if _args.size() > 12 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar tracking_range: float = float(_args[13] if _args.size() > 13 else SOURCE_TURRET_TRACKING_RANGE_DEFAULT)",
             "\tvar shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y",
             "\tvar elevation_after: float = size / 2.0 if elevation < 0.0 else elevation",
             "\tvar recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time",
@@ -4438,12 +4586,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "setStats"
     ):
         return [
-            "\tvar target_air: bool = bool(_args[0] if _args.size() > 0 else true)",
-            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar target_air: bool = bool(_args[0] if _args.size() > 0 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT)",
+            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT)",
             "\tvar damage: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
             "\tvar targets_ground_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsGround, targetGround);\", \"stat\": \"Stat.targetsGround\", \"value\": target_ground}",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar damage_per_second: float = damage * source_tick_rate",
             "\tvar damage_stat_added: bool = damage > 0.0",
             "\tvar damage_stat_call: Dictionary = {}",
@@ -4452,13 +4600,26 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"targets_air_stat_expr\": \"stats.add(Stat.targetsAir, targetAir);\", \"targets_ground_stat_expr\": \"stats.add(Stat.targetsGround, targetGround);\", \"damage_stat_expr\": \"if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);\", \"target_air\": target_air, \"target_ground\": target_ground, \"damage\": damage, \"super_set_stats_called\": true, \"targets_air_stat_call\": targets_air_stat_call, \"targets_ground_stat_call\": targets_ground_stat_call, \"damage_per_second\": damage_per_second, \"damage_stat_added\": damage_stat_added, \"damage_stat_call\": damage_stat_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/PointDefenseTurret.java"
+        and type_entry.get("name") == "PointDefenseTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar bullet_damage: float = float(_args[0] if _args.size() > 0 else SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT)",
+            "\tvar reload_value: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_RELOAD_DEFAULT)",
+            "\tvar reload_stat_rate: float = SOURCE_TICK_RATE / reload_value",
+            "\tvar reload_stat_call: Dictionary = {\"call\": \"stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);\", \"stat\": \"Stat.reload\", \"value\": reload_stat_rate, \"unit\": \"StatUnit.perSecond\", \"denominator\": reload_value}",
+            "\tvar damage_stat_call: Dictionary = {\"call\": \"stats.add(Stat.damage, bulletDamage, StatUnit.none);\", \"stat\": \"Stat.damage\", \"value\": bullet_damage, \"unit\": \"StatUnit.none\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_point_defense_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"reload_stat_expr\": \"stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);\", \"damage_stat_expr\": \"stats.add(Stat.damage, bulletDamage, StatUnit.none);\", \"bullet_damage\": bullet_damage, \"reload_value\": reload_value, \"reload_stat_rate\": reload_stat_rate, \"super_set_stats_called\": true, \"reload_stat_call\": reload_stat_call, \"damage_stat_call\": damage_stat_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
         and type_entry.get("name") == "TractorBeamTurret"
         and method.get("name") == "init"
     ):
         return [
             "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
             "\tvar clip_radius: float = range_value + source_tilesize",
             "\tvar update_clip_radius_call: Dictionary = {\"call\": \"updateClipRadius(range + tilesize);\", \"radius\": clip_radius}",
             "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_init_state\", \"method\": \"public void init(){\", \"override_expr\": \"@Override\", \"super_init_expr\": \"super.init();\", \"update_clip_radius_expr\": \"updateClipRadius(range + tilesize);\", \"range\": range_value, \"tilesize\": source_tilesize, \"clip_radius\": clip_radius, \"super_init_called\": true, \"update_clip_radius_called\": true, \"update_clip_radius_call\": update_clip_radius_call}",
@@ -4501,7 +4662,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
             "\tvar valid: bool = bool(_args[3] if _args.size() > 3 else false)",
             "\tvar draw_min_range: bool = bool(_args[4] if _args.size() > 4 else false)",
-            "\tvar source_tilesize: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)",
             "\tvar block_offset: float = float(_args[6] if _args.size() > 6 else 0.0)",
             "\tvar min_range: float = float(_args[7] if _args.size() > 7 else 0.0)",
             "\tvar dash_circle_x: float = float(tile_x) * source_tilesize + block_offset",
@@ -4522,10 +4683,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar tile_y: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
             "\tvar valid: bool = bool(_args[3] if _args.size() > 3 else false)",
-            "\tvar source_tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)",
             "\tvar block_offset: float = float(_args[5] if _args.size() > 5 else 0.0)",
-            "\tvar range_value: float = float(_args[6] if _args.size() > 6 else 0.0)",
-            "\tvar fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)",
+            "\tvar range_value: float = float(_args[6] if _args.size() > 6 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT)",
             "\tvar rules_fog: bool = bool(_args[8] if _args.size() > 8 else false)",
             "\tvar dash_circle_x: float = float(tile_x) * source_tilesize + block_offset",
             "\tvar dash_circle_y: float = float(tile_y) * source_tilesize + block_offset",
@@ -4542,13 +4703,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "setStats"
     ):
         return [
-            "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 80.0)",
-            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
-            "\tvar activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar range_value: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)",
+            "\tvar activation_time: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_ACTIVATION_TIME_DEFAULT)",
+            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar shoot_range_blocks: float = range_value / source_tilesize",
             "\tvar shoot_range_stat_call: Dictionary = {\"call\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"stat\": \"Stat.shootRange\", \"value\": shoot_range_blocks, \"unit\": \"StatUnit.blocks\"}",
             "\tvar activation_time_stat_called: bool = activation_time > 0.0",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar activation_time_stat_call: Dictionary = {}",
             "\tif activation_time_stat_called:",
             "\t\tactivation_time_stat_call = {\"call\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"stat\": \"Stat.activationTime\", \"value\": activation_time / source_tick_rate, \"unit\": \"StatUnit.seconds\"}",
@@ -4560,9 +4721,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "setBars"
     ):
         return [
-            "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_ACTIVATION_TIME_DEFAULT)",
             "\tvar entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)",
             "\tvar activation_bar_added: bool = activation_time > 0.0",
             "\tvar activation_timer_positive: bool = entity_activation_timer > 0.0",
             "\tvar activation_bar_fraction: float = 0.0",
@@ -4588,12 +4749,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar coolant_present: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar found_consume_coolant: bool = bool(_args[1] if _args.size() > 1 else false)",
-            "\tvar disable_overlap_check: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar disable_overlap_check: bool = bool(_args[2] if _args.size() > 2 else SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT)",
             "\tvar place_overlap_range: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar range_value: float = float(_args[4] if _args.size() > 4 else 80.0)",
-            "\tvar place_overlap_margin: float = float(_args[5] if _args.size() > 5 else 56.0)",
-            "\tvar source_tilesize: float = float(_args[6] if _args.size() > 6 else 8.0)",
-            "\tvar fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)",
+            "\tvar range_value: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar place_overlap_margin: float = float(_args[5] if _args.size() > 5 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)",
+            "\tvar source_tilesize: float = float(_args[6] if _args.size() > 6 else SOURCE_TILESIZE)",
+            "\tvar fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT)",
             "\tvar fog_radius: int = int(_args[8] if _args.size() > 8 else 0)",
             "\tvar find_consumer_called: bool = not coolant_present",
             "\tvar coolant_present_after: bool = coolant_present or found_consume_coolant",
@@ -4636,19 +4797,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "setStats"
     ):
         return [
-            "\tvar inaccuracy_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar reload_value: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar reload_while_charging: bool = bool(_args[2] if _args.size() > 2 else true)",
-            "\tvar shoot_first_shot_delay: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar shoot_shots: float = float(_args[4] if _args.size() > 4 else 1.0)",
-            "\tvar target_air: bool = bool(_args[5] if _args.size() > 5 else true)",
-            "\tvar target_ground: bool = bool(_args[6] if _args.size() > 6 else true)",
-            "\tvar ammo_per_shot: int = int(_args[7] if _args.size() > 7 else 1)",
-            "\tvar heat_requirement: float = float(_args[8] if _args.size() > 8 else -1.0)",
-            "\tvar max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else 3.0)",
+            "\tvar inaccuracy_value: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_INACCURACY_DEFAULT)",
+            "\tvar reload_value: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_RELOAD_DEFAULT)",
+            "\tvar reload_while_charging: bool = bool(_args[2] if _args.size() > 2 else SOURCE_TURRET_RELOAD_WHILE_CHARGING_DEFAULT)",
+            "\tvar shoot_first_shot_delay: float = float(_args[3] if _args.size() > 3 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)",
+            "\tvar shoot_shots: float = float(_args[4] if _args.size() > 4 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)",
+            "\tvar target_air: bool = bool(_args[5] if _args.size() > 5 else SOURCE_TURRET_TARGET_AIR_DEFAULT)",
+            "\tvar target_ground: bool = bool(_args[6] if _args.size() > 6 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)",
+            "\tvar ammo_per_shot: int = int(_args[7] if _args.size() > 7 else SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT)",
+            "\tvar heat_requirement: float = float(_args[8] if _args.size() > 8 else SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT)",
+            "\tvar max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT)",
             "\tvar reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)",
-            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
-            "\tvar reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots",
+            "\tvar reload_stat_rate: float = SOURCE_TICK_RATE / reload_stat_denominator * shoot_shots",
             "\tvar inaccuracy_stat_call: Dictionary = {\"call\": \"stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);\", \"stat\": \"Stat.inaccuracy\", \"value\": int(inaccuracy_value), \"unit\": \"StatUnit.degrees\"}",
             "\tvar reload_stat_call: Dictionary = {\"call\": \"stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);\", \"stat\": \"Stat.reload\", \"value\": reload_stat_rate, \"unit\": \"StatUnit.perSecond\", \"denominator\": reload_stat_denominator}",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
@@ -4673,9 +4833,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "setBars"
     ):
         return [
-            "\tvar heat_requirement: float = float(_args[0] if _args.size() > 0 else -1.0)",
+            "\tvar heat_requirement: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT)",
             "\tvar entity_heat_req: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else 3.0)",
+            "\tvar max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT)",
             "\tvar heat_bar_added: bool = heat_requirement > 0.0",
             "\tvar heat_bar_percent: int = 0",
             "\tvar heat_bar_fraction: float = 0.0",
@@ -4798,10 +4958,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
-            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)",
             "\tvar current_place_overlap_range: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar range_value: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar place_overlap_margin: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar range_value: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar place_overlap_margin: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)",
             "\tvar liquid_consumed: float = float(_args[5] if _args.size() > 5 else 0.0)",
             "\tvar current_liquid: Variant = _args[6] if _args.size() > 6 else null",
             "\tvar current_ammo_multiplier: Variant = _args[7] if _args.size() > 7 else null",
@@ -4840,10 +5000,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
-            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)",
             "\tvar current_place_overlap_range: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar range_value: float = float(_args[3] if _args.size() > 3 else 0.0)",
-            "\tvar place_overlap_margin: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar range_value: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar place_overlap_margin: float = float(_args[4] if _args.size() > 4 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)",
             "\tvar consume_call: Dictionary = {\"call\": \"consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){...});\", \"filter_expr\": \"i -> ammoTypes.containsKey(i)\", \"amount\": 1.0, \"update_override_noop\": true, \"display_override_noop\": true}",
             "\tvar overlap_updates: Array = []",
             "\tif target_ground:",
@@ -4902,8 +5062,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar ammo_types: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar name_value: String = str(_args[1] if _args.size() > 1 else \"\")",
-            "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar ammo_per_shot: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)",
+            "\tvar ammo_per_shot: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT)",
             "\tvar ammo_capacity_divisor: float = maxf(ammo_per_shot, 1.0)",
             "\tvar ammo_capacity: float = max_ammo / ammo_capacity_divisor",
             "\tvar stats_item_capacity_remove_call: Dictionary = {\"call\": \"stats.remove(Stat.itemCapacity);\", \"stat\": \"Stat.itemCapacity\"}",
@@ -4919,7 +5079,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)",
             "\tvar ammo_bar_fraction: float = total_ammo / max_ammo",
             "\tvar bar_call: Dictionary = {\"call\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(...));\", \"name\": \"ammo\", \"bar_text\": \"stat.ammo\", \"color\": \"Pal.ammo\", \"fraction\": ammo_bar_fraction}",
             "\treturn {\"source_owner\": \"PortGame.source_item_turret_set_bars_state\", \"method\": \"public void setBars(){\", \"override_expr\": \"@Override\", \"super_set_bars_expr\": \"super.setBars();\", \"add_bar_expr\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(\\\"stat.ammo\\\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));\", \"bar_fraction_expr\": \"() -> (float)entity.totalAmmo / maxAmmo\", \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_bar_fraction\": ammo_bar_fraction, \"super_set_bars_called\": true, \"bar_added\": true, \"bar_call\": bar_call}",
@@ -4930,10 +5090,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "init"
     ):
         return [
-            "\tvar target_ground: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar target_ground: bool = bool(_args[0] if _args.size() > 0 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)",
             "\tvar place_overlap_range: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar range_value: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar range_value: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_RANGE_DEFAULT)",
+            "\tvar place_overlap_margin: float = float(_args[3] if _args.size() > 3 else SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT)",
             "\tvar ammo_entries: Array = _args[4] if _args.size() > 4 else []",
             "\tvar place_overlap_range_after: float = place_overlap_range",
             "\tvar place_overlap_updates: Array = []",
@@ -5246,7 +5406,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar plan_drawy: float = float(_args[14] if _args.size() > 14 else 0.0)",
             "\tvar build_alpha: float = float(_args[15] if _args.size() > 15 else 0.0)",
             "\tvar tile_build_is_construct_build: bool = bool(_args[16] if _args.size() > 16 else false)",
-            "\tvar source_tilesize: float = float(_args[17] if _args.size() > 17 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[17] if _args.size() > 17 else SOURCE_TILESIZE)",
             "\tvar mathf_absin_time_2_2_1_1: float = float(_args[18] if _args.size() > 18 else 0.0)",
             "\tvar rotation_value: float = float(_args[19] if _args.size() > 19 else 0.0)",
             "\tvar inactive_without_last_active: bool = not active and last_active == null",
@@ -5658,7 +5818,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar world_x := float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar world_y := float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)",
+            "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)",
             "\tvar source_x := world_x / source_tilesize",
             "\tvar source_y := world_y / source_tilesize",
             "\tvar health := float(_args[3] if _args.size() > 3 else 0.0)",
@@ -5685,7 +5845,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)",
             "\tvar last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)",
             "\tvar last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)",
-            "\tvar source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar source_tick_rate := float(_args[37] if _args.size() > 37 else SOURCE_TICK_RATE)",
             "\tvar power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0",
             "\tvar power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0",
             "\tvar power_net_stored := last_power_stored if has_power_module else 0.0",
@@ -5996,6 +6156,55 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "writeBase"
+    ):
+        return [
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar write_timescale := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT",
+            "\tvar write_base_timescale := {\"method\": \"public final void writeBase(Writes write){\", \"gate\": \"if(timeScale != 1f){\", \"write_time_scale_call\": \"write.f(timeScale);\", \"write_duration_call\": \"write.f(timeScaleDuration);\", \"current_time_scale\": current_time_scale, \"current_time_scale_duration\": current_time_scale_duration, \"write_timescale\": write_timescale}",
+            "\tif write_timescale:",
+            "\t\twrite_base_timescale.merge({\"wrote_time_scale\": current_time_scale, \"wrote_time_scale_duration\": current_time_scale_duration})",
+            "\telse:",
+            "\t\twrite_base_timescale.merge({\"wrote_time_scale\": null, \"wrote_time_scale_duration\": null})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_write_base_timescale_state\", \"write_base_timescale_source_owner\": \"PortGame.source_building_write_base_timescale_state\", \"write_base_timescale\": write_base_timescale}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "readBase"
+    ):
+        return [
+            "\tvar current_module_bits := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar read_time_scale := float(_args[1] if _args.size() > 1 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar read_time_scale_duration := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar has_time_scale_module := (current_module_bits & (1 << 4)) != 0",
+            "\tvar read_base_timescale := {\"method\": \"public final void readBase(Reads read){\", \"module_bits_expr\": \"moduleBits = moduleBitmask();\", \"time_scale_module_expr\": \"if((moduleBits & (1 << 4)) != 0){\", \"read_time_scale_call\": \"timeScale = read.f();\", \"read_time_scale_duration_call\": \"timeScaleDuration = read.f();\", \"current_module_bits\": current_module_bits, \"read_time_scale\": read_time_scale, \"read_time_scale_duration\": read_time_scale_duration, \"has_time_scale_module\": has_time_scale_module}",
+            "\tif has_time_scale_module:",
+            "\t\tread_base_timescale.merge({\"time_scale\": read_time_scale, \"time_scale_duration\": read_time_scale_duration, \"read_called\": true})",
+            "\telse:",
+            "\t\tread_base_timescale.merge({\"time_scale\": SOURCE_BLOCK_TIME_SCALE_DEFAULT, \"time_scale_duration\": 0.0, \"read_called\": false})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_read_base_timescale_state\", \"read_base_timescale_source_owner\": \"PortGame.source_building_read_base_timescale_state\", \"read_base_timescale\": read_base_timescale}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "moduleBitmask"
+    ):
+        return [
+            "\tvar has_items_module := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar has_power_module := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar has_liquids_module := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar current_time_scale := float(_args[3] if _args.size() > 3 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
+            "\tvar has_valid_last_disabler := bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar time_scale_changed := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT",
+            "\tvar module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)",
+            "\tvar module_bitmask := {\"method\": \"public int moduleBitmask(){\", \"items_gate\": \"(items != null ? 1 : 0)\", \"power_gate\": \"(power != null ? 1 << 1 : 0)\", \"liquids_gate\": \"(liquids != null ? 1 << 2 : 0)\", \"base_module_bit\": \"1 << 3\", \"time_scale_bit_expr\": \"(timeScale != 1f ? 1 << 4 : 0)\", \"last_disabler_gate\": \"(lastDisabler != null && lastDisabler.isValid() ? 1 << 5 : 0)\", \"has_items_module\": has_items_module, \"has_power_module\": has_power_module, \"has_liquids_module\": has_liquids_module, \"current_time_scale\": current_time_scale, \"has_valid_last_disabler\": has_valid_last_disabler, \"time_scale_changed\": time_scale_changed, \"module_bits\": module_bits}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_module_bitmask_state\", \"module_bitmask_source_owner\": \"PortGame.source_building_module_bitmask_state\", \"module_bitmask\": module_bitmask}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "checkAllowUpdate"
     ):
         return [
@@ -6014,13 +6223,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "update"
     ):
         return [
-            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)",
+            "\tvar current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)",
             "\tvar current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar time_delta := float(_args[2] if _args.size() > 2 else 0.0)",
             "\tvar next_duration := current_time_scale_duration - time_delta",
             "\tvar update_timescale_decay := {\"field\": \"private transient float timeScale = 1f, timeScaleDuration;\", \"method\": \"public void update(){\", \"decay_gate\": \"if((timeScaleDuration -= Time.delta) <= 0f){\", \"reset\": \"timeScale = 1f;\", \"current_time_scale\": current_time_scale, \"current_time_scale_duration\": current_time_scale_duration, \"time_delta\": time_delta}",
             "\tif next_duration <= 0.0:",
-            "\t\tupdate_timescale_decay.merge({\"time_scale\": 1.0, \"time_scale_duration\": next_duration})",
+            "\t\tupdate_timescale_decay.merge({\"time_scale\": SOURCE_BLOCK_TIME_SCALE_DEFAULT, \"time_scale_duration\": next_duration})",
             "\telse:",
             "\t\tupdate_timescale_decay.merge({\"time_scale\": current_time_scale, \"time_scale_duration\": next_duration})",
             "\tvar headless_mode := bool(_args[3] if _args.size() > 3 else false)",
@@ -6037,7 +6246,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\tupdate_ambient_sound_gate.merge({\"loop_called\": true, \"sound\": ambient_sound_value, \"volume\": block_ambient_sound_volume * ambient_volume_value})",
             "\tvar update_consumption_call := {\"method\": \"public void update(){\", \"call\": \"updateConsumption();\", \"update_consumption_called\": true}",
             "\tvar enabled_state := bool(_args[9] if _args.size() > 9 else false)",
-            "\tvar block_no_update_disabled := bool(_args[10] if _args.size() > 10 else false)",
+            "\tvar block_no_update_disabled := bool(_args[10] if _args.size() > 10 else SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT)",
             "\tvar update_tile_called := enabled_state or not block_no_update_disabled",
             "\tvar update_tile_gate := {\"method\": \"public void update(){\", \"gate\": \"if(enabled || !block.noUpdateDisabled){\", \"update_tile_call\": \"updateTile();\", \"enabled_state\": enabled_state, \"block_no_update_disabled\": block_no_update_disabled, \"update_tile_called\": update_tile_called}",
             "\treturn {\"source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay_source_owner\": \"PortGame.source_building_update_timescale_decay_state\", \"update_timescale_decay\": update_timescale_decay, \"update_ambient_sound_gate_source_owner\": \"PortGame.source_building_update_ambient_sound_gate_state\", \"update_ambient_sound_gate\": update_ambient_sound_gate, \"update_consumption_call_source_owner\": \"PortGame.source_building_update_consumption_call_state\", \"update_consumption_call\": update_consumption_call, \"update_tile_gate_source_owner\": \"PortGame.source_building_update_tile_gate_state\", \"update_tile_gate\": update_tile_gate}",
@@ -6071,8 +6280,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid: Variant = _args[0] if _args.size() > 0 else null",
             "\tvar amount := float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_block_size := int(_args[2] if _args.size() > 2 else 0)",
-            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar source_block_size := int(_args[2] if _args.size() > 2 else SOURCE_BLOCK_SIZE_DEFAULT)",
+            "\tvar source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)",
             "\tvar splash := clampf(amount / 4.0, 0.0, 10.0)",
             "\tvar deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))",
             "\tvar delays: Array[float] = []",
@@ -6090,7 +6299,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar current_amount := float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar current_incinerable := bool(_args[2] if _args.size() > 2 else false)",
             "\tvar deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)",
-            "\tvar source_block_size := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar source_block_size := int(_args[4] if _args.size() > 4 else SOURCE_BLOCK_SIZE_DEFAULT)",
             "\tvar can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid",
             "\tvar deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid",
             "\tvar per_cell := 0.0",
@@ -6140,8 +6349,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar source_y := float(_args[12] if _args.size() > 12 else 0.0)",
             "\tvar flammability_scale := float(_args[13] if _args.size() > 13 else 1.0)",
             "\tvar explosiveness_scale := float(_args[14] if _args.size() > 14 else 1.0)",
-            "\tvar source_tilesize := float(_args[15] if _args.size() > 15 else 0.0)",
-            "\tvar source_block_size := int(_args[16] if _args.size() > 16 else 0)",
+            "\tvar source_tilesize := float(_args[15] if _args.size() > 15 else SOURCE_TILESIZE)",
+            "\tvar source_block_size := int(_args[16] if _args.size() > 16 else SOURCE_BLOCK_SIZE_DEFAULT)",
             "\tvar destroy_effect := str(_args[17] if _args.size() > 17 else \"\")",
             "\tvar base_shake := float(_args[18] if _args.size() > 18 else 0.0)",
             "\tvar dynamic_explosion_flammability := flammability * flammability_scale",
@@ -6172,237 +6381,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
-    needs_time_defaults = (
-        (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
-            and type_entry.get("name") == "ConsumeItemEfficiency"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
-            and type_entry.get("name") == "ConsumeLiquid"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
-            and type_entry.get("name") == "ConsumeLiquidFilter"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
-            and type_entry.get("name") == "ConsumeLiquidFlammable"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
-            and type_entry.get("name") == "ConsumeLiquids"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
-            and type_entry.get("name") == "ConsumePower"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
-            and type_entry.get("name") == "ConsumePowerDynamic"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
-            and type_entry.get("name") == "TractorBeamTurret"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
-            and type_entry.get("name") == "Turret"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/power/ThermalGenerator.java"
-            and type_entry.get("name") == "ThermalGenerator"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
-            and type_entry.get("name") == "BaseTurret"
-        )
-        or (
-            java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
-            and type_entry.get("name") == "BuildingComp"
-        )
-    )
-    needs_ui_defaults = (
-        (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
-            and type_entry.get("name") == "ConsumeItems"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
-            and type_entry.get("name") == "ConsumeItemFilter"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
-            and type_entry.get("name") == "ConsumeLiquid"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
-            and type_entry.get("name") == "ConsumeLiquidFilter"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
-            and type_entry.get("name") == "ConsumeLiquidsDynamic"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
-            and type_entry.get("name") == "ConsumeItemDynamic"
-        )
-    )
-    if needs_time_defaults or needs_ui_defaults:
-        lines = [""]
-        if needs_time_defaults:
-            lines.extend([
-                'const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")',
-                'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
-            ])
-        if needs_ui_defaults:
-            lines.extend([
-                'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
-                "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
-                "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
-            ])
-        return lines
-    if not (
-        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
-        and type_entry.get("name") == "BuildingComp"
-    ):
-        return []
-    return [
-        "",
-        "const SOURCE_INT64_MIN := -9223372036854775807 - 1",
-        "const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001",
-        "const SOURCE_UINT16_MASK := 65535",
-        "const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]",
-        "const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]",
-        "const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]",
-        "",
-        "func _source_arc_is_power_of_two(value: int) -> bool:",
-        "\treturn value != 0 and (value & (value - 1)) == 0",
-        "",
-        "func _source_words_from_nonnegative(value: int) -> Array:",
-        "\tvar remaining: int = value",
-        "\tvar words: Array = []",
-        "\tfor _index in 4:",
-        "\t\twords.append(remaining & SOURCE_UINT16_MASK)",
-        "\t\tremaining = remaining >> 16",
-        "\treturn words",
-        "",
-        "func _source_words_clone(words: Array) -> Array:",
-        "\treturn [int(words[0]), int(words[1]), int(words[2]), int(words[3])]",
-        "",
-        "func _source_words_xor(left: Array, right: Array) -> Array:",
-        "\treturn [int(left[0]) ^ int(right[0]), int(left[1]) ^ int(right[1]), int(left[2]) ^ int(right[2]), int(left[3]) ^ int(right[3])]",
-        "",
-        "func _source_words_add(left: Array, right: Array) -> Array:",
-        "\tvar result: Array = [0, 0, 0, 0]",
-        "\tvar carry := 0",
-        "\tfor index in 4:",
-        "\t\tvar sum_value: int = int(left[index]) + int(right[index]) + carry",
-        "\t\tresult[index] = sum_value & SOURCE_UINT16_MASK",
-        "\t\tcarry = sum_value >> 16",
-        "\treturn result",
-        "",
-        "func _source_words_shift_left(words: Array, bits: int) -> Array:",
-        "\tvar result: Array = [0, 0, 0, 0]",
-        "\tvar word_shift: int = bits >> 4",
-        "\tvar bit_shift: int = bits % 16",
-        "\tfor index in 4:",
-        "\t\tvar source_index: int = index - word_shift",
-        "\t\tvar value := 0",
-        "\t\tif source_index >= 0:",
-        "\t\t\tvalue = int(words[source_index]) << bit_shift",
-        "\t\t\tif bit_shift > 0 and source_index > 0:",
-        "\t\t\t\tvalue |= int(words[source_index - 1]) >> (16 - bit_shift)",
-        "\t\tresult[index] = value & SOURCE_UINT16_MASK",
-        "\treturn result",
-        "",
-        "func _source_words_unsigned_shift_right(words: Array, bits: int) -> Array:",
-        "\tvar result: Array = [0, 0, 0, 0]",
-        "\tvar word_shift: int = bits >> 4",
-        "\tvar bit_shift: int = bits % 16",
-        "\tfor index in 4:",
-        "\t\tvar source_index: int = index + word_shift",
-        "\t\tvar value := 0",
-        "\t\tif source_index < 4:",
-        "\t\t\tvalue = int(words[source_index]) >> bit_shift",
-        "\t\t\tif bit_shift > 0 and source_index < 3:",
-        "\t\t\t\tvalue |= int(words[source_index + 1]) << (16 - bit_shift)",
-        "\t\tresult[index] = value & SOURCE_UINT16_MASK",
-        "\treturn result",
-        "",
-        "func _source_words_mul(left: Array, right: Array) -> Array:",
-        "\tvar accum: Array = [0, 0, 0, 0]",
-        "\tfor left_index in 4:",
-        "\t\tfor right_index in 4:",
-        "\t\t\tvar target_index: int = left_index + right_index",
-        "\t\t\tif target_index < 4:",
-        "\t\t\t\taccum[target_index] = int(accum[target_index]) + int(left[left_index]) * int(right[right_index])",
-        "\tvar result: Array = [0, 0, 0, 0]",
-        "\tvar carry := 0",
-        "\tfor index in 4:",
-        "\t\tvar total: int = int(accum[index]) + carry",
-        "\t\tresult[index] = total & SOURCE_UINT16_MASK",
-        "\t\tcarry = total >> 16",
-        "\treturn result",
-        "",
-        "func _source_words_to_nonnegative(words: Array) -> int:",
-        "\treturn int(words[0]) + (int(words[1]) << 16) + (int(words[2]) << 32) + (int(words[3]) << 48)",
-        "",
-        "func _source_words_to_signed(words: Array) -> int:",
-        "\tif (int(words[3]) & 0x8000) == 0:",
-        "\t\treturn _source_words_to_nonnegative(words)",
-        "\tvar inverted: Array = [int(words[0]) ^ SOURCE_UINT16_MASK, int(words[1]) ^ SOURCE_UINT16_MASK, int(words[2]) ^ SOURCE_UINT16_MASK, int(words[3]) ^ SOURCE_UINT16_MASK]",
-        "\tvar magnitude_words: Array = _source_words_add(inverted, [1, 0, 0, 0])",
-        "\tif int(magnitude_words[3]) == 0x8000 and int(magnitude_words[2]) == 0 and int(magnitude_words[1]) == 0 and int(magnitude_words[0]) == 0:",
-        "\t\treturn SOURCE_INT64_MIN",
-        "\treturn -_source_words_to_nonnegative(magnitude_words)",
-        "",
-        "func _source_arc_rand_murmur_hash3_words(words: Array) -> Array:",
-        "\tvar x: Array = _source_words_clone(words)",
-        "\tx = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))",
-        "\tx = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST1_WORDS)",
-        "\tx = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))",
-        "\tx = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST2_WORDS)",
-        "\tx = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))",
-        "\treturn x",
-        "",
-        "func _source_arc_rand_set_seed(source_seed: int) -> Dictionary:",
-        "\tvar seed_words: Array = SOURCE_LONG_MIN_WORDS.duplicate() if source_seed == 0 else _source_words_from_nonnegative(source_seed)",
-        "\tvar seed0: Array = _source_arc_rand_murmur_hash3_words(seed_words)",
-        "\treturn {\"seed0\": seed0, \"seed1\": _source_arc_rand_murmur_hash3_words(seed0)}",
-        "",
-        "func _source_arc_rand_next_long_words(rand_state: Dictionary) -> Array:",
-        "\tvar s1: Array = (rand_state[\"seed0\"] as Array).duplicate()",
-        "\tvar s0: Array = (rand_state[\"seed1\"] as Array).duplicate()",
-        "\trand_state[\"seed0\"] = s0",
-        "\ts1 = _source_words_xor(s1, _source_words_shift_left(s1, 23))",
-        "\tvar seed1: Array = _source_words_xor(_source_words_xor(_source_words_xor(s1, s0), _source_words_unsigned_shift_right(s1, 17)), _source_words_unsigned_shift_right(s0, 26))",
-        "\trand_state[\"seed1\"] = seed1",
-        "\treturn _source_words_add(seed1, s0)",
-        "",
-        "func _source_arc_rand_next_int_unbounded(rand_state: Dictionary) -> int:",
-        "\treturn _source_words_to_signed(_source_arc_rand_next_long_words(rand_state))",
-        "",
-        "func _source_arc_rand_next_long_bound(rand_state: Dictionary, bound: int) -> int:",
-        "\tif bound <= 0:",
-        "\t\tpush_error(\"Rand.nextLong bound must be positive\")",
-        "\t\treturn 0",
-        "\twhile true:",
-        "\t\tvar bits: int = _source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 1))",
-        "\t\tvar value: int = bits % bound",
-        "\t\tif bits - value + (bound - 1) >= 0:",
-        "\t\t\treturn value",
-        "\treturn 0",
-        "",
-        "func _source_arc_rand_next_int_bound(rand_state: Dictionary, bound: int) -> int:",
-        "\treturn _source_arc_rand_next_long_bound(rand_state, bound)",
-        "",
-        "func _source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:",
-        "\tvar rand_state := _source_arc_rand_set_seed(source_seed)",
-        "\tif _source_arc_is_power_of_two(max_value):",
-        "\t\t_source_arc_rand_next_int_unbounded(rand_state)",
-        "\treturn _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value",
-    ]
+    return []
 
 def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines = []
@@ -6430,15 +6409,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     f"func java_constructor_BuildPayload_{index}(_args: Array = []) -> Variant:",
                     "\tvar block: Variant = _args[0] if _args.size() > 0 else null",
                     "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
-                    '\tvar create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}',
-                    '\treturn {"source_owner": "PortGame.source_build_payload_constructor_block_team_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "constructor": "public BuildPayload(Block block, Team team){", "build_assign_expr": "this.build = block.newBuilding().create(block, team);", "tile_assign_expr": "this.build.tile = emptyTile;", "block": block, "team": team, "create_call": create_call, "tile_after": "emptyTile"}',
+                    "\treturn SourceBuildPayloadState.constructor_block_team_state(block, team)",
                 ])
             elif len(params) == 1:
                 lines.extend([
                     "",
                     f"func java_constructor_BuildPayload_{index}(_args: Array = []) -> Variant:",
                     "\tvar build: Variant = _args[0] if _args.size() > 0 else null",
-                    '\treturn {"source_owner": "PortGame.source_build_payload_constructor_build_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "constructor": "public BuildPayload(Building build){", "build_assign_expr": "this.build = build;", "build": build, "build_after": build}',
+                    "\treturn SourceBuildPayloadState.constructor_build_state(build)",
                 ])
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
@@ -6499,7 +6477,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemFilter_{index}(_args: Array = []) -> Variant:",
-                    '\tvar filter_after: String = "i -> false"',
+                    "\tvar filter_after: String = SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR",
                     '\treturn {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(){", "filter_field": "public Boolf<Item> filter = i -> false;", "filter_after": filter_after}',
                 ])
     if (
@@ -6521,10 +6499,10 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemFlammable_{index}(_args: Array = []) -> Variant:",
-                    "\tvar min_flammability: float = 0.2",
+                    "\tvar min_flammability: float = SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
                     "\tvar min_flammability_after: float = min_flammability",
                     '\tvar filter_expr: String = "item -> item.flammability >= this.minFlammability"',
-                    '\treturn {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": 0.2, "min_flammability_after": min_flammability_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "constructor": "public ConsumeItemFlammable(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemFlammable(float minFlammability){", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "filter = item -> item.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT, "min_flammability_after": min_flammability_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemExplosive.java"
@@ -6545,10 +6523,10 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemExplosive_{index}(_args: Array = []) -> Variant:",
-                    "\tvar min_charge: float = 0.2",
+                    "\tvar min_charge: float = SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT",
                     "\tvar min_explosiveness_after: float = min_charge",
                     '\tvar filter_expr: String = "item -> item.explosiveness >= this.minExplosiveness"',
-                    '\treturn {"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_explosiveness_after": min_explosiveness_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "default_min_charge": SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT, "min_explosiveness_after": min_explosiveness_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemRadioactive.java"
@@ -6569,10 +6547,10 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemRadioactive_{index}(_args: Array = []) -> Variant:",
-                    "\tvar min_radioactivity: float = 0.2",
+                    "\tvar min_radioactivity: float = SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT",
                     "\tvar min_radioactivity_after: float = min_radioactivity",
                     '\tvar filter_expr: String = "item -> item.radioactivity >= this.minRadioactivity"',
-                    '\treturn {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "default_min_radioactivity": 0.2, "min_radioactivity_after": min_radioactivity_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "default_min_radioactivity": SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT, "min_radioactivity_after": min_radioactivity_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
@@ -6593,10 +6571,10 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemCharged_{index}(_args: Array = []) -> Variant:",
-                    "\tvar min_charge: float = 0.2",
+                    "\tvar min_charge: float = SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT",
                     "\tvar min_charge_after: float = min_charge",
                     '\tvar filter_expr: String = "item -> item.charge >= this.minCharge"',
-                    '\treturn {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemCharged(float minCharge){", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_charge_after": min_charge_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_charged_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "constructor": "public ConsumeItemCharged(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemCharged(float minCharge){", "assignment_expr": "this.minCharge = minCharge;", "filter_assignment_expr": "filter = item -> item.charge >= this.minCharge;", "filter_expr": filter_expr, "default_min_charge": SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT, "min_charge_after": min_charge_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
@@ -6620,22 +6598,22 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "",
                     f"func java_constructor_ConsumeLiquidFlammable_{index}(_args: Array = []) -> Variant:",
                     "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
-                    "\tvar min_flammability: float = 0.2",
+                    "\tvar min_flammability: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
                     "\tvar amount_after: float = amount",
                     "\tvar min_flammability_after: float = min_flammability",
                     '\tvar filter_expr: String = "liquid -> liquid.flammability >= this.minFlammability"',
-                    '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(float amount){", "default_call_expr": "this(0.2f, amount);", "typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": 0.2, "amount": amount, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_amount_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(float amount){", "default_call_expr": "this(0.2f, amount);", "typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT, "amount": amount, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
                 ])
             elif len(params) == 0:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeLiquidFlammable_{index}(_args: Array = []) -> Variant:",
-                    "\tvar amount: float = 0.2",
-                    "\tvar min_flammability: float = 0.2",
+                    "\tvar amount: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT",
+                    "\tvar min_flammability: float = SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
                     "\tvar amount_after: float = amount",
                     "\tvar min_flammability_after: float = min_flammability",
                     '\tvar filter_expr: String = "liquid -> liquid.flammability >= this.minFlammability"',
-                    '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(){", "default_call_expr": "this(0.2f);", "amount_constructor_expr": "public ConsumeLiquidFlammable(float amount){", "amount_constructor_default_call_expr": "this(0.2f, amount);", "typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_amount": 0.2, "default_min_flammability": 0.2, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_flammable_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "constructor": "public ConsumeLiquidFlammable(){", "default_call_expr": "this(0.2f);", "amount_constructor_expr": "public ConsumeLiquidFlammable(float amount){", "amount_constructor_default_call_expr": "this(0.2f, amount);", "typed_constructor_expr": "public ConsumeLiquidFlammable(float minFlammability, float amount){", "amount_assignment_expr": "this.amount = amount;", "assignment_expr": "this.minFlammability = minFlammability;", "filter_assignment_expr": "this.filter = liquid -> liquid.flammability >= this.minFlammability;", "filter_expr": filter_expr, "default_amount": SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT, "default_min_flammability": SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT, "amount_after": amount_after, "min_flammability_after": min_flammability_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
@@ -6671,11 +6649,11 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeLiquid_{index}(_args: Array = []) -> Variant:",
-                    "\tvar liquid: Variant = null",
-                    "\tvar amount: float = 0.0",
+                    "\tvar liquid: Variant = SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID",
+                    "\tvar amount: float = SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT",
                     "\tvar amount_after: float = amount",
                     "\tvar liquid_after: Variant = liquid",
-                    '\treturn {"source_owner": "PortGame.source_consume_liquid_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "protected ConsumeLiquid(){", "default_call_expr": "this(null, 0f);", "typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "default_liquid": null, "default_amount": 0.0, "amount_after": amount_after, "liquid_after": liquid_after}',
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "constructor": "protected ConsumeLiquid(){", "default_call_expr": "this(null, 0f);", "typed_constructor_expr": "public ConsumeLiquid(Liquid liquid, float amount){", "liquid_field": "public final Liquid liquid;", "super_call_expr": "super(amount);", "base_constructor_expr": "public ConsumeLiquidBase(float amount){", "amount_assignment_expr": "this.amount = amount;", "liquid_assignment_expr": "this.liquid = liquid;", "default_liquid": SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID, "default_amount": SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT, "amount_after": amount_after, "liquid_after": liquid_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
@@ -6697,7 +6675,8 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeLiquidFilter_{index}(_args: Array = []) -> Variant:",
-                    '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }", "no_op": true}',
+                    "\tvar filter_after: String = SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "constructor": "public ConsumeLiquidFilter(){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "empty_constructor_body": "public ConsumeLiquidFilter(){\\n    }", "no_op": true, "filter_after": filter_after}',
                 ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
@@ -6717,7 +6696,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItems_{index}(_args: Array = []) -> Variant:",
-                    "\tvar item_stacks: Array = []",
+                    "\tvar item_stacks: Array = SOURCE_CONSUME_ITEMS_EMPTY_STACKS.duplicate(true)",
                     "\tvar items_after: Array = item_stacks.duplicate(true)",
                     '\treturn {"source_owner": "PortGame.source_consume_items_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "constructor": "protected ConsumeItems(){", "default_call_expr": "this(ItemStack.empty);", "item_stack_empty_expr": "public static final ItemStack[] empty = {};", "items_field": "public final ItemStack[] items;", "item_stacks": item_stacks, "items_after": items_after}',
                 ])
@@ -6739,7 +6718,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeLiquids_{index}(_args: Array = []) -> Variant:",
-                    "\tvar liquid_stacks: Array = []",
+                    "\tvar liquid_stacks: Array = SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS.duplicate(true)",
                     "\tvar liquids_after: Array = liquid_stacks.duplicate(true)",
                     '\treturn {"source_owner": "PortGame.source_consume_liquids_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "constructor": "protected ConsumeLiquids(){", "default_call_expr": "this(LiquidStack.empty);", "liquid_stack_empty_expr": "public static final LiquidStack[] empty = {};", "liquids_field": "public final LiquidStack[] liquids;", "liquid_stacks": liquid_stacks, "liquids_after": liquids_after}',
                 ])
@@ -6761,7 +6740,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                 lines.extend([
                     "",
                     f"func java_constructor_ConsumeItemEfficiency_{index}(_args: Array = []) -> Variant:",
-                    '\tvar filter_after: String = "i -> false"',
+                    "\tvar filter_after: String = SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR",
                     '\treturn {"source_owner": "PortGame.source_consume_item_efficiency_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemEfficiency.java", "constructor": "public ConsumeItemEfficiency(){", "parent_constructor_expr": "public ConsumeItemFilter(){", "filter_field": "public Boolf<Item> filter = i -> false;", "filter_after": filter_after}',
                 ])
     if (
@@ -6884,7 +6863,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar time_before: float = float(_args[2] if _args.size() > 2 else 0.0)",
                         "\tvar time_delta: float = float(_args[3] if _args.size() > 3 else 0.0)",
                         "\tvar produce_num: float = 1.0 if produce else 0.0",
-                        "\tvar heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)",
+                        "\tvar heat_after: float = heat_before + (produce_num - heat_before) * clampf(SOURCE_FACTORY_HEAT_LERP_PROGRESS * time_delta, 0.0, 1.0)",
                         "\tvar time_after: float = time_before + heat_after * time_delta",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "arc_source": "arc-core/src/arc/math/Mathf.java", "building_source": "core/src/mindustry/entities/comp/BuildingComp.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "field_expr": "public float progress, time, heat;", "heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);", "time_expr": "time += heat * delta();", "mathf_num_method": "public static int num(boolean b){", "mathf_lerp_delta_method": "public static float lerpDelta(float fromValue, float toValue, float progress){\\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\\n    }", "building_delta_method": "public float delta(){", "produce": produce, "produce_num": produce_num, "heat_before": heat_before, "time_before": time_before, "time_delta": time_delta, "heat_after": heat_after, "time_after": time_after}',
                         "",
@@ -6895,7 +6874,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar pay_rotation_before: float = float(_args[3] if _args.size() > 3 else 0.0)",
                         "\tvar rotdeg_value: float = float(_args[4] if _args.size() > 4 else 0.0)",
                         "\tvar size_value: float = float(_args[5] if _args.size() > 5 else 0.0)",
-                        "\tvar tilesize: float = float(_args[6] if _args.size() > 6 else 8.0)",
+                        "\tvar tilesize: float = float(_args[6] if _args.size() > 6 else SOURCE_TILESIZE)",
                         "\tvar payload_rotate_speed: float = float(_args[7] if _args.size() > 7 else 0.0)",
                         "\tvar payload_speed: float = float(_args[8] if _args.size() > 8 else 0.0)",
                         "\tvar time_delta: float = float(_args[9] if _args.size() > 9 else 0.0)",
@@ -6957,7 +6936,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tdistance_to_dest = sqrt(distance_to_dest2)",
                         "\t\tif can_dump and not can_move:",
                         "\t\t\tpushed_output_fraction = 1.0 - (distance_to_dest / half_extent)",
-                        "\t\tarrived = distance_to_dest2 < 0.001 * 0.001",
+                        "\t\tarrived = distance_to_dest2 < SOURCE_PAYLOAD_ARRIVAL_EPSILON * SOURCE_PAYLOAD_ARRIVAL_EPSILON",
                         "\t\tif arrived:",
                         '\t\t\tpay_vector_after = {"x": clampf(float(pay_vector_after.get("x", 0.0)), -half_extent, half_extent), "y": clampf(float(pay_vector_after.get("y", 0.0)), -half_extent, half_extent)}',
                         "\t\t\tif can_move:",
@@ -7096,7 +7075,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar current_required_with_epsilon: Variant = null",
                         "\tvar current_liquid_drained: bool = false",
                         "\tif liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:",
-                        "\t\tcurrent_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001",
+                        "\t\tcurrent_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON",
                         "\t\tcurrent_liquid_drained = current_liquid_amount <= current_required_with_epsilon",
                         "\tvar replacement_allowed: bool = false",
                         "\tif liquid_has_ammo_type and not same_liquid:",
@@ -7251,7 +7230,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar current_required_with_epsilon: Variant = null",
                         "\tvar current_liquid_drained: bool = false",
                         "\tif liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:",
-                        "\t\tcurrent_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001",
+                        "\t\tcurrent_required_with_epsilon = 1.0 / current_ammo_multiplier + SOURCE_TURRET_LIQUID_AMMO_EPSILON",
                         "\t\tcurrent_liquid_drained = current_liquid_amount <= current_required_with_epsilon",
                         "\tvar replacement_allowed: bool = false",
                         "\tif liquid_has_ammo_type and not same_liquid:",
@@ -7290,8 +7269,8 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar x: float = float(_args[9] if _args.size() > 9 else 0.0)",
                         "\tvar y: float = float(_args[10] if _args.size() > 10 else 0.0)",
                         "\tvar range_value: float = float(_args[11] if _args.size() > 11 else 0.0)",
-                        "\tvar target_air: bool = bool(_args[12] if _args.size() > 12 else false)",
-                        "\tvar target_ground: bool = bool(_args[13] if _args.size() > 13 else false)",
+                        "\tvar target_air: bool = bool(_args[12] if _args.size() > 12 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT)",
+                        "\tvar target_ground: bool = bool(_args[13] if _args.size() > 13 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT)",
                         "\tvar retarget_evaluated: bool = not activation_returned_early",
                         "\tvar retarget_called: bool = retarget_evaluated and timer_target_ready",
                         "\tvar target_after: Variant = closest_enemy_result if retarget_called else existing_target",
@@ -7317,10 +7296,10 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tremove_call = {\"call\": \"liquids.remove(liquid, used);\", \"liquid\": liquid, \"amount\": used}",
                         "\tvar chance_result: bool = bool(_args[19] if _args.size() > 19 else false)",
                         "\tvar size: float = float(_args[20] if _args.size() > 20 else 0.0)",
-                        "\tvar source_tilesize: float = float(_args[21] if _args.size() > 21 else 8.0)",
+                        "\tvar source_tilesize: float = float(_args[21] if _args.size() > 21 else SOURCE_TILESIZE)",
                         "\tvar range_x: float = float(_args[22] if _args.size() > 22 else 0.0)",
                         "\tvar range_y: float = float(_args[23] if _args.size() > 23 else 0.0)",
-                        "\tvar chance_threshold: float = 0.06 * used if coolant_guard else 0.0",
+                        "\tvar chance_threshold: float = SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE * used if coolant_guard else 0.0",
                         "\tvar particle_range: float = size * source_tilesize / 2.0 if coolant_guard else 0.0",
                         "\tvar chance_called: bool = coolant_guard",
                         "\tvar cool_effect_called: bool = coolant_guard and chance_result",
@@ -7357,7 +7336,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif target_check_evaluated:",
                         "\t\ttarget_check_call = {\"call\": \"target.checkTarget(targetAir, targetGround)\", \"target_air\": target_air, \"target_ground\": target_ground, \"result\": target_check_result}",
                         "\tvar efficiency_gate_evaluated: bool = target_check_evaluated and target_check_result",
-                        "\tvar look_target_guard: bool = efficiency_gate_evaluated and efficiency > 0.02",
+                        "\tvar look_target_guard: bool = efficiency_gate_evaluated and efficiency > SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN",
                         "\tvar headless: bool = bool(_args[29] if _args.size() > 29 else false)",
                         "\tvar shoot_sound: Variant = _args[30] if _args.size() > 30 else null",
                         "\tvar shoot_sound_volume: float = float(_args[31] if _args.size() > 31 else 1.0)",
@@ -7376,7 +7355,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif angle_to_target_evaluated:",
                         "\t\tangle_to_target_call = {\"call\": \"angleTo(target)\", \"origin\": {\"x\": x, \"y\": y}, \"target\": target_after, \"result\": dest}",
                         "\tvar rotation_before: float = float(_args[32] if _args.size() > 32 else 0.0)",
-                        "\tvar rotate_speed: float = float(_args[33] if _args.size() > 33 else 0.0)",
+                        "\tvar rotate_speed: float = float(_args[33] if _args.size() > 33 else SOURCE_TURRET_TRACTOR_BEAM_ROTATE_SPEED_DEFAULT)",
                         "\tvar rotation_move_evaluated: bool = angle_to_target_evaluated",
                         "\tvar rotation_max_delta: float = rotate_speed * edelta if rotation_move_evaluated else 0.0",
                         "\tvar rotation_after: float = rotation_before",
@@ -7406,7 +7385,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tlast_target_position_call = {\"call\": \"lastX = target.x; lastY = target.y;\", \"target\": target_after, \"last_x\": last_x_after, \"last_y\": last_y_after}",
                         "\tvar strength_before: float = float(_args[36] if _args.size() > 36 else 0.0)",
                         "\tvar strength_lerp_evaluated: bool = last_target_position_evaluated",
-                        "\tvar strength_lerp_progress: float = 0.1",
+                        "\tvar strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS",
                         "\tvar strength_lerp_scaled_progress: float = strength_lerp_progress * time_delta if strength_lerp_evaluated else 0.0",
                         "\tvar strength_lerp_clamped_progress: float = clampf(strength_lerp_scaled_progress, 0.0, 1.0)",
                         "\tvar strength_after: float = strength_before + (1.0 - strength_before) * strength_lerp_clamped_progress if strength_lerp_evaluated else strength_before",
@@ -7414,7 +7393,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif strength_lerp_evaluated:",
                         "\t\tstrength_lerp_call = {\"call\": \"strength = Mathf.lerpDelta(strength, 1f, 0.1f);\", \"from\": strength_before, \"to\": 1.0, \"progress\": strength_lerp_progress, \"time_delta\": time_delta, \"result\": strength_after}",
                         "\tvar inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard",
-                        "\tvar inactive_strength_lerp_progress: float = 0.1",
+                        "\tvar inactive_strength_lerp_progress: float = SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS",
                         "\tvar inactive_strength_lerp_scaled_progress: float = inactive_strength_lerp_progress * time_delta if inactive_strength_evaluated else 0.0",
                         "\tvar inactive_strength_lerp_clamped_progress: float = clampf(inactive_strength_lerp_scaled_progress, 0.0, 1.0)",
                         "\tvar inactive_strength_after: float = strength_before + (0.0 - strength_before) * inactive_strength_lerp_clamped_progress if inactive_strength_evaluated else strength_after",
@@ -7422,7 +7401,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif inactive_strength_evaluated:",
                         "\t\tstrength_after = inactive_strength_after",
                         "\t\tinactive_strength_lerp_call = {\"call\": \"strength = Mathf.lerpDelta(strength, 0, 0.1f);\", \"from\": strength_before, \"to\": 0.0, \"progress\": inactive_strength_lerp_progress, \"time_delta\": time_delta, \"result\": inactive_strength_after}",
-                        "\tvar shoot_cone: float = float(_args[37] if _args.size() > 37 else 0.0)",
+                        "\tvar shoot_cone: float = float(_args[37] if _args.size() > 37 else SOURCE_TURRET_TRACTOR_BEAM_SHOOT_CONE_DEFAULT)",
                         "\tvar shoot_when_possible_evaluated: bool = strength_lerp_evaluated",
                         "\tvar shoot_within_angle_dist: float = 0.0",
                         "\tif shoot_when_possible_evaluated:",
@@ -7448,7 +7427,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif damage_gate:",
                         "\t\tdamage_continuous_pierce_call = {\"call\": \"target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));\", \"target\": target_after, \"amount\": damage_amount}",
                         "\tvar status: Variant = _args[41] if _args.size() > 41 else \"StatusEffects.none\"",
-                        "\tvar status_duration: float = float(_args[42] if _args.size() > 42 else 300.0)",
+                        "\tvar status_duration: float = float(_args[42] if _args.size() > 42 else SOURCE_TURRET_TRACTOR_BEAM_STATUS_DURATION_DEFAULT)",
                         "\tvar status_gate_evaluated: bool = shoot_within_guard",
                         "\tvar status_is_none: bool = status is String and status == \"StatusEffects.none\"",
                         "\tvar status_gate: bool = status_gate_evaluated and not status_is_none",
@@ -7462,7 +7441,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tif any_true_called:",
                         "\t\tany_after = true",
                         "\t\tany_true_call = {\"call\": \"any = true;\", \"value\": any_after}",
-                        "\tvar force_value: float = float(_args[43]) if _args.size() > 43 else 0.3",
+                        "\tvar force_value: float = float(_args[43]) if _args.size() > 43 else SOURCE_TURRET_TRACTOR_BEAM_FORCE_DEFAULT",
                         "\tvar scaled_force: float = float(_args[44]) if _args.size() > 44 else 0.0",
                         "\tvar target_x_for_impulse: float = x",
                         "\tvar target_y_for_impulse: float = y",
@@ -7500,13 +7479,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     lines.extend([
                         "",
                         f"func java_inner_class_TractorBeamBuild_method_estimateDps_{index}(_args: Array = []) -> Variant:",
-                        "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
-                        "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
-                        "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
-                        "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
-                        "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
-                        "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
-                        "\tvar estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier",
+            "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar source_tick_rate: float = float(_args[4] if _args.size() > 4 else SOURCE_TICK_RATE)",
+            "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
+            "\tvar estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_estimate_dps_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public float estimateDps(){\", \"override_expr\": \"@Override\", \"zero_guard_expr\": \"if(!any || damage <= 0) return 0f;\", \"return_expr\": \"return damage * 60f * efficiency * coolantMultiplier;\", \"any_state\": any_state, \"damage\": damage, \"efficiency\": efficiency, \"coolant_multiplier\": coolant_multiplier, \"zero_guard\": zero_guard, \"estimate_dps\": estimate_dps}",
                     ])
                 elif method.get("name") == "draw":
@@ -7676,7 +7655,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "",
                         f"func java_inner_class_ItemTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
                         "\tvar total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)",
-                        "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)",
+                        "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)",
                         "\tvar ammo_fraction: float = total_ammo / max_ammo",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return (float)totalAmmo / maxAmmo;\", \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_fraction\": ammo_fraction}",
                     ])
@@ -7686,7 +7665,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         f"func java_inner_class_ItemTurretBuild_method_acceptStack_{index}(_args: Array = []) -> Variant:",
                         "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
                         "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
-                        "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)",
                         "\tvar total_ammo: float = float(_args[3] if _args.size() > 3 else 0.0)",
                         "\tvar ammo_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)",
                         "\tvar ammo_type_null: bool = bool(_args[5] if _args.size() > 5 else false)",
@@ -7756,7 +7735,7 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         f"func java_inner_class_ItemTurretBuild_method_acceptItem_{index}(_args: Array = []) -> Variant:",
                         "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
                         "\tvar total_ammo: int = int(_args[1] if _args.size() > 1 else 0)",
-                        "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)",
                         "\tvar ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)",
                         "\tvar ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)",
                         "\tvar accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo",
@@ -7863,6 +7842,408 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         f"const JAVA_METHODS := {gdscript_literal(type_entry.get('methods', []))}",
         f"const JAVA_ENUM_CONSTANTS := {gdscript_literal(type_entry.get('enum_constants', []))}",
     ]
+    if (
+        java_file.get("path") == "mindustry/entities/pattern/ShootPattern.java"
+        and type_entry.get("name") == "ShootPattern"
+    ):
+        lines.extend([
+            'const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")',
+            "const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT",
+            "const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT",
+            "const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
+        and type_entry.get("name") == "ConsumeItemCharged"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_CHARGED_MIN_CHARGE_DEFAULT",
+        ])
+    if (
+        java_file.get("path") in {
+            "mindustry/world/consumers/ConsumeItemFilter.java",
+            "mindustry/world/consumers/ConsumeItemEfficiency.java",
+            "mindustry/world/consumers/ConsumeLiquidFilter.java",
+        }
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEM_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_ITEM_FILTER_DEFAULT_EXPR",
+            "const SOURCE_CONSUME_LIQUID_FILTER_DEFAULT_EXPR := SourceConsumerDefaults.CONSUME_LIQUID_FILTER_DEFAULT_EXPR",
+            "const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemExplosive.java"
+        and type_entry.get("name") == "ConsumeItemExplosive"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_EXPLOSIVE_MIN_CHARGE_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFlammable.java"
+        and type_entry.get("name") == "ConsumeItemFlammable"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemRadioactive.java"
+        and type_entry.get("name") == "ConsumeItemRadioactive"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT := SourceConsumerDefaults.CONSUME_ITEM_RADIOACTIVE_MIN_RADIOACTIVITY_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
+        and type_entry.get("name") == "ConsumeLiquidFlammable"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_AMOUNT_DEFAULT",
+            "const SOURCE_CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT := SourceConsumerDefaults.CONSUME_LIQUID_FLAMMABLE_MIN_FLAMMABILITY_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_LIQUID_DEFAULT_LIQUID := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_LIQUID",
+            "const SOURCE_CONSUME_LIQUID_DEFAULT_AMOUNT := SourceConsumerDefaults.CONSUME_LIQUID_DEFAULT_AMOUNT",
+            "const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_ITEMS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_ITEMS_EMPTY_STACKS",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+        and type_entry.get("name") == "ConsumeLiquids"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_LIQUIDS_EMPTY_STACKS := SourceConsumerDefaults.CONSUME_LIQUIDS_EMPTY_STACKS",
+            "const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        and type_entry.get("name") == "ConsumeLiquidsDynamic"
+    ):
+        lines.extend([
+            'const SourceConsumerDefaults := preload("res://src/game/SourceConsumerDefaults.gd")',
+            "const SOURCE_CONSUME_EFFICIENCY_EPSILON := SourceConsumerDefaults.CONSUME_EFFICIENCY_EPSILON",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+    ):
+        lines.extend([
+            'const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")',
+            'const SourceUnitPayloadBasicState := preload("res://src/game/SourceUnitPayloadBasicState.gd")',
+            'const SourceUnitPayloadContentState := preload("res://src/game/SourceUnitPayloadContentState.gd")',
+            'const SourceUnitPayloadRequirementsState := preload("res://src/game/SourceUnitPayloadRequirementsState.gd")',
+            'const SourceUnitPayloadIoState := preload("res://src/game/SourceUnitPayloadIoState.gd")',
+            'const SourceUnitPayloadDrawState := preload("res://src/game/SourceUnitPayloadDrawState.gd")',
+            'const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")',
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA",
+            "const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE",
+            "const SOURCE_TILESIZE := SourceUnitPayloadDumpState.SOURCE_TILESIZE",
+            "const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNITS_COUNT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_VELOCITY_ADD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_MATHF_RANGE_FLOAT_RETURN",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_ADD_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOADED_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_EVENT_FIRE_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_COMMENT",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CLASS",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD",
+            "const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR := SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_STATEMENT_EXPR",
+        ])
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
+    ):
+        lines.extend([
+            'const SourceMathState := preload("res://src/game/SourceMathState.gd")',
+            'const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")',
+            'const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")',
+            'const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")',
+            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_FLOAT_ROUNDING_ERROR := SourceMathDefaults.FLOAT_ROUNDING_ERROR",
+            "const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT",
+            "const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT",
+            "const SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT := SourceBlockDefaults.NO_UPDATE_DISABLED_DEFAULT",
+            "const SOURCE_BUILDING_DRAW_CONFIGURE_COLOR := SourceBuildingDefaults.DRAW_CONFIGURE_COLOR",
+            "const SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_STROKE_DEFAULT",
+            "const SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE := SourceBuildingDefaults.DRAW_CONFIGURE_SHAPE",
+            "const SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR := SourceBuildingDefaults.DRAW_CONFIGURE_SQUARE_EXPR",
+            "const SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT",
+            "const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_LARGE",
+            "const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_SMALL",
+            "const SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_GRAY_SQUARE_SIZE",
+            "const SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_STATUS_SQUARE_SIZE",
+            "const SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS := SourceBuildingDefaults.DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS",
+            "const SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY := SourceBuildingDefaults.DRAW_SELECT_BUNDLE_KEY",
+            "const SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN := SourceBuildingDefaults.DRAW_SELECT_DELAY_MIN",
+            "const SOURCE_BUILDING_DRAW_DISABLED_ICON := SourceBuildingDefaults.DRAW_DISABLED_ICON",
+            "const SOURCE_BUILDING_DRAW_DISABLED_COLOR := SourceBuildingDefaults.DRAW_DISABLED_COLOR",
+            "const SOURCE_BUILDING_DRAW_DISABLED_ALPHA := SourceBuildingDefaults.DRAW_DISABLED_ALPHA",
+            "const SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE := SourceBuildingDefaults.DRAW_DISABLED_ICON_SIZE",
+            "const SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_ICON_DIVISOR",
+            "const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_COLOR",
+            "const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_ALPHA := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_ALPHA",
+            "const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET",
+            "const SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET",
+            "const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_AMOUNT_MIN",
+            "const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT",
+            "const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN",
+            "const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_RADIUS_SCALE",
+            "const SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION := SourceBuildingDefaults.DRAW_TEAM_BORDER_REGION",
+            "const SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET := SourceBuildingDefaults.DRAW_TEAM_BORDER_OFFSET",
+            "const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE",
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
+        and type_entry.get("name") == "BlockProducer"
+    ):
+        lines.extend([
+            'const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")',
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_FACTORY_HEAT_LERP_PROGRESS := SourceFactoryDefaults.HEAT_LERP_PROGRESS",
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+            "const SOURCE_PAYLOAD_ARRIVAL_EPSILON := SourceWorldDefaults.PAYLOAD_ARRIVAL_EPSILON",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            'const SourceBuildPayloadState := preload("res://src/game/SourceBuildPayloadState.gd")',
+            'const SourceBuildPayloadLifecycleState := preload("res://src/game/SourceBuildPayloadLifecycleState.gd")',
+            'const SourceBuildPayloadDrawState := preload("res://src/game/SourceBuildPayloadDrawState.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+        and type_entry.get("name") == "TractorBeamTurret"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+            'const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")',
+            "const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT",
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_LOOK_TARGET_EFFICIENCY_MIN := SourceTurretDefaults.LOOK_TARGET_EFFICIENCY_MIN",
+            "const SOURCE_TURRET_TRACTOR_BEAM_ROTATE_SPEED_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_ROTATE_SPEED_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_SHOOT_CONE_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_SHOOT_CONE_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_AIR_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_GROUND_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_STATUS_DURATION_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_STATUS_DURATION_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_FORCE_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_FORCE_DEFAULT",
+            "const SOURCE_TURRET_TRACTOR_BEAM_STRENGTH_LERP_PROGRESS := SourceTurretDefaults.TRACTOR_BEAM_STRENGTH_LERP_PROGRESS",
+            "const SOURCE_TURRET_TRACTOR_BEAM_COOLANT_EFFECT_CHANCE := SourceTurretDefaults.TRACTOR_BEAM_COOLANT_EFFECT_CHANCE",
+        ])
+    if (
+        java_file.get("path") in {
+            "mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+            "mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+        }
+        and type_entry.get("name") in {"LiquidTurret", "ContinuousLiquidTurret"}
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_LIQUID_AMMO_EPSILON := SourceTurretDefaults.LIQUID_AMMO_EPSILON",
+            "const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT",
+            "const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT",
+            "const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+    ):
+        lines.extend([
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT",
+            "const SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT := SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT",
+            "const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT",
+            "const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT",
+            "const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/PointDefenseTurret.java"
+        and type_entry.get("name") == "PointDefenseTurret"
+    ):
+        lines.extend([
+            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
+            "const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE",
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT",
+            'const SourcePointDefenseTurretDefaults := preload("res://src/game/SourcePointDefenseTurretDefaults.gd")',
+            "const SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT := SourcePointDefenseTurretDefaults.BULLET_DAMAGE_DEFAULT",
+        ])
+    if (
+        java_file.get("path") in {
+            "mindustry/world/consumers/ConsumeLiquid.java",
+            "mindustry/world/consumers/ConsumeItems.java",
+            "mindustry/world/consumers/ConsumeItemDynamic.java",
+            "mindustry/world/consumers/ConsumeItemFilter.java",
+            "mindustry/world/consumers/ConsumeLiquids.java",
+            "mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+            "mindustry/world/consumers/ConsumeLiquidFilter.java",
+        }
+        and type_entry.get("name") in {
+            "ConsumeLiquid",
+            "ConsumeItems",
+            "ConsumeItemDynamic",
+            "ConsumeItemFilter",
+            "ConsumeLiquids",
+            "ConsumeLiquidsDynamic",
+            "ConsumeLiquidFilter",
+        }
+    ):
+        lines.extend([
+            'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
+            "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
+            "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
+        ])
+    if (
+        (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+            and type_entry.get("name") == "ConsumePower"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
+            and type_entry.get("name") == "ConsumePowerDynamic"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
+            and type_entry.get("name") == "ConsumeLiquidFlammable"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+            and type_entry.get("name") == "ConsumeLiquidFilter"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+            and type_entry.get("name") == "ConsumeLiquid"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+            and type_entry.get("name") == "ConsumeLiquids"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
+            and type_entry.get("name") == "ConsumeItemEfficiency"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+            and type_entry.get("name") == "TractorBeamTurret"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+            and type_entry.get("name") == "BaseTurret"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+            and type_entry.get("name") == "Turret"
+        )
+    ):
+        lines.extend([
+            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
+            "const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+        and type_entry.get("name") == "BaseTurret"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT",
+            "const SOURCE_TURRET_PLACE_OVERLAP_MARGIN_DEFAULT := SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT",
+            "const SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT := SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT",
+            "const SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT := SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT",
+            "const SOURCE_TURRET_ACTIVATION_TIME_DEFAULT := SourceTurretDefaults.ACTIVATION_TIME_DEFAULT",
+        ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+    ):
+        lines.extend([
+            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
+            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
+            'const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")',
+            "const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT",
+            'const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")',
+            "const SOURCE_TURRET_INACCURACY_DEFAULT := SourceTurretDefaults.INACCURACY_DEFAULT",
+            "const SOURCE_TURRET_SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT := SourceTurretDefaults.SHOOT_Y_IS_NEGATIVE_INFINITY_DEFAULT",
+            "const SOURCE_TURRET_RELOAD_DEFAULT := SourceTurretDefaults.RELOAD_DEFAULT",
+            "const SOURCE_TURRET_RECOIL_TIME_DEFAULT := SourceTurretDefaults.RECOIL_TIME_DEFAULT",
+            "const SOURCE_TURRET_COOLDOWN_TIME_DEFAULT := SourceTurretDefaults.COOLDOWN_TIME_DEFAULT",
+            "const SOURCE_TURRET_NEW_TARGET_INTERVAL_DEFAULT := SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT",
+            "const SOURCE_TURRET_TARGET_INTERVAL_DEFAULT := SourceTurretDefaults.TARGET_INTERVAL_DEFAULT",
+            "const SOURCE_TURRET_ELEVATION_DEFAULT := SourceTurretDefaults.ELEVATION_DEFAULT",
+            "const SOURCE_TURRET_RELOAD_WHILE_CHARGING_DEFAULT := SourceTurretDefaults.RELOAD_WHILE_CHARGING_DEFAULT",
+            "const SOURCE_TURRET_TARGET_AIR_DEFAULT := SourceTurretDefaults.TARGET_AIR_DEFAULT",
+            "const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT",
+            "const SOURCE_TURRET_DISABLE_OVERLAP_CHECK_DEFAULT := SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT",
+            "const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT",
+            "const SOURCE_TURRET_TRACKING_RANGE_DEFAULT := SourceTurretDefaults.TRACKING_RANGE_DEFAULT",
+            "const SOURCE_TURRET_AMMO_PER_SHOT_DEFAULT := SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT",
+            "const SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT := SourceTurretDefaults.HEAT_REQUIREMENT_DEFAULT",
+            "const SOURCE_TURRET_MAX_HEAT_EFFICIENCY_DEFAULT := SourceTurretDefaults.MAX_HEAT_EFFICIENCY_DEFAULT",
+            'const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")',
+            "const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT",
+            "const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT",
+        ])
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))
     lines.extend(_extra_method_stub_lines(java_file, type_entry))

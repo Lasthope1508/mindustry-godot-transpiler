@@ -3,8 +3,6 @@
 # Do not edit by hand.
 extends RefCounted
 
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
-const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.entities.comp"
 const JAVA_KIND := "class"
 const JAVA_NAME := "BuildingComp"
@@ -14,140 +12,45 @@ const JAVA_FIELDS := [{"modifiers": ["final", "static"], "name": "timeToSleep", 
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "init", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}, {"name": "shouldAdd", "type": "boolean", "varargs": false}, {"name": "rotation", "type": "int", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "create", "parameters": [{"name": "block", "type": "Block", "varargs": false}, {"name": "team", "type": "Team", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "add", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "tileX", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "tileY", "parameters": [], "return_type": "int"}, {"modifiers": ["final", "public"], "name": "writeBase", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["final", "public"], "name": "readBase", "parameters": [{"name": "read", "type": "Reads", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "moduleBitmask", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "writeAll", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readAll", "parameters": [{"name": "read", "type": "Reads", "varargs": false}, {"name": "revision", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "writeSync", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "readSync", "parameters": [{"name": "read", "type": "Reads", "varargs": false}, {"name": "revision", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "write", "parameters": [{"name": "write", "type": "Writes", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "read", "parameters": [{"name": "read", "type": "Reads", "varargs": false}, {"name": "revision", "type": "byte", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isDiscovered", "parameters": [{"name": "viewer", "type": "Team", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "addPlan", "parameters": [{"name": "checkPrevious", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "addPlan", "parameters": [{"name": "checkPrevious", "type": "boolean", "varargs": false}, {"name": "ignoreConditions", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "findClosestEdge", "parameters": [{"name": "to", "type": "Position", "varargs": false}, {"name": "solid", "type": "Boolf", "varargs": false}], "return_type": "Tile"}, {"modifiers": ["public"], "name": "configure", "parameters": [{"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "configureAny", "parameters": [{"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "deselect", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "configTapped", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "calculateHeat", "parameters": [{"name": "sideHeat", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "calculateHeat", "parameters": [{"name": "sideHeat", "type": "float", "varargs": false}, {"name": "cameFrom", "type": "IntSet", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "applyBoost", "parameters": [{"name": "intensity", "type": "float", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applySlowdown", "parameters": [{"name": "intensity", "type": "float", "varargs": false}, {"name": "duration", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyHealSuppression", "parameters": [{"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "applyHealSuppression", "parameters": [{"name": "amount", "type": "float", "varargs": false}, {"name": "suppressColor", "type": "Color", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "isHealSuppressed", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "recentlyHealed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "wasRecentlyHealed", "parameters": [{"name": "duration", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "wasRecentlyDamaged", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "eachEdge", "parameters": [{"name": "cons", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "nearby", "parameters": [{"name": "dx", "type": "int", "varargs": false}, {"name": "dy", "type": "int", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "nearby", "parameters": [{"name": "rotation", "type": "int", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "relativeTo", "parameters": [{"name": "tile", "type": "Tile", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "relativeTo", "parameters": [{"name": "build", "type": "Building", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "relativeToEdge", "parameters": [{"name": "other", "type": "Tile", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "relativeTo", "parameters": [{"name": "cx", "type": "int", "varargs": false}, {"name": "cy", "type": "int", "varargs": false}], "return_type": "byte"}, {"modifiers": ["public"], "name": "front", "parameters": [], "return_type": "Building"}, {"modifiers": ["public"], "name": "back", "parameters": [], "return_type": "Building"}, {"modifiers": ["public"], "name": "left", "parameters": [], "return_type": "Building"}, {"modifiers": ["public"], "name": "right", "parameters": [], "return_type": "Building"}, {"modifiers": ["public"], "name": "fogRadius", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "pos", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "rotdeg", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "drawrot", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "floor", "parameters": [], "return_type": "Floor"}, {"modifiers": ["public"], "name": "interactable", "parameters": [{"name": "team", "type": "Team", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "timeScale", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "warmup", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "totalProgress", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "progress", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "allowUpdate", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "inMapArea", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "status", "parameters": [], "return_type": "BlockStatus"}, {"modifiers": ["public"], "name": "sleep", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "noSleep", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "version", "parameters": [], "return_type": "byte"}, {"modifiers": ["public"], "name": "canControlSelect", "parameters": [{"name": "player", "type": "Unit", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "onControlSelect", "parameters": [{"name": "player", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onCommand", "parameters": [{"name": "target", "type": "Vec2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getCommandPosition", "parameters": [], "return_type": "Vec2"}, {"modifiers": ["public"], "name": "handleUnitPayload", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}, {"name": "grabber", "type": "Cons", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canWithdraw", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canUnload", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canResupply", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "payloadCheck", "parameters": [{"name": "conveyorRotation", "type": "int", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "itemTaken", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "allowDeposit", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dropped", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "handleString", "parameters": [{"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "created", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shouldConsume", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "productionValid", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "consumeTriggerValid", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getPowerProduction", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "acceptStack", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}, {"name": "source", "type": "Teamc", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "getMaximumAccepted", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "removeStack", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": "int"}, {"modifiers": ["public"], "name": "handleStack", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}, {"name": "source", "type": "Teamc", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getStackOffset", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "trns", "type": "Vec2", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "acceptPayload", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "payload", "type": "Payload", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "handlePayload", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "payload", "type": "Payload", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "movePayload", "parameters": [{"name": "todump", "type": "Payload", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dumpPayload", "parameters": [{"name": "todump", "type": "Payload", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "canBeReplaced", "parameters": [{"name": "other", "type": "Block", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "handleItem", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "acceptItem", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "acceptLiquid", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "handleLiquid", "parameters": [{"name": "source", "type": "Building", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dumpLiquid", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dumpLiquid", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "scaling", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dumpLiquid", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "scaling", "type": "float", "varargs": false}, {"name": "outputDir", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canDumpLiquid", "parameters": [{"name": "to", "type": "Building", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "transferLiquid", "parameters": [{"name": "next", "type": "Building", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "moveLiquidForward", "parameters": [{"name": "leaks", "type": "boolean", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "moveLiquid", "parameters": [{"name": "next", "type": "Building", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "getLiquidDestination", "parameters": [{"name": "from", "type": "Building", "varargs": false}, {"name": "liquid", "type": "Liquid", "varargs": false}], "return_type": "Building"}, {"modifiers": ["public"], "name": "getPayload", "parameters": [], "return_type": "Payload"}, {"modifiers": ["public"], "name": "takePayload", "parameters": [], "return_type": "Payload"}, {"modifiers": ["public"], "name": "getPayloads", "parameters": [], "return_type": "PayloadSeq"}, {"modifiers": ["public"], "name": "offload", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "put", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "produced", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "produced", "parameters": [{"name": "item", "type": "Item", "varargs": false}, {"name": "amount", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "dumpAccumulate", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dumpAccumulate", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dump", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "dump", "parameters": [{"name": "todump", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "incrementDump", "parameters": [{"name": "prox", "type": "int", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canDump", "parameters": [{"name": "to", "type": "Building", "varargs": false}, {"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "moveForward", "parameters": [{"name": "item", "type": "Item", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "onProximityRemoved", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "onProximityAdded", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "onProximityUpdate", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updatePowerGraph", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "powerGraphRemoved", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "conductsTo", "parameters": [{"name": "other", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "getPowerConnections", "parameters": [{"name": "out", "type": "Seq", "varargs": false}], "return_type": "Seq"}, {"modifiers": ["public"], "name": "getProgressIncrease", "parameters": [{"name": "baseTime", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "getDisplayEfficiency", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "shouldAmbientSound", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "drawStatus", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawCracks", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawSelect", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawItemSelection", "parameters": [{"name": "selection", "type": "UnlockableContent", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawDisabled", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "draw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawCached", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "recache", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "payloadDraw", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawTeamTop", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawLight", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawLiquidLight", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "drawTeam", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkSuppression", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "playerPlaced", "parameters": [{"name": "config", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "placed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "onRepaired", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "isCommandable", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isPayload", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "overwrote", "parameters": [{"name": "previous", "type": "Seq", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onRemoved", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "unitOn", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "unitOnAny", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "unitRemoved", "parameters": [{"name": "unit", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "puddleOn", "parameters": [{"name": "puddle", "type": "Puddle", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "configured", "parameters": [{"name": "builder", "type": "Unit", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateLastAccess", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "tapped", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterDestroyed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "explosionItemCap", "parameters": [], "return_type": "int"}, {"modifiers": ["public"], "name": "splashLiquid", "parameters": [{"name": "liquid", "type": "Liquid", "varargs": false}, {"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onDeconstructed", "parameters": [{"name": "builder", "type": "Unit", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "onDestroyed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "playDestroySound", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "getDisplayName", "parameters": [], "return_type": "String"}, {"modifiers": ["public"], "name": "getDisplayIcon", "parameters": [], "return_type": "TextureRegion"}, {"modifiers": ["public"], "name": "flowItems", "parameters": [], "return_type": "ItemModule"}, {"modifiers": ["public"], "name": "display", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "displayConsumption", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "displayBars", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "buildConfiguration", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateTableAlign", "parameters": [{"name": "table", "type": "Table", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "getCursor", "parameters": [], "return_type": "Cursor"}, {"modifiers": ["public"], "name": "onConfigureBuildTapped", "parameters": [{"name": "other", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "onConfigureTapped", "parameters": [{"name": "x", "type": "float", "varargs": false}, {"name": "y", "type": "float", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "onConfigureClosed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "shouldShowConfigure", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "shouldHideConfigure", "parameters": [{"name": "player", "type": "Player", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "drawConfigure", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkSolid", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "handleDamage", "parameters": [{"name": "amount", "type": "float", "varargs": false}], "return_type": "float"}, {"modifiers": ["public"], "name": "absorbLasers", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "isInsulated", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "collide", "parameters": [{"name": "other", "type": "Bullet", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "collision", "parameters": [{"name": "other", "type": "Bullet", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "damage", "parameters": [{"name": "source", "type": "Team", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "damage", "parameters": [{"name": "bullet", "type": "Bullet", "varargs": false}, {"name": "source", "type": "Team", "varargs": false}, {"name": "damage", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "changeTeam", "parameters": [{"name": "next", "type": "Team", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "changeTeam", "parameters": [{"name": "next", "type": "Team", "varargs": false}, {"name": "updatePower", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "canPickup", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "pickedUp", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterPickedUp", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "removeFromProximity", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateProximity", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "onNearbyBuildAdded", "parameters": [{"name": "other", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "consume", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "canConsume", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "delta", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "edelta", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "updateEfficiencyMultiplier", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "efficiencyScale", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "updateConsumption", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updatePayload", "parameters": [{"name": "unitHolder", "type": "Unit", "varargs": false}, {"name": "buildingHolder", "type": "Building", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "updateTile", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "ambientVolume", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "config", "parameters": [], "return_type": "Object"}, {"modifiers": ["public"], "name": "isValid", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "heal", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "heal", "parameters": [{"name": "amount", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "hitSize", "parameters": [], "return_type": "float"}, {"modifiers": ["public"], "name": "kill", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "damage", "parameters": [{"name": "damage", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "healthChanged", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "sense", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "senseObject", "parameters": [{"name": "sensor", "type": "LAccess", "varargs": false}], "return_type": "Object"}, {"modifiers": ["public"], "name": "sense", "parameters": [{"name": "content", "type": "Content", "varargs": false}], "return_type": "double"}, {"modifiers": ["public"], "name": "control", "parameters": [{"name": "type", "type": "LAccess", "varargs": false}, {"name": "p1", "type": "double", "varargs": false}, {"name": "p2", "type": "double", "varargs": false}, {"name": "p3", "type": "double", "varargs": false}, {"name": "p4", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "control", "parameters": [{"name": "type", "type": "LAccess", "varargs": false}, {"name": "p1", "type": "Object", "varargs": false}, {"name": "p2", "type": "double", "varargs": false}, {"name": "p3", "type": "double", "varargs": false}, {"name": "p4", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setProp", "parameters": [{"name": "prop", "type": "LAccess", "varargs": false}, {"name": "value", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setProp", "parameters": [{"name": "prop", "type": "LAccess", "varargs": false}, {"name": "value", "type": "Object", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "setProp", "parameters": [{"name": "content", "type": "UnlockableContent", "varargs": false}, {"name": "value", "type": "double", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "inFogTo", "parameters": [{"name": "viewer", "type": "Team", "varargs": false}], "return_type": "boolean"}, {"modifiers": ["public"], "name": "killed", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "checkAllowUpdate", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateFogVisibility", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "hitbox", "parameters": [{"name": "out", "type": "Rect", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "toString", "parameters": [], "return_type": "String"}]
 const JAVA_ENUM_CONSTANTS := []
-
-const SOURCE_INT64_MIN := -9223372036854775807 - 1
-const SOURCE_FLOAT_ROUNDING_ERROR := 0.000001
-const SOURCE_UINT16_MASK := 65535
-const SOURCE_RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
-const SOURCE_RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
-const SOURCE_LONG_MIN_WORDS := [0, 0, 0, 0x8000]
-
-func _source_arc_is_power_of_two(value: int) -> bool:
-	return value != 0 and (value & (value - 1)) == 0
-
-func _source_words_from_nonnegative(value: int) -> Array:
-	var remaining: int = value
-	var words: Array = []
-	for _index in 4:
-		words.append(remaining & SOURCE_UINT16_MASK)
-		remaining = remaining >> 16
-	return words
-
-func _source_words_clone(words: Array) -> Array:
-	return [int(words[0]), int(words[1]), int(words[2]), int(words[3])]
-
-func _source_words_xor(left: Array, right: Array) -> Array:
-	return [int(left[0]) ^ int(right[0]), int(left[1]) ^ int(right[1]), int(left[2]) ^ int(right[2]), int(left[3]) ^ int(right[3])]
-
-func _source_words_add(left: Array, right: Array) -> Array:
-	var result: Array = [0, 0, 0, 0]
-	var carry := 0
-	for index in 4:
-		var sum_value: int = int(left[index]) + int(right[index]) + carry
-		result[index] = sum_value & SOURCE_UINT16_MASK
-		carry = sum_value >> 16
-	return result
-
-func _source_words_shift_left(words: Array, bits: int) -> Array:
-	var result: Array = [0, 0, 0, 0]
-	var word_shift: int = bits >> 4
-	var bit_shift: int = bits % 16
-	for index in 4:
-		var source_index: int = index - word_shift
-		var value := 0
-		if source_index >= 0:
-			value = int(words[source_index]) << bit_shift
-			if bit_shift > 0 and source_index > 0:
-				value |= int(words[source_index - 1]) >> (16 - bit_shift)
-		result[index] = value & SOURCE_UINT16_MASK
-	return result
-
-func _source_words_unsigned_shift_right(words: Array, bits: int) -> Array:
-	var result: Array = [0, 0, 0, 0]
-	var word_shift: int = bits >> 4
-	var bit_shift: int = bits % 16
-	for index in 4:
-		var source_index: int = index + word_shift
-		var value := 0
-		if source_index < 4:
-			value = int(words[source_index]) >> bit_shift
-			if bit_shift > 0 and source_index < 3:
-				value |= int(words[source_index + 1]) << (16 - bit_shift)
-		result[index] = value & SOURCE_UINT16_MASK
-	return result
-
-func _source_words_mul(left: Array, right: Array) -> Array:
-	var accum: Array = [0, 0, 0, 0]
-	for left_index in 4:
-		for right_index in 4:
-			var target_index: int = left_index + right_index
-			if target_index < 4:
-				accum[target_index] = int(accum[target_index]) + int(left[left_index]) * int(right[right_index])
-	var result: Array = [0, 0, 0, 0]
-	var carry := 0
-	for index in 4:
-		var total: int = int(accum[index]) + carry
-		result[index] = total & SOURCE_UINT16_MASK
-		carry = total >> 16
-	return result
-
-func _source_words_to_nonnegative(words: Array) -> int:
-	return int(words[0]) + (int(words[1]) << 16) + (int(words[2]) << 32) + (int(words[3]) << 48)
-
-func _source_words_to_signed(words: Array) -> int:
-	if (int(words[3]) & 0x8000) == 0:
-		return _source_words_to_nonnegative(words)
-	var inverted: Array = [int(words[0]) ^ SOURCE_UINT16_MASK, int(words[1]) ^ SOURCE_UINT16_MASK, int(words[2]) ^ SOURCE_UINT16_MASK, int(words[3]) ^ SOURCE_UINT16_MASK]
-	var magnitude_words: Array = _source_words_add(inverted, [1, 0, 0, 0])
-	if int(magnitude_words[3]) == 0x8000 and int(magnitude_words[2]) == 0 and int(magnitude_words[1]) == 0 and int(magnitude_words[0]) == 0:
-		return SOURCE_INT64_MIN
-	return -_source_words_to_nonnegative(magnitude_words)
-
-func _source_arc_rand_murmur_hash3_words(words: Array) -> Array:
-	var x: Array = _source_words_clone(words)
-	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
-	x = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST1_WORDS)
-	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
-	x = _source_words_mul(x, SOURCE_RAND_MURMUR_CONST2_WORDS)
-	x = _source_words_xor(x, _source_words_unsigned_shift_right(x, 33))
-	return x
-
-func _source_arc_rand_set_seed(source_seed: int) -> Dictionary:
-	var seed_words: Array = SOURCE_LONG_MIN_WORDS.duplicate() if source_seed == 0 else _source_words_from_nonnegative(source_seed)
-	var seed0: Array = _source_arc_rand_murmur_hash3_words(seed_words)
-	return {"seed0": seed0, "seed1": _source_arc_rand_murmur_hash3_words(seed0)}
-
-func _source_arc_rand_next_long_words(rand_state: Dictionary) -> Array:
-	var s1: Array = (rand_state["seed0"] as Array).duplicate()
-	var s0: Array = (rand_state["seed1"] as Array).duplicate()
-	rand_state["seed0"] = s0
-	s1 = _source_words_xor(s1, _source_words_shift_left(s1, 23))
-	var seed1: Array = _source_words_xor(_source_words_xor(_source_words_xor(s1, s0), _source_words_unsigned_shift_right(s1, 17)), _source_words_unsigned_shift_right(s0, 26))
-	rand_state["seed1"] = seed1
-	return _source_words_add(seed1, s0)
-
-func _source_arc_rand_next_int_unbounded(rand_state: Dictionary) -> int:
-	return _source_words_to_signed(_source_arc_rand_next_long_words(rand_state))
-
-func _source_arc_rand_next_long_bound(rand_state: Dictionary, bound: int) -> int:
-	if bound <= 0:
-		push_error("Rand.nextLong bound must be positive")
-		return 0
-	while true:
-		var bits: int = _source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 1))
-		var value: int = bits % bound
-		if bits - value + (bound - 1) >= 0:
-			return value
-	return 0
-
-func _source_arc_rand_next_int_bound(rand_state: Dictionary, bound: int) -> int:
-	return _source_arc_rand_next_long_bound(rand_state, bound)
-
-func _source_arc_random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:
-	var rand_state := _source_arc_rand_set_seed(source_seed)
-	if _source_arc_is_power_of_two(max_value):
-		_source_arc_rand_next_int_unbounded(rand_state)
-	return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value
+const SourceMathState := preload("res://src/game/SourceMathState.gd")
+const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
+const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
+const SOURCE_FLOAT_ROUNDING_ERROR := SourceMathDefaults.FLOAT_ROUNDING_ERROR
+const SOURCE_BLOCK_SIZE_DEFAULT := SourceBlockDefaults.SIZE_DEFAULT
+const SOURCE_BLOCK_TIME_SCALE_DEFAULT := SourceBlockDefaults.TIME_SCALE_DEFAULT
+const SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT := SourceBlockDefaults.NO_UPDATE_DISABLED_DEFAULT
+const SOURCE_BUILDING_DRAW_CONFIGURE_COLOR := SourceBuildingDefaults.DRAW_CONFIGURE_COLOR
+const SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_STROKE_DEFAULT
+const SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE := SourceBuildingDefaults.DRAW_CONFIGURE_SHAPE
+const SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR := SourceBuildingDefaults.DRAW_CONFIGURE_SQUARE_EXPR
+const SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT := SourceBuildingDefaults.DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT
+const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_LARGE
+const SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL := SourceBuildingDefaults.DRAW_STATUS_MULTIPLIER_SMALL
+const SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_GRAY_SQUARE_SIZE
+const SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE := SourceBuildingDefaults.DRAW_STATUS_STATUS_SQUARE_SIZE
+const SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS := SourceBuildingDefaults.DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS
+const SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY := SourceBuildingDefaults.DRAW_SELECT_BUNDLE_KEY
+const SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN := SourceBuildingDefaults.DRAW_SELECT_DELAY_MIN
+const SOURCE_BUILDING_DRAW_DISABLED_ICON := SourceBuildingDefaults.DRAW_DISABLED_ICON
+const SOURCE_BUILDING_DRAW_DISABLED_COLOR := SourceBuildingDefaults.DRAW_DISABLED_COLOR
+const SOURCE_BUILDING_DRAW_DISABLED_ALPHA := SourceBuildingDefaults.DRAW_DISABLED_ALPHA
+const SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE := SourceBuildingDefaults.DRAW_DISABLED_ICON_SIZE
+const SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_ICON_DIVISOR
+const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_COLOR
+const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_ALPHA := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_ALPHA
+const SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET
+const SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET := SourceBuildingDefaults.DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET
+const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_AMOUNT_MIN
+const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT
+const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN
+const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_RADIUS_SCALE
+const SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION := SourceBuildingDefaults.DRAW_TEAM_BORDER_REGION
+const SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET := SourceBuildingDefaults.DRAW_TEAM_BORDER_OFFSET
+const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
+const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE
 
 func java_method_init_0(_args: Array = []) -> Variant:
 	return null
@@ -165,13 +68,38 @@ func java_method_tileY_4(_args: Array = []) -> Variant:
 	return null
 
 func java_method_writeBase_5(_args: Array = []) -> Variant:
-	return null
+	var current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+	var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)
+	var write_timescale := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT
+	var write_base_timescale := {"method": "public final void writeBase(Writes write){", "gate": "if(timeScale != 1f){", "write_time_scale_call": "write.f(timeScale);", "write_duration_call": "write.f(timeScaleDuration);", "current_time_scale": current_time_scale, "current_time_scale_duration": current_time_scale_duration, "write_timescale": write_timescale}
+	if write_timescale:
+		write_base_timescale.merge({"wrote_time_scale": current_time_scale, "wrote_time_scale_duration": current_time_scale_duration})
+	else:
+		write_base_timescale.merge({"wrote_time_scale": null, "wrote_time_scale_duration": null})
+	return {"source_owner": "PortGame.source_building_write_base_timescale_state", "write_base_timescale_source_owner": "PortGame.source_building_write_base_timescale_state", "write_base_timescale": write_base_timescale}
 
 func java_method_readBase_6(_args: Array = []) -> Variant:
-	return null
+	var current_module_bits := int(_args[0] if _args.size() > 0 else 0)
+	var read_time_scale := float(_args[1] if _args.size() > 1 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+	var read_time_scale_duration := float(_args[2] if _args.size() > 2 else 0.0)
+	var has_time_scale_module := (current_module_bits & (1 << 4)) != 0
+	var read_base_timescale := {"method": "public final void readBase(Reads read){", "module_bits_expr": "moduleBits = moduleBitmask();", "time_scale_module_expr": "if((moduleBits & (1 << 4)) != 0){", "read_time_scale_call": "timeScale = read.f();", "read_time_scale_duration_call": "timeScaleDuration = read.f();", "current_module_bits": current_module_bits, "read_time_scale": read_time_scale, "read_time_scale_duration": read_time_scale_duration, "has_time_scale_module": has_time_scale_module}
+	if has_time_scale_module:
+		read_base_timescale.merge({"time_scale": read_time_scale, "time_scale_duration": read_time_scale_duration, "read_called": true})
+	else:
+		read_base_timescale.merge({"time_scale": SOURCE_BLOCK_TIME_SCALE_DEFAULT, "time_scale_duration": 0.0, "read_called": false})
+	return {"source_owner": "PortGame.source_building_read_base_timescale_state", "read_base_timescale_source_owner": "PortGame.source_building_read_base_timescale_state", "read_base_timescale": read_base_timescale}
 
 func java_method_moduleBitmask_7(_args: Array = []) -> Variant:
-	return null
+	var has_items_module := bool(_args[0] if _args.size() > 0 else false)
+	var has_power_module := bool(_args[1] if _args.size() > 1 else false)
+	var has_liquids_module := bool(_args[2] if _args.size() > 2 else false)
+	var current_time_scale := float(_args[3] if _args.size() > 3 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)
+	var has_valid_last_disabler := bool(_args[4] if _args.size() > 4 else false)
+	var time_scale_changed := current_time_scale != SOURCE_BLOCK_TIME_SCALE_DEFAULT
+	var module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)
+	var module_bitmask := {"method": "public int moduleBitmask(){", "items_gate": "(items != null ? 1 : 0)", "power_gate": "(power != null ? 1 << 1 : 0)", "liquids_gate": "(liquids != null ? 1 << 2 : 0)", "base_module_bit": "1 << 3", "time_scale_bit_expr": "(timeScale != 1f ? 1 << 4 : 0)", "last_disabler_gate": "(lastDisabler != null && lastDisabler.isValid() ? 1 << 5 : 0)", "has_items_module": has_items_module, "has_power_module": has_power_module, "has_liquids_module": has_liquids_module, "current_time_scale": current_time_scale, "has_valid_last_disabler": has_valid_last_disabler, "time_scale_changed": time_scale_changed, "module_bits": module_bits}
+	return {"source_owner": "PortGame.source_building_module_bitmask_state", "module_bitmask_source_owner": "PortGame.source_building_module_bitmask_state", "module_bitmask": module_bitmask}
 
 func java_method_writeAll_8(_args: Array = []) -> Variant:
 	return null
@@ -528,13 +456,13 @@ func java_method_drawStatus_123(_args: Array = []) -> Variant:
 	var block_size_value := int(_args[2] if _args.size() > 2 else 1)
 	var source_x := float(_args[3] if _args.size() > 3 else 0.0)
 	var source_y := float(_args[4] if _args.size() > 4 else 0.0)
-	var source_tilesize := float(_args[5] if _args.size() > 5 else 8.0)
+	var source_tilesize := float(_args[5] if _args.size() > 5 else SOURCE_TILESIZE)
 	if not (enable_draw_status and consumers_length > 0):
 		return {"visible": false}
-	var multiplier := 1.0 if block_size_value > 1 else 0.64
+	var multiplier := SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_LARGE if block_size_value > 1 else SOURCE_BUILDING_DRAW_STATUS_MULTIPLIER_SMALL
 	var brcx := source_x + (float(block_size_value) * source_tilesize / 2.0) - (source_tilesize * multiplier / 2.0)
 	var brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)
-	return {"visible": true, "multiplier": multiplier, "brcx": brcx, "brcy": brcy, "gray_square_size": 2.5 * multiplier, "status_square_size": 1.5 * multiplier}
+	return {"visible": true, "multiplier": multiplier, "brcx": brcx, "brcy": brcy, "gray_square_size": SOURCE_BUILDING_DRAW_STATUS_GRAY_SQUARE_SIZE * multiplier, "status_square_size": SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE * multiplier}
 
 func java_method_drawCracks_124(_args: Array = []) -> Variant:
 	var draw_cracks := bool(_args[0] if _args.size() > 0 else false)
@@ -560,31 +488,31 @@ func java_method_drawSelect_125(_args: Array = []) -> Variant:
 	var tile_y := int(_args[5] if _args.size() > 5 else 0)
 	var unit_activation_delay := float(_args[6] if _args.size() > 6 else 0.0)
 	var state_tick := float(_args[7] if _args.size() > 7 else 0.0)
-	var inactive_unit_factory := block_status == "inactiveUnitFactory"
-	var remaining_activation_delay := maxf(0.0, unit_activation_delay - state_tick)
-	return {"overlay_visible": true, "overlay_x": source_x, "overlay_y": source_y, "overlay_rotation": source_rotation, "place_text_visible": inactive_unit_factory, "place_text_bundle_key": "rules.unitfactoryactivation.objective", "place_text_time": remaining_activation_delay, "place_text_tile_x": tile_x, "place_text_tile_y": tile_y}
+	var inactive_unit_factory := block_status == SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS
+	var remaining_activation_delay := maxf(SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN, unit_activation_delay - state_tick)
+	return {"overlay_visible": true, "overlay_x": source_x, "overlay_y": source_y, "overlay_rotation": source_rotation, "place_text_visible": inactive_unit_factory, "place_text_bundle_key": SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY, "place_text_time": remaining_activation_delay, "place_text_tile_x": tile_x, "place_text_tile_y": tile_y}
 
 func java_method_drawItemSelection_126(_args: Array = []) -> Variant:
 	var has_selection := bool(_args[0] if _args.size() > 0 else false)
 	var source_x := float(_args[1] if _args.size() > 1 else 0.0)
 	var source_y := float(_args[2] if _args.size() > 2 else 0.0)
 	var block_size_value := int(_args[3] if _args.size() > 3 else 1)
-	var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)
+	var source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)
 	var icon_small := float(_args[5] if _args.size() > 5 else 0.0)
 	var selection_icon_ratio := float(_args[6] if _args.size() > 6 else 1.0)
 	if not has_selection:
 		return {"visible": false}
 	var dx := source_x - float(block_size_value) * source_tilesize / 2.0
 	var dy := source_y + float(block_size_value) * source_tilesize / 2.0
-	var selection_width := icon_small / 4.0 * selection_icon_ratio
-	var selection_height := icon_small / 4.0
-	return {"visible": true, "dx": dx, "dy": dy, "shadow_color": "darkGray", "shadow_alpha": 1.0, "shadow_y": dy - 1.0, "foreground_y": dy, "selection_width": selection_width, "selection_height": selection_height}
+	var selection_width := icon_small / SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR * selection_icon_ratio
+	var selection_height := icon_small / SOURCE_BUILDING_DRAW_ITEM_SELECTION_ICON_DIVISOR
+	return {"visible": true, "dx": dx, "dy": dy, "shadow_color": SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_COLOR, "shadow_alpha": SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_ALPHA, "shadow_y": dy - SOURCE_BUILDING_DRAW_ITEM_SELECTION_SHADOW_Y_OFFSET, "foreground_y": dy + SOURCE_BUILDING_DRAW_ITEM_SELECTION_FOREGROUND_Y_OFFSET, "selection_width": selection_width, "selection_height": selection_height}
 
 func java_method_drawDisabled_127(_args: Array = []) -> Variant:
 	var source_x := float(_args[0] if _args.size() > 0 else 0.0)
 	var source_y := float(_args[1] if _args.size() > 1 else 0.0)
-	var disabled_icon_size := 6.0
-	return {"visible": true, "icon": "cancel", "color": "scarlet", "alpha": 0.8, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size}
+	var disabled_icon_size := SOURCE_BUILDING_DRAW_DISABLED_ICON_SIZE
+	return {"visible": true, "icon": SOURCE_BUILDING_DRAW_DISABLED_ICON, "color": SOURCE_BUILDING_DRAW_DISABLED_COLOR, "alpha": SOURCE_BUILDING_DRAW_DISABLED_ALPHA, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size}
 
 func java_method_draw_128(_args: Array = []) -> Variant:
 	var variants := int(_args[0] if _args.size() > 0 else 0)
@@ -600,7 +528,7 @@ func java_method_draw_128(_args: Array = []) -> Variant:
 	if variants == 0 or not has_variant_regions:
 		return {"visible": true, "region_kind": "region", "variant_index": -1, "x": source_x, "y": source_y, "rotation_degrees": draw_rotation, "draw_team_top": true}
 	var max_variant_index: int = max(0, variant_region_count - 1)
-	var variant_index: int = _source_arc_random_seed_int(tile_pos, 0, max_variant_index)
+	var variant_index: int = SourceMathState.random_seed_int(tile_pos, 0, max_variant_index)
 	return {"visible": true, "region_kind": "variant_region", "variant_index": variant_index, "x": source_x, "y": source_y, "rotation_degrees": draw_rotation, "draw_team_top": true}
 
 func java_method_drawCached_129(_args: Array = []) -> Variant:
@@ -684,21 +612,21 @@ func java_method_drawLiquidLight_134(_args: Array = []) -> Variant:
 	var light_color := String(_args[3] if _args.size() > 3 else "")
 	var light_alpha := float(_args[4] if _args.size() > 4 else 0.0)
 	var amount := float(_args[5] if _args.size() > 5 else 0.0)
-	if amount <= 0.01:
+	if amount <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN:
 		return {"visible": false}
-	var fract: float = 1.0
+	var fract: float = SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT
 	var opacity: float = light_alpha * fract
-	if opacity <= 0.001:
+	if opacity <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:
 		return {"visible": false}
-	return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}
+	return {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE * fract, "color": light_color, "opacity": opacity, "alpha": opacity * amount, "fract": fract}
 
 func java_method_drawTeam_135(_args: Array = []) -> Variant:
 	var team_color := String(_args[0] if _args.size() > 0 else "")
 	var source_x := float(_args[1] if _args.size() > 1 else 0.0)
 	var source_y := float(_args[2] if _args.size() > 2 else 0.0)
 	var block_size_value := int(_args[3] if _args.size() > 3 else 0)
-	var source_tilesize := float(_args[4] if _args.size() > 4 else 8.0)
-	return {"visible": true, "region": "block-border", "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + 4.0, "y": source_y - block_size_value * source_tilesize / 2.0 + 4.0, "color_reset": true}
+	var source_tilesize := float(_args[4] if _args.size() > 4 else SOURCE_TILESIZE)
+	return {"visible": true, "region": SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION, "color": team_color, "x": source_x - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET, "y": source_y - block_size_value * source_tilesize / 2.0 + SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET, "color_reset": true}
 
 func java_method_checkSuppression_136(_args: Array = []) -> Variant:
 	var block_suppressable := bool(_args[0] if _args.size() > 0 else false)
@@ -708,7 +636,7 @@ func java_method_checkSuppression_136(_args: Array = []) -> Variant:
 	var source_x := float(_args[4] if _args.size() > 4 else 0.0)
 	var source_y := float(_args[5] if _args.size() > 5 else 0.0)
 	var block_size_value := int(_args[6] if _args.size() > 6 else 0)
-	var source_tilesize := float(_args[7] if _args.size() > 7 else 8.0)
+	var source_tilesize := float(_args[7] if _args.size() > 7 else SOURCE_TILESIZE)
 	var suppress_color := String(_args[8] if _args.size() > 8 else "")
 	var suppressed: bool = block_suppressable and source_time <= heal_suppression_time
 	if not suppressed:
@@ -813,8 +741,8 @@ func java_method_explosionItemCap_152(_args: Array = []) -> Variant:
 func java_method_splashLiquid_153(_args: Array = []) -> Variant:
 	var liquid: Variant = _args[0] if _args.size() > 0 else null
 	var amount := float(_args[1] if _args.size() > 1 else 0.0)
-	var source_block_size := int(_args[2] if _args.size() > 2 else 0)
-	var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_block_size := int(_args[2] if _args.size() > 2 else SOURCE_BLOCK_SIZE_DEFAULT)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)
 	var splash := clampf(amount / 4.0, 0.0, 10.0)
 	var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))
 	var delays: Array[float] = []
@@ -827,7 +755,7 @@ func java_method_onDeconstructed_154(_args: Array = []) -> Variant:
 	var current_amount := float(_args[1] if _args.size() > 1 else 0.0)
 	var current_incinerable := bool(_args[2] if _args.size() > 2 else false)
 	var deconstruct_drop_all_liquid := bool(_args[3] if _args.size() > 3 else false)
-	var source_block_size := int(_args[4] if _args.size() > 4 else 0)
+	var source_block_size := int(_args[4] if _args.size() > 4 else SOURCE_BLOCK_SIZE_DEFAULT)
 	var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid
 	var deposit_linked_tiles := has_liquids_module and current_amount > 0.0 and can_drop_liquid
 	var per_cell := 0.0
@@ -872,8 +800,8 @@ func java_method_onDestroyed_155(_args: Array = []) -> Variant:
 	var source_y := float(_args[12] if _args.size() > 12 else 0.0)
 	var flammability_scale := float(_args[13] if _args.size() > 13 else 1.0)
 	var explosiveness_scale := float(_args[14] if _args.size() > 14 else 1.0)
-	var source_tilesize := float(_args[15] if _args.size() > 15 else 0.0)
-	var source_block_size := int(_args[16] if _args.size() > 16 else 0)
+	var source_tilesize := float(_args[15] if _args.size() > 15 else SOURCE_TILESIZE)
+	var source_block_size := int(_args[16] if _args.size() > 16 else SOURCE_BLOCK_SIZE_DEFAULT)
 	var destroy_effect := str(_args[17] if _args.size() > 17 else "")
 	var base_shake := float(_args[18] if _args.size() > 18 else 0.0)
 	var dynamic_explosion_flammability := flammability * flammability_scale
@@ -1009,10 +937,10 @@ func java_method_drawConfigure_171(_args: Array = []) -> Variant:
 	var source_x := float(_args[0] if _args.size() > 0 else 0.0)
 	var source_y := float(_args[1] if _args.size() > 1 else 0.0)
 	var block_size_value := int(_args[2] if _args.size() > 2 else 0)
-	var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)
 	var half_extent := float(block_size_value) * source_tilesize / 2.0
-	var radius_offset := 1.0
-	return {"source_owner": "PortGame.source_building_draw_configure_state", "method": "public void drawConfigure(){", "color": "Pal.accent", "stroke": 1.0, "shape": "square", "square": "Lines.square(x, y, block.size * tilesize / 2f + 1f);", "x": source_x, "y": source_y, "halfExtent": half_extent, "radiusOffset": radius_offset, "radius": half_extent + radius_offset, "reset": true, "source_x": source_x, "source_y": source_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize}
+	var radius_offset := SOURCE_BUILDING_DRAW_CONFIGURE_RADIUS_OFFSET_DEFAULT
+	return {"source_owner": "PortGame.source_building_draw_configure_state", "method": "public void drawConfigure(){", "color": SOURCE_BUILDING_DRAW_CONFIGURE_COLOR, "stroke": SOURCE_BUILDING_DRAW_CONFIGURE_STROKE_DEFAULT, "shape": SOURCE_BUILDING_DRAW_CONFIGURE_SHAPE, "square": SOURCE_BUILDING_DRAW_CONFIGURE_SQUARE_EXPR, "x": source_x, "y": source_y, "halfExtent": half_extent, "radiusOffset": radius_offset, "radius": half_extent + radius_offset, "reset": true, "source_x": source_x, "source_y": source_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize}
 
 func java_method_checkSolid_172(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_check_solid_state", "method": "public boolean checkSolid(){", "checkSolid": false}
@@ -1245,7 +1173,7 @@ func java_method_heal_201(_args: Array = []) -> Variant:
 
 func java_method_hitSize_202(_args: Array = []) -> Variant:
 	var block_size_value := int(_args[0] if _args.size() > 0 else 0)
-	var source_tilesize := float(_args[1] if _args.size() > 1 else 8.0)
+	var source_tilesize := float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)
 	var hit_size := float(block_size_value) * source_tilesize
 	return {"source_owner": "PortGame.source_building_hit_size", "override": "@Override", "method": "public float hitSize(){", "return_expr": "return tile.block().size * tilesize;", "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hit_size": hit_size}
 
@@ -1295,7 +1223,7 @@ func java_method_healthChanged_205(_args: Array = []) -> Variant:
 func java_method_sense_206(_args: Array = []) -> Variant:
 	var world_x := float(_args[0] if _args.size() > 0 else 0.0)
 	var world_y := float(_args[1] if _args.size() > 1 else 0.0)
-	var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)
+	var source_tilesize := float(_args[2] if _args.size() > 2 else SOURCE_TILESIZE)
 	var source_x := world_x / source_tilesize
 	var source_y := world_y / source_tilesize
 	var health := float(_args[3] if _args.size() > 3 else 0.0)
@@ -1322,7 +1250,7 @@ func java_method_sense_206(_args: Array = []) -> Variant:
 	var last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)
 	var last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)
 	var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)
-	var source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var source_tick_rate := float(_args[37] if _args.size() > 37 else SOURCE_TICK_RATE)
 	var power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0
 	var power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0
 	var power_net_stored := last_power_stored if has_power_module else 0.0
@@ -1590,13 +1518,13 @@ func java_method_checkAllowUpdate_216(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update": check_allow_update}
 
 func java_method_update_217(_args: Array = []) -> Variant:
-	var current_time_scale := float(_args[0] if _args.size() > 0 else 1.0)
+	var current_time_scale := float(_args[0] if _args.size() > 0 else SOURCE_BLOCK_TIME_SCALE_DEFAULT)
 	var current_time_scale_duration := float(_args[1] if _args.size() > 1 else 0.0)
 	var time_delta := float(_args[2] if _args.size() > 2 else 0.0)
 	var next_duration := current_time_scale_duration - time_delta
 	var update_timescale_decay := {"field": "private transient float timeScale = 1f, timeScaleDuration;", "method": "public void update(){", "decay_gate": "if((timeScaleDuration -= Time.delta) <= 0f){", "reset": "timeScale = 1f;", "current_time_scale": current_time_scale, "current_time_scale_duration": current_time_scale_duration, "time_delta": time_delta}
 	if next_duration <= 0.0:
-		update_timescale_decay.merge({"time_scale": 1.0, "time_scale_duration": next_duration})
+		update_timescale_decay.merge({"time_scale": SOURCE_BLOCK_TIME_SCALE_DEFAULT, "time_scale_duration": next_duration})
 	else:
 		update_timescale_decay.merge({"time_scale": current_time_scale, "time_scale_duration": next_duration})
 	var headless_mode := bool(_args[3] if _args.size() > 3 else false)
@@ -1613,7 +1541,7 @@ func java_method_update_217(_args: Array = []) -> Variant:
 		update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})
 	var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}
 	var enabled_state := bool(_args[9] if _args.size() > 9 else false)
-	var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else false)
+	var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else SOURCE_BLOCK_NO_UPDATE_DISABLED_DEFAULT)
 	var update_tile_called := enabled_state or not block_no_update_disabled
 	var update_tile_gate := {"method": "public void update(){", "gate": "if(enabled || !block.noUpdateDisabled){", "update_tile_call": "updateTile();", "enabled_state": enabled_state, "block_no_update_disabled": block_no_update_disabled, "update_tile_called": update_tile_called}
 	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate, "update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state", "update_consumption_call": update_consumption_call, "update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state", "update_tile_gate": update_tile_gate}
@@ -1638,7 +1566,7 @@ func java_method_hitbox_219(_args: Array = []) -> Variant:
 	var world_x := float(_args[0] if _args.size() > 0 else 0.0)
 	var world_y := float(_args[1] if _args.size() > 1 else 0.0)
 	var block_size_value := int(_args[2] if _args.size() > 2 else 0)
-	var source_tilesize := float(_args[3] if _args.size() > 3 else 8.0)
+	var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)
 	var hitbox_size := float(block_size_value) * source_tilesize
 	return {"source_owner": "PortGame.source_building_hitbox_state", "method": "public void hitbox(Rect out){", "set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", "hitbox_size_expr": "block.size * tilesize", "world_x": world_x, "world_y": world_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hitbox_size": hitbox_size, "set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}}
 
