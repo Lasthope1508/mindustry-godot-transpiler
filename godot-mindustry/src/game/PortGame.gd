@@ -655,26 +655,10 @@ func load_content_registry() -> void:
 
 func load_wave_groups() -> void:
 	wave_groups.clear()
-	var document := SourceSsotCatalog.load_document("content_registry_wave_groups")
-	if not bool(document.get("loaded", false)):
+	if not SourceSsotCatalog.document_loaded("content_registry_wave_groups"):
 		push_error("Missing content registry wave groups manifest: content_registry_wave_groups")
 		return
-	var data: Dictionary = document.get("data", {})
-	var group_entries_value = data.get("groups", {})
-	var group_entries: Dictionary = group_entries_value if typeof(group_entries_value) == TYPE_DICTIONARY else {}
-	var group_indexes: Array = []
-	for group_index in group_entries.keys():
-		group_indexes.append(int(str(group_index)))
-	group_indexes.sort()
-	for group_index in group_indexes:
-		var entry_value = group_entries.get(str(group_index), {})
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry: Dictionary = entry_value
-		var group = entry.get("group", {})
-		if typeof(group) != TYPE_DICTIONARY:
-			continue
-		wave_groups.append(group)
+	wave_groups = SourceSsotCatalog.ordered_shard_nested_entries("content_registry_wave_groups", "groups", "group")
 
 func load_all_generated_scripts() -> void:
 	all_generated_scripts.clear()

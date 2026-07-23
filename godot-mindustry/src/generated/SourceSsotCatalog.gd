@@ -236,6 +236,9 @@ static func lookup_state(module_name: String, key_value: String = "") -> Diction
 		"policy": parsed.get("policy", {}),
 	}
 
+static func document_loaded(module_name: String) -> bool:
+	return bool(load_document(module_name).get("loaded", false))
+
 static func first_registered_content_id(collection_key: String, shard_module_name: String) -> String:
 	var registry_document := load_document("content_registry")
 	var shard_document := load_document(shard_module_name)
@@ -265,6 +268,29 @@ static func first_registered_content_id(collection_key: String, shard_module_nam
 			continue
 		return content_id
 	return ""
+
+static func ordered_shard_nested_entries(module_name: String, root_key: String, nested_key: String) -> Array:
+	var document := load_document(module_name)
+	if not bool(document.get("loaded", false)):
+		return []
+	var data: Dictionary = document.get("data", {})
+	var entries_value = data.get(root_key, {})
+	var entries: Dictionary = entries_value if typeof(entries_value) == TYPE_DICTIONARY else {}
+	var indexes: Array = []
+	for index_key in entries.keys():
+		indexes.append(int(str(index_key)))
+	indexes.sort()
+	var result: Array = []
+	for index in indexes:
+		var entry_value = entries.get(str(index), {})
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry: Dictionary = entry_value
+		var nested_value = entry.get(nested_key, {})
+		if typeof(nested_value) != TYPE_DICTIONARY:
+			continue
+		result.append(nested_value)
+	return result
 
 static func keyed_array_lookup_state(module_name: String, array_key: String, key_field: String, label: String, key_value: String = "") -> Dictionary:
 	var document := load_document(module_name)
