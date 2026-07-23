@@ -246,6 +246,11 @@ static func document_data(module_name: String) -> Dictionary:
 	var data = document.get("data", {})
 	return data if typeof(data) == TYPE_DICTIONARY else {}
 
+static func document_root_data(module_name: String, root_key: String) -> Dictionary:
+	var data := document_data(module_name)
+	var root_value = data.get(root_key, {})
+	return root_value if typeof(root_value) == TYPE_DICTIONARY else {}
+
 static func first_nested_array_value(module_name: String, parent_key: String, array_key: String) -> Variant:
 	var data := document_data(module_name)
 	var parent_value = data.get(parent_key, {})

@@ -9,12 +9,9 @@ func _init(source_catalog: Variant) -> void:
 	load_gameplay_profile()
 
 func load_gameplay_profile() -> void:
-	var document: Dictionary = catalog.load_document("gameplay_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("gameplay_profile", "gameplay")
+	if profile.is_empty():
 		profile = {"unit": {}, "builder": {}, "liquid": {}, "source": {}}
-		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("gameplay", {})
 
 func first_pinned_build_block_id() -> String:
 	var value = catalog.first_nested_array_value("playable_content", "build_palette", "pinned_block_ids")
