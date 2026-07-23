@@ -409,11 +409,10 @@ func _ready() -> void:
 	build_hud()
 
 func load_config() -> void:
-	var document := SourceSsotCatalog.load_document("playable_content")
-	if not bool(document.get("loaded", false)):
+	if not SourceSsotCatalog.document_loaded("playable_content"):
 		push_error("Missing playable content manifest: playable_content")
 		return
-	config = document.get("data", {})
+	config = SourceSsotCatalog.document_data("playable_content")
 
 func load_display_profile() -> void:
 	display_profile_runtime = DisplayProfileRuntime.new(SourceSsotCatalog)

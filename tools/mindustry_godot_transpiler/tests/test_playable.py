@@ -6663,9 +6663,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"dump_handle_payload": SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD', source)
         self.assertIn('"dump_increment": SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP', source)
         self.assertIn('"payload_runtime": payload_runtime_state()', summary_body)
-        self.assertIn('catalog.load_document("playable_content")', helper_source)
+        self.assertIn('catalog.first_nested_array_value("playable_content", "build_palette", "pinned_block_ids")', helper_source)
+        self.assertNotIn('catalog.load_document("playable_content")', helper_source)
         self.assertIn("func first_pinned_build_block_id() -> String:", helper_source)
-        self.assertIn("return str(pinned_block_ids[0])", helper_source)
         self.assertIn('return {"kind": "block", "content": block_id, "size": max(1, int(block.properties.get("size", 1)))}', helper_source)
         self.assertNotIn('var payload_runtime_payload := {"kind": "block", "content": "conveyor", "size": 1}', source)
 
@@ -17688,8 +17688,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn('"playable_content": {', catalog_source)
         self.assertIn('"path": "res://src/generated/playable_content.json"', catalog_source)
-        self.assertIn('var document := SourceSsotCatalog.load_document("playable_content")', source)
-        self.assertIn('config = document.get("data", {})', source)
+        self.assertIn("static func document_data(module_name: String) -> Dictionary:", catalog_source)
+        self.assertIn('if not SourceSsotCatalog.document_loaded("playable_content"):', source)
+        self.assertIn('config = SourceSsotCatalog.document_data("playable_content")', source)
+        self.assertNotIn('var document := SourceSsotCatalog.load_document("playable_content")', source)
+        self.assertNotIn('config = document.get("data", {})', source)
         self.assertNotIn("const CONFIG_PATH", source)
         self.assertNotIn("FileAccess.open(CONFIG_PATH", source)
 

@@ -239,6 +239,23 @@ static func lookup_state(module_name: String, key_value: String = "") -> Diction
 static func document_loaded(module_name: String) -> bool:
 	return bool(load_document(module_name).get("loaded", false))
 
+static func document_data(module_name: String) -> Dictionary:
+	var document := load_document(module_name)
+	if not bool(document.get("loaded", false)):
+		return {}
+	var data = document.get("data", {})
+	return data if typeof(data) == TYPE_DICTIONARY else {}
+
+static func first_nested_array_value(module_name: String, parent_key: String, array_key: String) -> Variant:
+	var data := document_data(module_name)
+	var parent_value = data.get(parent_key, {})
+	var parent: Dictionary = parent_value if typeof(parent_value) == TYPE_DICTIONARY else {}
+	var values_value = parent.get(array_key, [])
+	var values: Array = values_value if typeof(values_value) == TYPE_ARRAY else []
+	if values.is_empty():
+		return null
+	return values[0]
+
 static func first_registered_content_id(collection_key: String, shard_module_name: String) -> String:
 	var registry_document := load_document("content_registry")
 	var shard_document := load_document(shard_module_name)

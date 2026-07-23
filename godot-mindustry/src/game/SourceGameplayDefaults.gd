@@ -17,15 +17,8 @@ func load_gameplay_profile() -> void:
 	profile = data.get("gameplay", {})
 
 func first_pinned_build_block_id() -> String:
-	var document: Dictionary = catalog.load_document("playable_content")
-	if not bool(document.get("loaded", false)):
-		return ""
-	var data: Dictionary = document.get("data", {})
-	var palette: Dictionary = data.get("build_palette", {})
-	var pinned_block_ids: Array = palette.get("pinned_block_ids", [])
-	if pinned_block_ids.is_empty():
-		return ""
-	return str(pinned_block_ids[0])
+	var value = catalog.first_nested_array_value("playable_content", "build_palette", "pinned_block_ids")
+	return str(value) if value != null else ""
 
 func first_pinned_payload(content_catalog: Variant) -> Dictionary:
 	var block_id := first_pinned_build_block_id()
