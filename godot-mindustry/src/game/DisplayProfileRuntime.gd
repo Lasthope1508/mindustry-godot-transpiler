@@ -32,12 +32,10 @@ func _init(source_catalog: Variant) -> void:
 	catalog = source_catalog
 
 func load() -> bool:
-	var document: Dictionary = catalog.load_document(MODULE_NAME)
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data(MODULE_NAME, "playfield")
+	if profile.is_empty():
 		push_error("Missing display profile manifest: %s" % MODULE_NAME)
 		return false
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("playfield", {})
 	var viewport: Dictionary = profile.get("viewport", {})
 	var camera_profile: Dictionary = profile.get("camera", {})
 	var visible_world: Dictionary = profile.get("visible_world", {})

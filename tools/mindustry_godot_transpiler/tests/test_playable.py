@@ -264,10 +264,11 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("class_name DisplayProfileRuntime", module_source)
         self.assertIn('const MODULE_NAME := "display_profile"', module_source)
-        self.assertIn("var document: Dictionary = catalog.load_document(MODULE_NAME)", module_source)
+        self.assertIn('profile = catalog.document_root_data(MODULE_NAME, "playfield")', module_source)
         self.assertIn("func runtime_summary() -> Dictionary:", module_source)
         self.assertIn('"covers_visible_world": world_width_pixels >= visible_world_size_pixels.x', module_source)
-        self.assertNotIn("var document := catalog.load_document(MODULE_NAME)", module_source)
+        self.assertNotIn("catalog.load_document(MODULE_NAME)", module_source)
+        self.assertNotIn('profile = data.get("playfield", {})', module_source)
 
         self.assertIn('const DisplayProfileRuntime := preload("res://src/game/DisplayProfileRuntime.gd")', port_source)
         self.assertIn("var display_profile_runtime: DisplayProfileRuntime", port_source)
@@ -458,7 +459,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const MODULE_NAME := "control_profile"', source)
         self.assertNotIn('const KEY_PLATFORMS := ["desktop", "web"]', source)
         self.assertIn("var catalog: Variant", source)
-        self.assertIn("catalog.load_document(MODULE_NAME)", source)
+        self.assertIn("profile = catalog.document_data(MODULE_NAME)", source)
+        self.assertNotIn("catalog.load_document(MODULE_NAME)", source)
         self.assertIn("func install_input_map() -> void:", source)
         self.assertIn("OS.find_keycode_from_string", source)
         self.assertIn("InputMap.action_add_event(godot_action, event)", source)

@@ -15,14 +15,9 @@ func _init(source_catalog: Variant) -> void:
 	load_profile()
 
 func load_profile() -> void:
-	var document: Dictionary = catalog.load_document(MODULE_NAME)
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_data(MODULE_NAME)
+	if profile.is_empty():
 		profile = {"actions": {}, "platforms": {}, "camera": {}, "hud_hint": ""}
-		actions = {}
-		platforms = {}
-		camera_settings = {}
-		return
-	profile = document.get("data", {})
 	actions = profile.get("actions", {})
 	platforms = profile.get("platforms", {})
 	camera_settings = profile.get("camera", {})
