@@ -47,6 +47,9 @@ const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRA
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_RADIUS_SCALE
+const SOURCE_BUILDING_DRAW_LIGHT_LERP_PROGRESS := SourceBuildingDefaults.DRAW_LIGHT_LERP_PROGRESS
+const SOURCE_BUILDING_DRAW_LIGHT_TARGET_FULL := SourceBuildingDefaults.DRAW_LIGHT_TARGET_FULL
+const SOURCE_BUILDING_DRAW_LIGHT_TARGET_EMPTY := SourceBuildingDefaults.DRAW_LIGHT_TARGET_EMPTY
 const SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION := SourceBuildingDefaults.DRAW_TEAM_BORDER_REGION
 const SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET := SourceBuildingDefaults.DRAW_TEAM_BORDER_OFFSET
 const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
@@ -591,16 +594,16 @@ func java_method_drawLight_133(_args: Array = []) -> Variant:
 	var block_size_value := int(_args[12] if _args.size() > 12 else 0)
 	var selected_color: String = current_liquid_color if light_liquid_is_null else light_liquid_color
 	var selected_alpha: float = current_liquid_alpha if light_liquid_is_null else light_liquid_alpha
-	if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:
+	if not has_liquids or not draw_liquid_light or selected_alpha <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:
 		return {"visible": false, "visual_liquid": visual_liquid}
-	var target: float = 1.0 if selected_liquid_amount >= 0.01 else 0.0
-	var next_visual_liquid: float = lerp(visual_liquid, target, clamp(0.06 * source_delta, 0.0, 1.0))
+	var target: float = SOURCE_BUILDING_DRAW_LIGHT_TARGET_FULL if selected_liquid_amount >= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN else SOURCE_BUILDING_DRAW_LIGHT_TARGET_EMPTY
+	var next_visual_liquid: float = lerp(visual_liquid, target, clamp(SOURCE_BUILDING_DRAW_LIGHT_LERP_PROGRESS * source_delta, 0.0, 1.0))
 	var light_state: Dictionary = {"visible": false, "drawLiquidLightCall": "drawLiquidLight(liq, visualLiquid);"}
-	if next_visual_liquid > 0.01:
-		var fract: float = 1.0
+	if next_visual_liquid > SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN:
+		var fract: float = SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT
 		var opacity: float = selected_alpha * fract
-		if opacity > 0.001:
-			light_state = {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * 30.0 * fract, "color": selected_color, "opacity": opacity, "alpha": opacity * next_visual_liquid, "fract": fract}
+		if opacity > SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:
+			light_state = {"visible": true, "x": source_x, "y": source_y, "radius": block_size_value * SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE * fract, "color": selected_color, "opacity": opacity, "alpha": opacity * next_visual_liquid, "fract": fract}
 	light_state["visual_liquid"] = next_visual_liquid
 	light_state["drawLiquidLightCall"] = "drawLiquidLight(liq, visualLiquid);"
 	return light_state

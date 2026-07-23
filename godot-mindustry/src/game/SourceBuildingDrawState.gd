@@ -9,6 +9,9 @@ const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRA
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_RADIUS_SCALE := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_RADIUS_SCALE
+const SOURCE_BUILDING_DRAW_LIGHT_LERP_PROGRESS := SourceBuildingDefaults.DRAW_LIGHT_LERP_PROGRESS
+const SOURCE_BUILDING_DRAW_LIGHT_TARGET_FULL := SourceBuildingDefaults.DRAW_LIGHT_TARGET_FULL
+const SOURCE_BUILDING_DRAW_LIGHT_TARGET_EMPTY := SourceBuildingDefaults.DRAW_LIGHT_TARGET_EMPTY
 const SOURCE_BUILDING_DRAW_TEAM_BORDER_REGION := SourceBuildingDefaults.DRAW_TEAM_BORDER_REGION
 const SOURCE_BUILDING_DRAW_TEAM_BORDER_OFFSET := SourceBuildingDefaults.DRAW_TEAM_BORDER_OFFSET
 
@@ -123,10 +126,10 @@ static func draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_l
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_light_state"}
 	var selected_color := current_liquid_color if light_liquid_is_null else light_liquid_color
 	var selected_alpha := current_liquid_alpha if light_liquid_is_null else light_liquid_alpha
-	if not has_liquids or not draw_liquid_light or selected_alpha <= 0.001:
+	if not has_liquids or not draw_liquid_light or selected_alpha <= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN:
 		return _with_source_owner(source_exprs, {"visible": false, "visual_liquid": visual_liquid})
-	var target := 1.0 if selected_liquid_amount >= 0.01 else 0.0
-	var next_visual_liquid := float(lerp_delta.call(visual_liquid, target, 0.06, source_delta))
+	var target := SOURCE_BUILDING_DRAW_LIGHT_TARGET_FULL if selected_liquid_amount >= SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN else SOURCE_BUILDING_DRAW_LIGHT_TARGET_EMPTY
+	var next_visual_liquid := float(lerp_delta.call(visual_liquid, target, SOURCE_BUILDING_DRAW_LIGHT_LERP_PROGRESS, source_delta))
 	var light_state := draw_liquid_light_state(source_x, source_y, block_size_value, selected_color, selected_alpha, next_visual_liquid)
 	light_state["source_owner"] = "PortGame.source_building_draw_light_state"
 	light_state["visual_liquid"] = next_visual_liquid
