@@ -973,6 +973,11 @@ class PlayableManifestTests(unittest.TestCase):
             "reload_multiplier": 1.0,
             "width": 5.0,
             "height": 7.0,
+            "charge_effect": "none",
+            "keep_velocity": True,
+            "scale_keep_velocity": False,
+            "kill_shooter": False,
+            "instant_disappear": False,
         })
         self.assertEqual(bullet["source"]["range_change_field"], "public float rangeChange = 0f;")
         self.assertEqual(bullet["source"]["inaccuracy_field"], "public float inaccuracy = 0f;")
@@ -983,6 +988,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(bullet["source"]["ammo_multiplier_field"], "public float ammoMultiplier = 2f;")
         self.assertEqual(bullet["source"]["reload_multiplier_field"], "public float reloadMultiplier = 1f;")
         self.assertEqual(bullet["source"]["scale_field"], "public float width = 5f, height = 7f;")
+        self.assertEqual(bullet["defaults"]["charge_effect"], "none")
+        self.assertEqual(bullet["defaults"]["keep_velocity"], True)
+        self.assertEqual(bullet["defaults"]["scale_keep_velocity"], False)
+        self.assertEqual(bullet["defaults"]["kill_shooter"], False)
+        self.assertEqual(bullet["defaults"]["instant_disappear"], False)
+        self.assertEqual(bullet["source"]["charge_effect_field"], "public Effect chargeEffect = Fx.none;")
+        self.assertEqual(bullet["source"]["keep_velocity_field"], "public boolean keepVelocity = true;")
+        self.assertEqual(bullet["source"]["scale_keep_velocity_field"], "public boolean scaleKeepVelocity = false;")
+        self.assertEqual(bullet["source"]["kill_shooter_field"], "public boolean killShooter;")
+        self.assertEqual(bullet["source"]["instant_disappear_field"], "public boolean instantDisappear;")
         self.assertIn("core/src/mindustry/entities/bullet/BulletType.java", bullet["source"]["java_sources"])
         self.assertIn("core/src/mindustry/entities/bullet/BasicBulletType.java", bullet["source"]["java_sources"])
 
@@ -997,12 +1012,14 @@ class PlayableManifestTests(unittest.TestCase):
             "reload_multiplier_default",
             "width_default",
             "height_default",
+            "charge_effect_default",
             "keep_velocity_default",
             "scale_keep_velocity_default",
         ]:
             self.assertIn(f"func {getter}()", defaults_source)
-        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", defaults_source)
-        self.assertIn("const SCALE_KEEP_VELOCITY_DEFAULT := false", defaults_source)
+        self.assertIn('return _string_default("charge_effect")', defaults_source)
+        self.assertIn('return _bool_default("keep_velocity")', defaults_source)
+        self.assertIn('return _bool_default("scale_keep_velocity")', defaults_source)
 
         self.assertIn("const SourceBulletDefaults := preload(\"res://src/game/SourceBulletDefaults.gd\")", port_source)
         self.assertIn("const SourceBulletRuntime := preload(\"res://src/game/SourceBulletRuntime.gd\")", port_source)
@@ -1143,16 +1160,23 @@ class PlayableManifestTests(unittest.TestCase):
             "speed": 1.1,
             "hit_size": 6.0,
             "health": 200.0,
+            "destroy_shoot_on_death_total_shots_threshold": 0,
+            "destroy_shoot_on_death_reload_reset": 0.0,
         })
         self.assertEqual(unit["source"]["speed_field"], "public float speed = 1.1f,")
         self.assertEqual(unit["source"]["hit_size_field"], "hitSize = 6f,")
         self.assertEqual(unit["source"]["health_field"], "health = 200f,")
+        self.assertEqual(unit["source"]["destroy_shoot_on_death_guard"], "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){")
+        self.assertEqual(unit["source"]["destroy_shoot_on_death_reload_expr"], "mount.reload = 0f;")
         self.assertIn("core/src/mindustry/type/UnitType.java", unit["source"]["java_sources"])
+        self.assertIn("core/src/mindustry/entities/comp/UnitComp.java", unit["source"]["java_sources"])
 
         for getter in [
             "speed_default",
             "hit_size_default",
             "health_default",
+            "destroy_shoot_on_death_total_shots_threshold",
+            "destroy_shoot_on_death_reload_reset",
         ]:
             self.assertIn(f"func {getter}()", defaults_source)
 
@@ -14026,20 +14050,20 @@ class PlayableManifestTests(unittest.TestCase):
         ]
 
         self.assertIn("func source_unit_destroy_shoot_on_death_mounts_state(mount_states: Array, has_target_value: bool, source_x: float, source_y: float, source_rotation_degrees: float, unit_id: int) -> Dictionary:", source)
-        self.assertIn("const DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := 0", unit_source)
-        self.assertIn("const DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := 0.0", unit_source)
+        self.assertIn("func destroy_shoot_on_death_total_shots_threshold() -> int:", unit_source)
+        self.assertIn("func destroy_shoot_on_death_reload_reset() -> float:", unit_source)
         self.assertIn("class_name SourceWeaponDefaults", weapon_source)
         self.assertIn("const SHOOT_ON_DEATH_DEFAULT := false", weapon_source)
         self.assertIn("const MOUNT_TOTAL_SHOTS_DEFAULT := 0", weapon_source)
-        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
+        self.assertIn("func kill_shooter_default() -> bool:", bullet_source)
         self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', source)
         self.assertIn('const SourceWeaponDefaults := preload("res://src/game/SourceWeaponDefaults.gd")', source)
         self.assertIn('const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")', source)
-        self.assertIn("const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD", source)
-        self.assertIn("const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_RELOAD_RESET", source)
+        self.assertIn("SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD = unit_defaults.destroy_shoot_on_death_total_shots_threshold()", source)
+        self.assertIn("SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET = unit_defaults.destroy_shoot_on_death_reload_reset()", source)
         self.assertIn("const SOURCE_WEAPON_SHOOT_ON_DEATH_DEFAULT := SourceWeaponDefaults.SHOOT_ON_DEATH_DEFAULT", source)
         self.assertIn("const SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT := SourceWeaponDefaults.MOUNT_TOTAL_SHOTS_DEFAULT", source)
-        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
+        self.assertIn("SOURCE_BULLET_KILL_SHOOTER_DEFAULT = bullet_defaults.kill_shooter_default()", source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_METHOD := "public void destroy(){"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_LOOP := "for(WeaponMount mount : mounts){"', source)
         self.assertIn('const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_MOUNTS_GUARD := "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){"', source)
@@ -15071,8 +15095,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT := SourceWeaponDefaults.ALWAYS_CONTINUOUS_DEFAULT", source)
         self.assertIn("const KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD := 0", weapon_source)
         self.assertIn("const SOURCE_WEAPON_KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD := SourceWeaponDefaults.KILL_SHOOTER_TOTAL_SHOTS_THRESHOLD", source)
-        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
-        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
+        self.assertIn("func kill_shooter_default() -> bool:", bullet_source)
+        self.assertIn("SOURCE_BULLET_KILL_SHOOTER_DEFAULT = bullet_defaults.kill_shooter_default()", source)
         self.assertIn('var mount_shoot := bool(mount_state.get("shoot", SOURCE_WEAPON_MOUNT_SHOOT_DEFAULT))', gate_source)
         self.assertIn('var mount_warmup := float(mount_state.get("warmup", SOURCE_WEAPON_MOUNT_WARMUP_DEFAULT))', gate_source)
         self.assertIn('var total_shots := int(mount_state.get("totalShots", SOURCE_WEAPON_MOUNT_TOTAL_SHOTS_DEFAULT))', gate_source)
@@ -15291,8 +15315,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOUND_PITCH_MIN_DEFAULT := 0.8", weapon_source)
         self.assertIn("const SOUND_PITCH_MAX_DEFAULT := 1.0", weapon_source)
         self.assertIn("const PARENTIZE_EFFECTS_DEFAULT := false", weapon_source)
-        self.assertIn('const CHARGE_EFFECT_DEFAULT := "none"', bullet_source)
-        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", bullet_source)
+        self.assertIn("func charge_effect_default() -> String:", bullet_source)
+        self.assertIn("func keep_velocity_default() -> bool:", bullet_source)
         self.assertIn("const SOURCE_WEAPON_SHOOT_STATUS_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DEFAULT", source)
         self.assertIn("const SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DURATION_DEFAULT", source)
         self.assertIn("const SOURCE_WEAPON_FIRST_SHOT_DELAY_DEFAULT := SourceWeaponDefaults.FIRST_SHOT_DELAY_DEFAULT", source)
@@ -15300,8 +15324,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MIN_DEFAULT", source)
         self.assertIn("const SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MAX_DEFAULT", source)
         self.assertIn("const SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT := SourceWeaponDefaults.PARENTIZE_EFFECTS_DEFAULT", source)
-        self.assertIn("const SOURCE_BULLET_CHARGE_EFFECT_DEFAULT := SourceBulletDefaults.CHARGE_EFFECT_DEFAULT", source)
-        self.assertIn("const SOURCE_BULLET_KEEP_VELOCITY_DEFAULT := SourceBulletDefaults.KEEP_VELOCITY_DEFAULT", source)
+        self.assertIn("SOURCE_BULLET_CHARGE_EFFECT_DEFAULT = bullet_defaults.charge_effect_default()", source)
+        self.assertIn("SOURCE_BULLET_KEEP_VELOCITY_DEFAULT = bullet_defaults.keep_velocity_default()", source)
         self.assertIn('var shoot_status := "" if weapon_state.get("shootStatus", SOURCE_WEAPON_SHOOT_STATUS_DEFAULT) == null else str(weapon_state.get("shootStatus", SOURCE_WEAPON_SHOOT_STATUS_DEFAULT))', charge_start_source)
         self.assertIn('var shoot_status_duration := float(weapon_state.get("shootStatusDuration", SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT))', charge_start_source)
         self.assertIn('var first_shot_delay := float(weapon_state.get("firstShotDelay", SOURCE_WEAPON_FIRST_SHOT_DELAY_DEFAULT))', charge_start_source)
@@ -15819,8 +15843,8 @@ class PlayableManifestTests(unittest.TestCase):
         ]
 
         self.assertIn("func source_bullet_type_create_spawn_unit_state(initial_gate_state: Dictionary, bullet_type_state: Dictionary, net_client: bool, owner_health_state: Dictionary, shooter_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
-        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
+        self.assertIn("func kill_shooter_default() -> bool:", bullet_source)
+        self.assertIn("SOURCE_BULLET_KILL_SHOOTER_DEFAULT = bullet_defaults.kill_shooter_default()", source)
         self.assertIn("var spawn_unit: Dictionary = bullet_type_state.get(\"spawnUnit\", {})", source)
         self.assertIn("if spawn_unit.is_empty():", source)
         self.assertIn('var kill_shooter := bool(bullet_type_state.get("killShooter", SOURCE_BULLET_KILL_SHOOTER_DEFAULT))', spawn_source)
@@ -15952,8 +15976,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBulletRuntime.create_keep_velocity_state(trail_add_state, bullet_type_state, owner_state, bullet_defaults)", source)
         self.assertNotIn("var keep_velocity := bool(bullet_type_state.get(\"keepVelocity\", true))", source)
         self.assertNotIn("var scale_keep_velocity := bool(bullet_type_state.get(\"scaleKeepVelocity\", false))", source)
-        self.assertIn("const KEEP_VELOCITY_DEFAULT := true", defaults_source)
-        self.assertIn("const SCALE_KEEP_VELOCITY_DEFAULT := false", defaults_source)
+        self.assertIn('return _bool_default("keep_velocity")', defaults_source)
+        self.assertIn('return _bool_default("scale_keep_velocity")', defaults_source)
         self.assertIn("func keep_velocity_default() -> bool:", defaults_source)
         self.assertIn("func scale_keep_velocity_default() -> bool:", defaults_source)
         self.assertIn("static func create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary, defaults: SourceBulletDefaults) -> Dictionary:", runtime_source)
@@ -15993,12 +16017,12 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:", source)
         self.assertIn("return SourceBulletRuntime.init_initial_state(bullet_state, bullet_type_state, owner_health_state, bullet_defaults)", init_source)
-        self.assertIn("const KILL_SHOOTER_DEFAULT := false", bullet_source)
-        self.assertIn("const INSTANT_DISAPPEAR_DEFAULT := false", bullet_source)
+        self.assertIn('return _bool_default("kill_shooter")', bullet_source)
+        self.assertIn('return _bool_default("instant_disappear")', bullet_source)
         self.assertIn("func kill_shooter_default() -> bool:", bullet_source)
         self.assertIn("func instant_disappear_default() -> bool:", bullet_source)
-        self.assertIn("const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT", source)
-        self.assertIn("const SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT := SourceBulletDefaults.INSTANT_DISAPPEAR_DEFAULT", source)
+        self.assertIn("SOURCE_BULLET_KILL_SHOOTER_DEFAULT = bullet_defaults.kill_shooter_default()", source)
+        self.assertIn("SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT = bullet_defaults.instant_disappear_default()", source)
         self.assertNotIn("var SOURCE_BULLET_LIFETIME_DEFAULT := 0.0", source)
         self.assertNotIn("SOURCE_BULLET_LIFETIME_DEFAULT = bullet_defaults.lifetime_default()", source)
         self.assertNotIn("var init_bullet_state := bullet_state.duplicate(true)", init_source)

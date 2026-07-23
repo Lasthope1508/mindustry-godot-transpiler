@@ -22,6 +22,9 @@ func load_unit_profile() -> void:
 func _float_default(key: String) -> float:
 	return float(defaults.get(key, 0.0))
 
+func _int_default(key: String) -> int:
+	return int(defaults.get(key, 0))
+
 func speed_default() -> float:
 	return _float_default("speed")
 
@@ -30,6 +33,12 @@ func hit_size_default() -> float:
 
 func health_default() -> float:
 	return _float_default("health")
+
+func destroy_shoot_on_death_total_shots_threshold() -> int:
+	return _int_default("destroy_shoot_on_death_total_shots_threshold")
+
+func destroy_shoot_on_death_reload_reset() -> float:
+	return _float_default("destroy_shoot_on_death_reload_reset")
 
 func runtime_summary() -> Dictionary:
 	return {

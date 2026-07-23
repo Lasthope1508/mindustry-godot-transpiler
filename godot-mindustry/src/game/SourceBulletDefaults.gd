@@ -22,6 +22,12 @@ func load_bullet_profile() -> void:
 func _float_default(key: String) -> float:
 	return float(defaults.get(key, 0.0))
 
+func _bool_default(key: String) -> bool:
+	return bool(defaults.get(key, false))
+
+func _string_default(key: String) -> String:
+	return str(defaults.get(key, ""))
+
 func range_change_default() -> float:
 	return _float_default("range_change")
 
@@ -51,6 +57,21 @@ func width_default() -> float:
 
 func height_default() -> float:
 	return _float_default("height")
+
+func charge_effect_default() -> String:
+	return _string_default("charge_effect")
+
+func keep_velocity_default() -> bool:
+	return _bool_default("keep_velocity")
+
+func scale_keep_velocity_default() -> bool:
+	return _bool_default("scale_keep_velocity")
+
+func kill_shooter_default() -> bool:
+	return _bool_default("kill_shooter")
+
+func instant_disappear_default() -> bool:
+	return _bool_default("instant_disappear")
 
 func runtime_summary() -> Dictionary:
 	return {

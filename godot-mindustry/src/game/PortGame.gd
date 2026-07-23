@@ -22,8 +22,6 @@ const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd"
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SourceUnitRuntime := preload("res://src/game/SourceUnitRuntime.gd")
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD
-const SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := SourceUnitDefaults.DESTROY_SHOOT_ON_DEATH_RELOAD_RESET
 const SOURCE_WEAPON_SHOOT_ON_DEATH_DEFAULT := SourceWeaponDefaults.SHOOT_ON_DEATH_DEFAULT
 const SOURCE_WEAPON_ALTERNATE_DEFAULT := SourceWeaponDefaults.ALTERNATE_DEFAULT
 const SOURCE_WEAPON_FLIP_SPRITE_DEFAULT := SourceWeaponDefaults.FLIP_SPRITE_DEFAULT
@@ -59,10 +57,6 @@ const SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT := SourceShootPatternDefaults.X_OFFS
 const SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT := SourceShootPatternDefaults.Y_OFFSET_DEFAULT
 const SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT := SourceShootPatternDefaults.ANGLE_OFFSET_DEFAULT
 const SOURCE_SHOOT_PATTERN_MOVER_DEFAULT := SourceShootPatternDefaults.MOVER_DEFAULT
-const SOURCE_BULLET_CHARGE_EFFECT_DEFAULT := SourceBulletDefaults.CHARGE_EFFECT_DEFAULT
-const SOURCE_BULLET_KEEP_VELOCITY_DEFAULT := SourceBulletDefaults.KEEP_VELOCITY_DEFAULT
-const SOURCE_BULLET_KILL_SHOOTER_DEFAULT := SourceBulletDefaults.KILL_SHOOTER_DEFAULT
-const SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT := SourceBulletDefaults.INSTANT_DISAPPEAR_DEFAULT
 const SELECTED_GENERATED_CLASS_NAMES := ["Items", "Blocks", "UnitTypes", "Damage"]
 const RUNTIME_SAVE_SLOT_DIR := "user://runtime-save-slots"
 
@@ -78,6 +72,12 @@ var unit_defaults: SourceUnitDefaults
 var factory_defaults: SourceFactoryDefaults
 var time_defaults: SourceTimeDefaults
 var math_defaults: SourceMathDefaults
+var SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD := 0
+var SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET := 0.0
+var SOURCE_BULLET_CHARGE_EFFECT_DEFAULT := ""
+var SOURCE_BULLET_KEEP_VELOCITY_DEFAULT := false
+var SOURCE_BULLET_KILL_SHOOTER_DEFAULT := false
+var SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT := false
 var SOURCE_INT64_MIN := 0
 var SOURCE_INT64_MAX := 0
 var SOURCE_RAND_MURMUR_CONST1 := 0
@@ -373,6 +373,12 @@ func _ready() -> void:
 	SOURCE_RAND_MURMUR_CONST1_WORDS = math_defaults.murmur_const1_words()
 	SOURCE_RAND_MURMUR_CONST2_WORDS = math_defaults.murmur_const2_words()
 	SOURCE_LONG_MIN_WORDS = math_defaults.long_min_words()
+	SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_TOTAL_SHOTS_THRESHOLD = unit_defaults.destroy_shoot_on_death_total_shots_threshold()
+	SOURCE_UNIT_DESTROY_SHOOT_ON_DEATH_RELOAD_RESET = unit_defaults.destroy_shoot_on_death_reload_reset()
+	SOURCE_BULLET_CHARGE_EFFECT_DEFAULT = bullet_defaults.charge_effect_default()
+	SOURCE_BULLET_KEEP_VELOCITY_DEFAULT = bullet_defaults.keep_velocity_default()
+	SOURCE_BULLET_KILL_SHOOTER_DEFAULT = bullet_defaults.kill_shooter_default()
+	SOURCE_BULLET_INSTANT_DISAPPEAR_DEFAULT = bullet_defaults.instant_disappear_default()
 	builder_type_build_speed = construction_defaults.alpha_build_speed()
 	SOURCE_DEFAULT_BLOCK_BUILD_TIME = construction_defaults.default_block_build_time()
 	SOURCE_DECONSTRUCT_REFUND_MULTIPLIER = construction_defaults.deconstruct_refund_multiplier()

@@ -12,7 +12,12 @@
       "ammo_multiplier": 2.0,
       "reload_multiplier": 1.0,
       "width": 5.0,
-      "height": 7.0
+      "height": 7.0,
+      "charge_effect": "none",
+      "keep_velocity": true,
+      "scale_keep_velocity": false,
+      "kill_shooter": false,
+      "instant_disappear": false
     },
     "source": {
       "range_change_field": "public float rangeChange = 0f;",
@@ -24,6 +29,11 @@
       "ammo_multiplier_field": "public float ammoMultiplier = 2f;",
       "reload_multiplier_field": "public float reloadMultiplier = 1f;",
       "scale_field": "public float width = 5f, height = 7f;",
+      "charge_effect_field": "public Effect chargeEffect = Fx.none;",
+      "keep_velocity_field": "public boolean keepVelocity = true;",
+      "scale_keep_velocity_field": "public boolean scaleKeepVelocity = false;",
+      "kill_shooter_field": "public boolean killShooter;",
+      "instant_disappear_field": "public boolean instantDisappear;",
       "java_sources": [
         "core/src/mindustry/entities/bullet/BulletType.java",
         "core/src/mindustry/entities/bullet/BasicBulletType.java"

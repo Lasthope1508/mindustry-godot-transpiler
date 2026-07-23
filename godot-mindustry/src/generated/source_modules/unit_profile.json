@@ -5,14 +5,19 @@
     "defaults": {
       "speed": 1.1,
       "hit_size": 6.0,
-      "health": 200.0
+      "health": 200.0,
+      "destroy_shoot_on_death_total_shots_threshold": 0,
+      "destroy_shoot_on_death_reload_reset": 0.0
     },
     "source": {
       "speed_field": "public float speed = 1.1f,",
       "hit_size_field": "hitSize = 6f,",
       "health_field": "health = 200f,",
+      "destroy_shoot_on_death_guard": "if(mount.weapon.shootOnDeath && !(mount.weapon.bullet.killShooter && mount.totalShots > 0)){",
+      "destroy_shoot_on_death_reload_expr": "mount.reload = 0f;",
       "java_sources": [
-        "core/src/mindustry/type/UnitType.java"
+        "core/src/mindustry/type/UnitType.java",
+        "core/src/mindustry/entities/comp/UnitComp.java"
       ]
     }
   }
