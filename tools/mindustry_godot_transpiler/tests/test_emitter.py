@@ -231,10 +231,16 @@ public class BuildingComp{
             self.assertIn("func java_method_drawCracks_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var draw_cracks := bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var damaged_state := bool(_args[1] if _args.size() > 1 else false)", source_text)
-            self.assertIn("var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)", source_text)
-            self.assertIn("var lightness := 0.1 + (1.0 - health_fraction) * 0.6", source_text)
-            self.assertIn("var crack_rotation_degrees := (position_id % 4) * 90", source_text)
-            self.assertIn('"region_size_index": block_size_value - 1', source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL := SourceBuildingDefaults.DRAW_CRACK_HEALTH_FULL", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_BASE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_SCALE", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO := SourceBuildingDefaults.DRAW_CRACK_POSITION_MODULO", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES := SourceBuildingDefaults.DRAW_CRACK_ROTATION_STEP_DEGREES", source_text)
+            self.assertIn("const SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET := SourceBuildingDefaults.DRAW_CRACK_REGION_INDEX_OFFSET", source_text)
+            self.assertIn("var crack_index := clampi(int((SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * float(crack_regions)), 0, crack_regions - 1)", source_text)
+            self.assertIn("var lightness := SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE + (SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE", source_text)
+            self.assertIn("var crack_rotation_degrees := (position_id % SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO) * SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES", source_text)
+            self.assertIn('"region_size_index": block_size_value - SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET', source_text)
 
     def test_emit_bridges_building_comp_draw_select_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

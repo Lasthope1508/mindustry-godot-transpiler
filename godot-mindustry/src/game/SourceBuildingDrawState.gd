@@ -5,6 +5,12 @@ const SourceBuildingDefaults := preload("res://src/game/SourceBuildingDefaults.g
 const SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS := SourceBuildingDefaults.DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS
 const SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY := SourceBuildingDefaults.DRAW_SELECT_BUNDLE_KEY
 const SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN := SourceBuildingDefaults.DRAW_SELECT_DELAY_MIN
+const SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL := SourceBuildingDefaults.DRAW_CRACK_HEALTH_FULL
+const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_BASE
+const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_SCALE
+const SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO := SourceBuildingDefaults.DRAW_CRACK_POSITION_MODULO
+const SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES := SourceBuildingDefaults.DRAW_CRACK_ROTATION_STEP_DEGREES
+const SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET := SourceBuildingDefaults.DRAW_CRACK_REGION_INDEX_OFFSET
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_AMOUNT_MIN
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN
@@ -33,10 +39,10 @@ static func draw_cracks_state(draw_cracks: bool, damaged_state: bool, block_size
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_cracks_state"}
 	if not draw_cracks or not damaged_state or block_size_value > max_crack_size:
 		return _with_source_owner(source_exprs, {"visible": false})
-	var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)
-	var lightness := 0.1 + (1.0 - health_fraction) * 0.6
-	var crack_rotation_degrees := (position_id % 4) * 90
-	return _with_source_owner(source_exprs, {"visible": true, "region_size_index": block_size_value - 1, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees})
+	var crack_index := clampi(int((SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * float(crack_regions)), 0, crack_regions - 1)
+	var lightness := SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE + (SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE
+	var crack_rotation_degrees := (position_id % SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO) * SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES
+	return _with_source_owner(source_exprs, {"visible": true, "region_size_index": block_size_value - SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees})
 
 static func draw_select_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_select_state"}

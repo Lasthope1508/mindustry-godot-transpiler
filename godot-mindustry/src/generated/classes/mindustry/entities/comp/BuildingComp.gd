@@ -34,6 +34,12 @@ const SOURCE_BUILDING_DRAW_STATUS_STATUS_SQUARE_SIZE := SourceBuildingDefaults.D
 const SOURCE_BUILDING_DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS := SourceBuildingDefaults.DRAW_SELECT_INACTIVE_UNIT_FACTORY_STATUS
 const SOURCE_BUILDING_DRAW_SELECT_BUNDLE_KEY := SourceBuildingDefaults.DRAW_SELECT_BUNDLE_KEY
 const SOURCE_BUILDING_DRAW_SELECT_DELAY_MIN := SourceBuildingDefaults.DRAW_SELECT_DELAY_MIN
+const SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL := SourceBuildingDefaults.DRAW_CRACK_HEALTH_FULL
+const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_BASE
+const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE := SourceBuildingDefaults.DRAW_CRACK_LIGHTNESS_SCALE
+const SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO := SourceBuildingDefaults.DRAW_CRACK_POSITION_MODULO
+const SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES := SourceBuildingDefaults.DRAW_CRACK_ROTATION_STEP_DEGREES
+const SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET := SourceBuildingDefaults.DRAW_CRACK_REGION_INDEX_OFFSET
 const SOURCE_BUILDING_DRAW_DISABLED_ICON := SourceBuildingDefaults.DRAW_DISABLED_ICON
 const SOURCE_BUILDING_DRAW_DISABLED_COLOR := SourceBuildingDefaults.DRAW_DISABLED_COLOR
 const SOURCE_BUILDING_DRAW_DISABLED_ALPHA := SourceBuildingDefaults.DRAW_DISABLED_ALPHA
@@ -477,10 +483,10 @@ func java_method_drawCracks_124(_args: Array = []) -> Variant:
 	var position_id := int(_args[6] if _args.size() > 6 else 0)
 	if not draw_cracks or not damaged_state or block_size_value > max_crack_size:
 		return {"visible": false}
-	var crack_index := clampi(int((1.0 - health_fraction) * float(crack_regions)), 0, crack_regions - 1)
-	var lightness := 0.1 + (1.0 - health_fraction) * 0.6
-	var crack_rotation_degrees := (position_id % 4) * 90
-	return {"visible": true, "region_size_index": block_size_value - 1, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees}
+	var crack_index := clampi(int((SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * float(crack_regions)), 0, crack_regions - 1)
+	var lightness := SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE + (SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE
+	var crack_rotation_degrees := (position_id % SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO) * SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES
+	return {"visible": true, "region_size_index": block_size_value - SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees}
 
 func java_method_drawSelect_125(_args: Array = []) -> Variant:
 	var block_status := str(_args[0] if _args.size() > 0 else "")
