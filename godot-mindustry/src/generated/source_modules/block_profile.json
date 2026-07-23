@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "root_key": "block",
+  "block": {
+    "defaults": {
+      "can_overdrive": true
+    },
+    "source": {
+      "can_overdrive_field": "public boolean canOverdrive = true;",
+      "java_sources": [
+        "core/src/mindustry/world/Block.java"
+      ]
+    }
+  }
+}
