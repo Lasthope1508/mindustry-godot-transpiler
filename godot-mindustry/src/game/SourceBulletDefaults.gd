@@ -10,13 +10,11 @@ func _init(source_catalog: Variant) -> void:
 	load_bullet_profile()
 
 func load_bullet_profile() -> void:
-	var document: Dictionary = catalog.load_document("bullet_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("bullet_profile", "bullet")
+	if profile.is_empty():
 		profile = {"source": {}, "defaults": {}}
 		defaults = {}
 		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("bullet", {})
 	defaults = profile.get("defaults", {})
 
 func _float_default(key: String) -> float:

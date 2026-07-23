@@ -849,8 +849,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(turret["source"]["recoil_pow_expr"], "public float recoilPow = 1.8f;")
         self.assertEqual(turret["source"]["recoil_offset_expr"], "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);")
         self.assertIn("core/src/mindustry/world/blocks/defense/turrets/Turret.java", turret["source"]["java_sources"])
-        self.assertIn('catalog.load_document("turret_profile")', defaults_source)
-        self.assertIn('profile = data.get("turret", {})', defaults_source)
+        self.assertIn('profile = catalog.document_root_data("turret_profile", "turret")', defaults_source)
+        self.assertNotIn('catalog.load_document("turret_profile")', defaults_source)
+        self.assertNotIn('profile = data.get("turret", {})', defaults_source)
         self.assertIn("func recoil_pow() -> float:", defaults_source)
         self.assertIn("const SourceTurretDefaults := preload(\"res://src/game/SourceTurretDefaults.gd\")", port_source)
         self.assertIn("const SourceTurretRuntime := preload(\"res://src/game/SourceTurretRuntime.gd\")", port_source)
@@ -1007,6 +1008,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(bullet["source"]["instant_disappear_field"], "public boolean instantDisappear;")
         self.assertIn("core/src/mindustry/entities/bullet/BulletType.java", bullet["source"]["java_sources"])
         self.assertIn("core/src/mindustry/entities/bullet/BasicBulletType.java", bullet["source"]["java_sources"])
+        self.assertIn('profile = catalog.document_root_data("bullet_profile", "bullet")', defaults_source)
+        self.assertNotIn('catalog.load_document("bullet_profile")', defaults_source)
+        self.assertNotIn('profile = data.get("bullet", {})', defaults_source)
 
         for getter in [
             "range_change_default",
@@ -1134,7 +1138,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(block["source"]["can_overdrive_field"], "public boolean canOverdrive = true;")
         self.assertIn("core/src/mindustry/world/Block.java", block["source"]["java_sources"])
         self.assertIn("func can_overdrive_default() -> bool:", defaults_source)
-        self.assertIn('catalog.load_document("block_profile")', defaults_source)
+        self.assertIn('profile = catalog.document_root_data("block_profile", "block")', defaults_source)
+        self.assertNotIn('catalog.load_document("block_profile")', defaults_source)
         self.assertIn('const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")', port_source)
         self.assertIn("var block_defaults: SourceBlockDefaults", port_source)
         self.assertIn("block_defaults = SourceBlockDefaults.new(SourceSsotCatalog)", port_source)
@@ -1177,6 +1182,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(unit["source"]["destroy_shoot_on_death_reload_expr"], "mount.reload = 0f;")
         self.assertIn("core/src/mindustry/type/UnitType.java", unit["source"]["java_sources"])
         self.assertIn("core/src/mindustry/entities/comp/UnitComp.java", unit["source"]["java_sources"])
+        self.assertIn('profile = catalog.document_root_data("unit_profile", "unit")', defaults_source)
+        self.assertNotIn('catalog.load_document("unit_profile")', defaults_source)
+        self.assertNotIn("profile = data.get(\"unit\", {})", defaults_source)
 
         for getter in [
             "speed_default",

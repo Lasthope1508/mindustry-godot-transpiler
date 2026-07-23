@@ -10,13 +10,11 @@ func _init(source_catalog: Variant) -> void:
 	load_turret_profile()
 
 func load_turret_profile() -> void:
-	var document: Dictionary = catalog.load_document("turret_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("turret_profile", "turret")
+	if profile.is_empty():
 		profile = {"source": {}, "defaults": {}}
 		defaults = {}
 		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("turret", {})
 	defaults = profile.get("defaults", {})
 
 func _float_default(key: String) -> float:
