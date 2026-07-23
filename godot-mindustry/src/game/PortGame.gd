@@ -31609,6 +31609,7 @@ func clamp_camera_to_source_world() -> void:
 
 func get_runtime_summary() -> Dictionary:
 	var selected = build_palette[selected_build_index] if not build_palette.is_empty() else null
+	var wave_metadata := content_registry_wave_metadata_state("version")
 	return {
 		"generated_class_count": generated_class_count,
 		"all_generated_script_count": all_generated_scripts.size(),
@@ -31620,6 +31621,8 @@ func get_runtime_summary() -> Dictionary:
 		"playthrough_runtime": playthrough_runtime_state(),
 		"primary_liquid_id": primary_liquid_id,
 		"content_counts": content_counts.duplicate(),
+		"wave_metadata": wave_metadata,
+		"wave_version": int(wave_metadata.get("entry", {}).get("value", 0)),
 		"control_profile": control_input.runtime_summary(),
 		"display_profile": display_profile_runtime_summary(),
 		"gameplay_profile": gameplay_defaults.runtime_summary(),

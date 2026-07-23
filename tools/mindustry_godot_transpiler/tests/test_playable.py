@@ -4644,6 +4644,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"wave_group_count": wave_groups.size()', summary_body)
         self.assertIn('"selected_enemy_unit_id": first_wave_unit_id()', summary_body)
 
+    def test_port_game_exposes_content_registry_wave_version_in_runtime_summary(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn('func content_registry_wave_metadata_state(metadata_key: String = "") -> Dictionary:', source)
+        self.assertIn('var wave_metadata := content_registry_wave_metadata_state("version")', source)
+        self.assertIn('"wave_metadata": wave_metadata', source)
+        self.assertIn('"wave_version": int(wave_metadata.get("entry", {}).get("value", 0))', source)
+
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
