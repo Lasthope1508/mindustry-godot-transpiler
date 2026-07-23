@@ -3,9 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
-
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumePowerDynamic"
@@ -23,8 +22,8 @@ func java_method_requestedPower_0(_args: Array = []) -> Variant:
 
 func java_method_display_1(_args: Array = []) -> Variant:
 	var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)
-	var source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)
 	var display_guard: bool = displayed_power_usage != 0.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var power_use_value: float = displayed_power_usage * source_tick_rate
 	var stats_add_call: Dictionary = {}
 	if display_guard:

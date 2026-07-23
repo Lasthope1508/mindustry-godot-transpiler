@@ -3,8 +3,11 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeLiquidFilter"
@@ -32,7 +35,7 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	for liquid_id in filtered_liquid_ids:
 		var valid: bool = liquid_id == consumed_liquid
 		req_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})
-	var table_image_size: float = 8.0 * 4.0
+	var table_image_size: float = SOURCE_UI_ICON_MED
 	return {"source_owner": "PortGame.source_consume_liquid_filter_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void build(Building build, Table table){", "filter_field": "public Boolf<Liquid> filter = l -> false;", "list_expr": "Seq<Liquid> list = content.liquids().select(l -> !l.isHidden() && filter.get(l));", "image_expr": "MultiReqImage image = new MultiReqImage();", "each_expr": "list.each(liquid -> image.add(new ReqImage(liquid.uiIcon, () -> getConsumed(build) == liquid)));", "table_add_expr": "table.add(image).size(8 * 4);", "multi_req_image_class": "public class MultiReqImage extends Stack{", "multi_req_image_add_expr": "public void add(ReqImage display){", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "content_liquids_expr": "public Seq<Liquid> liquids(){", "cell_size_expr": "public Cell<T> size(float size){", "filtered_liquid_ids": filtered_liquid_ids, "consumed_liquid": consumed_liquid, "multi_req_image_created": true, "req_images": req_images, "req_image_count": req_images.size(), "table_add_image": true, "table_image_size": table_image_size}
 
 func java_method_update_2(_args: Array = []) -> Variant:
@@ -94,8 +97,8 @@ func java_method_display_6(_args: Array = []) -> Variant:
 	var booster: bool = bool(_args[0] if _args.size() > 0 else false)
 	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
-	var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)
 	var selected_stat: String = "booster" if booster else "input"
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var display_amount_per_second: float = amount * source_tick_rate
 	var display_liquids: Array = []
 	for index in filtered_liquid_ids.size():

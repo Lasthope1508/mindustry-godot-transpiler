@@ -3,9 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
-
 const JAVA_PACKAGE := "mindustry.world.blocks.defense.turrets"
 const JAVA_KIND := "class"
 const JAVA_NAME := "TractorBeamTurret"
@@ -26,9 +25,9 @@ func java_method_setStats_1(_args: Array = []) -> Variant:
 	var target_air: bool = bool(_args[0] if _args.size() > 0 else true)
 	var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)
 	var damage: float = float(_args[2] if _args.size() > 2 else 0.0)
-	var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)
 	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
 	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var damage_per_second: float = damage * source_tick_rate
 	var damage_stat_added: bool = damage > 0.0
 	var damage_stat_call: Dictionary = {}
@@ -272,7 +271,8 @@ func java_inner_class_TractorBeamBuild_method_estimateDps_2(_args: Array = []) -
 	var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)
 	var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)
 	var zero_guard: bool = (not any_state) or damage <= 0.0
-	var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier
 	return {"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public float estimateDps(){", "override_expr": "@Override", "zero_guard_expr": "if(!any || damage <= 0) return 0f;", "return_expr": "return damage * 60f * efficiency * coolantMultiplier;", "any_state": any_state, "damage": damage, "efficiency": efficiency, "coolant_multiplier": coolant_multiplier, "zero_guard": zero_guard, "estimate_dps": estimate_dps}
 
 func java_inner_class_TractorBeamBuild_method_draw_3(_args: Array = []) -> Variant:

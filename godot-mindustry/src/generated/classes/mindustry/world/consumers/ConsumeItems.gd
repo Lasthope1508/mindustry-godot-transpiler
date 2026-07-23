@@ -3,6 +3,10 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT
+
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeItems"
@@ -45,7 +49,7 @@ func java_method_build_1(_args: Array = []) -> Variant:
 		if item_id < item_amounts.size():
 			item_amount = float(item_amounts[item_id])
 		var valid: bool = item_id < item_amounts.size() and item_amount >= required_amount
-		req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})
+		req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT})
 		if (index + 1) % 4 == 0:
 			row_calls.append({"call": "c.row();", "after_count": index + 1})
 	var table_cell_left: bool = true

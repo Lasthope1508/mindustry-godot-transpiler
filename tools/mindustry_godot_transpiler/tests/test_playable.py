@@ -236,6 +236,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertEqual(playfield["camera"]["position_x"], 3200.0)
         self.assertEqual(playfield["camera"]["position_y"], 1824.0)
 
+    def test_ui_profile_is_registered_ssot_for_source_icon_spacing(self):
+        manifest_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        shard_path = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "ui_profile.json"
+        defaults_path = ROOT / "godot-mindustry" / "src" / "game" / "SourceUiDefaults.gd"
+        consume_liquid = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+        consume_dynamic = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.gd"
+
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertTrue(shard_path.exists())
+        self.assertTrue(defaults_path.exists())
+        profile = json.loads(shard_path.read_text(encoding="utf-8"))
+        defaults_source = defaults_path.read_text(encoding="utf-8")
+        liquid_source = consume_liquid.read_text(encoding="utf-8")
+        dynamic_source = consume_dynamic.read_text(encoding="utf-8")
+
+        self.assertIn("ui_profile", manifest["modules"])
+        self.assertEqual(manifest["modules"]["ui_profile"]["root_key"], "ui")
+        self.assertEqual(manifest["modules"]["ui_profile"]["path"], "src/generated/source_modules/ui_profile.json")
+        self.assertEqual(profile["root_key"], "ui")
+        self.assertEqual(profile["ui"]["icon_med"], 32.0)
+        self.assertEqual(profile["ui"]["pad_right"], 8.0)
+        self.assertEqual(profile["ui"]["source"]["icon_med_expr"], "iconMed = 8*4f")
+        self.assertEqual(profile["ui"]["source"]["pad_right_expr"], "padRight(8)")
+        self.assertIn("class_name SourceUiDefaults", defaults_source)
+        self.assertIn("const ICON_MED := 32.0", defaults_source)
+        self.assertIn("const PAD_RIGHT := 8.0", defaults_source)
+        self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', liquid_source)
+        self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", liquid_source)
+        self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", liquid_source)
+        self.assertNotIn("var table_image_size: float = 8.0 * 4.0", liquid_source)
+        self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", dynamic_source)
+        self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", dynamic_source)
+        self.assertNotIn('"size": 32.0', dynamic_source)
+        self.assertNotIn('"pad_right": 8.0', dynamic_source)
+
     def test_port_game_uses_display_profile_without_world_size_hardcoding(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

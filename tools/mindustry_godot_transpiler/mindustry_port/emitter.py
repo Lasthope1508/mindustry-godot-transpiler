@@ -1370,9 +1370,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar buffered_guard: bool = buffered",
             "\tvar usage_guard: bool = usage > 0.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif buffered_guard:",
@@ -1423,8 +1423,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             "\tvar displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)",
             "\tvar display_guard: bool = displayed_power_usage != 0.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_use_value: float = displayed_power_usage * source_tick_rate",
             "\tvar stats_add_call: Dictionary = {}",
             "\tif display_guard:",
@@ -1756,8 +1756,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
             "\tvar liquid_efficiency_values: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[4] if _args.size() > 4 else false)",
-            "\tvar source_tick_rate: float = float(_args[5] if _args.size() > 5 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -1892,8 +1892,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
             "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             "\tvar display_liquids: Array = []",
             "\tfor index in filtered_liquid_ids.size():",
@@ -2013,6 +2013,35 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_power_generator_displayed_power_production_state", "source": "core/src/mindustry/world/blocks/power/PowerGenerator.java", "field": "public float powerProduction;", "method": "public float getDisplayedPowerProduction(){", "return_power_production": "return powerProduction;", "schematic_method": "public float powerProduction(){", "schematic_sum_source": "return tiles.sumf(s -> s.block instanceof PowerGenerator p ? p.getDisplayedPowerProduction() : 0f);", "power_production": power_production, "displayed_power_production": displayed_power_production}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/power/ThermalGenerator.java"
+        and type_entry.get("name") == "ThermalGenerator"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar power_production: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar display_efficiency_scale: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar display_efficiency: bool = bool(_args[2] if _args.size() > 2 else true)",
+            "\tvar size: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar floating: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar super_set_stats_state: Dictionary = _args[5] if _args.size() > 5 and _args[5] is Dictionary else {}",
+            "\tvar parent_state: Dictionary = super_set_stats_state.duplicate(true)",
+            "\tvar tile_stat_scale: float = size * size * display_efficiency_scale",
+            "\tvar tile_stat_start_zero: bool = not display_efficiency",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar generation_stat_value: float = power_production * source_tick_rate / display_efficiency_scale",
+            '\tvar generation_stat_add: Dictionary = {"call": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);", "stat": "generationType", "value": generation_stat_value, "unit": "StatUnit.powerSecond"}',
+            "\tvar output_liquid_present: bool = bool(_args[6] if _args.size() > 6 else false)",
+            '\tvar output_liquid_liquid: String = str(_args[7] if _args.size() > 7 else "")',
+            "\tvar output_liquid_amount: float = float(_args[8] if _args.size() > 8 else 0.0)",
+            "\tvar output_stat_amount: float = output_liquid_amount * size * size * source_tick_rate",
+            "\tif not output_liquid_present:",
+            "\t\toutput_stat_amount = 0.0",
+            "\tvar output_stat_call: Dictionary = {}",
+            "\tif output_liquid_present:",
+            '\t\toutput_stat_call = {"stat": "Stat.output", "liquid": output_liquid_liquid, "amount": output_stat_amount, "perSecond": true, "statValue": "StatValues.liquid"}',
+            '\treturn {"source_owner": "PortGame.source_thermal_generator_set_stats_state", "source": "core/src/mindustry/world/blocks/power/ThermalGenerator.java", "class": "public class ThermalGenerator extends PowerGenerator{", "attribute_field": "public Attribute attribute = Attribute.heat;", "display_efficiency_scale_field": "public float displayEfficiencyScale = 1f;", "display_efficiency_field": "public boolean displayEfficiency = true;", "override": "@Override", "method": "public void setStats(){", "super_call": "super.setStats();", "tiles_stat_add": "stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);", "generation_type_remove": "stats.remove(generationType);", "generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);", "power_production_field": "public float powerProduction;", "generation_type_field": "public Stat generationType = Stat.basePowerGeneration;", "floating_field": "public boolean floating = false;", "stats_add_attribute": "public void add(Stat stat, Attribute attr, boolean floating, float scale, boolean startZero){", "stats_remove": "public void remove(Stat stat){", "stat_base_power_generation": "basePowerGeneration = new Stat(\\"basePowerGeneration\\", StatCat.power),", "stat_tiles": "tiles = new Stat(\\"tiles\\", StatCat.crafting),", "stat_unit_power_second": "powerSecond = new StatUnit(\\"powerSecond\\", \\"[accent]\\" + Iconc.power + \\"[]\\"),", "output_liquid_field": "public @Nullable LiquidStack outputLiquid;", "output_liquid_guard": "if(outputLiquid != null){", "output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));", "power_production": power_production, "display_efficiency_scale": display_efficiency_scale, "display_efficiency": display_efficiency, "size": size, "floating": floating, "super_set_stats_state": parent_state, "tile_stat_scale": tile_stat_scale, "tile_stat_start_zero": tile_stat_start_zero, "generation_stat_removed": true, "generation_stat_value": generation_stat_value, "generation_stat_unit": "StatUnit.powerSecond", "generation_stat_add": generation_stat_add, "output_liquid_present": output_liquid_present, "output_liquid_liquid": output_liquid_liquid, "output_liquid_amount": output_liquid_amount, "output_stat_amount": output_stat_amount, "output_stat_added": output_liquid_present, "output_stat_call": output_stat_call}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/power/PowerGraph.java"
         and type_entry.get("name") == "PowerGraph"
         and method.get("name") == "getId"
@@ -2112,10 +2141,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
             "\tvar build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)",
             "\tvar valid: bool = build_liquids_get > 0.0",
             '\tvar req_image: Dictionary = {"liquid_id": liquid_id, "icon": "liquid.uiIcon", "valid": valid, "valid_expr": "build.liquids.get(liquid) > 0"}',
-            "\tvar table_image_size: float = source_ui_icon_med",
+            "\tvar table_image_size: float = SOURCE_UI_ICON_MED",
             '\treturn {"source_owner": "PortGame.source_consume_liquid_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void build(Building build, Table table){", "liquid_field": "public final Liquid liquid;", "req_image_expr": "table.add(new ReqImage(liquid.uiIcon, () -> build.liquids.get(liquid) > 0)).size(iconMed).top().left();", "liquid_ui_icon_expr": "liquid.uiIcon", "valid_expr": "build.liquids.get(liquid) > 0", "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){", "req_image_valid": "public boolean valid(){", "vars_icon_med": "iconMed = 8*4f", "liquid_module_get": "public float get(Liquid liquid){", "cell_size_expr": "public Cell<T> size(float size){", "cell_top_expr": "public Cell<T> top(){", "cell_left_expr": "public Cell<T> left(){", "liquid_id": liquid_id, "build_liquids_get": build_liquids_get, "valid": valid, "req_image": req_image, "table_image_size": table_image_size, "table_top": true, "table_left": true}',
         ]
     if (
@@ -2127,8 +2155,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
             "\tvar amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_amount_per_second: float = amount * source_tick_rate",
             '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}',
             '\treturn {"source_owner": "PortGame.source_consume_liquid_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void display(Stats stats){", "liquid_field": "public final Liquid liquid;", "amount_field": "public float amount;", "booster_field": "public boolean booster;", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, liquid, amount * 60f, true);", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "stat_input_expr": "input = new Stat(\\"input\\", StatCat.crafting),", "stat_booster_expr": "booster = new Stat(\\"booster\\", StatCat.optional),", "stats_add_liquid_method": "public void add(Stat stat, Liquid liquid, float amount, boolean perSecond){", "stat_values_liquid_expr": "StatValues.liquid(liquid, amount, perSecond)", "stat_values_liquid_method": "public static StatValue liquid(Liquid liquid, float amount, boolean perSecond){", "stat_values_display_expr": "return table -> table.add(displayLiquid(liquid, amount, perSecond)).left();", "booster": booster, "liquid_id": liquid_id, "amount": amount, "selected_stat": selected_stat, "display_amount_per_second": display_amount_per_second, "per_second": true, "stats_add_call": stats_add_call}',
@@ -2189,7 +2217,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             '\tvar icon_size: String = "Vars.iconMed"',
-            "\tvar pad_right: float = SOURCE_UI_PAD_RIGHT",
+            "\tvar pad_right: float = 8.0",
             "\tfor index in range(liquid_ids.size()):",
             "\t\tvar amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             '\t\treq_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})',
@@ -2249,8 +2277,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\tvar liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_liquids: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_id: int = int(liquid_ids[index])",
@@ -2395,8 +2423,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []",
             "\tvar item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []",
             "\tvar table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)",
-            "\tvar source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)",
             '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar display_rows: Array = []",
             "\tfor index in filtered_item_ids.size():",
             "\t\tvar item_id: int = int(filtered_item_ids[index])",
@@ -2416,14 +2444,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
             "\tvar liquid_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
             "\tvar building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)",
-            "\tvar source_ui_icon_med: float = float(_args[3] if _args.size() > 3 else SOURCE_UI_ICON_MED)",
-            "\tvar source_ui_pad_right: float = float(_args[4] if _args.size() > 4 else SOURCE_UI_PAD_RIGHT)",
             "\tvar req_images: Array = []",
             "\tvar row_calls: Array = []",
             "\tfor index in liquid_ids.size():",
             "\t\tvar liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)",
             "\t\tvar valid: bool = building_has_liquids and liquid_amount > 0.0",
-            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": source_ui_icon_med, "pad_right": source_ui_pad_right})',
+            '\t\treq_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": SOURCE_UI_ICON_MED, "pad_right": SOURCE_UI_PAD_RIGHT})',
             "\t\tif (index + 1) % 4 == 0:",
             '\t\t\trow_calls.append({"call": "table.row();", "after_count": index + 1})',
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "private void rebuild(Building build, Table table){", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);", "row_expr": "if(++i % 4 == 0) table.row();", "liquid_ids": liquid_ids, "liquid_amounts": liquid_amounts, "building_has_liquids": building_has_liquids, "req_images": req_images, "row_calls": row_calls, "cleared": true}',
@@ -2947,7 +2973,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
                     '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                    "\tvar source_tilesize: float = 8.0",
                     '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3005,7 +3031,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                     "\t\tvar cos_value := cos(radians)",
                     "\t\tvar sin_value := sin(radians)",
                     '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                    "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                    "\tvar source_tilesize: float = 8.0",
                     '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                     '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                     '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3093,7 +3119,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\t\tvar cos_value := cos(radians)",
                 "\t\tvar sin_value := sin(radians)",
                 '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
-                "\tvar source_tilesize: float = SOURCE_TILESIZE",
+                "\tvar source_tilesize: float = 8.0",
                 '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
                 '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
                 '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
@@ -3187,15 +3213,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}',
             "\tif _args.size() <= 3:",
             '\t\treturn {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "elevation_snapshot_expr": "float e = unit.elevation;", "elevation_zero_expr": "unit.elevation = 0f;", "draw_scl_expr": "Draw.scl(1f, 1f);", "unit_type_draw_expr": "unit.type.draw(unit);", "elevation_restore_expr": "unit.elevation = e;", "next_expr": "//draw warning", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}',
-            "\tvar overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION",
+            "\tvar overlay_duration: float = 40.0",
             "\tvar overlay_guard: bool = (not returned_early) and overlay_time > 0.0",
             "\tvar draw_z_snapshot: float = draw_z_before",
             '\tvar draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}',
             '\tvar overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"',
             '\tvar draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}',
-            "\tvar draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0",
+            "\tvar draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0",
             '\tvar draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}',
-            "\tvar warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE",
+            "\tvar warning_size: float = 8.0",
             '\tvar draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}',
             "\tvar draw_reset_called: bool = overlay_guard",
             "\tvar overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time",
@@ -4415,9 +4441,9 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar target_air: bool = bool(_args[0] if _args.size() > 0 else true)",
             "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
             "\tvar damage: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
             "\tvar targets_ground_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsGround, targetGround);\", \"stat\": \"Stat.targetsGround\", \"value\": target_ground}",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar damage_per_second: float = damage * source_tick_rate",
             "\tvar damage_stat_added: bool = damage > 0.0",
             "\tvar damage_stat_call: Dictionary = {}",
@@ -4519,10 +4545,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 80.0)",
             "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
             "\tvar activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)",
             "\tvar shoot_range_blocks: float = range_value / source_tilesize",
             "\tvar shoot_range_stat_call: Dictionary = {\"call\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"stat\": \"Stat.shootRange\", \"value\": shoot_range_blocks, \"unit\": \"StatUnit.blocks\"}",
             "\tvar activation_time_stat_called: bool = activation_time > 0.0",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar activation_time_stat_call: Dictionary = {}",
             "\tif activation_time_stat_called:",
             "\t\tactivation_time_stat_call = {\"call\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"stat\": \"Stat.activationTime\", \"value\": activation_time / source_tick_rate, \"unit\": \"StatUnit.seconds\"}",
@@ -4536,7 +4562,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         return [
             "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
             "\tvar entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar activation_bar_added: bool = activation_time > 0.0",
             "\tvar activation_timer_positive: bool = entity_activation_timer > 0.0",
             "\tvar activation_bar_fraction: float = 0.0",
@@ -4621,7 +4647,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar heat_requirement: float = float(_args[8] if _args.size() > 8 else -1.0)",
             "\tvar max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else 3.0)",
             "\tvar reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)",
-            "\tvar reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots",
+            "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+            "\tvar reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots",
             "\tvar inaccuracy_stat_call: Dictionary = {\"call\": \"stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);\", \"stat\": \"Stat.inaccuracy\", \"value\": int(inaccuracy_value), \"unit\": \"StatUnit.degrees\"}",
             "\tvar reload_stat_call: Dictionary = {\"call\": \"stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);\", \"stat\": \"Stat.reload\", \"value\": reload_stat_rate, \"unit\": \"StatUnit.perSecond\", \"denominator\": reload_stat_denominator}",
             "\tvar targets_air_stat_call: Dictionary = {\"call\": \"stats.add(Stat.targetsAir, targetAir);\", \"stat\": \"Stat.targetsAir\", \"value\": target_air}",
@@ -5658,7 +5685,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)",
             "\tvar last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)",
             "\tvar last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)",
-            "\tvar source_tick_rate := float(_args[37] if _args.size() > 37 else 60.0)",
+            "\tvar source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
             "\tvar power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0",
             "\tvar power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0",
             "\tvar power_net_stored := last_power_stored if has_power_module else 0.0",
@@ -6145,6 +6172,96 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     return ["\treturn null"]
 
 def _helper_lines(java_file: dict, type_entry: dict) -> list[str]:
+    needs_time_defaults = (
+        (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
+            and type_entry.get("name") == "ConsumeItemEfficiency"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+            and type_entry.get("name") == "ConsumeLiquid"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+            and type_entry.get("name") == "ConsumeLiquidFilter"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
+            and type_entry.get("name") == "ConsumeLiquidFlammable"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
+            and type_entry.get("name") == "ConsumeLiquids"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+            and type_entry.get("name") == "ConsumePower"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
+            and type_entry.get("name") == "ConsumePowerDynamic"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+            and type_entry.get("name") == "TractorBeamTurret"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+            and type_entry.get("name") == "Turret"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/power/ThermalGenerator.java"
+            and type_entry.get("name") == "ThermalGenerator"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+            and type_entry.get("name") == "BaseTurret"
+        )
+        or (
+            java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+            and type_entry.get("name") == "BuildingComp"
+        )
+    )
+    needs_ui_defaults = (
+        (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+            and type_entry.get("name") == "ConsumeItems"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
+            and type_entry.get("name") == "ConsumeItemFilter"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+            and type_entry.get("name") == "ConsumeLiquid"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+            and type_entry.get("name") == "ConsumeLiquidFilter"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+            and type_entry.get("name") == "ConsumeLiquidsDynamic"
+        )
+        or (
+            java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
+            and type_entry.get("name") == "ConsumeItemDynamic"
+        )
+    )
+    if needs_time_defaults or needs_ui_defaults:
+        lines = [""]
+        if needs_time_defaults:
+            lines.extend([
+                'const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")',
+                'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
+            ])
+        if needs_ui_defaults:
+            lines.extend([
+                'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
+                "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
+                "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
+            ])
+        return lines
     if not (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
@@ -7383,13 +7500,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     lines.extend([
                         "",
                         f"func java_inner_class_TractorBeamBuild_method_estimateDps_{index}(_args: Array = []) -> Variant:",
-            "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
-            "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
-            "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
-            "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
-            "\tvar source_tick_rate: float = float(_args[4] if _args.size() > 4 else 60.0)",
-            "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
-            "\tvar estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier",
+                        "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+                        "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
+                        "\tvar source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()",
+                        "\tvar estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_estimate_dps_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public float estimateDps(){\", \"override_expr\": \"@Override\", \"zero_guard_expr\": \"if(!any || damage <= 0) return 0f;\", \"return_expr\": \"return damage * 60f * efficiency * coolantMultiplier;\", \"any_state\": any_state, \"damage\": damage, \"efficiency\": efficiency, \"coolant_multiplier\": coolant_multiplier, \"zero_guard\": zero_guard, \"estimate_dps\": estimate_dps}",
                     ])
                 elif method.get("name") == "draw":
@@ -7746,85 +7863,6 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
         f"const JAVA_METHODS := {gdscript_literal(type_entry.get('methods', []))}",
         f"const JAVA_ENUM_CONSTANTS := {gdscript_literal(type_entry.get('enum_constants', []))}",
     ]
-    if (
-        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
-        and type_entry.get("name") == "UnitPayload"
-    ):
-        lines.extend([
-            'const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")',
-            'const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")',
-            "const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION",
-            "const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA",
-            "const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE",
-            "const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE",
-        ])
-    if (
-        java_file.get("path") in {
-            "mindustry/world/consumers/ConsumeLiquid.java",
-            "mindustry/world/consumers/ConsumeItems.java",
-            "mindustry/world/consumers/ConsumeItemDynamic.java",
-            "mindustry/world/consumers/ConsumeItemFilter.java",
-            "mindustry/world/consumers/ConsumeLiquids.java",
-            "mindustry/world/consumers/ConsumeLiquidsDynamic.java",
-            "mindustry/world/consumers/ConsumeLiquidFilter.java",
-        }
-        and type_entry.get("name") in {
-            "ConsumeLiquid",
-            "ConsumeItems",
-            "ConsumeItemDynamic",
-            "ConsumeItemFilter",
-            "ConsumeLiquids",
-            "ConsumeLiquidsDynamic",
-            "ConsumeLiquidFilter",
-        }
-    ):
-        lines.extend([
-            'const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")',
-            "const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED",
-            "const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT",
-        ])
-    if (
-        (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
-            and type_entry.get("name") == "ConsumePower"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
-            and type_entry.get("name") == "ConsumePowerDynamic"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFlammable.java"
-            and type_entry.get("name") == "ConsumeLiquidFlammable"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
-            and type_entry.get("name") == "ConsumeLiquidFilter"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
-            and type_entry.get("name") == "ConsumeLiquid"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
-            and type_entry.get("name") == "ConsumeLiquids"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
-            and type_entry.get("name") == "ConsumeItemEfficiency"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
-            and type_entry.get("name") == "TractorBeamTurret"
-        )
-        or (
-            java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
-            and type_entry.get("name") == "BaseTurret"
-        )
-    ):
-        lines.extend([
-            'const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")',
-            "const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE",
-        ])
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))
     lines.extend(_extra_method_stub_lines(java_file, type_entry))

@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.world.blocks.defense.turrets"
 const JAVA_KIND := "class"
 const JAVA_NAME := "Turret"
@@ -28,7 +30,8 @@ func java_method_setStats_1(_args: Array = []) -> Variant:
 	var heat_requirement: float = float(_args[8] if _args.size() > 8 else -1.0)
 	var max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else 3.0)
 	var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)
-	var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots
 	var inaccuracy_stat_call: Dictionary = {"call": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);", "stat": "Stat.inaccuracy", "value": int(inaccuracy_value), "unit": "StatUnit.degrees"}
 	var reload_stat_call: Dictionary = {"call": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);", "stat": "Stat.reload", "value": reload_stat_rate, "unit": "StatUnit.perSecond", "denominator": reload_stat_denominator}
 	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}

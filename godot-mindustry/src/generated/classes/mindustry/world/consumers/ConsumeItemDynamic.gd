@@ -3,6 +3,10 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT
+
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeItemDynamic"
@@ -45,7 +49,7 @@ func java_method_rebuild_2(_args: Array = []) -> Variant:
 		var item_amount: float = float(item_amounts[index] if index < item_amounts.size() else 0.0)
 		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
 		var valid: bool = building_has_items and item_amount >= required_amount
-		req_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0, "left": true})
+		req_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT, "left": true})
 		if (index + 1) % 4 == 0:
 			row_calls.append({"call": "table.row();", "after_count": index + 1})
 	return {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "private void rebuild(Building build, Table table){", "items_field": "public final Func<Building, ItemStack[]> items;", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(ItemStack stack : items.get(build)){", "add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();", "row_expr": "if(++i % 4 == 0) table.row();", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item, int amount){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "cell_pad_right_expr": "public Cell<T> padRight(float padRight){", "cell_left_expr": "public Cell<T> left(){", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "building_has_items": building_has_items, "multiplier_get_build": multiplier_get_build, "req_images": req_images, "row_calls": row_calls, "cleared": true}

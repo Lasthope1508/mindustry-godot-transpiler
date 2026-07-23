@@ -12,12 +12,20 @@ const JAVA_FIELDS := [{"modifiers": ["public"], "name": "shots", "type": "int"},
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}, {"name": "barrelIncrementer", "type": "Runnable", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "shoot", "parameters": [{"name": "totalShots", "type": "int", "varargs": false}, {"name": "handler", "type": "BulletHandler", "varargs": false}], "return_type": ""}, {"modifiers": ["public"], "name": "flip", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "copy", "parameters": [], "return_type": "ShootPattern"}]
 const JAVA_ENUM_CONSTANTS := []
+const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")
+const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT
+const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT
+const SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT := SourceShootPatternDefaults.X_OFFSET_DEFAULT
+const SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT := SourceShootPatternDefaults.Y_OFFSET_DEFAULT
+const SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT := SourceShootPatternDefaults.ANGLE_OFFSET_DEFAULT
+const SOURCE_SHOOT_PATTERN_MOVER_DEFAULT := SourceShootPatternDefaults.MOVER_DEFAULT
 
 func java_method_shoot_0(_args: Array = []) -> Variant:
 	var total_shots: int = int(_args[0] if _args.size() > 0 else 0)
-	var shots: int = int(_args[1] if _args.size() > 1 else 1)
-	var first_shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
-	var shot_delay: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var shots: int = int(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)
+	var first_shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)
+	var shot_delay: float = float(_args[3] if _args.size() > 3 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)
 	var barrel_incrementer_present: bool = bool(_args[4] if _args.size() > 4 else false)
 	var compat_result = java_method_shoot_1([shots, first_shot_delay, shot_delay])
 	return {
@@ -39,17 +47,17 @@ func java_method_shoot_0(_args: Array = []) -> Variant:
 	}
 
 func java_method_shoot_1(_args: Array = []) -> Variant:
-	var shots: int = int(_args[0] if _args.size() > 0 else 1)
-	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else 0.0)
-	var shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)
+	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)
+	var shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)
 	var events: Array = []
 	for i in shots:
 		events.append({
-			"xOffset": 0.0,
-			"yOffset": 0.0,
-			"angleOffset": 0.0,
+			"xOffset": SOURCE_SHOOT_PATTERN_X_OFFSET_DEFAULT,
+			"yOffset": SOURCE_SHOOT_PATTERN_Y_OFFSET_DEFAULT,
+			"angleOffset": SOURCE_SHOOT_PATTERN_ANGLE_OFFSET_DEFAULT,
 			"delay": first_shot_delay + shot_delay * float(i),
-			"mover": null,
+			"mover": SOURCE_SHOOT_PATTERN_MOVER_DEFAULT,
 		})
 	return {
 		"source_owner": "PortGame.source_shoot_pattern_default_events",
@@ -76,9 +84,9 @@ func java_method_flip_2(_args: Array = []) -> Variant:
 	}
 
 func java_method_copy_3(_args: Array = []) -> Variant:
-	var shots: int = int(_args[0] if _args.size() > 0 else 1)
-	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else 0.0)
-	var shot_delay: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var shots: int = int(_args[0] if _args.size() > 0 else SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT)
+	var first_shot_delay: float = float(_args[1] if _args.size() > 1 else SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT)
+	var shot_delay: float = float(_args[2] if _args.size() > 2 else SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT)
 	var copy_state := {
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,

@@ -3,6 +3,10 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED
+const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT
+
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeItemFilter"
@@ -32,7 +36,7 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	for index in filtered_item_ids.size():
 		var valid: bool = bool(build_items_has_item_flags[index]) if index < build_items_has_item_flags.size() else false
 		req_images.append({"item_id": int(filtered_item_ids[index]), "stack_amount": 1, "valid": valid, "stat_values_stack_expr": "StatValues.stack(item, 1)", "valid_expr": "build.items.has(item)"})
-	var table_image_size: float = 8.0 * 4.0
+	var table_image_size: float = SOURCE_UI_ICON_MED
 	return {"source_owner": "PortGame.source_consume_item_filter_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void build(Building build, Table table){", "filter_field": "public Boolf<Item> filter = i -> false;", "image_expr": "MultiReqImage image = new MultiReqImage();", "each_expr": "content.items().each(i -> filter.get(i) && i.unlockedNow() && !i.hidden, item -> image.add(new ReqImage(StatValues.stack(item, 1), () -> build.items.has(item))));", "table_add_expr": "table.add(image).size(8 * 4);", "multi_req_image_class": "public class MultiReqImage extends Stack{", "multi_req_image_add_expr": "public void add(ReqImage display){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item){", "cell_size_expr": "public Cell<T> size(float size){", "filtered_item_ids": filtered_item_ids, "build_items_has_item_flags": build_items_has_item_flags, "multi_req_image_created": true, "req_images": req_images, "req_image_count": req_images.size(), "table_add_image": true, "table_image_size": table_image_size}
 
 func java_method_update_2(_args: Array = []) -> Variant:

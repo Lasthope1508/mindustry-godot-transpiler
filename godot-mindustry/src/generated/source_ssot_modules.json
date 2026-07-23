@@ -22,6 +22,17 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "ui_profile": {
+      "path": "src/generated/source_modules/ui_profile.json",
+      "root_key": "ui",
+      "label": "ui",
+      "status": "active",
+      "rule": "Canonical source UI size and spacing profile; generated consumer bridge code must read icon and padding defaults from this shard instead of hardcoding source UI constants.",
+      "canonical_module": "",
+      "canonical_reference_key": "",
+      "canonical_reference_prefix": "",
+      "mirror_fields": []
+    },
     "gameplay_profile": {
       "path": "src/generated/source_modules/gameplay_profile.json",
       "root_key": "gameplay",

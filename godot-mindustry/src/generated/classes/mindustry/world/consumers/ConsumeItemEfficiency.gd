@@ -3,9 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
-
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumeItemEfficiency"
@@ -23,8 +22,8 @@ func java_method_display_0(_args: Array = []) -> Variant:
 	var item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []
 	var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []
 	var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)
-	var source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)
 	var selected_stat: String = "booster" if booster else "input"
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var display_rows: Array = []
 	for index in filtered_item_ids.size():
 		var item_id: int = int(filtered_item_ids[index])

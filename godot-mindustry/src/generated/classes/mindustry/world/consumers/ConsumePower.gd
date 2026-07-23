@@ -3,9 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
-
 const JAVA_PACKAGE := "mindustry.world.consumers"
 const JAVA_KIND := "class"
 const JAVA_NAME := "ConsumePower"
@@ -38,9 +37,9 @@ func java_method_display_3(_args: Array = []) -> Variant:
 	var buffered: bool = bool(_args[0] if _args.size() > 0 else false)
 	var usage: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)
-	var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)
 	var buffered_guard: bool = buffered
 	var usage_guard: bool = usage > 0.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var power_use_value: float = usage * source_tick_rate
 	var stats_add_call: Dictionary = {}
 	if buffered_guard:

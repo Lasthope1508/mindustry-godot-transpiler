@@ -3,6 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
 const JAVA_PACKAGE := "mindustry.entities.comp"
 const JAVA_KIND := "class"
 const JAVA_NAME := "BuildingComp"
@@ -1320,8 +1322,9 @@ func java_method_sense_206(_args: Array = []) -> Variant:
 	var last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)
 	var last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)
 	var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)
-	var power_net_in := last_scaled_power_in * 60.0 if has_power_module else 0.0
-	var power_net_out := last_scaled_power_out * 60.0 if has_power_module else 0.0
+	var source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
+	var power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0
+	var power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0
 	var power_net_stored := last_power_stored if has_power_module else 0.0
 	var power_net_capacity := last_power_capacity if has_power_module else 0.0
 	var sense_capacity_power_net := {"method": "public double sense(LAccess sensor){", "item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;", "liquid_capacity_case": "case liquidCapacity -> block.hasLiquids ? block.liquidCapacity : 0;", "power_capacity_case": "case powerCapacity -> block.consPower != null ? block.consPower.capacity : 0f;", "power_net_in_case": "case powerNetIn -> power == null ? 0 : power.graph.getLastScaledPowerIn() * 60;", "power_net_out_case": "case powerNetOut -> power == null ? 0 : power.graph.getLastScaledPowerOut() * 60;", "power_net_stored_case": "case powerNetStored -> power == null ? 0 : power.graph.getLastPowerStored();", "power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();", "block_has_items": block_has_items, "block_item_capacity": block_item_capacity, "block_has_liquids": block_has_liquids, "block_liquid_capacity": block_liquid_capacity, "has_cons_power": has_cons_power, "cons_power_capacity": cons_power_capacity, "has_power_module": has_power_module, "last_scaled_power_in": last_scaled_power_in, "last_scaled_power_out": last_scaled_power_out, "last_power_stored": last_power_stored, "last_power_capacity": last_power_capacity, "item_capacity": block_item_capacity if block_has_items else 0.0, "liquid_capacity": block_liquid_capacity if block_has_liquids else 0.0, "power_capacity": cons_power_capacity if has_cons_power else 0.0, "power_net_in": power_net_in, "power_net_out": power_net_out, "power_net_stored": power_net_stored, "power_net_capacity": power_net_capacity}

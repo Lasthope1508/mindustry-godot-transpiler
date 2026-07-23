@@ -3,9 +3,8 @@
 # Do not edit by hand.
 extends RefCounted
 
+const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE
-
 const JAVA_PACKAGE := "mindustry.world.blocks.defense.turrets"
 const JAVA_KIND := "class"
 const JAVA_NAME := "BaseTurret"
@@ -77,15 +76,16 @@ func java_method_setStats_4(_args: Array = []) -> Variant:
 	var shoot_range_blocks: float = range_value / source_tilesize
 	var shoot_range_stat_call: Dictionary = {"call": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "stat": "Stat.shootRange", "value": shoot_range_blocks, "unit": "StatUnit.blocks"}
 	var activation_time_stat_called: bool = activation_time > 0.0
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var activation_time_stat_call: Dictionary = {}
 	if activation_time_stat_called:
-		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / 60.0, "unit": "StatUnit.seconds"}
+		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / source_tick_rate, "unit": "StatUnit.seconds"}
 	return {"source_owner": "PortGame.source_base_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "activation_time_guard_expr": "if(activationTime > 0)", "activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "range": range_value, "tilesize": source_tilesize, "activation_time": activation_time, "shoot_range_blocks": shoot_range_blocks, "super_set_stats_called": true, "shoot_range_stat_call": shoot_range_stat_call, "activation_time_stat_called": activation_time_stat_called, "activation_time_stat_call": activation_time_stat_call}
 
 func java_method_setBars_5(_args: Array = []) -> Variant:
 	var activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)
 	var entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)
-	var source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)
+	var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()
 	var activation_bar_added: bool = activation_time > 0.0
 	var activation_timer_positive: bool = entity_activation_timer > 0.0
 	var activation_bar_fraction: float = 0.0

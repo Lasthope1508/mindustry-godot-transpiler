@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "root_key": "ui",
+  "ui": {
+    "icon_med": 32.0,
+    "pad_right": 8.0,
+    "source": {
+      "icon_med_expr": "iconMed = 8*4f",
+      "pad_right_expr": "padRight(8)"
+    }
+  }
+}

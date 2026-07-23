@@ -3908,7 +3908,13 @@ class BuildingComp{
             self.assertIn("var last_scaled_power_out := float(_args[21] if _args.size() > 21 else 0.0)", source_text)
             self.assertIn("var last_power_stored := float(_args[22] if _args.size() > 22 else 0.0)", source_text)
             self.assertIn("var last_power_capacity := float(_args[23] if _args.size() > 23 else 0.0)", source_text)
-            self.assertIn("var power_net_in := last_scaled_power_in * 60.0 if has_power_module else 0.0", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("var source_tick_rate := SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var power_net_in := last_scaled_power_in * source_tick_rate if has_power_module else 0.0", source_text)
+            self.assertIn("var power_net_out := last_scaled_power_out * source_tick_rate if has_power_module else 0.0", source_text)
+            self.assertNotIn("last_scaled_power_in * 60.0", source_text)
+            self.assertNotIn("last_scaled_power_out * 60.0", source_text)
             self.assertIn('"capacity_power_net_source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source_text)
             self.assertIn('"item_capacity_case": "case itemCapacity -> block.hasItems ? block.itemCapacity : 0;"', source_text)
             self.assertIn('"power_net_capacity_case": "case powerNetCapacity -> power == null ? 0 : power.graph.getLastCapacity();"', source_text)
@@ -11523,9 +11529,14 @@ public class BaseTurret extends Block{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_setStats_4(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var shoot_range_blocks: float = range_value / source_tilesize", source_text)
             self.assertIn("var activation_time_stat_called: bool = activation_time > 0.0", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn('"value": activation_time / source_tick_rate', source_text)
+            self.assertNotIn("activation_time / 60.0", source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_set_stats_state"', source_text)
             self.assertIn('"method": "public void setStats(){"', source_text)
             self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
@@ -11588,14 +11599,11 @@ public class BaseTurret extends Block{
             self.assertIn("func java_method_setBars_5(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var activation_bar_added: bool = activation_time > 0.0", source_text)
             self.assertIn("var activation_timer_positive: bool = entity_activation_timer > 0.0", source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[2] if _args.size() > 2 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[2] if _args.size() > 2 else 60.0)", source_text)
             self.assertIn("var activation_bar_fraction: float = 0.0", source_text)
             self.assertIn("activation_bar_fraction = 1.0 - entity_activation_timer / activation_time", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn('"seconds": ceil(entity_activation_timer / source_tick_rate)', source_text)
-            self.assertNotIn('"seconds": ceil(entity_activation_timer / 60.0)', source_text)
+            self.assertNotIn("entity_activation_timer / 60.0", source_text)
             self.assertIn('"source_owner": "PortGame.source_base_turret_set_bars_state"', source_text)
             self.assertIn('"method": "public void setBars(){"', source_text)
             self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
@@ -11771,14 +11779,13 @@ public class TractorBeamTurret extends BaseTurret{
 
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
             self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
             self.assertIn("var damage: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var damage_per_second: float = damage * source_tick_rate", source_text)
             self.assertNotIn("var damage_per_second: float = damage * 60.0", source_text)
             self.assertIn("var damage_stat_added: bool = damage > 0.0", source_text)
@@ -11907,7 +11914,9 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn("var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
             self.assertIn("var zero_guard: bool = (not any_state) or damage <= 0.0", source_text)
-            self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * source_tick_rate * efficiency * coolant_multiplier", source_text)
+            self.assertNotIn("damage * 60.0 * efficiency * coolant_multiplier", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', source_text)
             self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source_text)
             self.assertIn('"method": "public float estimateDps(){"', source_text)
@@ -13845,8 +13854,12 @@ public class Turret extends ReloadTurret{
             emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)", source_text)
-            self.assertIn("var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var reload_stat_rate: float = source_tick_rate / reload_stat_denominator * shoot_shots", source_text)
+            self.assertNotIn("var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots", source_text)
             self.assertIn("var ammo_use_stat_called: bool = ammo_per_shot != 1", source_text)
             self.assertIn("var input_heat_stat_called: bool = heat_requirement > 0.0", source_text)
             self.assertIn("var max_efficiency_stat_called: bool = heat_requirement > 0.0 and max_heat_efficiency > 0.0", source_text)
@@ -17210,16 +17223,15 @@ public class ConsumePower extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePower.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var buffered: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var usage: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
             self.assertIn("var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("var buffered_guard: bool = buffered", source_text)
             self.assertIn("var usage_guard: bool = usage > 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var power_use_value: float = usage * source_tick_rate", source_text)
             self.assertNotIn("var power_use_value: float = usage * 60.0", source_text)
             self.assertIn('"stat": "Stat.powerCapacity"', source_text)
@@ -17333,13 +17345,12 @@ public class ConsumePowerDynamic extends ConsumePower{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
             self.assertIn("var display_guard: bool = displayed_power_usage != 0.0", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[1] if _args.size() > 1 else 60.0)", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var power_use_value: float = displayed_power_usage * source_tick_rate", source_text)
             self.assertNotIn("var power_use_value: float = displayed_power_usage * 60.0", source_text)
             self.assertIn('"stat": "Stat.powerUse"', source_text)
@@ -18295,7 +18306,9 @@ public class ConsumeItems extends Consume{
             self.assertIn("for index in item_stacks.size():", source_text)
             self.assertIn('var item_id: int = int(stack.get("item_id", -1))', source_text)
             self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
-            self.assertIn('req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0})', source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn('req_images.append({"item_id": item_id, "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": SOURCE_UI_PAD_RIGHT})', source_text)
             self.assertIn('row_calls.append({"call": "c.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_items_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
@@ -18394,7 +18407,9 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn("var build_items_has_item_flags: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("var valid: bool = bool(build_items_has_item_flags[index]) if index < build_items_has_item_flags.size() else false", source_text)
             self.assertIn('req_images.append({"item_id": int(filtered_item_ids[index]), "stack_amount": 1, "valid": valid, "stat_values_stack_expr": "StatValues.stack(item, 1)", "valid_expr": "build.items.has(item)"})', source_text)
-            self.assertIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
+            self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -18444,7 +18459,9 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn("var consumed_liquid: Variant = _args[1] if _args.size() > 1 else null", source_text)
             self.assertIn("var valid: bool = liquid_id == consumed_liquid", source_text)
             self.assertIn('req_images.append({"liquid_id": liquid_id, "valid": valid, "image_expr": "liquid.uiIcon", "valid_expr": "getConsumed(build) == liquid"})', source_text)
-            self.assertIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
+            self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -19016,13 +19033,12 @@ public class ConsumeLiquidFlammable extends ConsumeLiquidFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFlammable.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[5] if _args.size() > 5 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[5] if _args.size() > 5 else 60.0)", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_flammable_display_state"', source_text)
@@ -19091,13 +19107,12 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_display_state"', source_text)
@@ -19827,6 +19842,51 @@ public class PowerGenerator extends PowerDistributor{
             self.assertIn('"power_production": power_production', source_text)
             self.assertIn('"displayed_power_production": displayed_power_production', source_text)
 
+    def test_emit_bridges_thermal_generator_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            thermal_path = source_root / "mindustry" / "world" / "blocks" / "power" / "ThermalGenerator.java"
+            thermal_path.parent.mkdir(parents=True, exist_ok=True)
+            thermal_path.write_text(
+                """
+package mindustry.world.blocks.power;
+
+public class ThermalGenerator extends PowerGenerator{
+    public float displayEfficiencyScale = 1f;
+    public boolean displayEfficiency = true;
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.tiles, attribute, floating, size * size * displayEfficiencyScale, !displayEfficiency);
+        stats.remove(generationType);
+        stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "power" / "ThermalGenerator.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
+            self.assertIn("var generation_stat_value: float = power_production * source_tick_rate / display_efficiency_scale", source_text)
+            self.assertNotIn("power_production * 60.0 / display_efficiency_scale", source_text)
+            self.assertIn("var output_stat_amount: float = output_liquid_amount * size * size * source_tick_rate", source_text)
+            self.assertNotIn("output_liquid_amount * size * size * 60.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_thermal_generator_set_stats_state"', source_text)
+            self.assertIn('"generation_type_add": "stats.add(generationType, powerProduction * 60.0f / displayEfficiencyScale, StatUnit.powerSecond);"', source_text)
+            self.assertIn('"generation_stat_value": generation_stat_value', source_text)
+            self.assertIn('"output_liquid_stat_add": "stats.add(Stat.output, StatValues.liquid(outputLiquid.liquid, outputLiquid.amount * size * size * 60f, true));"', source_text)
+
     def test_emit_bridges_power_graph_get_id_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -20311,16 +20371,13 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
             self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
-            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
             self.assertIn("var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
             self.assertIn("var build_liquids_get: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
-            self.assertIn("var source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else SOURCE_UI_ICON_MED)", source_text)
-            self.assertNotIn("var source_ui_icon_med: float = float(_args[2] if _args.size() > 2 else 32.0)", source_text)
             self.assertIn("var valid: bool = build_liquids_get > 0.0", source_text)
             self.assertIn("var req_image: Dictionary = {\"liquid_id\": liquid_id, \"icon\": \"liquid.uiIcon\", \"valid\": valid, \"valid_expr\": \"build.liquids.get(liquid) > 0\"}", source_text)
-            self.assertIn("var table_image_size: float = source_ui_icon_med", source_text)
-            self.assertNotIn("var table_image_size: float = 8.0 * 4.0", source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
+            self.assertIn("var table_image_size: float = SOURCE_UI_ICON_MED", source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_build_state"', source_text)
             self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
             self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
@@ -20366,15 +20423,14 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var liquid_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
             self.assertIn("var amount: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = amount * 60.0", source_text)
             self.assertIn('var stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "liquid_id": liquid_id, "amount": display_amount_per_second, "per_second": true}', source_text)
@@ -20727,15 +20783,14 @@ public class ConsumeLiquids extends Consume{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
             source_text = emitted.read_text(encoding="utf-8")
-            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
             self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
             self.assertIn("var liquid_stack_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[3] if _args.size() > 3 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var display_amount_per_second: float = stack_amount * source_tick_rate", source_text)
             self.assertNotIn("var display_amount_per_second: float = stack_amount * 60.0", source_text)
             self.assertIn('"stat_value_expr": "StatValues.liquids(1f, true, liquids)"', source_text)
@@ -20981,8 +21036,11 @@ public class ConsumeLiquidsDynamic extends Consume{
             self.assertIn("var building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)", source_text)
             self.assertIn("var req_images: Array = []", source_text)
             self.assertIn("var valid: bool = building_has_liquids and liquid_amount > 0.0", source_text)
-            self.assertIn('"size": 32.0', source_text)
-            self.assertIn('"pad_right": 8.0', source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_ICON_MED := SourceUiDefaults.ICON_MED", source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn('"size": SOURCE_UI_ICON_MED', source_text)
+            self.assertIn('"pad_right": SOURCE_UI_PAD_RIGHT', source_text)
             self.assertIn("if (index + 1) % 4 == 0:", source_text)
             self.assertIn('row_calls.append({"call": "table.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state"', source_text)
@@ -21413,7 +21471,9 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
             self.assertIn("var valid: bool = building_has_items and item_amount >= required_amount", source_text)
             self.assertIn('"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))"', source_text)
-            self.assertIn('"pad_right": 8.0', source_text)
+            self.assertIn('const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")', source_text)
+            self.assertIn("const SOURCE_UI_PAD_RIGHT := SourceUiDefaults.PAD_RIGHT", source_text)
+            self.assertIn('"pad_right": SOURCE_UI_PAD_RIGHT', source_text)
             self.assertIn('"left": true', source_text)
             self.assertIn('row_calls.append({"call": "table.row();", "after_count": index + 1})', source_text)
             self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state"', source_text)
@@ -21505,6 +21565,8 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
 
             emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemEfficiency.gd"
             source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source_text)
+            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
             self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
             self.assertIn("var stats_time_period: float = float(_args[1] if _args.size() > 1 else -1.0)", source_text)
@@ -21512,11 +21574,8 @@ public class ConsumeItemEfficiency extends ConsumeItemFilter{
             self.assertIn("var item_efficiency_multipliers: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
             self.assertIn("var item_duration_multipliers: Array = (_args[4] as Array).duplicate() if _args.size() > 4 and _args[4] is Array else []", source_text)
             self.assertIn("var table_has_cells: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
-            self.assertIn('const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")', source_text)
-            self.assertIn("const SOURCE_TICK_RATE := SourceTimeDefaults.TICK_RATE", source_text)
-            self.assertIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else SOURCE_TICK_RATE)", source_text)
-            self.assertNotIn("var source_tick_rate: float = float(_args[6] if _args.size() > 6 else 60.0)", source_text)
             self.assertIn('var selected_stat: String = "booster" if booster else "input"', source_text)
+            self.assertIn("var source_tick_rate: float = SourceTimeDefaults.new(SourceSsotCatalog).tick_rate()", source_text)
             self.assertIn("var time_multiplier: float = float(item_duration_multipliers[index] if index < item_duration_multipliers.size() else 1.0)", source_text)
             self.assertIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / source_tick_rate)", source_text)
             self.assertNotIn("var time_value: float = 1.0 / (stats_time_period * time_multiplier / 60.0)", source_text)
