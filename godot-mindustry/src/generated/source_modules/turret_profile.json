@@ -11,7 +11,10 @@
       "recoil": 1.0,
       "recoils": -1,
       "recoil_time": -1.0,
-      "recoil_pow": 1.8
+      "recoil_pow": 1.8,
+      "max_ammo": 30,
+      "ammo_per_shot": 1,
+      "consume_ammo_once": true
     },
     "source": {
       "reload_field": "public float reload = 10f;",
@@ -29,6 +32,9 @@
       "recoil_pow_comment": "/** power curve applied to visual recoil */",
       "recoil_pow_expr": "public float recoilPow = 1.8f;",
       "recoil_offset_expr": "recoilOffset.trns(rotation, -Mathf.pow(curRecoil, recoilPow) * recoil);",
+      "max_ammo_field": "public int maxAmmo = 30;",
+      "ammo_per_shot_field": "public int ammoPerShot = 1;",
+      "consume_ammo_once_field": "public boolean consumeAmmoOnce = true;",
       "java_sources": [
         "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
         "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",

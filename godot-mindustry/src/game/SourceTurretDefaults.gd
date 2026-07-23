@@ -58,6 +58,15 @@ func recoil_time_default() -> float:
 func recoil_pow() -> float:
 	return _float_default("recoil_pow")
 
+func max_ammo_default() -> int:
+	return _int_default("max_ammo")
+
+func ammo_per_shot_default() -> int:
+	return _int_default("ammo_per_shot")
+
+func consume_ammo_once_default() -> bool:
+	return bool(defaults.get("consume_ammo_once", true))
+
 func runtime_summary() -> Dictionary:
 	return {
 		"loaded": not profile.is_empty(),
