@@ -9,12 +9,9 @@ func _init(source_catalog: Variant) -> void:
 	load_time_profile()
 
 func load_time_profile() -> void:
-	var document: Dictionary = catalog.load_document("time_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("time_profile", "time")
+	if profile.is_empty():
 		profile = {"time": {}, "source": {}}
-		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("time", {})
 
 func tick_rate() -> float:
 	return float(profile.get("tick_rate", 0.0))

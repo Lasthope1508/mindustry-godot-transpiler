@@ -9,12 +9,9 @@ func _init(source_catalog: Variant) -> void:
 	load_construction_profile()
 
 func load_construction_profile() -> void:
-	var document: Dictionary = catalog.load_document("construction_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("construction_profile", "construction")
+	if profile.is_empty():
 		profile = {"source": {}}
-		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("construction", {})
 
 func alpha_build_speed() -> float:
 	return float(profile.get("alpha_build_speed", 0.0))

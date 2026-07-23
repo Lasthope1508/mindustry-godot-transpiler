@@ -9,12 +9,9 @@ func _init(source_catalog: Variant) -> void:
 	load_factory_profile()
 
 func load_factory_profile() -> void:
-	var document: Dictionary = catalog.load_document("factory_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("factory_profile", "factory")
+	if profile.is_empty():
 		profile = {"drill": {}, "block": {}, "conveyor": {}, "source": {}}
-		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("factory", {})
 
 func drill_hardness_multiplier() -> float:
 	var drill: Dictionary = profile.get("drill", {})

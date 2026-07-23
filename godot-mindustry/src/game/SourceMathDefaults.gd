@@ -10,13 +10,11 @@ func _init(source_catalog: Variant) -> void:
 	load_math_profile()
 
 func load_math_profile() -> void:
-	var document: Dictionary = catalog.load_document("math_profile")
-	if not bool(document.get("loaded", false)):
+	profile = catalog.document_root_data("math_profile", "math")
+	if profile.is_empty():
 		profile = {"source": {}}
 		rand_profile = {}
 		return
-	var data: Dictionary = document.get("data", {})
-	profile = data.get("math", {})
 	rand_profile = profile.get("rand", {})
 
 func _rand_int(key: String) -> int:
