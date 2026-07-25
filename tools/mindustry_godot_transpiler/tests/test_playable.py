@@ -26302,7 +26302,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_tractor_beam_turret_build_update_tile_rotation_move_state(angle_to_target_evaluated: bool, rotation_before: float, dest: float, rotate_speed: float, edelta: float) -> Dictionary:", source)
         self.assertTrue(module.exists(), "SourceTractorBeamTurretBuildUpdateTileRotationMoveState.gd must own TractorBeamBuild.updateTile rotation move source state")
         self.assertIn('const SourceTractorBeamTurretBuildUpdateTileRotationMoveState := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileRotationMoveState.gd")', source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileRotationMoveState.rotation_move_state(angle_to_target_evaluated, rotation_before, dest, rotate_speed, edelta, Callable(self, "source_arc_angles_move_toward"))', method_body)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"move_toward_angle": Callable(game, "source_arc_angles_move_toward")', module_source)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileRotationMoveState.default_callbacks_state(self)', method_body)
+        self.assertIn('callbacks.get("move_toward_angle", Callable())', method_body)
+        self.assertNotIn('Callable(self, "source_arc_angles_move_toward")', method_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileRotationMoveState.rotation_move_state(angle_to_target_evaluated, rotation_before, dest, rotate_speed, edelta, callbacks.get("move_toward_angle", Callable()))', method_body)
         self.assertNotIn("var rotation_move_evaluated: bool = angle_to_target_evaluated", method_body)
         self.assertNotIn("source_arc_angles_move_toward(rotation_before, dest, rotation_max_delta)", method_body)
         self.assertIn("extends RefCounted", module_source)
@@ -26326,7 +26331,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, signature)
 
         self.assertIn(signature, source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileRotationMoveState.generated_rotation_move_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, Callable(self, "source_arc_angles_move_toward"))', bridge_body)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileRotationMoveState.default_callbacks_state(self)', bridge_body)
+        self.assertIn('callbacks.get("move_toward_angle", Callable())', bridge_body)
+        self.assertNotIn('Callable(self, "source_arc_angles_move_toward")', bridge_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileRotationMoveState.generated_rotation_move_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, callbacks.get("move_toward_angle", Callable()))', bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("var rotation_move_result := {", bridge_body)
         turret_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
@@ -26343,6 +26351,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state"', module_source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.rotation_move"', module_source)
         self.assertIn('"matches": rotation_move_result.get("rotation_after", null) == canonical.get("rotation_after", null)', module_source)
+
+    def test_source_tractor_beam_rotation_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamRotationStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamRotationStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("TRACTOR_BEAM_ROTATION_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceTractorBeamTurretBuildUpdateTileRotationMoveState.default_callbacks_state", proof_source)
+        self.assertIn('"move_toward_angle": Callable(game, "source_arc_angles_move_toward")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
