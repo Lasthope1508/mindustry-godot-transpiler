@@ -5536,13 +5536,15 @@ func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float
 	return SourceMathState.source_lerp_delta(from_value, to_value, progress, source_delta)
 
 func source_weapon_update_passive_timers_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
-	return SourceWeaponsState.update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta, Callable(self, "source_mathf_approach_delta"), Callable(self, "source_mathf_lerp_delta"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta, callbacks.get("approach_delta", Callable()), callbacks.get("lerp_delta", Callable()))
 
 func source_arc_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
 	return SourceMathState.source_angles_trns_vec(angle_degrees, x_value, y_value)
 
 func source_weapon_update_mount_origin_state(unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.update_mount_origin_state(unit_state, weapon_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_mount_origin_state(unit_state, weapon_state, callbacks.get("trns_vec", Callable()))
 
 func source_weapon_update_auto_target_retarget_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, mount_x: float, mount_y: float, find_target_result_exists: bool) -> Dictionary:
 	return SourceWeaponsState.update_auto_target_retarget_state(mount_state, weapon_state, bullet_state, source_delta, mount_x, mount_y, find_target_result_exists)
@@ -5554,10 +5556,12 @@ func source_weapon_update_auto_target_shoot_aim_state(mount_state: Dictionary, w
 	return SourceWeaponsState.update_auto_target_shoot_aim_state(mount_state, weapon_state, bullet_state, can_shoot, mount_x, mount_y, target_within_result, predicted_aim)
 
 func source_weapon_update_rotate_toward_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:
-	return SourceWeaponsState.update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta, Callable(self, "source_arc_angles_trns_vec"), Callable(self, "source_arc_angles_angle"), Callable(self, "source_arc_angles_move_toward"), Callable(self, "source_arc_angles_angle_dist"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta, callbacks.get("trns_vec", Callable()), callbacks.get("angles_angle", Callable()), callbacks.get("move_toward_angle", Callable()), callbacks.get("angle_dist", Callable()))
 
 func source_weapon_update_bullet_origin_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
-	return SourceWeaponsState.update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y, Callable(self, "source_arc_angles_trns_vec"), Callable(self, "source_arc_angles_angle"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y, callbacks.get("trns_vec", Callable()), callbacks.get("angles_angle", Callable()))
 
 func source_weapon_update_always_shooting_state(mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
 	return SourceWeaponsState.update_always_shooting_state(mount_state, weapon_state)
@@ -5566,19 +5570,22 @@ func source_weapon_update_continuous_invalidation_state(mount_state: Dictionary,
 	return SourceWeaponsState.update_continuous_invalidation_state(mount_state, weapon_state, bullet_state)
 
 func source_weapon_update_continuous_live_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
-	return SourceWeaponsState.update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation, callbacks.get("trns_vec", Callable()))
 
 func source_weapon_update_continuous_sound_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, runtime_state: Dictionary, bullet_x: float, bullet_y: float) -> Dictionary:
 	return SourceWeaponsState.update_continuous_sound_state(mount_state, weapon_state, bullet_state, runtime_state, bullet_x, bullet_y)
 
 func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
-	return SourceWeaponsState.update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle, Callable(self, "source_mathf_dst"), Callable(self, "source_mathf_approach_delta"), Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle, callbacks.get("mathf_dst", Callable()), callbacks.get("approach_delta", Callable()), callbacks.get("trns_vec", Callable()))
 
 func source_status_apply_result(status_effect: String, duration: float, status_immune: bool) -> Dictionary:
 	return SourceStatusApplyState.apply_result_state(status_effect, duration, status_immune)
 
 func source_weapon_update_always_continuous_keepalive_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state, Callable(self, "source_status_apply_result"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state, callbacks.get("status_apply_result", Callable()))
 
 func source_weapon_update_continuous_idle_heat_sound_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float) -> Dictionary:
 	return SourceWeaponsState.update_continuous_idle_heat_sound_state(mount_state, weapon_state, unit_state, source_delta, bullet_x, bullet_y)
@@ -5602,13 +5609,15 @@ func source_angles_angle_dist(a: float, b: float) -> float:
 	return source_arc_angles_angle_dist(a, b)
 
 func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.update_cone_gate_state(mount_state, weapon_state, unit_state, Callable(self, "source_angles_angle_dist"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.update_cone_gate_state(mount_state, weapon_state, unit_state, callbacks.get("angle_dist", Callable()))
 
 func source_weapon_update_shoot_call_reload_state(mount_state: Dictionary, weapon_state: Dictionary, unit_id: int, bullet_x: float, bullet_y: float, shoot_angle: float, shoot_gate: bool) -> Dictionary:
 	return SourceWeaponsState.update_shoot_call_reload_state(mount_state, weapon_state, unit_id, bullet_x, bullet_y, shoot_angle, shoot_gate)
 
 func source_weapon_shoot_charge_start_state(mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:
-	return SourceWeaponsState.shoot_charge_start_state(mount_state, weapon_state, bullet_state, unit_state, shoot_x, shoot_y, charge_rotation, Callable(self, "source_status_apply_result"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.shoot_charge_start_state(mount_state, weapon_state, bullet_state, unit_state, shoot_x, shoot_y, charge_rotation, callbacks.get("status_apply_result", Callable()))
 
 func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 	return SourceWeaponsState.shoot_pattern_default_events(shoot_state)
@@ -5696,25 +5705,30 @@ func source_weapon_bullet_initial_guard_state(unit_state: Dictionary, mount_stat
 	return SourceWeaponsState.bullet_initial_guard_state(unit_state, mount_state)
 
 func source_weapon_bullet_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float) -> Dictionary:
-	return SourceWeaponsState.bullet_geometry_state(unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.bullet_geometry_state(unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread, callbacks.get("trns_vec", Callable()))
 
 func source_weapon_bullet_angle_life_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float) -> Dictionary:
-	return SourceWeaponsState.bullet_angle_life_state(unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, Callable(self, "source_arc_angles_trns_vec"), Callable(self, "source_weapon_update_bullet_origin_state"), Callable(self, "source_mathf_dst"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.bullet_angle_life_state(unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, callbacks.get("trns_vec", Callable()), callbacks.get("bullet_origin_state", Callable()), callbacks.get("mathf_dst", Callable()))
 
 func source_weapon_bullet_shooter_state(unit_state: Dictionary, controller_state: Dictionary) -> Dictionary:
 	return SourceWeaponsState.bullet_shooter_state(unit_state, controller_state)
 
 func source_weapon_bullet_create_call_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, controller_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float, velocity_random: float, mover: Variant) -> Dictionary:
-	return SourceWeaponsState.bullet_create_call_state(unit_state, mount_state, weapon_state, bullet_state, controller_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, velocity_random, mover, Callable(self, "source_arc_angles_trns_vec"), Callable(self, "source_weapon_update_bullet_origin_state"), Callable(self, "source_mathf_dst"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.bullet_create_call_state(unit_state, mount_state, weapon_state, bullet_state, controller_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, velocity_random, mover, callbacks.get("trns_vec", Callable()), callbacks.get("bullet_origin_state", Callable()), callbacks.get("mathf_dst", Callable()))
 
 func source_weapon_bullet_handle_call_state(unit_state: Dictionary, mount_state: Dictionary, create_call_state: Dictionary, created_bullet: Variant) -> Dictionary:
 	return SourceWeaponsState.bullet_handle_call_state(unit_state, mount_state, create_call_state, created_bullet)
 
 func source_weapon_handle_bullet_continuous_geometry_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.handle_bullet_continuous_geometry_state(unit_state, mount_state, weapon_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.handle_bullet_continuous_geometry_state(unit_state, mount_state, weapon_state, callbacks.get("trns_vec", Callable()))
 
 func source_weapon_handle_bullet_aim_update_state(unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.handle_bullet_aim_update_state(unit_state, mount_state, weapon_state, bullet_state, Callable(self, "source_arc_angles_trns_vec"), Callable(self, "source_weapon_update_bullet_origin_state"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.handle_bullet_aim_update_state(unit_state, mount_state, weapon_state, bullet_state, callbacks.get("trns_vec", Callable()), callbacks.get("bullet_origin_state", Callable()))
 
 func source_weapon_bullet_sound_state(create_call_state: Dictionary, weapon_state: Dictionary, sound_pitch: float) -> Dictionary:
 	return SourceWeaponsState.bullet_sound_state(create_call_state, weapon_state, sound_pitch)
@@ -5723,7 +5737,8 @@ func source_weapon_bullet_effects_state(create_call_state: Dictionary, mount_sta
 	return SourceWeaponsState.bullet_effects_state(create_call_state, mount_state, weapon_state, bullet_state, unit_state)
 
 func source_weapon_bullet_recoil_velocity_state(create_call_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
-	return SourceWeaponsState.bullet_recoil_velocity_state(create_call_state, unit_state, bullet_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceWeaponsState.default_callbacks_state(self)
+	return SourceWeaponsState.bullet_recoil_velocity_state(create_call_state, unit_state, bullet_state, callbacks.get("trns_vec", Callable()))
 
 func source_weapon_bullet_shake_state(create_call_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
 	return SourceWeaponsState.bullet_shake_state(create_call_state, weapon_state)
