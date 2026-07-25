@@ -5774,10 +5774,12 @@ func source_bullet_type_create_trail_add_state(lifetime_payload_damage_state: Di
 	return SourceBulletTypeCreateState.trail_add_state(lifetime_payload_damage_state)
 
 func source_bullet_velocity_vector_state(velocity_state: Dictionary) -> Dictionary:
-	return SourceBulletTypeCreateState.velocity_vector_state(velocity_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceBulletTypeCreateState.default_callbacks_state(self)
+	return SourceBulletTypeCreateState.velocity_vector_state(velocity_state, callbacks.get("trns_vec", Callable()))
 
 func source_bullet_type_create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:
-	return SourceBulletTypeCreateState.keep_velocity_state(trail_add_state, bullet_type_state, owner_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceBulletTypeCreateState.default_callbacks_state(self)
+	return SourceBulletTypeCreateState.keep_velocity_state(trail_add_state, bullet_type_state, owner_state, callbacks.get("trns_vec", Callable()))
 
 func source_bullet_type_init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary) -> Dictionary:
 	return SourceBulletTypeInitState.init_initial_state(bullet_state, bullet_type_state, owner_health_state)
@@ -5798,31 +5800,39 @@ func source_bullet_type_update_homing_initial_state(bullet_state: Dictionary, bu
 	return SourceBulletTypeUpdateState.update_homing_initial_state(bullet_state, bullet_type_state)
 
 func source_bullet_type_update_homing_target_velocity_state(homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_homing_target_velocity_state(homing_initial_state, target_state, source_delta, Callable(self, "source_arc_angles_angle"), Callable(self, "source_arc_angles_move_toward"), Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_homing_target_velocity_state(homing_initial_state, target_state, source_delta, callbacks.get("angles_angle", Callable()), callbacks.get("move_toward_angle", Callable()), callbacks.get("trns_vec", Callable()))
 
 func source_bullet_type_update_homing_follow_aim_state(homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_homing_follow_aim_state(homing_target_velocity_state, bullet_type_state, shooter_state, source_delta, Callable(self, "source_arc_angles_angle"), Callable(self, "source_arc_angles_move_toward"), Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_homing_follow_aim_state(homing_target_velocity_state, bullet_type_state, shooter_state, source_delta, callbacks.get("angles_angle", Callable()), callbacks.get("move_toward_angle", Callable()), callbacks.get("trns_vec", Callable()))
 
 func source_bullet_type_update_weaving_state(bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_weaving_state(bullet_state, bullet_type_state, random_seed_result, source_delta, Callable(self, "source_arc_angles_angle"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_weaving_state(bullet_state, bullet_type_state, random_seed_result, source_delta, callbacks.get("angles_angle", Callable()))
 
 func source_bullet_type_update_weaving_rotate_speed_state(weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_weaving_rotate_speed_state(weaving_state, bullet_type_state, source_delta, Callable(self, "source_arc_angles_angle"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_weaving_rotate_speed_state(weaving_state, bullet_type_state, source_delta, callbacks.get("angles_angle", Callable()))
 
 func source_vec2_limit(vector_state: Dictionary, limit: float) -> Dictionary:
 	return SourceMathState.source_vec2_limit(vector_state, limit)
 
 func source_bullet_type_update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_weaving_circle_shooter_state(rotate_speed_state, bullet_type_state, owner_health_state, source_delta, Callable(self, "source_vec2_limit"), Callable(self, "source_arc_angles_angle"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_weaving_circle_shooter_state(rotate_speed_state, bullet_type_state, owner_health_state, source_delta, callbacks.get("vec2_limit", Callable()), callbacks.get("angles_angle", Callable()))
 
 func source_bullet_rotation_degrees(bullet_state: Dictionary) -> float:
-	return SourceBulletTypeUpdateState.bullet_rotation_degrees(bullet_state, Callable(self, "source_arc_angles_angle"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.bullet_rotation_degrees(bullet_state, callbacks.get("angles_angle", Callable()))
 
 func source_bullet_type_update_trail_effects_chance_state(bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_trail_effects_chance_state(bullet_state, bullet_type_state, chance_delta_result, random_offset_state, Callable(self, "source_bullet_rotation_degrees"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_trail_effects_chance_state(bullet_state, bullet_type_state, chance_delta_result, random_offset_state, callbacks.get("bullet_rotation_degrees", Callable()))
 
 func source_bullet_type_update_trail_effects_interval_state(chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:
-	return SourceBulletTypeUpdateState.update_trail_effects_interval_state(chance_state, bullet_type_state, timer_get_result, random_offset_state, Callable(self, "source_bullet_rotation_degrees"))
+	var callbacks := SourceBulletTypeUpdateState.default_callbacks_state(self)
+	return SourceBulletTypeUpdateState.update_trail_effects_interval_state(chance_state, bullet_type_state, timer_get_result, random_offset_state, callbacks.get("bullet_rotation_degrees", Callable()))
 
 func source_bullet_type_init_type_defaults_state(bullet_type_state: Dictionary) -> Dictionary:
 	return SourceBulletTypeInitRangeState.init_type_defaults_state(bullet_type_state)
