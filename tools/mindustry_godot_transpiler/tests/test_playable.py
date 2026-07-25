@@ -8182,6 +8182,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(proof_scene.exists())
         self.assertIn("BUILDING_ITEM_DUMP_STATE_MODULE_PROOF", proof_source)
         self.assertIn("SourceBuildingItemDumpState.dump_accumulate_state", proof_source)
+        self.assertIn("SourceBuildingItemDumpState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
@@ -8690,9 +8692,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func dump_null_success_handoff_state(item: Variant, accepts_item: bool, can_dump: bool) -> Dictionary:", helper_source)
         self.assertIn("static func dump_specific_proximity_scan_state(todump: Variant, proximity_size: int, dump_cursor: int) -> Dictionary:", helper_source)
         self.assertIn("static func dump_terminal_failure_state() -> Dictionary:", helper_source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", helper_source)
+        self.assertIn('"increment_dump_cursor": Callable(game, "source_increment_dump_cursor")', helper_source)
         self.assertIn("return SourceBuildingItemDumpState.can_dump_item_default_state(to_state, item)", port_source)
-        self.assertIn('return SourceBuildingItemDumpState.put_item_state(item, proximity_size, dump_cursor, accepts_item_by_index, can_dump_by_index, Callable(self, "source_increment_dump_cursor"))', port_source)
-        self.assertIn('return SourceBuildingItemDumpState.dump_null_proximity_scan_state(proximity_size, dump_cursor, Callable(self, "source_increment_dump_cursor"))', port_source)
+
+        put_body = port_source.split("func source_building_put_item_state(item: Variant, proximity_size: int, dump_cursor: int, accepts_item_by_index: Array, can_dump_by_index: Array) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
+        null_scan_body = port_source.split("func source_building_dump_null_proximity_scan_state(proximity_size: int, dump_cursor: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn('SourceBuildingItemDumpState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', put_body)
+        self.assertIn('SourceBuildingItemDumpState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', null_scan_body)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', put_body)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', null_scan_body)
 
     def test_port_game_exposes_source_building_move_liquid_forward_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

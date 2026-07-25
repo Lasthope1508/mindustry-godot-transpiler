@@ -4983,7 +4983,14 @@ func source_building_get_payloads_default_state() -> Dictionary:
 	return SourceBuildingPayloadState.get_payloads_default_state()
 
 func source_building_put_item_state(item: Variant, proximity_size: int, dump_cursor: int, accepts_item_by_index: Array, can_dump_by_index: Array) -> Dictionary:
-	return SourceBuildingItemDumpState.put_item_state(item, proximity_size, dump_cursor, accepts_item_by_index, can_dump_by_index, Callable(self, "source_increment_dump_cursor"))
+	return SourceBuildingItemDumpState.put_item_state(
+		item,
+		proximity_size,
+		dump_cursor,
+		accepts_item_by_index,
+		can_dump_by_index,
+		SourceBuildingItemDumpState.default_callbacks_state(self).get("increment_dump_cursor", Callable())
+	)
 func source_building_produced_item_default_state(item: Variant) -> Dictionary:
 	return SourceBuildingItemDumpState.produced_item_default_state(item)
 func source_building_produced_item_amount_state(item: Variant, amount: int, sector_present: bool, team_is_default_team: bool, net_client: bool) -> Dictionary:
@@ -5027,7 +5034,11 @@ func source_building_dump_default_state() -> Dictionary:
 func source_building_dump_null_item_scan_state(item_ids: Array, item_present_by_index: Array) -> Dictionary:
 	return SourceBuildingItemDumpState.dump_null_item_scan_state(item_ids, item_present_by_index)
 func source_building_dump_null_proximity_scan_state(proximity_size: int, dump_cursor: int) -> Dictionary:
-	return SourceBuildingItemDumpState.dump_null_proximity_scan_state(proximity_size, dump_cursor, Callable(self, "source_increment_dump_cursor"))
+	return SourceBuildingItemDumpState.dump_null_proximity_scan_state(
+		proximity_size,
+		dump_cursor,
+		SourceBuildingItemDumpState.default_callbacks_state(self).get("increment_dump_cursor", Callable())
+	)
 func source_building_dump_null_remove_item_state(item: Variant, item_amount_before: int) -> Dictionary:
 	return SourceBuildingItemDumpState.dump_null_remove_item_state(item, item_amount_before)
 func source_building_dump_null_success_handoff_state(item: Variant, accepts_item: bool, can_dump: bool) -> Dictionary:
