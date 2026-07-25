@@ -1119,6 +1119,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var use_state := source_power_graph_use_batteries_state(charged_batteries, use_needed)", proof_body)
         self.assertIn('"placed_power_battery_runtime": game.call("placed_power_battery_runtime_state")', runtime_summary_source)
 
+    def test_placed_power_battery_runtime_callbacks_are_owned_by_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerBatteryRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        proof_body = source.split("func placed_power_battery_runtime_state() -> Dictionary:", 1)[1].split("func placed_power_distribution_runtime_state() -> Dictionary:", 1)[0]
+
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('Callable(game, "block_from_sprite")', module_source)
+        self.assertIn('Callable(game, "power_graph_role_for_block")', module_source)
+        self.assertIn('Callable(game, "placed_power_needed_state")', module_source)
+        self.assertIn('Callable(game, "placed_power_produced_state")', module_source)
+        self.assertIn('Callable(game, "source_power_graph_battery_state")', module_source)
+        self.assertIn('Callable(game, "source_power_graph_charge_batteries_state")', module_source)
+        self.assertIn('Callable(game, "source_power_graph_use_batteries_state")', module_source)
+        self.assertIn("SourcePlacedPowerBatteryRuntimeState.default_callbacks_state(self)", proof_body)
+        self.assertNotIn("Callable(self,", proof_body)
+
     def test_source_placed_power_battery_runtime_state_has_runtime_proof(self):
         proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PlacedPowerBatteryRuntimeModuleProof.gd"
         proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PlacedPowerBatteryRuntimeModuleProof.tscn"

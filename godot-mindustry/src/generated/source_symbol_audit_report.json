@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 1002,
-  "registeredSourceOwnerCount": 995,
+  "totalSourceFunctions": 1032,
+  "registeredSourceOwnerCount": 1025,
   "exemptSourceOwnerCount": 7,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -205,6 +205,7 @@
     "PortGame.source_builder_add_build_tail_state",
     "PortGame.source_builder_after_read_state",
     "PortGame.source_builder_build_plan_state",
+    "PortGame.source_builder_build_step_state",
     "PortGame.source_builder_can_build_state",
     "PortGame.source_builder_clear_building_state",
     "PortGame.source_builder_draw_building_beam_state",
@@ -214,7 +215,6 @@
     "PortGame.source_builder_is_building_state",
     "PortGame.source_builder_remove_build_state",
     "PortGame.source_builder_should_skip_state",
-    "PortGame.source_builder_unit_build_range",
     "PortGame.source_builder_update_state",
     "PortGame.source_building_absorb_lasers_state",
     "PortGame.source_building_accept_item_state",
@@ -327,6 +327,7 @@
     "PortGame.source_building_killed_initial_side_effects_state",
     "PortGame.source_building_killed_removal_side_effects_state",
     "PortGame.source_building_maximum_accepted",
+    "PortGame.source_building_module_bitmask_state",
     "PortGame.source_building_move_liquid_fire_reaction_state",
     "PortGame.source_building_move_liquid_forward_state",
     "PortGame.source_building_move_liquid_reaction_setup_state",
@@ -364,6 +365,7 @@
     "PortGame.source_building_progress_increase",
     "PortGame.source_building_puddle_on_state",
     "PortGame.source_building_put_item_state",
+    "PortGame.source_building_read_base_timescale_state",
     "PortGame.source_building_recache_state",
     "PortGame.source_building_remove_from_proximity_state",
     "PortGame.source_building_remove_stack_state",
@@ -411,8 +413,11 @@
     "PortGame.source_building_update_proximity_state",
     "PortGame.source_building_update_tile_gate_state",
     "PortGame.source_building_update_timescale_decay_state",
+    "PortGame.source_building_write_base_timescale_state",
     "PortGame.source_bullet_ammo_multiplier",
     "PortGame.source_bullet_damage",
+    "PortGame.source_bullet_dimensions",
+    "PortGame.source_bullet_extra_range_margin",
     "PortGame.source_bullet_hit_size",
     "PortGame.source_bullet_inaccuracy",
     "PortGame.source_bullet_lifetime_seconds",
@@ -506,6 +511,7 @@
     "PortGame.source_bullet_velocity",
     "PortGame.source_bullet_velocity_vector_state",
     "PortGame.source_bullet_world_speed",
+    "PortGame.source_bullet_world_speed_per_tick",
     "PortGame.source_child_add_state",
     "PortGame.source_child_update_state",
     "PortGame.source_consume_apply_state",
@@ -634,6 +640,7 @@
     "PortGame.source_core_handle_item",
     "PortGame.source_drill_delay",
     "PortGame.source_drill_dump_interval",
+    "PortGame.source_drill_dump_runtime_state",
     "PortGame.source_drill_inactive_warmup_state",
     "PortGame.source_drill_last_speed",
     "PortGame.source_drill_last_speed_for_cell",
@@ -642,7 +649,9 @@
     "PortGame.source_drill_output_delta",
     "PortGame.source_drill_output_delta_for_cell",
     "PortGame.source_drill_output_rate",
+    "PortGame.source_drill_production_runtime_state",
     "PortGame.source_drill_progress_fraction",
+    "PortGame.source_drill_runtime_state",
     "PortGame.source_drill_time_drilled_delta",
     "PortGame.source_drill_warmup_speed",
     "PortGame.source_drill_warmup_state",
@@ -650,11 +659,21 @@
     "PortGame.source_dump_drill_item_to_core",
     "PortGame.source_dump_payload_index",
     "PortGame.source_dump_payload_state",
+    "PortGame.source_factory_simulation_apply_state",
+    "PortGame.source_factory_simulation_runtime_state",
     "PortGame.source_game_over_core_destroyed_state",
     "PortGame.source_increment_dump_cursor",
+    "PortGame.source_input_runtime_summary_state",
+    "PortGame.source_input_viewport_camera_pan_delta",
+    "PortGame.source_input_viewport_camera_zoom_state",
+    "PortGame.source_input_viewport_clamped_camera_position_state",
+    "PortGame.source_input_viewport_fit_camera_state",
+    "PortGame.source_input_viewport_screen_to_world_state",
     "PortGame.source_item_entry_constructor_state",
     "PortGame.source_item_entry_to_string_state",
     "PortGame.source_item_entry_type_state",
+    "PortGame.source_item_transport_bootstrap_state",
+    "PortGame.source_item_transport_runtime_state",
     "PortGame.source_item_turret_ammo_state",
     "PortGame.source_item_turret_build_accept_item_state",
     "PortGame.source_item_turret_build_accept_stack_state",
@@ -691,12 +710,15 @@
     "PortGame.source_mathf_dst",
     "PortGame.source_mathf_lerp_delta",
     "PortGame.source_mend_projector_draw_state",
+    "PortGame.source_mend_projector_is_projector",
     "PortGame.source_mend_projector_light_state",
     "PortGame.source_mend_projector_place_state",
     "PortGame.source_mend_projector_progress",
     "PortGame.source_mend_projector_range",
+    "PortGame.source_mend_projector_reload",
     "PortGame.source_mend_projector_repair_amount",
     "PortGame.source_mend_projector_select_state",
+    "PortGame.source_mend_projector_use_time",
     "PortGame.source_move_angle_toward",
     "PortGame.source_move_forward_accept_state",
     "PortGame.source_move_forward_to_core",
@@ -704,13 +726,18 @@
     "PortGame.source_offload_to_inventory",
     "PortGame.source_overdrive_projector_boost_bar_fraction",
     "PortGame.source_overdrive_projector_draw_state",
+    "PortGame.source_overdrive_projector_has_boost",
+    "PortGame.source_overdrive_projector_is_projector",
     "PortGame.source_overdrive_projector_light_state",
     "PortGame.source_overdrive_projector_place_state",
     "PortGame.source_overdrive_projector_range",
     "PortGame.source_overdrive_projector_real_boost",
+    "PortGame.source_overdrive_projector_reload",
     "PortGame.source_overdrive_projector_select_state",
     "PortGame.source_overdrive_projector_target_filter_state",
+    "PortGame.source_overdrive_projector_use_time",
     "PortGame.source_payload_forward_offset",
+    "PortGame.source_point_defense_turret_set_stats_state",
     "PortGame.source_pos_set_state",
     "PortGame.source_power_generator_ambient_volume_state",
     "PortGame.source_power_generator_build_serialization_state",
@@ -956,6 +983,7 @@
     "PortGame.source_unit_wobble_state",
     "PortGame.source_unit_world_speed",
     "PortGame.source_vec2_limit",
+    "PortGame.source_wave_timing_runtime_state",
     "PortGame.source_weapon_bullet_angle_life_state",
     "PortGame.source_weapon_bullet_create_call_state",
     "PortGame.source_weapon_bullet_effects_state",
@@ -1003,7 +1031,9 @@
     "PortGame.source_weapons_remove_sound_stop_state",
     "PortGame.source_weapons_set_rotation_state",
     "PortGame.source_weapons_setup_mounts_state",
-    "PortGame.source_weapons_update_dispatch_state"
+    "PortGame.source_weapons_update_dispatch_state",
+    "PortGame.source_world_initial_build_runtime_state",
+    "PortGame.source_world_terrain_runtime_state"
   ],
   "exemptSourceOwners": [
     "PortGame.source_api_contract_state",
@@ -1049,6 +1079,66 @@
     {
       "owner": "PortGame.source_manifest_file_state",
       "function": "source_manifest_file_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_viewport_camera_pan_delta",
+      "function": "source_input_viewport_camera_pan_delta",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_viewport_camera_zoom_state",
+      "function": "source_input_viewport_camera_zoom_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_viewport_fit_camera_state",
+      "function": "source_input_viewport_fit_camera_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_viewport_screen_to_world_state",
+      "function": "source_input_viewport_screen_to_world_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_viewport_clamped_camera_position_state",
+      "function": "source_input_viewport_clamped_camera_position_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_world_terrain_runtime_state",
+      "function": "source_world_terrain_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_world_initial_build_runtime_state",
+      "function": "source_world_initial_build_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_item_transport_bootstrap_state",
+      "function": "source_item_transport_bootstrap_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_item_transport_runtime_state",
+      "function": "source_item_transport_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_drill_dump_runtime_state",
+      "function": "source_drill_dump_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_drill_production_runtime_state",
+      "function": "source_drill_production_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_drill_runtime_state",
+      "function": "source_drill_runtime_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -1264,6 +1354,41 @@
     {
       "owner": "PortGame.source_mend_projector_light_state",
       "function": "source_mend_projector_light_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_mend_projector_reload",
+      "function": "source_mend_projector_reload",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_mend_projector_use_time",
+      "function": "source_mend_projector_use_time",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_mend_projector_is_projector",
+      "function": "source_mend_projector_is_projector",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_overdrive_projector_reload",
+      "function": "source_overdrive_projector_reload",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_overdrive_projector_use_time",
+      "function": "source_overdrive_projector_use_time",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_overdrive_projector_has_boost",
+      "function": "source_overdrive_projector_has_boost",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_overdrive_projector_is_projector",
+      "function": "source_overdrive_projector_is_projector",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -1944,11 +2069,6 @@
     {
       "owner": "PortGame.source_block_dump_time",
       "function": "source_block_dump_time",
-      "gdscript_path": "src/game/PortGame.gd"
-    },
-    {
-      "owner": "PortGame.source_builder_unit_build_range",
-      "function": "source_builder_unit_build_range",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -2857,6 +2977,21 @@
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_building_write_base_timescale_state",
+      "function": "source_building_write_base_timescale_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_building_read_base_timescale_state",
+      "function": "source_building_read_base_timescale_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_building_module_bitmask_state",
+      "function": "source_building_module_bitmask_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
       "owner": "PortGame.source_building_update_timescale_decay_state",
       "function": "source_building_update_timescale_decay_state",
       "gdscript_path": "src/game/PortGame.gd"
@@ -3104,6 +3239,11 @@
     {
       "owner": "PortGame.source_builder_actively_building_state",
       "function": "source_builder_actively_building_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_builder_build_step_state",
+      "function": "source_builder_build_step_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -3357,6 +3497,16 @@
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_factory_simulation_runtime_state",
+      "function": "source_factory_simulation_runtime_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_factory_simulation_apply_state",
+      "function": "source_factory_simulation_apply_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
       "owner": "PortGame.source_block_is_damaged",
       "function": "source_block_is_damaged",
       "gdscript_path": "src/game/PortGame.gd"
@@ -3364,6 +3514,11 @@
     {
       "owner": "PortGame.source_mend_projector_range",
       "function": "source_mend_projector_range",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_wave_timing_runtime_state",
+      "function": "source_wave_timing_runtime_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -5397,6 +5552,11 @@
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_point_defense_turret_set_stats_state",
+      "function": "source_point_defense_turret_set_stats_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
       "owner": "PortGame.source_turret_set_bars_state",
       "function": "source_turret_set_bars_state",
       "gdscript_path": "src/game/PortGame.gd"
@@ -5972,6 +6132,11 @@
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_extra_range_margin",
+      "function": "source_bullet_extra_range_margin",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
       "owner": "PortGame.source_bullet_inaccuracy",
       "function": "source_bullet_inaccuracy",
       "gdscript_path": "src/game/PortGame.gd"
@@ -5989,6 +6154,11 @@
     {
       "owner": "PortGame.source_bullet_lifetime_seconds",
       "function": "source_bullet_lifetime_seconds",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_bullet_world_speed_per_tick",
+      "function": "source_bullet_world_speed_per_tick",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
@@ -6022,8 +6192,18 @@
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
+      "owner": "PortGame.source_bullet_dimensions",
+      "function": "source_bullet_dimensions",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
       "owner": "PortGame.source_bullet_scale",
       "function": "source_bullet_scale",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_input_runtime_summary_state",
+      "function": "source_input_runtime_summary_state",
       "gdscript_path": "src/game/PortGame.gd"
     }
   ]

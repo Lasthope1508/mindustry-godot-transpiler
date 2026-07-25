@@ -1758,19 +1758,15 @@ func placed_power_battery_state() -> Dictionary:
 	return source_power_graph_battery_state(batteries)
 
 func placed_power_battery_runtime_state() -> Dictionary:
-	var callbacks := {
-		"block_from_sprite": Callable(self, "block_from_sprite"),
-		"role_for_block": Callable(self, "power_graph_role_for_block"),
-		"power_needed": Callable(self, "placed_power_needed_state"),
-		"power_produced": Callable(self, "placed_power_produced_state"),
-		"battery_state": Callable(self, "source_power_graph_battery_state"),
-		"charge_batteries": Callable(self, "source_power_graph_charge_batteries_state"),
-		"use_batteries": Callable(self, "source_power_graph_use_batteries_state"),
-	}
 	var defaults := {
 		"power_capacity": SourceBlockDefaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT,
 	}
-	return SourcePlacedPowerBatteryRuntimeState.summary_state(placed_block_origins, callbacks, defaults, SourceTimeDefaults.TICK_RATE)
+	return SourcePlacedPowerBatteryRuntimeState.summary_state(
+		placed_block_origins,
+		SourcePlacedPowerBatteryRuntimeState.default_callbacks_state(self),
+		defaults,
+		SourceTimeDefaults.TICK_RATE
+	)
 
 func placed_power_distribution_runtime_state() -> Dictionary:
 	var callbacks := {
