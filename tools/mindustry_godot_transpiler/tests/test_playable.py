@@ -26380,7 +26380,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_tractor_beam_turret_build_update_tile_active_strength_state(last_target_position_evaluated: bool, strength_before: float, time_delta: float) -> Dictionary:", source)
         self.assertTrue(module.exists(), "SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.gd must own TractorBeamBuild.updateTile active strength source state")
         self.assertIn('const SourceTractorBeamTurretBuildUpdateTileActiveStrengthState := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.gd")', source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.active_strength_state(last_target_position_evaluated, strength_before, time_delta, Callable(self, "source_mathf_lerp_delta"))', method_body)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_mathf_lerp_delta")', module_source)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.default_callbacks_state(self)', method_body)
+        self.assertIn('callbacks.get("lerp_delta", Callable())', method_body)
+        self.assertNotIn('Callable(self, "source_mathf_lerp_delta")', method_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.active_strength_state(last_target_position_evaluated, strength_before, time_delta, callbacks.get("lerp_delta", Callable()))', method_body)
         self.assertNotIn("var strength_lerp_evaluated: bool = last_target_position_evaluated", method_body)
         self.assertNotIn("source_mathf_lerp_delta(strength_before, 1.0, strength_lerp_progress, time_delta)", method_body)
         self.assertIn("extends RefCounted", module_source)
@@ -26434,7 +26439,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, signature)
 
         self.assertIn(signature, source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.generated_active_strength_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, Callable(self, "source_mathf_lerp_delta"))', bridge_body)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.default_callbacks_state(self)', bridge_body)
+        self.assertIn('callbacks.get("lerp_delta", Callable())', bridge_body)
+        self.assertNotIn('Callable(self, "source_mathf_lerp_delta")', bridge_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.generated_active_strength_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, callbacks.get("lerp_delta", Callable()))', bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("var active_strength_result := {", bridge_body)
         self.assertIn("static func generated_active_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, lerp_delta: Callable) -> Dictionary:", module_source)
@@ -26457,7 +26465,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_tractor_beam_turret_build_update_tile_inactive_strength_state(activation_returned_early: bool, look_target_guard: bool, strength_before: float, time_delta: float) -> Dictionary:", source)
         self.assertTrue(module.exists(), "SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.gd must own TractorBeamBuild.updateTile inactive strength source state")
         self.assertIn('const SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.gd")', source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.inactive_strength_state(activation_returned_early, look_target_guard, strength_before, time_delta, Callable(self, "source_mathf_lerp_delta"))', method_body)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_mathf_lerp_delta")', module_source)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.default_callbacks_state(self)', method_body)
+        self.assertIn('callbacks.get("lerp_delta", Callable())', method_body)
+        self.assertNotIn('Callable(self, "source_mathf_lerp_delta")', method_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.inactive_strength_state(activation_returned_early, look_target_guard, strength_before, time_delta, callbacks.get("lerp_delta", Callable()))', method_body)
         self.assertNotIn("var inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard", method_body)
         self.assertNotIn("source_mathf_lerp_delta(strength_before, 0.0, inactive_strength_lerp_progress, time_delta)", method_body)
         self.assertIn("extends RefCounted", module_source)
@@ -26472,6 +26485,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var inactive_strength_after: float = float(lerp_delta.call(strength_before, 0.0, inactive_strength_lerp_progress, time_delta)) if inactive_strength_evaluated else strength_before", module_source)
         self.assertIn('inactive_strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 0, 0.1f);", "from": strength_before, "to": 0.0, "progress": inactive_strength_lerp_progress, "time_delta": time_delta, "result": inactive_strength_after}', module_source)
 
+    def test_source_tractor_beam_strength_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamStrengthStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamStrengthStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("TRACTOR_BEAM_STRENGTH_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceTractorBeamTurretBuildUpdateTileActiveStrengthState.default_callbacks_state", proof_source)
+        self.assertIn("SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.default_callbacks_state", proof_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_mathf_lerp_delta")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+
     def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.gd"
@@ -26481,7 +26508,10 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float) -> Dictionary:", source)
         self.assertIn("return SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.generated_inactive_strength_bridge_state(", bridge_body)
-        self.assertIn('Callable(self, "source_mathf_lerp_delta")', bridge_body)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.default_callbacks_state(self)', bridge_body)
+        self.assertIn('callbacks.get("lerp_delta", Callable())', bridge_body)
+        self.assertNotIn('Callable(self, "source_mathf_lerp_delta")', bridge_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileInactiveStrengthState.generated_inactive_strength_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, callbacks.get("lerp_delta", Callable()))', bridge_body)
         self.assertNotIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0", bridge_body)
         self.assertNotIn("var inactive_strength_result := {", bridge_body)
         self.assertIn("static func generated_inactive_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, lerp_delta: Callable) -> Dictionary:", module_source)
