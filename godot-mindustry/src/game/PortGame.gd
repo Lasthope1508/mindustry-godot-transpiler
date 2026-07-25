@@ -4929,7 +4929,19 @@ func source_building_dump_liquid_default_scaling_state(liquid: Variant, current_
 func source_building_dump_liquid_campaign_unlock_state(liquid: Variant, current_liquid_amount: float, net_client: bool, state_is_campaign: bool, team_is_default_team: bool) -> Dictionary:
 	return SourceBuildingLiquidState.dump_liquid_campaign_unlock_state(liquid, current_liquid_amount, net_client, state_is_campaign, team_is_default_team)
 func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:
-	return SourceBuildingLiquidState.dump_liquid_routing_gate_state(liquid, proximity_size, dump_cursor, output_dir, rotation_value, relative_to_by_index, destination_present_by_index, other_has_liquids_by_index, can_dump_liquid_by_index, other_liquids_present_by_index, Callable(self, "source_increment_dump_cursor"))
+	return SourceBuildingLiquidState.dump_liquid_routing_gate_state(
+		liquid,
+		proximity_size,
+		dump_cursor,
+		output_dir,
+		rotation_value,
+		relative_to_by_index,
+		destination_present_by_index,
+		other_has_liquids_by_index,
+		can_dump_liquid_by_index,
+		other_liquids_present_by_index,
+		SourceBuildingLiquidState.default_callbacks_state(self).get("increment_dump_cursor", Callable())
+	)
 func source_building_dump_liquid_fraction_transfer_state(liquid: Variant, scaling: float, eligible_indices: Array, current_liquid_amount: float, block_liquid_capacity: float, other_liquid_amount_by_index: Array, other_block_liquid_capacity_by_index: Array) -> Dictionary:
 	return SourceBuildingLiquidState.dump_liquid_fraction_transfer_state(liquid, scaling, eligible_indices, current_liquid_amount, block_liquid_capacity, other_liquid_amount_by_index, other_block_liquid_capacity_by_index)
 func source_building_transfer_liquid_state(liquid: Variant, amount: float, next_block_liquid_capacity: float, next_liquid_amount: float, next_accepts_liquid: bool, current_liquid_amount: float) -> Dictionary:

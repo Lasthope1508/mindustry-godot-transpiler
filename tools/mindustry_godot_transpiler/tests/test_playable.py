@@ -8292,6 +8292,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"eligibility_guard": "if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){"', source)
         self.assertIn('"eligible_indices": eligible_indices', source)
 
+    def test_source_building_liquid_state_owns_increment_dump_callback(self):
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLiquidState.gd"
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper_source = helper.read_text(encoding="utf-8")
+        port_source = port_game.read_text(encoding="utf-8")
+        body = port_source.split("func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
+
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", helper_source)
+        self.assertIn('"increment_dump_cursor": Callable(game, "source_increment_dump_cursor")', helper_source)
+        self.assertIn('SourceBuildingLiquidState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', body)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', body)
+
+    def test_source_building_liquid_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingLiquidStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingLiquidStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_LIQUID_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingLiquidState.dump_liquid_routing_gate_state", proof_source)
+        self.assertIn("SourceBuildingLiquidState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+
     def test_port_game_exposes_source_building_dump_liquid_fraction_transfer_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = self._port_game_building_liquid_source()
@@ -8832,6 +8856,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(helper.exists(), "SourceBuildingLiquidState.gd helper must own Building liquid state block")
         helper_source = helper.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
+        routing_body = port_source.split("func source_building_dump_liquid_routing_gate_state(liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("class_name SourceBuildingLiquidState", helper_source)
         self.assertIn('const SourceBuildingLiquidState := preload("res://src/game/SourceBuildingLiquidState.gd")', port_source)
@@ -8848,7 +8873,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func move_liquid_reaction_setup_state(main_guard_passed: bool, transfer_guard_passed: bool, destination_consumes_liquid: bool, destination_current_amount: float, destination_block_liquid_capacity: float, fract_value: float, source_x: float, source_y: float, destination_x: float, destination_y: float, destination_current_liquid: Variant, other_block_reactive: bool, liquid_block_reactive: bool) -> Dictionary:", helper_source)
         self.assertIn("static func move_liquid_return_zero_state(next_present: bool, transfer_guard_passed: bool) -> Dictionary:", helper_source)
         self.assertIn("return SourceBuildingLiquidState.accept_liquid_state(has_liquids, consumes_liquid)", port_source)
-        self.assertIn('return SourceBuildingLiquidState.dump_liquid_routing_gate_state(liquid, proximity_size, dump_cursor, output_dir, rotation_value, relative_to_by_index, destination_present_by_index, other_has_liquids_by_index, can_dump_liquid_by_index, other_liquids_present_by_index, Callable(self, "source_increment_dump_cursor"))', port_source)
+        self.assertIn("return SourceBuildingLiquidState.dump_liquid_routing_gate_state(", routing_body)
+        self.assertIn('SourceBuildingLiquidState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', routing_body)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', routing_body)
         self.assertIn("return SourceBuildingLiquidState.move_liquid_return_zero_state(next_present, transfer_guard_passed)", port_source)
 
     def test_port_game_exposes_source_building_move_liquid_return_zero_state(self):
