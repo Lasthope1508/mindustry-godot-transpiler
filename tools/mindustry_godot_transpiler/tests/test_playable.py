@@ -2891,7 +2891,7 @@ class PlayableManifestTests(unittest.TestCase):
             (
                 "func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:",
                 "static func generated_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int, base_apply_state_provider: Callable) -> Dictionary:",
-                'return SourceConsumeLiquidState.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, liquid_id, Callable(self, "source_consume_liquid_base_apply_state"))',
+                'return SourceConsumeLiquidState.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, liquid_id, SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable()))',
                 'var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")',
                 "var result = instance.java_method_apply_0([block_has_liquids_before, liquid_filter_before, liquid_id])",
                 "var canonical = apply_state(block_has_liquids_before, liquid_filter_before, liquid_id, base_apply_state_provider)",
@@ -3011,7 +3011,7 @@ class PlayableManifestTests(unittest.TestCase):
             ),
             (
                 "func source_consume_liquid_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:",
-                '\treturn SourceConsumeLiquidState.apply_state(block_has_liquids_before, liquid_filter_before, liquid_id, Callable(self, "source_consume_liquid_base_apply_state"))',
+                '\treturn SourceConsumeLiquidState.apply_state(block_has_liquids_before, liquid_filter_before, liquid_id, SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable()))',
                 "static func apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int, base_apply_state_provider: Callable) -> Dictionary:",
                 '"source_owner": "PortGame.source_consume_liquid_apply_state"',
             ),
@@ -3055,6 +3055,35 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(facade_call, self._method_body(source, signature))
                 self.assertIn(module_signature, module_source)
                 self.assertIn(owner, module_source)
+
+    def test_consume_liquid_apply_default_callbacks_live_in_source_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceConsumeLiquidState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        apply_body = self._method_body(source, "func source_consume_liquid_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:")
+        bridge_body = self._method_body(source, "func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:")
+
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"base_apply_state": Callable(game, "source_consume_liquid_base_apply_state")', module_source)
+        self.assertIn('SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable())', apply_body)
+        self.assertIn('SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable())', bridge_body)
+        self.assertNotIn('Callable(self, "source_consume_liquid_base_apply_state")', apply_body)
+        self.assertNotIn('Callable(self, "source_consume_liquid_base_apply_state")', bridge_body)
+
+    def test_consume_liquid_apply_default_callbacks_have_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConsumeLiquidApplyRuntimeStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConsumeLiquidApplyRuntimeStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("CONSUME_LIQUID_APPLY_RUNTIME_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceConsumeLiquidState.apply_state", proof_source)
+        self.assertIn("SourceConsumeLiquidState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_generated_power_generator_displayed_power_production_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

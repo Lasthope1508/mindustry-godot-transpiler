@@ -1513,10 +1513,10 @@ func generated_consume_liquid_base_abstract_consumes_bridge_state(liquid: Varian
 	return SourceConsumeLiquidBaseState.generated_abstract_consumes_bridge_state(liquid)
 
 func source_consume_liquid_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:
-	return SourceConsumeLiquidState.apply_state(block_has_liquids_before, liquid_filter_before, liquid_id, Callable(self, "source_consume_liquid_base_apply_state"))
+	return SourceConsumeLiquidState.apply_state(block_has_liquids_before, liquid_filter_before, liquid_id, SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable()))
 
 func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:
-	return SourceConsumeLiquidState.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, liquid_id, Callable(self, "source_consume_liquid_base_apply_state"))
+	return SourceConsumeLiquidState.generated_apply_bridge_state(block_has_liquids_before, liquid_filter_before, liquid_id, SourceConsumeLiquidState.default_callbacks_state(self).get("base_apply_state", Callable()))
 
 func source_consume_liquid_build_state(liquid_id: int, build_liquids_get: float) -> Dictionary:
 	return SourceConsumeLiquidState.build_state(liquid_id, build_liquids_get, SourceUiDefaults.ICON_MED)
