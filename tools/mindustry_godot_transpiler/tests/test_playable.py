@@ -1041,9 +1041,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"', consume_power_source)
         self.assertNotIn('"buffered_expr": "(1f - entity.power.status) * capacity"', requested_power_body)
         self.assertNotIn('"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"', requested_power_body)
-        self.assertIn("static func power_needed_state(consumers: Array, requested_power_state: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func power_needed_state(consumers: Array, requested_power_state: Callable = Callable(SourceConsumePowerState, \"requested_power_state\")) -> Dictionary:", helper_source)
         self.assertIn("func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.power_needed_state(consumers, Callable(self, "source_consume_power_requested_power_state"))', source)
+        self.assertIn("return SourcePowerGraphState.power_needed_state(consumers)", source)
         self.assertIn('"method": "public float getPowerNeeded(){"', helper_source)
         self.assertIn('"add_expr": "powerNeeded += consumePower.requestedPower(consumer) * consumer.delta();"', helper_source)
         self.assertIn('if bool(consumer.get("shouldConsumePower", false)):', helper_source)
@@ -1065,6 +1065,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"power_needed": float(needed.get("power_needed", 0.0))', proof_body)
         self.assertIn('"power_produced": float(produced.get("power_produced", 0.0))', proof_body)
         self.assertIn('"placed_power_runtime": game.call("placed_power_runtime_state")', runtime_summary_source)
+
+    def test_source_power_graph_default_requested_power_callback_has_runtime_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PowerGraphDefaultRequestedPowerProof.gd"
+        scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PowerGraphDefaultRequestedPowerProof.tscn"
+
+        self.assertTrue(proof.exists(), "PowerGraph default requested-power callback proof script must exist")
+        self.assertTrue(scene.exists(), "PowerGraph default requested-power callback proof scene must exist")
+        proof_source = proof.read_text(encoding="utf-8")
+        scene_source = scene.read_text(encoding="utf-8")
+
+        self.assertIn("POWER_GRAPH_DEFAULT_REQUESTED_POWER_PROOF", proof_source)
+        self.assertIn("SourcePowerGraphState.power_needed_state(consumers)", proof_source)
+        self.assertIn("SourcePowerGraphState.update_balance_state(consumers, producers, batteries, 3.0, 1.0, [])", proof_source)
+        self.assertNotIn('Callable(self, "source_consume_power_requested_power_state")', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/PowerGraphDefaultRequestedPowerProof.gd"', scene_source)
 
     def test_port_game_exposes_power_graph_battery_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -3624,7 +3639,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("static func update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = [], requested_power_state: Callable = Callable()) -> Dictionary:", helper_source)
+        self.assertIn("static func update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = [], requested_power_state: Callable = Callable(SourceConsumePowerState, \"requested_power_state\")) -> Dictionary:", helper_source)
         self.assertIn('"power_needed_expr": "float powerNeeded = getPowerNeeded();"', helper_source)
         self.assertIn('"power_produced_expr": "float powerProduced = getPowerProduced();"', helper_source)
         self.assertIn('"last_scaled_power_in_expr": "lastScaledPowerIn = (powerProduced + energyDelta) / Time.delta;"', helper_source)
@@ -3634,7 +3649,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var source_power_needed_state: Dictionary = {}', helper_source)
         self.assertIn('source_power_needed_state = power_needed_state(consumers, requested_power_state)', helper_source)
         self.assertIn("func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:", source)
-        self.assertIn("return SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples, Callable(self, \"source_consume_power_requested_power_state\"))", source)
+        self.assertIn("return SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)", source)
         self.assertNotIn('"power_needed_expr": "float powerNeeded = getPowerNeeded();"', source)
 
     def test_port_game_exposes_source_power_graph_update_battery_distribute_state_for_mcp(self):

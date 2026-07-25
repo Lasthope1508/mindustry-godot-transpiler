@@ -1677,7 +1677,7 @@ func generated_consume_power_requested_power_bridge_state(buffered: bool, usage:
 	return SourceConsumePowerState.generated_requested_power_bridge_state(buffered, usage, capacity, power_status, should_consume)
 
 func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
-	return SourcePowerGraphState.power_needed_state(consumers, Callable(self, "source_consume_power_requested_power_state"))
+	return SourcePowerGraphState.power_needed_state(consumers)
 
 func source_power_graph_power_produced_state(producers: Array) -> Dictionary:
 	return SourcePowerGraphState.power_produced_state(producers)
@@ -1698,7 +1698,7 @@ func source_power_graph_update_cheat_state(consumers: Array) -> Dictionary:
 	return SourcePowerGraphState.update_cheat_state(consumers)
 
 func source_power_graph_update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = []) -> Dictionary:
-	return SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples, Callable(self, "source_consume_power_requested_power_state"))
+	return SourcePowerGraphState.update_balance_state(consumers, producers, batteries, energy_delta, source_delta, power_balance_samples)
 
 func source_power_graph_update_battery_distribute_state(consumers: Array, producers: Array, batteries: Array, power_needed: float, power_produced: float, last_power_produced: float, last_power_stored: float) -> Dictionary:
 	return SourcePowerGraphState.update_battery_distribute_state(consumers, producers, batteries, power_needed, power_produced, last_power_produced, last_power_stored)
