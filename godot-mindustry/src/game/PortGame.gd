@@ -623,7 +623,17 @@ func source_drill_dump_runtime_state(current_timer: float, source_delta: float, 
 	return SourceDrillDumpRuntimeState.dump_timer_state(current_timer, source_delta, dump_interval)
 
 func source_drill_production_runtime_state(current_progress_fraction: float, drill_delay: float, output_delta: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:
-	return SourceDrillProductionRuntimeState.production_state(current_progress_fraction, drill_delay, output_delta, dominant_items, items_total, item_capacity, Callable(self, "source_drill_output_batch"), Callable(self, "source_drill_progress_fraction"))
+	var callbacks := SourceDrillProductionRuntimeState.default_callbacks_state(self)
+	return SourceDrillProductionRuntimeState.production_state(
+		current_progress_fraction,
+		drill_delay,
+		output_delta,
+		dominant_items,
+		items_total,
+		item_capacity,
+		callbacks.get("output_batch", Callable()),
+		callbacks.get("progress_fraction", Callable())
+	)
 
 func source_drill_runtime_state(seconds: float) -> Dictionary:
 	return SourceDrillRuntimeState.runtime_state(SourceDrillRuntimeState.runtime_context(self, seconds, drill_pos, SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id, drill_ore_cell_count, SourceTimeDefaults.TICK_RATE), SourceDrillRuntimeState.runtime_callbacks(self))

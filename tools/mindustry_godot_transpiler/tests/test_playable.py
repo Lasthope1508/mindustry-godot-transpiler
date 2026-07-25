@@ -4326,11 +4326,19 @@ class PlayableManifestTests(unittest.TestCase):
         factory_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceFactoryRuntimeState.gd"
         factory_runtime_source = factory_runtime.read_text(encoding="utf-8")
         simulate_factory_body = source.split("func simulate_factory(delta: float) -> void:", 1)[1].split("func simulate_drill_dump", 1)[0]
+        production_body = source.split("func source_drill_production_runtime_state(current_progress_fraction: float, drill_delay: float, output_delta: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn('const SourceDrillProductionRuntimeState := preload("res://src/game/SourceDrillProductionRuntimeState.gd")', source)
         self.assertIn("class_name SourceDrillProductionRuntimeState", source)
         self.assertIn("func source_drill_production_runtime_state(current_progress_fraction: float, drill_delay: float, output_delta: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:", source)
-        self.assertIn("return SourceDrillProductionRuntimeState.production_state(current_progress_fraction, drill_delay, output_delta, dominant_items, items_total, item_capacity, Callable(self, \"source_drill_output_batch\"), Callable(self, \"source_drill_progress_fraction\"))", source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", source)
+        self.assertIn('"output_batch": Callable(game, "source_drill_output_batch")', source)
+        self.assertIn('"progress_fraction": Callable(game, "source_drill_progress_fraction")', source)
+        self.assertIn('var callbacks := SourceDrillProductionRuntimeState.default_callbacks_state(self)', production_body)
+        self.assertIn('callbacks.get("output_batch", Callable())', production_body)
+        self.assertIn('callbacks.get("progress_fraction", Callable())', production_body)
+        self.assertNotIn('Callable(self, "source_drill_output_batch")', production_body)
+        self.assertNotIn('Callable(self, "source_drill_progress_fraction")', production_body)
         self.assertIn('"production_state": Callable(game, production_state_method)', self._port_game_drill_runtime_source())
         self.assertIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
         self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
@@ -4360,6 +4368,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"produced_delta": offload_amount', source)
         self.assertIn('"item_progress": next_progress_fraction', source)
         self.assertIn('"source_owner": "PortGame.source_drill_production_runtime_state"', source)
+
+    def test_source_drill_production_runtime_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillProductionRuntimeStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillProductionRuntimeStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("DRILL_PRODUCTION_RUNTIME_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceDrillProductionRuntimeState.production_state", proof_source)
+        self.assertIn("SourceDrillProductionRuntimeState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_delegates_drill_runtime_state_to_module(self):
         source = self._port_game_drill_runtime_source()
@@ -23061,6 +23083,7 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceDrillProductionRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
+        production_body = source.split("func source_drill_production_runtime_state(current_progress_fraction: float, drill_delay: float, output_delta: float, dominant_items: int, items_total: int, item_capacity: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
             'const SOURCE_DRILL_PROGRESS_FRACTION_METHOD := "public float progress(){"',
@@ -23074,7 +23097,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func progress_fraction(progress: float, delay: float, has_dominant_item: bool) -> float:", helper_source)
         self.assertIn("if not has_dominant_item:", helper_source)
         self.assertIn("return clampf(progress / delay, 0.0, 1.0)", helper_source)
-        self.assertIn("return SourceDrillProductionRuntimeState.production_state(current_progress_fraction, drill_delay, output_delta, dominant_items, items_total, item_capacity, Callable(self, \"source_drill_output_batch\"), Callable(self, \"source_drill_progress_fraction\"))", source)
+        self.assertIn('var callbacks := SourceDrillProductionRuntimeState.default_callbacks_state(self)', production_body)
+        self.assertIn('callbacks.get("output_batch", Callable())', production_body)
+        self.assertIn('callbacks.get("progress_fraction", Callable())', production_body)
+        self.assertNotIn('Callable(self, "source_drill_output_batch")', production_body)
+        self.assertNotIn('Callable(self, "source_drill_progress_fraction")', production_body)
         self.assertIn("item_progress = float(apply_state.get(\"item_progress\", item_progress))", source)
         self.assertIn("item_progress = float(production_state.get(\"item_progress\", current_progress_fraction))", self._port_game_drill_runtime_source())
 
