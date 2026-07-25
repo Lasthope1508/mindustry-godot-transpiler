@@ -8151,7 +8151,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var state := SourceDrillInventoryRuntimeState.remove_item_state(drill_items, item_id, amount)", source)
         self.assertIn("return int(state.get(\"removed\", 0))", source)
         self.assertIn("func source_dump_drill_item_to_core(item_id: String) -> bool:", source)
-        self.assertIn("return bool(SourceDrillInventoryRuntimeState.dump_item_to_core_state(item_id, Callable(self, \"drill_item_count\"), Callable(self, \"source_core_accept_item\"), Callable(self, \"source_core_handle_item\"), Callable(self, \"remove_drill_item\"), Callable(self, \"increment_drill_dump\")).get(\"dump_success\", false))", source)
+        self.assertIn("var callbacks := SourceDrillInventoryRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn("return bool(SourceDrillInventoryRuntimeState.dump_item_to_core_state(item_id, callbacks.get(\"item_count\", Callable()), callbacks.get(\"core_accept\", Callable()), callbacks.get(\"core_handle\", Callable()), callbacks.get(\"remove_item\", Callable()), callbacks.get(\"increment_dump\", Callable())).get(\"dump_success\", false))", source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", source)
+        self.assertIn('"item_count": Callable(game, "drill_item_count")', source)
+        self.assertIn('"core_accept": Callable(game, "source_core_accept_item")', source)
+        self.assertIn('"core_handle": Callable(game, "source_core_handle_item")', source)
+        self.assertIn('"remove_item": Callable(game, "remove_drill_item")', source)
+        self.assertIn('"increment_dump": Callable(game, "increment_drill_dump")', source)
         self.assertIn("static func dump_item_to_core_state(item_id: String, item_count_fn: Callable, core_accept_fn: Callable, core_handle_fn: Callable, remove_item_fn: Callable, increment_dump_fn: Callable) -> Dictionary:", source)
         self.assertIn("var drill_item_count := int(item_count_fn.call(item_id))", source)
         self.assertIn("if drill_item_count <= 0:", source)
@@ -8173,6 +8180,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func factory_drill_dump_preview_state(seconds: float) -> Dictionary:", source)
         self.assertIn("return SourceFactoryRuntimeState.drill_dump_preview_state(self, SourceFactoryRuntimeState.drill_dump_preview_context(self, seconds, drill_pos, SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, SourceTimeDefaults.TICK_RATE))", source)
         self.assertIn('"drill_dump_timer": float(game.get("drill_dump_timer"))', summary_source)
+
+    def test_source_drill_inventory_callback_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillInventoryCallbackModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillInventoryCallbackModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("DRILL_INVENTORY_CALLBACK_MODULE_PROOF", proof_source)
+        self.assertIn("SourceDrillInventoryRuntimeState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn('"item_count": Callable(module_game, "drill_item_count")', proof_source)
+        self.assertIn('"core_accept": Callable(module_game, "source_core_accept_item")', proof_source)
+        self.assertIn('"core_handle": Callable(module_game, "source_core_handle_item")', proof_source)
+        self.assertIn('"remove_item": Callable(module_game, "remove_drill_item")', proof_source)
+        self.assertIn('"increment_dump": Callable(module_game, "increment_drill_dump")', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"module_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_dump_respects_source_core_accept_item_capacity(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

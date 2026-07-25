@@ -5116,7 +5116,8 @@ func remove_drill_item(item_id: String, amount: int) -> int:
 	return int(state.get("removed", 0))
 
 func source_dump_drill_item_to_core(item_id: String) -> bool:
-	return bool(SourceDrillInventoryRuntimeState.dump_item_to_core_state(item_id, Callable(self, "drill_item_count"), Callable(self, "source_core_accept_item"), Callable(self, "source_core_handle_item"), Callable(self, "remove_drill_item"), Callable(self, "increment_drill_dump")).get("dump_success", false))
+	var callbacks := SourceDrillInventoryRuntimeState.default_callbacks_state(self)
+	return bool(SourceDrillInventoryRuntimeState.dump_item_to_core_state(item_id, callbacks.get("item_count", Callable()), callbacks.get("core_accept", Callable()), callbacks.get("core_handle", Callable()), callbacks.get("remove_item", Callable()), callbacks.get("increment_dump", Callable())).get("dump_success", false))
 
 func requirements_text(block) -> String:
 	return SourceBlockRequirementsState.block_requirements_text(block)
