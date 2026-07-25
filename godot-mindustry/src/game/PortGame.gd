@@ -4197,7 +4197,8 @@ func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionar
 	}
 
 func source_child_update_state(child_state: Dictionary) -> Dictionary:
-	return SourceChildState.update_state(child_state, Callable(self, "source_arc_angles_trns_vec"))
+	var callbacks := SourceChildState.default_callbacks_state(self)
+	return SourceChildState.update_state(child_state, callbacks.get("trns_vec", Callable()))
 
 func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd")

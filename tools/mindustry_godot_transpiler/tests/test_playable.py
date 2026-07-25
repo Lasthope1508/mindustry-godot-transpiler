@@ -23429,9 +23429,11 @@ class PlayableManifestTests(unittest.TestCase):
         module_source = child_module.read_text(encoding="utf-8") if child_module.exists() else ""
 
         self.assertTrue(child_module.exists())
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"trns_vec": Callable(game, "source_arc_angles_trns_vec")', module_source)
         self.assertIn("static func update_state(child_state: Dictionary, trns_vec: Callable) -> Dictionary:", module_source)
         self.assertIn("func source_child_update_state(child_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("\treturn SourceChildState.update_state(child_state, Callable(self, \"source_arc_angles_trns_vec\"))", source)
+        self.assertIn("\tvar callbacks := SourceChildState.default_callbacks_state(self)\n\treturn SourceChildState.update_state(child_state, callbacks.get(\"trns_vec\", Callable()))", source)
         self.assertIn("var rotation_value: float = float(child_state.get(\"rotation\", 0.0))", module_source)
         self.assertIn("var next_rotation: float = rotation_value", module_source)
         self.assertIn("trns_vec.call(parent_rotc_rotation + offset_pos, offset_x, offset_y)", module_source)
@@ -23465,6 +23467,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(proof_script.exists())
         self.assertTrue(proof_scene.exists())
         self.assertIn("CHILD_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceChildState.default_callbacks_state", proof_source)
+        self.assertIn('"trns_vec": Callable(game, "source_arc_angles_trns_vec")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
         self.assertIn("SourceChildState.add_state", proof_source)
         self.assertIn("SourceChildState.update_state", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
