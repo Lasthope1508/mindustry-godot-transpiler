@@ -26238,7 +26238,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_tractor_beam_turret_build_update_tile_angle_to_target_state(look_target_guard: bool, x: float, y: float, target_after: Variant) -> Dictionary:", source)
         self.assertTrue(module.exists(), "SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.gd must own TractorBeamBuild.updateTile angle-to-target source state")
         self.assertIn('const SourceTractorBeamTurretBuildUpdateTileAngleToTargetState := preload("res://src/game/SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.gd")', source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.angle_to_target_state(look_target_guard, x, y, target_after, Callable(self, "source_angle_to_target"))', method_body)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('"angle_to_target": Callable(game, "source_angle_to_target")', module_source)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.default_callbacks_state(self)', method_body)
+        self.assertIn('callbacks.get("angle_to_target", Callable())', method_body)
+        self.assertNotIn('Callable(self, "source_angle_to_target")', method_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.angle_to_target_state(look_target_guard, x, y, target_after, callbacks.get("angle_to_target", Callable()))', method_body)
         self.assertNotIn("var angle_to_target_evaluated: bool = look_target_guard", method_body)
         self.assertNotIn("source_angle_to_target({\"x\": x, \"y\": y}, target_after)", method_body)
         self.assertIn("extends RefCounted", module_source)
@@ -26259,7 +26264,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, signature)
 
         self.assertIn(signature, source)
-        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.generated_angle_to_target_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, Callable(self, "source_angle_to_target"))', bridge_body)
+        self.assertIn('var callbacks := SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.default_callbacks_state(self)', bridge_body)
+        self.assertIn('callbacks.get("angle_to_target", Callable())', bridge_body)
+        self.assertNotIn('Callable(self, "source_angle_to_target")', bridge_body)
+        self.assertIn('return SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.generated_angle_to_target_bridge_state(activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, callbacks.get("angle_to_target", Callable()))', bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("var angle_to_target_result := {", bridge_body)
         self.assertIn("static func generated_angle_to_target_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, angle_to_target: Callable) -> Dictionary:", module_source)
@@ -26270,6 +26278,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state"', module_source)
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.angle_to_target"', module_source)
         self.assertIn('"matches": angle_to_target_result.get("dest", null) == canonical.get("dest", null)', module_source)
+
+    def test_source_tractor_beam_angle_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamAngleStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamAngleStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("TRACTOR_BEAM_ANGLE_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceTractorBeamTurretBuildUpdateTileAngleToTargetState.default_callbacks_state", proof_source)
+        self.assertIn('"angle_to_target": Callable(game, "source_angle_to_target")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
