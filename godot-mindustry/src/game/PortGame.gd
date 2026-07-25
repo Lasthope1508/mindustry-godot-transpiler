@@ -5413,10 +5413,12 @@ func source_unit_drown_floor_state(floor_on_value: Variant) -> Variant:
 	return SourceUnitUpdateState.drown_floor_state(floor_on_value)
 
 func source_unit_wobble_state(current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:
-	return SourceUnitUpdateState.wobble_state(current_x, current_y, source_time, source_delta, elevation_value, unit_id, Callable(self, "source_arc_mathf_sin_scaled"), Callable(self, "source_arc_mathf_cos_scaled"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.wobble_state(current_x, current_y, source_time, source_delta, elevation_value, unit_id, callbacks.get("sin_scaled", Callable()), callbacks.get("cos_scaled", Callable()))
 
 func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:
-	return SourceUnitUpdateState.move_at_state(vel_x, vel_y, vector_x, vector_y, acceleration, source_delta, Callable(self, "source_arc_vec2_limit"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.move_at_state(vel_x, vel_y, vector_x, vector_y, acceleration, source_delta, callbacks.get("vec2_limit", Callable()))
 
 func source_unit_move_at_default_accel_state(vector_x: float, vector_y: float, type_accel: float) -> Dictionary:
 	return SourceUnitUpdateState.move_at_default_accel_state(vector_x, vector_y, type_accel)
@@ -5449,7 +5451,8 @@ func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:
 	return angle
 
 func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return SourceUnitUpdateState.rotate_move_rotation_state(current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta, Callable(self, "source_unit_vec2_angle"), Callable(self, "source_arc_angles_move_toward"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.rotate_move_rotation_state(current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get("vec2_angle", Callable()), callbacks.get("angles_move_toward", Callable()))
 
 func source_unit_aim_look_position_state(pos_x: float, pos_y: float) -> Dictionary:
 	return SourceUnitUpdateState.aim_look_position_state(pos_x, pos_y)
@@ -5458,16 +5461,19 @@ func source_unit_aim_look_xy_state(target_x: float, target_y: float) -> Dictiona
 	return SourceUnitUpdateState.aim_look_xy_state(target_x, target_y)
 
 func source_unit_look_at_angle_state(current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return SourceUnitUpdateState.look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta, Callable(self, "source_arc_angles_move_toward"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get("angles_move_toward", Callable()))
 
 func source_arc_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:
 	return SourceMathState.source_angles_angle(from_x, from_y, to_x, to_y)
 
 func source_unit_look_at_position_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return SourceUnitUpdateState.look_at_position_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, Callable(self, "source_arc_angles_angle"), Callable(self, "source_arc_angles_move_toward"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.look_at_position_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get("angles_angle", Callable()), callbacks.get("angles_move_toward", Callable()))
 
 func source_unit_look_at_xy_state(current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
-	return SourceUnitUpdateState.look_at_xy_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, Callable(self, "source_arc_angles_angle"), Callable(self, "source_arc_angles_move_toward"))
+	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
+	return SourceUnitUpdateState.look_at_xy_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get("angles_angle", Callable()), callbacks.get("angles_move_toward", Callable()))
 
 func source_unit_controller_predicates_state(controller_is_ai_controller: bool, controller_is_command_ai: bool) -> Dictionary:
 	return SourceUnitUpdateState.controller_predicates_state(controller_is_ai_controller, controller_is_command_ai)
