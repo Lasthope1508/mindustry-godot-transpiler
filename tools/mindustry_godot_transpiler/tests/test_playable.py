@@ -6453,7 +6453,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('var lifetime_remaining := float(bullet.get("lifetime_remaining", 0.0)) - delta', source)
         self.assertNotIn("if lifetime_remaining <= 0.0:", source)
         self.assertIn("func selected_turret_ammo_lifetime_seconds() -> float:", source)
-        self.assertIn('return SourceTurretRuntimeState.selected_ammo_lifetime_seconds(selected_playable_turret(), Callable(self, "source_bullet_lifetime_seconds"))', source)
+        self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn('return SourceTurretRuntimeState.selected_ammo_lifetime_seconds(selected_playable_turret(), callbacks.get("lifetime_seconds", Callable()))', source)
         self.assertIn('"selected_turret_ammo_lifetime_seconds": game.call("selected_turret_ammo_lifetime_seconds")', summary_source)
         self.assertIn("func selected_turret_limit_range_margin() -> float:", source)
         self.assertIn("const LIMIT_RANGE_MARGIN_DEFAULT := 0.0", turret_source)
@@ -6569,7 +6570,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE', source)
         self.assertNotIn('float(data.get("speed", 2.5)) * float(tile_size) * 4.0', source)
         self.assertIn("func selected_turret_ammo_world_speed() -> float:", source)
-        self.assertIn('return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), Callable(self, "source_bullet_world_speed"))', source)
+        self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn('return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), callbacks.get("world_speed", Callable()))', source)
         self.assertIn('"selected_turret_ammo_world_speed": game.call("selected_turret_ammo_world_speed")', summary_source)
 
     def test_port_game_uses_source_bullet_dimensions(self):
@@ -6594,7 +6596,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', source)
         self.assertNotIn("sprite.scale = Vector2(tile_size / size.x, tile_size / size.y) * 0.45", source)
         self.assertIn("func selected_turret_ammo_dimensions() -> Dictionary:", source)
-        self.assertIn('return SourceTurretRuntimeState.selected_ammo_dimensions(selected_playable_turret(), Callable(self, "source_bullet_dimensions"))', source)
+        self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn('return SourceTurretRuntimeState.selected_ammo_dimensions(selected_playable_turret(), callbacks.get("dimensions", Callable()))', source)
         self.assertNotIn('var width := float(data.get("width", 4.0))', source)
         self.assertIn('"selected_turret_ammo_dimensions": game.call("selected_turret_ammo_dimensions")', summary_source)
 
@@ -6611,7 +6614,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, SourceBulletDefaults.HIT_SIZE_DEFAULT))", source)
         self.assertIn('"hitSize": float(spawn_state.get("hit_size", 0.0))', source)
-        self.assertIn('Callable(self, "source_bullet_hit_size")', source)
+        self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn('callbacks.get("hit_size", Callable())', source)
         self.assertIn('"hit_size": bullet_hit_size', source)
         self.assertNotIn("if target_direction.length() <= source_bullet_hit_size(bullet):", source)
         self.assertNotIn('if target_direction.length() <= float(bullet.get("hit_size", 4.0)):', source)
@@ -6749,7 +6753,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_ammo_multiplier(data: Dictionary) -> float:", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, SOURCE_BULLET_AMMO_MULTIPLIER_DEFAULT))", source)
         self.assertIn("func selected_turret_ammo_multiplier() -> float:", source)
-        self.assertIn('return SourceTurretRuntimeState.selected_ammo_multiplier(selected_playable_turret(), Callable(self, "source_bullet_ammo_multiplier"))', source)
+        self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
+        self.assertIn('return SourceTurretRuntimeState.selected_ammo_multiplier(selected_playable_turret(), callbacks.get("ammo_multiplier", Callable()))', source)
         self.assertIn('"selected_turret_ammo_multiplier": game.call("selected_turret_ammo_multiplier")', summary_source)
 
     def test_port_game_uses_source_bullet_reload_multiplier(self):
@@ -6901,14 +6906,75 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func selected_ammo_payload(turret) -> Dictionary:", runtime_source)
         self.assertIn("static func selected_ammo_sprite(turret, default_sprite: String) -> String:", runtime_source)
         self.assertIn("static func selected_ammo_world_speed(turret, world_speed_fn: Callable) -> float:", runtime_source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", runtime_source)
         self.assertIn("static func selected_total_ammo(total_ammo_by_key: Dictionary, key: String) -> int:", runtime_source)
         self.assertNotIn("func _turret_properties(turret) -> Dictionary:", source)
         self.assertIn("func selected_turret_ammo_sprite() -> String:", source)
         self.assertIn('return SourceTurretRuntimeState.selected_ammo_sprite(selected_playable_turret(), SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)', source)
         self.assertIn("func selected_turret_ammo_world_speed() -> float:", source)
-        self.assertIn('return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), Callable(self, "source_bullet_world_speed"))', source)
+        self.assertIn('return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), callbacks.get("world_speed", Callable()))', source)
         self.assertIn("func selected_turret_total_ammo() -> int:", source)
         self.assertIn("return SourceTurretRuntimeState.selected_total_ammo(turret_total_ammo, cell_key(duo_pos))", source)
+
+    def test_source_turret_runtime_selected_ammo_callbacks_use_registry(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_state.read_text(encoding="utf-8")
+
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", runtime_source)
+        expected_callbacks = {
+            "lifetime_seconds": "source_bullet_lifetime_seconds",
+            "world_speed": "source_bullet_world_speed",
+            "dimensions": "source_bullet_dimensions",
+            "hit_size": "source_bullet_hit_size",
+            "damage": "source_bullet_damage",
+            "ammo_multiplier": "source_bullet_ammo_multiplier",
+            "reload_multiplier": "source_bullet_reload_multiplier",
+            "range_change": "source_bullet_range_change",
+        }
+        for key, method_name in expected_callbacks.items():
+            with self.subTest(key=key):
+                self.assertIn(f'"{key}": Callable(game, "{method_name}")', runtime_source)
+
+        expected_delegates = {
+            "func selected_turret_ammo_lifetime_seconds() -> float:": 'return SourceTurretRuntimeState.selected_ammo_lifetime_seconds(selected_playable_turret(), callbacks.get("lifetime_seconds", Callable()))',
+            "func selected_turret_ammo_world_speed() -> float:": 'return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), callbacks.get("world_speed", Callable()))',
+            "func selected_turret_ammo_dimensions() -> Dictionary:": 'return SourceTurretRuntimeState.selected_ammo_dimensions(selected_playable_turret(), callbacks.get("dimensions", Callable()))',
+            "func selected_turret_ammo_hit_size() -> float:": 'return SourceTurretRuntimeState.selected_ammo_hit_size(selected_playable_turret(), callbacks.get("hit_size", Callable()))',
+            "func selected_turret_ammo_damage() -> float:": 'return SourceTurretRuntimeState.selected_ammo_damage(selected_playable_turret(), callbacks.get("damage", Callable()))',
+            "func selected_turret_ammo_multiplier() -> float:": 'return SourceTurretRuntimeState.selected_ammo_multiplier(selected_playable_turret(), callbacks.get("ammo_multiplier", Callable()))',
+            "func selected_turret_ammo_reload_multiplier() -> float:": 'return SourceTurretRuntimeState.selected_ammo_reload_multiplier(selected_playable_turret(), callbacks.get("reload_multiplier", Callable()))',
+            "func selected_turret_ammo_range_change() -> float:": 'return SourceTurretRuntimeState.selected_ammo_range_change(selected_playable_turret(), callbacks.get("range_change", Callable()))',
+        }
+        for signature, delegate in expected_delegates.items():
+            with self.subTest(signature=signature):
+                method_body = self._method_body(source, signature)
+                self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", method_body)
+                self.assertIn(delegate, method_body)
+                self.assertNotIn("Callable(self,", method_body)
+
+    def test_source_turret_runtime_callback_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TurretRuntimeCallbackModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TurretRuntimeCallbackModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("TURRET_RUNTIME_CALLBACK_MODULE_PROOF", proof_source)
+        self.assertIn("SourceTurretRuntimeState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn('"lifetime_seconds": Callable(game, "source_bullet_lifetime_seconds")', proof_source)
+        self.assertIn('"world_speed": Callable(game, "source_bullet_world_speed")', proof_source)
+        self.assertIn('"dimensions": Callable(game, "source_bullet_dimensions")', proof_source)
+        self.assertIn('"hit_size": Callable(game, "source_bullet_hit_size")', proof_source)
+        self.assertIn('"damage": Callable(game, "source_bullet_damage")', proof_source)
+        self.assertIn('"ammo_multiplier": Callable(game, "source_bullet_ammo_multiplier")', proof_source)
+        self.assertIn('"reload_multiplier": Callable(game, "source_bullet_reload_multiplier")', proof_source)
+        self.assertIn('"range_change": Callable(game, "source_bullet_range_change")', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"module_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_does_not_alias_source_turret_defaults(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

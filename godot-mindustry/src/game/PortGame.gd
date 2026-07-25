@@ -6275,31 +6275,39 @@ func selected_turret_ammo_sprite() -> String:
 	return SourceTurretRuntimeState.selected_ammo_sprite(selected_playable_turret(), SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)
 
 func selected_turret_ammo_lifetime_seconds() -> float:
-	return SourceTurretRuntimeState.selected_ammo_lifetime_seconds(selected_playable_turret(), Callable(self, "source_bullet_lifetime_seconds"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_lifetime_seconds(selected_playable_turret(), callbacks.get("lifetime_seconds", Callable()))
 
 func selected_turret_limit_range_margin() -> float:
 	return SourceTurretRuntimeState.selected_limit_range_margin(selected_playable_turret(), SourceTurretRuntimeState.SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT)
 
 func selected_turret_ammo_world_speed() -> float:
-	return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), Callable(self, "source_bullet_world_speed"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), callbacks.get("world_speed", Callable()))
 
 func selected_turret_ammo_dimensions() -> Dictionary:
-	return SourceTurretRuntimeState.selected_ammo_dimensions(selected_playable_turret(), Callable(self, "source_bullet_dimensions"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_dimensions(selected_playable_turret(), callbacks.get("dimensions", Callable()))
 
 func selected_turret_ammo_hit_size() -> float:
-	return SourceTurretRuntimeState.selected_ammo_hit_size(selected_playable_turret(), Callable(self, "source_bullet_hit_size"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_hit_size(selected_playable_turret(), callbacks.get("hit_size", Callable()))
 
 func selected_turret_ammo_damage() -> float:
-	return SourceTurretRuntimeState.selected_ammo_damage(selected_playable_turret(), Callable(self, "source_bullet_damage"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_damage(selected_playable_turret(), callbacks.get("damage", Callable()))
 
 func selected_turret_ammo_multiplier() -> float:
-	return SourceTurretRuntimeState.selected_ammo_multiplier(selected_playable_turret(), Callable(self, "source_bullet_ammo_multiplier"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_multiplier(selected_playable_turret(), callbacks.get("ammo_multiplier", Callable()))
 
 func selected_turret_ammo_reload_multiplier() -> float:
-	return SourceTurretRuntimeState.selected_ammo_reload_multiplier(selected_playable_turret(), Callable(self, "source_bullet_reload_multiplier"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_reload_multiplier(selected_playable_turret(), callbacks.get("reload_multiplier", Callable()))
 
 func selected_turret_ammo_range_change() -> float:
-	return SourceTurretRuntimeState.selected_ammo_range_change(selected_playable_turret(), Callable(self, "source_bullet_range_change"))
+	var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)
+	return SourceTurretRuntimeState.selected_ammo_range_change(selected_playable_turret(), callbacks.get("range_change", Callable()))
 
 func selected_turret_ammo_count() -> int:
 	return SourceTurretRuntimeState.selected_ammo_count(selected_playable_turret())
