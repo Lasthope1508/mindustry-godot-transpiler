@@ -2052,7 +2052,8 @@ func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
 	return SourceDrillDumpRuntimeState.dump_interval(block_id, time_scale, SourceDrillDumpRuntimeState.default_callbacks_state(self).get("block_dump_time", Callable()))
 
 func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:
-	return SourceDrillRuntimeState.ore_count(block_id, cell, item_id, content_catalog, ore_items_by_cell, Callable(self, "occupied_cells"), Callable(self, "cell_key"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.ore_count(block_id, cell, item_id, content_catalog, ore_items_by_cell, callbacks.get("occupied_cells", Callable()), callbacks.get("cell_key", Callable()))
 
 func source_drill_delay(block_id: String, item_id: String) -> float:
 	return SourceDrillRuntimeState.drill_delay(block_id, item_id, content_catalog, SourceFactoryDefaults.DRILL_HARDNESS_MULTIPLIER)
@@ -2061,16 +2062,19 @@ func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: Stri
 	return SourceDrillRuntimeState.generated_get_drill_time_bridge_state(block_id, item_id, content_catalog, SourceFactoryDefaults.DRILL_HARDNESS_MULTIPLIER)
 
 func source_drill_output_rate(block_id: String, item_id: String, return_count: int) -> float:
-	return SourceDrillRuntimeState.output_rate(block_id, item_id, return_count, SourceTimeDefaults.TICK_RATE, Callable(self, "source_drill_delay"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.output_rate(block_id, item_id, return_count, SourceTimeDefaults.TICK_RATE, callbacks.get("delay", Callable()))
 
 func source_drill_warmup_speed(block_id: String) -> float:
 	return SourceBlockMetadataState.block_warmup_speed(block_id, content_catalog)
 
 func source_drill_warmup_state(current_warmup: float, speed: float, warmup_speed: float, source_delta: float) -> float:
-	return SourceDrillRuntimeState.warmup_state(current_warmup, speed, warmup_speed, source_delta, Callable(self, "source_approach_delta"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.warmup_state(current_warmup, speed, warmup_speed, source_delta, callbacks.get("approach_delta", Callable()))
 
 func source_drill_inactive_warmup_state(current_warmup: float, warmup_speed: float, source_delta: float) -> float:
-	return SourceDrillRuntimeState.inactive_warmup_state(current_warmup, warmup_speed, source_delta, Callable(self, "source_approach_delta"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.inactive_warmup_state(current_warmup, warmup_speed, source_delta, callbacks.get("approach_delta", Callable()))
 
 func drill_warmup_at_cell(x: int, y: int) -> float:
 	return float(drill_warmups.get(cell_key(Vector2i(x, y)), 0.0))
@@ -2079,7 +2083,8 @@ func set_drill_warmup_at_cell(x: int, y: int, warmup: float) -> void:
 	drill_warmups[cell_key(Vector2i(x, y))] = warmup
 
 func source_drill_last_speed(block_id: String, item_id: String, ore_count: int, warmup: float, speed := 1.0) -> float:
-	return SourceDrillRuntimeState.last_speed(block_id, item_id, ore_count, warmup, speed, Callable(self, "source_drill_delay"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.last_speed(block_id, item_id, ore_count, warmup, speed, callbacks.get("delay", Callable()))
 
 func source_drill_last_speed_for_cell(x: int, y: int, item_id: String, dominant_items: int, warmup: float, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
@@ -2094,7 +2099,8 @@ func set_drill_last_speed_at_cell(x: int, y: int, value: float) -> void:
 	drill_last_speeds[cell_key(Vector2i(x, y))] = value
 
 func source_drill_time_drilled_delta(warmup: float, seconds: float, time_scale := 1.0) -> float:
-	return SourceDrillRuntimeState.time_drilled_delta(warmup, seconds, time_scale, SourceTimeDefaults.TICK_RATE, Callable(self, "source_building_delta"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.time_drilled_delta(warmup, seconds, time_scale, SourceTimeDefaults.TICK_RATE, callbacks.get("building_delta", Callable()))
 
 func drill_time_drilled_at_cell(x: int, y: int) -> float:
 	return float(drill_time_drilled.get(cell_key(Vector2i(x, y)), 0.0))
@@ -2122,7 +2128,8 @@ func step_drill_warmup_cell(x: int, y: int, seconds: float, speed := 1.0) -> flo
 	return warmup
 
 func source_drill_output_delta(dominant_items: int, seconds: float, time_scale := 1.0, warmup := 1.0, speed := 1.0) -> float:
-	return SourceDrillRuntimeState.output_delta(dominant_items, seconds, time_scale, warmup, speed, SourceTimeDefaults.TICK_RATE, Callable(self, "source_building_delta"))
+	var callbacks := SourceDrillRuntimeState.default_callbacks_state(self)
+	return SourceDrillRuntimeState.output_delta(dominant_items, seconds, time_scale, warmup, speed, SourceTimeDefaults.TICK_RATE, callbacks.get("building_delta", Callable()))
 
 func source_drill_output_delta_for_cell(x: int, y: int, dominant_items: int, seconds: float, warmup := 1.0, speed := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
