@@ -14359,8 +14359,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var construct_color_after: float = float(lerp_delta.call(construct_color_before, construct_color_target, CONSTRUCT_BUILD_COLOR_LERP_PROGRESS, source_delta))", helper_source)
         self.assertIn('const SourceConstructBuildState := preload("res://src/game/SourceConstructBuildState.gd")', port_source)
         self.assertIn("func construct_build_inner_runtime_state(current_solid: bool, previous_solid: bool, interactable_with_player_team: bool, current_is_placeable: bool, player_is_builder: bool, build_was_auto_paused: bool, input_is_building: bool, tile_x: int, tile_y: int, rotation_value: int, current_block: Variant, last_config: Variant, sensor: String, progress: float, active_deconstruct: bool, super_sense_value: float, super_sense_object_value: Variant, floor_solid: bool, floor_has_surface: bool, source_x: float, source_y: float, construct_build_block_size: int, current_is_air: bool, construct_color_before: float, source_delta: float) -> Dictionary:", port_source)
-        self.assertIn('Callable(self, "source_mathf_lerp_delta")', port_source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", helper_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_mathf_lerp_delta")', helper_source)
+        inner_body = port_source.split("func construct_build_inner_runtime_state", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn("var callbacks := SourceConstructBuildState.default_callbacks_state(self)", inner_body)
+        self.assertIn('callbacks.get("lerp_delta", Callable())', inner_body)
+        self.assertNotIn('Callable(self, "source_mathf_lerp_delta")', inner_body)
         self.assertIn('"source_owner": "PortGame.construct_build_inner_runtime_state"', helper_source)
+
+    def test_source_construct_build_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConstructBuildStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConstructBuildStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("CONSTRUCT_BUILD_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceConstructBuildState.default_callbacks_state", proof_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_mathf_lerp_delta")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceConstructBuildState.inner_runtime_state", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
 
     def test_port_game_exposes_construct_build_setup_state_module(self):
         port_source = (ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd").read_text(encoding="utf-8")
