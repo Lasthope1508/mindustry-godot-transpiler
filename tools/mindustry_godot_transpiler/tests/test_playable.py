@@ -23348,7 +23348,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var scaled_source_delta: float = edelta_provider.call(seconds * source_tick_rate, time_scale, efficiency) if edelta_provider.is_valid() else seconds * source_tick_rate * time_scale * efficiency", conveyor_source)
         self.assertNotIn("var scaled_source_delta := edelta_provider.call", conveyor_source)
         self.assertIn("return path_progress_rate(block_id, path_point_count, tile_size, content_catalog) * scaled_source_delta / source_tick_rate", conveyor_source)
-        self.assertIn('return SourceConveyorRuntimeState.path_progress_delta(block_id, seconds, path_points.size(), tile_size, SourceTimeDefaults.TICK_RATE, content_catalog, time_scale, efficiency, Callable(self, "source_building_edelta"))', source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", conveyor_source)
+        self.assertIn('"edelta_provider": Callable(game, "source_building_edelta")', conveyor_source)
+        self.assertIn('var callbacks := SourceConveyorRuntimeState.default_callbacks_state(self)', source)
+        self.assertIn('callbacks.get("edelta_provider", Callable())', source)
+        self.assertNotIn('Callable(self, "source_building_edelta")', source)
         self.assertIn('const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TILE_FIELD := "transient Tile tile;"', conveyor_source)
         self.assertIn('const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_BLOCK_FIELD := "transient Block block;"', conveyor_source)
         self.assertIn('const SOURCE_CONVEYOR_PATH_PROGRESS_DELTA_FOR_CELL_TILE_X := "return tile.x;"', conveyor_source)
@@ -23362,6 +23366,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"transport_progress_delta": transport_progress_delta_value', factory_runtime_source)
         self.assertIn('"conveyor_world_speed": float(game.get("conveyor_world_speed"))', factory_runtime_source)
         self.assertIn('"conveyor_path_progress_rate": float(game.get("conveyor_path_progress_rate"))', factory_runtime_source)
+
+    def test_source_conveyor_runtime_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConveyorRuntimeStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ConveyorRuntimeStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("CONVEYOR_RUNTIME_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceConveyorRuntimeState.default_callbacks_state", proof_source)
+        self.assertIn('"edelta_provider": Callable(game, "source_building_edelta")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceConveyorRuntimeState.path_progress_delta", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
 
     def test_generated_child_comp_bridges_add_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ChildComp.gd"

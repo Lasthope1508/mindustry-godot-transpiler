@@ -2150,7 +2150,8 @@ func source_conveyor_path_progress_rate(block_id: String) -> float:
 	return SourceConveyorRuntimeState.path_progress_rate(block_id, path_points.size(), tile_size, content_catalog)
 
 func source_conveyor_path_progress_delta(block_id: String, seconds: float, time_scale := 1.0, efficiency := 1.0) -> float:
-	return SourceConveyorRuntimeState.path_progress_delta(block_id, seconds, path_points.size(), tile_size, SourceTimeDefaults.TICK_RATE, content_catalog, time_scale, efficiency, Callable(self, "source_building_edelta"))
+	var callbacks := SourceConveyorRuntimeState.default_callbacks_state(self)
+	return SourceConveyorRuntimeState.path_progress_delta(block_id, seconds, path_points.size(), tile_size, SourceTimeDefaults.TICK_RATE, content_catalog, time_scale, efficiency, callbacks.get("edelta_provider", Callable()))
 
 func source_conveyor_path_progress_delta_for_cell(x: int, y: int, seconds: float, efficiency := 1.0) -> float:
 	var sprite = block_sprite_at_cell(Vector2i(x, y))
