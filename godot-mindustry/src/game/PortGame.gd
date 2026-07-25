@@ -5387,7 +5387,8 @@ func enemy_runtime_state() -> Dictionary:
 	}
 
 func source_unit_weapon_damage(unit_type) -> float:
-	return SourceUnitMetadataState.unit_weapon_damage(unit_type, Callable(self, "source_bullet_damage"))
+	var callbacks := SourceUnitMetadataState.default_callbacks_state(self)
+	return SourceUnitMetadataState.unit_weapon_damage(unit_type, callbacks.get("bullet_damage", Callable()))
 
 func source_unit_world_speed(unit_type) -> float:
 	return SourceUnitMetadataState.unit_world_speed(unit_type, SourceTimeDefaults.TICK_RATE)

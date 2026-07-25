@@ -6170,12 +6170,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var core_damage_taken_total := 0.0", source)
         self.assertIn('const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")', source)
         self.assertIn("func source_unit_weapon_damage(unit_type) -> float:", source)
-        self.assertIn("return SourceUnitMetadataState.unit_weapon_damage(unit_type, Callable(self, \"source_bullet_damage\"))", source)
+        self.assertIn("var callbacks := SourceUnitMetadataState.default_callbacks_state(self)", source)
+        self.assertIn("return SourceUnitMetadataState.unit_weapon_damage(unit_type, callbacks.get(\"bullet_damage\", Callable()))", source)
         source_unit_weapon_damage_body = self._method_body(source, "func source_unit_weapon_damage(unit_type) -> float:")
         self.assertNotIn("var weapons: Array = SourceUnitMetadataState.unit_weapons(unit_type)", source_unit_weapon_damage_body)
         self.assertNotIn('var weapons: Array = unit_type.properties.get("weapons", [])', source)
         self.assertIn("static func unit_properties(unit_type) -> Dictionary:", metadata_source)
         self.assertIn("static func unit_weapons(unit_type) -> Array:", metadata_source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", metadata_source)
+        self.assertIn('"bullet_damage": Callable(game, "source_bullet_damage")', metadata_source)
         self.assertIn("static func unit_weapon_damage(unit_type, bullet_damage: Callable) -> float:", metadata_source)
         self.assertIn("var properties := unit_properties(unit_type)", metadata_source)
         self.assertIn('return properties.get("weapons", [])', metadata_source)
@@ -6187,6 +6190,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
         self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', source)
         self.assertIn('"core_damage_taken_total": core_damage_taken_total', source)
+
+    def test_source_unit_metadata_callback_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitMetadataCallbackModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitMetadataCallbackModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("UNIT_METADATA_CALLBACK_MODULE_PROOF", proof_source)
+        self.assertIn("SourceUnitMetadataState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn('"bullet_damage": Callable(game, "source_bullet_damage")', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"module_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_game_over_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -6269,10 +6287,26 @@ class PlayableManifestTests(unittest.TestCase):
         metadata_source = metadata.read_text(encoding="utf-8") if metadata.exists() else ""
 
         self.assertIn("func source_unit_weapon_damage(unit_type) -> float:", source)
-        self.assertIn("return SourceUnitMetadataState.unit_weapon_damage(unit_type, Callable(self, \"source_bullet_damage\"))", source)
+        self.assertIn("var callbacks := SourceUnitMetadataState.default_callbacks_state(self)", source)
+        self.assertIn("return SourceUnitMetadataState.unit_weapon_damage(unit_type, callbacks.get(\"bullet_damage\", Callable()))", source)
         self.assertIn("return float(bullet_damage.call(bullet))", metadata_source)
         self.assertNotIn('return float(bullet.get("damage", 0.0))', source)
         self.assertNotIn('return float(bullet.get("damage", 0.0))', metadata_source)
+
+    def test_source_unit_metadata_callback_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitMetadataCallbackModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitMetadataCallbackModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("UNIT_METADATA_CALLBACK_MODULE_PROOF", proof_source)
+        self.assertIn("SourceUnitMetadataState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn('"bullet_damage": Callable(game, "source_bullet_damage")', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"module_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_playthrough_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
