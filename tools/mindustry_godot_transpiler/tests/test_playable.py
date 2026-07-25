@@ -1081,6 +1081,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('Callable(self, "source_consume_power_requested_power_state")', proof_source)
         self.assertIn('path="res://tools/runtime_proofs/PowerGraphDefaultRequestedPowerProof.gd"', scene_source)
 
+    def test_source_power_graph_default_role_callback_has_runtime_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PowerGraphDefaultRoleCallbackProof.gd"
+        scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PowerGraphDefaultRoleCallbackProof.tscn"
+
+        self.assertTrue(proof.exists(), "PowerGraph default role callback proof script must exist")
+        self.assertTrue(scene.exists(), "PowerGraph default role callback proof scene must exist")
+        proof_source = proof.read_text(encoding="utf-8")
+        scene_source = scene.read_text(encoding="utf-8")
+
+        self.assertIn("POWER_GRAPH_DEFAULT_ROLE_CALLBACK_PROOF", proof_source)
+        self.assertIn("SourcePowerGraphState.add_graph_state(false, 1, 3, true, graph_tiles)", proof_source)
+        self.assertIn("SourcePowerGraphState.reflow_state(reflow_tile)", proof_source)
+        self.assertIn("SourcePowerGraphState.remove_empty_entity_state(remove_tile, true)", proof_source)
+        self.assertNotIn('Callable(self, "source_power_graph_add_role_state")', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/PowerGraphDefaultRoleCallbackProof.gd"', scene_source)
+
     def test_port_game_exposes_power_graph_battery_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerBatteryRuntimeState.gd"
@@ -3677,7 +3693,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array, role_state_callable: Callable = Callable()) -> Dictionary:", helper_source)
+        self.assertIn("static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn('"self_guard": "if(graph == this) return;"', helper_source)
         self.assertIn('"delegate_guard_expr": "if(graph.all.size > all.size){"', helper_source)
         self.assertIn('"delegate_call_expr": "graph.addGraph(this);"', helper_source)
@@ -3687,7 +3703,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"check_add_expr": "checkAdd();"', helper_source)
         self.assertIn("var add_state: Dictionary = role_state_callable.call(", helper_source)
         self.assertIn("func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles)', source)
         self.assertNotIn('"self_guard": "if(graph == this) return;"', source)
 
     def test_port_game_exposes_source_power_graph_check_add_state_for_mcp(self):
@@ -3728,7 +3744,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertIn("static func reflow_state(tile: Dictionary, role_state_callable: Callable = Callable()) -> Dictionary:", helper_source)
+        self.assertIn("static func reflow_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn('"method": "public void reflow(Building tile){"', helper_source)
         self.assertIn('"queue_clear": "queue.clear();"', helper_source)
         self.assertIn('"queue_add_tile": "queue.addLast(tile);"', helper_source)
@@ -3742,7 +3758,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"queue_add_next": "queue.addLast(next);"', helper_source)
         self.assertIn("var add_state: Dictionary = role_state_callable.call(", helper_source)
         self.assertIn("func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.reflow_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.reflow_state(tile)', source)
         self.assertNotIn('"method": "public void reflow(Building tile){"', source)
 
     def test_port_game_exposes_source_power_graph_remove_list_state_for_mcp(self):
@@ -3768,9 +3784,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn("func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_branch_seed_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_branch_seed_state(tile)', source)
         self.assertIn('"method": "public void remove(Building tile){"', helper_source)
         self.assertIn('"connections_loop": "for(Building other : tile.getPowerConnections(outArray1)){"', helper_source)
         self.assertIn('"skip_guard": "if(other.power.graph != this) continue;"', helper_source)
@@ -3787,9 +3803,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn("func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_branch_bfs_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_branch_bfs_state(tile)', source)
         self.assertIn('"method": "public void remove(Building tile){"', helper_source)
         self.assertIn('"while_queue": "while(queue.size > 0){"', helper_source)
         self.assertIn('"remove_first": "Building child = queue.removeFirst();"', helper_source)
@@ -3805,7 +3821,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_branch_bfs_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_branch_bfs_state(tile)', source)
 
     def test_port_game_exposes_source_power_graph_remove_branch_update_helper_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -3813,9 +3829,9 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("static func remove_branch_update_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func remove_branch_update_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn("func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_branch_update_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_branch_update_state(tile)', source)
         self.assertIn('"method": "public void remove(Building tile){"', helper_source)
         self.assertIn('"update_comment": "//update the graph once so direct consumers without any connected producer lose their power"', helper_source)
         self.assertIn('"graph_update": "graph.update();"', helper_source)
@@ -3827,7 +3843,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_branch_update_state(tile, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_branch_update_state(tile)', source)
 
     def test_port_game_exposes_source_power_graph_remove_empty_entity_helper_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -3835,10 +3851,10 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, role_state_callable: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, role_state_callable: Callable = Callable(SourcePowerGraphState, \"add_role_state\")) -> Dictionary:", helper_source)
         self.assertIn("func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:", source)
         method_body = self._method_body(source, "func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:")
-        self.assertIn('return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present, Callable(self, "source_power_graph_add_role_state"))', method_body)
+        self.assertIn('return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present)', method_body)
         self.assertNotIn("var update_state", method_body)
         self.assertIn("var update_state := remove_branch_update_state(tile, role_state_callable)", helper_source)
         self.assertIn('"method": "public void remove(Building tile){"', helper_source)
@@ -3851,7 +3867,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:", source)
-        self.assertIn('return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present, Callable(self, "source_power_graph_add_role_state"))', source)
+        self.assertIn('return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present)', source)
 
     def test_port_game_exposes_source_power_graph_get_id_state_for_mcp(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePowerGraphState.gd"

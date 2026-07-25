@@ -1035,7 +1035,7 @@ func source_power_graph_add_role_state(build_present: bool, power_present: bool,
 	return SourcePowerGraphState.add_role_state(build_present, power_present, graph_matches, power_init, old_graph_present, old_graph_is_self, old_graph_has_entity, outputs_power, consumes_power, has_cons_power, cons_power_buffered)
 
 func source_power_graph_add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array) -> Dictionary:
-	return SourcePowerGraphState.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.add_graph_state(graph_is_self, graph_all_size, all_size, graph_has_entity, graph_tiles)
 
 func source_power_graph_check_add_state(entity_present: bool) -> Dictionary:
 	return SourcePowerGraphState.check_add_state(entity_present)
@@ -1044,22 +1044,22 @@ func source_power_graph_clear_state(all: Array, producers: Array, consumers: Arr
 	return SourcePowerGraphState.clear_state(all, producers, consumers, batteries, entity_present)
 
 func source_power_graph_reflow_state(tile: Dictionary) -> Dictionary:
-	return SourcePowerGraphState.reflow_state(tile, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.reflow_state(tile)
 
 func source_power_graph_remove_list_state(all: Array, producers: Array, consumers: Array, batteries: Array, build) -> Dictionary:
 	return SourcePowerGraphState.remove_list_state(all, producers, consumers, batteries, build)
 
 func source_power_graph_remove_branch_seed_state(tile: Dictionary) -> Dictionary:
-	return SourcePowerGraphState.remove_branch_seed_state(tile, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.remove_branch_seed_state(tile)
 
 func source_power_graph_remove_branch_bfs_state(tile: Dictionary) -> Dictionary:
-	return SourcePowerGraphState.remove_branch_bfs_state(tile, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.remove_branch_bfs_state(tile)
 
 func source_power_graph_remove_branch_update_state(tile: Dictionary) -> Dictionary:
-	return SourcePowerGraphState.remove_branch_update_state(tile, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.remove_branch_update_state(tile)
 
 func source_power_graph_remove_empty_entity_state(tile: Dictionary, entity_present: bool) -> Dictionary:
-	return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present, Callable(self, "source_power_graph_add_role_state"))
+	return SourcePowerGraphState.remove_empty_entity_state(tile, entity_present)
 
 func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
 	return SourcePowerGraphState.get_id_state(graph_id)

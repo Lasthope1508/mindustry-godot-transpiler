@@ -80,7 +80,7 @@ static func add_role_state(build_present: bool, power_present: bool, graph_match
 			result["add_consumer"] = true
 	return result
 
-static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array, role_state_callable: Callable = Callable()) -> Dictionary:
+static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: int, graph_has_entity: bool, graph_tiles: Array, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var tile_add_states: Array = []
 	var returned := false
 	var delegate_to_other_graph := false
@@ -136,7 +136,7 @@ static func add_graph_state(graph_is_self: bool, graph_all_size: int, all_size: 
 		"check_add": check_add,
 	}
 
-static func reflow_state(tile: Dictionary, role_state_callable: Callable = Callable()) -> Dictionary:
+static func reflow_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var queue: Array = []
 	var closed_lookup: Dictionary = {}
 	var closed_positions: Array = []
@@ -222,7 +222,7 @@ static func remove_list_state(all: Array, producers: Array, consumers: Array, ba
 		"batteries": source_batteries,
 	}
 
-static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:
+static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var branch_seeds: Array = []
 	var skipped_others: Array = []
 	var queued_positions: Array = []
@@ -277,7 +277,7 @@ static func remove_branch_seed_state(tile: Dictionary, role_state_callable: Call
 		"queued_positions": queued_positions,
 	}
 
-static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:
+static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var seed_state := remove_branch_seed_state(tile, role_state_callable)
 	var branch_traversals: Array = []
 	var visited_positions: Array = []
@@ -388,7 +388,7 @@ static func remove_branch_bfs_state(tile: Dictionary, role_state_callable: Calla
 		"skipped_next_positions": skipped_next_positions,
 	}
 
-static func remove_branch_update_state(tile: Dictionary, role_state_callable: Callable) -> Dictionary:
+static func remove_branch_update_state(tile: Dictionary, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var bfs_state: Dictionary = remove_branch_bfs_state(tile, role_state_callable)
 	var branch_updates: Array = []
 	var updated_branch_positions: Array = []
@@ -415,7 +415,7 @@ static func remove_branch_update_state(tile: Dictionary, role_state_callable: Ca
 		"branch_traversals": bfs_state.get("branch_traversals", []),
 	}
 
-static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, role_state_callable: Callable) -> Dictionary:
+static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, role_state_callable: Callable = Callable(SourcePowerGraphState, "add_role_state")) -> Dictionary:
 	var update_state := remove_branch_update_state(tile, role_state_callable)
 	return {
 		"method": "public void remove(Building tile){",
