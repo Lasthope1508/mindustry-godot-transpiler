@@ -2293,7 +2293,7 @@ func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size
 	return SourceBuildingPayloadState.dump_payload_index(loop_index, dump_cursor, proximity_size)
 
 func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:
-	return SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, Callable(self, "source_increment_dump_cursor"))
+	return SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, SourceBuildingPayloadState.default_callbacks_state(self).get("increment_dump_cursor", Callable()))
 
 func source_block_can_replace_state(existing_always_replace: bool, existing_privileged: bool, existing_replaceable: bool, same_block: bool, new_rotate: bool, new_quick_rotate: bool, new_group_is_none: bool, same_group: bool, new_size: int, existing_size: int, same_subclass: bool, group_any_replace: bool) -> bool:
 	return SourceBuildingCoreState.block_can_replace_state(existing_always_replace, existing_privileged, existing_replaceable, same_block, new_rotate, new_quick_rotate, new_group_is_none, same_group, new_size, existing_size, same_subclass, group_any_replace)

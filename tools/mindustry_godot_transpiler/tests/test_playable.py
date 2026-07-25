@@ -8971,6 +8971,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(helper.exists(), "SourceBuildingPayloadState.gd helper must own Building payload state")
         helper_source = helper.read_text(encoding="utf-8")
         port_source = port_game.read_text(encoding="utf-8")
+        dump_body = port_source.split("func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("class_name SourceBuildingPayloadState", helper_source)
         self.assertIn("static func accept_payload_state() -> bool:", helper_source)
@@ -8979,13 +8980,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func move_payload_state(has_next_tile: bool, has_next_build: bool, same_team: bool, accepts_payload: bool) -> bool:", helper_source)
         self.assertIn("static func dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:", helper_source)
         self.assertIn("static func dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array, increment_dump_cursor: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", helper_source)
+        self.assertIn('"increment_dump_cursor": Callable(game, "source_increment_dump_cursor")', helper_source)
         self.assertIn('const SourceBuildingPayloadState := preload("res://src/game/SourceBuildingPayloadState.gd")', port_source)
         self.assertIn("return SourceBuildingPayloadState.accept_payload_state()", port_source)
         self.assertIn("return SourceBuildingPayloadState.handle_payload_state(payload_state)", port_source)
         self.assertIn("return SourceBuildingPayloadState.payload_forward_offset(payload_block_size)", port_source)
         self.assertIn("return SourceBuildingPayloadState.move_payload_state(has_next_tile, has_next_build, same_team, accepts_payload)", port_source)
         self.assertIn("return SourceBuildingPayloadState.dump_payload_index(loop_index, dump_cursor, proximity_size)", port_source)
-        self.assertIn('return SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, Callable(self, "source_increment_dump_cursor"))', port_source)
+        self.assertIn('SourceBuildingPayloadState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', dump_body)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', dump_body)
+
+    def test_source_building_payload_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingPayloadStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingPayloadStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_PAYLOAD_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingPayloadState.dump_payload_state", proof_source)
+        self.assertIn("SourceBuildingPayloadState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_move_payload_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingPayloadState.gd"
@@ -9034,7 +9052,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:", source)
         self.assertIn("return SourceBuildingPayloadState.dump_payload_index(loop_index, dump_cursor, proximity_size)", source)
         self.assertIn("func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:", source)
-        self.assertIn('return SourceBuildingPayloadState.dump_payload_state(proximity_size, dump_cursor, accepts_payload_by_index, Callable(self, "source_increment_dump_cursor"))', source)
+        self.assertIn('SourceBuildingPayloadState.default_callbacks_state(self).get("increment_dump_cursor", Callable())', source)
+        self.assertNotIn('Callable(self, "source_increment_dump_cursor")', source.split("func source_dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0])
         self.assertIn("static func dump_payload_index(loop_index: int, dump_cursor: int, proximity_size: int) -> int:", helper_source)
         self.assertIn("static func dump_payload_state(proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array, increment_dump_cursor: Callable) -> Dictionary:", helper_source)
         self.assertIn("if proximity_size == 0:", helper_source)
