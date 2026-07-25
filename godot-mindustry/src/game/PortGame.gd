@@ -1769,20 +1769,18 @@ func placed_power_battery_runtime_state() -> Dictionary:
 	)
 
 func placed_power_distribution_runtime_state() -> Dictionary:
-	var callbacks := {
-		"block_from_sprite": Callable(self, "block_from_sprite"),
-		"role_for_block": Callable(self, "power_graph_role_for_block"),
-		"requested_power": Callable(self, "source_consume_power_requested_power_state"),
-		"balance": Callable(self, "source_power_graph_update_balance_state"),
-		"distribute": Callable(self, "source_power_graph_update_battery_distribute_state"),
-	}
 	var defaults := {
 		"power_buffered": SourceBlockDefaults.SOURCE_BLOCK_POWER_BUFFERED_DEFAULT,
 		"power_usage": SourceBlockDefaults.SOURCE_BLOCK_POWER_USAGE_DEFAULT,
 		"power_capacity": SourceBlockDefaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT,
 		"power_production": SourceBlockDefaults.SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT,
 	}
-	return SourcePlacedPowerDistributionRuntimeState.summary_state(placed_block_origins, callbacks, defaults, SourceTimeDefaults.TICK_RATE)
+	return SourcePlacedPowerDistributionRuntimeState.summary_state(
+		placed_block_origins,
+		SourcePlacedPowerDistributionRuntimeState.default_callbacks_state(self),
+		defaults,
+		SourceTimeDefaults.TICK_RATE
+	)
 
 func placed_power_runtime_state() -> Dictionary:
 	var roles := placed_power_graph_role_counts()

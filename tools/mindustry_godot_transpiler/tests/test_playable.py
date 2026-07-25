@@ -1151,6 +1151,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
         self.assertIn('"registry_valid"', proof_source)
 
+    def test_placed_power_distribution_runtime_callbacks_are_owned_by_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerDistributionRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        proof_body = source.split("func placed_power_distribution_runtime_state() -> Dictionary:", 1)[1].split("func placed_power_runtime_state() -> Dictionary:", 1)[0]
+
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", module_source)
+        self.assertIn('Callable(game, "block_from_sprite")', module_source)
+        self.assertIn('Callable(game, "power_graph_role_for_block")', module_source)
+        self.assertIn('Callable(game, "source_consume_power_requested_power_state")', module_source)
+        self.assertIn('Callable(game, "source_power_graph_update_balance_state")', module_source)
+        self.assertIn('Callable(game, "source_power_graph_update_battery_distribute_state")', module_source)
+        self.assertIn("SourcePlacedPowerDistributionRuntimeState.default_callbacks_state(self)", proof_body)
+        self.assertNotIn("Callable(self,", proof_body)
+
     def test_port_game_exposes_power_graph_distribution_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerDistributionRuntimeState.gd"
