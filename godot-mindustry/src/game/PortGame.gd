@@ -3362,7 +3362,8 @@ func source_building_is_heal_suppressed_state(block_suppressable: bool, source_t
 	return SourceBuildingLifecycleState.is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)
 
 func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
-	return SourceBuildingLifecycleState.check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, Callable(self, "source_arc_chance_delta_threshold"))
+	var callbacks := SourceBuildingLifecycleState.default_callbacks_state(self)
+	return SourceBuildingLifecycleState.check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, callbacks.get("chance_delta_threshold", Callable()))
 
 func source_building_player_placed_state(config_state: Variant) -> Dictionary:
 	return SourceBuildingLifecycleState.player_placed_state(config_state)

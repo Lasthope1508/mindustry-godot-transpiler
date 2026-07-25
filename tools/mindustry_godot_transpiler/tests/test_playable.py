@@ -13922,6 +13922,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(helper.exists(), "SourceBuildingLifecycleState.gd helper must own Building place/suppression lifecycle state")
         self.assertIn("class_name SourceBuildingLifecycleState", helper_source)
         for method_name in (
+            "default_callbacks_state",
             "is_heal_suppressed_state",
             "check_suppression_state",
             "player_placed_state",
@@ -13932,7 +13933,7 @@ class PlayableManifestTests(unittest.TestCase):
 
         delegations = {
             "func source_building_is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:": "\treturn SourceBuildingLifecycleState.is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)",
-            "func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:": "\treturn SourceBuildingLifecycleState.check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, Callable(self, \"source_arc_chance_delta_threshold\"))",
+            "func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:": "\tvar callbacks := SourceBuildingLifecycleState.default_callbacks_state(self)\n\treturn SourceBuildingLifecycleState.check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, callbacks.get(\"chance_delta_threshold\", Callable()))",
             "func source_building_player_placed_state(config_state: Variant) -> Dictionary:": "\treturn SourceBuildingLifecycleState.player_placed_state(config_state)",
             "func source_building_placed_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:": "\treturn SourceBuildingLifecycleState.placed_state(net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos)",
             "func source_building_on_repaired_state(has_fog_radius: bool) -> Dictionary:": "\treturn SourceBuildingLifecycleState.on_repaired_state(has_fog_radius)",
@@ -13940,6 +13941,21 @@ class PlayableManifestTests(unittest.TestCase):
         for signature, delegation in delegations.items():
             method_body = self._method_body(port_source, signature)
             self.assertIn(delegation, method_body)
+
+    def test_source_building_lifecycle_state_module_has_default_callbacks_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingLifecycleStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingLifecycleStateModuleProof.tscn"
+
+        self.assertTrue(proof.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof.read_text(encoding="utf-8")
+        self.assertIn("BUILDING_LIFECYCLE_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingLifecycleState.default_callbacks_state", proof_source)
+        self.assertIn('"chance_delta_threshold": Callable(game, "source_arc_chance_delta_threshold")', proof_source)
+        self.assertIn("SourceBuildingLifecycleState.check_suppression_state(", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
 
     def test_port_game_exposes_source_building_is_commandable_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
