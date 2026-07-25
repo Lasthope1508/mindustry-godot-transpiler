@@ -4485,9 +4485,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func core_item_count(item_id: String) -> int:", source)
         self.assertIn("SourceCoreInventoryRuntimeState.item_count_state(core_items, core_inventory, item_id, playable_core_item_id())", source)
         self.assertIn("func can_afford(block) -> bool:", source)
-        self.assertIn("SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, \"core_item_count\"))", source)
+        self.assertIn("var callbacks := SourceBlockRequirementsState.default_callbacks_state(self)", source)
+        self.assertIn('SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))', source)
         self.assertIn("func spend_requirements(block) -> void:", source)
-        self.assertIn("SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, \"core_item_count\"))", source)
+        self.assertIn('SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))', source)
         can_afford_body = self._method_body(source, "func can_afford(block) -> bool:")
         spend_body = self._method_body(source, "func spend_requirements(block) -> void:")
         self.assertNotIn("for requirement in block.properties.get(\"requirements\", []):", can_afford_body)
@@ -4508,8 +4509,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_RULES_BUILD_COST_MULTIPLIER_DEFAULT := SourceRulesDefaults.BUILD_COST_MULTIPLIER_DEFAULT", port_source)
         self.assertIn("var rules_build_cost_multiplier := SourceRulesDefaults.BUILD_COST_MULTIPLIER_DEFAULT", port_source)
         self.assertNotIn("var build_cost_multiplier := SourceRulesDefaults.BUILD_COST_MULTIPLIER_DEFAULT", port_source)
-        self.assertIn("SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, \"core_item_count\"))", port_source)
-        self.assertIn("SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, \"core_item_count\"))", port_source)
+        self.assertIn("var callbacks := SourceBlockRequirementsState.default_callbacks_state(self)", port_source)
+        self.assertIn('SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))', port_source)
+        self.assertIn('SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))', port_source)
         self.assertIn("static func can_afford_state(requirements: Array, build_cost_multiplier: float, item_count_fn: Callable) -> Dictionary:", source)
         self.assertIn("static func spend_requirements_state(requirements: Array, build_cost_multiplier: float, item_count_fn: Callable) -> Dictionary:", source)
         self.assertIn("static func block_requirements(block) -> Array:", source)
@@ -4523,6 +4525,19 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"core_place_spend_expr": "items.remove(ItemStack.mult(requirements, state.rules.buildCostMultiplier));"', source)
         self.assertIn('"can_afford": true', source)
         self.assertIn('"spend_calls": spend_calls', source)
+
+    def test_source_block_requirements_state_module_has_default_callbacks_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockRequirementsStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockRequirementsStateModuleProof.tscn"
+
+        self.assertTrue(proof.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof.read_text(encoding="utf-8")
+        self.assertIn("BLOCK_REQUIREMENTS_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBlockRequirementsState.default_callbacks_state", proof_source)
+        self.assertIn('"core_item_count": Callable(game, "core_item_count")', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_uses_core_inventory_runtime_state_module(self):
         source = self._port_game_core_inventory_runtime_source()
@@ -13757,6 +13772,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("class_name SourceBuildingDrawState", helper_source)
         self.assertIn('const SourceBuildingDrawState := preload("res://src/game/SourceBuildingDrawState.gd")', port_source)
         for method_name in (
+            "default_callbacks_state",
             "draw_status_state",
             "draw_cracks_state",
             "draw_select_state",
@@ -13783,13 +13799,13 @@ class PlayableManifestTests(unittest.TestCase):
             "func source_building_draw_item_selection_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_item_selection_state(has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio)",
             "func source_building_draw_disabled_state(source_x: float, source_y: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_disabled_state(source_x, source_y)",
             "func source_building_drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:": "\treturn SourceBuildingDrawState.drawrot_state(block_rotate, block_rotate_draw, rotation_quadrants)",
-            "func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, \"source_arc_random_seed_int\"))",
-            "func source_building_draw_cached_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_cached_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, \"source_arc_random_seed_int\"))",
+            "func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\tvar callbacks := SourceBuildingDrawState.default_callbacks_state(self)\n\treturn SourceBuildingDrawState.draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get(\"random_seed_int\", Callable()))",
+            "func source_building_draw_cached_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\tvar callbacks := SourceBuildingDrawState.default_callbacks_state(self)\n\treturn SourceBuildingDrawState.draw_cached_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get(\"random_seed_int\", Callable()))",
             "func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:": "\treturn SourceBuildingDrawState.recache_state(headless, building_cache_layer, tile_state)",
-            "func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\treturn SourceBuildingDrawState.payload_draw_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, \"source_arc_random_seed_int\"))",
+            "func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:": "\tvar callbacks := SourceBuildingDrawState.default_callbacks_state(self)\n\treturn SourceBuildingDrawState.payload_draw_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get(\"random_seed_int\", Callable()))",
             "func source_building_draw_team_top_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_team_top_state(team_region_found, team_region_matches_team, team_color, source_x, source_y)",
             "func source_building_draw_liquid_light_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_liquid_light_state(source_x, source_y, block_size_value, light_color, light_alpha, amount)",
-            "func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_light_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value, Callable(self, \"source_arc_lerp_delta\"))",
+            "func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:": "\tvar callbacks := SourceBuildingDrawState.default_callbacks_state(self)\n\treturn SourceBuildingDrawState.draw_light_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value, callbacks.get(\"lerp_delta\", Callable()))",
             "func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_team_state(team_color, source_x, source_y, block_size_value, source_tilesize)",
             "func source_building_block_half_extent(block_size_value: int, source_tilesize: float) -> float:": "\treturn SourceBuildingDrawState.block_half_extent(block_size_value, source_tilesize)",
             "func source_building_draw_configure_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:": "\treturn SourceBuildingDrawState.draw_configure_state(source_x, source_y, block_size_value, source_tilesize)",
@@ -13815,6 +13831,23 @@ class PlayableManifestTests(unittest.TestCase):
             "PortGame.source_building_draw_configure_state",
         ):
             self.assertIn('"source_owner": "' + source_owner + '"', helper_source)
+
+    def test_source_building_draw_state_module_has_default_callbacks_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingDrawStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingDrawStateModuleProof.tscn"
+
+        self.assertTrue(proof.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof.read_text(encoding="utf-8")
+        self.assertIn("BUILDING_DRAW_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingDrawState.default_callbacks_state", proof_source)
+        self.assertIn('"random_seed_int": Callable(game, "source_arc_random_seed_int")', proof_source)
+        self.assertIn('"lerp_delta": Callable(game, "source_arc_lerp_delta")', proof_source)
+        self.assertIn("SourceBuildingDrawState.draw_state(", proof_source)
+        self.assertIn("SourceBuildingDrawState.draw_light_state(", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
 
     def test_port_game_exposes_source_building_check_suppression_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

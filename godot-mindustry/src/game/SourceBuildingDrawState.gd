@@ -11,6 +11,8 @@ const SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE := SourceBuildingDefaults.DRAW_
 const SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO := SourceBuildingDefaults.DRAW_CRACK_POSITION_MODULO
 const SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES := SourceBuildingDefaults.DRAW_CRACK_ROTATION_STEP_DEGREES
 const SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET := SourceBuildingDefaults.DRAW_CRACK_REGION_INDEX_OFFSET
+const SOURCE_BUILDING_DRAW_ROTATION_STEP_DEGREES := SourceBuildingDefaults.DRAW_ROTATION_STEP_DEGREES
+const SOURCE_BUILDING_DRAW_ROTATION_DISABLED := SourceBuildingDefaults.DRAW_ROTATION_DISABLED
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_AMOUNT_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_AMOUNT_MIN
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_FRACT := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_FRACT
 const SOURCE_BUILDING_DRAW_LIQUID_LIGHT_OPACITY_MIN := SourceBuildingDefaults.DRAW_LIQUID_LIGHT_OPACITY_MIN
@@ -26,6 +28,16 @@ static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> D
 	result.merge(state)
 	return result
 
+static func _building_comp_instance():
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	return script.new()
+
+static func default_callbacks_state(game: Object) -> Dictionary:
+	return {
+		"random_seed_int": Callable(game, "source_arc_random_seed_int"),
+		"lerp_delta": Callable(game, "source_arc_lerp_delta"),
+	}
+
 static func draw_status_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_status_state"}
 	if not (enable_draw_status and consumers_length > 0):
@@ -35,6 +47,15 @@ static func draw_status_state(enable_draw_status: bool, consumers_length: int, b
 	var brcy := source_y - (float(block_size_value) * source_tilesize / 2.0) + (source_tilesize * multiplier / 2.0)
 	return _with_source_owner(source_exprs, {"visible": true, "multiplier": multiplier, "brcx": brcx, "brcy": brcy, "gray_square_size": SourceBuildingDefaults.DRAW_STATUS_GRAY_SQUARE_SIZE * multiplier, "status_square_size": SourceBuildingDefaults.DRAW_STATUS_STATUS_SQUARE_SIZE * multiplier})
 
+static func generated_draw_status_bridge_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawStatus_123([enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize])
+	return {
+		"source_owner": "PortGame.source_building_draw_status_state",
+		"generated_owner": "BuildingComp.java_method_drawStatus_123",
+		"result": result,
+	}
+
 static func draw_cracks_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_cracks_state"}
 	if not draw_cracks or not damaged_state or block_size_value > max_crack_size:
@@ -43,6 +64,114 @@ static func draw_cracks_state(draw_cracks: bool, damaged_state: bool, block_size
 	var lightness := SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_BASE + (SOURCE_BUILDING_DRAW_CRACK_HEALTH_FULL - health_fraction) * SOURCE_BUILDING_DRAW_CRACK_LIGHTNESS_SCALE
 	var crack_rotation_degrees := (position_id % SOURCE_BUILDING_DRAW_CRACK_POSITION_MODULO) * SOURCE_BUILDING_DRAW_CRACK_ROTATION_STEP_DEGREES
 	return _with_source_owner(source_exprs, {"visible": true, "region_size_index": block_size_value - SOURCE_BUILDING_DRAW_CRACK_REGION_INDEX_OFFSET, "crack_index": crack_index, "lightness": lightness, "rotation_degrees": crack_rotation_degrees})
+
+static func generated_draw_cracks_bridge_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawCracks_124([draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id])
+	return {
+		"source_owner": "PortGame.source_building_draw_cracks_state",
+		"generated_owner": "BuildingComp.java_method_drawCracks_124",
+		"result": result,
+	}
+
+static func generated_draw_select_bridge_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawSelect_125([block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick])
+	return {
+		"source_owner": "PortGame.source_building_draw_select_state",
+		"generated_owner": "BuildingComp.java_method_drawSelect_125",
+		"result": result,
+	}
+
+static func generated_draw_item_selection_bridge_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawItemSelection_126([has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio])
+	return {
+		"source_owner": "PortGame.source_building_draw_item_selection_state",
+		"generated_owner": "BuildingComp.java_method_drawItemSelection_126",
+		"result": result,
+	}
+
+static func generated_draw_disabled_bridge_state(source_x: float, source_y: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawDisabled_127([source_x, source_y])
+	return {
+		"source_owner": "PortGame.source_building_draw_disabled_state",
+		"generated_owner": "BuildingComp.java_method_drawDisabled_127",
+		"result": result,
+	}
+
+static func generated_draw_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_draw_128([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])
+	return {
+		"source_owner": "PortGame.source_building_draw_state",
+		"generated_owner": "BuildingComp.java_method_draw_128",
+		"result": result,
+	}
+
+static func generated_draw_cached_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawCached_129([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])
+	return {
+		"source_owner": "PortGame.source_building_draw_cached_state",
+		"generated_owner": "BuildingComp.java_method_drawCached_129",
+		"result": result,
+	}
+
+static func generated_recache_bridge_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_recache_130([headless, building_cache_layer, tile_state])
+	return {
+		"source_owner": "PortGame.source_building_recache_state",
+		"generated_owner": "BuildingComp.java_method_recache_130",
+		"result": result,
+	}
+
+static func generated_payload_draw_bridge_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_payloadDraw_131([draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])
+	return {
+		"source_owner": "PortGame.source_building_payload_draw_state",
+		"generated_owner": "BuildingComp.java_method_payloadDraw_131",
+		"result": result,
+	}
+
+static func generated_draw_team_top_bridge_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawTeamTop_132([team_region_found, team_region_matches_team, team_color, source_x, source_y])
+	return {
+		"source_owner": "PortGame.source_building_draw_team_top_state",
+		"generated_owner": "BuildingComp.java_method_drawTeamTop_132",
+		"result": result,
+	}
+
+static func generated_draw_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawLight_133([has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value])
+	return {
+		"source_owner": "PortGame.source_building_draw_light_state",
+		"generated_owner": "BuildingComp.java_method_drawLight_133",
+		"result": result,
+	}
+
+static func generated_draw_liquid_light_bridge_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawLiquidLight_134([source_x, source_y, block_size_value, light_color, light_alpha, amount])
+	return {
+		"source_owner": "PortGame.source_building_draw_liquid_light_state",
+		"generated_owner": "BuildingComp.java_method_drawLiquidLight_134",
+		"result": result,
+	}
+
+static func generated_draw_team_bridge_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var instance = _building_comp_instance()
+	var result = instance.java_method_drawTeam_135([team_color, source_x, source_y, block_size_value, source_tilesize])
+	return {
+		"source_owner": "PortGame.source_building_draw_team_state",
+		"generated_owner": "BuildingComp.java_method_drawTeam_135",
+		"result": result,
+	}
 
 static func draw_select_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_select_state"}
@@ -66,7 +195,7 @@ static func draw_disabled_state(source_x: float, source_y: float) -> Dictionary:
 	return _with_source_owner(source_exprs, {"visible": true, "icon": SourceBuildingDefaults.DRAW_DISABLED_ICON, "color": SourceBuildingDefaults.DRAW_DISABLED_COLOR, "alpha": SourceBuildingDefaults.DRAW_DISABLED_ALPHA, "x": source_x, "y": source_y, "width": disabled_icon_size, "height": disabled_icon_size})
 
 static func drawrot_state(block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> float:
-	return float(rotation_quadrants * 90) if block_rotate and block_rotate_draw else 0.0
+	return float(rotation_quadrants * SOURCE_BUILDING_DRAW_ROTATION_STEP_DEGREES) if block_rotate and block_rotate_draw else SOURCE_BUILDING_DRAW_ROTATION_DISABLED
 
 static func draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int, random_seed_int: Callable) -> Dictionary:
 	var source_exprs := {"source_owner": "PortGame.source_building_draw_state"}

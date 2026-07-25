@@ -2220,12 +2220,14 @@ func source_bullet_texture(sprite_id: String) -> Texture2D:
 
 func can_afford(block) -> bool:
 	sync_copper_inventory_alias()
-	var state := SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, "core_item_count"))
+	var callbacks := SourceBlockRequirementsState.default_callbacks_state(self)
+	var state := SourceBlockRequirementsState.can_afford_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))
 	return bool(state.get("can_afford", false))
 
 func spend_requirements(block) -> void:
 	sync_copper_inventory_alias()
-	var state := SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, Callable(self, "core_item_count"))
+	var callbacks := SourceBlockRequirementsState.default_callbacks_state(self)
+	var state := SourceBlockRequirementsState.spend_requirements_state(SourceBlockRequirementsState.block_requirements(block), rules_build_cost_multiplier, callbacks.get("core_item_count", Callable()))
 	for spend_call in state.get("spend_calls", []):
 		set_core_item_count(str(spend_call.get("item_id", "")), int(spend_call.get("next_amount", 0)))
 
@@ -3329,16 +3331,19 @@ func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:
 	return vec
 
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return SourceBuildingDrawState.draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, "source_arc_random_seed_int"))
+	var callbacks := SourceBuildingDrawState.default_callbacks_state(self)
+	return SourceBuildingDrawState.draw_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get("random_seed_int", Callable()))
 
 func source_building_draw_cached_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return SourceBuildingDrawState.draw_cached_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, "source_arc_random_seed_int"))
+	var callbacks := SourceBuildingDrawState.default_callbacks_state(self)
+	return SourceBuildingDrawState.draw_cached_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get("random_seed_int", Callable()))
 
 func source_building_recache_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:
 	return SourceBuildingDrawState.recache_state(headless, building_cache_layer, tile_state)
 
 func source_building_payload_draw_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
-	return SourceBuildingDrawState.payload_draw_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, Callable(self, "source_arc_random_seed_int"))
+	var callbacks := SourceBuildingDrawState.default_callbacks_state(self)
+	return SourceBuildingDrawState.payload_draw_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants, callbacks.get("random_seed_int", Callable()))
 
 func source_building_draw_team_top_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:
 	return SourceBuildingDrawState.draw_team_top_state(team_region_found, team_region_matches_team, team_color, source_x, source_y)
@@ -3347,7 +3352,8 @@ func source_building_draw_liquid_light_state(source_x: float, source_y: float, b
 	return SourceBuildingDrawState.draw_liquid_light_state(source_x, source_y, block_size_value, light_color, light_alpha, amount)
 
 func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:
-	return SourceBuildingDrawState.draw_light_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value, Callable(self, "source_arc_lerp_delta"))
+	var callbacks := SourceBuildingDrawState.default_callbacks_state(self)
+	return SourceBuildingDrawState.draw_light_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value, callbacks.get("lerp_delta", Callable()))
 
 func source_building_draw_team_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	return SourceBuildingDrawState.draw_team_state(team_color, source_x, source_y, block_size_value, source_tilesize)
