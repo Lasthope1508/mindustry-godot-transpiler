@@ -2049,7 +2049,7 @@ func source_block_dump_time(block_id: String) -> float:
 	return SourceBlockMetadataState.block_dump_time(block_id, content_catalog)
 
 func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:
-	return SourceDrillDumpRuntimeState.dump_interval(block_id, time_scale, Callable(self, "source_block_dump_time"))
+	return SourceDrillDumpRuntimeState.dump_interval(block_id, time_scale, SourceDrillDumpRuntimeState.default_callbacks_state(self).get("block_dump_time", Callable()))
 
 func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:
 	return SourceDrillRuntimeState.ore_count(block_id, cell, item_id, content_catalog, ore_items_by_cell, Callable(self, "occupied_cells"), Callable(self, "cell_key"))

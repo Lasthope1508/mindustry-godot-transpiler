@@ -23044,9 +23044,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBlockMetadataState.block_dump_time(block_id, content_catalog)", source)
         self.assertIn("func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:", source)
         dump_interval_body = self._method_body(source, "func source_drill_dump_interval(block_id: String, time_scale := 1.0) -> float:")
-        self.assertIn('return SourceDrillDumpRuntimeState.dump_interval(block_id, time_scale, Callable(self, "source_block_dump_time"))', dump_interval_body)
+        self.assertIn('return SourceDrillDumpRuntimeState.dump_interval(block_id, time_scale, SourceDrillDumpRuntimeState.default_callbacks_state(self).get("block_dump_time", Callable()))', dump_interval_body)
+        self.assertIn("static func default_callbacks_state(game: Object) -> Dictionary:", drill_dump_source)
+        self.assertIn('"block_dump_time": Callable(game, "source_block_dump_time")', drill_dump_source)
+        self.assertNotIn('Callable(self, "source_block_dump_time")', dump_interval_body)
         self.assertIn("static func dump_interval(block_id: String, time_scale: float, block_dump_time_fn: Callable) -> float:", drill_dump_source)
         self.assertIn("return float(block_dump_time_fn.call(block_id)) / time_scale", drill_dump_source)
+
+    def test_source_drill_dump_runtime_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillDumpRuntimeStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "DrillDumpRuntimeStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("DRILL_DUMP_RUNTIME_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceDrillDumpRuntimeState.dump_interval", proof_source)
+        self.assertIn("SourceDrillDumpRuntimeState.default_callbacks_state", proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_conveyor_world_speed_default(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
