@@ -14784,6 +14784,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("class_name SourceBuildingDestructionState", helper_source)
         self.assertIn('const SourceBuildingDestructionState := preload("res://src/game/SourceBuildingDestructionState.gd")', port_source)
         for method_name in (
+            "default_callbacks_state",
             "after_destroyed_state",
             "explosion_item_cap_state",
             "splash_liquid_state",
@@ -14801,7 +14802,7 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn("static func " + method_name, helper_source)
 
         delegations = {
-            "func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:": "\treturn SourceBuildingDestructionState.after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, Callable(self, \"source_arc_random_seed_float_max\"))",
+            "func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:": "\tvar callbacks := SourceBuildingDestructionState.default_callbacks_state(self)\n\treturn SourceBuildingDestructionState.after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, callbacks.get(\"random_seed_float_max\", Callable()))",
             "func source_building_explosion_item_cap_state(item_capacity: int) -> int:": "\treturn SourceBuildingDestructionState.explosion_item_cap_state(item_capacity)",
             "func source_building_splash_liquid_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:": "\treturn SourceBuildingDestructionState.splash_liquid_state(liquid, amount, source_block_size, source_tilesize)",
             "func source_building_on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:": "\treturn SourceBuildingDestructionState.on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size)",
@@ -14834,6 +14835,21 @@ class PlayableManifestTests(unittest.TestCase):
             "PortGame.source_building_on_destroyed_power_sound_state",
         ):
             self.assertIn('"source_owner": "' + source_owner + '"', helper_source)
+
+    def test_source_building_destruction_state_module_has_default_callbacks_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingDestructionStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingDestructionStateModuleProof.tscn"
+
+        self.assertTrue(proof.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof.read_text(encoding="utf-8")
+        self.assertIn("BUILDING_DESTRUCTION_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingDestructionState.default_callbacks_state", proof_source)
+        self.assertIn('"random_seed_float_max": Callable(game, "source_arc_random_seed_float_max")', proof_source)
+        self.assertIn("SourceBuildingDestructionState.after_destroyed_state(", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
 
     def test_port_game_delegates_building_destruction_generated_bridge_state_to_module(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDestructionState.gd"

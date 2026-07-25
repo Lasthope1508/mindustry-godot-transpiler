@@ -3414,7 +3414,8 @@ func source_building_tapped_state(current_state: Variant) -> Dictionary:
 	return SourceBuildingInteractionState.tapped_state(current_state)
 
 func source_building_after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
-	return SourceBuildingDestructionState.after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, Callable(self, "source_arc_random_seed_float_max"))
+	var callbacks := SourceBuildingDestructionState.default_callbacks_state(self)
+	return SourceBuildingDestructionState.after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, callbacks.get("random_seed_float_max", Callable()))
 
 func source_building_explosion_item_cap_state(item_capacity: int) -> int:
 	return SourceBuildingDestructionState.explosion_item_cap_state(item_capacity)
