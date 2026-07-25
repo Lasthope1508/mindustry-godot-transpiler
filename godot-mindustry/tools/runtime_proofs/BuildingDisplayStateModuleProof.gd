@@ -6,9 +6,15 @@ const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
 
 func _ready() -> void:
 	var game := PortGameScript.new()
+	var callbacks := SourceBuildingDisplayState.default_callbacks_state(game)
+	var expected_callbacks := {
+		"fixed_one_decimal": Callable(game, "source_arc_strings_fixed_one_decimal"),
+	}
 
 	var display_name_source := game.source_building_display_name_state("Copper Wall", false, true, "?", "Derelict")
 	var display_name_module := SourceBuildingDisplayState.display_name_state("Copper Wall", false, true, "?", "Derelict")
+	var flow_label_source := game.source_building_display_flow_rate_label(12.34, "/sec")
+	var flow_label_module := SourceBuildingDisplayState.display_flow_rate_label(12.34, "/sec", callbacks.get("fixed_one_decimal", Callable()))
 	var flow_items_source: Variant = game.source_building_flow_items_state({"name": "copper"})
 	var flow_items_module: Variant = SourceBuildingDisplayState.flow_items_state({"name": "copper"})
 	var display_consumption_source := game.source_building_display_consumption_state([
@@ -40,7 +46,9 @@ func _ready() -> void:
 	var registry_state := SourceSsotCatalog.canonical_headquarter_registry_state()
 	var proof := {
 		"module": "SourceBuildingDisplayState",
+		"default_callbacks_match": callbacks == expected_callbacks,
 		"display_name_matches": display_name_source == display_name_module,
+		"flow_label_matches": flow_label_source == flow_label_module,
 		"flow_items_matches": flow_items_source == flow_items_module,
 		"display_consumption_matches": display_consumption_source == display_consumption_module,
 		"display_bars_matches": display_bars_source == display_bars_module,

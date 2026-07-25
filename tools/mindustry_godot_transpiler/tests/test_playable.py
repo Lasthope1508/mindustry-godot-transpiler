@@ -14941,6 +14941,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SourceBuildingDisplayState := preload("res://src/game/SourceBuildingDisplayState.gd")', port_source)
         self.assertIn('const SourceBuildingConfigureState := preload("res://src/game/SourceBuildingConfigureState.gd")', port_source)
         for method_name in (
+            "default_callbacks_state",
             "display_name_state",
             "display_icon_state",
             "flow_items_state",
@@ -14975,7 +14976,7 @@ class PlayableManifestTests(unittest.TestCase):
             "func source_building_display_consumption_state(consumers: Array, self_state: Variant) -> Dictionary:": "\treturn SourceBuildingDisplayState.display_consumption_state(consumers, self_state)",
             "func source_building_display_bars_state(bar_results: Array) -> Dictionary:": "\treturn SourceBuildingDisplayState.display_bars_state(bar_results)",
             "func source_building_display_ui_gates_state(team_is_player: bool, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:": "\treturn SourceBuildingDisplayState.display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)",
-            "func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:": "\treturn SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, Callable(self, \"source_arc_strings_fixed_one_decimal\"))",
+            "func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:": "\tvar callbacks := SourceBuildingDisplayState.default_callbacks_state(self)\n\treturn SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, callbacks.get(\"fixed_one_decimal\", Callable()))",
             "func source_building_on_configure_build_tapped_state(clear_on_double_tap: bool, same_building: bool) -> Dictionary:": "\treturn SourceBuildingConfigureState.on_configure_build_tapped_state(clear_on_double_tap, same_building)",
             "func source_building_on_configure_tapped_state(x: float, y: float) -> Dictionary:": "\treturn SourceBuildingConfigureState.on_configure_tapped_state(x, y)",
             "func source_building_on_configure_closed_state() -> Dictionary:": "\treturn SourceBuildingConfigureState.on_configure_closed_state()",
@@ -15001,6 +15002,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(proof_script.exists())
         self.assertTrue(proof_scene.exists())
         self.assertIn("BUILDING_DISPLAY_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingDisplayState.default_callbacks_state", proof_source)
+        self.assertIn('"fixed_one_decimal": Callable(game, "source_arc_strings_fixed_one_decimal")', proof_source)
+        self.assertIn('"default_callbacks_match"', proof_source)
+        self.assertIn("SourceBuildingDisplayState.display_flow_rate_label(", proof_source)
         self.assertIn("SourceBuildingDisplayState.display_name_state", proof_source)
         self.assertIn("SourceBuildingDisplayState.flow_items_state", proof_source)
         self.assertIn("SourceBuildingDisplayState.display_consumption_state", proof_source)
@@ -15116,7 +15121,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:", source)
         self.assertIn('if flow_rate < 0.0:', source)
         self.assertIn('return "..."', source)
-        self.assertIn('return SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, Callable(self, "source_arc_strings_fixed_one_decimal"))', source)
+        self.assertIn('var callbacks := SourceBuildingDisplayState.default_callbacks_state(self)', source)
+        self.assertIn('return SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, callbacks.get("fixed_one_decimal", Callable()))', source)
         self.assertIn('return str(fixed_one_decimal.call(flow_rate)) + " " + per_second_label', source)
 
     def test_port_game_exposes_source_building_cursor_gate_state(self):

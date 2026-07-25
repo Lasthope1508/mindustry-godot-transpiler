@@ -6,6 +6,11 @@ static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> D
 	result.merge(state)
 	return result
 
+static func default_callbacks_state(game: Object) -> Dictionary:
+	return {
+		"fixed_one_decimal": Callable(game, "source_arc_strings_fixed_one_decimal"),
+	}
+
 static func display_name_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> String:
 	if team_is_derelict:
 		return localized_name + "\n" + derelict_label

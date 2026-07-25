@@ -3607,7 +3607,8 @@ func source_arc_strings_fixed_one_decimal(value: float) -> String:
 	return prefix + str(whole) + "." + str(decimal)
 
 func source_building_display_flow_rate_label(flow_rate: float, per_second_label: String) -> String:
-	return SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, Callable(self, "source_arc_strings_fixed_one_decimal"))
+	var callbacks := SourceBuildingDisplayState.default_callbacks_state(self)
+	return SourceBuildingDisplayState.display_flow_rate_label(flow_rate, per_second_label, callbacks.get("fixed_one_decimal", Callable()))
 
 func source_building_cursor_state(block_configurable: bool, interactable_player_team: bool) -> String:
 	return SourceBuildingMetaState.cursor_state(block_configurable, interactable_player_team)
