@@ -1,6 +1,28 @@
 extends RefCounted
 class_name SourceMathDefaults
 
+const FLOAT_ROUNDING_ERROR := 0.000001
+const PI2 := PI * 2.0
+const ARC_PI := 3.1415927
+const ARC_RAD_FULL := ARC_PI * 2.0
+const ARC_SIN_BITS := 14
+const ARC_SIN_MASK := 16383
+const ARC_SIN_COUNT := ARC_SIN_MASK + 1
+const ARC_RAD_TO_INDEX := ARC_SIN_COUNT / ARC_RAD_FULL
+const INT64_MIN := -9223372036854775807 - 1
+const INT64_MAX := 9223372036854775807
+const UINT16_MASK := 65535
+const RAND_NORM_FLOAT := 1.0 / 16777216.0
+const RAND_MURMUR_CONST1 := -49064778989728563
+const RAND_MURMUR_CONST2 := -4265267296055464877
+const RAND_MURMUR_CONST1_WORDS := [0x8ccd, 0xed55, 0xafd7, 0xff51]
+const RAND_MURMUR_CONST2_WORDS := [0xec53, 0x1a85, 0xb9fe, 0xc4ce]
+const LONG_MIN_WORDS := [0, 0, 0, 0x8000]
+const LERP_DELTA_METHOD := "public static float lerpDelta(float from, float to, float progress){\n        return lerp(from, to, clamp(Time.delta * progress));\n    }"
+const LERP_DELTA_SCALED_PROGRESS := "Time.delta * progress"
+const LERP_DELTA_CLAMP_EXPR := "clamp(Time.delta * progress)"
+const LERP_DELTA_LERP_EXPR := "lerp(from, to, clamp(Time.delta * progress))"
+
 var catalog: Variant
 var profile: Dictionary = {}
 var rand_profile: Dictionary = {}

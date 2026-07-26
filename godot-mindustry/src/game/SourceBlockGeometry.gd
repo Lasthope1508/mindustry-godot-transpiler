@@ -1,0 +1,33 @@
+class_name SourceBlockGeometry
+extends RefCounted
+
+const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+
+static func block_world_size(block_size: int, tile_size: int) -> float:
+	return float(max(SourceBlockDefaults.SIZE_DEFAULT, block_size)) * float(tile_size)
+
+
+static func block_base_position(grid_world: Vector2, block_size: int, tile_size: int) -> Vector2:
+	var safe_block_size := max(SourceBlockDefaults.SIZE_DEFAULT, block_size)
+	var offset := float(safe_block_size - 1) * float(tile_size) * 0.5
+	return grid_world + Vector2(offset, offset)
+
+
+static func block_sprite_scale(texture_size: Vector2, block_size: int, tile_size: int) -> Vector2:
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		return Vector2.ONE
+	var world_size := block_world_size(block_size, tile_size)
+	return Vector2(world_size / texture_size.x, world_size / texture_size.y)
+
+
+static func building_hit_size(block_size_value: int, source_tilesize: float) -> float:
+	return float(block_size_value) * source_tilesize
+
+
+static func building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
+	var hitbox_size: float = building_hit_size(block_size_value, source_tilesize)
+	return {"source_owner": "PortGame.source_building_hitbox_state", "method": "public void hitbox(Rect out){", "set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", "hitbox_size_expr": "block.size * tilesize", "world_x": world_x, "world_y": world_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hitbox_size": hitbox_size, "set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}}
+
+
+static func block_unit_tile_hit_size(block_size: float, tile_size: float) -> float:
+	return float(block_size) * tile_size * SourceBlockDefaults.BLOCK_UNIT_TILE_HIT_SIZE_SCALE_DEFAULT

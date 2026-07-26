@@ -1,0 +1,191 @@
+class_name SourceMathState
+extends RefCounted
+
+const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
+
+const SOURCE_PI2 := SourceMathDefaults.PI2
+const SOURCE_ARC_PI := SourceMathDefaults.ARC_PI
+const SOURCE_ARC_SIN_BITS := SourceMathDefaults.ARC_SIN_BITS
+const SOURCE_ARC_SIN_MASK := SourceMathDefaults.ARC_SIN_MASK
+const SOURCE_ARC_SIN_COUNT := SourceMathDefaults.ARC_SIN_COUNT
+const SOURCE_ARC_RAD_TO_INDEX := SourceMathDefaults.ARC_RAD_TO_INDEX
+const SOURCE_INT64_MIN := SourceMathDefaults.INT64_MIN
+const SOURCE_INT64_MAX := SourceMathDefaults.INT64_MAX
+const SOURCE_UINT16_MASK := SourceMathDefaults.UINT16_MASK
+const SOURCE_RAND_NORM_FLOAT := SourceMathDefaults.RAND_NORM_FLOAT
+const SOURCE_RAND_MURMUR_CONST1 := SourceMathDefaults.RAND_MURMUR_CONST1
+const SOURCE_RAND_MURMUR_CONST2 := SourceMathDefaults.RAND_MURMUR_CONST2
+const SOURCE_RAND_MURMUR_CONST1_WORDS := SourceMathDefaults.RAND_MURMUR_CONST1_WORDS
+const SOURCE_RAND_MURMUR_CONST2_WORDS := SourceMathDefaults.RAND_MURMUR_CONST2_WORDS
+const SOURCE_LONG_MIN_WORDS := SourceMathDefaults.LONG_MIN_WORDS
+const SOURCE_LERP_DELTA_METHOD := SourceMathDefaults.LERP_DELTA_METHOD
+const SOURCE_LERP_DELTA_SCALED_PROGRESS := SourceMathDefaults.LERP_DELTA_SCALED_PROGRESS
+const SOURCE_LERP_DELTA_CLAMP_EXPR := SourceMathDefaults.LERP_DELTA_CLAMP_EXPR
+const SOURCE_LERP_DELTA_LERP_EXPR := SourceMathDefaults.LERP_DELTA_LERP_EXPR
+const SOURCE_MATHF_LERP_DELTA_METHOD := SourceMathDefaults.LERP_DELTA_METHOD
+const SOURCE_MATHF_LERP_DELTA_SCALED_PROGRESS := SourceMathDefaults.LERP_DELTA_SCALED_PROGRESS
+const SOURCE_MATHF_LERP_DELTA_CLAMP_EXPR := SourceMathDefaults.LERP_DELTA_CLAMP_EXPR
+const SOURCE_MATHF_LERP_DELTA_LERP_EXPR := SourceMathDefaults.LERP_DELTA_LERP_EXPR
+const SOURCE_MATHF_APPROACH_DELTA_METHOD := "public static float approachDelta(float from, float to, float speed){\n        return approach(from, to, Time.delta * speed);\n    }"
+const SOURCE_MATHF_APPROACH_DELTA_APPROACH_METHOD := "public static float approach(float from, float to, float speed){\n        return from + Mathf.clamp(to - from, -speed, speed);\n    }"
+const SOURCE_MATHF_APPROACH_DELTA_SCALED_SPEED := "Time.delta * speed"
+const SOURCE_MATHF_DST_METHOD := "public static float dst(float x1, float y1, float x2, float y2){\n        final float xd = x2 - x1;\n        final float yd = y2 - y1;\n        return (float)Math.sqrt(xd * xd + yd * yd);\n    }"
+const SOURCE_MATHF_DST_XD_EXPR := "final float xd = x2 - x1;"
+const SOURCE_MATHF_DST_YD_EXPR := "final float yd = y2 - y1;"
+const SOURCE_MATHF_DST_RETURN_EXPR := "return (float)Math.sqrt(xd * xd + yd * yd);"
+const SOURCE_ARC_MATHF_NUM_METHOD := "public static int num(boolean b){"
+
+static func source_absin(value: float, scl: float, mag: float) -> float:
+	if scl == 0.0:
+		return 0.0
+	return (sin(value / scl) * 0.5 + 0.5) * mag
+
+static func source_approach(from_value: float, to_value: float, speed: float) -> float:
+	return from_value + clampf(to_value - from_value, -speed, speed)
+
+static func source_approach_delta(from_value: float, to_value: float, speed: float, source_delta: float) -> float:
+	return source_approach(from_value, to_value, source_delta * speed)
+
+static func source_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
+	return lerpf(from_value, to_value, clampf(source_delta * progress, 0.0, 1.0))
+
+static func is_power_of_two(value: int) -> bool:
+	return value != 0 and (value & (value - 1)) == 0
+
+static func random_seed_int(source_seed: int, min_value: int, max_value: int) -> int:
+	if max_value < min_value:
+		var tmp := min_value
+		min_value = max_value
+		max_value = tmp
+	var rand_state := _source_arc_rand_set_seed(source_seed * 99999)
+	if is_power_of_two(max_value):
+		return (_source_arc_rand_next_int_unbounded(rand_state) & max_value) + min_value
+	return _source_arc_rand_next_int_bound(rand_state, max_value - min_value + 1) + min_value
+
+static func random_seed_float_max(source_seed: int, max_value: float) -> float:
+	var rand_state := _source_arc_rand_set_seed(source_seed * 99999)
+	return _source_arc_rand_next_float(rand_state) * max_value
+
+static func source_arc_mathf_sin_table_value(index: int) -> float:
+	index = index & SOURCE_ARC_SIN_MASK
+	return sin((float(index) + 0.5) / float(SOURCE_ARC_SIN_COUNT) * SourceMathDefaults.ARC_RAD_FULL)
+
+static func source_arc_mathf_sin_lookup(radians: float) -> float:
+	var index := int(radians * SOURCE_ARC_RAD_TO_INDEX) & SOURCE_ARC_SIN_MASK
+	return source_arc_mathf_sin_table_value(index)
+
+static func source_arc_mathf_cos_lookup(radians: float) -> float:
+	return source_arc_mathf_sin_lookup(radians + SOURCE_ARC_PI / 2.0)
+
+static func source_arc_mathf_sin_scaled(radians: float, scl: float, mag: float) -> float:
+	return source_arc_mathf_sin_lookup(radians / scl) * mag
+
+static func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> float:
+	return source_arc_mathf_cos_lookup(radians / scl) * mag
+
+static func source_mod_float(value: float, divisor: float) -> float:
+	if divisor == 0.0:
+		return 0.0
+	return fposmod(value, divisor)
+
+static func source_angles_forward_distance(angle1: float, angle2: float) -> float:
+	return source_mod_float(angle2 - angle1, 360.0)
+
+static func source_angles_backward_distance(angle1: float, angle2: float) -> float:
+	return source_mod_float(angle1 - angle2, 360.0)
+
+static func source_angles_angle_dist(angle_a: float, angle_b: float) -> float:
+	var forward := source_angles_forward_distance(angle_a, angle_b)
+	var backward := source_angles_backward_distance(angle_a, angle_b)
+	return forward if forward < backward else -backward
+
+static func source_angles_move_toward(angle: float, to: float, speed: float) -> float:
+	if abs(source_angles_angle_dist(angle, to)) < speed:
+		return to
+	if (angle > to) == (source_angles_backward_distance(angle, to) > source_angles_forward_distance(angle, to)):
+		return source_mod_float(angle + speed, 360.0)
+	return source_mod_float(angle - speed, 360.0)
+
+static func source_angles_angle(from_x: float, from_y: float, to_x: float, to_y: float) -> float:
+	return rad_to_deg(atan2(to_y - from_y, to_x - from_x))
+
+static func source_angles_trns_vec(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
+	var radians := deg_to_rad(angle_degrees)
+	var cos_value := cos(radians)
+	var sin_value := sin(radians)
+	var new_x := x_value * cos_value - y_value * sin_value
+	var new_y := x_value * sin_value + y_value * cos_value
+	return {"x": new_x, "y": new_y, "angle_degrees": angle_degrees, "x_value": x_value, "y_value": y_value}
+
+static func source_dst(x1: float, y1: float, x2: float, y2: float) -> float:
+	var xd := x2 - x1
+	var yd := y2 - y1
+	return sqrt(xd * xd + yd * yd)
+
+static func source_vec2_limit(vector_state: Dictionary, limit: float) -> Dictionary:
+	var vector_x := float(vector_state.get("x", 0.0))
+	var vector_y := float(vector_state.get("y", 0.0))
+	var len2 := vector_x * vector_x + vector_y * vector_y
+	var limit2 := limit * limit
+	if len2 > limit2 and len2 > 0.0:
+		var scale := limit / sqrt(len2)
+		vector_x *= scale
+		vector_y *= scale
+	return {"x": vector_x, "y": vector_y, "limit": limit, "len2": len2, "limit2": limit2}
+
+static func source_vec2_rotate_radians(x_value: float, y_value: float, radians: float) -> Dictionary:
+	var cos_value := cos(radians)
+	var sin_value := sin(radians)
+	return {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "radians": radians}
+
+static func _source_arc_rand_set_seed(seed: int) -> Dictionary:
+	return {"state": _source_arc_rand_murmur_hash3(seed)}
+
+static func _source_arc_rand_next_int_unbounded(rand_state: Dictionary) -> int:
+	return int(_source_arc_rand_next_long(rand_state) & 0x7fffffff)
+
+static func _source_arc_rand_next_int_bound(rand_state: Dictionary, bound: int) -> int:
+	if bound <= 0:
+		return 0
+	return int(_source_arc_rand_next_int_unbounded(rand_state) % bound)
+
+static func _source_arc_rand_next_float(rand_state: Dictionary) -> float:
+	return float(_source_words_to_nonnegative(_source_words_unsigned_shift_right(_source_arc_rand_next_long_words(rand_state), 40))) * SOURCE_RAND_NORM_FLOAT
+
+static func _source_arc_rand_next_long_words(rand_state: Dictionary) -> Array:
+	var value := _source_arc_rand_next_long(rand_state)
+	return _source_int_to_words(value)
+
+static func _source_arc_rand_next_long(rand_state: Dictionary) -> int:
+	var state := int(rand_state.get("state", 0))
+	state = _source_arc_rand_murmur_hash3(state + SOURCE_RAND_MURMUR_CONST1)
+	rand_state["state"] = state
+	return state
+
+static func _source_arc_rand_murmur_hash3(value: int) -> int:
+	var h := value
+	h = int(h ^ (h >> 33))
+	h = int(h * SOURCE_RAND_MURMUR_CONST1)
+	h = int(h ^ (h >> 33))
+	h = int(h * SOURCE_RAND_MURMUR_CONST2)
+	h = int(h ^ (h >> 33))
+	return abs(h)
+
+static func _source_int_to_words(value: int) -> Array:
+	var safe_value := abs(value)
+	return [
+		safe_value & SOURCE_UINT16_MASK,
+		(safe_value >> 16) & SOURCE_UINT16_MASK,
+		(safe_value >> 32) & SOURCE_UINT16_MASK,
+		(safe_value >> 48) & SOURCE_UINT16_MASK,
+	]
+
+static func _source_words_unsigned_shift_right(words: Array, shift: int) -> Array:
+	var value := _source_words_to_nonnegative(words)
+	return _source_int_to_words(value >> shift)
+
+static func _source_words_to_nonnegative(words: Array) -> int:
+	var value := 0
+	for index in range(min(words.size(), 4)):
+		value |= int(words[index]) << (index * 16)
+	return abs(value)

@@ -132,6 +132,91 @@
       "canonical_reference_prefix": "",
       "mirror_fields": []
     },
+    "source_symbol_registry_symbols": {
+      "path": "src/generated/source_symbol_registry.json",
+      "root_key": "symbols",
+      "label": "symbol",
+      "status": "active",
+      "rule": "Canonical source symbol registry; gameplay and transpiler code must read symbol metadata from this shard instead of inventing parallel symbol owners or registry keys.",
+      "canonical_module": "registry",
+      "canonical_reference_key": "canonical_symbol",
+      "canonical_reference_prefix": "source_symbol_registry.",
+      "mirror_fields": [
+        "status",
+        "java_expr",
+        "godot_symbol",
+        "godot_owner",
+        "rule",
+        "tests",
+        "runtime_proof"
+      ]
+    },
+    "source_api_contracts_contracts": {
+      "path": "src/generated/source_api_contracts.json",
+      "root_key": "contracts",
+      "label": "owner",
+      "status": "active",
+      "rule": "Canonical source API contract ledger; gameplay and transpiler code must read contract metadata from this shard instead of inventing parallel contract ownership.",
+      "canonical_module": "api_contracts",
+      "canonical_reference_key": "canonical_contract",
+      "canonical_reference_prefix": "source_api_contracts.",
+      "mirror_fields": [
+        "status",
+        "source_slice",
+        "java_source",
+        "source_method",
+        "params",
+        "return_keys",
+        "tests",
+        "runtime_proof",
+        "rule"
+      ]
+    },
+    "source_state_schema_schemas": {
+      "path": "src/generated/source_state_schema.json",
+      "root_key": "schemas",
+      "label": "schemaName",
+      "status": "active",
+      "rule": "Canonical source state schema ledger; gameplay and transpiler code must read dictionary schema metadata from this shard instead of inventing parallel state schema ownership.",
+      "canonical_module": "state_schema",
+      "canonical_reference_key": "canonical_schema",
+      "canonical_reference_prefix": "source_state_schema.",
+      "mirror_fields": [
+        "keys"
+      ]
+    },
+    "source_slice_ledger_slices": {
+      "path": "src/generated/source_slice_ledger.json",
+      "root_key": "slices",
+      "label": "sliceId",
+      "status": "active",
+      "rule": "Canonical source slice ledger; gameplay and transpiler code must read slice metadata from this shard instead of inventing parallel slice IDs or owners.",
+      "canonical_module": "slice_ledger",
+      "canonical_reference_key": "canonical_ledger",
+      "canonical_reference_prefix": "source_slice_ledger.",
+      "mirror_fields": [
+        "status",
+        "java_source",
+        "java_method",
+        "godot_owner",
+        "source_symbols",
+        "tests",
+        "runtime_proof"
+      ]
+    },
+    "source_audit_registered_owners": {
+      "path": "src/generated/source_symbol_audit_report.json",
+      "root_key": "registeredSourceOwners",
+      "label": "owner",
+      "status": "active",
+      "rule": "Canonical source audit owner register; runtime and transpiler code must read registered owner coverage from this shard instead of inventing parallel ownership tracking.",
+      "canonical_module": "audit",
+      "canonical_reference_key": "canonical_owner",
+      "canonical_reference_prefix": "source_audit.",
+      "mirror_fields": [
+        "owner"
+      ]
+    },
     "consumer_slices": {
       "canonical_module": "slice_ledger",
       "canonical_reference_key": "canonical_ledger",
