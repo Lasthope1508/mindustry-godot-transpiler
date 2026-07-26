@@ -2,11 +2,15 @@ extends RefCounted
 class_name SourceBuildingDestructionState
 
 const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const SourceMathState := preload("res://src/game/SourceMathState.gd")
 const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
 
-static func _building_comp_instance():
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+static func _building_comp_instance() -> Object:
+	var script := SourceGeneratedClassRuntime.script_for_java_name("BuildingComp", GeneratedClassRegistry)
+	if script == null:
+		return null
 	return script.new()
 
 static func default_callbacks_state(game: Object) -> Dictionary:

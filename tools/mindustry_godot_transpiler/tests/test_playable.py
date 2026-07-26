@@ -15005,6 +15005,10 @@ class PlayableManifestTests(unittest.TestCase):
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn('const SourceBuildingDestructionState := preload("res://src/game/SourceBuildingDestructionState.gd")', port_source)
+        self.assertIn('const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")', helper_source)
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', helper_source)
+        self.assertIn('var script := SourceGeneratedClassRuntime.script_for_java_name("BuildingComp", GeneratedClassRegistry)', helper_source)
+        self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', helper_source)
         for method_name in (
             "generated_after_destroyed_bridge_state",
             "generated_explosion_item_cap_bridge_state",
@@ -15168,31 +15172,33 @@ class PlayableManifestTests(unittest.TestCase):
         port_source = port_game.read_text(encoding="utf-8")
         module_source = module.read_text(encoding="utf-8")
 
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+
         cases = {
             "generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String)": (
                 "localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label",
-                "var result = instance.java_method_getDisplayName_157([localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])",
+                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_getDisplayName_157\", [localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label], GeneratedClassRegistry)",
                 "var canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)",
                 "PortGame.source_building_display_name_state",
                 "BuildingComp.java_method_getDisplayName_157",
             ),
             "generated_building_comp_flow_items_bridge_state(items_module: Variant)": (
                 "items_module",
-                "var result = instance.java_method_flowItems_159([items_module])",
+                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_flowItems_159\", [items_module], GeneratedClassRegistry)",
                 "var canonical = flow_items_state(items_module)",
                 "PortGame.source_building_flow_items_state",
                 "BuildingComp.java_method_flowItems_159",
             ),
             "generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant)": (
                 "consumers, self_state",
-                "var result = instance.java_method_displayConsumption_161([consumers, self_state])",
+                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_displayConsumption_161\", [consumers, self_state], GeneratedClassRegistry)",
                 "var canonical = display_consumption_state(consumers, self_state)",
                 "PortGame.source_building_display_consumption_state",
                 "BuildingComp.java_method_displayConsumption_161",
             ),
             "generated_building_comp_display_bars_bridge_state(bar_results: Array)": (
                 "bar_results",
-                "var result = instance.java_method_displayBars_162([bar_results])",
+                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_displayBars_162\", [bar_results], GeneratedClassRegistry)",
                 "var canonical = display_bars_state(bar_results)",
                 "PortGame.source_building_display_bars_state",
                 "BuildingComp.java_method_displayBars_162",
@@ -15209,7 +15215,8 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(f"\treturn SourceBuildingDisplayState.{func_name}({args})", port_body)
                 self.assertNotIn("ResourceLoader.load(", port_body)
                 self.assertNotIn("java_method_", port_body)
-                self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', module_body)
+                self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', module_body)
+                self.assertNotIn("script.new()", module_body)
                 self.assertIn(generated_call, module_body)
                 self.assertIn(canonical_call, module_body)
                 self.assertIn(f'"source_owner": "{source_owner}"', module_body)

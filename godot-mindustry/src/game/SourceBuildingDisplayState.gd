@@ -1,6 +1,9 @@
 extends RefCounted
 class_name SourceBuildingDisplayState
 
+const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+
 static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> Dictionary:
 	var result := source_exprs.duplicate()
 	result.merge(state)
@@ -86,9 +89,7 @@ static func display_flow_rate_label(flow_rate: float, per_second_label: String, 
 	return str(fixed_one_decimal.call(flow_rate)) + " " + per_second_label
 
 static func generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_getDisplayName_157([localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])
+	var result = SourceGeneratedClassRuntime.call_java_method("BuildingComp", "java_method_getDisplayName_157", [localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label], GeneratedClassRegistry)
 	var canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
 	return {
 		"source_owner": "PortGame.source_building_display_name_state",
@@ -98,9 +99,7 @@ static func generated_building_comp_get_display_name_bridge_state(localized_name
 	}
 
 static func generated_building_comp_flow_items_bridge_state(items_module: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_flowItems_159([items_module])
+	var result = SourceGeneratedClassRuntime.call_java_method("BuildingComp", "java_method_flowItems_159", [items_module], GeneratedClassRegistry)
 	var canonical = flow_items_state(items_module)
 	return {
 		"source_owner": "PortGame.source_building_flow_items_state",
@@ -110,9 +109,7 @@ static func generated_building_comp_flow_items_bridge_state(items_module: Varian
 	}
 
 static func generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_displayConsumption_161([consumers, self_state])
+	var result = SourceGeneratedClassRuntime.call_java_method("BuildingComp", "java_method_displayConsumption_161", [consumers, self_state], GeneratedClassRegistry)
 	var canonical = display_consumption_state(consumers, self_state)
 	return {
 		"source_owner": "PortGame.source_building_display_consumption_state",
@@ -122,9 +119,7 @@ static func generated_building_comp_display_consumption_bridge_state(consumers: 
 	}
 
 static func generated_building_comp_display_bars_bridge_state(bar_results: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_displayBars_162([bar_results])
+	var result = SourceGeneratedClassRuntime.call_java_method("BuildingComp", "java_method_displayBars_162", [bar_results], GeneratedClassRegistry)
 	var canonical = display_bars_state(bar_results)
 	return {
 		"source_owner": "PortGame.source_building_display_bars_state",
