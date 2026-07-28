@@ -5555,126 +5555,40 @@ func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool
 	return SourceTurretInitState.turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
 
 func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_bridge_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
 
 func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"defaulted_arg": "source_tilesize",
-		"source_tilesize": result.get("source_tilesize", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("source_tilesize", null) == canonical.get("source_tilesize", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_source_tilesize_default_bridge_state(shoot_y, shoot_y_is_negative_infinity, size)
 
 func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, SourceBlockDefaults.SIZE_DEFAULT, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"defaulted_arg": "size",
-		"size": result.get("size", null),
-		"source_tilesize": result.get("source_tilesize", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("size", null) == canonical.get("size", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_size_default_bridge_state(shoot_y, shoot_y_is_negative_infinity)
 
 func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"defaulted_arg": "disable_overlap_check",
-		"disable_overlap_check": result.get("disable_overlap_check", null),
-		"disable_overlap_check_after": result.get("disable_overlap_check_after", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("disable_overlap_check", null) == canonical.get("disable_overlap_check", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground)
 
 func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, SourceTurretDefaults.RANGE_DEFAULT, 0.0)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"defaulted_arg": "range",
-		"range": result.get("range", null),
-		"tracking_range_after": result.get("tracking_range_after", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("range", null) == canonical.get("range", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_range_default_bridge_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check)
 
 func generated_turret_init_tracking_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value], null)
-	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, SourceTurretDefaults.TRACKING_RANGE_DEFAULT)
-	return {
-		"source_owner": "PortGame.source_turret_init_state",
-		"generated_owner": "Turret.java_method_init_3",
-		"defaulted_arg": "tracking_range",
-		"tracking_range": result.get("tracking_range", null),
-		"tracking_range_after": result.get("tracking_range_after", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("tracking_range", null) == canonical.get("tracking_range", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null),
-	}
+	return SourceTurretInitState.generated_turret_init_tracking_range_default_bridge_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value)
 
 func source_base_turret_init_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
 	return SourceTurretInitState.base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
 
 func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_init_0", [coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius], null)
-	var canonical = source_base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
-	return {
-		"source_owner": "PortGame.source_base_turret_init_state",
-		"generated_owner": "BaseTurret.java_method_init_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("coolant_present_after", null) == canonical.get("coolant_present_after", null) and result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("fog_radius_after", null) == canonical.get("fog_radius_after", null),
-	}
+	return SourceTurretInitState.generated_base_turret_init_bridge_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
 
 func source_base_turret_reinitialize_consumers_state() -> Dictionary:
 	return SourceTurretInitState.base_turret_reinitialize_consumers_state()
 
 func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_reinitializeConsumers_1", [], null)
-	var canonical = source_base_turret_reinitialize_consumers_state()
-	return {
-		"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
-		"generated_owner": "BaseTurret.java_method_reinitializeConsumers_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("check_init_coolant_called", null) == canonical.get("check_init_coolant_called", null) and result.get("super_reinitialize_consumers_called", null) == canonical.get("super_reinitialize_consumers_called", null),
-	}
+	return SourceTurretInitState.generated_base_turret_reinitialize_consumers_bridge_state()
 
 func source_base_turret_check_init_coolant_state(coolant_present: bool, has_consumer: bool) -> Dictionary:
 	return SourceTurretInitState.base_turret_check_init_coolant_state(coolant_present, has_consumer)
 
 func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_checkInitCoolant_2", [coolant_present, has_consumer], null)
-	var canonical = source_base_turret_check_init_coolant_state(coolant_present, has_consumer)
-	return {
-		"source_owner": "PortGame.source_base_turret_check_init_coolant_state",
-		"generated_owner": "BaseTurret.java_method_checkInitCoolant_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("consume_called", null) == canonical.get("consume_called", null) and result.get("update_after", null) == canonical.get("update_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("optional_after", null) == canonical.get("optional_after", null),
-	}
+	return SourceTurretInitState.generated_base_turret_check_init_coolant_bridge_state(coolant_present, has_consumer)
 
 func source_base_turret_draw_place_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:
 	return SourceBaseTurretDrawState.draw_place_state(tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog)
