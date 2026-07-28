@@ -4938,65 +4938,25 @@ func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_befor
 	return SourceBlockInitFlagsState.custom_shadow_state(custom_shadow, has_shadow_before)
 
 func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "custom_shadow"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [custom_shadow, has_shadow_before], null, metadata)
-	var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_custom_shadow_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitFlagsState.generated_custom_shadow_bridge_state(custom_shadow, has_shadow_before)
 
 func source_block_init_under_bullets_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
 	return SourceBlockInitFlagsState.under_bullets_state(under_bullets, priority_before)
 
 func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "under_bullets"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [under_bullets, priority_before], null, metadata)
-	var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_under_bullets_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitFlagsState.generated_under_bullets_bridge_state(under_bullets, priority_before)
 
 func source_block_init_fog_radius_flag_state(fog_radius: int, flags_before: Array) -> Dictionary:
 	return SourceBlockInitFlagsState.fog_radius_flag_state(fog_radius, flags_before)
 
 func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "fog_radius_flag"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [fog_radius, flags_before], null, metadata)
-	var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_fog_radius_flag_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitFlagsState.generated_fog_radius_flag_bridge_state(fog_radius, flags_before)
 
 func source_block_init_sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary:
 	return SourceBlockInitFlagsState.sync_flag_state(sync_value, flags_before)
 
 func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "sync_flag"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [sync_value, flags_before], null, metadata)
-	var canonical = source_block_init_sync_flag_state(sync_value, flags_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_sync_flag_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitFlagsState.generated_sync_flag_bridge_state(sync_value, flags_before)
 
 func source_block_init_health_scaled_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
 	return SourceBlockInitHealthState.health_scaled_state(health_before, size_value, scaled_health)

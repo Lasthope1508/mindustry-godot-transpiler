@@ -33606,25 +33606,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_custom_shadow_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitFlagsState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_custom_shadow_bridge_state", 1)[1].split("func source_block_init_under_bullets_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:",
+            "static func generated_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:",
+            "return SourceBlockInitFlagsState.generated_custom_shadow_bridge_state(custom_shadow, has_shadow_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "custom_shadow, has_shadow_before",
+            "var canonical = custom_shadow_state(custom_shadow, has_shadow_before)",
+            "PortGame.source_block_init_custom_shadow_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "custom_shadow"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_custom_shadow_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_under_bullets_state(self):
         source = self._port_game_block_init_flags_source()
@@ -33644,25 +33644,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_under_bullets_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitFlagsState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_under_bullets_bridge_state", 1)[1].split("func source_block_init_fog_radius_flag_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:",
+            "static func generated_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:",
+            "return SourceBlockInitFlagsState.generated_under_bullets_bridge_state(under_bullets, priority_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "under_bullets, priority_before",
+            "var canonical = under_bullets_state(under_bullets, priority_before)",
+            "PortGame.source_block_init_under_bullets_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "under_bullets"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_under_bullets_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_fog_radius_flag_state(self):
         source = self._port_game_block_init_flags_source()
@@ -33682,25 +33682,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_fog_radius_flag_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitFlagsState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_fog_radius_flag_bridge_state", 1)[1].split("func source_block_init_sync_flag_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:",
+            "static func generated_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:",
+            "return SourceBlockInitFlagsState.generated_fog_radius_flag_bridge_state(fog_radius, flags_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "fog_radius, flags_before",
+            "var canonical = fog_radius_flag_state(fog_radius, flags_before)",
+            "PortGame.source_block_init_fog_radius_flag_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "fog_radius_flag"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_fog_radius_flag_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_sync_flag_state(self):
         source = self._port_game_block_init_flags_source()
@@ -33720,25 +33720,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_sync_flag_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitFlagsState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_sync_flag_bridge_state", 1)[1].split("func source_block_init_health_scaled_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:",
+            "static func generated_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:",
+            "return SourceBlockInitFlagsState.generated_sync_flag_bridge_state(sync_value, flags_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "sync_value, flags_before",
+            "var canonical = sync_flag_state(sync_value, flags_before)",
+            "PortGame.source_block_init_sync_flag_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "sync_flag"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_sync_flag_state(sync_value, flags_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_sync_flag_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_health_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
