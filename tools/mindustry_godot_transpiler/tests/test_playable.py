@@ -21621,88 +21621,129 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_shoot_pattern_default_events_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponsState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:",
+            "static func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:",
+            "return SourceWeaponsState.generated_shoot_pattern_default_events_bridge_state(shots, first_shot_delay, shot_delay)",
             "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
             "java_method_shoot_1",
             "shots, first_shot_delay, shot_delay",
+            "var canonical = shoot_pattern_default_events({",
+            "PortGame.source_shoot_pattern_default_events",
+            "ShootPattern.java_method_shoot_1",
         )
-        self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
-        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
-        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', source)
-        self.assertIn('"matches": result.get("events", []) == canonical', source)
+        self.assertIn('"matches": result.get("events", []) == canonical', module_source)
 
     def test_port_game_exposes_generated_shoot_pattern_default_events_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponsState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:", source)
-        method_body = source.split("func generated_shoot_pattern_default_events_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            method_body,
+            module_source,
+            "func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:",
+            "static func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:",
+            "return SourceWeaponsState.generated_shoot_pattern_default_events_default_bridge_state()",
             "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
             "java_method_shoot_1",
             "",
+            "var canonical = shoot_pattern_default_events({})",
+            "PortGame.source_shoot_pattern_default_events",
+            "ShootPattern.java_method_shoot_1",
         )
-        self.assertIn("var canonical = source_shoot_pattern_default_events({})", method_body)
-        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
-        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', method_body)
-        self.assertIn('"defaulted_args": ["shots", "firstShotDelay", "shotDelay"]', method_body)
-        self.assertIn('"matches": result.get("events", []) == canonical', method_body)
+        self.assertIn('"defaulted_args": ["shots", "firstShotDelay", "shotDelay"]', module_source)
+        self.assertIn('"matches": result.get("events", []) == canonical', module_source)
 
     def test_port_game_exposes_generated_shoot_pattern_compat_dispatch_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponsState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:",
+            "static func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:",
+            "return SourceWeaponsState.generated_shoot_pattern_compat_dispatch_bridge_state(total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present)",
             "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
             "java_method_shoot_0",
             "total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present",
+            "var canonical = shoot_pattern_default_events({",
+            "PortGame.source_shoot_pattern_default_events",
+            "ShootPattern.java_method_shoot_0",
         )
-        self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
-        self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
-        self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', source)
-        self.assertIn('"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0', source)
+        self.assertIn('"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0', module_source)
 
     def test_port_game_exposes_generated_shoot_pattern_flip_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponsState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_flip_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_shoot_pattern_flip_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_shoot_pattern_flip_bridge_state() -> Dictionary:",
+            "static func generated_shoot_pattern_flip_bridge_state() -> Dictionary:",
+            "return SourceWeaponsState.generated_shoot_pattern_flip_bridge_state()",
             "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
             "java_method_flip_2",
             "",
+            'var canonical = {"source_owner": "ShootPattern.flip", "generated_owner": "ShootPattern.java_method_flip_2", "source": "core/src/mindustry/entities/pattern/ShootPattern.java", "method": "public void flip(){", "comment": "/** Subclasses should override this to flip its sides. */", "no_op": true, "mutated_fields": []}',
+            "ShootPattern.flip",
+            "ShootPattern.java_method_flip_2",
         )
-        self.assertIn('"source_owner": "ShootPattern.flip"', source)
-        self.assertIn('"generated_owner": "ShootPattern.java_method_flip_2"', source)
-        self.assertIn('"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == []', source)
+        self.assertIn('"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == []', module_source)
 
     def test_port_game_exposes_generated_shoot_pattern_copy_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponsState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:",
+            "static func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:",
+            "return SourceWeaponsState.generated_shoot_pattern_copy_bridge_state(shots, first_shot_delay, shot_delay)",
             "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
             "java_method_copy_3",
             "shots, first_shot_delay, shot_delay",
+            'var expected_copy := {"shots": shots, "firstShotDelay": first_shot_delay, "shotDelay": shot_delay}',
+            "ShootPattern.copy",
+            "ShootPattern.java_method_copy_3",
         )
-        self.assertIn('"source_owner": "ShootPattern.copy"', source)
-        self.assertIn('"generated_owner": "ShootPattern.java_method_copy_3"', source)
-        self.assertIn('"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false', source)
+        self.assertIn('"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false', module_source)
+
+    def test_source_weapons_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ShootPatternModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ShootPatternModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("SHOOT_PATTERN_MODULE_PROOF", proof_source)
+        self.assertIn("SourceWeaponsState.generated_shoot_pattern_default_events_bridge_state", proof_source)
+        self.assertIn("SourceWeaponsState.generated_shoot_pattern_compat_dispatch_bridge_state", proof_source)
+        self.assertIn("SourceWeaponsState.generated_shoot_pattern_flip_bridge_state", proof_source)
+        self.assertIn("SourceWeaponsState.generated_shoot_pattern_copy_bridge_state", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_weapon_bullet_initial_guard_state(self):
         source = self._port_game_weapons_source()

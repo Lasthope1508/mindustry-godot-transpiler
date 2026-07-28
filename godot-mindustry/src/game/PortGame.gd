@@ -3961,70 +3961,19 @@ func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 	return SourceWeaponsState.shoot_pattern_default_events(shoot_state)
 
 func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [shots, first_shot_delay, shot_delay], null)
-	var canonical = source_shoot_pattern_default_events({
-		"shots": shots,
-		"firstShotDelay": first_shot_delay,
-		"shotDelay": shot_delay,
-	})
-	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("events", []) == canonical,
-	}
+	return SourceWeaponsState.generated_shoot_pattern_default_events_bridge_state(shots, first_shot_delay, shot_delay)
 
 func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [], null)
-	var canonical = source_shoot_pattern_default_events({})
-	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_1",
-		"result": result,
-		"canonical": canonical,
-		"defaulted_args": ["shots", "firstShotDelay", "shotDelay"],
-		"matches": result.get("events", []) == canonical,
-	}
+	return SourceWeaponsState.generated_shoot_pattern_default_events_default_bridge_state()
 
 func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_0", [total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present], null)
-	var canonical = source_shoot_pattern_default_events({
-		"shots": shots,
-		"firstShotDelay": first_shot_delay,
-		"shotDelay": shot_delay,
-	})
-	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0,
-	}
+	return SourceWeaponsState.generated_shoot_pattern_compat_dispatch_bridge_state(total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present)
 
 func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_flip_2", [], null)
-	return {
-		"source_owner": "ShootPattern.flip",
-		"generated_owner": "ShootPattern.java_method_flip_2",
-		"result": result,
-		"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == [],
-	}
+	return SourceWeaponsState.generated_shoot_pattern_flip_bridge_state()
 
 func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_copy_3", [shots, first_shot_delay, shot_delay], null)
-	var expected_copy := {
-		"shots": shots,
-		"firstShotDelay": first_shot_delay,
-		"shotDelay": shot_delay,
-	}
-	return {
-		"source_owner": "ShootPattern.copy",
-		"generated_owner": "ShootPattern.java_method_copy_3",
-		"result": result,
-		"expected_copy": expected_copy,
-		"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false,
-	}
+	return SourceWeaponsState.generated_shoot_pattern_copy_bridge_state(shots, first_shot_delay, shot_delay)
 
 func source_weapon_shoot_default_pattern_dispatch_state(mount_state: Dictionary, shoot_state: Dictionary) -> Dictionary:
 	return SourceWeaponsState.shoot_default_pattern_dispatch_state(mount_state, shoot_state)
