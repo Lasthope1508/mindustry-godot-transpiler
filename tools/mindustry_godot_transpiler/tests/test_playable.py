@@ -27189,20 +27189,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_turret_outputs_items_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_turret_outputs_items_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_turret_outputs_items_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_turret_outputs_items_bridge_state() -> Dictionary:",
+            "static func generated_outputs_items_bridge_state() -> Dictionary:",
+            "return SourceTurretRuntimeState.generated_outputs_items_bridge_state()",
             "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
             "java_method_outputsItems_0",
             "",
+            "var canonical = outputs_items_state()",
+            "PortGame.source_turret_outputs_items_state",
+            "Turret.java_method_outputsItems_0",
         )
-        self.assertIn("var canonical = source_turret_outputs_items_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_turret_outputs_items_state"', source)
-        self.assertIn('"generated_owner": "Turret.java_method_outputsItems_0"', source)
-        self.assertIn('"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null)', source)
 
     def test_port_game_exposes_source_turret_init_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

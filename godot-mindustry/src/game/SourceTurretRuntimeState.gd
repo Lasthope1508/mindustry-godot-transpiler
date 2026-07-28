@@ -1,6 +1,7 @@
 extends RefCounted
 class_name SourceTurretRuntimeState
 
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const SourceMathState := preload("res://src/game/SourceMathState.gd")
 const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
 const SourceTurretPropertyState := preload("res://src/game/SourceTurretPropertyState.gd")
@@ -80,6 +81,17 @@ static func outputs_items_state() -> Dictionary:
 		"override_expr": SOURCE_TURRET_OUTPUTS_ITEMS_OVERRIDE,
 		"return_expr": SOURCE_TURRET_OUTPUTS_ITEMS_RETURN,
 		"outputs_items": false,
+	}
+
+static func generated_outputs_items_bridge_state() -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_outputsItems_0", [], null)
+	var canonical = outputs_items_state()
+	return {
+		"source_owner": "PortGame.source_turret_outputs_items_state",
+		"generated_owner": "Turret.java_method_outputsItems_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null),
 	}
 
 static func turret_reload_seconds(turret, reload_key: String, reload_default: float, tick_rate: float) -> float:
@@ -171,6 +183,25 @@ static func selected_ammo_payload(turret) -> Dictionary:
 		return {}
 	var data = ammo[0]
 	return data if typeof(data) == TYPE_DICTIONARY else {}
+
+static func selected_turret_float_stat(game: Object, source_method: String) -> float:
+	var turret = game.call("selected_playable_turret")
+	if turret == null:
+		return 0.0
+	return float(game.call(source_method, turret))
+
+static func selected_turret_dict_stat(game: Object, source_method: String) -> Dictionary:
+	var turret = game.call("selected_playable_turret")
+	if turret == null:
+		return {}
+	var stat = game.call(source_method, turret)
+	return stat if stat is Dictionary else {}
+
+static func selected_turret_int_stat(game: Object, source_method: String) -> int:
+	var turret = game.call("selected_playable_turret")
+	if turret == null:
+		return 0
+	return int(game.call(source_method, turret))
 
 static func selected_ammo_sprite(turret, default_sprite: String) -> String:
 	var data := selected_ammo_payload(turret)

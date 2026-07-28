@@ -4614,15 +4614,7 @@ func source_turret_outputs_items_state() -> Dictionary:
 	return SourceTurretRuntimeState.outputs_items_state()
 
 func generated_turret_outputs_items_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_outputsItems_0", [], null)
-	var canonical = source_turret_outputs_items_state()
-	return {
-		"source_owner": "PortGame.source_turret_outputs_items_state",
-		"generated_owner": "Turret.java_method_outputsItems_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null),
-	}
+	return SourceTurretRuntimeState.generated_outputs_items_bridge_state()
 
 func source_block_outputs_items_state(has_items: bool) -> Dictionary:
 	return SourceBlockQueryState.outputs_items_state(has_items)
