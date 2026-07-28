@@ -4908,31 +4908,13 @@ func source_block_post_init_database_tag_state(database_tag_before: Variant, cat
 	return SourceBlockPostInitState.database_tag_state(database_tag_before, category_name)
 
 func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_postInit_122", [database_tag_before, category_name], null)
-	var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_post_init_database_tag_state",
-		"generated_owner": "Block.java_method_postInit_122",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockPostInitState.generated_database_tag_bridge_state(database_tag_before, category_name)
 
 func source_block_post_init_shown_planets_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:
 	return SourceBlockPostInitState.shown_planets_state(requirements, shown_planets_before, content_planets)
 
 func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_postInit_122", [requirements, shown_planets_before, content_planets], null)
-	var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_post_init_shown_planets_state",
-		"generated_owner": "Block.java_method_postInit_122",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockPostInitState.generated_shown_planets_bridge_state(requirements, shown_planets_before, content_planets)
 
 func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
 	return SourceBlockInitSoundState.destroy_sound_state(destroy_sound_before, size_value)

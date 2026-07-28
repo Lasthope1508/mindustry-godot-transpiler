@@ -33350,23 +33350,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_post_init_database_tag_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPostInitState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_post_init_database_tag_bridge_state", 1)[1].split("func source_block_post_init_shown_planets_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:",
+            "static func generated_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:",
+            "return SourceBlockPostInitState.generated_database_tag_bridge_state(database_tag_before, category_name)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_postInit_122",
             "database_tag_before, category_name",
+            "var canonical = database_tag_state(database_tag_before, category_name)",
+            "PortGame.source_block_post_init_database_tag_state",
+            "Block.java_method_postInit_122",
         )
-        self.assertIn("var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_post_init_database_tag_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_post_init_shown_planets_state(self):
         source = self._port_game_block_post_init_source()
@@ -33386,23 +33387,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_post_init_shown_planets_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPostInitState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_post_init_shown_planets_bridge_state", 1)[1].split("func source_block_init_destroy_sound_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:",
+            "static func generated_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:",
+            "return SourceBlockPostInitState.generated_shown_planets_bridge_state(requirements, shown_planets_before, content_planets)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_postInit_122",
             "requirements, shown_planets_before, content_planets",
+            "var canonical = shown_planets_state(requirements, shown_planets_before, content_planets)",
+            "PortGame.source_block_post_init_shown_planets_state",
+            "Block.java_method_postInit_122",
         )
-        self.assertIn("var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_post_init_shown_planets_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_sound_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
