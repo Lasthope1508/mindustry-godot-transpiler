@@ -13303,16 +13303,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_control_enabled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingControlState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_209", "current_enabled, control_type, p1")
-        self.assertIn("var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_control_enabled_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_control_209"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:",
+            "static func generated_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float, source_float_rounding_error: float) -> Dictionary:",
+            "return SourceBuildingControlState.generated_control_enabled_bridge_state(current_enabled, control_type, p1, SourceMathDefaults.FLOAT_ROUNDING_ERROR)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_control_209",
+            "current_enabled, control_type, p1",
+            "var canonical = control_enabled_state(current_enabled, control_type, p1, source_float_rounding_error)",
+            "PortGame.source_building_control_enabled_state",
+            "BuildingComp.java_method_control_209",
+        )
 
     def test_generated_building_comp_bridges_control_config_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13341,16 +13348,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_control_config_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingControlState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_210", "control_type, block_logic_configurable, p1_is_logic_build, p1_value")
-        self.assertIn("var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_control_config_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_control_210"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:",
+            "static func generated_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:",
+            "return SourceBuildingControlState.generated_control_config_bridge_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_control_210",
+            "control_type, block_logic_configurable, p1_is_logic_build, p1_value",
+            "var canonical = control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)",
+            "PortGame.source_building_control_config_state",
+            "BuildingComp.java_method_control_210",
+        )
 
     def test_generated_building_comp_bridges_set_prop_health_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -17327,6 +17341,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("BUILDING_CONTROL_STATE_MODULE_PROOF", proof_source)
         self.assertIn("SourceBuildingControlState.control_enabled_state", proof_source)
         self.assertIn("SourceBuildingControlState.control_config_state", proof_source)
+        self.assertIn("SourceBuildingControlState.generated_control_enabled_bridge_state", proof_source)
+        self.assertIn("SourceBuildingControlState.generated_control_config_bridge_state", proof_source)
+        self.assertIn('"control_enabled_bridge_matches"', proof_source)
+        self.assertIn('"control_config_bridge_matches"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 

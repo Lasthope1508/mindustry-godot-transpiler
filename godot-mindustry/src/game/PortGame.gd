@@ -2957,27 +2957,13 @@ func source_building_control_enabled_state(current_enabled: bool, control_type: 
 	return SourceBuildingControlState.control_enabled_state(current_enabled, control_type, p1, SourceMathDefaults.FLOAT_ROUNDING_ERROR)
 
 func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_209", [current_enabled, control_type, p1], null)
-	var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)
-	return {
-		"source_owner": "PortGame.source_building_control_enabled_state",
-		"generated_owner": "BuildingComp.java_method_control_209",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingControlState.generated_control_enabled_bridge_state(current_enabled, control_type, p1, SourceMathDefaults.FLOAT_ROUNDING_ERROR)
 
 func source_building_control_config_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
 	return SourceBuildingControlState.control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
 
 func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_210", [control_type, block_logic_configurable, p1_is_logic_build, p1_value], null)
-	var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
-	return {
-		"source_owner": "PortGame.source_building_control_config_state",
-		"generated_owner": "BuildingComp.java_method_control_210",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingControlState.generated_control_config_bridge_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
 
 func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
 	return SourceBuildingSetPropState.health_state(prop, current_health, max_health_value, value, dead_state, self_state)
