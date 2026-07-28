@@ -44,3 +44,43 @@ static func destroyed_state() -> Dictionary:
 
 static func remove_state() -> Dictionary:
 	return {"source_owner": "PortGame.source_build_payload_remove_state", "source": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_SOURCE, "class_expr": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_CLASS_EXPR, "field_expr": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_BUILD_FIELD_EXPR, "override_expr": "@Override", "method": SOURCE_BUILD_PAYLOAD_REMOVE_METHOD, "remove_expr": SOURCE_BUILD_PAYLOAD_REMOVE_EXPR, "remove_called": true}
+
+static func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_place_1([tile, build_block, build_team])
+	var canonical = place_default_state(tile, build_block, build_team)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_place_default_state", "generated_owner": "BuildPayload.java_method_place_1", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])
+	var canonical = place_state(tile, build_block, build_team, rotation_value)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_place_state", "generated_owner": "BuildPayload.java_method_place_2", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])
+	var canonical = update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_update_state", "generated_owner": "BuildPayload.java_method_update_5", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_destroyed_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_destroyed_6([])
+	var canonical = destroyed_state()
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_destroyed_state", "generated_owner": "BuildPayload.java_method_destroyed_6", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_remove_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_remove_12([])
+	var canonical = remove_state()
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_remove_state", "generated_owner": "BuildPayload.java_method_remove_12", "result": result, "canonical": canonical, "matches": matches}

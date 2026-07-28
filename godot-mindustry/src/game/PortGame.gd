@@ -5324,61 +5324,25 @@ func source_build_payload_place_default_state(tile: Variant, build_block: Varian
 	return SourceBuildPayloadLifecycleState.place_default_state(tile, build_block, build_team)
 
 func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_place_1", [tile, build_block, build_team], null)
-	var canonical = source_build_payload_place_default_state(tile, build_block, build_team)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_place_default_state",
-		"generated_owner": "BuildPayload.java_method_place_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadLifecycleState.generated_build_payload_place_default_bridge_state(tile, build_block, build_team)
 
 func source_build_payload_place_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
 	return SourceBuildPayloadLifecycleState.place_state(tile, build_block, build_team, rotation_value)
 
 func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_place_2", [tile, build_block, build_team, rotation_value], null)
-	var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_place_state",
-		"generated_owner": "BuildPayload.java_method_place_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadLifecycleState.generated_build_payload_place_bridge_state(tile, build_block, build_team, rotation_value)
 
 func source_build_payload_update_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
 	return SourceBuildPayloadLifecycleState.update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
 
 func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_update_5", [unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder], null)
-	var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_update_state",
-		"generated_owner": "BuildPayload.java_method_update_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadLifecycleState.generated_build_payload_update_bridge_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
 
 func source_build_payload_destroyed_state() -> Dictionary:
 	return SourceBuildPayloadLifecycleState.destroyed_state()
 
 func generated_build_payload_destroyed_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_destroyed_6", [], null)
-	var canonical = source_build_payload_destroyed_state()
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_destroyed_state",
-		"generated_owner": "BuildPayload.java_method_destroyed_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadLifecycleState.generated_build_payload_destroyed_bridge_state()
 
 func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
 	return SourceBuildPayloadState.content_equals_state(other_is_build_payload, other_block, build_block)
@@ -5503,16 +5467,7 @@ func source_build_payload_remove_state() -> Dictionary:
 	return SourceBuildPayloadLifecycleState.remove_state()
 
 func generated_build_payload_remove_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_remove_12", [], null)
-	var canonical = source_build_payload_remove_state()
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_remove_state",
-		"generated_owner": "BuildPayload.java_method_remove_12",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadLifecycleState.generated_build_payload_remove_bridge_state()
 
 func source_build_payload_write_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
 	return SourceBuildPayloadState.write_state(payload_block, build_block_id, build_version)
