@@ -5004,33 +5004,13 @@ func source_block_init_accepts_items_state(block_group: Variant, category_value:
 	return SourceBlockInitPlacementState.accepts_items_state(block_group, category_value, accepts_items_before)
 
 func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "accepts_items"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [block_group, category_value, accepts_items_before], null, metadata)
-	var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_accepts_items_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitPlacementState.generated_accepts_items_bridge_state(block_group, category_value, accepts_items_before)
 
 func source_block_init_offset_state(size_value: int, source_tilesize: float) -> Dictionary:
 	return SourceBlockInitPlacementState.offset_state(size_value, source_tilesize)
 
 func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "offset"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [size_value, source_tilesize], null, metadata)
-	var canonical = source_block_init_offset_state(size_value, source_tilesize)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_offset_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitPlacementState.generated_offset_bridge_state(size_value, source_tilesize)
 
 func source_block_init_build_time_requirements_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
 	return SourceBlockInitBuildTimeState.requirements_state(build_time_before, requirement_stacks)

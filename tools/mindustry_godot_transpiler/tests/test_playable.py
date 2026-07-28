@@ -34126,24 +34126,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_accepts_items_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitPlacementState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_accepts_items_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:",
+            "static func generated_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:",
+            "return SourceBlockInitPlacementState.generated_accepts_items_bridge_state(block_group, category_value, accepts_items_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "block_group, category_value, accepts_items_before",
+            "var canonical = accepts_items_state(block_group, category_value, accepts_items_before)",
+            "PortGame.source_block_init_accepts_items_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "accepts_items"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_accepts_items_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_offset_state(self):
         source = self._port_game_block_init_placement_source()
@@ -34172,24 +34173,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_offset_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitPlacementState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_offset_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:",
+            "static func generated_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:",
+            "return SourceBlockInitPlacementState.generated_offset_bridge_state(size_value, source_tilesize)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "size_value, source_tilesize",
+            "var canonical = offset_state(size_value, source_tilesize)",
+            "PortGame.source_block_init_offset_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "offset"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_offset_state(size_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_offset_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_build_time_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
