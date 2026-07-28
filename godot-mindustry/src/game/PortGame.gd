@@ -5190,31 +5190,13 @@ func source_unit_payload_requirements_state(unit_type: Variant, total_requiremen
 	return SourceUnitPayloadRequirementsState.requirements_state(unit_type, total_requirements)
 
 func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_requirements_5", [unit_type, total_requirements], null)
-	var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_requirements_state",
-		"generated_owner": "UnitPayload.java_method_requirements_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadRequirementsState.generated_requirements_bridge_state(unit_type, total_requirements)
 
 func source_unit_payload_build_time_state(unit_type: Variant, build_time: float) -> Dictionary:
 	return SourceUnitPayloadRequirementsState.build_time_state(unit_type, build_time)
 
 func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_buildTime_6", [unit_type, build_time], null)
-	var canonical = source_unit_payload_build_time_state(unit_type, build_time)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_build_time_state",
-		"generated_owner": "UnitPayload.java_method_buildTime_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadRequirementsState.generated_build_time_bridge_state(unit_type, build_time)
 
 func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> Dictionary:
 	return SourceUnitPayloadIoState.write_state(payload_unit, unit_class_id)
