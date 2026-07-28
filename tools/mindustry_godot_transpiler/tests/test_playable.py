@@ -35750,6 +35750,16 @@ class PlayableManifestTests(unittest.TestCase):
         ):
             self.assertIn('"source_owner": "' + source_owner + '"', module_source)
 
+        bridge_delegations = {
+            "func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:": "\treturn SourceUnitPayloadContentState.generated_content_equals_bridge_state(other_is_unit_payload, other_unit_type, unit_type)",
+            "func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:": "\treturn SourceUnitPayloadContentState.generated_update_bridge_state(unit_type, unit, unit_holder, building_holder)",
+            "func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:": "\treturn SourceUnitPayloadContentState.generated_content_bridge_state(unit_type)",
+        }
+        for signature, delegation in bridge_delegations.items():
+            method_body = self._method_body(source, signature)
+            self.assertIn(delegation, method_body)
+            self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", method_body)
+
     def test_unit_payload_content_uses_canonical_module_constants_without_duplicate_literals(self):
         basic = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadBasicState.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
@@ -35837,23 +35847,31 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_content_equals_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_content_equals_bridge_state", 1)[1].split("func source_unit_payload_update_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:",
+            "static func generated_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:",
+            "return SourceUnitPayloadContentState.generated_content_equals_bridge_state(other_is_unit_payload, other_unit_type, unit_type)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_contentEquals_2",
             "other_is_unit_payload, other_unit_type, unit_type",
+            "var canonical = content_equals_state(other_is_unit_payload, other_unit_type, unit_type)",
+            "PortGame.source_unit_payload_content_equals_state",
+            "UnitPayload.java_method_contentEquals_2",
         )
-        self.assertIn("var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_content_equals_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_contentEquals_2"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var canonical = content_equals_state(other_is_unit_payload, other_unit_type, unit_type)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_content_equals_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_contentEquals_2"', module_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_exposes_source_unit_payload_update_state(self):
         source = self._port_game_unit_payload_content_source()
@@ -35873,23 +35891,31 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_update_bridge_state", 1)[1].split("func source_unit_payload_content_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:",
+            "static func generated_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:",
+            "return SourceUnitPayloadContentState.generated_update_bridge_state(unit_type, unit, unit_holder, building_holder)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_update_3",
             "unit_type, unit, unit_holder, building_holder",
+            "var canonical = update_state(unit_type, unit, unit_holder, building_holder)",
+            "PortGame.source_unit_payload_update_state",
+            "UnitPayload.java_method_update_3",
         )
-        self.assertIn("var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_update_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_update_3"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var canonical = update_state(unit_type, unit, unit_holder, building_holder)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_update_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_update_3"', module_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_exposes_source_unit_payload_content_state(self):
         source = self._port_game_unit_payload_content_source()
@@ -35908,23 +35934,31 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadContentState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_content_bridge_state", 1)[1].split("func source_unit_payload_requirements_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:",
+            "static func generated_content_bridge_state(unit_type: Variant) -> Dictionary:",
+            "return SourceUnitPayloadContentState.generated_content_bridge_state(unit_type)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_content_4",
             "unit_type",
+            "var canonical = content_state(unit_type)",
+            "PortGame.source_unit_payload_content_state",
+            "UnitPayload.java_method_content_4",
         )
-        self.assertIn("var canonical = source_unit_payload_content_state(unit_type)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_content_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_content_4"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var canonical = content_state(unit_type)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_content_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_content_4"', module_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_delegates_unit_payload_requirements_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

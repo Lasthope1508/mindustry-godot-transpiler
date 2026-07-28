@@ -5172,46 +5172,19 @@ func source_unit_payload_content_equals_state(other_is_unit_payload: bool, other
 	return SourceUnitPayloadContentState.content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
 
 func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_contentEquals_2", [other_is_unit_payload, other_unit_type, unit_type], null)
-	var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_content_equals_state",
-		"generated_owner": "UnitPayload.java_method_contentEquals_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadContentState.generated_content_equals_bridge_state(other_is_unit_payload, other_unit_type, unit_type)
 
 func source_unit_payload_update_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
 	return SourceUnitPayloadContentState.update_state(unit_type, unit, unit_holder, building_holder)
 
 func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_update_3", [unit_type, unit, unit_holder, building_holder], null)
-	var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_update_state",
-		"generated_owner": "UnitPayload.java_method_update_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadContentState.generated_update_bridge_state(unit_type, unit, unit_holder, building_holder)
 
 func source_unit_payload_content_state(unit_type: Variant) -> Dictionary:
 	return SourceUnitPayloadContentState.content_state(unit_type)
 
 func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_content_4", [unit_type], null)
-	var canonical = source_unit_payload_content_state(unit_type)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_content_state",
-		"generated_owner": "UnitPayload.java_method_content_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadContentState.generated_content_bridge_state(unit_type)
 
 func source_unit_payload_requirements_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
 	return SourceUnitPayloadRequirementsState.requirements_state(unit_type, total_requirements)
