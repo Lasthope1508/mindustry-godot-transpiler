@@ -5685,17 +5685,7 @@ func source_tractor_beam_turret_icons_state(base_region: Variant, region: Varian
 	return SourceTractorBeamTurretLifecycleState.icons_state(base_region, region)
 
 func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_icons_0", [base_region, region], null)
-	var canonical = source_tractor_beam_turret_icons_state(base_region, region)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_icons_state",
-		"generated_owner": "TractorBeamTurret.java_method_icons_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("icons", null) == canonical.get("icons", null)
-			and result.get("base_region", null) == canonical.get("base_region", null)
-			and result.get("region", null) == canonical.get("region", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_icons_bridge_state(base_region, region)
 
 func source_tractor_beam_turret_set_stats_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
 	return SourceTurretStatsBarsState.tractor_beam_turret_set_stats_state(target_air, target_ground, damage, SourceTimeDefaults.TICK_RATE)
@@ -5707,85 +5697,31 @@ func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: 
 	return SourceTractorBeamTurretLifecycleState.init_state(range_value, source_tilesize)
 
 func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_init_2", [range_value, source_tilesize], null)
-	var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_init_state",
-		"generated_owner": "TractorBeamTurret.java_method_init_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)
-			and result.get("range", null) == canonical.get("range", null)
-			and result.get("tilesize", null) == canonical.get("tilesize", null)
-			and result.get("super_init_called", null) == canonical.get("super_init_called", null)
-			and result.get("update_clip_radius_called", null) == canonical.get("update_clip_radius_called", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_init_bridge_state(range_value, source_tilesize)
 
 func source_tractor_beam_turret_build_should_consume_state(super_should_consume: bool, target: Variant) -> Dictionary:
 	return SourceTractorBeamTurretLifecycleState.build_should_consume_state(super_should_consume, target)
 
 func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target], null)
-	var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
-		"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)
-			and result.get("super_should_consume", null) == canonical.get("super_should_consume", null)
-			and result.get("target", null) == canonical.get("target", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_build_should_consume_bridge_state(super_should_consume, target)
 
 func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
 	return SourceTractorBeamTurretLifecycleState.build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
 
 func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE], null)
-	var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
-		"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)
-			and result.get("any_state", null) == canonical.get("any_state", null)
-			and result.get("damage", null) == canonical.get("damage", null)
-			and result.get("efficiency", null) == canonical.get("efficiency", null)
-			and result.get("coolant_multiplier", null) == canonical.get("coolant_multiplier", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_build_estimate_dps_bridge_state(any_state, damage, efficiency, coolant_multiplier)
 
 func source_tractor_beam_turret_build_write_state(rotation_value: float) -> Dictionary:
 	return SourceTractorBeamTurretLifecycleState.build_write_state(rotation_value)
 
 func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_write_4", [rotation_value], null)
-	var canonical = source_tractor_beam_turret_build_write_state(rotation_value)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_build_write_state",
-		"generated_owner": "TractorBeamTurret.TractorBeamBuild.write",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)
-			and result.get("rotation", null) == canonical.get("rotation", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_build_write_bridge_state(rotation_value)
 
 func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_value: int) -> Dictionary:
 	return SourceTractorBeamTurretLifecycleState.build_read_state(read_f_value, revision_value)
 
 func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value], null)
-	var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)
-	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_build_read_state",
-		"generated_owner": "TractorBeamTurret.TractorBeamBuild.read",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)
-			and result.get("super_read_call", null) == canonical.get("super_read_call", null)
-			and result.get("read_f_value", null) == canonical.get("read_f_value", null)
-			and result.get("revision_value", null) == canonical.get("revision_value", null),
-	}
+	return SourceTractorBeamTurretLifecycleState.generated_build_read_bridge_state(read_f_value, revision_value)
 
 func source_tractor_beam_turret_build_update_tile_activation_state(activation_timer: float, time_delta: float) -> Dictionary:
 	return SourceTractorBeamTurretBuildUpdateTileFlowState.activation_state(activation_timer, time_delta)

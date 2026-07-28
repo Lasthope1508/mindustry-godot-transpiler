@@ -28035,13 +28035,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_icons_0", [base_region, region], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_icons_bridge_state(base_region, region)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_icons_state(base_region, region)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_icons_0"', bridge_body)
-        self.assertIn('"matches": result.get("icons", null) == canonical.get("icons", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28128,13 +28125,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_init_2", [range_value, source_tilesize], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_init_bridge_state(range_value, source_tilesize)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_init_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_init_2"', bridge_body)
-        self.assertIn('"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)', bridge_body)
         self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", generated_source)
         self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", generated_source)
@@ -28165,13 +28159,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_build_should_consume_bridge_state(super_should_consume, target)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume"', bridge_body)
-        self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28201,13 +28192,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_build_estimate_dps_bridge_state(any_state, damage, efficiency, coolant_multiplier)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps"', bridge_body)
-        self.assertIn('"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_write_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28233,13 +28221,10 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_write_4", [rotation_value], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_build_write_bridge_state(rotation_value)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_write_state(rotation_value)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.write"', bridge_body)
-        self.assertIn('"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_read_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28267,13 +28252,116 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:", source)
-        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value], null)', bridge_body)
+        self.assertIn("return SourceTractorBeamTurretLifecycleState.generated_build_read_bridge_state(read_f_value, revision_value)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
         self.assertNotIn("script.new()", bridge_body)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)", bridge_body)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_read_state"', bridge_body)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', bridge_body)
-        self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', bridge_body)
+
+    def test_tractor_beam_lifecycle_generated_bridges_live_in_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTractorBeamTurretLifecycleState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        cases = [
+            (
+                "func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:",
+                "static func generated_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_icons_bridge_state(base_region, region)",
+                "java_method_icons_0",
+                "base_region, region",
+                "var canonical = icons_state(base_region, region)",
+                "SourceTractorBeamTurretLifecycleState.icons_state",
+                "TractorBeamTurret.java_method_icons_0",
+            ),
+            (
+                "func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:",
+                "static func generated_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_init_bridge_state(range_value, source_tilesize)",
+                "java_method_init_2",
+                "range_value, source_tilesize",
+                "var canonical = init_state(range_value, source_tilesize)",
+                "SourceTractorBeamTurretLifecycleState.init_state",
+                "TractorBeamTurret.java_method_init_2",
+            ),
+            (
+                "func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:",
+                "static func generated_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_build_should_consume_bridge_state(super_should_consume, target)",
+                "java_inner_class_TractorBeamBuild_method_shouldConsume_1",
+                "super_should_consume, target",
+                "var canonical = build_should_consume_state(super_should_consume, target)",
+                "SourceTractorBeamTurretLifecycleState.build_should_consume_state",
+                "TractorBeamTurret.TractorBeamBuild.shouldConsume",
+            ),
+            (
+                "func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:",
+                "static func generated_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_build_estimate_dps_bridge_state(any_state, damage, efficiency, coolant_multiplier)",
+                "java_inner_class_TractorBeamBuild_method_estimateDps_2",
+                "any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE",
+                "var canonical = build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)",
+                "SourceTractorBeamTurretLifecycleState.build_estimate_dps_state",
+                "TractorBeamTurret.TractorBeamBuild.estimateDps",
+            ),
+            (
+                "func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:",
+                "static func generated_build_write_bridge_state(rotation_value: float) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_build_write_bridge_state(rotation_value)",
+                "java_inner_class_TractorBeamBuild_method_write_4",
+                "rotation_value",
+                "var canonical = build_write_state(rotation_value)",
+                "SourceTractorBeamTurretLifecycleState.build_write_state",
+                "TractorBeamTurret.TractorBeamBuild.write",
+            ),
+            (
+                "func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:",
+                "static func generated_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:",
+                "return SourceTractorBeamTurretLifecycleState.generated_build_read_bridge_state(read_f_value, revision_value)",
+                "java_inner_class_TractorBeamBuild_method_read_5",
+                "read_f_value, revision_value",
+                "var canonical = build_read_state(read_f_value, revision_value)",
+                "SourceTractorBeamTurretLifecycleState.build_read_state",
+                "TractorBeamTurret.TractorBeamBuild.read",
+            ),
+        ]
+
+        for port_signature, module_signature, facade_call, method, args, canonical_call, source_owner, generated_owner in cases:
+            with self.subTest(method=method):
+                self._assert_runtime_bridge_moved_to_module(
+                    source,
+                    module_source,
+                    port_signature,
+                    module_signature,
+                    facade_call,
+                    "res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd",
+                    method,
+                    args,
+                    canonical_call,
+                    source_owner,
+                    generated_owner,
+                )
+
+    def test_tractor_beam_lifecycle_module_runtime_proof_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamLifecycleModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TractorBeamLifecycleModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof_script.read_text(encoding="utf-8")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+
+        self.assertIn("TRACTOR_BEAM_LIFECYCLE_MODULE_PROOF", proof_source)
+        self.assertIn('const SourceTractorBeamTurretLifecycleState := preload("res://src/game/SourceTractorBeamTurretLifecycleState.gd")', proof_source)
+        self.assertIn("generated_icons_bridge_state(", proof_source)
+        self.assertIn("generated_init_bridge_state(", proof_source)
+        self.assertIn("generated_build_should_consume_bridge_state(", proof_source)
+        self.assertIn("generated_build_estimate_dps_bridge_state(", proof_source)
+        self.assertIn("generated_build_write_bridge_state(", proof_source)
+        self.assertIn("generated_build_read_bridge_state(", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"matches"', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/TractorBeamLifecycleModuleProof.gd"', scene_source)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
