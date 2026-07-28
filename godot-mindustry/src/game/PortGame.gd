@@ -3132,336 +3132,142 @@ func source_sync_snap_sync_state() -> Dictionary:
 	return SourceSyncState.snap_sync_state()
 
 func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapSync_0", [], null)
-	var canonical = source_sync_snap_sync_state()
-	return {
-		"source_owner": "PortGame.source_sync_snap_sync_state",
-		"generated_owner": "SyncComp.java_method_snapSync_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_snap_sync_bridge_state()
 
 func source_sync_snap_interpolation_state() -> Dictionary:
 	return SourceSyncState.snap_interpolation_state()
 
 func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapInterpolation_1", [], null)
-	var canonical = source_sync_snap_interpolation_state()
-	return {
-		"source_owner": "PortGame.source_sync_snap_interpolation_state",
-		"generated_owner": "SyncComp.java_method_snapInterpolation_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_snap_interpolation_bridge_state()
 
 func source_sync_read_sync_state() -> Dictionary:
 	return SourceSyncState.read_sync_state()
 
 func generated_sync_comp_read_sync_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSync_2", [], null)
-	var canonical = source_sync_read_sync_state()
-	return {
-		"source_owner": "PortGame.source_sync_read_sync_state",
-		"generated_owner": "SyncComp.java_method_readSync_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_read_sync_bridge_state()
 
 func source_sync_write_sync_state() -> Dictionary:
 	return SourceSyncState.write_sync_state()
 
 func generated_sync_comp_write_sync_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSync_3", [], null)
-	var canonical = source_sync_write_sync_state()
-	return {
-		"source_owner": "PortGame.source_sync_write_sync_state",
-		"generated_owner": "SyncComp.java_method_writeSync_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_write_sync_bridge_state()
 
 func source_sync_read_sync_manual_state() -> Dictionary:
 	return SourceSyncState.read_sync_manual_state()
 
 func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSyncManual_4", [], null)
-	var canonical = source_sync_read_sync_manual_state()
-	return {
-		"source_owner": "PortGame.source_sync_read_sync_manual_state",
-		"generated_owner": "SyncComp.java_method_readSyncManual_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_read_sync_manual_bridge_state()
 
 func source_sync_write_sync_manual_state() -> Dictionary:
 	return SourceSyncState.write_sync_manual_state()
 
 func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSyncManual_5", [], null)
-	var canonical = source_sync_write_sync_manual_state()
-	return {
-		"source_owner": "PortGame.source_sync_write_sync_manual_state",
-		"generated_owner": "SyncComp.java_method_writeSyncManual_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_write_sync_manual_bridge_state()
 
 func source_sync_after_sync_state() -> Dictionary:
 	return SourceSyncState.after_sync_state()
 
 func generated_sync_comp_after_sync_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_afterSync_6", [], null)
-	var canonical = source_sync_after_sync_state()
-	return {
-		"source_owner": "PortGame.source_sync_after_sync_state",
-		"generated_owner": "SyncComp.java_method_afterSync_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_after_sync_bridge_state()
 
 func source_sync_interpolate_state() -> Dictionary:
 	return SourceSyncState.interpolate_state()
 
 func generated_sync_comp_interpolate_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_interpolate_7", [], null)
-	var canonical = source_sync_interpolate_state()
-	return {
-		"source_owner": "PortGame.source_sync_interpolate_state",
-		"generated_owner": "SyncComp.java_method_interpolate_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_interpolate_bridge_state()
 
 func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:
 	return SourceSyncState.is_sync_hidden_state(player)
 
 func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_isSyncHidden_8", [player], null)
-	var canonical = source_sync_is_sync_hidden_state(player)
-	return {
-		"source_owner": "PortGame.source_sync_is_sync_hidden_state",
-		"generated_owner": "SyncComp.java_method_isSyncHidden_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("is_sync_hidden", null) == canonical.get("is_sync_hidden", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceSyncState.generated_is_sync_hidden_bridge_state(player)
 
 func source_sync_handle_sync_hidden_state() -> Dictionary:
 	return SourceSyncState.handle_sync_hidden_state()
 
 func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_handleSyncHidden_9", [], null)
-	var canonical = source_sync_handle_sync_hidden_state()
-	return {
-		"source_owner": "PortGame.source_sync_handle_sync_hidden_state",
-		"generated_owner": "SyncComp.java_method_handleSyncHidden_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceSyncState.generated_handle_sync_hidden_bridge_state()
 
 func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
 	return SourceSyncState.update_interpolate_state(net_client, is_local, is_remote)
 
 func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_update_10", [net_client, is_local, is_remote], null)
-	var canonical = source_sync_update_interpolate_state(net_client, is_local, is_remote)
-	return {
-		"source_owner": "PortGame.source_sync_update_interpolate_state",
-		"generated_owner": "SyncComp.java_method_update_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("interpolate_called", null) == canonical.get("interpolate_called", null) and result.get("condition", null) == canonical.get("condition", null),
-	}
+	return SourceSyncState.generated_update_interpolate_bridge_state(net_client, is_local, is_remote)
 
 func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id: int) -> Dictionary:
 	return SourceSyncState.remove_client_removed_entity_state(net_client, entity_id)
 
 func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_remove_11", [net_client, entity_id], null)
-	var canonical = source_sync_remove_client_removed_entity_state(net_client, entity_id)
-	return {
-		"source_owner": "PortGame.source_sync_remove_client_removed_entity_state",
-		"generated_owner": "SyncComp.java_method_remove_11",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("add_removed_entity_call", null) == canonical.get("add_removed_entity_call", null) and result.get("condition", null) == canonical.get("condition", null),
-	}
+	return SourceSyncState.generated_remove_client_removed_entity_bridge_state(net_client, entity_id)
 
 func source_block_unit_ammof_state(ammo: float) -> Dictionary:
 	return SourceBlockUnitState.ammof_state(ammo)
 
 func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_ammof_4", [ammo], null)
-	var canonical = source_block_unit_ammof_state(ammo)
-	return {
-		"source_owner": "PortGame.source_block_unit_ammof_state",
-		"generated_owner": "BlockUnitComp.java_method_ammof_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("ammo", null) == canonical.get("ammo", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_ammof_bridge_state(ammo)
 
 func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:
 	return SourceBlockUnitState.icon_state(tile_block_ui_icon)
 
 func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_icon_3", [tile_block_ui_icon], null)
-	var canonical = source_block_unit_icon_state(tile_block_ui_icon)
-	return {
-		"source_owner": "PortGame.source_block_unit_icon_state",
-		"generated_owner": "BlockUnitComp.java_method_icon_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon)
 
 func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
 	return SourceBlockUnitState.tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
 
 func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size, tilesize], null)
-	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
-	return {
-		"source_owner": "PortGame.source_block_unit_tile_state",
-		"generated_owner": "BlockUnitComp.java_method_tile_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_tile_bridge_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
 
 func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size], null)
-	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, SourceWorldDefaults.TILESIZE)
-	return {
-		"source_owner": "PortGame.source_block_unit_tile_state",
-		"generated_owner": "BlockUnitComp.java_method_tile_0",
-		"defaulted_arg": "tilesize",
-		"tilesize": SourceWorldDefaults.TILESIZE,
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile, tile_block_health, tile_health, tile_block_size)
 
 func source_block_unit_add_state(tile_null: bool) -> Dictionary:
 	return SourceBlockUnitState.add_state(tile_null)
 
 func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_add_1", [tile_null], null)
-	var canonical = source_block_unit_add_state(tile_null)
-	return {
-		"source_owner": "PortGame.source_block_unit_add_state",
-		"generated_owner": "BlockUnitComp.java_method_add_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("runtime_exception_thrown", null) == canonical.get("runtime_exception_thrown", null) and result.get("runtime_exception_message", null) == canonical.get("runtime_exception_message", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_add_bridge_state(tile_null)
 
 func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
 	return SourceBlockUnitState.update_state(tile_exists, team, tile_team)
 
 func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_update_2", [tile_exists, team, tile_team], null)
-	var canonical = source_block_unit_update_state(tile_exists, team, tile_team)
-	return {
-		"source_owner": "PortGame.source_block_unit_update_state",
-		"generated_owner": "BlockUnitComp.java_method_update_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("tile_guard", null) == canonical.get("tile_guard", null) and result.get("team_after", null) == canonical.get("team_after", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_update_bridge_state(tile_exists, team, tile_team)
 
 func source_block_unit_killed_state() -> Dictionary:
 	return SourceBlockUnitState.killed_state()
 
 func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_killed_5", [], null)
-	var canonical = source_block_unit_killed_state()
-	return {
-		"source_owner": "PortGame.source_block_unit_killed_state",
-		"generated_owner": "BlockUnitComp.java_method_killed_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_killed_bridge_state()
 
 func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:
 	return SourceBlockUnitState.damage_state(v, b)
 
 func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_damage_6", [v, b], null)
-	var canonical = source_block_unit_damage_state(v, b)
-	return {
-		"source_owner": "PortGame.source_block_unit_damage_state",
-		"generated_owner": "BlockUnitComp.java_method_damage_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("tile_damage_call", null) == canonical.get("tile_damage_call", null) and result.get("tile_damage_called", null) == canonical.get("tile_damage_called", null) and result.get("v", null) == canonical.get("v", null) and result.get("b", null) == canonical.get("b", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_damage_bridge_state(v, b)
 
 func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
 	return SourceBlockUnitState.team_state(tile_exists, this_team, team, tile_team)
 
 func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_team_10", [tile_exists, this_team, team, tile_team], null)
-	var canonical = source_block_unit_team_state(tile_exists, this_team, team, tile_team)
-	return {
-		"source_owner": "PortGame.source_block_unit_team_state",
-		"generated_owner": "BlockUnitComp.java_method_team_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_team_bridge_state(tile_exists, this_team, team, tile_team)
 
 func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	return SourceBlockUnitState.dead_state(tile_null, tile_dead)
 
 func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_dead_7", [tile_null, tile_dead], null)
-	var canonical = source_block_unit_dead_state(tile_null, tile_dead)
-	return {
-		"source_owner": "PortGame.source_block_unit_dead_state",
-		"generated_owner": "BlockUnitComp.java_method_dead_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("dead", null) == canonical.get("dead", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_dead_bridge_state(tile_null, tile_dead)
 
 func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	return SourceBlockUnitState.is_valid_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isValid_8", [tile_exists, tile_is_valid], null)
-	var canonical = source_block_unit_is_valid_state(tile_exists, tile_is_valid)
-	return {
-		"source_owner": "PortGame.source_block_unit_is_valid_state",
-		"generated_owner": "BlockUnitComp.java_method_isValid_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("is_valid", null) == canonical.get("is_valid", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_is_valid_bridge_state(tile_exists, tile_is_valid)
 
 func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
 	return SourceBlockUnitState.is_added_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isAdded_9", [tile_exists, tile_is_valid], null)
-	var canonical = source_block_unit_is_added_state(tile_exists, tile_is_valid)
-	return {
-		"source_owner": "PortGame.source_block_unit_is_added_state",
-		"generated_owner": "BlockUnitComp.java_method_isAdded_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("is_added", null) == canonical.get("is_added", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBlockUnitState.generated_block_unit_comp_is_added_bridge_state(tile_exists, tile_is_valid)
 
 func source_builder_can_build_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
 	return SourceBuilderRuntimeState.can_build_state(type_build_speed, build_speed_multiplier)
