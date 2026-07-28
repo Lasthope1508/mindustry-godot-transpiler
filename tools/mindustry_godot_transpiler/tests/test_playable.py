@@ -33252,23 +33252,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_get_content_type_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockMetadataState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_get_content_type_bridge_state", 1)[1].split("func source_block_logic_visible_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_get_content_type_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_get_content_type_bridge_state() -> Dictionary:",
+            "static func generated_content_type_bridge_state() -> Dictionary:",
+            "return SourceBlockMetadataState.generated_content_type_bridge_state()",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_getContentType_120",
             "",
+            "var canonical = content_type_state()",
+            "PortGame.source_block_get_content_type_state",
+            "Block.java_method_getContentType_120",
         )
-        self.assertIn("var canonical = source_block_get_content_type_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_block_get_content_type_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_getContentType_120"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_logic_visible_state(self):
         source = self._port_game_block_metadata_source()
@@ -33283,23 +33284,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_logic_visible_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockMetadataState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_logic_visible_bridge_state", 1)[1].split("func source_block_post_init_database_tag_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:",
+            "static func generated_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:",
+            "return SourceBlockMetadataState.generated_logic_visible_bridge_state(build_visibility_value)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_logicVisible_121",
             "build_visibility_value",
+            "var canonical = logic_visible_state(build_visibility_value)",
+            "PortGame.source_block_logic_visible_state",
+            "Block.java_method_logicVisible_121",
         )
-        self.assertIn("var canonical = source_block_logic_visible_state(build_visibility_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_logic_visible_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_logicVisible_121"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_post_init_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

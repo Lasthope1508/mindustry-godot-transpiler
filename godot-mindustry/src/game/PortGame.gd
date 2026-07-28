@@ -4896,31 +4896,13 @@ func source_block_get_content_type_state() -> Dictionary:
 	return SourceBlockMetadataState.content_type_state()
 
 func generated_block_get_content_type_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getContentType_120", [], null)
-	var canonical = source_block_get_content_type_state()
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_get_content_type_state",
-		"generated_owner": "Block.java_method_getContentType_120",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockMetadataState.generated_content_type_bridge_state()
 
 func source_block_logic_visible_state(build_visibility_value: String) -> Dictionary:
 	return SourceBlockMetadataState.logic_visible_state(build_visibility_value)
 
 func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_logicVisible_121", [build_visibility_value], null)
-	var canonical = source_block_logic_visible_state(build_visibility_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_logic_visible_state",
-		"generated_owner": "Block.java_method_logicVisible_121",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockMetadataState.generated_logic_visible_bridge_state(build_visibility_value)
 
 func source_block_post_init_database_tag_state(database_tag_before: Variant, category_name: String) -> Dictionary:
 	return SourceBlockPostInitState.database_tag_state(database_tag_before, category_name)
