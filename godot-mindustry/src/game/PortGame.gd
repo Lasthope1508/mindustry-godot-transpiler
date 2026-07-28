@@ -6597,65 +6597,19 @@ func source_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, p
 	return SourceLiquidTurretInitState.init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
 
 func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin], null)
-	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_init_state",
-		"generated_owner": "LiquidTurret.init",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
-			and result.get("overlap_updates", []) == canonical.get("overlap_updates", [])
-			and result.get("consume_call", {}) == canonical.get("consume_call", {})
-			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
-	}
+	return SourceLiquidTurretInitState.generated_init_bridge_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
 
 func generated_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)
-	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_init_state",
-		"generated_owner": "LiquidTurret.init",
-		"defaulted_args": ["range", "place_overlap_margin"],
-		"range_value": SourceTurretDefaults.RANGE_DEFAULT,
-		"place_overlap_margin": SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT,
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
-			and result.get("overlap_updates", []) == canonical.get("overlap_updates", []),
-	}
+	return SourceLiquidTurretInitState.generated_init_range_margin_default_bridge_state(ammo_entries, target_ground, place_overlap_range)
 
 func source_continuous_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
 	return SourceContinuousLiquidTurretInitState.init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
 
 func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier], null)
-	var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
-	return {
-		"source_owner": "PortGame.source_continuous_liquid_turret_init_state",
-		"generated_owner": "ContinuousLiquidTurret.init",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
-			and result.get("multiplier_result", null) == canonical.get("multiplier_result", null)
-			and result.get("consume_call", {}) == canonical.get("consume_call", {})
-			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
-	}
+	return SourceContinuousLiquidTurretInitState.generated_init_bridge_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
 
 func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)
-	var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, 0.0, null, null)
-	return {
-		"source_owner": "PortGame.source_continuous_liquid_turret_init_state",
-		"generated_owner": "ContinuousLiquidTurret.init",
-		"defaulted_args": ["range", "place_overlap_margin"],
-		"range_value": SourceTurretDefaults.RANGE_DEFAULT,
-		"place_overlap_margin": SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT,
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
-			and result.get("overlap_updates", []) == canonical.get("overlap_updates", []),
-	}
+	return SourceContinuousLiquidTurretInitState.generated_init_range_margin_default_bridge_state(ammo_entries, target_ground, place_overlap_range)
 
 func source_continuous_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return SourceContinuousLiquidTurretBuildState.should_active_sound_state(was_shooting, enabled)
