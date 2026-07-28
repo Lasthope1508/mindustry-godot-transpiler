@@ -3510,43 +3510,19 @@ func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_b
 	return SourceUnitTetherState.after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_afterRead_0", [spawner_unit_id, groups_unit_get_by_id_result], null)
-	var canonical = source_unit_tether_after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
-	return {
-		"source_owner": "PortGame.source_unit_tether_after_read_state",
-		"generated_owner": "UnitTetherComp.java_method_afterRead_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
-	}
+	return SourceUnitTetherState.generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func source_unit_tether_after_sync_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	return SourceUnitTetherState.after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_afterSync_1", [spawner_unit_id, groups_unit_get_by_id_result], null)
-	var canonical = source_unit_tether_after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
-	return {
-		"source_owner": "PortGame.source_unit_tether_after_sync_state",
-		"generated_owner": "UnitTetherComp.java_method_afterSync_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
-	}
+	return SourceUnitTetherState.generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
 	return SourceUnitTetherState.update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
 
 func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_update_2", [spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id], null)
-	var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
-	return {
-		"source_owner": "PortGame.source_unit_tether_update_state",
-		"generated_owner": "UnitTetherComp.java_method_update_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
-	}
+	return SourceUnitTetherState.generated_unit_tether_comp_update_bridge_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
 
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return SourceBuildingLiquidState.handle_liquid_amount(current_amount, amount)

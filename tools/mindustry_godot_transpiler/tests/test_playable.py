@@ -14375,21 +14375,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_tether_comp_after_read_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitTetherState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            helper_source,
+            "func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:",
+            "static func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:",
+            "return SourceUnitTetherState.generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id, groups_unit_get_by_id_result)",
             "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
             "java_method_afterRead_0",
             "spawner_unit_id, groups_unit_get_by_id_result",
+            "var canonical = after_read_state(spawner_unit_id, groups_unit_get_by_id_result)",
+            "PortGame.source_unit_tether_after_read_state",
+            "UnitTetherComp.java_method_afterRead_0",
         )
-        self.assertIn("var canonical = source_unit_tether_after_read_state(spawner_unit_id, groups_unit_get_by_id_result)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_tether_after_read_state"', source)
-        self.assertIn('"generated_owner": "UnitTetherComp.java_method_afterRead_0"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn('"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null)', helper_source)
 
     def test_generated_unit_tether_comp_bridges_after_sync_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
@@ -14439,21 +14442,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_tether_comp_after_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitTetherState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            helper_source,
+            "func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:",
+            "static func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:",
+            "return SourceUnitTetherState.generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id, groups_unit_get_by_id_result)",
             "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
             "java_method_afterSync_1",
             "spawner_unit_id, groups_unit_get_by_id_result",
+            "var canonical = after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)",
+            "PortGame.source_unit_tether_after_sync_state",
+            "UnitTetherComp.java_method_afterSync_1",
         )
-        self.assertIn("var canonical = source_unit_tether_after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_tether_after_sync_state"', source)
-        self.assertIn('"generated_owner": "UnitTetherComp.java_method_afterSync_1"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn('"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null)', helper_source)
 
     def test_generated_unit_tether_comp_bridges_update_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
@@ -14506,21 +14512,38 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_tether_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitTetherState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            helper_source,
+            "func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:",
+            "static func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:",
+            "return SourceUnitTetherState.generated_unit_tether_comp_update_bridge_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)",
             "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
             "java_method_update_2",
             "spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id",
+            "var canonical = update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)",
+            "PortGame.source_unit_tether_update_state",
+            "UnitTetherComp.java_method_update_2",
         )
-        self.assertIn("var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_tether_update_state"', source)
-        self.assertIn('"generated_owner": "UnitTetherComp.java_method_update_2"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn('"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null)', helper_source)
+
+    def test_source_unit_tether_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitTetherStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitTetherStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("UNIT_TETHER_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceUnitTetherState.generated_unit_tether_comp_after_read_bridge_state", proof_source)
+        self.assertIn("SourceUnitTetherState.generated_unit_tether_comp_after_sync_bridge_state", proof_source)
+        self.assertIn("SourceUnitTetherState.generated_unit_tether_comp_update_bridge_state", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
