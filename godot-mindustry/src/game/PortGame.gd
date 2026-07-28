@@ -3041,63 +3041,28 @@ func source_building_write_base_timescale_state(current_time_scale: float, curre
 	return SourceBuildingTimeState.write_base_timescale_state(current_time_scale, current_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_writeBase_5", [current_time_scale, current_time_scale_duration], null)
-	var canonical = source_building_write_base_timescale_state(current_time_scale, current_time_scale_duration)
-	return {
-		"source_owner": "PortGame.source_building_write_base_timescale_state",
-		"generated_owner": "BuildingComp.java_method_writeBase_5",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_write_base_timescale_bridge_state(current_time_scale, current_time_scale_duration)
 
 func source_building_read_base_timescale_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
 	return SourceBuildingTimeState.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_readBase_6", [current_module_bits, read_time_scale, read_time_scale_duration], null)
-	var canonical = source_building_read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration)
-	return {
-		"source_owner": "PortGame.source_building_read_base_timescale_state",
-		"generated_owner": "BuildingComp.java_method_readBase_6",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_read_base_timescale_bridge_state(current_module_bits, read_time_scale, read_time_scale_duration)
 
 func source_building_module_bitmask_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
 	return SourceBuildingTimeState.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_moduleBitmask_7", [has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler], null)
-	var canonical = source_building_module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)
-	return {
-		"source_owner": "PortGame.source_building_module_bitmask_state",
-		"generated_owner": "BuildingComp.java_method_moduleBitmask_7",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_module_bitmask_bridge_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)
 
 func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [current_time_scale, current_time_scale_duration, time_delta], null)
-	var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)
-	return {
-		"source_owner": "PortGame.source_building_update_timescale_decay_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)
 
 func source_building_update_timescale_decay_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
 	return SourceBuildingTimeState.update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value], null)
-	var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
-	return {
-		"source_owner": "PortGame.source_building_update_ambient_sound_gate_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
 
 func source_building_update_ambient_sound_gate_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
 	return SourceBuildingTimeState.update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)

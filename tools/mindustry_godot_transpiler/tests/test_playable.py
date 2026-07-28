@@ -13819,12 +13819,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "current_time_scale, current_time_scale_duration, time_delta")
-        self.assertIn("var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTimeState.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_write_base_timescale_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13855,12 +13851,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"gate": "if(timeScale != 1f){"', helper_source)
         self.assertIn("func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", source)
         body = self._method_body(source, "func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_writeBase_5", "current_time_scale, current_time_scale_duration")
-        self.assertIn("var canonical = source_building_write_base_timescale_state(current_time_scale, current_time_scale_duration)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_write_base_timescale_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_writeBase_5"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTimeState.generated_write_base_timescale_bridge_state(current_time_scale, current_time_scale_duration)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_module_bitmask_timescale_bit_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13892,12 +13884,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)", helper_source)
         self.assertIn("func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", source)
         body = self._method_body(source, "func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_moduleBitmask_7", "has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler")
-        self.assertIn("var canonical = source_building_module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_module_bitmask_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_moduleBitmask_7"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTimeState.generated_module_bitmask_bridge_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_read_base_timescale_restore_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13929,12 +13917,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"time_scale": read_time_scale, "time_scale_duration": read_time_scale_duration, "read_called": true}', helper_source)
         self.assertIn("func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", source)
         body = self._method_body(source, "func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_readBase_6", "current_module_bits, read_time_scale, read_time_scale_duration")
-        self.assertIn("var canonical = source_building_read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_read_base_timescale_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_readBase_6"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTimeState.generated_read_base_timescale_bridge_state(current_module_bits, read_time_scale, read_time_scale_duration)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_update_ambient_sound_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13960,12 +13944,89 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value")
-        self.assertIn("var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTimeState.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+
+    def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
+
+        self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("return SourceBuildingTimeState.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+
+    def test_port_game_exposes_generated_building_time_bridges_from_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:",
+            "static func generated_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_write_base_timescale_bridge_state(current_time_scale, current_time_scale_duration)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_writeBase_5",
+            "current_time_scale, current_time_scale_duration",
+            "var canonical = write_base_timescale_state(current_time_scale, current_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)",
+            "PortGame.source_building_write_base_timescale_state",
+            "BuildingComp.java_method_writeBase_5",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:",
+            "static func generated_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_read_base_timescale_bridge_state(current_module_bits, read_time_scale, read_time_scale_duration)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_readBase_6",
+            "current_module_bits, read_time_scale, read_time_scale_duration",
+            "var canonical = read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)",
+            "PortGame.source_building_read_base_timescale_state",
+            "BuildingComp.java_method_readBase_6",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:",
+            "static func generated_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_module_bitmask_bridge_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_moduleBitmask_7",
+            "has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler",
+            "var canonical = module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, SourceBlockDefaults.TIME_SCALE_DEFAULT)",
+            "PortGame.source_building_module_bitmask_state",
+            "BuildingComp.java_method_moduleBitmask_7",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:",
+            "static func generated_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_update_timescale_decay_bridge_state(current_time_scale, current_time_scale_duration, time_delta)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_update_217",
+            "current_time_scale, current_time_scale_duration, time_delta",
+            "var canonical = update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, SourceBlockDefaults.TIME_SCALE_DEFAULT)",
+            "PortGame.source_building_update_timescale_decay_state",
+            "BuildingComp.java_method_update_217",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:",
+            "static func generated_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_update_ambient_sound_gate_bridge_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_update_217",
+            "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value",
+            "var canonical = update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)",
+            "PortGame.source_building_update_ambient_sound_gate_state",
+            "BuildingComp.java_method_update_217",
+        )
 
     def test_generated_building_comp_bridges_update_consumption_call_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -17837,7 +17898,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue(proof_script.exists())
         self.assertTrue(proof_scene.exists())
         self.assertIn("BUILDING_TIME_STATE_MODULE_PROOF", proof_source)
-        self.assertIn("SourceBuildingTimeState.update_timescale_decay_state", proof_source)
+        self.assertIn("SourceBuildingTimeState.generated_write_base_timescale_bridge_state", proof_source)
+        self.assertIn("SourceBuildingTimeState.generated_read_base_timescale_bridge_state", proof_source)
+        self.assertIn("SourceBuildingTimeState.generated_module_bitmask_bridge_state", proof_source)
+        self.assertIn("SourceBuildingTimeState.generated_update_timescale_decay_bridge_state", proof_source)
+        self.assertIn("SourceBuildingTimeState.generated_update_ambient_sound_gate_bridge_state", proof_source)
+        self.assertIn('"write_base_bridge_matches"', proof_source)
+        self.assertIn('"read_base_bridge_matches"', proof_source)
+        self.assertIn('"module_bitmask_bridge_matches"', proof_source)
+        self.assertIn('"update_timescale_bridge_matches"', proof_source)
+        self.assertIn('"update_ambient_bridge_matches"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
