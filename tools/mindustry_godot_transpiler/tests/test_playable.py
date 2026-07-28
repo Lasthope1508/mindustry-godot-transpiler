@@ -26490,20 +26490,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_can_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:",
+            "static func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_can_build_bridge_state(type_build_speed, build_speed_multiplier)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_canBuild_0",
             "type_build_speed, build_speed_multiplier",
+            "var canonical = can_build_state(type_build_speed, build_speed_multiplier)",
+            "PortGame.source_builder_can_build_state",
+            "BuilderComp.java_method_canBuild_0",
         )
-        self.assertIn("var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_can_build_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_canBuild_0"', source)
-        self.assertIn('"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+        self.assertIn('"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_update_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26518,20 +26522,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_update_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_update_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_update_bridge_state() -> Dictionary:",
+            "static func generated_builder_comp_update_bridge_state() -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_update_bridge_state()",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_update_1",
             "",
+            "var canonical = update_state()",
+            "PortGame.source_builder_update_state",
+            "BuilderComp.java_method_update_1",
         )
-        self.assertIn("var canonical = source_builder_update_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_update_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_update_1"', source)
-        self.assertIn('"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null)', source)
+        self.assertIn('"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_is_building_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26546,20 +26554,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_is_building_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:",
+            "static func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_is_building_bridge_state(plans_size)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_isBuilding_9",
             "plans_size",
+            "var canonical = is_building_state(plans_size)",
+            "PortGame.source_builder_is_building_state",
+            "BuilderComp.java_method_isBuilding_9",
         )
-        self.assertIn("var canonical = source_builder_is_building_state(plans_size)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_is_building_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_isBuilding_9"', source)
-        self.assertIn('"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+        self.assertIn('"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_clear_building_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26574,20 +26586,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_clear_building_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_clear_building_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_clear_building_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_clear_building_bridge_state() -> Dictionary:",
+            "static func generated_builder_comp_clear_building_bridge_state() -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_clear_building_bridge_state()",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_clearBuilding_10",
             "",
+            "var canonical = clear_building_state()",
+            "PortGame.source_builder_clear_building_state",
+            "BuilderComp.java_method_clearBuilding_10",
         )
-        self.assertIn("var canonical = source_builder_clear_building_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_clear_building_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_clearBuilding_10"', source)
-        self.assertIn('"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null)', source)
+        self.assertIn('"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_add_build_tail_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26602,20 +26618,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:",
+            "static func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_add_build_tail_bridge_state(place)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_addBuild_11",
             "place",
+            "var canonical = add_build_tail_state(place)",
+            "PortGame.source_builder_add_build_tail_state",
+            "BuilderComp.java_method_addBuild_11",
         )
-        self.assertIn("var canonical = source_builder_add_build_tail_state(place)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_add_build_tail_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_11"', source)
-        self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', source)
+        self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', module_source)
 
     def test_port_game_exposes_source_builder_add_build_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26631,20 +26651,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_add_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:",
+            "static func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_add_build_bridge_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_addBuild_12",
             "plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress",
+            "var canonical = add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)",
+            "PortGame.source_builder_add_build_state",
+            "BuilderComp.java_method_addBuild_12",
         )
-        self.assertIn("var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_add_build_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_12"', source)
-        self.assertIn('"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', source)
+        self.assertIn('"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', module_source)
 
     def test_port_game_exposes_source_builder_build_plan_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26659,20 +26683,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_build_plan_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:",
+            "static func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_build_plan_bridge_state(plans_size, plans_first)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_buildPlan_14",
             "plans_size, plans_first",
+            "var canonical = build_plan_state(plans_size, plans_first)",
+            "PortGame.source_builder_build_plan_state",
+            "BuilderComp.java_method_buildPlan_14",
         )
-        self.assertIn("var canonical = source_builder_build_plan_state(plans_size, plans_first)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_build_plan_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_buildPlan_14"', source)
-        self.assertIn('"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+        self.assertIn('"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', module_source)
 
     def test_port_game_exposes_source_builder_after_read_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26687,20 +26715,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_after_read_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:",
+            "static func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_after_read_bridge_state(plans_null)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_afterRead_2",
             "plans_null",
+            "var canonical = after_read_state(plans_null)",
+            "PortGame.source_builder_after_read_state",
+            "BuilderComp.java_method_afterRead_2",
         )
-        self.assertIn("var canonical = source_builder_after_read_state(plans_null)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_after_read_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_afterRead_2"', source)
-        self.assertIn('"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null)', source)
+        self.assertIn('"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null)', module_source)
 
     def test_port_game_exposes_source_builder_actively_building_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26715,20 +26747,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_actively_building_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:",
+            "static func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_actively_building_bridge_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_activelyBuilding_13",
             "plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building",
+            "var canonical = actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)",
+            "PortGame.source_builder_actively_building_state",
+            "BuilderComp.java_method_activelyBuilding_13",
         )
-        self.assertIn("var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_actively_building_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_activelyBuilding_13"', source)
-        self.assertIn('"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null)', source)
+        self.assertIn('"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null)', module_source)
 
     def test_port_game_exposes_source_builder_remove_build_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26743,20 +26779,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_remove_build_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:",
+            "static func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_remove_build_bridge_state(plans, x, y, breaking)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_removeBuild_8",
             "plans, x, y, breaking",
+            "var canonical = remove_build_state(plans, x, y, breaking)",
+            "PortGame.source_builder_remove_build_state",
+            "BuilderComp.java_method_removeBuild_8",
         )
-        self.assertIn("var canonical = source_builder_remove_build_state(plans, x, y, breaking)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_remove_build_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_removeBuild_8"', source)
-        self.assertIn('"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null)', source)
+        self.assertIn('"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null)', module_source)
 
     def test_port_game_exposes_source_builder_should_skip_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26771,20 +26811,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_should_skip_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:",
+            "static func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_shouldSkip_7",
             "state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement",
+            "var canonical = should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)",
+            "PortGame.source_builder_should_skip_state",
+            "BuilderComp.java_method_shouldSkip_7",
         )
-        self.assertIn("var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_should_skip_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_shouldSkip_7"', source)
-        self.assertIn('"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null)', source)
+        self.assertIn('"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null)', module_source)
 
     def test_source_builder_runtime_state_owns_queue_and_construct_step_logic(self):
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
@@ -26805,26 +26849,44 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_generated_builder_comp_update_build_logic_bridge_state_matches_source_builder_step(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderRuntimeState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
         port_source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func source_builder_build_step_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", port_source)
-        self.assertIn("func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", port_source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             port_source,
-            port_source.split("func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:",
+            "static func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:",
+            "return SourceBuilderRuntimeState.generated_builder_comp_update_build_logic_bridge_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_updateBuildLogic_4",
             "entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current",
+            "var canonical = build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)",
+            "PortGame.source_builder_build_step_state",
+            "BuilderComp.java_method_updateBuildLogic_4",
         )
-        self.assertIn("var canonical = source_builder_build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)", port_source)
-        self.assertIn('"source_owner": "PortGame.source_builder_build_step_state"', port_source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_updateBuildLogic_4"', port_source)
         self.assertIn("func java_method_updateBuildLogic_4(_args: Array = []) -> Variant:", generated_source)
         self.assertIn("var canonical = SourceBuilderRuntimeState.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)", generated_source)
         self.assertIn("return {\"source_owner\": \"PortGame.source_builder_build_step_state\"", generated_source)
-        self.assertIn('"matches": result.get("deconstruct_called", null) == canonical.get("deconstruct_called", null) and result.get("construct_called", null) == canonical.get("construct_called", null)', port_source)
+        self.assertIn('"matches": result.get("deconstruct_called", null) == canonical.get("deconstruct_called", null) and result.get("construct_called", null) == canonical.get("construct_called", null)', module_source)
+
+    def test_source_builder_runtime_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuilderRuntimeStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuilderRuntimeStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDER_RUNTIME_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuilderRuntimeState.generated_builder_comp_can_build_bridge_state", proof_source)
+        self.assertIn("SourceBuilderRuntimeState.generated_builder_comp_add_build_bridge_state", proof_source)
+        self.assertIn("SourceBuilderRuntimeState.generated_builder_comp_update_build_logic_bridge_state", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_delegates_builder_runtime_state_to_source_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26868,20 +26930,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_draw_plan_top_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:",
+            "static func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:",
+            "return SourceBuilderDrawState.generated_builder_comp_draw_plan_top_bridge_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_drawPlanTop_6",
             "plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28",
+            "var canonical = draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)",
+            "PortGame.source_builder_draw_plan_top_state",
+            "BuilderComp.java_method_drawPlanTop_6",
         )
-        self.assertIn("var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_top_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlanTop_6"', source)
-        self.assertIn('"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null)', source)
+        self.assertIn('"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null)', module_source)
 
     def test_port_game_exposes_source_builder_draw_plan_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26910,20 +26976,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_draw_plan_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:",
+            "static func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:",
+            "return SourceBuilderDrawState.generated_builder_comp_draw_plan_bridge_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_drawPlan_5",
             "plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches",
+            "var canonical = draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)",
+            "PortGame.source_builder_draw_plan_state",
+            "BuilderComp.java_method_drawPlan_5",
         )
-        self.assertIn("var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlan_5"', source)
-        self.assertIn('"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null)', source)
+        self.assertIn('"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null)', module_source)
 
     def test_port_game_exposes_source_builder_draw_building_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26953,20 +27023,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_draw_building_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:",
+            "static func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:",
+            "return SourceBuilderDrawState.generated_builder_comp_draw_building_bridge_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_drawBuilding_15",
             "active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len",
+            "var canonical = draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)",
+            "PortGame.source_builder_draw_building_state",
+            "BuilderComp.java_method_drawBuilding_15",
         )
-        self.assertIn("var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_draw_building_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuilding_15"', source)
-        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null)', source)
+        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null)', module_source)
 
     def test_port_game_exposes_source_builder_draw_building_beam_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26995,30 +27069,55 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_builder_comp_draw_building_beam_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuilderDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:",
+            "static func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:",
+            "return SourceBuilderDrawState.generated_builder_comp_draw_building_beam_bridge_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_drawBuildingBeam_16",
             "px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value",
+            "var canonical = draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)",
+            "PortGame.source_builder_draw_building_beam_state",
+            "BuilderComp.java_method_drawBuildingBeam_16",
         )
-        self.assertIn("var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_builder_draw_building_beam_state"', source)
-        self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16"', source)
-        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null)', source)
+        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null)', module_source)
         self.assertIn("func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            module_source,
+            "func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:",
+            "static func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:",
+            "return SourceBuilderDrawState.generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build)",
             "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
             "java_method_drawBuildingBeam_16",
             "px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build",
+            "var canonical = draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SourceWorldDefaults.TILESIZE, 0.0, 0.0)",
+            "PortGame.source_builder_draw_building_beam_state",
+            "BuilderComp.java_method_drawBuildingBeam_16",
         )
-        self.assertIn("var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SourceWorldDefaults.TILESIZE, 0.0, 0.0)", source)
-        self.assertIn('"defaulted_arg": "source_tilesize"', source)
+        self.assertIn('"defaulted_arg": "source_tilesize"', module_source)
+
+    def test_source_builder_draw_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuilderDrawStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuilderDrawStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDER_DRAW_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuilderDrawState.generated_builder_comp_draw_plan_bridge_state", proof_source)
+        self.assertIn("SourceBuilderDrawState.generated_builder_comp_draw_plan_top_bridge_state", proof_source)
+        self.assertIn("SourceBuilderDrawState.generated_builder_comp_draw_building_bridge_state", proof_source)
+        self.assertIn("SourceBuilderDrawState.generated_builder_comp_draw_building_beam_bridge_state", proof_source)
+        self.assertIn("SourceBuilderDrawState.generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_generated_builder_comp_draw_building_beam_uses_source_tilesize_default(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuilderComp.gd"

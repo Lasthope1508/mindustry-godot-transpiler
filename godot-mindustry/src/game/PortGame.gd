@@ -3273,210 +3273,88 @@ func source_builder_can_build_state(type_build_speed: float, build_speed_multipl
 	return SourceBuilderRuntimeState.can_build_state(type_build_speed, build_speed_multiplier)
 
 func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_canBuild_0", [type_build_speed, build_speed_multiplier], null)
-	var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)
-	return {
-		"source_owner": "PortGame.source_builder_can_build_state",
-		"generated_owner": "BuilderComp.java_method_canBuild_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_can_build_bridge_state(type_build_speed, build_speed_multiplier)
 
 func source_builder_update_state() -> Dictionary:
 	return SourceBuilderRuntimeState.update_state()
 
 func generated_builder_comp_update_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_update_1", [], null)
-	var canonical = source_builder_update_state()
-	return {
-		"source_owner": "PortGame.source_builder_update_state",
-		"generated_owner": "BuilderComp.java_method_update_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_update_bridge_state()
 
 func source_builder_after_read_state(plans_null: bool) -> Dictionary:
 	return SourceBuilderRuntimeState.after_read_state(plans_null)
 
 func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_afterRead_2", [plans_null], null)
-	var canonical = source_builder_after_read_state(plans_null)
-	return {
-		"source_owner": "PortGame.source_builder_after_read_state",
-		"generated_owner": "BuilderComp.java_method_afterRead_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("queue_reset", null) == canonical.get("queue_reset", null) and result.get("plans_capacity", null) == canonical.get("plans_capacity", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_after_read_bridge_state(plans_null)
 
 func source_builder_is_building_state(plans_size: int) -> Dictionary:
 	return SourceBuilderRuntimeState.is_building_state(plans_size)
 
 func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_isBuilding_9", [plans_size], null)
-	var canonical = source_builder_is_building_state(plans_size)
-	return {
-		"source_owner": "PortGame.source_builder_is_building_state",
-		"generated_owner": "BuilderComp.java_method_isBuilding_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_is_building_bridge_state(plans_size)
 
 func source_builder_clear_building_state() -> Dictionary:
 	return SourceBuilderRuntimeState.clear_building_state()
 
 func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_clearBuilding_10", [], null)
-	var canonical = source_builder_clear_building_state()
-	return {
-		"source_owner": "PortGame.source_builder_clear_building_state",
-		"generated_owner": "BuilderComp.java_method_clearBuilding_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_clear_building_bridge_state()
 
 func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
 	return SourceBuilderDrawState.draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 
 func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawPlan_5", [plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches], null)
-	var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
-	return {
-		"source_owner": "PortGame.source_builder_draw_plan_state",
-		"generated_owner": "BuilderComp.java_method_drawPlan_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null),
-	}
+	return SourceBuilderDrawState.generated_builder_comp_draw_plan_bridge_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 
 func source_builder_draw_building_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
 	return SourceBuilderDrawState.draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
 
 func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuilding_15", [active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len], null)
-	var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
-	return {
-		"source_owner": "PortGame.source_builder_draw_building_state",
-		"generated_owner": "BuilderComp.java_method_drawBuilding_15",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null),
-	}
+	return SourceBuilderDrawState.generated_builder_comp_draw_building_bridge_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
 
 func source_builder_draw_building_beam_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
 	return SourceBuilderDrawState.draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
 
 func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuildingBeam_16", [px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value], null)
-	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
-	return {
-		"source_owner": "PortGame.source_builder_draw_building_beam_state",
-		"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null),
-	}
+	return SourceBuilderDrawState.generated_builder_comp_draw_building_beam_bridge_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
 
 func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuildingBeam_16", [px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build], null)
-	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SourceWorldDefaults.TILESIZE, 0.0, 0.0)
-	return {
-		"source_owner": "PortGame.source_builder_draw_building_beam_state",
-		"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16",
-		"defaulted_arg": "source_tilesize",
-		"source_tilesize": SourceWorldDefaults.TILESIZE,
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null),
-	}
+	return SourceBuilderDrawState.generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build)
 
 func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	return SourceBuilderDrawState.draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
 
 func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawPlanTop_6", [plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28], null)
-	var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
-	return {
-		"source_owner": "PortGame.source_builder_draw_plan_top_state",
-		"generated_owner": "BuilderComp.java_method_drawPlanTop_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null),
-	}
+	return SourceBuilderDrawState.generated_builder_comp_draw_plan_top_bridge_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
 
 func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
 	return SourceBuilderRuntimeState.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
 
 func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_shouldSkip_7", [state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement], null)
-	var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
-	return {
-		"source_owner": "PortGame.source_builder_should_skip_state",
-		"generated_owner": "BuilderComp.java_method_shouldSkip_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
 
 func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
 	return SourceBuilderRuntimeState.remove_build_state(plans, x, y, breaking)
 
 func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_removeBuild_8", [plans, x, y, breaking], null)
-	var canonical = source_builder_remove_build_state(plans, x, y, breaking)
-	return {
-		"source_owner": "PortGame.source_builder_remove_build_state",
-		"generated_owner": "BuilderComp.java_method_removeBuild_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_remove_build_bridge_state(plans, x, y, breaking)
 
 func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
 	return SourceBuilderRuntimeState.add_build_tail_state(place)
 
 func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_addBuild_11", [place], null)
-	var canonical = source_builder_add_build_tail_state(place)
-	return {
-		"source_owner": "PortGame.source_builder_add_build_tail_state",
-		"generated_owner": "BuilderComp.java_method_addBuild_11",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_add_build_tail_bridge_state(place)
 
 func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
 	return SourceBuilderRuntimeState.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
 
 func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_addBuild_12", [plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress], null)
-	var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
-	return {
-		"source_owner": "PortGame.source_builder_add_build_state",
-		"generated_owner": "BuilderComp.java_method_addBuild_12",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_add_build_bridge_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
 
 func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:
 	return SourceBuilderRuntimeState.build_plan_state(plans_size, plans_first)
 
 func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_buildPlan_14", [plans_size, plans_first], null)
-	var canonical = source_builder_build_plan_state(plans_size, plans_first)
-	return {
-		"source_owner": "PortGame.source_builder_build_plan_state",
-		"generated_owner": "BuilderComp.java_method_buildPlan_14",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_build_plan_bridge_state(plans_size, plans_first)
 
 func source_builder_actively_building_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
 	return SourceBuilderRuntimeState.actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
@@ -3485,26 +3363,10 @@ func source_builder_build_step_state(entity_build_cost: float, type_build_speed:
 	return SourceBuilderRuntimeState.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
 
 func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_updateBuildLogic_4", [entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current], null)
-	var canonical = source_builder_build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
-	return {
-		"source_owner": "PortGame.source_builder_build_step_state",
-		"generated_owner": "BuilderComp.java_method_updateBuildLogic_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("deconstruct_called", null) == canonical.get("deconstruct_called", null) and result.get("construct_called", null) == canonical.get("construct_called", null) and result.get("build_speed", null) == canonical.get("build_speed", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_update_build_logic_bridge_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
 
 func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_activelyBuilding_13", [plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building], null)
-	var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
-	return {
-		"source_owner": "PortGame.source_builder_actively_building_state",
-		"generated_owner": "BuilderComp.java_method_activelyBuilding_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("actively_building", null) == canonical.get("actively_building", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null),
-	}
+	return SourceBuilderRuntimeState.generated_builder_comp_actively_building_bridge_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
 
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	return SourceUnitTetherState.after_read_state(spawner_unit_id, groups_unit_get_by_id_result)

@@ -12,6 +12,9 @@ const JAVA_FIELDS := [{"modifiers": [], "name": "x", "type": "float"}, {"modifie
 const JAVA_CONSTRUCTORS := []
 const JAVA_METHODS := [{"modifiers": ["public"], "name": "canBuild", "parameters": [], "return_type": "boolean"}, {"modifiers": ["public"], "name": "update", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "afterRead", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "validatePlans", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "updateBuildLogic", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "drawPlan", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "drawPlanTop", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "alpha", "type": "float", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "shouldSkip", "parameters": [{"name": "plan", "type": "BuildPlan", "varargs": false}, {"name": "core", "type": "Building", "varargs": false}], "return_type": "boolean"}, {"modifiers": [], "name": "removeBuild", "parameters": [{"name": "x", "type": "int", "varargs": false}, {"name": "y", "type": "int", "varargs": false}, {"name": "breaking", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "isBuilding", "parameters": [], "return_type": "boolean"}, {"modifiers": [], "name": "clearBuilding", "parameters": [], "return_type": ""}, {"modifiers": [], "name": "addBuild", "parameters": [{"name": "place", "type": "BuildPlan", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "addBuild", "parameters": [{"name": "place", "type": "BuildPlan", "varargs": false}, {"name": "tail", "type": "boolean", "varargs": false}], "return_type": ""}, {"modifiers": [], "name": "activelyBuilding", "parameters": [], "return_type": "boolean"}, {"modifiers": [], "name": "buildPlan", "parameters": [], "return_type": "BuildPlan"}, {"modifiers": ["public"], "name": "drawBuilding", "parameters": [], "return_type": ""}, {"modifiers": ["public"], "name": "drawBuildingBeam", "parameters": [{"name": "px", "type": "float", "varargs": false}, {"name": "py", "type": "float", "varargs": false}], "return_type": ""}]
 const JAVA_ENUM_CONSTANTS := []
+const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
+const SourceBuilderRuntimeState := preload("res://src/game/SourceBuilderRuntimeState.gd")
+const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE
 
 func java_method_canBuild_0(_args: Array = []) -> Variant:
 	var type_build_speed: float = float(_args[0] if _args.size() > 0 else 0.0)
@@ -36,7 +39,14 @@ func java_method_validatePlans_3(_args: Array = []) -> Variant:
 	return null
 
 func java_method_updateBuildLogic_4(_args: Array = []) -> Variant:
-	return null
+	var entity_build_cost: float = float(_args[0] if _args.size() > 0 else 1.0)
+	var type_build_speed: float = float(_args[1] if _args.size() > 1 else 1.0)
+	var build_speed_multiplier: float = float(_args[2] if _args.size() > 2 else 1.0)
+	var team_build_speed: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var current_breaking: bool = bool(_args[4] if _args.size() > 4 else false)
+	var allow_build_current: bool = bool(_args[5] if _args.size() > 5 else false)
+	var canonical = SourceBuilderRuntimeState.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
+	return {"source_owner": "PortGame.source_builder_build_step_state", "canonical": canonical, "deconstruct_called": canonical.get("deconstruct_called", false), "construct_called": canonical.get("construct_called", false), "build_speed": canonical.get("build_speed", 0.0)}
 
 func java_method_drawPlan_5(_args: Array = []) -> Variant:
 	var plan: Variant = _args[0] if _args.size() > 0 else null
@@ -242,7 +252,7 @@ func java_method_drawBuildingBeam_16(_args: Array = []) -> Variant:
 	var plan_drawy: float = float(_args[14] if _args.size() > 14 else 0.0)
 	var build_alpha: float = float(_args[15] if _args.size() > 15 else 0.0)
 	var tile_build_is_construct_build: bool = bool(_args[16] if _args.size() > 16 else false)
-	var source_tilesize: float = float(_args[17] if _args.size() > 17 else 0.0)
+	var source_tilesize: float = float(_args[17] if _args.size() > 17 else SOURCE_TILESIZE)
 	var mathf_absin_time_2_2_1_1: float = float(_args[18] if _args.size() > 18 else 0.0)
 	var rotation_value: float = float(_args[19] if _args.size() > 19 else 0.0)
 	var inactive_without_last_active: bool = not active and last_active == null
