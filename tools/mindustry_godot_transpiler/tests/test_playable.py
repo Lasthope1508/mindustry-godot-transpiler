@@ -36169,6 +36169,12 @@ class PlayableManifestTests(unittest.TestCase):
             "func source_unit_payload_y_state(unit_y: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.y_state(unit_y)",
             "func source_unit_payload_rotation_state(unit_rotation: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.rotation_state(unit_rotation)",
             "func source_unit_payload_size_state(unit_hit_size: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.size_state(unit_hit_size)",
+            "func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_write_bridge_state(payload_unit, unit_class_id)",
+            "func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_set_bridge_state(x, y, rotation_value)",
+            "func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_x_bridge_state(unit_x)",
+            "func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_y_bridge_state(unit_y)",
+            "func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_rotation_bridge_state(unit_rotation)",
+            "func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:": "\treturn SourceUnitPayloadIoState.generated_size_bridge_state(unit_hit_size)",
         }
         for signature, delegation in delegations.items():
             method_body = self._method_body(source, signature)
@@ -36182,6 +36188,12 @@ class PlayableManifestTests(unittest.TestCase):
             "y_state",
             "rotation_state",
             "size_state",
+            "generated_write_bridge_state",
+            "generated_set_bridge_state",
+            "generated_x_bridge_state",
+            "generated_y_bridge_state",
+            "generated_rotation_bridge_state",
+            "generated_size_bridge_state",
         ):
             self.assertIn("static func " + method_name, module_source)
 
@@ -36331,23 +36343,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_write_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_write_bridge_state", 1)[1].split("func source_unit_payload_set_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:",
+            "static func generated_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_write_bridge_state(payload_unit, unit_class_id)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_write_7",
             "payload_unit, unit_class_id",
+            "var canonical = write_state(payload_unit, unit_class_id)",
+            "PortGame.source_unit_payload_write_state",
+            "UnitPayload.java_method_write_7",
         )
-        self.assertIn("var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_write_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_write_7"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
 
     def test_port_game_exposes_source_unit_payload_set_state(self):
         source = self._port_game_unit_payload_io_source()
@@ -36370,23 +36386,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_set_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_set_bridge_state", 1)[1].split("func source_unit_payload_x_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:",
+            "static func generated_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_set_bridge_state(x, y, rotation_value)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_set_8",
             "x, y, rotation_value",
+            "var canonical = set_state(x, y, rotation_value)",
+            "PortGame.source_unit_payload_set_state",
+            "UnitPayload.java_method_set_8",
         )
-        self.assertIn("var canonical = source_unit_payload_set_state(x, y, rotation_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_set_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_set_8"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
 
     def test_port_game_exposes_source_unit_payload_x_state(self):
         source = self._port_game_unit_payload_io_source()
@@ -36405,23 +36425,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_x_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_x_bridge_state", 1)[1].split("func source_unit_payload_y_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_x_bridge_state(unit_x: float) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:",
+            "static func generated_x_bridge_state(unit_x: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_x_bridge_state(unit_x)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_x_9",
             "unit_x",
+            "var canonical = x_state(unit_x)",
+            "PortGame.source_unit_payload_x_state",
+            "UnitPayload.java_method_x_9",
         )
-        self.assertIn("var canonical = source_unit_payload_x_state(unit_x)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_x_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_x_9"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
 
     def test_port_game_exposes_source_unit_payload_y_state(self):
         source = self._port_game_unit_payload_io_source()
@@ -36440,23 +36464,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_y_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_y_bridge_state", 1)[1].split("func source_unit_payload_rotation_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_y_bridge_state(unit_y: float) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:",
+            "static func generated_y_bridge_state(unit_y: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_y_bridge_state(unit_y)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_y_10",
             "unit_y",
+            "var canonical = y_state(unit_y)",
+            "PortGame.source_unit_payload_y_state",
+            "UnitPayload.java_method_y_10",
         )
-        self.assertIn("var canonical = source_unit_payload_y_state(unit_y)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_y_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_y_10"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
 
     def test_port_game_exposes_source_unit_payload_rotation_state(self):
         source = self._port_game_unit_payload_io_source()
@@ -36475,23 +36503,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_rotation_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_rotation_bridge_state", 1)[1].split("func source_unit_payload_size_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_rotation_bridge_state(unit_rotation: float) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:",
+            "static func generated_rotation_bridge_state(unit_rotation: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_rotation_bridge_state(unit_rotation)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_rotation_11",
             "unit_rotation",
+            "var canonical = rotation_state(unit_rotation)",
+            "PortGame.source_unit_payload_rotation_state",
+            "UnitPayload.java_method_rotation_11",
         )
-        self.assertIn("var canonical = source_unit_payload_rotation_state(unit_rotation)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_rotation_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_rotation_11"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
 
     def test_port_game_exposes_source_unit_payload_size_state(self):
         source = self._port_game_unit_payload_io_source()
@@ -36510,23 +36542,37 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadIoState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_size_bridge_state", 1)[1].split("func source_unit_payload_dump_type_null_guard_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
+        module_body = self._static_method_body(module_source, "static func generated_size_bridge_state(unit_hit_size: float) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:",
+            "static func generated_size_bridge_state(unit_hit_size: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadIoState.generated_size_bridge_state(unit_hit_size)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_size_12",
             "unit_hit_size",
+            "var canonical = size_state(unit_hit_size)",
+            "PortGame.source_unit_payload_size_state",
+            "UnitPayload.java_method_size_12",
         )
-        self.assertIn("var canonical = source_unit_payload_size_state(unit_hit_size)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_size_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_size_12"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_body)
+        self.assertIn('"matches": matches', module_body)
+        self.assertNotIn('"matches": result == canonical', module_body)
+
+    def test_unit_payload_io_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadIoModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadIoModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "UnitPayload Io module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "UnitPayload Io module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/UnitPayloadIoModuleProof.gd"', scene_source)
+        self.assertIn("UNIT_PAYLOAD_IO_MODULE_PROOF", proof_script.read_text(encoding="utf-8"))
 
     def test_port_game_exposes_source_unit_payload_dump_type_null_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

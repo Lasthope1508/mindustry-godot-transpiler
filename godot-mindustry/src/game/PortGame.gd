@@ -5202,91 +5202,37 @@ func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> D
 	return SourceUnitPayloadIoState.write_state(payload_unit, unit_class_id)
 
 func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_write_7", [payload_unit, unit_class_id], null)
-	var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_write_state",
-		"generated_owner": "UnitPayload.java_method_write_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_write_bridge_state(payload_unit, unit_class_id)
 
 func source_unit_payload_set_state(x: float, y: float, rotation_value: float) -> Dictionary:
 	return SourceUnitPayloadIoState.set_state(x, y, rotation_value)
 
 func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_set_8", [x, y, rotation_value], null)
-	var canonical = source_unit_payload_set_state(x, y, rotation_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_set_state",
-		"generated_owner": "UnitPayload.java_method_set_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_set_bridge_state(x, y, rotation_value)
 
 func source_unit_payload_x_state(unit_x: float) -> Dictionary:
 	return SourceUnitPayloadIoState.x_state(unit_x)
 
 func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_x_9", [unit_x], null)
-	var canonical = source_unit_payload_x_state(unit_x)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_x_state",
-		"generated_owner": "UnitPayload.java_method_x_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_x_bridge_state(unit_x)
 
 func source_unit_payload_y_state(unit_y: float) -> Dictionary:
 	return SourceUnitPayloadIoState.y_state(unit_y)
 
 func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_y_10", [unit_y], null)
-	var canonical = source_unit_payload_y_state(unit_y)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_y_state",
-		"generated_owner": "UnitPayload.java_method_y_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_y_bridge_state(unit_y)
 
 func source_unit_payload_rotation_state(unit_rotation: float) -> Dictionary:
 	return SourceUnitPayloadIoState.rotation_state(unit_rotation)
 
 func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_rotation_11", [unit_rotation], null)
-	var canonical = source_unit_payload_rotation_state(unit_rotation)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_rotation_state",
-		"generated_owner": "UnitPayload.java_method_rotation_11",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_rotation_bridge_state(unit_rotation)
 
 func source_unit_payload_size_state(unit_hit_size: float) -> Dictionary:
 	return SourceUnitPayloadIoState.size_state(unit_hit_size)
 
 func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_size_12", [unit_hit_size], null)
-	var canonical = source_unit_payload_size_state(unit_hit_size)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_size_state",
-		"generated_owner": "UnitPayload.java_method_size_12",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadIoState.generated_size_bridge_state(unit_hit_size)
 
 func source_unit_payload_dump_type_null_guard_state(unit_type_null: bool) -> Dictionary:
 	return SourceUnitPayloadDumpState.type_null_guard_state(unit_type_null)
