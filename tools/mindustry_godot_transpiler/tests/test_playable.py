@@ -13677,12 +13677,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "same_team, rules_fog")
-        self.assertIn("var canonical = source_building_in_fog_initial_gate_state(same_team, rules_fog)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingVisibilityState.generated_in_fog_initial_gate_bridge_state(same_team, rules_fog)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_in_fog_discovery_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13707,12 +13703,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered")
-        self.assertIn("var canonical = source_building_in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingVisibilityState.generated_in_fog_discovery_gate_bridge_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_in_fog_visibility_loop_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13738,12 +13730,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles")
-        self.assertIn("var canonical = source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingVisibilityState.generated_in_fog_visibility_loop_bridge_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_killed_initial_side_effects_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -17673,6 +17661,63 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"in_fog": false, "checked_tiles": checked_tiles, "visible_tile": {"x": check_x, "y": check_y}}', helper_source)
         self.assertIn('return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}', helper_source)
 
+    def test_port_game_exposes_generated_building_in_fog_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingVisibilityState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:",
+            "static func generated_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:",
+            "return SourceBuildingVisibilityState.generated_in_fog_initial_gate_bridge_state(same_team, rules_fog)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_inFogTo_214",
+            "same_team, rules_fog",
+            "var canonical = in_fog_initial_gate_state(same_team, rules_fog)",
+            "PortGame.source_building_in_fog_initial_gate_state",
+            "BuildingComp.java_method_inFogTo_214",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:",
+            "static func generated_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:",
+            "return SourceBuildingVisibilityState.generated_in_fog_discovery_gate_bridge_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_inFogTo_214",
+            "false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered",
+            "var canonical = in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)",
+            "PortGame.source_building_in_fog_discovery_gate_state",
+            "BuildingComp.java_method_inFogTo_214",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:",
+            "static func generated_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:",
+            "return SourceBuildingVisibilityState.generated_in_fog_visibility_loop_bridge_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_inFogTo_214",
+            "false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles",
+            "var canonical = in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)",
+            "PortGame.source_building_in_fog_visibility_loop_state",
+            "BuildingComp.java_method_inFogTo_214",
+        )
+
+    def test_building_visibility_state_module_proof_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingVisibilityStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingVisibilityStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists(), "BuildingVisibilityStateModuleProof.gd must prove Building inFogTo bridge facade wiring")
+        self.assertTrue(proof_scene.exists(), "BuildingVisibilityStateModuleProof.tscn must run Building inFogTo bridge proof")
+        self.assertIn("SourceBuildingVisibilityState.generated_in_fog_initial_gate_bridge_state", proof_source)
+        self.assertIn("SourceBuildingVisibilityState.generated_in_fog_discovery_gate_bridge_state", proof_source)
+        self.assertIn("SourceBuildingVisibilityState.generated_in_fog_visibility_loop_bridge_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
     def test_port_game_exposes_source_building_killed_initial_side_effects_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
