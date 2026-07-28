@@ -27796,6 +27796,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"shoot_range_stat_expr": SOURCE_BASE_TURRET_SET_STATS_SHOOT_RANGE_EXPR', stats_bars_source)
         self.assertIn('"activation_time_guard_expr": SOURCE_BASE_TURRET_SET_STATS_ACTIVATION_TIME_GUARD', stats_bars_source)
         self.assertIn('"activation_time_stat_expr": SOURCE_BASE_TURRET_SET_STATS_ACTIVATION_TIME_EXPR', stats_bars_source)
+        self.assertIn('"stat": "Stat.shootRange"', stats_bars_source)
+        self.assertIn('"unit": "StatUnit.blocks"', stats_bars_source)
+        self.assertIn('"stat": "Stat.activationTime"', stats_bars_source)
+        self.assertIn('"unit": "StatUnit.seconds"', stats_bars_source)
         self.assertIn('"shoot_range_stat_call": shoot_range_stat_call', canonical_source)
         self.assertIn('"activation_time_stat_call": activation_time_stat_call', canonical_source)
 
@@ -27813,12 +27817,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float, tick_rate: float) -> Dictionary:", stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_base_turret_set_stats_bridge_state(range_value, source_tilesize, activation_time, SourceTimeDefaults.TICK_RATE)", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_4([range_value, source_tilesize, activation_time, tick_rate])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_setStats_4",
+            "range_value, source_tilesize, activation_time, tick_rate",
+        )
         self.assertIn("var canonical = base_turret_set_stats_state(range_value, source_tilesize, activation_time, tick_rate)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.base_turret_set_stats_state"', module_body)
         self.assertIn('"generated_owner": "BaseTurret.java_method_setStats_4"', module_body)
-        self.assertIn('"matches": result.get("shoot_range_stat_call", null) == canonical.get("shoot_range_stat_call", null) and result.get("activation_time_stat_call", null) == canonical.get("activation_time_stat_call", null) and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null)', module_body)
+        self.assertIn('"matches": SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)', module_body)
         self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", generated_source)
         self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', generated_source)
@@ -27868,18 +27877,18 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         stats_bars_source = turret_stats_bars.read_text(encoding="utf-8") if turret_stats_bars.exists() else ""
 
-        self._assert_generated_bridge_moved_to_module(
+        self._assert_runtime_bridge_moved_to_module(
             source,
             stats_bars_source,
             "func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float) -> Dictionary:",
             "static func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float, tick_rate: float) -> Dictionary:",
             "return SourceTurretStatsBarsState.generated_base_turret_set_bars_bridge_state(activation_time, entity_activation_timer, SourceTimeDefaults.TICK_RATE)",
-            'ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")',
-            "var result = instance.java_method_setBars_5([activation_time, entity_activation_timer, tick_rate])",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_setBars_5",
+            "activation_time, entity_activation_timer, tick_rate",
             "var canonical = base_turret_set_bars_state(activation_time, entity_activation_timer, tick_rate)",
             "SourceTurretStatsBarsState.base_turret_set_bars_state",
             "BaseTurret.java_method_setBars_5",
-            '"matches": result.get("activation_bar_call", null) == canonical.get("activation_bar_call", null) and result.get("activation_bar_added", null) == canonical.get("activation_bar_added", null) and result.get("super_set_bars_called", null) == canonical.get("super_set_bars_called", null)',
         )
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
@@ -28074,8 +28083,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float, tick_rate: float) -> Dictionary:", stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_tractor_beam_turret_set_stats_bridge_state(target_air, target_ground, damage, SourceTimeDefaults.TICK_RATE)", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_1([target_air, target_ground, damage, tick_rate])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd",
+            "java_method_setStats_1",
+            "target_air, target_ground, damage, tick_rate",
+        )
         self.assertIn("var canonical = tractor_beam_turret_set_stats_state(target_air, target_ground, damage, tick_rate)", module_body)
         self.assertIn("const SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT := SourceTurretDefaults.TRACTOR_BEAM_TARGET_AIR_DEFAULT", generated_source)
         self.assertIn("var target_air: bool = bool(_args[0] if _args.size() > 0 else SOURCE_TURRET_TRACTOR_BEAM_TARGET_AIR_DEFAULT)", generated_source)
@@ -29663,8 +29677,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static " + signature, stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_turret_set_stats_bridge_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency)", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_1([inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_setStats_1",
+            "inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency",
+        )
         self.assertIn("var canonical = set_stats_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency, SourceTimeDefaults.TICK_RATE)", module_body)
         self.assertIn("const SOURCE_TURRET_INACCURACY_DEFAULT := SourceTurretDefaults.INACCURACY_DEFAULT", generated_source)
         self.assertIn("var inaccuracy_value: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_INACCURACY_DEFAULT)", generated_source)
@@ -29740,8 +29759,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func generated_point_defense_turret_set_stats_default_bridge_state(bullet_damage: float, reload_value: float) -> Dictionary:", stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_point_defense_turret_set_stats_default_bridge_state(SourcePointDefenseTurretDefaults.BULLET_DAMAGE_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT)", method_body)
         self.assertNotIn("ResourceLoader.load(", method_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_1([])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd",
+            "java_method_setStats_1",
+            "",
+        )
         self.assertNotIn("const SOURCE_POINT_DEFENSE_BULLET_DAMAGE_DEFAULT := SourcePointDefenseTurretDefaults.BULLET_DAMAGE_DEFAULT", source)
         self.assertIn("var canonical = point_defense_set_stats_state(bullet_damage, reload_value, SourceTimeDefaults.TICK_RATE)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.point_defense_set_stats_state"', module_body)
@@ -29793,19 +29817,21 @@ class PlayableManifestTests(unittest.TestCase):
         stats_bars_source = turret_stats_bars.read_text(encoding="utf-8") if turret_stats_bars.exists() else ""
         generated_source = generated.read_text(encoding="utf-8")
 
-        self._assert_generated_bridge_moved_to_module(
+        self._assert_runtime_bridge_moved_to_module(
             source,
             stats_bars_source,
             "func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:",
             "static func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:",
             "return SourceTurretStatsBarsState.generated_turret_set_bars_bridge_state(heat_requirement, entity_heat_req, max_heat_efficiency)",
-            'ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")',
-            "var result = instance.java_method_setBars_2([heat_requirement, entity_heat_req, max_heat_efficiency])",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_setBars_2",
+            "heat_requirement, entity_heat_req, max_heat_efficiency",
             "var canonical = set_bars_state(heat_requirement, entity_heat_req, max_heat_efficiency)",
             "SourceTurretStatsBarsState.set_bars_state",
             "Turret.java_method_setBars_2",
-            '"matches": result.get("heat_bar_call", null) == canonical.get("heat_bar_call", null) and result.get("heat_bar_added", null) == canonical.get("heat_bar_added", null)',
         )
+        module_body = self._static_method_body(stats_bars_source, "static func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:")
+        self.assertIn('"matches": result.get("heat_bar_call", null) == canonical.get("heat_bar_call", null) and result.get("heat_bar_added", null) == canonical.get("heat_bar_added", null)', module_body)
         self.assertIn("const SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT := SourceTurretDefaults.HEAT_REQUIREMENT_DEFAULT", generated_source)
         self.assertIn("var heat_requirement: float = float(_args[0] if _args.size() > 0 else SOURCE_TURRET_HEAT_REQUIREMENT_DEFAULT)", generated_source)
         self.assertNotIn("var heat_requirement: float = float(_args[0] if _args.size() > 0 else -1.0)", generated_source)
@@ -29847,8 +29873,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceTurretStatsBarsState.generated_reload_turret_set_stats_bridge_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)", bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("java_method_setStats_0", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_0([coolant_present, reload_value, coolant_amount, coolant_multiplier])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd",
+            "java_method_setStats_0",
+            "coolant_present, reload_value, coolant_amount, coolant_multiplier",
+        )
         self.assertIn("var canonical = reload_turret_set_stats_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.reload_turret_set_stats_state"', module_body)
         self.assertIn('"generated_owner": "ReloadTurret.java_method_setStats_0"', module_body)
@@ -29886,8 +29917,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceTurretStatsBarsState.generated_power_turret_set_stats_bridge_state(shoot_type)", bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("java_method_setStats_0", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_0([shoot_type])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd",
+            "java_method_setStats_0",
+            "shoot_type",
+        )
         self.assertIn("var canonical = power_turret_set_stats_state(shoot_type)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.power_turret_set_stats_state"', module_body)
         self.assertIn('"generated_owner": "PowerTurret.java_method_setStats_0"', module_body)
@@ -29930,8 +29966,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceTurretStatsBarsState.generated_continuous_turret_set_stats_bridge_state(shoot_type)", bridge_body)
         self.assertNotIn("ResourceLoader.load", bridge_body)
         self.assertNotIn("java_method_setStats_0", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_0([shoot_type])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd",
+            "java_method_setStats_0",
+            "shoot_type",
+        )
         self.assertIn("var canonical = continuous_turret_set_stats_state(shoot_type)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.continuous_turret_set_stats_state"', module_body)
         self.assertIn('"generated_owner": "ContinuousTurret.java_method_setStats_0"', module_body)
@@ -30262,8 +30303,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:", stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_item_turret_set_stats_bridge_state(ammo_types, name_value, max_ammo, ammo_per_shot)", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', module_body)
-        self.assertIn("var result = instance.java_method_setStats_3([ammo_types, name_value, max_ammo, ammo_per_shot])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_setStats_3",
+            "ammo_types, name_value, max_ammo, ammo_per_shot",
+        )
         self.assertIn("var canonical = item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)", module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.item_turret_set_stats_state"', module_body)
         self.assertIn('"generated_owner": "ItemTurret.java_method_setStats_3"', module_body)
@@ -30288,7 +30334,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func generated_item_turret_set_stats_default_bridge_state(max_ammo: float, ammo_per_shot: float) -> Dictionary:", stats_bars_source)
         self.assertIn("return SourceTurretStatsBarsState.generated_item_turret_set_stats_default_bridge_state(SourceTurretDefaults.MAX_AMMO_DEFAULT, SourceTurretDefaults.AMMO_PER_SHOT_DEFAULT)", method_body)
         self.assertNotIn("ResourceLoader.load(", method_body)
-        self.assertIn("var result = instance.java_method_setStats_3([])", module_body)
+        self._assert_generated_bridge_uses_runtime(
+            stats_bars_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_setStats_3",
+            "",
+        )
         self.assertIn('var canonical = item_turret_set_stats_state(null, "", max_ammo, ammo_per_shot)', module_body)
         self.assertIn('"source_owner": "SourceTurretStatsBarsState.item_turret_set_stats_state"', module_body)
         self.assertIn('"defaulted_args": ["max_ammo", "ammo_per_shot"]', module_body)
@@ -30326,19 +30378,21 @@ class PlayableManifestTests(unittest.TestCase):
         generated_source = generated.read_text(encoding="utf-8")
         generated_set_bars_body = generated_source.split("func java_method_setBars_4(", 1)[1].split("\nfunc ", 1)[0]
 
-        self._assert_generated_bridge_moved_to_module(
+        self._assert_runtime_bridge_moved_to_module(
             source,
             stats_bars_source,
             "func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:",
             "static func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:",
             "return SourceTurretStatsBarsState.generated_item_turret_set_bars_bridge_state(total_ammo, max_ammo)",
-            'ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")',
-            "var result = instance.java_method_setBars_4([total_ammo, max_ammo])",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_setBars_4",
+            "total_ammo, max_ammo",
             "var canonical = item_turret_set_bars_state(total_ammo, max_ammo)",
             "SourceTurretStatsBarsState.item_turret_set_bars_state",
             "ItemTurret.java_method_setBars_4",
-            '"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null)',
         )
+        module_body = self._static_method_body(stats_bars_source, "static func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:")
+        self.assertIn('"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null)', module_body)
         self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", generated_source)
         self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", generated_set_bars_body)
         self.assertNotIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", generated_set_bars_body)
@@ -30349,19 +30403,21 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         stats_bars_source = turret_stats_bars.read_text(encoding="utf-8") if turret_stats_bars.exists() else ""
 
-        self._assert_generated_bridge_moved_to_module(
+        self._assert_runtime_bridge_moved_to_module(
             source,
             stats_bars_source,
             "func generated_item_turret_set_bars_default_bridge_state(total_ammo: float) -> Dictionary:",
             "static func generated_item_turret_set_bars_default_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:",
             "return SourceTurretStatsBarsState.generated_item_turret_set_bars_default_bridge_state(total_ammo, SourceTurretDefaults.MAX_AMMO_DEFAULT)",
-            'ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")',
-            "var result = instance.java_method_setBars_4([total_ammo])",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_setBars_4",
+            "total_ammo",
             "var canonical = item_turret_set_bars_state(total_ammo, max_ammo)",
             "SourceTurretStatsBarsState.item_turret_set_bars_state",
             "ItemTurret.java_method_setBars_4",
-            '"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null)',
         )
+        module_body = self._static_method_body(stats_bars_source, "static func generated_item_turret_set_bars_default_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:")
+        self.assertIn('"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null)', module_body)
         module_body = self._static_method_body(stats_bars_source, "static func generated_item_turret_set_bars_default_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:")
         self.assertIn('"defaulted_args": ["max_ammo"]', module_body)
         self.assertIn('"max_ammo": max_ammo', module_body)
@@ -31265,12 +31321,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:", source)
         self.assertIn("return SourceTurretStatsBarsState.generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types, liquid_consumed)", source)
         self.assertIn("static func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:", module_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', module_source)
-        self.assertIn("var result = instance.java_method_setStats_1([ammo_types, liquid_consumed])", module_source)
-        self.assertIn("var canonical = continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)", module_source)
-        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state"', module_source)
-        self.assertIn('"generated_owner": "ContinuousLiquidTurret.setStats"', module_source)
-        self.assertIn('"matches": result.get("stat_liquid_consumed_updates", []) == canonical.get("stat_liquid_consumed_updates", [])', module_source)
+        module_body = self._static_method_body(module_source, "static func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(
+            module_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd",
+            "java_method_setStats_1",
+            "ammo_types, liquid_consumed",
+        )
+        self.assertIn("var canonical = continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state"', module_body)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.setStats"', module_body)
+        self.assertIn('"matches": result.get("stat_liquid_consumed_updates", []) == canonical.get("stat_liquid_consumed_updates", [])', module_body)
 
     def test_port_game_exposes_source_liquid_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -31301,12 +31363,69 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:", source)
         self.assertIn("return SourceTurretStatsBarsState.generated_liquid_turret_set_stats_bridge_state(ammo_types, name_value)", source)
         self.assertIn("static func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:", module_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', module_source)
-        self.assertIn("var result = instance.java_method_setStats_1([ammo_types, name_value])", module_source)
-        self.assertIn("var canonical = liquid_turret_set_stats_state(ammo_types, name_value)", module_source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_set_stats_state"', module_source)
-        self.assertIn('"generated_owner": "LiquidTurret.setStats"', module_source)
-        self.assertIn('"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})', module_source)
+        module_body = self._static_method_body(module_source, "static func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(
+            module_source,
+            module_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd",
+            "java_method_setStats_1",
+            "ammo_types, name_value",
+        )
+        self.assertIn("var canonical = liquid_turret_set_stats_state(ammo_types, name_value)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_set_stats_state"', module_body)
+        self.assertIn('"generated_owner": "LiquidTurret.setStats"', module_body)
+        self.assertIn('"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})', module_body)
+
+    def test_turret_stats_bars_generated_bridges_use_runtime_helper(self):
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretStatsBarsState.gd"
+        source = module.read_text(encoding="utf-8")
+
+        cases = [
+            ("static func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float, tick_rate: float) -> Dictionary:", "java_method_setStats_4", "[range_value, source_tilesize, activation_time, tick_rate]"),
+            ("static func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float, tick_rate: float) -> Dictionary:", "java_method_setBars_5", "[activation_time, entity_activation_timer, tick_rate]"),
+            ("static func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:", "java_method_setStats_1", "[inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency]"),
+            ("static func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:", "java_method_setBars_2", "[heat_requirement, entity_heat_req, max_heat_efficiency]"),
+            ("static func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float, tick_rate: float) -> Dictionary:", "java_method_setStats_1", "[target_air, target_ground, damage, tick_rate]"),
+            ("static func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:", "java_method_setStats_0", "[coolant_present, reload_value, coolant_amount, coolant_multiplier]"),
+            ("static func generated_point_defense_turret_set_stats_default_bridge_state(bullet_damage: float, reload_value: float) -> Dictionary:", "java_method_setStats_1", "[]"),
+            ("static func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:", "java_method_setStats_0", "[shoot_type]"),
+            ("static func generated_continuous_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:", "java_method_setStats_0", "[shoot_type]"),
+            ("static func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:", "java_method_setStats_3", "[ammo_types, name_value, max_ammo, ammo_per_shot]"),
+            ("static func generated_item_turret_set_stats_default_bridge_state(max_ammo: float, ammo_per_shot: float) -> Dictionary:", "java_method_setStats_3", "[]"),
+            ("static func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:", "java_method_setBars_4", "[total_ammo, max_ammo]"),
+            ("static func generated_item_turret_set_bars_default_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:", "java_method_setBars_4", "[total_ammo]"),
+            ("static func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:", "java_method_setStats_1", "[ammo_types, liquid_consumed]"),
+            ("static func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:", "java_method_setStats_1", "[ammo_types, name_value]"),
+        ]
+
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', source)
+        for signature, generated_method, generated_args in cases:
+            with self.subTest(signature=signature):
+                body = self._static_method_body(source, signature)
+                self.assertIn(f'var result = SourceGeneratedClassRuntime.call_java_method(', body)
+                self.assertIn(f'"{generated_method}"', body)
+                self.assertIn(generated_args, body)
+                self.assertNotIn("ResourceLoader.load(", body)
+                self.assertNotIn("script.new()", body)
+
+    def test_turret_stats_bars_module_runtime_proof_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TurretStatsBarsModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TurretStatsBarsModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof_script.read_text(encoding="utf-8")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+
+        self.assertIn("TURRET_STATS_BARS_MODULE_PROOF", proof_source)
+        self.assertIn('const SourceTurretStatsBarsState := preload("res://src/game/SourceTurretStatsBarsState.gd")', proof_source)
+        self.assertIn("generated_base_turret_set_stats_bridge_state(", proof_source)
+        self.assertIn("generated_turret_set_stats_bridge_state(", proof_source)
+        self.assertIn("generated_item_turret_set_bars_bridge_state(", proof_source)
+        self.assertIn("generated_continuous_liquid_turret_set_stats_bridge_state(", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"matches"', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/TurretStatsBarsModuleProof.gd"', scene_source)
 
     def test_port_game_exposes_source_liquid_turret_init_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
