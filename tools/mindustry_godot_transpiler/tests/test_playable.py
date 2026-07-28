@@ -34241,24 +34241,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitBuildTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_build_time_requirements_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:",
+            "static func generated_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:",
+            "return SourceBlockInitBuildTimeState.generated_requirements_bridge_state(build_time_before, requirement_stacks)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "build_time_before, requirement_stacks",
+            "var canonical = requirements_state(build_time_before, requirement_stacks)",
+            "PortGame.source_block_init_build_time_requirements_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_requirements"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_build_time_requirements_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_build_time_default_state(self):
         source = self._port_game_block_init_build_time_source()
@@ -34272,24 +34273,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_build_time_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitBuildTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_build_time_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:",
+            "static func generated_default_bridge_state(build_time_before: float) -> Dictionary:",
+            "return SourceBlockInitBuildTimeState.generated_default_bridge_state(build_time_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "build_time_before",
+            "var canonical = default_state(build_time_before)",
+            "PortGame.source_block_init_build_time_default_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_default"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_build_time_default_state(build_time_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_build_time_default_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_build_time_multiplier_state(self):
         source = self._port_game_block_init_build_time_source()
@@ -34303,24 +34305,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitBuildTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_build_time_multiplier_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:",
+            "static func generated_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:",
+            "return SourceBlockInitBuildTimeState.generated_multiplier_bridge_state(build_time_before, build_cost_multiplier)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "build_time_before, build_cost_multiplier",
+            "var canonical = multiplier_state(build_time_before, build_cost_multiplier)",
+            "PortGame.source_block_init_build_time_multiplier_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_multiplier"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_build_time_multiplier_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_consumer_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

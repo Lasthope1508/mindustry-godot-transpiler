@@ -5016,49 +5016,19 @@ func source_block_init_build_time_requirements_state(build_time_before: float, r
 	return SourceBlockInitBuildTimeState.requirements_state(build_time_before, requirement_stacks)
 
 func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_requirements"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, requirement_stacks], null, metadata)
-	var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_build_time_requirements_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitBuildTimeState.generated_requirements_bridge_state(build_time_before, requirement_stacks)
 
 func source_block_init_build_time_default_state(build_time_before: float) -> Dictionary:
 	return SourceBlockInitBuildTimeState.default_state(build_time_before)
 
 func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_default"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before], null, metadata)
-	var canonical = source_block_init_build_time_default_state(build_time_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_build_time_default_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitBuildTimeState.generated_default_bridge_state(build_time_before)
 
 func source_block_init_build_time_multiplier_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
 	return SourceBlockInitBuildTimeState.multiplier_state(build_time_before, build_cost_multiplier)
 
 func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "build_time_multiplier"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, build_cost_multiplier], null, metadata)
-	var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_build_time_multiplier_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitBuildTimeState.generated_multiplier_bridge_state(build_time_before, build_cost_multiplier)
 
 func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictionary:
 	return SourceBlockInitConsumerState.arrays_state(consume_builder)
