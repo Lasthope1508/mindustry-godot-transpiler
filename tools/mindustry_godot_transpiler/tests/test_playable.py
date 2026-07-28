@@ -36604,25 +36604,27 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpState.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_dump_type_null_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_can_create_guard_state", 1)[0]
+        helper_body = self._static_method_body(helper_source, "static func generated_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:",
+            "static func generated_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_type_null_guard_bridge_state(unit_type_null)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_dump_13",
             "unit_type_null",
+            "var canonical = type_null_guard_state(unit_type_null)",
+            "PortGame.source_unit_payload_dump_type_null_guard_state",
+            "UnitPayload.java_method_dump_13",
         )
-        self.assertIn("var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
             'const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS := ["guard_expr", "return_expr"]',
         ])
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
+        self.assertNotIn('"matches": result == canonical', helper_body)
 
     def test_port_game_exposes_source_unit_payload_dump_can_create_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -36661,23 +36663,27 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_dump_can_create_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_dump_can_create_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_solidity_guard_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
+        helper_body = self._static_method_body(helper_source, "static func generated_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:",
+            "static func generated_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_can_create_guard_bridge_state(unit_type_null, units_can_create)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_dump_13",
             "unit_type_null, units_can_create",
+            "var canonical = can_create_guard_state(unit_type_null, units_can_create)",
+            "PortGame.source_unit_payload_dump_can_create_guard_state",
+            "UnitPayload.java_method_dump_13",
         )
-        self.assertIn("var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
+        self.assertNotIn('"matches": result == canonical', helper_body)
 
     def test_port_game_uses_unit_payload_dump_guard_helper_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -36693,6 +36699,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceUnitPayloadDumpState.type_null_guard_state(unit_type_null)", source)
         self.assertIn("func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
         self.assertIn("return SourceUnitPayloadDumpState.can_create_guard_state(unit_type_null, units_can_create)", source)
+        self.assertIn("func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:", source)
+        self.assertIn("return SourceUnitPayloadDumpState.generated_type_null_guard_bridge_state(unit_type_null)", source)
+        self.assertIn("func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
+        self.assertIn("return SourceUnitPayloadDumpState.generated_can_create_guard_bridge_state(unit_type_null, units_can_create)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state"', helper_source)
         self.assertIn('"guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR', helper_source)
         self.assertIn('"return_expr": SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR', helper_source)
@@ -37070,10 +37080,10 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpState.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
+        helper_body = self._static_method_body(helper_source, "static func generated_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:")
         generated_payload = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
         generated_source = generated_payload.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:", source)
         self.assertIn('const SourceUnitPayloadDumpState := preload("res://src/game/SourceUnitPayloadDumpState.gd")', generated_source)
         self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", generated_source)
@@ -37083,21 +37093,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}', generated_source)
         self.assertNotIn("var source_tilesize: float = 8.0", generated_source)
         self.assertNotIn('var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}', generated_source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_unit_payload_dump_solidity_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_overlap_guard_state", 1)[0],
+            helper_source,
+            "func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:",
+            "static func generated_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_solidity_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_dump_13",
             "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid",
+            "var canonical = solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)",
+            "PortGame.source_unit_payload_dump_solidity_guard_state",
+            "UnitPayload.java_method_dump_13",
         )
-        self.assertIn("var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
-            'const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]',
         ])
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)", source)
-        self.assertIn('"matches": matches', source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_dump_overlap_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -37146,24 +37159,29 @@ class PlayableManifestTests(unittest.TestCase):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpState.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_dump_overlap_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_no_client_guard_state", 1)[0]
+        helper_body = self._static_method_body(helper_source, "static func generated_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:", source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            helper_source,
+            "func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:",
+            "static func generated_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_overlap_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)",
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count",
+            "var canonical = overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)",
+            "PortGame.source_unit_payload_dump_overlap_guard_state",
+            "UnitPayload.java_method_dump_13",
+        )
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
-            'const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]',
         ])
         self.assertIn("func generated_state_matches_generated_subset(result: Variant, canonical: Dictionary, ignored_keys: Array = []) -> bool:", source)
-        self.assertIn(
-            'var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)',
-            bridge_source,
-        )
-        self.assertIn("var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)", bridge_source)
-        self.assertNotIn("for key in canonical.keys():", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)", helper_body)
+        self.assertNotIn("for key in canonical.keys():", helper_body)
+        self.assertIn('"matches": matches', helper_body)
+        self.assertNotIn('"matches": result == canonical', helper_body)
 
     def test_port_game_exposes_source_unit_payload_dump_no_client_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -37190,23 +37208,30 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDumpState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_dump_no_client_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_spawn_side_effects_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
+        helper_body = self._static_method_body(helper_source, "static func generated_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:")
 
-        self.assertIn("func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:",
+            "static func generated_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_no_client_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_dump_13",
             "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client",
+            "var canonical = no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)",
+            "PortGame.source_unit_payload_dump_no_client_guard_state",
+            "UnitPayload.java_method_dump_13",
         )
-        self.assertIn("var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn("for key in canonical.keys():", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        self._assert_source_consts_in_helper_not_port(source, helper_source, [
+            'const SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]',
+        ])
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_BRIDGE_IGNORED_KEYS)", helper_body)
+        self.assertNotIn("for key in canonical.keys():", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -37262,25 +37287,29 @@ class PlayableManifestTests(unittest.TestCase):
         generated_payload = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
+        helper_body = self._static_method_body(helper_source, "static func generated_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:")
         generated_source = generated_payload.read_text(encoding="utf-8")
         dump_source = generated_source.split("func java_method_dump_13", 1)[1].split("func java_method_drawShadow_14", 1)[0]
 
-        self.assertIn("func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            source.split("func generated_unit_payload_dump_spawn_side_effects_bridge_state", 1)[1].split("func source_unit_payload_draw_shadow_type_null_state", 1)[0],
+            helper_source,
+            "func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:",
+            "static func generated_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:",
+            "\treturn SourceUnitPayloadDumpState.generated_spawn_side_effects_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_dump_13",
             "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id",
+            "var canonical = spawn_side_effects_state(state, range_x, range_y, unit_id)",
+            "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+            "UnitPayload.java_method_dump_13",
         )
-        self.assertIn("var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)", source)
+        self.assertIn("var state := no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)", helper_body)
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
-            'const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]',
+            'const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]',
         ])
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
-        self.assertIn('"matches": matches', source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
         self.assertIn('"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE', dump_source)
         self.assertIn('"method": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_METHOD', dump_source)
         self.assertIn('"overlap_guard_expr": SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_EXPR', dump_source)
@@ -37291,6 +37320,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f', dump_source)
         self.assertNotIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', dump_source)
         self.assertNotIn('"prevents_stacking_comment_expr": "//prevents stacking"', dump_source)
+
+    def test_unit_payload_dump_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadDumpModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadDumpModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "UnitPayload dump module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "UnitPayload dump module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/UnitPayloadDumpModuleProof.gd"', scene_source)
+        self.assertIn("UNIT_PAYLOAD_DUMP_MODULE_PROOF", proof_script.read_text(encoding="utf-8"))
 
     def test_port_game_delegates_unit_payload_draw_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

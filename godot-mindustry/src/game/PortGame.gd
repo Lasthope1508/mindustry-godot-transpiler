@@ -5238,46 +5238,19 @@ func source_unit_payload_dump_type_null_guard_state(unit_type_null: bool) -> Dic
 	return SourceUnitPayloadDumpState.type_null_guard_state(unit_type_null)
 
 func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null], null)
-	var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_type_null_guard_bridge_state(unit_type_null)
 
 func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
 	return SourceUnitPayloadDumpState.can_create_guard_state(unit_type_null, units_can_create)
 
 func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create], null)
-	var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_can_create_guard_bridge_state(unit_type_null, units_can_create)
 
 func source_unit_payload_dump_solidity_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
 	return SourceUnitPayloadDumpState.solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 
 func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid], null)
-	var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_solidity_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 
 func source_unit_payload_dump_overlap_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
 	return SourceUnitPayloadDumpState.overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
@@ -5302,47 +5275,20 @@ func generated_state_matches_generated_subset_or_nan(result: Variant, canonical:
 	return result_nan and canonical_nan and result.get(identity_key, "") == canonical.get(identity_key, "")
 
 func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)
-	var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_overlap_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
 
 func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
 	return SourceUnitPayloadDumpState.no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
 
 func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client], null)
-	var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_no_client_guard_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
 
 func source_unit_payload_dump_spawn_side_effects_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
 	var state := source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
 	return SourceUnitPayloadDumpState.spawn_side_effects_state(state, range_x, range_y, unit_id)
 
 func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id], null)
-	var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)
-	return {
-		"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDumpState.generated_spawn_side_effects_bridge_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)
 
 func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
 	return SourceUnitPayloadDrawState.draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
