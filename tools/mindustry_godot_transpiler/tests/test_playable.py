@@ -38684,23 +38684,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_icons_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_icons_bridge_state", 1)[1].split("func source_block_producer_draw_plan_region_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:",
+            "static func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_icons_bridge_state(region, out_region, top_region)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_method_icons_0",
             "region, out_region, top_region",
+            "var canonical = icons_state(region, out_region, top_region)",
+            "PortGame.source_block_producer_icons_state",
+            "BlockProducer.java_method_icons_0",
         )
-        self.assertIn("var canonical = source_block_producer_icons_state(region, out_region, top_region)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_icons_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.java_method_icons_0"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_draw_plan_region_state(self):
         source = self._port_game_block_producer_source()
@@ -38725,23 +38725,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_draw_plan_region_bridge_state", 1)[1].split("func source_block_producer_set_bars_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:",
+            "static func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_draw_plan_region_bridge_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_method_drawPlanRegion_1",
             "region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation",
+            "var canonical = draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)",
+            "PortGame.source_block_producer_draw_plan_region_state",
+            "BlockProducer.java_method_drawPlanRegion_1",
         )
-        self.assertIn("var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_draw_plan_region_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.java_method_drawPlanRegion_1"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_set_bars_state(self):
         source = self._port_game_block_producer_source()
@@ -38771,23 +38771,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_set_bars_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_set_bars_bridge_state", 1)[1].split("func source_block_producer_build_accept_item_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:",
+            "static func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_set_bars_bridge_state(recipe_null, entity_progress, recipe_build_time)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_method_setBars_2",
             "recipe_null, entity_progress, recipe_build_time",
+            "var canonical = set_bars_state(recipe_null, entity_progress, recipe_build_time)",
+            "PortGame.source_block_producer_set_bars_state",
+            "BlockProducer.java_method_setBars_2",
         )
-        self.assertIn("var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_set_bars_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.java_method_setBars_2"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_accept_item_state(self):
         source = self._port_game_block_producer_source()
@@ -38815,23 +38815,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_accept_item_bridge_state", 1)[1].split("func source_block_producer_build_get_maximum_accepted_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:",
+            "static func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_build_accept_item_bridge_state(source_building, item, item_count, maximum_accepted)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_acceptItem_1",
             "source_building, item, item_count, maximum_accepted",
+            "var canonical = build_accept_item_state(source_building, item, item_count, maximum_accepted)",
+            "PortGame.source_block_producer_build_accept_item_state",
+            "BlockProducer.BlockProducerBuild.acceptItem",
         )
-        self.assertIn("var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_item_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.acceptItem"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state(self):
         source = self._port_game_block_producer_source()
@@ -38868,23 +38868,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_get_maximum_accepted_bridge_state", 1)[1].split("func source_block_producer_build_accept_payload_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:",
+            "static func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_build_get_maximum_accepted_bridge_state(item, recipe_null, requirements)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2",
             "item, recipe_null, requirements",
+            "var canonical = build_get_maximum_accepted_state(item, recipe_null, requirements)",
+            "PortGame.source_block_producer_build_get_maximum_accepted_state",
+            "BlockProducer.BlockProducerBuild.getMaximumAccepted",
         )
-        self.assertIn("var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_accept_payload_state(self):
         source = self._port_game_block_producer_source()
@@ -38911,23 +38911,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_accept_payload_bridge_state", 1)[1].split("func source_block_producer_build_should_consume_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:",
+            "static func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_build_accept_payload_bridge_state(source_building, payload)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_acceptPayload_3",
             "source_building, payload",
+            "var canonical = build_accept_payload_state(source_building, payload)",
+            "PortGame.source_block_producer_build_accept_payload_state",
+            "BlockProducer.BlockProducerBuild.acceptPayload",
         )
-        self.assertIn("var canonical = source_block_producer_build_accept_payload_state(source_building, payload)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_payload_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_should_consume_state(self):
         source = self._port_game_block_producer_source()
@@ -38954,23 +38954,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_should_consume_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_produce_gate_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:",
+            "static func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:",
+            "return SourceBlockProducerState.generated_block_producer_build_should_consume_bridge_state(super_should_consume, recipe_null)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_shouldConsume_4",
             "super_should_consume, recipe_null",
+            "var canonical = build_should_consume_state(super_should_consume, recipe_null)",
+            "PortGame.source_block_producer_build_should_consume_state",
+            "BlockProducer.BlockProducerBuild.shouldConsume",
         )
-        self.assertIn("var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_should_consume_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state(self):
         source = self._port_game_block_producer_source()
@@ -39007,23 +39007,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_produce_gate_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_progress_accumulation_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null, efficiency, payload_null)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_5",
             "recipe_null, efficiency, payload_null",
+            "var canonical = produce_gate_state(recipe_null, efficiency, payload_null)",
+            "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+            "BlockProducer.BlockProducerBuild.updateTile.produceGate",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state(self):
         source = self._port_game_block_producer_source()
@@ -39056,23 +39056,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_progress_accumulation_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_completion_guard_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce, progress_before, build_speed, edelta)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5",
             "produce, progress_before, build_speed, edelta",
+            "var canonical = progress_accumulation_state(produce, progress_before, build_speed, edelta)",
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+            "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state(self):
         source = self._port_game_block_producer_source()
@@ -39103,23 +39103,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_completion_guard_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_payload_creation_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_completion_guard_bridge_state(progress, recipe_build_time)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5",
             "progress, recipe_build_time",
+            "var canonical = completion_guard_state(progress, recipe_build_time)",
+            "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+            "BlockProducer.BlockProducerBuild.updateTile.completionGuard",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state(self):
         source = self._port_game_block_producer_source()
@@ -39152,23 +39152,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_payload_creation_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_pay_vector_progress_reset_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard, recipe, team, x, y, payload_size, tilesize)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5",
             "completion_guard, recipe, team, x, y, payload_size, tilesize",
+            "var canonical = payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)",
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+            "BlockProducer.BlockProducerBuild.updateTile.payloadCreation",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state(self):
         source = self._port_game_block_producer_source()
@@ -39210,23 +39210,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_heat_time_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5",
             "completion_guard, pay_vector_x, pay_vector_y, progress_before",
+            "var canonical = pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)",
+            "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+            "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state(self):
         factory_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceFactoryDefaults.gd"
@@ -39278,25 +39278,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerBuildUpdateState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_heat_time_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_move_out_payload_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
         generated_source = generated.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:",
+            "return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_heat_time_bridge_state(produce, heat_before, time_before, time_delta)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5",
             "produce, heat_before, time_before, time_delta",
+            "var canonical = heat_time_state(produce, heat_before, time_before, time_delta)",
+            "PortGame.source_block_producer_build_update_tile_heat_time_state",
+            "BlockProducer.BlockProducerBuild.updateTile.heatTime",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
         self.assertIn('const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_FACTORY_HEAT_LERP_PROGRESS := SourceFactoryDefaults.HEAT_LERP_PROGRESS", generated_source)
         self.assertIn("var heat_after: float = heat_before + (produce_num - heat_before) * clampf(SOURCE_FACTORY_HEAT_LERP_PROGRESS * time_delta, 0.0, 1.0)", generated_source)
@@ -39411,23 +39411,30 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockProducerMoveOutPayloadState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_producer_build_update_tile_move_out_payload_bridge_state", 1)[1].split("func source_block_init_item_liquid_filters_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:",
+            "static func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:",
+            "return SourceBlockProducerMoveOutPayloadState.generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
             "java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5",
             "payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result",
+            "var canonical = move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)",
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+            "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload",
         )
-        self.assertIn("var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', bridge_source)
-        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+
+    def test_block_producer_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockProducerModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockProducerModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "BlockProducer module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "BlockProducer module runtime proof scene must exist")
 
     def test_port_game_exposes_source_build_payload_place_state(self):
         source = self._port_game_build_payload_lifecycle_source()

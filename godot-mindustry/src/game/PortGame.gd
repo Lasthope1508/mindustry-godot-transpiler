@@ -5429,211 +5429,85 @@ func source_block_producer_icons_state(region: Variant, out_region: Variant, top
 	return SourceBlockProducerState.icons_state(region, out_region, top_region)
 
 func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_icons_0", [region, out_region, top_region], null)
-	var canonical = source_block_producer_icons_state(region, out_region, top_region)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_icons_state",
-		"generated_owner": "BlockProducer.java_method_icons_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_icons_bridge_state(region, out_region, top_region)
 
 func source_block_producer_draw_plan_region_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
 	return SourceBlockProducerState.draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
 
 func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_drawPlanRegion_1", [region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation], null)
-	var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_draw_plan_region_state",
-		"generated_owner": "BlockProducer.java_method_drawPlanRegion_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_draw_plan_region_bridge_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
 
 func source_block_producer_set_bars_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:
 	return SourceBlockProducerState.set_bars_state(recipe_null, entity_progress, recipe_build_time)
 
 func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_setBars_2", [recipe_null, entity_progress, recipe_build_time], null)
-	var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_set_bars_state",
-		"generated_owner": "BlockProducer.java_method_setBars_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_set_bars_bridge_state(recipe_null, entity_progress, recipe_build_time)
 
 func source_block_producer_build_accept_item_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
 	return SourceBlockProducerState.build_accept_item_state(source_building, item, item_count, maximum_accepted)
 
 func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptItem_1", [source_building, item, item_count, maximum_accepted], null)
-	var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_accept_item_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.acceptItem",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_build_accept_item_bridge_state(source_building, item, item_count, maximum_accepted)
 
 func source_block_producer_build_get_maximum_accepted_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
 	return SourceBlockProducerState.build_get_maximum_accepted_state(item, recipe_null, requirements)
 
 func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2", [item, recipe_null, requirements], null)
-	var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_build_get_maximum_accepted_bridge_state(item, recipe_null, requirements)
 
 func source_block_producer_build_accept_payload_state(source_building: Variant, payload: Variant) -> Dictionary:
 	return SourceBlockProducerState.build_accept_payload_state(source_building, payload)
 
 func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptPayload_3", [source_building, payload], null)
-	var canonical = source_block_producer_build_accept_payload_state(source_building, payload)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_accept_payload_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_build_accept_payload_bridge_state(source_building, payload)
 
 func source_block_producer_build_should_consume_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
 	return SourceBlockProducerState.build_should_consume_state(super_should_consume, recipe_null)
 
 func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_shouldConsume_4", [super_should_consume, recipe_null], null)
-	var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_should_consume_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerState.generated_block_producer_build_should_consume_bridge_state(super_should_consume, recipe_null)
 
 func source_block_producer_build_update_tile_produce_gate_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.produce_gate_state(recipe_null, efficiency, payload_null)
 
 func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_5", [recipe_null, efficiency, payload_null], null)
-	var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null, efficiency, payload_null)
 
 func source_block_producer_build_update_tile_progress_accumulation_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.progress_accumulation_state(produce, progress_before, build_speed, edelta)
 
 func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5", [produce, progress_before, build_speed, edelta], null)
-	var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce, progress_before, build_speed, edelta)
 
 func source_block_producer_build_update_tile_completion_guard_state(progress: float, recipe_build_time: float) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.completion_guard_state(progress, recipe_build_time)
 
 func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5", [progress, recipe_build_time], null)
-	var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_completion_guard_bridge_state(progress, recipe_build_time)
 
 func source_block_producer_build_update_tile_payload_creation_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
 
 func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5", [completion_guard, recipe, team, x, y, payload_size, tilesize], null)
-	var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
 
 func source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
 
 func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5", [completion_guard, pay_vector_x, pay_vector_y, progress_before], null)
-	var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
 
 func source_block_producer_build_update_tile_heat_time_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
 	return SourceBlockProducerBuildUpdateState.heat_time_state(produce, heat_before, time_before, time_delta)
 
 func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5", [produce, heat_before, time_before, time_delta], null)
-	var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerBuildUpdateState.generated_block_producer_build_update_tile_heat_time_bridge_state(produce, heat_before, time_before, time_delta)
 
 func source_block_producer_build_update_tile_move_out_payload_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:
 	return SourceBlockProducerMoveOutPayloadState.move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
 
 func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5", [payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result], null)
-	var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
-		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockProducerMoveOutPayloadState.generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
 
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	return SourceBlockInitRuntimeState.item_liquid_filters_state(content_items_size, content_liquids_size)
