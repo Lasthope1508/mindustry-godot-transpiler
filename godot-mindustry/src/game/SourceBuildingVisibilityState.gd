@@ -95,3 +95,13 @@ static func update_fog_visibility_state(was_visible: bool, in_fog_to_player_team
 		"update_shadow": null,
 		"minimap_update": null,
 	}
+
+static func generated_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", [was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state], null)
+	var canonical = update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
+	return {
+		"source_owner": "PortGame.source_building_update_fog_visibility_state",
+		"generated_owner": "BuildingComp.java_method_updateFogVisibility_218",
+		"result": result,
+		"canonical": canonical,
+	}

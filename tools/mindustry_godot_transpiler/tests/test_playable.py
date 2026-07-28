@@ -14150,12 +14150,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", "was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state")
-        self.assertIn("var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_fog_visibility_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateFogVisibility_218"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingVisibilityState.generated_update_fog_visibility_bridge_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_hitbox_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -14183,12 +14179,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_hitbox_219", "world_x, world_y, block_size_value, source_tilesize")
-        self.assertIn("var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_hitbox_219"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBlockGeometry.generated_building_hitbox_bridge_state(world_x, world_y, block_size_value, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_to_string_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -14213,12 +14205,58 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_toString_220", "id_value, tile_x_value, tile_y_value, block_value")
-        self.assertIn("var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_to_string_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_toString_220"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingMetaState.generated_to_string_bridge_state(id_value, tile_x_value, tile_y_value, block_value)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+
+    def test_port_game_exposes_generated_building_tail_bridges_from_modules(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        visibility_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingVisibilityState.gd"
+        geometry_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockGeometry.gd"
+        meta_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingMetaState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        visibility_source = visibility_module.read_text(encoding="utf-8") if visibility_module.exists() else ""
+        geometry_source = geometry_module.read_text(encoding="utf-8") if geometry_module.exists() else ""
+        meta_source = meta_module.read_text(encoding="utf-8") if meta_module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            visibility_source,
+            "func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:",
+            "static func generated_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:",
+            "return SourceBuildingVisibilityState.generated_update_fog_visibility_bridge_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateFogVisibility_218",
+            "was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state",
+            "var canonical = update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)",
+            "PortGame.source_building_update_fog_visibility_state",
+            "BuildingComp.java_method_updateFogVisibility_218",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            geometry_source,
+            "func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:",
+            "static func generated_building_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:",
+            "return SourceBlockGeometry.generated_building_hitbox_bridge_state(world_x, world_y, block_size_value, source_tilesize)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_hitbox_219",
+            "world_x, world_y, block_size_value, source_tilesize",
+            "var canonical = building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)",
+            "PortGame.source_building_hitbox_state",
+            "BuildingComp.java_method_hitbox_219",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            meta_source,
+            "func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:",
+            "static func generated_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:",
+            "return SourceBuildingMetaState.generated_to_string_bridge_state(id_value, tile_x_value, tile_y_value, block_value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_toString_220",
+            "id_value, tile_x_value, tile_y_value, block_value",
+            "var canonical = to_string_state(id_value, tile_x_value, tile_y_value, block_value)",
+            "PortGame.source_building_to_string_state",
+            "BuildingComp.java_method_toString_220",
+        )
 
     def test_generated_building_tether_comp_bridges_update_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingTetherComp.gd"
@@ -17818,6 +17856,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceBuildingVisibilityState.generated_in_fog_initial_gate_bridge_state", proof_source)
         self.assertIn("SourceBuildingVisibilityState.generated_in_fog_discovery_gate_bridge_state", proof_source)
         self.assertIn("SourceBuildingVisibilityState.generated_in_fog_visibility_loop_bridge_state", proof_source)
+        self.assertIn("SourceBuildingVisibilityState.generated_update_fog_visibility_bridge_state", proof_source)
+        self.assertIn('"update_fog_bridge_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
     def test_port_game_exposes_source_building_killed_initial_side_effects_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
@@ -18051,6 +18091,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}', helper_source)
         self.assertIn('"hitbox_size": hitbox_size', helper_source)
 
+    def test_source_block_geometry_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingGeometryStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingGeometryStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_GEOMETRY_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBlockGeometry.generated_building_hitbox_bridge_state", proof_source)
+        self.assertIn('"hitbox_bridge_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+
     def test_port_game_exposes_source_building_to_string_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingMetaState.gd"
@@ -18078,6 +18130,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceBuildingMetaState.cursor_state", proof_source)
         self.assertIn("SourceBuildingMetaState.health_changed_state", proof_source)
         self.assertIn("SourceBuildingMetaState.to_string_state", proof_source)
+        self.assertIn("SourceBuildingMetaState.generated_to_string_bridge_state", proof_source)
+        self.assertIn('"to_string_bridge_matches"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 

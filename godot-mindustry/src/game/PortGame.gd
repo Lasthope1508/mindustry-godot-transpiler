@@ -3083,43 +3083,19 @@ func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_pl
 	return SourceBuildingVisibilityState.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 
 func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", [was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state], null)
-	var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
-	return {
-		"source_owner": "PortGame.source_building_update_fog_visibility_state",
-		"generated_owner": "BuildingComp.java_method_updateFogVisibility_218",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingVisibilityState.generated_update_fog_visibility_bridge_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 
 func source_building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	return SourceBlockGeometry.building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
 
 func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_hitbox_219", [world_x, world_y, block_size_value, source_tilesize], null)
-	var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
-	return {
-		"source_owner": "PortGame.source_building_hitbox_state",
-		"generated_owner": "BuildingComp.java_method_hitbox_219",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBlockGeometry.generated_building_hitbox_bridge_state(world_x, world_y, block_size_value, source_tilesize)
 
 func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> String:
 	return SourceBuildingMetaState.to_string_state(id_value, tile_x_value, tile_y_value, block_value)
 
 func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_toString_220", [id_value, tile_x_value, tile_y_value, block_value], null)
-	var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)
-	var generated_to_string = result.get("to_string", "") if result is Dictionary else str(result)
-	return {
-		"source_owner": "PortGame.source_building_to_string_state",
-		"generated_owner": "BuildingComp.java_method_toString_220",
-		"result": result,
-		"canonical": canonical,
-		"generated_to_string": generated_to_string,
-		"matches": generated_to_string == canonical,
-	}
+	return SourceBuildingMetaState.generated_to_string_bridge_state(id_value, tile_x_value, tile_y_value, block_value)
 
 func source_building_tether_update_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
 	return SourceBuildingTetherState.update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
