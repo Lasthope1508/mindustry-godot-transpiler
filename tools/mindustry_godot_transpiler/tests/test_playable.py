@@ -34337,6 +34337,8 @@ class PlayableManifestTests(unittest.TestCase):
         delegations = {
             "func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictionary:": "\treturn SourceBlockInitConsumerState.arrays_state(consume_builder)",
             "func source_block_init_consumer_apply_loop_state(consumers: Array) -> Dictionary:": "\treturn SourceBlockInitConsumerState.apply_loop_state(consumers)",
+            "func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:": "\treturn SourceBlockInitConsumerState.generated_consumer_arrays_bridge_state(consume_builder)",
+            "func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:": "\treturn SourceBlockInitConsumerState.generated_consumer_apply_loop_bridge_state(consumers)",
         }
         for signature, delegation in delegations.items():
             method_body = self._method_body(source, signature)
@@ -34346,6 +34348,8 @@ class PlayableManifestTests(unittest.TestCase):
         for method_name in (
             "arrays_state",
             "apply_loop_state",
+            "generated_consumer_arrays_bridge_state",
+            "generated_consumer_apply_loop_bridge_state",
         ):
             self.assertIn("static func " + method_name, module_source)
 
@@ -34374,24 +34378,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitConsumerState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_block_init_consumer_arrays_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:",
+            "static func generated_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:",
+            "return SourceBlockInitConsumerState.generated_consumer_arrays_bridge_state(consume_builder)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "consume_builder",
+            "var canonical = arrays_state(consume_builder)",
+            "PortGame.source_block_init_consumer_arrays_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_consumer_arrays_state(consume_builder)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_arrays_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}', module_source)
+        self.assertIn("var canonical = arrays_state(consume_builder)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_arrays_state"', module_source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
+        self.assertNotIn('"matches": result == canonical', module_source)
 
     def test_port_game_delegates_block_reinitialize_consumers_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -39282,23 +39294,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_consumer_apply_loop_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitConsumerState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_block_init_consumer_apply_loop_bridge_state", 1)[1].split("func source_block_init_set_bars_call_state", 1)[0]
 
         self.assertIn("func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:",
+            "static func generated_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:",
+            "return SourceBlockInitConsumerState.generated_consumer_apply_loop_bridge_state(consumers)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "consumers",
-            '{"mindustry_init_bridge_mode": "consumer_apply_loop"}',
+            "var canonical = apply_loop_state(consumers)",
+            "PortGame.source_block_init_consumer_apply_loop_state",
+            "Block.java_method_init_123",
+            "metadata",
         )
-        self.assertIn("var canonical = source_block_init_consumer_apply_loop_state(consumers)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_apply_loop_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "consumer_apply_loop"}', module_source)
+        self.assertIn("var canonical = apply_loop_state(consumers)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_apply_loop_state"', module_source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
+        self.assertNotIn('"matches": result == canonical', module_source)
 
     def test_port_game_exposes_source_block_init_set_bars_call_state(self):
         source = self._port_game_block_init_runtime_source()

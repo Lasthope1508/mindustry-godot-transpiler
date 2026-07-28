@@ -5034,17 +5034,7 @@ func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictiona
 	return SourceBlockInitConsumerState.arrays_state(consume_builder)
 
 func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consume_builder], null, metadata)
-	var canonical = source_block_init_consumer_arrays_state(consume_builder)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_consumer_arrays_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitConsumerState.generated_consumer_arrays_bridge_state(consume_builder)
 
 func source_block_reinitialize_consumers_arrays_state(consume_builder: Array) -> Dictionary:
 	return SourceBlockReinitializeConsumersState.arrays_state(consume_builder)
@@ -6044,16 +6034,7 @@ func source_block_init_consumer_apply_loop_state(consumers: Array) -> Dictionary
 	return SourceBlockInitConsumerState.apply_loop_state(consumers)
 
 func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consumers], null, {"mindustry_init_bridge_mode": "consumer_apply_loop"})
-	var canonical = source_block_init_consumer_apply_loop_state(consumers)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_consumer_apply_loop_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitConsumerState.generated_consumer_apply_loop_bridge_state(consumers)
 
 func source_block_init_set_bars_call_state() -> Dictionary:
 	return SourceBlockInitRuntimeState.set_bars_call_state()
