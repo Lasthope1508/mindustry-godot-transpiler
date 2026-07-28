@@ -13754,12 +13754,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", "tile_value")
-        self.assertIn("var canonical = source_building_killed_initial_side_effects_state(tile_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_killed_215"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_killed_initial_side_effects_bridge_state(tile_value)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_port_game_exposes_generated_building_comp_killed_removal_side_effects_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -13767,12 +13763,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", "tile_value, tile_not_empty_tile")
-        self.assertIn("var canonical = source_building_killed_removal_side_effects_state(tile_not_empty_tile)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_killed_removal_side_effects_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_killed_215"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_killed_removal_side_effects_bridge_state(tile_value, tile_not_empty_tile)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_check_allow_update_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13794,12 +13786,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", "current_enabled, allow_update_result")
-        self.assertIn("var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_check_allow_update_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_check_allow_update_bridge_state(current_enabled, allow_update_result)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_update_timescale_decay_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -15146,6 +15134,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceBuildingLifecycleState.default_callbacks_state", proof_source)
         self.assertIn('"chance_delta_threshold": Callable(game, "source_arc_chance_delta_threshold")', proof_source)
         self.assertIn("SourceBuildingLifecycleState.check_suppression_state(", proof_source)
+        self.assertIn("SourceBuildingLifecycleState.generated_killed_initial_side_effects_bridge_state", proof_source)
+        self.assertIn("SourceBuildingLifecycleState.generated_killed_removal_side_effects_bridge_state", proof_source)
+        self.assertIn("SourceBuildingLifecycleState.generated_check_allow_update_bridge_state", proof_source)
+        self.assertIn('"killed_initial_bridge_matches"', proof_source)
+        self.assertIn('"killed_removal_bridge_matches"', proof_source)
+        self.assertIn('"check_allow_update_bridge_matches"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
         self.assertIn('"registry_valid"', proof_source)
@@ -17732,6 +17726,52 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"event": {"type": "BlockDestroyEvent", "tile": tile_value},', helper_source)
         self.assertIn('"on_destroyed_called": true,', helper_source)
         self.assertIn('"next_step": "tile_remove_gate",', helper_source)
+
+    def test_port_game_exposes_generated_building_lifecycle_bridges_from_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:",
+            "static func generated_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_killed_initial_side_effects_bridge_state(tile_value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_killed_215",
+            "tile_value",
+            "var canonical = killed_initial_side_effects_state(tile_value)",
+            "PortGame.source_building_killed_initial_side_effects_state",
+            "BuildingComp.java_method_killed_215",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:",
+            "static func generated_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_killed_removal_side_effects_bridge_state(tile_value, tile_not_empty_tile)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_killed_215",
+            "tile_value, tile_not_empty_tile",
+            "var canonical = killed_removal_side_effects_state(tile_not_empty_tile)",
+            "PortGame.source_building_killed_removal_side_effects_state",
+            "BuildingComp.java_method_killed_215",
+        )
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:",
+            "static func generated_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_check_allow_update_bridge_state(current_enabled, allow_update_result)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_checkAllowUpdate_216",
+            "current_enabled, allow_update_result",
+            "var canonical = check_allow_update_state(current_enabled, allow_update_result)",
+            "PortGame.source_building_check_allow_update_state",
+            "BuildingComp.java_method_checkAllowUpdate_216",
+        )
 
     def test_port_game_exposes_source_building_killed_removal_side_effects_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"

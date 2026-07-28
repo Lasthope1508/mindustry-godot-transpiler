@@ -3020,24 +3020,10 @@ func source_building_in_fog_visibility_loop_state(block_size_value: int, block_s
 	return SourceBuildingVisibilityState.in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 
 func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value], null)
-	var canonical = source_building_killed_initial_side_effects_state(tile_value)
-	return {
-		"source_owner": "PortGame.source_building_killed_initial_side_effects_state",
-		"generated_owner": "BuildingComp.java_method_killed_215",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_killed_initial_side_effects_bridge_state(tile_value)
 
 func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value, tile_not_empty_tile], null)
-	var canonical = source_building_killed_removal_side_effects_state(tile_not_empty_tile)
-	return {
-		"source_owner": "PortGame.source_building_killed_removal_side_effects_state",
-		"generated_owner": "BuildingComp.java_method_killed_215",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_killed_removal_side_effects_bridge_state(tile_value, tile_not_empty_tile)
 
 func source_building_killed_initial_side_effects_state(tile_value: Variant) -> Dictionary:
 	return SourceBuildingLifecycleState.killed_initial_side_effects_state(tile_value)
@@ -3046,14 +3032,7 @@ func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool
 	return SourceBuildingLifecycleState.killed_removal_side_effects_state(tile_not_empty_tile)
 
 func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", [current_enabled, allow_update_result], null)
-	var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)
-	return {
-		"source_owner": "PortGame.source_building_check_allow_update_state",
-		"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_check_allow_update_bridge_state(current_enabled, allow_update_result)
 
 func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
 	return SourceBuildingLifecycleState.check_allow_update_state(current_enabled, allow_update_result)
