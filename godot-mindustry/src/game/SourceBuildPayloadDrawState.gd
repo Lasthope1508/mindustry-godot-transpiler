@@ -35,3 +35,27 @@ static func draw_state(prev_z: float, layer_flying_unit_low: float, transform_z:
 
 static func icon_state(full_icon: Variant) -> Dictionary:
 	return {"source_owner": "PortGame.source_build_payload_icon_state", "source": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_SOURCE, "class_expr": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_CLASS_EXPR, "field_expr": SourceBuildPayloadState.SOURCE_BUILD_PAYLOAD_BUILD_FIELD_EXPR, "override_expr": "@Override", "method": SOURCE_BUILD_PAYLOAD_ICON_METHOD, "return_expr": SOURCE_BUILD_PAYLOAD_ICON_RETURN_EXPR, "full_icon": full_icon, "icon": full_icon}
+
+static func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])
+	var canonical = draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_draw_shadow_state", "generated_owner": "BuildPayload.java_method_drawShadow_15", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])
+	var canonical = draw_state(prev_z, layer_flying_unit_low, transform_z)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_draw_state", "generated_owner": "BuildPayload.java_method_draw_16", "result": result, "canonical": canonical, "matches": matches}
+
+static func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_icon_17([full_icon])
+	var canonical = icon_state(full_icon)
+	var matches: bool = SourceBuildPayloadState.generated_state_matches_generated_subset(result, canonical)
+	return {"source_owner": "PortGame.source_build_payload_icon_state", "generated_owner": "BuildPayload.java_method_icon_17", "result": result, "canonical": canonical, "matches": matches}

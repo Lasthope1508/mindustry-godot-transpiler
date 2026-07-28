@@ -5348,120 +5348,46 @@ func source_build_payload_content_equals_state(other_is_build_payload: bool, oth
 	return SourceBuildPayloadState.content_equals_state(other_is_build_payload, other_block, build_block)
 
 func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_contentEquals_3", [other_is_build_payload, other_block, build_block], null)
-	var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_content_equals_state",
-		"generated_owner": "BuildPayload.java_method_contentEquals_3",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_content_equals_bridge_state(other_is_build_payload, other_block, build_block)
 
 func source_build_payload_content_state(build_block: Variant) -> Dictionary:
 	return SourceBuildPayloadState.content_state(build_block)
 
 func generated_build_payload_content_bridge_state(build_block: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_content_4", [build_block], null)
-	var canonical = source_build_payload_content_state(build_block)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_content_state",
-		"generated_owner": "BuildPayload.java_method_content_4",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_content_bridge_state(build_block)
 
 func source_build_payload_build_time_state(build_time: float) -> Dictionary:
 	return SourceBuildPayloadState.build_time_state(build_time)
 
 func generated_build_payload_build_time_bridge_state(build_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_buildTime_8", [build_time], null)
-	var canonical = source_build_payload_build_time_state(build_time)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_build_time_state",
-		"generated_owner": "BuildPayload.java_method_buildTime_8",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_build_time_bridge_state(build_time)
 
 func source_build_payload_requirements_state(requirements: Variant) -> Dictionary:
 	return SourceBuildPayloadState.requirements_state(requirements)
 
 func generated_build_payload_requirements_bridge_state(requirements: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_requirements_7", [requirements], null)
-	var canonical = source_build_payload_requirements_state(requirements)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_requirements_state",
-		"generated_owner": "BuildPayload.java_method_requirements_7",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_requirements_bridge_state(requirements)
 
 func source_build_payload_x_state(build_x: float) -> Dictionary:
 	return SourceBuildPayloadState.x_state(build_x)
 
 func generated_build_payload_x_bridge_state(build_x: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_x_9", [build_x], null)
-	var canonical = source_build_payload_x_state(build_x)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_x_state",
-		"generated_owner": "BuildPayload.java_method_x_9",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_x_bridge_state(build_x)
 
 func source_build_payload_y_state(build_y: float) -> Dictionary:
 	return SourceBuildPayloadState.y_state(build_y)
 
 func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_y_10", [build_y], null)
-	var canonical = source_build_payload_y_state(build_y)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_y_state",
-		"generated_owner": "BuildPayload.java_method_y_10",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_y_bridge_state(build_y)
 
 func source_build_payload_size_state(build_block_size: float, source_tilesize: float) -> Dictionary:
 	return SourceBuildPayloadState.size_state(build_block_size, source_tilesize)
 
 func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_size_11", [build_block_size, source_tilesize], null)
-	var canonical = source_build_payload_size_state(build_block_size, source_tilesize)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_size_state",
-		"generated_owner": "BuildPayload.java_method_size_11",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_size_bridge_state(build_block_size, source_tilesize)
 
 func generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_size_11", [build_block_size], null)
-	var canonical = source_build_payload_size_state(build_block_size, SourceWorldDefaults.TILESIZE)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_size_state",
-		"generated_owner": "BuildPayload.java_method_size_11",
-		"defaulted_arg": "source_tilesize",
-		"source_tilesize": result.get("source_tilesize", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size)
 
 func source_build_payload_remove_state() -> Dictionary:
 	return SourceBuildPayloadLifecycleState.remove_state()
@@ -5473,76 +5399,31 @@ func source_build_payload_write_state(payload_block: int, build_block_id: int, b
 	return SourceBuildPayloadState.write_state(payload_block, build_block_id, build_version)
 
 func generated_build_payload_write_bridge_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_write_13", [payload_block, build_block_id, build_version], null)
-	var canonical = source_build_payload_write_state(payload_block, build_block_id, build_version)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_write_state",
-		"generated_owner": "BuildPayload.java_method_write_13",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_write_bridge_state(payload_block, build_block_id, build_version)
 
 func source_build_payload_set_state(x: float, y: float, rotation_value: float) -> Dictionary:
 	return SourceBuildPayloadState.set_state(x, y, rotation_value)
 
 func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_set_14", [x, y, rotation_value], null)
-	var canonical = source_build_payload_set_state(x, y, rotation_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_set_state",
-		"generated_owner": "BuildPayload.java_method_set_14",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadState.generated_build_payload_set_bridge_state(x, y, rotation_value)
 
 func source_build_payload_draw_shadow_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
 	return SourceBuildPayloadDrawState.draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
 
 func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_drawShadow_15", [build_x, build_y, build_block_size, source_tilesize, alpha], null)
-	var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_draw_shadow_state",
-		"generated_owner": "BuildPayload.java_method_drawShadow_15",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadDrawState.generated_build_payload_draw_shadow_bridge_state(build_x, build_y, build_block_size, source_tilesize, alpha)
 
 func source_build_payload_draw_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
 	return SourceBuildPayloadDrawState.draw_state(prev_z, layer_flying_unit_low, transform_z)
 
 func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_draw_16", [prev_z, layer_flying_unit_low, transform_z], null)
-	var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_draw_state",
-		"generated_owner": "BuildPayload.java_method_draw_16",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadDrawState.generated_build_payload_draw_bridge_state(prev_z, layer_flying_unit_low, transform_z)
 
 func source_build_payload_icon_state(full_icon: Variant) -> Dictionary:
 	return SourceBuildPayloadDrawState.icon_state(full_icon)
 
 func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_icon_17", [full_icon], null)
-	var canonical = source_build_payload_icon_state(full_icon)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_build_payload_icon_state",
-		"generated_owner": "BuildPayload.java_method_icon_17",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildPayloadDrawState.generated_build_payload_icon_bridge_state(full_icon)
 
 func source_block_producer_icons_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
 	return SourceBlockProducerState.icons_state(region, out_region, top_region)
