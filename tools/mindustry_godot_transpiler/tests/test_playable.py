@@ -33926,24 +33926,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_clip_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitClipState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:",
+            "static func generated_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:",
+            "return SourceBlockInitClipState.generated_clip_size_bridge_state(clip_size_before, size_value, source_tilesize)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "clip_size_before, size_value, source_tilesize",
+            "var canonical = clip_size_state(clip_size_before, size_value, source_tilesize)",
+            "PortGame.source_block_init_clip_size_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "clip_size"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_clip_size_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_light_clip_size_state(self):
         source = self._port_game_block_init_clip_source()
@@ -33958,24 +33959,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_light_clip_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitClipState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_light_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:",
+            "static func generated_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:",
+            "return SourceBlockInitClipState.generated_light_clip_size_bridge_state(light_clip_size_before, clip_size)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "light_clip_size_before, clip_size",
+            "var canonical = light_clip_size_state(light_clip_size_before, clip_size)",
+            "PortGame.source_block_init_light_clip_size_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "light_clip_size"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_light_clip_size_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_liquid_light_state(self):
         source = self._port_game_block_init_clip_source()
@@ -33992,24 +33994,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_liquid_light_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitClipState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_liquid_light_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:",
+            "static func generated_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:",
+            "return SourceBlockInitClipState.generated_liquid_light_bridge_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value",
+            "var canonical = liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)",
+            "PortGame.source_block_init_liquid_light_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "liquid_light"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_liquid_light_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_liquid_capacity_default_state(self):
         source = self._port_game_block_init_clip_source()
@@ -34027,24 +34030,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitClipState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_liquid_capacity_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:",
+            "static func generated_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:",
+            "return SourceBlockInitClipState.generated_liquid_capacity_default_bridge_state(liquid_capacity_before)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "liquid_capacity_before",
+            "var canonical = liquid_capacity_default_state(liquid_capacity_before)",
+            "PortGame.source_block_init_liquid_capacity_default_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "liquid_capacity_default"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_liquid_capacity_default_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_emit_light_radius_state(self):
         source = self._port_game_block_init_clip_source()
@@ -34059,24 +34063,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitClipState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_emit_light_radius_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:",
+            "static func generated_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:",
+            "return SourceBlockInitClipState.generated_emit_light_radius_bridge_state(emit_light, light_clip_size_before, light_radius)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "emit_light, light_clip_size_before, light_radius",
+            "var canonical = emit_light_radius_state(emit_light, light_clip_size_before, light_radius)",
+            "PortGame.source_block_init_emit_light_radius_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "emit_light_radius"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_emit_light_radius_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_placement_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

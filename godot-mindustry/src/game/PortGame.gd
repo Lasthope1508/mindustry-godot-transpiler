@@ -4974,81 +4974,31 @@ func source_block_init_clip_size_state(clip_size_before: float, size_value: int,
 	return SourceBlockInitClipState.clip_size_state(clip_size_before, size_value, source_tilesize)
 
 func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "clip_size"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [clip_size_before, size_value, source_tilesize], null, metadata)
-	var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_clip_size_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitClipState.generated_clip_size_bridge_state(clip_size_before, size_value, source_tilesize)
 
 func source_block_init_light_clip_size_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
 	return SourceBlockInitClipState.light_clip_size_state(light_clip_size_before, clip_size)
 
 func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "light_clip_size"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [light_clip_size_before, clip_size], null, metadata)
-	var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_light_clip_size_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitClipState.generated_light_clip_size_bridge_state(light_clip_size_before, clip_size)
 
 func source_block_init_liquid_light_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
 	return SourceBlockInitClipState.liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 
 func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "liquid_light"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value], null, metadata)
-	var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_liquid_light_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitClipState.generated_liquid_light_bridge_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 
 func source_block_init_liquid_capacity_default_state(liquid_capacity_before: float) -> Dictionary:
 	return SourceBlockInitClipState.liquid_capacity_default_state(liquid_capacity_before)
 
 func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "liquid_capacity_default"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [liquid_capacity_before], null, metadata)
-	var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_liquid_capacity_default_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitClipState.generated_liquid_capacity_default_bridge_state(liquid_capacity_before)
 
 func source_block_init_emit_light_radius_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
 	return SourceBlockInitClipState.emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
 
 func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "emit_light_radius"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [emit_light, light_clip_size_before, light_radius], null, metadata)
-	var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_emit_light_radius_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitClipState.generated_emit_light_radius_bridge_state(emit_light, light_clip_size_before, light_radius)
 
 func source_block_init_accepts_items_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
 	return SourceBlockInitPlacementState.accepts_items_state(block_group, category_value, accepts_items_before)
