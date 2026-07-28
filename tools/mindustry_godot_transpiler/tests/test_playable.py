@@ -35185,6 +35185,7 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(module_signature, module_source)
             module_body = self._static_method_body(module_source, module_signature)
             self.assertIn(f"\treturn SourceBuildPayloadState.{func_name}({args})", port_body)
+            self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_body)
             self.assertNotIn("ResourceLoader.load(", port_body)
             self.assertNotIn("java_method_", port_body)
             self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', module_body)
@@ -35193,6 +35194,19 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
             self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", module_body)
             self.assertNotIn('"matches": result == canonical', module_body)
+
+    def test_build_payload_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildPayloadModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildPayloadModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "BuildPayload module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "BuildPayload module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/BuildPayloadModuleProof.gd"', scene_source)
+        self.assertIn("BUILD_PAYLOAD_MODULE_PROOF", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_build_payload_basic_accessors_use_module_constants_without_duplicate_literals(self):
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildPayloadState.gd"
