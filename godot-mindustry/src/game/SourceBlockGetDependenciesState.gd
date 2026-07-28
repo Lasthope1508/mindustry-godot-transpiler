@@ -1,0 +1,82 @@
+extends RefCounted
+class_name SourceBlockGetDependenciesState
+
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+
+static func _matches_subset(result: Variant, canonical: Variant) -> bool:
+	if result is Dictionary and canonical is Dictionary:
+		for key in canonical.keys():
+			if not result.has(key):
+				return false
+			if not _matches_subset(result.get(key), canonical.get(key)):
+				return false
+		return true
+	if result is Array and canonical is Array:
+		if result.size() != canonical.size():
+			return false
+		for index in range(canonical.size()):
+			if not _matches_subset(result[index], canonical[index]):
+				return false
+		return true
+	return result == canonical
+
+static func requirements_state(requirements: Array) -> Dictionary:
+	var dependency_items: Array = []
+	for requirement in requirements:
+		dependency_items.append(requirement.get("item"))
+	return {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}
+
+static func consume_builder_optional_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var dependency_items: Array = []
+	for requirement in requirements:
+		dependency_items.append(requirement.get("item"))
+	var consume_loop_indices: Array = []
+	var skipped_optional_indices: Array = []
+	var non_optional_indices: Array = []
+	for i in range(consume_builder.size()):
+		consume_loop_indices.append(i)
+		var consume: Dictionary = consume_builder[i]
+		if bool(consume.get("optional", false)):
+			skipped_optional_indices.append(i)
+			continue
+		non_optional_indices.append(i)
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}
+
+static func consume_items_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var dependency_items: Array = []
+	for requirement in requirements:
+		dependency_items.append(requirement.get("item"))
+	var consume_loop_indices: Array = []
+	var skipped_optional_indices: Array = []
+	var non_optional_indices: Array = []
+	var consume_items_indices: Array = []
+	var consume_item_dependency_items: Array = []
+	for i in range(consume_builder.size()):
+		var consume: Dictionary = consume_builder[i]
+		consume_loop_indices.append(i)
+		if bool(consume.get("optional", false)):
+			skipped_optional_indices.append(i)
+			continue
+		non_optional_indices.append(i)
+		if str(consume.get("type", "")) != "ConsumeItems":
+			continue
+		consume_items_indices.append(i)
+		for stack in consume.get("items", []):
+			consume_item_dependency_items.append(stack.get("item"))
+			dependency_items.append(stack.get("item"))
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "consume_items_guard_expr": "if(c instanceof ConsumeItems i){", "consume_items_loop_expr": "for(ItemStack stack : i.items){", "consume_items_cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices, "consume_items_indices": consume_items_indices, "consume_item_dependency_items": consume_item_dependency_items}
+
+static func generated_block_get_dependencies_requirements_bridge_state(requirements: Array) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getDependencies_119", [requirements], null)
+	var canonical = requirements_state(requirements)
+	return {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "generated_owner": "Block.java_method_getDependencies_119", "result": result, "canonical": canonical, "matches": _matches_subset(result, canonical)}
+
+static func generated_block_get_dependencies_consume_builder_optional_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getDependencies_119", [requirements, consume_builder], null)
+	var canonical = consume_builder_optional_state(requirements, consume_builder)
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "generated_owner": "Block.java_method_getDependencies_119", "result": result, "canonical": canonical, "matches": _matches_subset(result, canonical)}
+
+static func generated_block_get_dependencies_consume_items_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getDependencies_119", [requirements, consume_builder, true], null)
+	var canonical = consume_items_state(requirements, consume_builder)
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_items_state", "generated_owner": "Block.java_method_getDependencies_119", "result": result, "canonical": canonical, "matches": _matches_subset(result, canonical)}

@@ -33451,11 +33451,11 @@ class PlayableManifestTests(unittest.TestCase):
         module_source = module.read_text(encoding="utf-8")
 
         bridges = {
-            "generated_block_get_dependencies_requirements_bridge_state(requirements: Array)": ("requirements", "var result = instance.java_method_getDependencies_119([requirements])", "var canonical = requirements_state(requirements)", "Block.java_method_getDependencies_119"),
-            "generated_block_get_dependencies_consume_builder_optional_bridge_state(requirements: Array, consume_builder: Array)": ("requirements, consume_builder", "var result = instance.java_method_getDependencies_119([requirements, consume_builder])", "var canonical = consume_builder_optional_state(requirements, consume_builder)", "Block.java_method_getDependencies_119"),
-            "generated_block_get_dependencies_consume_items_bridge_state(requirements: Array, consume_builder: Array)": ("requirements, consume_builder", "var result = instance.java_method_getDependencies_119([requirements, consume_builder, true])", "var canonical = consume_items_state(requirements, consume_builder)", "Block.java_method_getDependencies_119"),
+            "generated_block_get_dependencies_requirements_bridge_state(requirements: Array)": ("requirements", "[requirements]", "var canonical = requirements_state(requirements)", "Block.java_method_getDependencies_119"),
+            "generated_block_get_dependencies_consume_builder_optional_bridge_state(requirements: Array, consume_builder: Array)": ("requirements, consume_builder", "[requirements, consume_builder]", "var canonical = consume_builder_optional_state(requirements, consume_builder)", "Block.java_method_getDependencies_119"),
+            "generated_block_get_dependencies_consume_items_bridge_state(requirements: Array, consume_builder: Array)": ("requirements, consume_builder", "[requirements, consume_builder, true]", "var canonical = consume_items_state(requirements, consume_builder)", "Block.java_method_getDependencies_119"),
         }
-        for signature_tail, (args, generated_call, canonical_call, generated_owner) in bridges.items():
+        for signature_tail, (args, generated_args, canonical_call, generated_owner) in bridges.items():
             func_name = signature_tail.split("(", 1)[0]
             port_signature = f"func {signature_tail} -> Dictionary:"
             module_signature = f"static func {signature_tail} -> Dictionary:"
@@ -33464,11 +33464,33 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(module_signature, module_source)
             self.assertIn(f"\treturn SourceBlockGetDependenciesState.{func_name}({args})", port_body)
             self.assertNotIn("ResourceLoader.load(", port_body)
-            self.assertNotIn("java_method_", port_body)
-            self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', module_body)
-            self.assertIn(generated_call, module_body)
+            self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_body)
+            self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+            self.assertIn(
+                f'var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getDependencies_119", {generated_args}, null)',
+                module_body,
+            )
             self.assertIn(canonical_call, module_body)
             self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
+            self.assertNotIn("ResourceLoader.load(", module_body)
+            self.assertNotIn("script.new()", module_body)
+
+    def test_source_block_get_dependencies_state_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockGetDependenciesModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockGetDependenciesModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof_script.read_text(encoding="utf-8")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+
+        self.assertIn("BLOCK_GET_DEPENDENCIES_MODULE_PROOF", proof_source)
+        self.assertIn('const SourceBlockGetDependenciesState := preload("res://src/game/SourceBlockGetDependenciesState.gd")', proof_source)
+        self.assertIn("generated_block_get_dependencies_requirements_bridge_state(", proof_source)
+        self.assertIn("generated_block_get_dependencies_consume_items_bridge_state(", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"matches"', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/BlockGetDependenciesModuleProof.gd"', scene_source)
 
     def test_port_game_exposes_source_block_get_dependencies_requirements_state(self):
         source = self._port_game_block_get_dependencies_source()
