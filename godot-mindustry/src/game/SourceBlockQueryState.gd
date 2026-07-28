@@ -1,6 +1,8 @@
 class_name SourceBlockQueryState
 extends RefCounted
 
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+
 static func generated_state_matches_generated_subset(result: Variant, canonical: Variant) -> bool:
 	if result is Dictionary and canonical is Dictionary:
 		for key in canonical.keys():
@@ -50,10 +52,10 @@ static func check_force_dark_state(force_dark_value: bool, tile: Variant) -> Dic
 
 
 static func is_darkened_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:
-	var synthetic_state := synthetic_state(update_value, destructible_value)
-	var check_force_dark_state := check_force_dark_state(force_dark_value, tile)
-	var is_darkened_value: bool = solid_value and ((not bool(synthetic_state["synthetic"]) and fills_tile_value) or bool(check_force_dark_state["check_force_dark"]))
-	return {"source_owner": "PortGame.source_block_is_darkened_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** If true, the 'map edge' darkness will be applied to this block. */", "method": "public boolean isDarkened(Tile tile){", "return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));", "solid": solid_value, "fillsTile": fills_tile_value, "synthetic_state": synthetic_state, "check_force_dark_state": check_force_dark_state, "tile": tile, "is_darkened": is_darkened_value}
+	var synthetic_state_result := synthetic_state(update_value, destructible_value)
+	var check_force_dark_state_result := check_force_dark_state(force_dark_value, tile)
+	var is_darkened_value: bool = solid_value and ((not bool(synthetic_state_result["synthetic"]) and fills_tile_value) or bool(check_force_dark_state_result["check_force_dark"]))
+	return {"source_owner": "PortGame.source_block_is_darkened_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** If true, the 'map edge' darkness will be applied to this block. */", "method": "public boolean isDarkened(Tile tile){", "return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));", "solid": solid_value, "fillsTile": fills_tile_value, "synthetic_state": synthetic_state_result, "check_force_dark_state": check_force_dark_state_result, "tile": tile, "is_darkened": is_darkened_value}
 
 
 static func consumes_item_state(item_filter: Array, item_id: int, item: Variant) -> Dictionary:
@@ -107,162 +109,126 @@ static func remove_consumers_state(consume_builder_contains_power_after_remove: 
 
 
 static func generated_block_outputs_items_bridge_state(has_items: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_outputsItems_17([has_items])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_outputsItems_17", [has_items], null)
 	var canonical = outputs_items_state(has_items)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_outputs_items_state", "generated_owner": "Block.java_method_outputsItems_17", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_can_place_on_bridge_state(tile: Variant, team: Variant, rotation_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_canPlaceOn_18([tile, team, rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_canPlaceOn_18", [tile, team, rotation_value], null)
 	var canonical = can_place_on_state(tile, team, rotation_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_can_place_on_state", "generated_owner": "Block.java_method_canPlaceOn_18", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_can_break_bridge_state(tile: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_canBreak_19([tile])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_canBreak_19", [tile], null)
 	var canonical = can_break_state(tile)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_can_break_state", "generated_owner": "Block.java_method_canBreak_19", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_rotated_output_bridge_state(rotate_value: bool, x_value: int, y_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_rotatedOutput_20([rotate_value, x_value, y_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_rotatedOutput_20", [rotate_value, x_value, y_value], null)
 	var canonical = rotated_output_state(rotate_value, x_value, y_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_rotated_output_state", "generated_owner": "Block.java_method_rotatedOutput_20", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_rotated_output_tile_bridge_state(rotate_value: bool, from_x: int, from_y: int, destination: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_rotatedOutput_21([rotate_value, from_x, from_y, destination])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_rotatedOutput_21", [rotate_value, from_x, from_y, destination], null)
 	var canonical = rotated_output_tile_state(rotate_value, from_x, from_y, destination)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_rotated_output_tile_state", "generated_owner": "Block.java_method_rotatedOutput_21", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_synthetic_bridge_state(update_value: bool, destructible_value: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_synthetic_22([update_value, destructible_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_synthetic_22", [update_value, destructible_value], null)
 	var canonical = synthetic_state(update_value, destructible_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_synthetic_state", "generated_owner": "Block.java_method_synthetic_22", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_check_force_dark_bridge_state(force_dark_value: bool, tile: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_checkForceDark_23([force_dark_value, tile])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_checkForceDark_23", [force_dark_value, tile], null)
 	var canonical = check_force_dark_state(force_dark_value, tile)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_check_force_dark_state", "generated_owner": "Block.java_method_checkForceDark_23", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_is_darkened_bridge_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_isDarkened_24([solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_isDarkened_24", [solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile], null)
 	var canonical = is_darkened_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_is_darkened_state", "generated_owner": "Block.java_method_isDarkened_24", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_consumes_item_bridge_state(item_filter: Array, item_id: int, item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_consumesItem_33([item_filter, item_id, item])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumesItem_33", [item_filter, item_id, item], null)
 	var canonical = consumes_item_state(item_filter, item_id, item)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_consumes_item_state", "generated_owner": "Block.java_method_consumesItem_33", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_consumes_liquid_bridge_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_consumesLiquid_34([liquid_filter, liquid_id, liq])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_consumesLiquid_34", [liquid_filter, liquid_id, liq], null)
 	var canonical = consumes_liquid_state(liquid_filter, liquid_id, liq)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_consumes_liquid_state", "generated_owner": "Block.java_method_consumesLiquid_34", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_has_building_bridge_state(destructible_value: bool, update_value: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_hasBuilding_70([destructible_value, update_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_hasBuilding_70", [destructible_value, update_value], null)
 	var canonical = has_building_state(destructible_value, update_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_has_building_state", "generated_owner": "Block.java_method_hasBuilding_70", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_is_multiblock_bridge_state(size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_isMultiblock_74([size_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_isMultiblock_74", [size_value], null)
 	var canonical = is_multiblock_state(size_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_is_multiblock_state", "generated_owner": "Block.java_method_isMultiblock_74", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_is_air_bridge_state(id_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_isAir_91([id_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_isAir_91", [id_value], null)
 	var canonical = is_air_state(id_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_is_air_state", "generated_owner": "Block.java_method_isAir_91", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_can_be_built_bridge_state(build_visibility_value: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_canBeBuilt_92([build_visibility_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_canBeBuilt_92", [build_visibility_value], null)
 	var canonical = can_be_built_state(build_visibility_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_can_be_built_state", "generated_owner": "Block.java_method_canBeBuilt_92", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_is_static_bridge_state(cache_layer_value: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_isStatic_94([cache_layer_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_isStatic_94", [cache_layer_value], null)
 	var canonical = is_static_state(cache_layer_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_is_static_state", "generated_owner": "Block.java_method_isStatic_94", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_has_consumer_bridge_state(consume_builder_contains: bool, cons: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_hasConsumer_96([consume_builder_contains, cons])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_hasConsumer_96", [consume_builder_contains, cons], null)
 	var canonical = has_consumer_state(consume_builder_contains, cons)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_has_consumer_state", "generated_owner": "Block.java_method_hasConsumer_96", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_remove_consumer_bridge_state(consumers_length: int, cons: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_removeConsumer_97([consumers_length, cons])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_removeConsumer_97", [consumers_length, cons], null)
 	var canonical = remove_consumer_state(consumers_length, cons)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {"source_owner": "PortGame.source_block_remove_consumer_state", "generated_owner": "Block.java_method_removeConsumer_97", "result": result, "canonical": canonical, "matches": matches}
 
 
 static func generated_block_remove_consumers_bridge_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_removeConsumers_98([consume_builder_contains_power_after_remove, b])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_removeConsumers_98", [consume_builder_contains_power_after_remove, b], null)
 	var block_remove_consumers_result = result
 	var canonical = remove_consumers_state(consume_builder_contains_power_after_remove, b)
 	var matches: bool = generated_state_matches_generated_subset(block_remove_consumers_result, canonical)

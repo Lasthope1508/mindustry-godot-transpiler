@@ -32673,19 +32673,26 @@ class PlayableManifestTests(unittest.TestCase):
 
         for port_signature, module_signature, facade_call, script_load, generated_call, canonical_call, source_owner, generated_owner, matches_expr in cases:
             with self.subTest(signature=port_signature):
-                self._assert_generated_bridge_moved_to_module(
-                    source,
-                    module_source,
-                    port_signature,
-                    module_signature,
-                    facade_call,
-                    script_load,
-                    generated_call,
-                    canonical_call,
-                    source_owner,
-                    generated_owner,
-                    matches_expr,
+                bridge_body = self._method_body(source, port_signature)
+                module_body = self._static_method_body(module_source, module_signature)
+                generated_method = generated_call.split("instance.", 1)[1].split("(", 1)[0]
+                generated_args = generated_call.split("(", 1)[1].rsplit(")", 1)[0]
+                self.assertIn(module_signature, module_source)
+                self.assertIn(facade_call, bridge_body)
+                self.assertNotIn(script_load, bridge_body)
+                self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
+                self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+                self.assertIn(
+                    f'var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "{generated_method}", {generated_args}, null)',
+                    module_body,
                 )
+                self.assertIn(canonical_call, module_body)
+                self.assertIn(f'"source_owner": "{source_owner}"', module_body)
+                self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
+                self.assertIn(matches_expr, module_body)
+                self.assertNotIn("ResourceLoader.load(", module_body)
+                self.assertNotIn("script.new()", module_body)
+
     def test_port_game_delegates_source_block_query_state_to_module(self):
         source = self._port_game_block_query_source()
 
@@ -32725,12 +32732,16 @@ class PlayableManifestTests(unittest.TestCase):
         scene_source = proof_scene.read_text(encoding="utf-8")
 
         self.assertIn('const PortGameScript := preload("res://src/game/PortGame.gd")', source)
+        self.assertIn('const SourceBlockQueryState := preload("res://src/game/SourceBlockQueryState.gd")', source)
         self.assertIn('var game := PortGameScript.new()', source)
-        self.assertIn('game.source_block_is_darkened_state(true, false, false, true, false, "tile")', source)
+        self.assertIn('game.generated_block_outputs_items_bridge_state(true)', source)
         self.assertIn('game.generated_block_is_darkened_bridge_state(true, false, false, true, false, "tile")', source)
+        self.assertIn('game.generated_block_remove_consumers_bridge_state(false, "remove-filter")', source)
         self.assertIn('"module": "SourceBlockQueryState"', source)
-        self.assertIn('"bridge_matches": bridge_state.get("matches", false)', source)
-        self.assertIn('print("BLOCK_QUERY_MODULE_PROOF " + JSON.stringify(proof))', source)
+        self.assertIn('"one_headquarter_per_ssot"', source)
+        self.assertIn('"matches"', source)
+        self.assertIn('var proof_json := JSON.stringify(proof)', source)
+        self.assertIn('print("BLOCK_QUERY_MODULE_PROOF " + proof_json)', source)
         self.assertIn('path="res://tools/runtime_proofs/BlockQueryModuleProof.gd"', scene_source)
 
     def test_port_game_delegates_block_consume_source_state_to_module(self):
