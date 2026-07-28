@@ -32803,21 +32803,21 @@ class PlayableManifestTests(unittest.TestCase):
         module_source = module.read_text(encoding="utf-8")
 
         bridges = {
-            "generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float)": ("liquid, amount", "var result = instance.java_method_consumeLiquid_99([liquid, amount])", "var canonical = consume_liquid_state(liquid, amount)", "Block.java_method_consumeLiquid_99"),
-            "generated_block_consume_liquids_bridge_state(stacks: Variant)": ("stacks", "var result = instance.java_method_consumeLiquids_100([stacks])", "var canonical = consume_liquids_state(stacks)", "Block.java_method_consumeLiquids_100"),
-            "generated_block_consume_power_bridge_state(power_per_tick: float)": ("power_per_tick", "var result = instance.java_method_consumePower_101([power_per_tick])", "var canonical = consume_power_state(power_per_tick)", "Block.java_method_consumePower_101"),
-            "generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant)": ("usage, cons", "var result = instance.java_method_consumePowerCond_102([usage, cons])", "var canonical = consume_power_cond_state(usage, cons)", "Block.java_method_consumePowerCond_102"),
-            "generated_block_consume_power_dynamic_bridge_state(usage: Variant)": ("usage", "var result = instance.java_method_consumePowerDynamic_103([usage])", "var canonical = consume_power_dynamic_state(usage)", "Block.java_method_consumePowerDynamic_103"),
-            "generated_block_consume_power_dynamic_displayed_bridge_state(displayed: float, usage: Variant)": ("displayed, usage", "var result = instance.java_method_consumePowerDynamic_104([displayed, usage])", "var canonical = consume_power_dynamic_displayed_state(displayed, usage)", "Block.java_method_consumePowerDynamic_104"),
-            "generated_block_consume_power_buffered_bridge_state(power_capacity: float)": ("power_capacity", "var result = instance.java_method_consumePowerBuffered_105([power_capacity])", "var canonical = consume_power_buffered_state(power_capacity)", "Block.java_method_consumePowerBuffered_105"),
-            "generated_block_consume_item_single_bridge_state(item: Variant)": ("item", "var result = instance.java_method_consumeItem_106([item])", "var canonical = consume_item_single_state(item)", "Block.java_method_consumeItem_106"),
-            "generated_block_consume_item_amount_bridge_state(item: Variant, amount: int)": ("item, amount", "var result = instance.java_method_consumeItem_107([item, amount])", "var canonical = consume_item_amount_state(item, amount)", "Block.java_method_consumeItem_107"),
-            "generated_block_consume_items_varargs_bridge_state(items: Array)": ("items", "var result = instance.java_method_consumeItems_108(items)", "var canonical = consume_items_varargs_state(items)", "Block.java_method_consumeItems_108"),
-            "generated_block_consume_coolant_single_bridge_state(amount: float)": ("amount", "var result = instance.java_method_consumeCoolant_109([amount])", "var canonical = consume_coolant_single_state(amount)", "Block.java_method_consumeCoolant_109"),
-            "generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool)": ("amount, allow_liquid, allow_gas", "var result = instance.java_method_consumeCoolant_110([amount, allow_liquid, allow_gas])", "var canonical = consume_coolant_filtered_state(amount, allow_liquid, allow_gas)", "Block.java_method_consumeCoolant_110"),
-            "generated_block_consume_generic_bridge_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant)": ("consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before", "var result = instance.java_method_consume_111([consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before])", "var canonical = consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)", "Block.java_method_consume_111"),
+            "generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float)": ("liquid, amount", "java_method_consumeLiquid_99", "[liquid, amount]", "var canonical = consume_liquid_state(liquid, amount)", "Block.java_method_consumeLiquid_99"),
+            "generated_block_consume_liquids_bridge_state(stacks: Variant)": ("stacks", "java_method_consumeLiquids_100", "[stacks]", "var canonical = consume_liquids_state(stacks)", "Block.java_method_consumeLiquids_100"),
+            "generated_block_consume_power_bridge_state(power_per_tick: float)": ("power_per_tick", "java_method_consumePower_101", "[power_per_tick]", "var canonical = consume_power_state(power_per_tick)", "Block.java_method_consumePower_101"),
+            "generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant)": ("usage, cons", "java_method_consumePowerCond_102", "[usage, cons]", "var canonical = consume_power_cond_state(usage, cons)", "Block.java_method_consumePowerCond_102"),
+            "generated_block_consume_power_dynamic_bridge_state(usage: Variant)": ("usage", "java_method_consumePowerDynamic_103", "[usage]", "var canonical = consume_power_dynamic_state(usage)", "Block.java_method_consumePowerDynamic_103"),
+            "generated_block_consume_power_dynamic_displayed_bridge_state(displayed: float, usage: Variant)": ("displayed, usage", "java_method_consumePowerDynamic_104", "[displayed, usage]", "var canonical = consume_power_dynamic_displayed_state(displayed, usage)", "Block.java_method_consumePowerDynamic_104"),
+            "generated_block_consume_power_buffered_bridge_state(power_capacity: float)": ("power_capacity", "java_method_consumePowerBuffered_105", "[power_capacity]", "var canonical = consume_power_buffered_state(power_capacity)", "Block.java_method_consumePowerBuffered_105"),
+            "generated_block_consume_item_single_bridge_state(item: Variant)": ("item", "java_method_consumeItem_106", "[item]", "var canonical = consume_item_single_state(item)", "Block.java_method_consumeItem_106"),
+            "generated_block_consume_item_amount_bridge_state(item: Variant, amount: int)": ("item, amount", "java_method_consumeItem_107", "[item, amount]", "var canonical = consume_item_amount_state(item, amount)", "Block.java_method_consumeItem_107"),
+            "generated_block_consume_items_varargs_bridge_state(items: Array)": ("items", "java_method_consumeItems_108", "items", "var canonical = consume_items_varargs_state(items)", "Block.java_method_consumeItems_108"),
+            "generated_block_consume_coolant_single_bridge_state(amount: float)": ("amount", "java_method_consumeCoolant_109", "[amount]", "var canonical = consume_coolant_single_state(amount)", "Block.java_method_consumeCoolant_109"),
+            "generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool)": ("amount, allow_liquid, allow_gas", "java_method_consumeCoolant_110", "[amount, allow_liquid, allow_gas]", "var canonical = consume_coolant_filtered_state(amount, allow_liquid, allow_gas)", "Block.java_method_consumeCoolant_110"),
+            "generated_block_consume_generic_bridge_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant)": ("consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before", "java_method_consume_111", "[consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before]", "var canonical = consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)", "Block.java_method_consume_111"),
         }
-        for signature_tail, (args, generated_call, canonical_call, generated_owner) in bridges.items():
+        for signature_tail, (args, generated_method, generated_args, canonical_call, generated_owner) in bridges.items():
             func_name = signature_tail.split("(", 1)[0]
             port_signature = f"func {signature_tail} -> Dictionary:"
             module_signature = f"static func {signature_tail} -> Dictionary:"
@@ -32826,11 +32826,33 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(module_signature, module_source)
             self.assertIn(f"\treturn SourceBlockConsumeState.{func_name}({args})", port_body)
             self.assertNotIn("ResourceLoader.load(", port_body)
-            self.assertNotIn("java_method_", port_body)
-            self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', module_body)
-            self.assertIn(generated_call, module_body)
+            self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_body)
+            self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+            self.assertIn(
+                f'var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "{generated_method}", {generated_args}, null)',
+                module_body,
+            )
             self.assertIn(canonical_call, module_body)
             self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
+            self.assertNotIn("ResourceLoader.load(", module_body)
+            self.assertNotIn("script.new()", module_body)
+
+    def test_source_block_consume_state_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockConsumeModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockConsumeModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof_script.read_text(encoding="utf-8")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+
+        self.assertIn("BLOCK_CONSUME_MODULE_PROOF", proof_source)
+        self.assertIn('const SourceBlockConsumeState := preload("res://src/game/SourceBlockConsumeState.gd")', proof_source)
+        self.assertIn("generated_block_consume_liquid_bridge_state(", proof_source)
+        self.assertIn("generated_block_consume_generic_bridge_state(", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"matches"', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/BlockConsumeModuleProof.gd"', scene_source)
 
     def test_port_game_exposes_source_block_consume_liquid_state(self):
         source = self._port_game_block_consume_source()
