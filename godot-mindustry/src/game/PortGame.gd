@@ -3101,72 +3101,32 @@ func source_building_tether_update_state(building_exists: bool, building_is_vali
 	return SourceBuildingTetherState.update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
 
 func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd", "java_method_update_0", [building_exists, building_is_valid, building_team_value, team_value, unit_id], null)
-	var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
-	return {
-		"source_owner": "PortGame.source_building_tether_update_state",
-		"generated_owner": "BuildingTetherComp.java_method_update_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null),
-	}
+	return SourceBuildingTetherState.generated_building_tether_update_bridge_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
 
 func source_child_add_state(child_state: Dictionary) -> Dictionary:
 	return SourceChildState.add_state(child_state)
 
 func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", [child_state], null)
-	var canonical = source_child_add_state(child_state)
-	return {
-		"source_owner": "PortGame.source_child_add_state",
-		"generated_owner": "ChildComp.java_method_add_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("offsetX", null) == canonical.get("offsetX", null) and result.get("offsetY", null) == canonical.get("offsetY", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and result.get("offsetPos", null) == canonical.get("offsetPos", null) and result.get("offsetRot", null) == canonical.get("offsetRot", null),
-	}
+	return SourceChildState.generated_child_add_bridge_state(child_state)
 
 func source_child_update_state(child_state: Dictionary) -> Dictionary:
 	var callbacks := SourceChildState.default_callbacks_state(self)
 	return SourceChildState.update_state(child_state, callbacks.get("trns_vec", Callable()))
 
 func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
-	var canonical = source_child_update_state(child_state)
-	return {
-		"source_owner": "PortGame.source_child_update_state",
-		"generated_owner": "ChildComp.java_method_update_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),
-	}
+	return SourceChildState.generated_child_update_bridge_state(child_state)
 
 func source_pos_set_state(x_value: float, y_value: float) -> Dictionary:
 	return SourceBasicCompState.pos_set_state(x_value, y_value)
 
 func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/PosComp.gd", "java_method_set_0", [x_value, y_value], null)
-	var canonical = source_pos_set_state(x_value, y_value)
-	return {
-		"source_owner": "PortGame.source_pos_set_state",
-		"generated_owner": "PosComp.java_method_set_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null),
-	}
+	return SourceBasicCompState.generated_pos_set_bridge_state(x_value, y_value)
 
 func source_shielder_absorb_state() -> Dictionary:
 	return SourceBasicCompState.shielder_absorb_state()
 
 func generated_shielder_comp_absorb_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd", "java_method_absorb_0", [], null)
-	var canonical = source_shielder_absorb_state()
-	return {
-		"source_owner": "PortGame.source_shielder_absorb_state",
-		"generated_owner": "ShielderComp.java_method_absorb_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
-	}
+	return SourceBasicCompState.generated_shielder_absorb_bridge_state()
 
 func source_sync_snap_sync_state() -> Dictionary:
 	return SourceSyncState.snap_sync_state()

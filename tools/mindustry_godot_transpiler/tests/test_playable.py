@@ -14300,16 +14300,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_tether_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTetherState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         body = self._method_body(source, "func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:")
 
         self.assertIn("func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd", "java_method_update_0", "building_exists, building_is_valid, building_team_value, team_value, unit_id")
-        self.assertIn("var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_tether_update_state"', source)
-        self.assertIn('"generated_owner": "BuildingTetherComp.java_method_update_0"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingTetherState.generated_building_tether_update_bridge_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_tether_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:", helper_source)
+        self.assertIn("SourceGeneratedClassRuntime.call_java_method(\"res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd\", \"java_method_update_0\"", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_tether_update_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingTetherComp.java_method_update_0"', helper_source)
+        self.assertIn('"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null)', helper_source)
+
+    def test_source_building_tether_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingTetherStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingTetherStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_TETHER_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingTetherState.generated_building_tether_update_bridge_state", proof_source)
+        self.assertIn('"update_bridge_matches"', proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_generated_unit_tether_comp_bridges_after_read_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
@@ -25215,16 +25231,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_child_comp_add_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        child_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceChildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = child_module.read_text(encoding="utf-8") if child_module.exists() else ""
         body = self._method_body(source, "func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:")
 
         self.assertIn("func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", "child_state")
-        self.assertIn("var canonical = source_child_add_state(child_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_child_add_state"', source)
-        self.assertIn('"generated_owner": "ChildComp.java_method_add_0"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceChildState.generated_child_add_bridge_state(child_state)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_child_add_bridge_state(child_state: Dictionary) -> Dictionary:", module_source)
+        self.assertIn("SourceGeneratedClassRuntime.call_java_method(\"res://src/generated/classes/mindustry/entities/comp/ChildComp.gd\", \"java_method_add_0\"", module_source)
+        self.assertIn('"source_owner": "PortGame.source_child_add_state"', module_source)
+        self.assertIn('"generated_owner": "ChildComp.java_method_add_0"', module_source)
+        self.assertIn('"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("offsetX", null) == canonical.get("offsetX", null)', module_source)
 
     def test_generated_child_comp_bridges_update_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ChildComp.gd"
@@ -25277,16 +25296,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_child_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        child_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceChildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = child_module.read_text(encoding="utf-8") if child_module.exists() else ""
         body = self._method_body(source, "func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:")
 
         self.assertIn("func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", "child_state")
-        self.assertIn("var canonical = source_child_update_state(child_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_child_update_state"', source)
-        self.assertIn('"generated_owner": "ChildComp.java_method_update_1"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceChildState.generated_child_update_bridge_state(child_state)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_child_update_bridge_state(child_state: Dictionary) -> Dictionary:", module_source)
+        self.assertIn("SourceGeneratedClassRuntime.call_java_method(\"res://src/generated/classes/mindustry/entities/comp/ChildComp.gd\", \"java_method_update_1\"", module_source)
+        self.assertIn('"source_owner": "PortGame.source_child_update_state"', module_source)
+        self.assertIn('"generated_owner": "ChildComp.java_method_update_1"', module_source)
+        self.assertIn('"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null)', module_source)
 
     def test_source_child_state_module_has_runtime_proof(self):
         proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ChildStateModuleProof.gd"
@@ -25301,6 +25323,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"default_callbacks_match"', proof_source)
         self.assertIn("SourceChildState.add_state", proof_source)
         self.assertIn("SourceChildState.update_state", proof_source)
+        self.assertIn("SourceChildState.generated_child_add_bridge_state", proof_source)
+        self.assertIn("SourceChildState.generated_child_update_bridge_state", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
@@ -25336,15 +25360,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_pos_comp_set_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        basic_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBasicCompState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = basic_module.read_text(encoding="utf-8") if basic_module.exists() else ""
         body = self._method_body(source, "func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:")
 
         self.assertIn("func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/PosComp.gd", "java_method_set_0", "x_value, y_value")
-        self.assertIn("var canonical = source_pos_set_state(x_value, y_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_pos_set_state"', source)
-        self.assertIn('"generated_owner": "PosComp.java_method_set_0"', source)
-        self.assertIn('"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null)', source)
+        self.assertIn("return SourceBasicCompState.generated_pos_set_bridge_state(x_value, y_value)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_pos_set_bridge_state(x_value: float, y_value: float) -> Dictionary:", module_source)
+        self.assertIn("SourceGeneratedClassRuntime.call_java_method(\"res://src/generated/classes/mindustry/entities/comp/PosComp.gd\", \"java_method_set_0\"", module_source)
+        self.assertIn('"source_owner": "PortGame.source_pos_set_state"', module_source)
+        self.assertIn('"generated_owner": "PosComp.java_method_set_0"', module_source)
+        self.assertIn('"matches": result.get("x", null) == canonical.get("x", null) and result.get("y", null) == canonical.get("y", null)', module_source)
 
     def test_generated_shielder_comp_bridges_absorb_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ShielderComp.gd"
@@ -25372,15 +25400,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_shielder_comp_absorb_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        basic_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBasicCompState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = basic_module.read_text(encoding="utf-8") if basic_module.exists() else ""
         body = self._method_body(source, "func generated_shielder_comp_absorb_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_shielder_comp_absorb_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd", "java_method_absorb_0", "")
-        self.assertIn("var canonical = source_shielder_absorb_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_shielder_absorb_state"', source)
-        self.assertIn('"generated_owner": "ShielderComp.java_method_absorb_0"', source)
-        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
+        self.assertIn("return SourceBasicCompState.generated_shielder_absorb_bridge_state()", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_shielder_absorb_bridge_state() -> Dictionary:", module_source)
+        self.assertIn("SourceGeneratedClassRuntime.call_java_method(\"res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd\", \"java_method_absorb_0\"", module_source)
+        self.assertIn('"source_owner": "PortGame.source_shielder_absorb_state"', module_source)
+        self.assertIn('"generated_owner": "ShielderComp.java_method_absorb_0"', module_source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', module_source)
 
     def test_source_basic_comp_state_module_has_runtime_proof(self):
         proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BasicCompStateModuleProof.gd"
@@ -25392,6 +25424,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("BASIC_COMP_STATE_MODULE_PROOF", proof_source)
         self.assertIn("SourceBasicCompState.pos_set_state", proof_source)
         self.assertIn("SourceBasicCompState.shielder_absorb_state", proof_source)
+        self.assertIn("SourceBasicCompState.generated_pos_set_bridge_state", proof_source)
+        self.assertIn("SourceBasicCompState.generated_shielder_absorb_bridge_state", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 

@@ -1,6 +1,9 @@
 extends RefCounted
 class_name SourceChildState
 
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const SourceMathState := preload("res://src/game/SourceMathState.gd")
+
 static func default_callbacks_state(game: Object) -> Dictionary:
 	return {
 		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
@@ -103,4 +106,28 @@ static func update_state(child_state: Dictionary, trns_vec: Callable) -> Diction
 		"x": next_x,
 		"y": next_y,
 		"rotation": next_rotation,
+	}
+
+static func generated_child_add_bridge_state(child_state: Dictionary) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", [child_state], null)
+	var canonical = add_state(child_state)
+	return {
+		"source_owner": "PortGame.source_child_add_state",
+		"generated_owner": "ChildComp.java_method_add_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("offsetX", null) == canonical.get("offsetX", null) and result.get("offsetY", null) == canonical.get("offsetY", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and result.get("offsetPos", null) == canonical.get("offsetPos", null) and result.get("offsetRot", null) == canonical.get("offsetRot", null),
+	}
+
+static func generated_child_update_bridge_state(child_state: Dictionary) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
+	var trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
+		return SourceMathState.source_angles_trns_vec(angle_degrees, x_value, y_value)
+	var canonical = update_state(child_state, trns_vec)
+	return {
+		"source_owner": "PortGame.source_child_update_state",
+		"generated_owner": "ChildComp.java_method_update_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),
 	}
