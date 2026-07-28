@@ -76,6 +76,7 @@ class PlayableManifestTests(unittest.TestCase):
         canonical_call: str,
         source_owner: str,
         generated_owner: str,
+        metadata_arg: str = "",
     ) -> None:
         bridge_body = self._method_body(port_source, port_signature)
         module_body = self._static_method_body(module_source, module_signature)
@@ -84,7 +85,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn(facade_call, bridge_body)
         self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
         self.assertNotIn("ResourceLoader.load(", bridge_body)
-        self._assert_generated_bridge_uses_runtime(module_source, module_body, java_name, generated_method, generated_args)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, java_name, generated_method, generated_args, metadata_arg)
         self.assertIn(canonical_call, module_body)
         self.assertIn(f'"source_owner": "{source_owner}"', module_body)
         self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
@@ -33452,23 +33453,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_destroy_sound_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitSoundState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_destroy_sound_bridge_state", 1)[1].split("func source_block_init_place_sound_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:",
+            "static func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:",
+            "return SourceBlockInitSoundState.generated_block_init_destroy_sound_bridge_state(destroy_sound_before, size_value)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "destroy_sound_before, size_value",
+            "var canonical = destroy_sound_state(destroy_sound_before, size_value)",
+            "PortGame.source_block_init_destroy_sound_state",
+            "Block.java_method_init_123",
         )
-        self.assertIn("var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_destroy_sound_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_place_sound_state(self):
         source = self._port_game_block_init_sound_source()
@@ -33488,25 +33490,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_place_sound_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitSoundState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_place_sound_bridge_state", 1)[1].split("func source_block_init_break_sound_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:",
+            "static func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:",
+            "return SourceBlockInitSoundState.generated_block_init_place_sound_bridge_state(place_sound_before, size_value)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "place_sound_before, size_value",
+            "var canonical = place_sound_state(place_sound_before, size_value)",
+            "PortGame.source_block_init_place_sound_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "place_sound"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_place_sound_state(place_sound_before, size_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_place_sound_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_break_sound_state(self):
         source = self._port_game_block_init_sound_source()
@@ -33526,25 +33528,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_break_sound_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitSoundState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_break_sound_bridge_state", 1)[1].split("func source_block_init_custom_shadow_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:",
+            "static func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:",
+            "return SourceBlockInitSoundState.generated_block_init_break_sound_bridge_state(break_sound_before, size_value)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "break_sound_before, size_value",
+            "var canonical = break_sound_state(break_sound_before, size_value)",
+            "PortGame.source_block_init_break_sound_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "break_sound"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_break_sound_state(break_sound_before, size_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_break_sound_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_flags_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"

@@ -4956,48 +4956,19 @@ func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_v
 	return SourceBlockInitSoundState.destroy_sound_state(destroy_sound_before, size_value)
 
 func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [destroy_sound_before, size_value], null)
-	var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_destroy_sound_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitSoundState.generated_block_init_destroy_sound_bridge_state(destroy_sound_before, size_value)
 
 func source_block_init_place_sound_state(place_sound_before: Variant, size_value: int) -> Dictionary:
 	return SourceBlockInitSoundState.place_sound_state(place_sound_before, size_value)
 
 func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "place_sound"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [place_sound_before, size_value], null, metadata)
-	var canonical = source_block_init_place_sound_state(place_sound_before, size_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_place_sound_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitSoundState.generated_block_init_place_sound_bridge_state(place_sound_before, size_value)
 
 func source_block_init_break_sound_state(break_sound_before: Variant, size_value: int) -> Dictionary:
 	return SourceBlockInitSoundState.break_sound_state(break_sound_before, size_value)
 
 func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "break_sound"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [break_sound_before, size_value], null, metadata)
-	var canonical = source_block_init_break_sound_state(break_sound_before, size_value)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_break_sound_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitSoundState.generated_block_init_break_sound_bridge_state(break_sound_before, size_value)
 
 func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
 	return SourceBlockInitFlagsState.custom_shadow_state(custom_shadow, has_shadow_before)
