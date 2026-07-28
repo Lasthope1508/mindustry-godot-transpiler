@@ -4962,33 +4962,13 @@ func source_block_init_health_scaled_state(health_before: int, size_value: int, 
 	return SourceBlockInitHealthState.health_scaled_state(health_before, size_value, scaled_health)
 
 func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "health_scaled"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health], null, metadata)
-	var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_health_scaled_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitHealthState.generated_health_scaled_bridge_state(health_before, size_value, scaled_health)
 
 func source_block_init_health_requirements_scaling_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
 	return SourceBlockInitHealthState.health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 
 func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
-	var metadata := {"mindustry_init_bridge_mode": "health_requirements_scaling"}
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health_before, requirement_health_scalings], null, metadata)
-	var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_block_init_health_requirements_scaling_state",
-		"generated_owner": "Block.java_method_init_123",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBlockInitHealthState.generated_health_requirements_scaling_bridge_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 
 func source_block_init_clip_size_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
 	return SourceBlockInitClipState.clip_size_state(clip_size_before, size_value, source_tilesize)

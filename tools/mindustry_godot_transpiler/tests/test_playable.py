@@ -33793,25 +33793,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_health_scaled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitHealthState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_health_scaled_bridge_state", 1)[1].split("func source_block_init_health_requirements_scaling_state", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:",
+            "static func generated_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:",
+            "return SourceBlockInitHealthState.generated_health_scaled_bridge_state(health_before, size_value, scaled_health)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "health_before, size_value, scaled_health",
+            "var canonical = health_scaled_state(health_before, size_value, scaled_health)",
+            "PortGame.source_block_init_health_scaled_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "health_scaled"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_health_scaled_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_exposes_source_block_init_health_requirements_scaling_state(self):
         source = self._port_game_block_init_health_source()
@@ -33837,24 +33837,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockInitHealthState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_block_init_health_requirements_scaling_bridge_state", 1)[1].split("\nfunc ", 1)[0]
+        module_source = module.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:",
+            "static func generated_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:",
+            "return SourceBlockInitHealthState.generated_health_requirements_scaling_bridge_state(health_before, size_value, scaled_health_before, requirement_health_scalings)",
             "res://src/generated/classes/mindustry/world/Block.gd",
             "java_method_init_123",
             "health_before, size_value, scaled_health_before, requirement_health_scalings",
+            "var canonical = health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)",
+            "PortGame.source_block_init_health_requirements_scaling_state",
+            "Block.java_method_init_123",
             "metadata",
         )
-        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "health_requirements_scaling"}', bridge_source)
-        self.assertIn("var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)", source)
-        self.assertIn('"source_owner": "PortGame.source_block_init_health_requirements_scaling_state"', source)
-        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
 
     def test_port_game_delegates_block_init_clip_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
