@@ -487,19 +487,26 @@ class PlayableManifestTests(unittest.TestCase):
     ) -> None:
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceAbilityState.gd"
-        self._assert_generated_bridge_moved_to_module(
-            port_game.read_text(encoding="utf-8"),
-            module.read_text(encoding="utf-8"),
+        port_source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        generated_method = generated_call.split("instance.", 1)[1].split("(", 1)[0]
+        generated_args = generated_call.split("[", 1)[1].rsplit("]", 1)[0]
+
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            module_source,
             port_signature,
             module_signature,
             facade_call,
-            'load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")',
-            generated_call,
+            "res://src/generated/classes/mindustry/entities/abilities/Ability.gd",
+            generated_method,
+            generated_args,
             canonical_call,
             source_owner,
             generated_owner,
-            matches_expr,
         )
+        module_body = self._static_method_body(module_source, module_signature)
+        self.assertIn(matches_expr, module_body)
 
     def _port_game_block_query_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -32423,6 +32430,24 @@ class PlayableManifestTests(unittest.TestCase):
             "Ability.java_method_getBundle_11",
             "var matches: bool = generated_state_matches_generated_subset(result, canonical)",
         )
+
+    def test_source_ability_state_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "AbilityModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "AbilityModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        proof_source = proof_script.read_text(encoding="utf-8")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+
+        self.assertIn("ABILITY_MODULE_PROOF", proof_source)
+        self.assertIn('const SourceAbilityState := preload("res://src/game/SourceAbilityState.gd")', proof_source)
+        self.assertIn("generated_update_bridge_state(", proof_source)
+        self.assertIn("generated_display_bridge_state(", proof_source)
+        self.assertIn("generated_get_bundle_bridge_state(", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"matches"', proof_source)
+        self.assertIn('path="res://tools/runtime_proofs/AbilityModuleProof.gd"', scene_source)
 
     def test_port_game_exposes_source_block_outputs_items_state(self):
         source = self._port_game_block_query_source()
