@@ -6739,161 +6739,61 @@ func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, en
 	return SourceLiquidTurretBuildState.should_active_sound_state(was_shooting, enabled)
 
 func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0", [was_shooting, enabled], null)
-	var canonical = source_liquid_turret_build_should_active_sound_state(was_shooting, enabled)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.shouldActiveSound",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("should_active_sound", null) == canonical.get("should_active_sound", null)
-			and result.get("was_shooting", null) == canonical.get("was_shooting", null)
-			and result.get("enabled", null) == canonical.get("enabled", null),
-	}
+	return SourceLiquidTurretBuildState.generated_should_active_sound_bridge_state(was_shooting, enabled)
 
 func source_liquid_turret_build_get_ammo_content_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
 	return SourceLiquidTurretBuildState.get_ammo_content_state(liquids_null, current_amount, current_liquid)
 
 func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoContent_1", [liquids_null, current_amount, current_liquid], null)
-	var canonical = source_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoContent",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)
-			and result.get("liquids_null", null) == canonical.get("liquids_null", null)
-			and result.get("current_amount", null) == canonical.get("current_amount", null)
-			and result.get("current_liquid", null) == canonical.get("current_liquid", null),
-	}
+	return SourceLiquidTurretBuildState.generated_get_ammo_content_bridge_state(liquids_null, current_amount, current_liquid)
 
 func source_liquid_turret_build_get_ammo_fraction_state(current_amount: float, liquid_capacity: float) -> Dictionary:
 	return SourceLiquidTurretBuildState.get_ammo_fraction_state(current_amount, liquid_capacity)
 
 func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2", [current_amount, liquid_capacity], null)
-	var canonical = source_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoFraction",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)
-			and result.get("current_amount", null) == canonical.get("current_amount", null)
-			and result.get("liquid_capacity", null) == canonical.get("liquid_capacity", null),
-	}
+	return SourceLiquidTurretBuildState.generated_get_ammo_fraction_bridge_state(current_amount, liquid_capacity)
 
 func source_liquid_turret_build_sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
 	return SourceLiquidTurretBuildState.sense_object_state(sensor, current_liquid, super_sense_object_value)
 
 func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_senseObject_3", [sensor, current_liquid, super_sense_object_value], null)
-	var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_sense_object_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)
-			and result.get("sensor", null) == canonical.get("sensor", null)
-			and result.get("current_liquid", null) == canonical.get("current_liquid", null)
-			and result.get("super_sense_object_value", null) == canonical.get("super_sense_object_value", null),
-	}
+	return SourceLiquidTurretBuildState.generated_sense_object_bridge_state(sensor, current_liquid, super_sense_object_value)
 
 func source_liquid_turret_build_find_target_extinguish_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:
 	return SourceLiquidTurretBuildState.find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)
 
 func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_findTarget_4", [extinguish, current_liquid_can_extinguish, fire_result], null)
-	var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("target_after", null) == canonical.get("target_after", null)
-			and result.get("target_assigned", null) == canonical.get("target_assigned", null)
-			and result.get("super_find_target_called", null) == canonical.get("super_find_target_called", null)
-			and result.get("should_scan_fires", null) == canonical.get("should_scan_fires", null),
-	}
+	return SourceLiquidTurretBuildState.generated_find_target_extinguish_bridge_state(extinguish, current_liquid_can_extinguish, fire_result)
 
 func source_liquid_turret_build_use_ammo_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:
 	return SourceLiquidTurretBuildState.use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)
 
 func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_useAmmo_5", [cheating, current_liquid, ammo_type, ammo_multiplier], null)
-	var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)
-			and result.get("liquid_remove_amount", null) == canonical.get("liquid_remove_amount", null)
-			and result.get("remove_liquid_call", {}) == canonical.get("remove_liquid_call", {})
-			and result.get("cheating", null) == canonical.get("cheating", null),
-	}
+	return SourceLiquidTurretBuildState.generated_use_ammo_bridge_state(cheating, current_liquid, ammo_type, ammo_multiplier)
 
 func source_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
 	return SourceLiquidTurretBuildState.peek_ammo_state(current_liquid, ammo_type)
 
 func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_peekAmmo_6", [current_liquid, ammo_type], null)
-	var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.peekAmmo",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null),
-	}
+	return SourceLiquidTurretBuildState.generated_peek_ammo_bridge_state(current_liquid, ammo_type)
 
 func source_liquid_turret_build_has_ammo_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:
 	return SourceLiquidTurretBuildState.has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
 
 func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_hasAmmo_7", [current_liquid, ammo_type, current_amount, ammo_multiplier], null)
-	var canonical = source_liquid_turret_build_has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.hasAmmo",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)
-			and result.get("required_amount", null) == canonical.get("required_amount", null)
-			and result.get("ammo_type_present", null) == canonical.get("ammo_type_present", null),
-	}
+	return SourceLiquidTurretBuildState.generated_has_ammo_bridge_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
 
 func source_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:
 	return SourceLiquidTurretBuildState.accept_item_state(source_building, item)
 
 func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptItem_8", [source_building, item], null)
-	var canonical = source_liquid_turret_build_accept_item_state(source_building, item)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_accept_item_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptItem",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
-	}
+	return SourceLiquidTurretBuildState.generated_accept_item_bridge_state(source_building, item)
 
 func source_liquid_turret_build_accept_liquid_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
 	return SourceLiquidTurretBuildState.accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 
 func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier], null)
-	var canonical = source_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
-	return {
-		"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
-		"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptLiquid",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null)
-			and result.get("replacement_allowed", null) == canonical.get("replacement_allowed", null)
-			and result.get("current_required_with_epsilon", null) == canonical.get("current_required_with_epsilon", null),
-	}
+	return SourceLiquidTurretBuildState.generated_accept_liquid_bridge_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	return SourceTurretAmmoState.turret_item_turret_ammo_data(turret, item_id)

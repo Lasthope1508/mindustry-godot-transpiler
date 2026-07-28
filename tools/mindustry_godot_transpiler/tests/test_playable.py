@@ -273,6 +273,39 @@ class PlayableManifestTests(unittest.TestCase):
             source += "\n" + module.read_text(encoding="utf-8")
         return source
 
+    def _assert_liquid_turret_build_bridge_moved(
+        self,
+        port_signature: str,
+        module_signature: str,
+        facade_call: str,
+        generated_method: str,
+        generated_args: str,
+        canonical_call: str,
+        source_owner: str,
+        generated_owner: str,
+        matches_expr: str,
+    ) -> None:
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceLiquidTurretBuildState.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            module_source,
+            port_signature,
+            module_signature,
+            facade_call,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd",
+            generated_method,
+            generated_args,
+            canonical_call,
+            source_owner,
+            generated_owner,
+        )
+        module_body = self._static_method_body(module_source, module_signature)
+        self.assertIn(matches_expr, module_body)
+
     def _port_game_continuous_liquid_turret_build_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceContinuousLiquidTurretBuildState.gd"
@@ -31284,16 +31317,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"should_active_sound": was_shooting and enabled', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0", "was_shooting, enabled")
-        self.assertIn("var canonical = source_liquid_turret_build_should_active_sound_state(was_shooting, enabled)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.shouldActiveSound"', source)
-        self.assertIn('"matches": result.get("should_active_sound", null) == canonical.get("should_active_sound", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:",
+            "static func generated_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_should_active_sound_bridge_state(was_shooting, enabled)",
+            "java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0",
+            "was_shooting, enabled",
+            "var canonical = should_active_sound_state(was_shooting, enabled)",
+            "PortGame.source_liquid_turret_build_should_active_sound_state",
+            "LiquidTurret.LiquidTurretBuild.shouldActiveSound",
+            '"matches": result.get("should_active_sound", null) == canonical.get("should_active_sound", null)',
+        )
 
     def test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state(self):
         source = self._port_game_continuous_liquid_turret_build_source()
@@ -31706,16 +31740,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"ammo_content": ammo_content', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoContent_1", "liquids_null, current_amount, current_liquid")
-        self.assertIn("var canonical = source_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoContent"', source)
-        self.assertIn('"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:",
+            "static func generated_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_get_ammo_content_bridge_state(liquids_null, current_amount, current_liquid)",
+            "java_inner_class_LiquidTurretBuild_method_getAmmoContent_1",
+            "liquids_null, current_amount, current_liquid",
+            "var canonical = get_ammo_content_state(liquids_null, current_amount, current_liquid)",
+            "PortGame.source_liquid_turret_build_get_ammo_content_state",
+            "LiquidTurret.LiquidTurretBuild.getAmmoContent",
+            '"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31729,16 +31764,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"ammo_fraction": ammo_fraction', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2", "current_amount, liquid_capacity")
-        self.assertIn("var canonical = source_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoFraction"', source)
-        self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:",
+            "static func generated_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_get_ammo_fraction_bridge_state(current_amount, liquid_capacity)",
+            "java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2",
+            "current_amount, liquid_capacity",
+            "var canonical = get_ammo_fraction_state(current_amount, liquid_capacity)",
+            "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
+            "LiquidTurret.LiquidTurretBuild.getAmmoFraction",
+            '"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_sense_object_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31755,16 +31791,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"sense_object_value": sense_object_value', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_senseObject_3", "sensor, current_liquid, super_sense_object_value")
-        self.assertIn("var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_sense_object_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject"', source)
-        self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:",
+            "static func generated_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_sense_object_bridge_state(sensor, current_liquid, super_sense_object_value)",
+            "java_inner_class_LiquidTurretBuild_method_senseObject_3",
+            "sensor, current_liquid, super_sense_object_value",
+            "var canonical = sense_object_state(sensor, current_liquid, super_sense_object_value)",
+            "PortGame.source_liquid_turret_build_sense_object_state",
+            "LiquidTurret.LiquidTurretBuild.senseObject",
+            '"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31780,16 +31817,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"super_find_target_called": super_find_target_called', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_findTarget_4", "extinguish, current_liquid_can_extinguish, fire_result")
-        self.assertIn("var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget"', source)
-        self.assertIn('"matches": result.get("target_after", null) == canonical.get("target_after", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:",
+            "static func generated_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_find_target_extinguish_bridge_state(extinguish, current_liquid_can_extinguish, fire_result)",
+            "java_inner_class_LiquidTurretBuild_method_findTarget_4",
+            "extinguish, current_liquid_can_extinguish, fire_result",
+            "var canonical = find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)",
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+            "LiquidTurret.LiquidTurretBuild.findTarget",
+            '"matches": result.get("target_after", null) == canonical.get("target_after", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_use_ammo_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31805,16 +31843,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"remove_liquid_call": remove_liquid_call', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_useAmmo_5", "cheating, current_liquid, ammo_type, ammo_multiplier")
-        self.assertIn("var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo"', source)
-        self.assertIn('"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:",
+            "static func generated_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_use_ammo_bridge_state(cheating, current_liquid, ammo_type, ammo_multiplier)",
+            "java_inner_class_LiquidTurretBuild_method_useAmmo_5",
+            "cheating, current_liquid, ammo_type, ammo_multiplier",
+            "var canonical = use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)",
+            "PortGame.source_liquid_turret_build_use_ammo_state",
+            "LiquidTurret.LiquidTurretBuild.useAmmo",
+            '"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_peek_ammo_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31827,16 +31866,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"peek_ammo": ammo_type', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_peekAmmo_6", "current_liquid, ammo_type")
-        self.assertIn("var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.peekAmmo"', source)
-        self.assertIn('"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:",
+            "static func generated_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_peek_ammo_bridge_state(current_liquid, ammo_type)",
+            "java_inner_class_LiquidTurretBuild_method_peekAmmo_6",
+            "current_liquid, ammo_type",
+            "var canonical = peek_ammo_state(current_liquid, ammo_type)",
+            "PortGame.source_liquid_turret_build_peek_ammo_state",
+            "LiquidTurret.LiquidTurretBuild.peekAmmo",
+            '"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_has_ammo_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31851,16 +31891,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"has_ammo": has_ammo', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_hasAmmo_7", "current_liquid, ammo_type, current_amount, ammo_multiplier")
-        self.assertIn("var canonical = source_liquid_turret_build_has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.hasAmmo"', source)
-        self.assertIn('"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:",
+            "static func generated_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_has_ammo_bridge_state(current_liquid, ammo_type, current_amount, ammo_multiplier)",
+            "java_inner_class_LiquidTurretBuild_method_hasAmmo_7",
+            "current_liquid, ammo_type, current_amount, ammo_multiplier",
+            "var canonical = has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)",
+            "PortGame.source_liquid_turret_build_has_ammo_state",
+            "LiquidTurret.LiquidTurretBuild.hasAmmo",
+            '"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_accept_item_state(self):
         source = self._port_game_liquid_turret_build_source()
@@ -31875,16 +31916,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"accept_item": accept_item', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
-
-        self.assertIn("func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptItem_8", "source_building, item")
-        self.assertIn("var canonical = source_liquid_turret_build_accept_item_state(source_building, item)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_item_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptItem"', source)
-        self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:",
+            "static func generated_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_accept_item_bridge_state(source_building, item)",
+            "java_inner_class_LiquidTurretBuild_method_acceptItem_8",
+            "source_building, item",
+            "var canonical = accept_item_state(source_building, item)",
+            "PortGame.source_liquid_turret_build_accept_item_state",
+            "LiquidTurret.LiquidTurretBuild.acceptItem",
+            '"matches": result.get("accept_item", null) == canonical.get("accept_item", null)',
+        )
 
     def test_port_game_exposes_source_liquid_turret_build_accept_liquid_state(self):
         turret_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretDefaults.gd"
@@ -31908,16 +31950,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"accept_liquid": accept_liquid', source)
 
     def test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state(self):
-        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        self._assert_liquid_turret_build_bridge_moved(
+            "func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:",
+            "static func generated_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:",
+            "return SourceLiquidTurretBuildState.generated_accept_liquid_bridge_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)",
+            "java_inner_class_LiquidTurretBuild_method_acceptLiquid_9",
+            "source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier",
+            "var canonical = accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)",
+            "PortGame.source_liquid_turret_build_accept_liquid_state",
+            "LiquidTurret.LiquidTurretBuild.acceptLiquid",
+            '"matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null)',
+        )
 
-        self.assertIn("func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:", source)
-        body = self._method_body(source, "func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:")
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", "source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier")
-        self.assertIn("var canonical = source_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state"', source)
-        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptLiquid"', source)
-        self.assertIn('"matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null)', source)
+    def test_liquid_turret_build_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "LiquidTurretBuildModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "LiquidTurretBuildModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "LiquidTurretBuild module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "LiquidTurretBuild module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/LiquidTurretBuildModuleProof.gd"', scene_source)
+        self.assertIn("LIQUID_TURRET_BUILD_MODULE_PROOF", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_delegates_source_ability_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
