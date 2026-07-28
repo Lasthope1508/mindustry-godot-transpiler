@@ -5154,46 +5154,19 @@ func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:
 	return SourceUnitPayloadBasicState.constructor_state(unit)
 
 func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_constructor_UnitPayload_0", [unit], null)
-	var canonical = source_unit_payload_constructor_state(unit)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_constructor_state",
-		"generated_owner": "UnitPayload.java_constructor_UnitPayload_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadBasicState.generated_constructor_bridge_state(unit)
 
 func source_unit_payload_show_overlay_texture_region_state(icon: Variant) -> Dictionary:
 	return SourceUnitPayloadBasicState.show_overlay_texture_region_state(icon)
 
 func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_0", [icon], null)
-	var canonical = source_unit_payload_show_overlay_texture_region_state(icon)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
-		"generated_owner": "UnitPayload.java_method_showOverlay_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadBasicState.generated_show_overlay_texture_region_bridge_state(icon)
 
 func source_unit_payload_show_overlay_drawable_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
 	return SourceUnitPayloadBasicState.show_overlay_drawable_state(icon_null, headless, region)
 
 func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_1", [icon_null, headless, region], null)
-	var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
-		"generated_owner": "UnitPayload.java_method_showOverlay_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadBasicState.generated_show_overlay_drawable_bridge_state(icon_null, headless, region)
 
 func source_unit_payload_content_equals_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
 	return SourceUnitPayloadContentState.content_equals_state(other_is_unit_payload, other_unit_type, unit_type)

@@ -35525,10 +35525,23 @@ class PlayableManifestTests(unittest.TestCase):
             self.assertIn(delegation, method_body)
             self.assertNotIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', method_body)
 
+        bridge_delegations = {
+            "func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:": "\treturn SourceUnitPayloadBasicState.generated_constructor_bridge_state(unit)",
+            "func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:": "\treturn SourceUnitPayloadBasicState.generated_show_overlay_texture_region_bridge_state(icon)",
+            "func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:": "\treturn SourceUnitPayloadBasicState.generated_show_overlay_drawable_bridge_state(icon_null, headless, region)",
+        }
+        for signature, delegation in bridge_delegations.items():
+            method_body = self._method_body(source, signature)
+            self.assertIn(delegation, method_body)
+            self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", method_body)
+
         for method_name in (
             "constructor_state",
             "show_overlay_texture_region_state",
             "show_overlay_drawable_state",
+            "generated_constructor_bridge_state",
+            "generated_show_overlay_texture_region_bridge_state",
+            "generated_show_overlay_drawable_bridge_state",
         ):
             self.assertIn("static func " + method_name, module_source)
 
@@ -35579,26 +35592,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"field_expr": SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR', body)
         self.assertIn('"constructor": SOURCE_UNIT_PAYLOAD_CONSTRUCTOR', body)
         self.assertIn('"unit_assign_expr": SOURCE_UNIT_PAYLOAD_UNIT_ASSIGN_EXPR', body)
+        self.assertIn('"unit": unit', body)
         self.assertIn('"unit_after": unit', body)
 
     def test_port_game_exposes_generated_unit_payload_constructor_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadBasicState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_constructor_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:",
+            "static func generated_constructor_bridge_state(unit: Variant) -> Dictionary:",
+            "return SourceUnitPayloadBasicState.generated_constructor_bridge_state(unit)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_constructor_UnitPayload_0",
             "unit",
+            "var canonical = constructor_state(unit)",
+            "PortGame.source_unit_payload_constructor_state",
+            "UnitPayload.java_constructor_UnitPayload_0",
         )
-        self.assertIn("var canonical = source_unit_payload_constructor_state(unit)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_constructor_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_constructor_UnitPayload_0"', source)
-        self.assertIn('"matches": matches', bridge_source)
+        self.assertIn("var canonical = constructor_state(unit)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_constructor_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_constructor_UnitPayload_0"', module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state(self):
         source = self._port_game_unit_payload_basic_source()
@@ -35618,23 +35640,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadBasicState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_show_overlay_texture_region_bridge_state", 1)[1].split("func source_unit_payload_show_overlay_drawable_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:",
+            "static func generated_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:",
+            "return SourceUnitPayloadBasicState.generated_show_overlay_texture_region_bridge_state(icon)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_showOverlay_0",
             "icon",
+            "var canonical = show_overlay_texture_region_state(icon)",
+            "PortGame.source_unit_payload_show_overlay_texture_region_state",
+            "UnitPayload.java_method_showOverlay_0",
         )
-        self.assertIn("var canonical = source_unit_payload_show_overlay_texture_region_state(icon)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_0"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var canonical = show_overlay_texture_region_state(icon)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_0"', module_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn('"matches": result == canonical', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_exposes_source_unit_payload_show_overlay_drawable_state(self):
         source = self._port_game_unit_payload_basic_source()
@@ -35659,23 +35690,32 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_show_overlay_drawable_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadBasicState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         bridge_source = source.split("func generated_unit_payload_show_overlay_drawable_bridge_state", 1)[1].split("func source_unit_payload_content_equals_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            module_source,
+            "func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:",
+            "static func generated_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:",
+            "return SourceUnitPayloadBasicState.generated_show_overlay_drawable_bridge_state(icon_null, headless, region)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_showOverlay_1",
             "icon_null, headless, region",
+            "var canonical = show_overlay_drawable_state(icon_null, headless, region)",
+            "PortGame.source_unit_payload_show_overlay_drawable_state",
+            "UnitPayload.java_method_showOverlay_1",
         )
-        self.assertIn("var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_1"', source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
-        self.assertNotIn('"matches": result == canonical', bridge_source)
+        self.assertIn("var canonical = show_overlay_drawable_state(icon_null, headless, region)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', module_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_1"', module_source)
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn('"matches": result == canonical', module_source)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_source)
 
     def test_port_game_delegates_unit_payload_content_source_state_to_module(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
