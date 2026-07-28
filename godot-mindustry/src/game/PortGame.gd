@@ -3,10 +3,11 @@ class_name PortGame
 
 const ContentRegistry := preload("res://src/generated/MindustryContentRegistry.gd")
 const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
-const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")
+const SourceSsotAccessorRuntimeState := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")
 const SourceMathDefaults := preload("res://src/game/SourceMathDefaults.gd")
 const SourceMathState := preload("res://src/game/SourceMathState.gd")
 const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
+const MindustryTime := preload("res://src/runtime/Time.gd")
 const SourceRulesDefaults := preload("res://src/game/SourceRulesDefaults.gd")
 const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
 const SourceWorldGrid := preload("res://src/game/SourceWorldGrid.gd")
@@ -25,10 +26,17 @@ const SourceWaveTimingRuntimeState := preload("res://src/game/SourceWaveTimingRu
 const SourceEnemyUnitRuntimeState := preload("res://src/game/SourceEnemyUnitRuntimeState.gd")
 const SourceInputDefaults := preload("res://src/game/SourceInputDefaults.gd")
 const SourceInputRuntime := preload("res://src/game/SourceInputRuntime.gd")
+const SourceGameConfigRuntimeState := preload("res://src/game/SourceGameConfigRuntimeState.gd")
+const SourceTextureRuntimeState := preload("res://src/game/SourceTextureRuntimeState.gd")
+const SourceContentRegistryRuntimeState := preload("res://src/game/SourceContentRegistryRuntimeState.gd")
 const SourceInputViewportRuntimeState := preload("res://src/game/SourceInputViewportRuntimeState.gd")
 const SourceGameRuntimeSummaryState := preload("res://src/game/SourceGameRuntimeSummaryState.gd")
 const SourceGameOverCoreDestroyedState := preload("res://src/game/SourceGameOverCoreDestroyedState.gd")
+const SourceCoreDamageRuntimeState := preload("res://src/game/SourceCoreDamageRuntimeState.gd")
+const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
 const SourceUiDefaults := preload("res://src/game/SourceUiDefaults.gd")
+const SourceNodeBindingRuntimeState := preload("res://src/game/SourceNodeBindingRuntimeState.gd")
+const SourceHudRuntimeState := preload("res://src/game/SourceHudRuntimeState.gd")
 const SourcePlayableScenarioDefaults := preload("res://src/game/SourcePlayableScenarioDefaults.gd")
 const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
 const SourceLiquidReactionState := preload("res://src/game/SourceLiquidReactionState.gd")
@@ -42,6 +50,7 @@ const SourcePowerDefaults := preload("res://src/game/SourcePowerDefaults.gd")
 const SourceProjectorDefaults := preload("res://src/game/SourceProjectorDefaults.gd")
 const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
 const SourceBulletRuntimeState := preload("res://src/game/SourceBulletRuntimeState.gd")
+const SourcePlacedPowerGraphState := preload("res://src/game/SourcePlacedPowerGraphState.gd")
 const SourcePlacedPowerBatteryRuntimeState := preload("res://src/game/SourcePlacedPowerBatteryRuntimeState.gd")
 const SourcePlacedPowerDistributionRuntimeState := preload("res://src/game/SourcePlacedPowerDistributionRuntimeState.gd")
 const SourceBulletTypeCreateState := preload("res://src/game/SourceBulletTypeCreateState.gd")
@@ -109,6 +118,7 @@ const SourceItemMetadataState := preload("res://src/game/SourceItemMetadataState
 const SourceBlockGeometry := preload("res://src/game/SourceBlockGeometry.gd")
 const SourceBlockFootprint := preload("res://src/game/SourceBlockFootprint.gd")
 const SourceBlockPlacement := preload("res://src/game/SourceBlockPlacement.gd")
+const SourceBuildSelectionRuntimeState := preload("res://src/game/SourceBuildSelectionRuntimeState.gd")
 const SourcePlacedBlockState := preload("res://src/game/SourcePlacedBlockState.gd")
 const SourceSelectedBuildState := preload("res://src/game/SourceSelectedBuildState.gd")
 const SourceBuildingTimeState := preload("res://src/game/SourceBuildingTimeState.gd")
@@ -332,233 +342,152 @@ func _ready() -> void:
 	call_deferred("apply_world_viewport_fit")
 
 func load_config() -> void:
-	var document := SourceSsotCatalog.load_document("playable_content")
-	if not bool(document.get("loaded", false)):
-		push_error("Missing playable content manifest: playable_content")
-		return
-	config = document.get("data", {})
-	if not config.has("tile_size"):
-		push_error("Missing playable content tile_size")
-		return
-	tile_size = int(config["tile_size"])
+	SourceGameConfigRuntimeState.load_config(self)
 
 func playable_content_block_state(block_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)
+	return SourceSsotAccessorRuntimeState.playable_content_block_state(block_id)
 
 func playable_content_item_state(item_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("playable_content_items", item_id)
+	return SourceSsotAccessorRuntimeState.playable_content_item_state(item_id)
 
 func playable_content_skin_override_state(skin_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)
+	return SourceSsotAccessorRuntimeState.playable_content_skin_override_state(skin_id)
 
 func source_symbol_registry_state(symbol: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("registry", symbol)
+	return SourceSsotAccessorRuntimeState.source_symbol_registry_state(symbol)
 
 func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)
+	return SourceSsotAccessorRuntimeState.ssot_symbol_registry_symbol_state(symbol)
 
 func source_symbol_audit_state() -> Dictionary:
-	return SourceSsotCatalog.audit_summary_state()
+	return SourceSsotAccessorRuntimeState.audit_summary_state()
 
 func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)
+	return SourceSsotAccessorRuntimeState.ssot_audit_registered_owner_state(owner_index)
 
 func ssot_audit_function_state(function_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)
+	return SourceSsotAccessorRuntimeState.ssot_audit_function_state(function_index)
 
 func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)
+	return SourceSsotAccessorRuntimeState.ssot_audit_exempt_owner_state(owner_index)
 
 func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)
+	return SourceSsotAccessorRuntimeState.ssot_audit_legacy_unregistered_owner_state(owner_index)
 
 func source_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)
+	return SourceSsotAccessorRuntimeState.source_slice_ledger_state(slice_id)
 
 func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)
+	return SourceSsotAccessorRuntimeState.ssot_slice_ledger_state(slice_id)
 
 func source_api_contract_state(contract_owner: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)
+	return SourceSsotAccessorRuntimeState.source_api_contract_state(contract_owner)
 
 func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)
+	return SourceSsotAccessorRuntimeState.ssot_api_contract_state(contract_owner)
 
 func source_state_schema_state(schema_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("state_schema", schema_name)
+	return SourceSsotAccessorRuntimeState.source_state_schema_state(schema_name)
 
 func ssot_state_schema_state(schema_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)
+	return SourceSsotAccessorRuntimeState.ssot_state_schema_state(schema_name)
 
 func helper_state_schema_state(schema_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)
+	return SourceSsotAccessorRuntimeState.helper_state_schema_state(schema_name)
 
 func ssot_modules_state(module_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.ssot_modules_state(module_name)
+	return SourceSsotAccessorRuntimeState.ssot_modules_state(module_name)
 
 func ssot_headquarter_registry_state(module_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.canonical_headquarter_registry_state(module_name)
+	return SourceSsotAccessorRuntimeState.canonical_headquarter_registry_state(module_name)
 
 func ssot_headquarter_lookup_state(alias_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.canonical_headquarter_lookup_state(alias_name)
+	return SourceSsotAccessorRuntimeState.canonical_headquarter_lookup_state(alias_name)
 
 func ssot_module_entry_state(module_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)
+	return SourceSsotAccessorRuntimeState.ssot_module_entry_state(module_name)
 
 func asset_manifest_state() -> Dictionary:
-	return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")
+	return SourceSsotAccessorRuntimeState.asset_manifest_state()
 
 func asset_manifest_asset_state(target_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)
+	return SourceSsotAccessorRuntimeState.asset_manifest_asset_state(target_path)
 
 func source_manifest_state() -> Dictionary:
-	return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")
+	return SourceSsotAccessorRuntimeState.source_manifest_state()
 
 func source_manifest_file_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)
+	return SourceSsotAccessorRuntimeState.source_manifest_file_state(file_path)
 
 func ast_manifest_state() -> Dictionary:
-	return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")
+	return SourceSsotAccessorRuntimeState.ast_manifest_state()
 
 func ast_manifest_file_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("ast_manifest_files", file_path)
+	return SourceSsotAccessorRuntimeState.ast_manifest_file_state(file_path)
 
 func ast_manifest_failure_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("ast_manifest_failures", file_path)
+	return SourceSsotAccessorRuntimeState.ast_manifest_failure_state(file_path)
 
 func content_registry_state() -> Dictionary:
-	return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])
+	return SourceSsotAccessorRuntimeState.content_registry_state()
 
 func content_registry_item_state(item_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_items", item_id)
+	return SourceSsotAccessorRuntimeState.content_registry_item_state(item_id)
 
 func content_registry_liquid_state(liquid_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_liquids", liquid_id)
+	return SourceSsotAccessorRuntimeState.content_registry_liquid_state(liquid_id)
 
 func content_registry_unit_state(unit_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_units", unit_id)
+	return SourceSsotAccessorRuntimeState.content_registry_unit_state(unit_id)
 
 func content_registry_block_state(block_id: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_blocks", block_id)
+	return SourceSsotAccessorRuntimeState.content_registry_block_state(block_id)
 
 func content_registry_count_state(count_name: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_counts", count_name)
+	return SourceSsotAccessorRuntimeState.content_registry_count_state(count_name)
 
 func content_registry_wave_group_state(group_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("content_registry_wave_groups", group_index)
+	return SourceSsotAccessorRuntimeState.content_registry_wave_group_state(group_index)
 
 func emitted_classes_state() -> Dictionary:
-	return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")
+	return SourceSsotAccessorRuntimeState.emitted_classes_state()
 
 func emitted_class_file_state(file_path: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)
+	return SourceSsotAccessorRuntimeState.emitted_class_file_state(file_path)
 
 func emitted_class_failure_state(failure_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)
+	return SourceSsotAccessorRuntimeState.emitted_class_failure_state(failure_index)
 
 func port_report_state() -> Dictionary:
-	return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])
+	return SourceSsotAccessorRuntimeState.port_report_state()
 
 func port_report_unsupported_state(unsupported_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)
+	return SourceSsotAccessorRuntimeState.port_report_unsupported_state(unsupported_index)
 
 func port_report_unsupported_feature_state(feature_index: String = "") -> Dictionary:
-	return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)
+	return SourceSsotAccessorRuntimeState.port_report_unsupported_feature_state(feature_index)
 
 func load_content_registry() -> void:
-	content_catalog = ContentCatalog.new()
-	content_counts = content_catalog.counts()
-	generated_class_count = GeneratedClassRegistry.count()
-	load_all_generated_scripts()
-	load_selected_generated_scripts()
-	if content_counts != ContentRegistry.counts():
-		push_error("Generated registry counts do not match loaded content catalog")
+	SourceContentRegistryRuntimeState.load_content_registry(self)
 
 func load_all_generated_scripts() -> void:
-	all_generated_scripts.clear()
-	all_generated_instances.clear()
-	all_generated_load_failures.clear()
-	all_generated_instance_failures.clear()
-	for entry in GeneratedClassRegistry.all_classes():
-		var java_key := "%s.%s" % [str(entry.get("java_package", "")), str(entry.get("java_name", ""))]
-		var script = ResourceLoader.load(str(entry.get("gdscript_path", "")))
-		if script == null:
-			all_generated_load_failures.append(java_key)
-			continue
-		all_generated_scripts[java_key] = script
-		var instance = script.new()
-		if instance == null:
-			all_generated_instance_failures.append(java_key)
-			continue
-		all_generated_instances[java_key] = instance
+	SourceContentRegistryRuntimeState.load_all_generated_scripts(self)
 
 func load_selected_generated_scripts() -> void:
-	loaded_generated_scripts.clear()
-	loaded_generated_class_names.clear()
-	loaded_generated_instances.clear()
-	loaded_generated_instance_names.clear()
-	for java_name in SourcePlayableScenarioDefaults.selected_generated_class_names():
-		var entry := GeneratedClassRegistry.find_by_java_name(java_name)
-		if entry.is_empty():
-			push_error("Generated class missing from registry: " + java_name)
-			continue
-		var script = ResourceLoader.load(str(entry.get("gdscript_path", "")))
-		if script == null:
-			push_error("Generated class script failed to load: " + java_name)
-			continue
-		loaded_generated_scripts[java_name] = script
-		loaded_generated_class_names.append(java_name)
-		var instance = script.new()
-		if instance == null:
-			push_error("Generated class script failed to instantiate: " + java_name)
-			continue
-		loaded_generated_instances[java_name] = instance
-		loaded_generated_instance_names.append(java_name)
+	SourceContentRegistryRuntimeState.load_selected_generated_scripts(self)
 
 func load_textures() -> void:
-	if config.is_empty():
-		return
-	textures["item"] = load_png_texture(config["item"]["texture"])
-	for key in config["blocks"].keys():
-		textures[key] = load_png_texture(config["blocks"][key]["texture"])
-	for unit in content_catalog.get_many("unit"):
-		if unit.has_texture():
-			textures["unit:" + unit.id] = load_png_texture(unit.texture_path)
+	SourceTextureRuntimeState.load_textures(self)
 
 func build_block_palette() -> void:
-	build_palette.clear()
-	if content_catalog == null:
-		return
-	for block_id in SourcePlayableScenarioDefaults.pinned_build_block_ids():
-		var block = content_catalog.get_by_id(block_id)
-		if block != null and block.has_texture():
-			build_palette.append(block)
-	for block in content_catalog.get_many("block"):
-		if block.has_texture() and not build_palette.has(block):
-			build_palette.append(block)
+	SourceBuildSelectionRuntimeState.build_block_palette(self)
 
 
 func load_png_texture(path: String) -> Texture2D:
-	var resource := ResourceLoader.load(path)
-	if resource is Texture2D:
-		return resource
-	var image := Image.new()
-	var error := image.load(path)
-	if error != OK:
-		push_error("Could not load texture: " + path)
-		return null
-	return ImageTexture.create_from_image(image)
+	return SourceTextureRuntimeState.load_png_texture(path)
 
 func bind_nodes() -> void:
-	camera = get_node_or_null("Camera2D")
-	if camera:
-		camera.make_current()
-		get_viewport().size_changed.connect(apply_world_viewport_fit)
-	hud_label = Label.new()
-	hud_label.position = Vector2(16, 16)
-	var hud := get_node_or_null("UI/Hud")
-	if hud:
-		hud.add_child(hud_label)
+	SourceNodeBindingRuntimeState.bind_nodes(self)
 
 func build_world() -> void:
 	SourceWorldInitialBuildRuntimeState.build_world(self)
@@ -655,35 +584,16 @@ func world_viewport_fit_runtime_state() -> Dictionary:
 	return fit
 
 func select_build_slot(keycode: Key) -> void:
-	var step := SourceInputDefaults.block_select_step_from_keycode(keycode)
-	if step != 0:
-		if step < 0:
-			select_previous_build_slot()
-		else:
-			select_next_build_slot()
-		return
-	var index := SourceInputDefaults.block_select_index_from_keycode(keycode)
-	if index < 0:
-		return
-	if index < build_palette.size():
-		selected_build_index = index
+	SourceBuildSelectionRuntimeState.select_build_slot(self, keycode)
 
 func select_next_build_slot() -> void:
-	if build_palette.is_empty():
-		return
-	selected_build_index = (selected_build_index + 1) % build_palette.size()
+	SourceBuildSelectionRuntimeState.select_next_build_slot(self)
 
 func select_previous_build_slot() -> void:
-	if build_palette.is_empty():
-		return
-	selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()
+	SourceBuildSelectionRuntimeState.select_previous_build_slot(self)
 
 func select_build_block_by_id(block_id: String) -> bool:
-	for index in build_palette.size():
-		if build_palette[index].id == block_id:
-			selected_build_index = index
-			return true
-	return false
+	return SourceBuildSelectionRuntimeState.select_build_block_by_id(self, block_id)
 
 func selected_build_properties(selected) -> Dictionary:
 	return SourceSelectedBuildState.properties(selected)
@@ -1717,55 +1627,16 @@ func power_graph_role_for_block(block) -> Dictionary:
 	return SourceBuildingPowerState.block_power_role_state(block)
 
 func placed_power_graph_role_counts() -> Dictionary:
-	var counts := {"all": 0, "producers": 0, "consumers": 0, "batteries": 0}
-	for key in placed_block_origins.keys():
-		var block = block_from_sprite(placed_block_origins.get(key))
-		var role_state := power_graph_role_for_block(block)
-		if bool(role_state.get("add_all", false)):
-			counts["all"] += 1
-		if bool(role_state.get("add_producer", false)):
-			counts["producers"] += 1
-		if bool(role_state.get("add_consumer", false)):
-			counts["consumers"] += 1
-		if bool(role_state.get("add_battery", false)):
-			counts["batteries"] += 1
-	return counts
+	return SourcePlacedPowerGraphState.role_counts_state(placed_block_origins, Callable(self, "block_from_sprite"), Callable(self, "power_graph_role_for_block"))
 
 func placed_power_needed_state() -> Dictionary:
-	var consumers: Array = []
-	for key in placed_block_origins.keys():
-		var block = block_from_sprite(placed_block_origins.get(key))
-		if block == null:
-			continue
-		var role_state := power_graph_role_for_block(block)
-		if not bool(role_state.get("add_consumer", false)):
-			continue
-		consumers.append(SourceBuildingPowerState.block_consumer_state(block, SourceTimeDefaults.TICK_RATE))
-	return source_power_graph_power_needed_state(consumers)
+	return SourcePlacedPowerGraphState.needed_state(placed_block_origins, Callable(self, "block_from_sprite"), Callable(self, "power_graph_role_for_block"), SourceTimeDefaults.TICK_RATE)
 
 func placed_power_produced_state() -> Dictionary:
-	var producers: Array = []
-	for key in placed_block_origins.keys():
-		var block = block_from_sprite(placed_block_origins.get(key))
-		if block == null:
-			continue
-		var role_state := power_graph_role_for_block(block)
-		if not bool(role_state.get("add_producer", false)):
-			continue
-		producers.append(SourceBuildingPowerState.block_producer_state(block, SourceTimeDefaults.TICK_RATE))
-	return source_power_graph_power_produced_state(producers)
+	return SourcePlacedPowerGraphState.produced_state(placed_block_origins, Callable(self, "block_from_sprite"), Callable(self, "power_graph_role_for_block"), SourceTimeDefaults.TICK_RATE)
 
 func placed_power_battery_state() -> Dictionary:
-	var batteries: Array = []
-	for key in placed_block_origins.keys():
-		var block = block_from_sprite(placed_block_origins.get(key))
-		if block == null:
-			continue
-		var role_state := power_graph_role_for_block(block)
-		if not bool(role_state.get("add_battery", false)):
-			continue
-		batteries.append(SourceBuildingPowerState.block_battery_state(block))
-	return source_power_graph_battery_state(batteries)
+	return SourcePlacedPowerGraphState.battery_state(placed_block_origins, Callable(self, "block_from_sprite"), Callable(self, "power_graph_role_for_block"))
 
 func placed_power_battery_runtime_state() -> Dictionary:
 	var defaults := {
@@ -1793,23 +1664,7 @@ func placed_power_distribution_runtime_state() -> Dictionary:
 	)
 
 func placed_power_runtime_state() -> Dictionary:
-	var roles := placed_power_graph_role_counts()
-	var needed := placed_power_needed_state()
-	var produced := placed_power_produced_state()
-	var battery := placed_power_battery_state()
-	return {
-		"roles": roles,
-		"needed": needed,
-		"produced": produced,
-		"battery": battery,
-		"producer_count": int(roles.get("producers", 0)),
-		"consumer_count": int(roles.get("consumers", 0)),
-		"battery_count": int(roles.get("batteries", 0)),
-		"power_needed": float(needed.get("power_needed", 0.0)),
-		"power_produced": float(produced.get("power_produced", 0.0)),
-		"battery_stored": float(battery.get("stored", 0.0)),
-		"battery_capacity": float(battery.get("capacity", 0.0)),
-	}
+	return SourcePlacedPowerGraphState.runtime_state(placed_block_origins, Callable(self, "block_from_sprite"), Callable(self, "power_graph_role_for_block"), SourceTimeDefaults.TICK_RATE)
 
 func place_selected_block_at_mouse() -> void:
 	place_selected_block_at_world(get_global_mouse_position())
@@ -1818,44 +1673,10 @@ func place_selected_block_at_cell(x: int, y: int) -> bool:
 	return place_selected_block_at_world(grid_to_world(Vector2i(x, y)))
 
 func place_selected_block_at_world(world_pos: Vector2) -> bool:
-	if build_palette.is_empty():
-		last_place_blocked = true
-		return false
-	var cell := world_to_grid(world_pos)
-	var block = SourceSelectedBuildState.selected_build(build_palette, selected_build_index)
-	if not can_place_block_at_cell(block, cell):
-		last_place_blocked = true
-		return false
-	if not can_afford(block):
-		last_place_blocked = true
-		return false
-	var blocks := get_node("World/BlockLayer")
-	spend_requirements(block)
-	var sprite := Sprite2D.new()
-	configure_block_sprite(sprite, block, cell)
-	blocks.add_child(sprite)
-	record_placed_block(sprite, block, cell)
-	player_placed_block_count += 1
-	last_placed_block_id = block.id
-	last_placed_block_size = block_size(block)
-	last_placed_block_requirements = SourceBlockRequirementsState.block_requirements(block)
-	last_placed_cell = cell
-	last_placed_occupied_cell_count = SourceBlockFootprint.occupied_cell_count(block_size(block))
-	last_place_blocked = false
-	register_turret_cell(cell, block)
-	return true
+	return SourceBlockPlacement.place_selected_block_at_world(self, world_pos, SourcePlayableScenarioDefaults.WORLD_SIZE)
 
 func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:
-	if content_catalog == null:
-		return
-	var block = content_catalog.get_by_id(block_id)
-	if block == null:
-		return
-	var sprite := Sprite2D.new()
-	configure_block_sprite(sprite, block, cell)
-	parent.add_child(sprite)
-	record_placed_block(sprite, block, cell)
-	register_turret_cell(cell, block)
+	SourceBlockPlacement.add_source_block(self, parent, block_id, cell)
 
 func occupied_cells(cell: Vector2i, block) -> Array[Vector2i]:
 	return SourceBlockFootprint.occupied_cells(cell, block_size(block))
@@ -2502,776 +2323,184 @@ func generated_building_comp_display_bars_bridge_state(bar_results: Array) -> Di
 	return SourceBuildingDisplayState.generated_building_comp_display_bars_bridge_state(bar_results)
 
 func generated_building_comp_get_cursor_bridge_state(block_configurable: bool, interactable_player_team: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_getCursor_165([block_configurable, interactable_player_team])
-	var canonical = source_building_cursor_state(block_configurable, interactable_player_team)
-	return {
-		"source_owner": "PortGame.source_building_cursor_state",
-		"generated_owner": "BuildingComp.java_method_getCursor_165",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingMetaState.generated_cursor_bridge_state(block_configurable, interactable_player_team)
 
 func generated_building_comp_on_configure_tapped_bridge_state(x: float, y: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_onConfigureTapped_167([x, y])
-	var canonical = source_building_on_configure_tapped_state(x, y)
-	return {
-		"source_owner": "PortGame.source_building_on_configure_tapped_state",
-		"generated_owner": "BuildingComp.java_method_onConfigureTapped_167",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingConfigureState.generated_on_configure_tapped_bridge_state(x, y)
 
 func generated_building_comp_on_configure_closed_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_onConfigureClosed_168([])
-	var canonical = source_building_on_configure_closed_state()
-	return {
-		"source_owner": "PortGame.source_building_on_configure_closed_state",
-		"generated_owner": "BuildingComp.java_method_onConfigureClosed_168",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingConfigureState.generated_on_configure_closed_bridge_state()
 
 func generated_building_comp_should_show_configure_bridge_state(player: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_shouldShowConfigure_169([player])
-	var canonical = source_building_should_show_configure_state(player)
-	return {
-		"source_owner": "PortGame.source_building_should_show_configure_state",
-		"generated_owner": "BuildingComp.java_method_shouldShowConfigure_169",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingConfigureState.generated_should_show_configure_bridge_state(player)
 
 func generated_building_comp_should_hide_configure_bridge_state(player: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_shouldHideConfigure_170([player])
-	var canonical = source_building_should_hide_configure_state(player)
-	return {
-		"source_owner": "PortGame.source_building_should_hide_configure_state",
-		"generated_owner": "BuildingComp.java_method_shouldHideConfigure_170",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingConfigureState.generated_should_hide_configure_bridge_state(player)
 
 func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value, source_tilesize])
-	var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, source_tilesize)
-	return {
-		"source_owner": "PortGame.source_building_draw_configure_state",
-		"generated_owner": "BuildingComp.java_method_drawConfigure_171",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDrawState.generated_draw_configure_bridge_state(source_x, source_y, block_size_value, source_tilesize)
 
 func generated_building_comp_draw_configure_source_tilesize_default_bridge_state(source_x: float, source_y: float, block_size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value])
-	var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, SourceWorldDefaults.TILESIZE)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_building_draw_configure_state",
-		"generated_owner": "BuildingComp.java_method_drawConfigure_171",
-		"defaulted_arg": "source_tilesize",
-		"source_tilesize": result.get("source_tilesize", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceBuildingDrawState.generated_draw_configure_source_tilesize_default_bridge_state(source_x, source_y, block_size_value)
 
 func generated_building_comp_check_solid_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_checkSolid_172([])
-	var canonical = {
-		"method": "public boolean checkSolid(){",
-		"checkSolid": source_building_check_solid_state(),
-	}
-	return {
-		"source_owner": "PortGame.source_building_check_solid_state",
-		"generated_owner": "BuildingComp.java_method_checkSolid_172",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingCoreState.generated_check_solid_bridge_state()
 
 func generated_building_comp_handle_damage_bridge_state(amount: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_handleDamage_173([amount])
-	var canonical = {
-		"method": "public float handleDamage(float amount){",
-		"amount": amount,
-		"handled_damage": source_building_handle_damage_state(amount),
-	}
-	return {
-		"source_owner": "PortGame.source_building_handle_damage_state",
-		"generated_owner": "BuildingComp.java_method_handleDamage_173",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_handle_damage_bridge_state(amount)
 
 func generated_building_comp_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_absorbLasers_174([block_absorb_lasers])
-	var canonical = {
-		"blockAbsorbLasers": block_absorb_lasers,
-		"defaultAbsorbLasers": false,
-		"absorbLasers": source_building_absorb_lasers_state(block_absorb_lasers),
-	}
-	return {
-		"source_owner": "PortGame.source_building_absorb_lasers_state",
-		"generated_owner": "BuildingComp.java_method_absorbLasers_174",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingCoreState.generated_absorb_lasers_bridge_state(block_absorb_lasers)
 
 func generated_building_comp_is_insulated_bridge_state(block_insulated: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isInsulated_175([block_insulated])
-	var canonical = {
-		"method": "public boolean isInsulated(){",
-		"block_insulated": block_insulated,
-		"insulated": source_building_is_insulated_state(block_insulated),
-	}
-	return {
-		"source_owner": "PortGame.source_building_is_insulated_state",
-		"generated_owner": "BuildingComp.java_method_isInsulated_175",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingCoreState.generated_is_insulated_bridge_state(block_insulated)
 
 func generated_building_comp_collide_bridge_state(other: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_collide_176([other])
-	var canonical = {
-		"method": "public boolean collide(Bullet other){",
-		"other": other,
-		"collide": source_building_collide_state(other),
-	}
-	return {
-		"source_owner": "PortGame.source_building_collide_state",
-		"generated_owner": "BuildingComp.java_method_collide_176",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingCoreState.generated_collide_bridge_state(other)
 
 func generated_building_comp_collision_bridge_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_collision_177([current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier])
-	var canonical = source_building_collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)
-	canonical["method"] = "public boolean collision(Bullet other){"
-	return {
-		"source_owner": "PortGame.source_building_collision_damage_state",
-		"generated_owner": "BuildingComp.java_method_collision_177",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)
 
 func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, damage_amount: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_178([source_team, damage_amount])
-	var canonical = source_building_damage_delegate_state(source_team, damage_amount)
-	canonical["comment"] = "/** Used to handle damage from splash damage for certain types of blocks. */"
-	canonical["method"] = "public void damage(@Nullable Team source, float damage){"
-	return {
-		"source_owner": "PortGame.source_building_damage_delegate_state",
-		"generated_owner": "BuildingComp.java_method_damage_178",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_delegate_bridge_state(source_team, damage_amount)
 
 func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_179([bullet, source_team, damage_amount])
-	var canonical = source_building_bullet_damage_state(bullet, source_team, damage_amount)
-	canonical["comment"] = "/** Handles splash damage with a bullet source. */"
-	canonical["method"] = "public void damage(Bullet bullet, Team source, float damage){"
-	return {
-		"source_owner": "PortGame.source_building_bullet_damage_state",
-		"generated_owner": "BuildingComp.java_method_damage_179",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_bullet_damage_bridge_state(bullet, source_team, damage_amount)
 
 func generated_building_comp_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_changeTeam_180([next_team])
-	var canonical = source_building_change_team_delegate_state(next_team)
-	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
-	canonical["method"] = "public void changeTeam(Team next){"
-	return {
-		"source_owner": "PortGame.source_building_change_team_delegate_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_180",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_change_team_delegate_bridge_state(next_team)
 
 func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid])
-	var canonical = source_building_change_team_initial_state(current_team, next_team, force_team, was_valid)
-	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": "PortGame.source_building_change_team_initial_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_change_team_initial_bridge_state(current_team, next_team, force_team, was_valid)
 
 func generated_building_comp_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph])
-	var canonical = source_building_change_team_power_proximity_state(power_present, update_power, old_graph, next_team)
-	canonical["gate"] = "if(power != null && updatePower){"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": "PortGame.source_building_change_team_power_proximity_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_change_team_power_proximity_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph)
 
 func generated_building_comp_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count])
-	var canonical = source_building_change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)
-	canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": "PortGame.source_building_change_team_power_links_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_change_team_power_links_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
 
 func generated_building_comp_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count])
-	var team_after_force = force_team if force_team != null else current_team
-	var last_team = team_after_force
-	var canonical = source_building_change_team_final_state(was_valid, last_team)
-	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
-	return {
-		"source_owner": "PortGame.source_building_change_team_final_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_change_team_final_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)
 
 func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_canPickup_182([block_can_pickup])
-	var canonical = source_building_can_pickup_state(block_can_pickup)
-	return {
-		"source_owner": "PortGame.source_building_can_pickup_state",
-		"generated_owner": "BuildingComp.java_method_canPickup_182",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_can_pickup_bridge_state(block_can_pickup)
 
 func generated_building_comp_picked_up_bridge_state(previous_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_pickedUp_183([previous_state])
-	var canonical = source_building_picked_up_state(previous_state)
-	return {
-		"source_owner": "PortGame.source_building_picked_up_state",
-		"generated_owner": "BuildingComp.java_method_pickedUp_183",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_picked_up_bridge_state(previous_state)
 
 func generated_building_comp_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_afterPickedUp_184([power_present, has_cons_power, cons_power_buffered, current_status])
-	var canonical = source_building_after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
-	return {
-		"source_owner": "PortGame.source_building_after_picked_up_state",
-		"generated_owner": "BuildingComp.java_method_afterPickedUp_184",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_after_picked_up_bridge_state(power_present, has_cons_power, cons_power_buffered, current_status)
 
 func generated_building_comp_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_removeFromProximity_185([nearby_count, removable_count])
-	var canonical = source_building_remove_from_proximity_state(nearby_count, removable_count)
-	return {
-		"source_owner": "PortGame.source_building_remove_from_proximity_state",
-		"generated_owner": "BuildingComp.java_method_removeFromProximity_185",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_remove_from_proximity_bridge_state(nearby_count, removable_count)
 
 func generated_building_comp_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateProximity_186([nearby_count, same_team_count, headless, draw_cached])
-	var canonical = source_building_update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
-	return {
-		"source_owner": "PortGame.source_building_update_proximity_state",
-		"generated_owner": "BuildingComp.java_method_updateProximity_186",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_update_proximity_bridge_state(nearby_count, same_team_count, headless, draw_cached)
 
 func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_onNearbyBuildAdded_187([other_state])
-	var canonical = source_building_on_nearby_build_added_state(other_state)
-	return {
-		"source_owner": "PortGame.source_building_on_nearby_build_added_state",
-		"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_on_nearby_build_added_bridge_state(other_state)
 
 func generated_building_comp_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_consume_188([consumers, self_state])
-	var canonical = source_building_consume_state(consumers, self_state)
-	return {
-		"source_owner": "PortGame.source_building_consume_state",
-		"generated_owner": "BuildingComp.java_method_consume_188",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_consume_bridge_state(consumers, self_state)
 
 func generated_building_comp_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_canConsume_189([potential_efficiency])
-	var canonical = source_building_can_consume_state(potential_efficiency)
-	return {
-		"source_owner": "PortGame.source_building_can_consume_state",
-		"generated_owner": "BuildingComp.java_method_canConsume_189",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_can_consume_bridge_state(potential_efficiency)
 
 func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_delta_190([source_delta, time_scale])
-	var canonical = source_building_delta(source_delta, time_scale)
-	return {
-		"source_owner": "PortGame.source_building_delta",
-		"generated_owner": "BuildingComp.java_method_delta_190",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_delta_bridge_state(source_delta, time_scale)
 
 func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_edelta_191([source_delta, time_scale, efficiency])
-	var canonical = source_building_edelta(source_delta, time_scale, efficiency)
-	return {
-		"source_owner": "PortGame.source_building_edelta",
-		"generated_owner": "BuildingComp.java_method_edelta_191",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingTimeState.generated_edelta_bridge_state(source_delta, time_scale, efficiency)
 
 func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])
-	var canonical = source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)
-	return {
-		"source_owner": "PortGame.source_building_update_efficiency_multiplier_state",
-		"generated_owner": "BuildingComp.java_method_updateEfficiencyMultiplier_192",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_efficiency_multiplier_bridge_state(efficiency, optional_efficiency, efficiency_scale)
 
 func generated_building_comp_efficiency_scale_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_efficiencyScale_193([])
-	var canonical = source_building_efficiency_scale_state()
-	return {
-		"source_owner": "PortGame.source_building_efficiency_scale_state",
-		"generated_owner": "BuildingComp.java_method_efficiencyScale_193",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_efficiency_scale_bridge_state()
 
 func generated_building_comp_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale])
-	var canonical = source_building_update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_initial_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_initial_bridge_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 
 func generated_building_comp_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, enabled_state, true, true, 1.0])
-	var canonical = source_building_update_consumption_disabled_state(enabled_state)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_disabled_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_disabled_bridge_state(enabled_state)
 
 func generated_building_comp_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, true, production_valid, should_consume_state, 1.0])
-	var canonical = source_building_update_consumption_setup_state(should_consume_state, production_valid)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_setup_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_setup_bridge_state(should_consume_state, production_valid)
 
 func generated_building_comp_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, non_optional_consumer_results])
-	var canonical = source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_non_optional_bridge_state(non_optional_consumer_results)
 
 func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, [], optional_consumer_results])
-	var canonical = source_building_update_consumption_optional_pass_state(optional_consumer_results)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_optional_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_optional_bridge_state(optional_consumer_results)
 
 func generated_building_comp_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true])
-	var canonical = source_building_update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_efficiency_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_efficiency_bridge_state(min_efficiency, optional_efficiency, update)
 
 func generated_building_comp_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state])
-	var result_efficiency := float(result.get("efficiency", efficiency))
-	var canonical = source_building_update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_second_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_second_pass_bridge_state(update, efficiency, update_consumers, self_state)
 
 func generated_building_comp_ambient_volume_bridge_state(efficiency: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_ambientVolume_197([efficiency])
-	var canonical = source_building_ambient_volume(efficiency)
-	return {
-		"source_owner": "PortGame.source_building_ambient_volume",
-		"generated_owner": "BuildingComp.java_method_ambientVolume_197",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_ambient_volume_bridge_state(efficiency)
 
 func generated_building_comp_config_default_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_config_198()
-	var canonical = source_building_config_default()
-	return {
-		"source_owner": "PortGame.source_building_config_default",
-		"generated_owner": "BuildingComp.java_method_config_198",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_config_default_bridge_state()
 
 func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isValid_199([tile_build_matches_self, dead_state])
-	var canonical = source_building_is_valid(tile_build_matches_self, dead_state)
-	return {
-		"source_owner": "PortGame.source_building_is_valid",
-		"generated_owner": "BuildingComp.java_method_isValid_199",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_is_valid_bridge_state(tile_build_matches_self, dead_state)
 
 func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result_no_arg = instance.java_method_heal_200()
-	var result_amount = instance.java_method_heal_201([amount])
-	var canonical_no_arg = source_building_heal_state()
-	var canonical_amount = source_building_heal_state(amount)
-	return {
-		"source_owner": "PortGame.source_building_heal_state",
-		"generated_owner_no_arg": "BuildingComp.java_method_heal_200",
-		"generated_owner_amount": "BuildingComp.java_method_heal_201",
-		"result_no_arg": result_no_arg,
-		"result_amount": result_amount,
-		"canonical_no_arg": canonical_no_arg,
-		"canonical_amount": canonical_amount,
-	}
+	return SourceBuildingLifecycleState.generated_heal_bridge_state(amount)
 
 func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_hitSize_202([block_size_value, source_tilesize])
-	var canonical = source_building_hit_size(block_size_value, source_tilesize)
-	return {
-		"source_owner": "PortGame.source_building_hit_size",
-		"generated_owner": "BuildingComp.java_method_hitSize_202",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBlockGeometry.generated_building_hit_size_bridge_state(block_size_value, source_tilesize)
 
 func generated_building_comp_kill_bridge_state(self_state := {}) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_kill_203([self_state])
-	var canonical = source_building_kill_state(self_state)
-	return {
-		"source_owner": "PortGame.source_building_kill_state",
-		"generated_owner": "BuildingComp.java_method_kill_203",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_kill_bridge_state(self_state)
 
 func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_204([damage_amount, dead_state])
-	var canonical = source_building_damage_dead_guard_state(dead_state)
-	return {
-		"source_owner": "PortGame.source_building_damage_dead_guard_state",
-		"generated_owner": "BuildingComp.java_method_damage_204",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_dead_guard_bridge_state(damage_amount, dead_state)
 
 func generated_building_comp_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time])
-	var canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)
-	return {
-		"source_owner": "PortGame.source_building_damage_block_health_scale_state",
-		"generated_owner": "BuildingComp.java_method_damage_204",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_block_health_scale_bridge_state(damage_amount, health, block_health_multiplier, source_time)
 
 func generated_building_comp_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage])
-	var block_health_canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)
-	var canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)
-	return {
-		"source_owner": "PortGame.source_building_damage_handle_damage_gate_state",
-		"generated_owner": "BuildingComp.java_method_damage_204",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_handle_damage_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)
 
 func generated_building_comp_damage_health_changed_call_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage])
-	var canonical = source_building_damage_health_changed_call_state()
-	return {
-		"source_owner": "PortGame.source_building_damage_health_changed_call_state",
-		"generated_owner": "BuildingComp.java_method_damage_204",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_health_changed_call_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)
 
 func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage, self_state])
-	var block_health_canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)
-	var handle_gate_canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)
-	var canonical = source_building_damage_destroy_gate_state(float(handle_gate_canonical["health"]), self_state)
-	return {
-		"source_owner": "PortGame.source_building_damage_destroy_gate_state",
-		"generated_owner": "BuildingComp.java_method_damage_204",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingDamageState.generated_damage_destroy_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage, self_state)
 
 func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_healthChanged_205([net_server, self_state])
-	var canonical = source_building_health_changed_state(net_server, self_state)
-	return {
-		"source_owner": "PortGame.source_building_health_changed_state",
-		"generated_owner": "BuildingComp.java_method_healthChanged_205",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingMetaState.generated_health_changed_bridge_state(net_server, self_state)
 
 func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize])
-	var canonical = source_building_sense_position_state(world_x, world_y, source_tilesize)
-	return {
-		"source_owner": "PortGame.source_building_sense_position_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_position_bridge_state(world_x, world_y, source_tilesize)
 
 func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value])
-	var canonical = source_building_sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)
-	return {
-		"source_owner": "PortGame.source_building_sense_health_process_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_health_process_bridge_state(world_x, world_y, health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)
 
 func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power])
-	var canonical = source_building_sense_totals_state(total_items, total_liquids, total_power)
-	return {
-		"source_owner": "PortGame.source_building_sense_totals_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_totals_bridge_state(world_x, world_y, total_items, total_liquids, total_power, source_tilesize)
 
 func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, SourceTimeDefaults.TICK_RATE])
-	var canonical = source_building_sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity)
-	return {
-		"source_owner": "PortGame.source_building_sense_capacity_power_net_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_capacity_power_net_bridge_state(world_x, world_y, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, source_tilesize)
 
 func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value])
-	var canonical = source_building_sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)
-	return {
-		"source_owner": "PortGame.source_building_sense_enabled_controlled_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_enabled_controlled_bridge_state(world_x, world_y, enabled_state, is_control_block, is_controlled, ctrl_player_value, source_tilesize)
 
 func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value])
-	var canonical = source_building_sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)
-	return {
-		"source_owner": "PortGame.source_building_sense_payload_size_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_payload_size_bridge_state(world_x, world_y, has_payload_seq, payload_seq_total, has_single_payload, block_size_value, source_tilesize)
 
 func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height])
-	var canonical = source_building_sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)
-	return {
-		"source_owner": "PortGame.source_building_sense_camera_default_state",
-		"generated_owner": "BuildingComp.java_method_sense_206",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_camera_default_bridge_state(world_x, world_y, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height, source_tilesize)
 
 func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_senseObject_207([sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content])
-	var canonical = source_building_sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)
-	return {
-		"source_owner": "PortGame.source_building_sense_object_state",
-		"generated_owner": "BuildingComp.java_method_senseObject_207",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_object_bridge_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)
 
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_display_160([block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed])
-	var icon_canonical = source_building_display_icon_state(block_ui_icon)
-	var name_canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)
-	var gates_canonical = source_building_display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)
-	return {
-		"source_owner": "PortGame.source_building_display_ui_gates_state",
-		"generated_owner": "BuildingComp.java_method_display_160",
-		"result": result,
-		"icon_canonical": icon_canonical,
-		"name_canonical": name_canonical,
-		"gates_canonical": gates_canonical,
-	}
+	return SourceBuildingDisplayState.generated_building_comp_display_bridge_state(block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed)
 
 func source_building_should_ambient_sound(should_consume_state: bool) -> Dictionary:
 	return SourceBuildingTimeState.should_ambient_sound(should_consume_state)
@@ -3304,10 +2533,10 @@ func source_arc_random_seed_float_max(source_seed: int, max_value: float) -> flo
 	return SourceMathState.random_seed_float_max(source_seed, max_value)
 
 func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:
-	return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))
+	return SourceMathState.source_arc_lerp_delta(from_value, to_value, progress, source_delta)
 
 func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:
-	return chance * source_delta
+	return SourceMathState.source_arc_chance_delta_threshold(chance, source_delta)
 
 func source_arc_mathf_sin_table_value(index: int) -> float:
 	return SourceMathState.source_arc_mathf_sin_table_value(index)
@@ -3325,11 +2554,7 @@ func source_arc_mathf_cos_scaled(radians: float, scl: float, mag: float) -> floa
 	return SourceMathState.source_arc_mathf_cos_scaled(radians, scl, mag)
 
 func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:
-	var limit2 := limit * limit
-	var len2 := vec.length_squared()
-	if len2 > limit2:
-		return vec * sqrt(limit2 / len2)
-	return vec
+	return SourceMathState.source_arc_vec2_limit(vec, limit)
 
 func source_building_draw_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:
 	var callbacks := SourceBuildingDrawState.default_callbacks_state(self)
@@ -3428,94 +2653,28 @@ func build_begin_break_state(valid_break: bool, tile_has_building: bool, prev_he
 	return SourceBuildingDestructionState.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
 
 func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Build.gd")
-	var instance = script.new()
-	var result = instance.java_method_beginBreak_0([valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name])
-	var canonical = SourceBuildingDestructionState.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
-	return {
-		"source_owner": "PortGame.build_begin_break_state",
-		"generated_owner": "Build.java_method_beginBreak_0",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("construct_block_started", null) == canonical.get("construct_block_started", null) and result.get("instant_deconstruct_call", null) == canonical.get("instant_deconstruct_call", null) and result.get("event_fired", null) == canonical.get("event_fired", null),
-	}
+	return SourceBuildingDestructionState.generated_build_begin_break_bridge_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
 
 func construct_block_deconstruct_finish_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:
 	return SourceBuildingDestructionState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
 
 func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd")
-	var instance = script.new()
-	var result = instance.java_method_deconstructFinish_1([tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color])
-	var canonical = SourceBuildingDestructionState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
-	return {
-		"source_owner": "PortGame.construct_block_deconstruct_finish_state",
-		"generated_owner": "ConstructBlock.java_method_deconstructFinish_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("break_effect_called", null) == canonical.get("break_effect_called", null) and result.get("break_sound_called", null) == canonical.get("break_sound_called", null) and result.get("event_fired", null) == canonical.get("event_fired", null) and result.get("tile_removed", null) == canonical.get("tile_removed", null),
-	}
+	return SourceBuildingDestructionState.generated_construct_block_deconstruct_finish_bridge_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
 
 func construct_block_construct_finish_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:
 	return SourceBuildingDestructionState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
 
 func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd")
-	var instance = script.new()
-	var result = instance.java_method_constructFinish_2([tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state])
-	var canonical = SourceBuildingDestructionState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
-	return {
-		"source_owner": "PortGame.construct_block_construct_finish_state",
-		"generated_owner": "ConstructBlock.java_method_constructFinish_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("set_overlay_called", null) == canonical.get("set_overlay_called", null) and result.get("set_floor_called", null) == canonical.get("set_floor_called", null) and result.get("clear_overlay_called", null) == canonical.get("clear_overlay_called", null) and result.get("set_block_called", null) == canonical.get("set_block_called", null) and result.get("configured_called", null) == canonical.get("configured_called", null) and result.get("overwrote_called", null) == canonical.get("overwrote_called", null) and result.get("last_accessed_set", null) == canonical.get("last_accessed_set", null) and result.get("place_sound_called", null) == canonical.get("place_sound_called", null) and result.get("event_fired", null) == canonical.get("event_fired", null),
-	}
+	return SourceBuildingDestructionState.generated_construct_block_construct_finish_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
 
 func construct_block_constructed_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
 	return SourceBuildingDestructionState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
 
 func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd")
-	var instance = script.new()
-	var result = instance.java_method_constructed_6([tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish])
-	var canonical = SourceBuildingDestructionState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
-	return {
-		"source_owner": "PortGame.construct_block_constructed_state",
-		"generated_owner": "ConstructBlock.java_method_constructed_6",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("construct_finish_called", null) == canonical.get("construct_finish_called", null) and result.get("placed_called", null) == canonical.get("placed_called", null) and result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("construct_finish_state", {}).get("event_fired", null) == canonical.get("construct_finish_state", {}).get("event_fired", null),
-	}
+	return SourceBuildingDestructionState.generated_construct_block_constructed_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
 
 func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd")
-	var instance = script.new()
-	var get_result = instance.java_method_get_0([size, max_block_size])
-	var should_play_result = instance.java_method_shouldPlay_3([time_since_last_played_ms, current_millis])
-	var calc_pitch_result = instance.java_method_calcPitch_4([up, time_since_last_time_ms, current_millis, pitch_seq_before, random_pitch])
-	var repair_sound_result = instance.java_method_playRepairSound_5([headless, should_play_result.get("should_play", false), visible_tile, calc_pitch_result.get("pitch", 1.0)])
-	var hidden_result = instance.java_method_isHidden_7([])
-	var canonical_get = SourceConstructBlockState.get_state(size, max_block_size)
-	var canonical_should_play = SourceConstructBlockState.should_play_state(time_since_last_played_ms, current_millis)
-	var canonical_calc_pitch = SourceConstructBlockState.calc_pitch_state(up, time_since_last_time_ms, current_millis, pitch_seq_before, random_pitch)
-	var canonical_repair_sound = SourceConstructBlockState.play_repair_sound_state(headless, canonical_should_play.get("should_play", false), visible_tile, canonical_calc_pitch.get("pitch", 1.0))
-	var canonical_hidden = SourceConstructBlockState.is_hidden_state()
-	return {
-		"source_owner": "PortGame.construct_block_static_helpers_state",
-		"generated_owner": "ConstructBlock.static_helpers",
-		"get_result": get_result,
-		"should_play_result": should_play_result,
-		"calc_pitch_result": calc_pitch_result,
-		"repair_sound_result": repair_sound_result,
-		"hidden_result": hidden_result,
-		"canonical_get": canonical_get,
-		"canonical_should_play": canonical_should_play,
-		"canonical_calc_pitch": canonical_calc_pitch,
-		"canonical_repair_sound": canonical_repair_sound,
-		"canonical_hidden": canonical_hidden,
-		"matches": get_result.get("construct_block_index", null) == canonical_get.get("construct_block_index", null) and should_play_result.get("should_play", null) == canonical_should_play.get("should_play", null) and calc_pitch_result.get("pitch_seq_after", null) == canonical_calc_pitch.get("pitch_seq_after", null) and calc_pitch_result.get("pitch", null) == canonical_calc_pitch.get("pitch", null) and repair_sound_result.get("repair_sound_called", null) == canonical_repair_sound.get("repair_sound_called", null) and hidden_result.get("is_hidden", null) == canonical_hidden.get("is_hidden", null),
-	}
+	return SourceConstructBlockState.generated_construct_block_static_helpers_bridge_state(size, max_block_size, time_since_last_played_ms, current_millis, up, time_since_last_time_ms, pitch_seq_before, random_pitch, headless, visible_tile)
 
 func construct_build_inner_runtime_state(current_solid: bool, previous_solid: bool, interactable_with_player_team: bool, current_is_placeable: bool, player_is_builder: bool, build_was_auto_paused: bool, input_is_building: bool, tile_x: int, tile_y: int, rotation_value: int, current_block: Variant, last_config: Variant, sensor: String, progress: float, active_deconstruct: bool, super_sense_value: float, super_sense_object_value: Variant, floor_solid: bool, floor_has_surface: bool, source_x: float, source_y: float, construct_build_block_size: int, current_is_air: bool, construct_color_before: float, source_delta: float) -> Dictionary:
 	var callbacks := SourceConstructBuildState.default_callbacks_state(self)
@@ -3789,16 +2948,7 @@ func source_building_sense_content_state(content_type: String, has_items_module:
 	return SourceBuildingSenseState.sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
 
 func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_sense_208([content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount])
-	var canonical = source_building_sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
-	return {
-		"source_owner": "PortGame.source_building_sense_content_state",
-		"generated_owner": "BuildingComp.java_method_sense_208",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSenseState.generated_building_comp_sense_content_bridge_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
 
 func source_building_sense_camera_default_state(is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float) -> Dictionary:
 	return SourceBuildingSenseState.sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)
@@ -3807,9 +2957,7 @@ func source_building_control_enabled_state(current_enabled: bool, control_type: 
 	return SourceBuildingControlState.control_enabled_state(current_enabled, control_type, p1, SourceMathDefaults.FLOAT_ROUNDING_ERROR)
 
 func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_control_209([current_enabled, control_type, p1])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_209", [current_enabled, control_type, p1], null)
 	var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)
 	return {
 		"source_owner": "PortGame.source_building_control_enabled_state",
@@ -3822,9 +2970,7 @@ func source_building_control_config_state(control_type: String, block_logic_conf
 	return SourceBuildingControlState.control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
 
 func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_control_210([control_type, block_logic_configurable, p1_is_logic_build, p1_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_210", [control_type, block_logic_configurable, p1_is_logic_build, p1_value], null)
 	var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
 	return {
 		"source_owner": "PortGame.source_building_control_config_state",
@@ -3837,9 +2983,7 @@ func source_building_set_prop_health_state(prop: String, current_health: float, 
 	return SourceBuildingSetPropState.health_state(prop, current_health, max_health_value, value, dead_state, self_state)
 
 func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_211([prop, current_health, max_health_value, value, dead_state, self_state])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_health, max_health_value, value, dead_state, self_state], null)
 	var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_health_state",
@@ -3852,9 +2996,7 @@ func source_building_set_prop_team_double_state(prop: String, current_team_id: i
 	return SourceBuildingSetPropState.team_double_state(prop, current_team_id, value)
 
 func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_211([prop, current_team_id, value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_team_id, value], null)
 	var canonical = source_building_set_prop_team_double_state(prop, current_team_id, value)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_team_double_state",
@@ -3867,9 +3009,7 @@ func source_building_set_prop_total_power_state(prop: String, current_power_stat
 	return SourceBuildingSetPropState.total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
 
 func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_211([prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value], null)
 	var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_total_power_state",
@@ -3882,9 +3022,7 @@ func source_building_set_prop_team_object_state(prop: String, current_team_value
 	return SourceBuildingSetPropState.team_object_state(prop, current_team_value, value_is_team, team_value)
 
 func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_212([prop, current_team_value, value_is_team, team_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_212", [prop, current_team_value, value_is_team, team_value], null)
 	var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_team_object_state",
@@ -3894,9 +3032,7 @@ func generated_building_comp_set_prop_team_object_bridge_state(prop: String, cur
 	}
 
 func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_213([content_type, has_items_module, item_value, current_amount, value, accepted_stack])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", [content_type, has_items_module, item_value, current_amount, value, accepted_stack], null)
 	var canonical = source_building_set_prop_item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_item_content_state",
@@ -3906,9 +3042,7 @@ func generated_building_comp_set_prop_item_content_bridge_state(content_type: St
 	}
 
 func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_setProp_213([content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", [content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid], null)
 	var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
 	return {
 		"source_owner": "PortGame.source_building_set_prop_liquid_content_state",
@@ -3924,9 +3058,7 @@ func source_building_set_prop_liquid_content_state(content_type: String, has_liq
 	return SourceBuildingSetPropState.liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
 
 func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_inFogTo_214([same_team, rules_fog])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [same_team, rules_fog], null)
 	var canonical = source_building_in_fog_initial_gate_state(same_team, rules_fog)
 	return {
 		"source_owner": "PortGame.source_building_in_fog_initial_gate_state",
@@ -3936,9 +3068,7 @@ func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, r
 	}
 
 func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered], null)
 	var canonical = source_building_in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)
 	return {
 		"source_owner": "PortGame.source_building_in_fog_discovery_gate_state",
@@ -3948,9 +3078,7 @@ func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value
 	}
 
 func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles], null)
 	var canonical = source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 	return {
 		"source_owner": "PortGame.source_building_in_fog_visibility_loop_state",
@@ -3969,9 +3097,7 @@ func source_building_in_fog_visibility_loop_state(block_size_value: int, block_s
 	return SourceBuildingVisibilityState.in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 
 func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_killed_215([tile_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value], null)
 	var canonical = source_building_killed_initial_side_effects_state(tile_value)
 	return {
 		"source_owner": "PortGame.source_building_killed_initial_side_effects_state",
@@ -3981,9 +3107,7 @@ func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value
 	}
 
 func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_killed_215([tile_value, tile_not_empty_tile])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value, tile_not_empty_tile], null)
 	var canonical = source_building_killed_removal_side_effects_state(tile_not_empty_tile)
 	return {
 		"source_owner": "PortGame.source_building_killed_removal_side_effects_state",
@@ -3999,9 +3123,7 @@ func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool
 	return SourceBuildingLifecycleState.killed_removal_side_effects_state(tile_not_empty_tile)
 
 func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_checkAllowUpdate_216([current_enabled, allow_update_result])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", [current_enabled, allow_update_result], null)
 	var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)
 	return {
 		"source_owner": "PortGame.source_building_check_allow_update_state",
@@ -4017,9 +3139,7 @@ func source_building_write_base_timescale_state(current_time_scale: float, curre
 	return SourceBuildingTimeState.write_base_timescale_state(current_time_scale, current_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_writeBase_5([current_time_scale, current_time_scale_duration])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_writeBase_5", [current_time_scale, current_time_scale_duration], null)
 	var canonical = source_building_write_base_timescale_state(current_time_scale, current_time_scale_duration)
 	return {
 		"source_owner": "PortGame.source_building_write_base_timescale_state",
@@ -4032,9 +3152,7 @@ func source_building_read_base_timescale_state(current_module_bits: int, read_ti
 	return SourceBuildingTimeState.read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_readBase_6([current_module_bits, read_time_scale, read_time_scale_duration])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_readBase_6", [current_module_bits, read_time_scale, read_time_scale_duration], null)
 	var canonical = source_building_read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration)
 	return {
 		"source_owner": "PortGame.source_building_read_base_timescale_state",
@@ -4047,9 +3165,7 @@ func source_building_module_bitmask_state(has_items_module: bool, has_power_modu
 	return SourceBuildingTimeState.module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_moduleBitmask_7([has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_moduleBitmask_7", [has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler], null)
 	var canonical = source_building_module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)
 	return {
 		"source_owner": "PortGame.source_building_module_bitmask_state",
@@ -4059,9 +3175,7 @@ func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool,
 	}
 
 func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_217([current_time_scale, current_time_scale_duration, time_delta])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [current_time_scale, current_time_scale_duration, time_delta], null)
 	var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)
 	return {
 		"source_owner": "PortGame.source_building_update_timescale_decay_state",
@@ -4074,9 +3188,7 @@ func source_building_update_timescale_decay_state(current_time_scale: float, cur
 	return SourceBuildingTimeState.update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta, SourceBlockDefaults.TIME_SCALE_DEFAULT)
 
 func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value], null)
 	var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)
 	return {
 		"source_owner": "PortGame.source_building_update_ambient_sound_gate_state",
@@ -4092,9 +3204,7 @@ func source_building_update_consumption_call_state() -> Dictionary:
 	return SourceBuildingEfficiencyState.update_consumption_call_state()
 
 func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0], null)
 	var canonical = source_building_update_consumption_call_state()
 	return {
 		"source_owner": "PortGame.source_building_update_consumption_call_state",
@@ -4107,9 +3217,7 @@ func source_building_update_tile_gate_state(enabled_state: bool, block_no_update
 	return SourceBuildingLifecycleState.update_tile_gate_state(enabled_state, block_no_update_disabled)
 
 func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
 	var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)
 	return {
 		"source_owner": "PortGame.source_building_update_tile_gate_state",
@@ -4122,9 +3230,7 @@ func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_pl
 	return SourceBuildingVisibilityState.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 
 func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateFogVisibility_218([was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", [was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state], null)
 	var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 	return {
 		"source_owner": "PortGame.source_building_update_fog_visibility_state",
@@ -4137,9 +3243,7 @@ func source_building_hitbox_state(world_x: float, world_y: float, block_size_val
 	return SourceBlockGeometry.building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
 
 func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_hitbox_219([world_x, world_y, block_size_value, source_tilesize])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_hitbox_219", [world_x, world_y, block_size_value, source_tilesize], null)
 	var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)
 	return {
 		"source_owner": "PortGame.source_building_hitbox_state",
@@ -4152,9 +3256,7 @@ func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_va
 	return SourceBuildingMetaState.to_string_state(id_value, tile_x_value, tile_y_value, block_value)
 
 func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_toString_220([id_value, tile_x_value, tile_y_value, block_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_toString_220", [id_value, tile_x_value, tile_y_value, block_value], null)
 	var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)
 	var generated_to_string = result.get("to_string", "") if result is Dictionary else str(result)
 	return {
@@ -4170,9 +3272,7 @@ func source_building_tether_update_state(building_exists: bool, building_is_vali
 	return SourceBuildingTetherState.update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
 
 func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_0([building_exists, building_is_valid, building_team_value, team_value, unit_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd", "java_method_update_0", [building_exists, building_is_valid, building_team_value, team_value, unit_id], null)
 	var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)
 	return {
 		"source_owner": "PortGame.source_building_tether_update_state",
@@ -4186,9 +3286,7 @@ func source_child_add_state(child_state: Dictionary) -> Dictionary:
 	return SourceChildState.add_state(child_state)
 
 func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_add_0([child_state])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", [child_state], null)
 	var canonical = source_child_add_state(child_state)
 	return {
 		"source_owner": "PortGame.source_child_add_state",
@@ -4203,9 +3301,7 @@ func source_child_update_state(child_state: Dictionary) -> Dictionary:
 	return SourceChildState.update_state(child_state, callbacks.get("trns_vec", Callable()))
 
 func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_1([child_state])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
 	var canonical = source_child_update_state(child_state)
 	return {
 		"source_owner": "PortGame.source_child_update_state",
@@ -4219,9 +3315,7 @@ func source_pos_set_state(x_value: float, y_value: float) -> Dictionary:
 	return SourceBasicCompState.pos_set_state(x_value, y_value)
 
 func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/PosComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_set_0([x_value, y_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/PosComp.gd", "java_method_set_0", [x_value, y_value], null)
 	var canonical = source_pos_set_state(x_value, y_value)
 	return {
 		"source_owner": "PortGame.source_pos_set_state",
@@ -4235,9 +3329,7 @@ func source_shielder_absorb_state() -> Dictionary:
 	return SourceBasicCompState.shielder_absorb_state()
 
 func generated_shielder_comp_absorb_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_absorb_0([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd", "java_method_absorb_0", [], null)
 	var canonical = source_shielder_absorb_state()
 	return {
 		"source_owner": "PortGame.source_shielder_absorb_state",
@@ -4251,9 +3343,7 @@ func source_sync_snap_sync_state() -> Dictionary:
 	return SourceSyncState.snap_sync_state()
 
 func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_snapSync_0([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapSync_0", [], null)
 	var canonical = source_sync_snap_sync_state()
 	return {
 		"source_owner": "PortGame.source_sync_snap_sync_state",
@@ -4267,9 +3357,7 @@ func source_sync_snap_interpolation_state() -> Dictionary:
 	return SourceSyncState.snap_interpolation_state()
 
 func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_snapInterpolation_1([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapInterpolation_1", [], null)
 	var canonical = source_sync_snap_interpolation_state()
 	return {
 		"source_owner": "PortGame.source_sync_snap_interpolation_state",
@@ -4283,9 +3371,7 @@ func source_sync_read_sync_state() -> Dictionary:
 	return SourceSyncState.read_sync_state()
 
 func generated_sync_comp_read_sync_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_readSync_2([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSync_2", [], null)
 	var canonical = source_sync_read_sync_state()
 	return {
 		"source_owner": "PortGame.source_sync_read_sync_state",
@@ -4299,9 +3385,7 @@ func source_sync_write_sync_state() -> Dictionary:
 	return SourceSyncState.write_sync_state()
 
 func generated_sync_comp_write_sync_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_writeSync_3([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSync_3", [], null)
 	var canonical = source_sync_write_sync_state()
 	return {
 		"source_owner": "PortGame.source_sync_write_sync_state",
@@ -4315,9 +3399,7 @@ func source_sync_read_sync_manual_state() -> Dictionary:
 	return SourceSyncState.read_sync_manual_state()
 
 func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_readSyncManual_4([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSyncManual_4", [], null)
 	var canonical = source_sync_read_sync_manual_state()
 	return {
 		"source_owner": "PortGame.source_sync_read_sync_manual_state",
@@ -4331,9 +3413,7 @@ func source_sync_write_sync_manual_state() -> Dictionary:
 	return SourceSyncState.write_sync_manual_state()
 
 func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_writeSyncManual_5([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSyncManual_5", [], null)
 	var canonical = source_sync_write_sync_manual_state()
 	return {
 		"source_owner": "PortGame.source_sync_write_sync_manual_state",
@@ -4347,9 +3427,7 @@ func source_sync_after_sync_state() -> Dictionary:
 	return SourceSyncState.after_sync_state()
 
 func generated_sync_comp_after_sync_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_afterSync_6([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_afterSync_6", [], null)
 	var canonical = source_sync_after_sync_state()
 	return {
 		"source_owner": "PortGame.source_sync_after_sync_state",
@@ -4363,9 +3441,7 @@ func source_sync_interpolate_state() -> Dictionary:
 	return SourceSyncState.interpolate_state()
 
 func generated_sync_comp_interpolate_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_interpolate_7([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_interpolate_7", [], null)
 	var canonical = source_sync_interpolate_state()
 	return {
 		"source_owner": "PortGame.source_sync_interpolate_state",
@@ -4379,9 +3455,7 @@ func source_sync_is_sync_hidden_state(player: Variant = null) -> Dictionary:
 	return SourceSyncState.is_sync_hidden_state(player)
 
 func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isSyncHidden_8([player])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_isSyncHidden_8", [player], null)
 	var canonical = source_sync_is_sync_hidden_state(player)
 	return {
 		"source_owner": "PortGame.source_sync_is_sync_hidden_state",
@@ -4395,9 +3469,7 @@ func source_sync_handle_sync_hidden_state() -> Dictionary:
 	return SourceSyncState.handle_sync_hidden_state()
 
 func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_handleSyncHidden_9([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_handleSyncHidden_9", [], null)
 	var canonical = source_sync_handle_sync_hidden_state()
 	return {
 		"source_owner": "PortGame.source_sync_handle_sync_hidden_state",
@@ -4411,9 +3483,7 @@ func source_sync_update_interpolate_state(net_client: bool, is_local: bool, is_r
 	return SourceSyncState.update_interpolate_state(net_client, is_local, is_remote)
 
 func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_10([net_client, is_local, is_remote])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_update_10", [net_client, is_local, is_remote], null)
 	var canonical = source_sync_update_interpolate_state(net_client, is_local, is_remote)
 	return {
 		"source_owner": "PortGame.source_sync_update_interpolate_state",
@@ -4427,9 +3497,7 @@ func source_sync_remove_client_removed_entity_state(net_client: bool, entity_id:
 	return SourceSyncState.remove_client_removed_entity_state(net_client, entity_id)
 
 func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_remove_11([net_client, entity_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_remove_11", [net_client, entity_id], null)
 	var canonical = source_sync_remove_client_removed_entity_state(net_client, entity_id)
 	return {
 		"source_owner": "PortGame.source_sync_remove_client_removed_entity_state",
@@ -4443,9 +3511,7 @@ func source_block_unit_ammof_state(ammo: float) -> Dictionary:
 	return SourceBlockUnitState.ammof_state(ammo)
 
 func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_ammof_4([ammo])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_ammof_4", [ammo], null)
 	var canonical = source_block_unit_ammof_state(ammo)
 	return {
 		"source_owner": "PortGame.source_block_unit_ammof_state",
@@ -4459,9 +3525,7 @@ func source_block_unit_icon_state(tile_block_ui_icon: Variant) -> Dictionary:
 	return SourceBlockUnitState.icon_state(tile_block_ui_icon)
 
 func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_icon_3([tile_block_ui_icon])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_icon_3", [tile_block_ui_icon], null)
 	var canonical = source_block_unit_icon_state(tile_block_ui_icon)
 	return {
 		"source_owner": "PortGame.source_block_unit_icon_state",
@@ -4475,9 +3539,7 @@ func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_
 	return SourceBlockUnitState.tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
 
 func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size, tilesize])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size, tilesize], null)
 	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
 	return {
 		"source_owner": "PortGame.source_block_unit_tile_state",
@@ -4488,9 +3550,7 @@ func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_healt
 	}
 
 func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_tile_0", [tile, tile_block_health, tile_health, tile_block_size], null)
 	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, SourceWorldDefaults.TILESIZE)
 	return {
 		"source_owner": "PortGame.source_block_unit_tile_state",
@@ -4506,9 +3566,7 @@ func source_block_unit_add_state(tile_null: bool) -> Dictionary:
 	return SourceBlockUnitState.add_state(tile_null)
 
 func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_add_1([tile_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_add_1", [tile_null], null)
 	var canonical = source_block_unit_add_state(tile_null)
 	return {
 		"source_owner": "PortGame.source_block_unit_add_state",
@@ -4522,9 +3580,7 @@ func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team:
 	return SourceBlockUnitState.update_state(tile_exists, team, tile_team)
 
 func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_2([tile_exists, team, tile_team])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_update_2", [tile_exists, team, tile_team], null)
 	var canonical = source_block_unit_update_state(tile_exists, team, tile_team)
 	return {
 		"source_owner": "PortGame.source_block_unit_update_state",
@@ -4538,9 +3594,7 @@ func source_block_unit_killed_state() -> Dictionary:
 	return SourceBlockUnitState.killed_state()
 
 func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_killed_5([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_killed_5", [], null)
 	var canonical = source_block_unit_killed_state()
 	return {
 		"source_owner": "PortGame.source_block_unit_killed_state",
@@ -4554,9 +3608,7 @@ func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:
 	return SourceBlockUnitState.damage_state(v, b)
 
 func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_damage_6([v, b])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_damage_6", [v, b], null)
 	var canonical = source_block_unit_damage_state(v, b)
 	return {
 		"source_owner": "PortGame.source_block_unit_damage_state",
@@ -4570,9 +3622,7 @@ func source_block_unit_team_state(tile_exists: bool, this_team: Variant, team: V
 	return SourceBlockUnitState.team_state(tile_exists, this_team, team, tile_team)
 
 func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_team_10([tile_exists, this_team, team, tile_team])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_team_10", [tile_exists, this_team, team, tile_team], null)
 	var canonical = source_block_unit_team_state(tile_exists, this_team, team, tile_team)
 	return {
 		"source_owner": "PortGame.source_block_unit_team_state",
@@ -4586,9 +3636,7 @@ func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionar
 	return SourceBlockUnitState.dead_state(tile_null, tile_dead)
 
 func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_dead_7([tile_null, tile_dead])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_dead_7", [tile_null, tile_dead], null)
 	var canonical = source_block_unit_dead_state(tile_null, tile_dead)
 	return {
 		"source_owner": "PortGame.source_block_unit_dead_state",
@@ -4602,9 +3650,7 @@ func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) ->
 	return SourceBlockUnitState.is_valid_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isValid_8([tile_exists, tile_is_valid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isValid_8", [tile_exists, tile_is_valid], null)
 	var canonical = source_block_unit_is_valid_state(tile_exists, tile_is_valid)
 	return {
 		"source_owner": "PortGame.source_block_unit_is_valid_state",
@@ -4618,9 +3664,7 @@ func source_block_unit_is_added_state(tile_exists: bool, tile_is_valid: bool) ->
 	return SourceBlockUnitState.is_added_state(tile_exists, tile_is_valid)
 
 func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isAdded_9([tile_exists, tile_is_valid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isAdded_9", [tile_exists, tile_is_valid], null)
 	var canonical = source_block_unit_is_added_state(tile_exists, tile_is_valid)
 	return {
 		"source_owner": "PortGame.source_block_unit_is_added_state",
@@ -4634,9 +3678,7 @@ func source_builder_can_build_state(type_build_speed: float, build_speed_multipl
 	return SourceBuilderRuntimeState.can_build_state(type_build_speed, build_speed_multiplier)
 
 func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_canBuild_0([type_build_speed, build_speed_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_canBuild_0", [type_build_speed, build_speed_multiplier], null)
 	var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)
 	return {
 		"source_owner": "PortGame.source_builder_can_build_state",
@@ -4650,9 +3692,7 @@ func source_builder_update_state() -> Dictionary:
 	return SourceBuilderRuntimeState.update_state()
 
 func generated_builder_comp_update_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_1([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_update_1", [], null)
 	var canonical = source_builder_update_state()
 	return {
 		"source_owner": "PortGame.source_builder_update_state",
@@ -4666,9 +3706,7 @@ func source_builder_after_read_state(plans_null: bool) -> Dictionary:
 	return SourceBuilderRuntimeState.after_read_state(plans_null)
 
 func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_afterRead_2([plans_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_afterRead_2", [plans_null], null)
 	var canonical = source_builder_after_read_state(plans_null)
 	return {
 		"source_owner": "PortGame.source_builder_after_read_state",
@@ -4682,9 +3720,7 @@ func source_builder_is_building_state(plans_size: int) -> Dictionary:
 	return SourceBuilderRuntimeState.is_building_state(plans_size)
 
 func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_isBuilding_9([plans_size])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_isBuilding_9", [plans_size], null)
 	var canonical = source_builder_is_building_state(plans_size)
 	return {
 		"source_owner": "PortGame.source_builder_is_building_state",
@@ -4698,9 +3734,7 @@ func source_builder_clear_building_state() -> Dictionary:
 	return SourceBuilderRuntimeState.clear_building_state()
 
 func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_clearBuilding_10([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_clearBuilding_10", [], null)
 	var canonical = source_builder_clear_building_state()
 	return {
 		"source_owner": "PortGame.source_builder_clear_building_state",
@@ -4714,9 +3748,7 @@ func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaki
 	return SourceBuilderDrawState.draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 
 func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlan_5([plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawPlan_5", [plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches], null)
 	var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
 	return {
 		"source_owner": "PortGame.source_builder_draw_plan_state",
@@ -4730,9 +3762,7 @@ func source_builder_draw_building_state(active: bool, last_active: Variant, buil
 	return SourceBuilderDrawState.draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
 
 func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawBuilding_15([active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuilding_15", [active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len], null)
 	var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
 	return {
 		"source_owner": "PortGame.source_builder_draw_building_state",
@@ -4746,9 +3776,7 @@ func source_builder_draw_building_beam_state(px: float, py: float, active: bool,
 	return SourceBuilderDrawState.draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
 
 func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuildingBeam_16", [px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value], null)
 	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
 	return {
 		"source_owner": "PortGame.source_builder_draw_building_beam_state",
@@ -4759,9 +3787,7 @@ func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float
 	}
 
 func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawBuildingBeam_16", [px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build], null)
 	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SourceWorldDefaults.TILESIZE, 0.0, 0.0)
 	return {
 		"source_owner": "PortGame.source_builder_draw_building_beam_state",
@@ -4777,9 +3803,7 @@ func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaki
 	return SourceBuilderDrawState.draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
 
 func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlanTop_6([plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_drawPlanTop_6", [plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28], null)
 	var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)
 	return {
 		"source_owner": "PortGame.source_builder_draw_plan_top_state",
@@ -4793,9 +3817,7 @@ func source_builder_should_skip_state(state_rules_infinite_resources: bool, team
 	return SourceBuilderRuntimeState.should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
 
 func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_shouldSkip_7([state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_shouldSkip_7", [state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement], null)
 	var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
 	return {
 		"source_owner": "PortGame.source_builder_should_skip_state",
@@ -4809,9 +3831,7 @@ func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: b
 	return SourceBuilderRuntimeState.remove_build_state(plans, x, y, breaking)
 
 func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_removeBuild_8([plans, x, y, breaking])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_removeBuild_8", [plans, x, y, breaking], null)
 	var canonical = source_builder_remove_build_state(plans, x, y, breaking)
 	return {
 		"source_owner": "PortGame.source_builder_remove_build_state",
@@ -4825,9 +3845,7 @@ func source_builder_add_build_tail_state(place: Variant) -> Dictionary:
 	return SourceBuilderRuntimeState.add_build_tail_state(place)
 
 func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_addBuild_11([place])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_addBuild_11", [place], null)
 	var canonical = source_builder_add_build_tail_state(place)
 	return {
 		"source_owner": "PortGame.source_builder_add_build_tail_state",
@@ -4841,9 +3859,7 @@ func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, ca
 	return SourceBuilderRuntimeState.add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
 
 func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_addBuild_12([plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_addBuild_12", [plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress], null)
 	var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
 	return {
 		"source_owner": "PortGame.source_builder_add_build_state",
@@ -4857,9 +3873,7 @@ func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> D
 	return SourceBuilderRuntimeState.build_plan_state(plans_size, plans_first)
 
 func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_buildPlan_14([plans_size, plans_first])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_buildPlan_14", [plans_size, plans_first], null)
 	var canonical = source_builder_build_plan_state(plans_size, plans_first)
 	return {
 		"source_owner": "PortGame.source_builder_build_plan_state",
@@ -4876,9 +3890,7 @@ func source_builder_build_step_state(entity_build_cost: float, type_build_speed:
 	return SourceBuilderRuntimeState.build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
 
 func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_updateBuildLogic_4([entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_updateBuildLogic_4", [entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current], null)
 	var canonical = source_builder_build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)
 	return {
 		"source_owner": "PortGame.source_builder_build_step_state",
@@ -4889,9 +3901,7 @@ func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: f
 	}
 
 func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_activelyBuilding_13([plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd", "java_method_activelyBuilding_13", [plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building], null)
 	var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)
 	return {
 		"source_owner": "PortGame.source_builder_actively_building_state",
@@ -4905,9 +3915,7 @@ func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_b
 	return SourceUnitTetherState.after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_afterRead_0([spawner_unit_id, groups_unit_get_by_id_result])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_afterRead_0", [spawner_unit_id, groups_unit_get_by_id_result], null)
 	var canonical = source_unit_tether_after_read_state(spawner_unit_id, groups_unit_get_by_id_result)
 	return {
 		"source_owner": "PortGame.source_unit_tether_after_read_state",
@@ -4921,9 +3929,7 @@ func source_unit_tether_after_sync_state(spawner_unit_id: int, groups_unit_get_b
 	return SourceUnitTetherState.after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
 
 func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_afterSync_1([spawner_unit_id, groups_unit_get_by_id_result])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_afterSync_1", [spawner_unit_id, groups_unit_get_by_id_result], null)
 	var canonical = source_unit_tether_after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
 	return {
 		"source_owner": "PortGame.source_unit_tether_after_sync_state",
@@ -4937,9 +3943,7 @@ func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: boo
 	return SourceUnitTetherState.update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
 
 func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_2([spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd", "java_method_update_2", [spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id], null)
 	var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
 	return {
 		"source_owner": "PortGame.source_unit_tether_update_state",
@@ -5162,26 +4166,7 @@ func _process(delta: float) -> void:
 	update_hud()
 
 func simulate_factory(delta: float) -> void:
-	if path_points.is_empty():
-		return
-	var factory_state := source_factory_simulation_runtime_state(delta)
-	var apply_state := source_factory_simulation_apply_state(factory_state)
-	set_drill_time_drilled_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_time_drilled", drill_time_drilled_at_cell(drill_pos.x, drill_pos.y))))
-	set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_last_speed", drill_last_speed_at_cell(drill_pos.x, drill_pos.y))))
-	set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_warmup", drill_warmup_at_cell(drill_pos.x, drill_pos.y))))
-	item_progress = float(apply_state.get("item_progress", item_progress))
-	source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))
-	produced_total = int(apply_state.get("produced_total", produced_total))
-	drill_dump_timer = float(apply_state.get("drill_dump_timer", drill_dump_timer))
-	if bool(apply_state.get("should_dump", false)):
-		source_dump_drill_item_to_core(drill_output_item_id)
-	transport_progress = float(apply_state.get("transport_progress", transport_progress))
-	for item_sprite_state in apply_state.get("item_sprites", []):
-		var item_index := int(item_sprite_state.get("index", -1))
-		if item_index < 0 or item_index >= item_sprites.size():
-			continue
-		item_sprites[item_index].position = Vector2(float(item_sprite_state.get("x", item_sprites[item_index].position.x)), float(item_sprite_state.get("y", item_sprites[item_index].position.y)))
-		item_sprites[item_index].visible = bool(item_sprite_state.get("visible", item_sprites[item_index].visible))
+	SourceFactoryRuntimeState.simulate_factory(self, delta)
 
 func simulate_drill_dump(delta: float) -> void:
 	var dump_state := factory_drill_dump_preview_state(delta)
@@ -5263,71 +4248,19 @@ func step_overdrive_projectors(seconds: float) -> Dictionary:
 	return SourceOverdriveProjectorState.step_projectors(self, seconds)
 
 func selected_enemy_unit():
-	if content_catalog == null:
-		return null
-	var dagger = content_catalog.get_by_id("dagger")
-	if dagger != null:
-		return dagger
-	var units: Array = content_catalog.get_many("unit")
-	return units[0] if not units.is_empty() else null
+	return SourceEnemyUnitRuntimeState.selected_enemy_unit(self)
 
 func spawn_enemy_wave() -> void:
-	var spawned := 0
-	last_spawned_wave_index = wave_index
-	last_spawned_wave_count = 0
-	var fallback_unit = selected_enemy_unit()
-	var fallback_unit_id := str(fallback_unit.id) if fallback_unit != null else ""
-	var wave_state := SourceWaveSpawnRuntimeState.wave_spawn_state(ContentRegistry.WAVES.get("groups", []), wave_index, fallback_unit_id)
-	last_spawned_wave_groups = wave_state.get("groups", [])
-	for request in wave_state.get("spawn_requests", []):
-		var unit_type = content_catalog.get_by_id(str(request.get("unit", "")))
-		if unit_type == null:
-			continue
-		spawn_enemy_unit(unit_type, int(request.get("index", spawned)))
-		spawned += 1
-	last_spawned_wave_count = spawned
+	SourceEnemyUnitRuntimeState.spawn_wave(self)
 
 func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:
 	return int(SourceWaveSpawnRuntimeState.spawned_for_wave_state(group, wave_zero).get("spawned", 0))
 
 func spawn_enemy_unit(unit_type, index: int) -> void:
-	var units_layer := get_node("World/UnitLayer")
-	var sprite := Sprite2D.new()
-	sprite.texture = textures.get("unit:" + unit_type.id)
-	sprite.position = grid_to_world(SourcePlayableScenarioDefaults.enemy_spawn_cell(index))
-	if sprite.texture:
-		var size := sprite.texture.get_size()
-		if size.x > 0 and size.y > 0:
-			var hit_size := source_unit_hit_size(unit_type)
-			sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)
-	units_layer.add_child(sprite)
-	enemy_units.append({"sprite": sprite, "type": unit_type, "health": source_unit_health(unit_type)})
+	SourceEnemyUnitRuntimeState.spawn_unit(self, unit_type, index)
 
 func simulate_enemy_units(delta: float) -> void:
-	if core_health <= 0.0:
-		return
-	var alive := []
-	var target := grid_to_world(core_pos)
-	for enemy in enemy_units:
-		var sprite = enemy.get("sprite")
-		if not is_instance_valid(sprite):
-			continue
-		var enemy_context := SourceEnemyUnitRuntimeState.enemy_step_context(self, enemy, target, delta)
-		var enemy_step := SourceEnemyUnitRuntimeState.enemy_step_from_context(enemy_context)
-		if bool(enemy_step.get("hit_core", false)):
-			var core_damage: float = float(enemy_step.get("core_damage", 0.0))
-			apply_core_damage(core_damage)
-			sprite.queue_free()
-			continue
-		var next_position: Vector2 = enemy_step.get("next_position", sprite.position)
-		sprite.position = next_position
-		alive.append(enemy)
-	enemy_units = alive
-	var wave_timing := source_wave_timing_runtime_state(delta)
-	wave_cooldown = float(wave_timing.get("wavetime", wave_cooldown))
-	if bool(wave_timing.get("should_spawn", false)):
-		wave_index += 1
-		spawn_enemy_wave()
+	SourceEnemyUnitRuntimeState.simulate_units(self, delta)
 
 func source_wave_timing_runtime_state(seconds: float) -> Dictionary:
 	return SourceWaveTimingRuntimeState.wave_timer_state(wave_cooldown, seconds * SourceTimeDefaults.TICK_RATE, SourcePlayableScenarioDefaults.PLAYABLE_WAVE_SPACING_SECONDS * SourceTimeDefaults.TICK_RATE, enemy_units.size())
@@ -5336,21 +4269,13 @@ func source_game_over_core_destroyed_state(core_health_value: float, game_over_v
 	return SourceGameOverCoreDestroyedState.core_destroyed_state(core_health_value, game_over_value, attack_mode)
 
 func apply_core_damage(amount: float) -> Dictionary:
-	var applied: float = min(core_health, max(0.0, amount))
-	var core_damage: float = applied
-	core_damage_taken_total += core_damage
-	core_health = max(0.0, core_health - core_damage)
 	var game_over_state := source_game_over_core_destroyed_state(core_health, game_over)
-	if bool(game_over_state.get("game_over", false)):
-		game_over = true
-		last_game_over_winner = str(game_over_state.get("winner", ""))
-	return {
-		"applied": applied,
-		"core_health": core_health,
-		"core_damage_taken_total": core_damage_taken_total,
-		"game_over": game_over,
-		"winner": last_game_over_winner,
-	}
+	var damage_state := SourceCoreDamageRuntimeState.apply_state(amount, core_health, core_damage_taken_total, game_over, game_over_state, last_game_over_winner)
+	core_health = float(damage_state.get("core_health", core_health))
+	core_damage_taken_total = float(damage_state.get("core_damage_taken_total", core_damage_taken_total))
+	game_over = bool(damage_state.get("game_over", game_over))
+	last_game_over_winner = str(damage_state.get("winner", last_game_over_winner))
+	return damage_state
 
 func playthrough_runtime_state() -> Dictionary:
 	return SourceGameRuntimeSummaryState.playthrough_state(self)
@@ -5365,26 +4290,7 @@ func game_over_runtime_state() -> Dictionary:
 	}
 
 func enemy_runtime_state() -> Dictionary:
-	var unit_type = selected_enemy_unit()
-	var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}
-	var first_enemy_sprite = first_enemy.get("sprite", null)
-	var first_enemy_position := {}
-	if is_instance_valid(first_enemy_sprite):
-		first_enemy_position = {"x": first_enemy_sprite.position.x, "y": first_enemy_sprite.position.y}
-	return {
-		"enemy_count": enemy_units.size(),
-		"wave_index": wave_index,
-		"last_spawned_wave_index": last_spawned_wave_index,
-		"last_spawned_wave_count": last_spawned_wave_count,
-		"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type),
-		"selected_enemy_world_speed": source_unit_world_speed(unit_type),
-		"selected_enemy_hit_size": source_unit_hit_size(unit_type),
-		"selected_enemy_health": source_unit_health(unit_type),
-		"first_enemy_health": float(first_enemy.get("health", 0.0)),
-		"first_enemy_position": first_enemy_position,
-		"core_health": core_health,
-		"core_damage_taken_total": core_damage_taken_total,
-	}
+	return SourceEnemyUnitRuntimeState.runtime_summary_state(self)
 
 func source_unit_weapon_damage(unit_type) -> float:
 	var callbacks := SourceUnitMetadataState.default_callbacks_state(self)
@@ -5447,10 +4353,7 @@ func source_arc_angles_move_toward(angle: float, to: float, speed: float) -> flo
 	return SourceMathState.source_angles_move_toward(angle, to, speed)
 
 func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:
-	var angle := rad_to_deg(atan2(vec_y, vec_x))
-	if angle < 0.0:
-		angle += 360.0
-	return angle
+	return SourceMathState.source_vec2_angle(vec_x, vec_y)
 
 func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
 	var callbacks := SourceUnitUpdateState.default_callbacks_state(self)
@@ -5625,9 +4528,7 @@ func source_shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 	return SourceWeaponsState.shoot_pattern_default_events(shoot_state)
 
 func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
-	var instance = script.new()
-	var result = instance.java_method_shoot_1([shots, first_shot_delay, shot_delay])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [shots, first_shot_delay, shot_delay], null)
 	var canonical = source_shoot_pattern_default_events({
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,
@@ -5642,9 +4543,7 @@ func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_
 	}
 
 func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
-	var instance = script.new()
-	var result = instance.java_method_shoot_1([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [], null)
 	var canonical = source_shoot_pattern_default_events({})
 	return {
 		"source_owner": "PortGame.source_shoot_pattern_default_events",
@@ -5656,9 +4555,7 @@ func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary
 	}
 
 func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
-	var instance = script.new()
-	var result = instance.java_method_shoot_0([total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_0", [total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present], null)
 	var canonical = source_shoot_pattern_default_events({
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,
@@ -5673,9 +4570,7 @@ func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shot
 	}
 
 func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
-	var instance = script.new()
-	var result = instance.java_method_flip_2([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_flip_2", [], null)
 	return {
 		"source_owner": "ShootPattern.flip",
 		"generated_owner": "ShootPattern.java_method_flip_2",
@@ -5684,9 +4579,7 @@ func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
 	}
 
 func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")
-	var instance = script.new()
-	var result = instance.java_method_copy_3([shots, first_shot_delay, shot_delay])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_copy_3", [shots, first_shot_delay, shot_delay], null)
 	var expected_copy := {
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,
@@ -6339,9 +5232,7 @@ func source_turret_outputs_items_state() -> Dictionary:
 	return SourceTurretRuntimeState.outputs_items_state()
 
 func generated_turret_outputs_items_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_outputsItems_0([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_outputsItems_0", [], null)
 	var canonical = source_turret_outputs_items_state()
 	return {
 		"source_owner": "PortGame.source_turret_outputs_items_state",
@@ -6631,9 +5522,7 @@ func source_block_get_content_type_state() -> Dictionary:
 	return SourceBlockMetadataState.content_type_state()
 
 func generated_block_get_content_type_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_getContentType_120([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getContentType_120", [], null)
 	var canonical = source_block_get_content_type_state()
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6648,9 +5537,7 @@ func source_block_logic_visible_state(build_visibility_value: String) -> Diction
 	return SourceBlockMetadataState.logic_visible_state(build_visibility_value)
 
 func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_logicVisible_121([build_visibility_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_logicVisible_121", [build_visibility_value], null)
 	var canonical = source_block_logic_visible_state(build_visibility_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6665,9 +5552,7 @@ func source_block_post_init_database_tag_state(database_tag_before: Variant, cat
 	return SourceBlockPostInitState.database_tag_state(database_tag_before, category_name)
 
 func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_postInit_122([database_tag_before, category_name])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_postInit_122", [database_tag_before, category_name], null)
 	var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6682,9 +5567,7 @@ func source_block_post_init_shown_planets_state(requirements: Array, shown_plane
 	return SourceBlockPostInitState.shown_planets_state(requirements, shown_planets_before, content_planets)
 
 func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_postInit_122([requirements, shown_planets_before, content_planets])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_postInit_122", [requirements, shown_planets_before, content_planets], null)
 	var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6699,9 +5582,7 @@ func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_v
 	return SourceBlockInitSoundState.destroy_sound_state(destroy_sound_before, size_value)
 
 func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_123([destroy_sound_before, size_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [destroy_sound_before, size_value], null)
 	var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6716,10 +5597,8 @@ func source_block_init_place_sound_state(place_sound_before: Variant, size_value
 	return SourceBlockInitSoundState.place_sound_state(place_sound_before, size_value)
 
 func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "place_sound")
-	var result = instance.java_method_init_123([place_sound_before, size_value])
+	var metadata := {"mindustry_init_bridge_mode": "place_sound"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [place_sound_before, size_value], null, metadata)
 	var canonical = source_block_init_place_sound_state(place_sound_before, size_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6734,10 +5613,8 @@ func source_block_init_break_sound_state(break_sound_before: Variant, size_value
 	return SourceBlockInitSoundState.break_sound_state(break_sound_before, size_value)
 
 func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "break_sound")
-	var result = instance.java_method_init_123([break_sound_before, size_value])
+	var metadata := {"mindustry_init_bridge_mode": "break_sound"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [break_sound_before, size_value], null, metadata)
 	var canonical = source_block_init_break_sound_state(break_sound_before, size_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6752,10 +5629,8 @@ func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_befor
 	return SourceBlockInitFlagsState.custom_shadow_state(custom_shadow, has_shadow_before)
 
 func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "custom_shadow")
-	var result = instance.java_method_init_123([custom_shadow, has_shadow_before])
+	var metadata := {"mindustry_init_bridge_mode": "custom_shadow"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [custom_shadow, has_shadow_before], null, metadata)
 	var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6770,10 +5645,8 @@ func source_block_init_under_bullets_state(under_bullets: bool, priority_before:
 	return SourceBlockInitFlagsState.under_bullets_state(under_bullets, priority_before)
 
 func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "under_bullets")
-	var result = instance.java_method_init_123([under_bullets, priority_before])
+	var metadata := {"mindustry_init_bridge_mode": "under_bullets"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [under_bullets, priority_before], null, metadata)
 	var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6788,10 +5661,8 @@ func source_block_init_fog_radius_flag_state(fog_radius: int, flags_before: Arra
 	return SourceBlockInitFlagsState.fog_radius_flag_state(fog_radius, flags_before)
 
 func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "fog_radius_flag")
-	var result = instance.java_method_init_123([fog_radius, flags_before])
+	var metadata := {"mindustry_init_bridge_mode": "fog_radius_flag"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [fog_radius, flags_before], null, metadata)
 	var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6806,10 +5677,8 @@ func source_block_init_sync_flag_state(sync_value: bool, flags_before: Array) ->
 	return SourceBlockInitFlagsState.sync_flag_state(sync_value, flags_before)
 
 func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "sync_flag")
-	var result = instance.java_method_init_123([sync_value, flags_before])
+	var metadata := {"mindustry_init_bridge_mode": "sync_flag"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [sync_value, flags_before], null, metadata)
 	var canonical = source_block_init_sync_flag_state(sync_value, flags_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6824,10 +5693,8 @@ func source_block_init_health_scaled_state(health_before: int, size_value: int, 
 	return SourceBlockInitHealthState.health_scaled_state(health_before, size_value, scaled_health)
 
 func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "health_scaled")
-	var result = instance.java_method_init_123([health_before, size_value, scaled_health])
+	var metadata := {"mindustry_init_bridge_mode": "health_scaled"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health], null, metadata)
 	var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6842,10 +5709,8 @@ func source_block_init_health_requirements_scaling_state(health_before: int, siz
 	return SourceBlockInitHealthState.health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 
 func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "health_requirements_scaling")
-	var result = instance.java_method_init_123([health_before, size_value, scaled_health_before, requirement_health_scalings])
+	var metadata := {"mindustry_init_bridge_mode": "health_requirements_scaling"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [health_before, size_value, scaled_health_before, requirement_health_scalings], null, metadata)
 	var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6860,10 +5725,8 @@ func source_block_init_clip_size_state(clip_size_before: float, size_value: int,
 	return SourceBlockInitClipState.clip_size_state(clip_size_before, size_value, source_tilesize)
 
 func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "clip_size")
-	var result = instance.java_method_init_123([clip_size_before, size_value, source_tilesize])
+	var metadata := {"mindustry_init_bridge_mode": "clip_size"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [clip_size_before, size_value, source_tilesize], null, metadata)
 	var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6878,10 +5741,8 @@ func source_block_init_light_clip_size_state(light_clip_size_before: float, clip
 	return SourceBlockInitClipState.light_clip_size_state(light_clip_size_before, clip_size)
 
 func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "light_clip_size")
-	var result = instance.java_method_init_123([light_clip_size_before, clip_size])
+	var metadata := {"mindustry_init_bridge_mode": "light_clip_size"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [light_clip_size_before, clip_size], null, metadata)
 	var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6896,10 +5757,8 @@ func source_block_init_liquid_light_state(has_liquids: bool, draw_liquid_light: 
 	return SourceBlockInitClipState.liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 
 func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "liquid_light")
-	var result = instance.java_method_init_123([has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value])
+	var metadata := {"mindustry_init_bridge_mode": "liquid_light"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value], null, metadata)
 	var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6914,10 +5773,8 @@ func source_block_init_liquid_capacity_default_state(liquid_capacity_before: flo
 	return SourceBlockInitClipState.liquid_capacity_default_state(liquid_capacity_before)
 
 func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "liquid_capacity_default")
-	var result = instance.java_method_init_123([liquid_capacity_before])
+	var metadata := {"mindustry_init_bridge_mode": "liquid_capacity_default"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [liquid_capacity_before], null, metadata)
 	var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6932,10 +5789,8 @@ func source_block_init_emit_light_radius_state(emit_light: bool, light_clip_size
 	return SourceBlockInitClipState.emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
 
 func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "emit_light_radius")
-	var result = instance.java_method_init_123([emit_light, light_clip_size_before, light_radius])
+	var metadata := {"mindustry_init_bridge_mode": "emit_light_radius"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [emit_light, light_clip_size_before, light_radius], null, metadata)
 	var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6950,10 +5805,8 @@ func source_block_init_accepts_items_state(block_group: Variant, category_value:
 	return SourceBlockInitPlacementState.accepts_items_state(block_group, category_value, accepts_items_before)
 
 func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "accepts_items")
-	var result = instance.java_method_init_123([block_group, category_value, accepts_items_before])
+	var metadata := {"mindustry_init_bridge_mode": "accepts_items"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [block_group, category_value, accepts_items_before], null, metadata)
 	var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6968,10 +5821,8 @@ func source_block_init_offset_state(size_value: int, source_tilesize: float) -> 
 	return SourceBlockInitPlacementState.offset_state(size_value, source_tilesize)
 
 func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "offset")
-	var result = instance.java_method_init_123([size_value, source_tilesize])
+	var metadata := {"mindustry_init_bridge_mode": "offset"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [size_value, source_tilesize], null, metadata)
 	var canonical = source_block_init_offset_state(size_value, source_tilesize)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -6986,10 +5837,8 @@ func source_block_init_build_time_requirements_state(build_time_before: float, r
 	return SourceBlockInitBuildTimeState.requirements_state(build_time_before, requirement_stacks)
 
 func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "build_time_requirements")
-	var result = instance.java_method_init_123([build_time_before, requirement_stacks])
+	var metadata := {"mindustry_init_bridge_mode": "build_time_requirements"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, requirement_stacks], null, metadata)
 	var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7004,10 +5853,8 @@ func source_block_init_build_time_default_state(build_time_before: float) -> Dic
 	return SourceBlockInitBuildTimeState.default_state(build_time_before)
 
 func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "build_time_default")
-	var result = instance.java_method_init_123([build_time_before])
+	var metadata := {"mindustry_init_bridge_mode": "build_time_default"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before], null, metadata)
 	var canonical = source_block_init_build_time_default_state(build_time_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7022,10 +5869,8 @@ func source_block_init_build_time_multiplier_state(build_time_before: float, bui
 	return SourceBlockInitBuildTimeState.multiplier_state(build_time_before, build_cost_multiplier)
 
 func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "build_time_multiplier")
-	var result = instance.java_method_init_123([build_time_before, build_cost_multiplier])
+	var metadata := {"mindustry_init_bridge_mode": "build_time_multiplier"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [build_time_before, build_cost_multiplier], null, metadata)
 	var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7040,10 +5885,8 @@ func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictiona
 	return SourceBlockInitConsumerState.arrays_state(consume_builder)
 
 func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "consumer_arrays")
-	var result = instance.java_method_init_123([consume_builder])
+	var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consume_builder], null, metadata)
 	var canonical = source_block_init_consumer_arrays_state(consume_builder)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7172,9 +6015,7 @@ func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:
 	return SourceUnitPayloadBasicState.constructor_state(unit)
 
 func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_constructor_UnitPayload_0([unit])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_constructor_UnitPayload_0", [unit], null)
 	var canonical = source_unit_payload_constructor_state(unit)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7189,9 +6030,7 @@ func source_unit_payload_show_overlay_texture_region_state(icon: Variant) -> Dic
 	return SourceUnitPayloadBasicState.show_overlay_texture_region_state(icon)
 
 func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_showOverlay_0([icon])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_0", [icon], null)
 	var canonical = source_unit_payload_show_overlay_texture_region_state(icon)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7206,9 +6045,7 @@ func source_unit_payload_show_overlay_drawable_state(icon_null: bool, headless: 
 	return SourceUnitPayloadBasicState.show_overlay_drawable_state(icon_null, headless, region)
 
 func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_showOverlay_1([icon_null, headless, region])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_showOverlay_1", [icon_null, headless, region], null)
 	var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7223,9 +6060,7 @@ func source_unit_payload_content_equals_state(other_is_unit_payload: bool, other
 	return SourceUnitPayloadContentState.content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
 
 func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_contentEquals_2([other_is_unit_payload, other_unit_type, unit_type])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_contentEquals_2", [other_is_unit_payload, other_unit_type, unit_type], null)
 	var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7240,9 +6075,7 @@ func source_unit_payload_update_state(unit_type: Variant, unit: Variant, unit_ho
 	return SourceUnitPayloadContentState.update_state(unit_type, unit, unit_holder, building_holder)
 
 func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_3([unit_type, unit, unit_holder, building_holder])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_update_3", [unit_type, unit, unit_holder, building_holder], null)
 	var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7257,9 +6090,7 @@ func source_unit_payload_content_state(unit_type: Variant) -> Dictionary:
 	return SourceUnitPayloadContentState.content_state(unit_type)
 
 func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_content_4([unit_type])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_content_4", [unit_type], null)
 	var canonical = source_unit_payload_content_state(unit_type)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7274,9 +6105,7 @@ func source_unit_payload_requirements_state(unit_type: Variant, total_requiremen
 	return SourceUnitPayloadRequirementsState.requirements_state(unit_type, total_requirements)
 
 func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_requirements_5([unit_type, total_requirements])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_requirements_5", [unit_type, total_requirements], null)
 	var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7291,9 +6120,7 @@ func source_unit_payload_build_time_state(unit_type: Variant, build_time: float)
 	return SourceUnitPayloadRequirementsState.build_time_state(unit_type, build_time)
 
 func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_buildTime_6([unit_type, build_time])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_buildTime_6", [unit_type, build_time], null)
 	var canonical = source_unit_payload_build_time_state(unit_type, build_time)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7308,9 +6135,7 @@ func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> D
 	return SourceUnitPayloadIoState.write_state(payload_unit, unit_class_id)
 
 func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_write_7([payload_unit, unit_class_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_write_7", [payload_unit, unit_class_id], null)
 	var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7325,9 +6150,7 @@ func source_unit_payload_set_state(x: float, y: float, rotation_value: float) ->
 	return SourceUnitPayloadIoState.set_state(x, y, rotation_value)
 
 func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_set_8([x, y, rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_set_8", [x, y, rotation_value], null)
 	var canonical = source_unit_payload_set_state(x, y, rotation_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7342,9 +6165,7 @@ func source_unit_payload_x_state(unit_x: float) -> Dictionary:
 	return SourceUnitPayloadIoState.x_state(unit_x)
 
 func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_x_9([unit_x])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_x_9", [unit_x], null)
 	var canonical = source_unit_payload_x_state(unit_x)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7359,9 +6180,7 @@ func source_unit_payload_y_state(unit_y: float) -> Dictionary:
 	return SourceUnitPayloadIoState.y_state(unit_y)
 
 func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_y_10([unit_y])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_y_10", [unit_y], null)
 	var canonical = source_unit_payload_y_state(unit_y)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7376,9 +6195,7 @@ func source_unit_payload_rotation_state(unit_rotation: float) -> Dictionary:
 	return SourceUnitPayloadIoState.rotation_state(unit_rotation)
 
 func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_rotation_11([unit_rotation])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_rotation_11", [unit_rotation], null)
 	var canonical = source_unit_payload_rotation_state(unit_rotation)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7393,9 +6210,7 @@ func source_unit_payload_size_state(unit_hit_size: float) -> Dictionary:
 	return SourceUnitPayloadIoState.size_state(unit_hit_size)
 
 func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_size_12([unit_hit_size])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_size_12", [unit_hit_size], null)
 	var canonical = source_unit_payload_size_state(unit_hit_size)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7410,9 +6225,7 @@ func source_unit_payload_dump_type_null_guard_state(unit_type_null: bool) -> Dic
 	return SourceUnitPayloadDumpState.type_null_guard_state(unit_type_null)
 
 func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null], null)
 	var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
@@ -7427,9 +6240,7 @@ func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units
 	return SourceUnitPayloadDumpState.can_create_guard_state(unit_type_null, units_can_create)
 
 func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null, units_can_create])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create], null)
 	var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7444,9 +6255,7 @@ func source_unit_payload_dump_solidity_guard_state(unit_type_null: bool, units_c
 	return SourceUnitPayloadDumpState.solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 
 func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid], null)
 	var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
@@ -7480,9 +6289,7 @@ func generated_state_matches_generated_subset_or_nan(result: Variant, canonical:
 	return result_nan and canonical_nan and result.get(identity_key, "") == canonical.get(identity_key, "")
 
 func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)
 	var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
@@ -7497,20 +6304,9 @@ func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_
 	return SourceUnitPayloadDumpState.no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
 
 func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client], null)
 	var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
-	var matches: bool = true
-	if not result is Dictionary:
-		matches = false
-	else:
-		for key in canonical.keys():
-			if key == "source_owner":
-				continue
-			if not result.has(key) or result.get(key) != canonical.get(key):
-				matches = false
-				break
+	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
 		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
 		"generated_owner": "UnitPayload.java_method_dump_13",
@@ -7524,9 +6320,7 @@ func source_unit_payload_dump_spawn_side_effects_state(unit_type_null: bool, uni
 	return SourceUnitPayloadDumpState.spawn_side_effects_state(state, range_x, range_y, unit_id)
 
 func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id], null)
 	var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)
 	return {
@@ -7541,9 +6335,7 @@ func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha
 	return SourceUnitPayloadDrawState.draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
 
 func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawShadow_14([unit_type_null, alpha, unit_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_drawShadow_14", [unit_type_null, alpha, unit_id], null)
 	var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7558,9 +6350,7 @@ func source_unit_payload_draw_type_null_state(unit_type_null: bool) -> Dictionar
 	return SourceUnitPayloadDrawState.draw_type_null_state(unit_type_null)
 
 func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_draw_15([unit_type_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null], null)
 	var canonical = source_unit_payload_draw_type_null_state(unit_type_null)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7575,9 +6365,7 @@ func source_unit_payload_draw_elevation_setup_state(unit_type_null: bool, unit_e
 	return SourceUnitPayloadDrawState.draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
 
 func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id], null)
 	var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7592,9 +6380,7 @@ func source_unit_payload_draw_overlay_warning_state(unit_type_null: bool, unit_e
 	return SourceUnitPayloadDrawState.draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 
 func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time], null)
 	var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7609,9 +6395,7 @@ func source_unit_payload_icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	return SourceUnitPayloadDrawState.icon_state(unit_type_full_icon)
 
 func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_icon_16([unit_type_full_icon])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_icon_16", [unit_type_full_icon], null)
 	var canonical = source_unit_payload_icon_state(unit_type_full_icon)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7626,9 +6410,7 @@ func source_build_payload_place_default_state(tile: Variant, build_block: Varian
 	return SourceBuildPayloadLifecycleState.place_default_state(tile, build_block, build_team)
 
 func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_place_1([tile, build_block, build_team])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_place_1", [tile, build_block, build_team], null)
 	var canonical = source_build_payload_place_default_state(tile, build_block, build_team)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7643,9 +6425,7 @@ func source_build_payload_place_state(tile: Variant, build_block: Variant, build
 	return SourceBuildPayloadLifecycleState.place_state(tile, build_block, build_team, rotation_value)
 
 func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_place_2", [tile, build_block, build_team, rotation_value], null)
 	var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7660,9 +6440,7 @@ func source_build_payload_update_state(unit_holder_present: bool, build_block_up
 	return SourceBuildPayloadLifecycleState.update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
 
 func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_update_5", [unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder], null)
 	var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7677,9 +6455,7 @@ func source_build_payload_destroyed_state() -> Dictionary:
 	return SourceBuildPayloadLifecycleState.destroyed_state()
 
 func generated_build_payload_destroyed_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_destroyed_6([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_destroyed_6", [], null)
 	var canonical = source_build_payload_destroyed_state()
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7694,9 +6470,7 @@ func source_build_payload_content_equals_state(other_is_build_payload: bool, oth
 	return SourceBuildPayloadState.content_equals_state(other_is_build_payload, other_block, build_block)
 
 func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_contentEquals_3([other_is_build_payload, other_block, build_block])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_contentEquals_3", [other_is_build_payload, other_block, build_block], null)
 	var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7711,9 +6485,7 @@ func source_build_payload_content_state(build_block: Variant) -> Dictionary:
 	return SourceBuildPayloadState.content_state(build_block)
 
 func generated_build_payload_content_bridge_state(build_block: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_content_4([build_block])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_content_4", [build_block], null)
 	var canonical = source_build_payload_content_state(build_block)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7728,9 +6500,7 @@ func source_build_payload_build_time_state(build_time: float) -> Dictionary:
 	return SourceBuildPayloadState.build_time_state(build_time)
 
 func generated_build_payload_build_time_bridge_state(build_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_buildTime_8([build_time])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_buildTime_8", [build_time], null)
 	var canonical = source_build_payload_build_time_state(build_time)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7745,9 +6515,7 @@ func source_build_payload_requirements_state(requirements: Variant) -> Dictionar
 	return SourceBuildPayloadState.requirements_state(requirements)
 
 func generated_build_payload_requirements_bridge_state(requirements: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_requirements_7([requirements])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_requirements_7", [requirements], null)
 	var canonical = source_build_payload_requirements_state(requirements)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7762,9 +6530,7 @@ func source_build_payload_x_state(build_x: float) -> Dictionary:
 	return SourceBuildPayloadState.x_state(build_x)
 
 func generated_build_payload_x_bridge_state(build_x: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_x_9([build_x])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_x_9", [build_x], null)
 	var canonical = source_build_payload_x_state(build_x)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7779,9 +6545,7 @@ func source_build_payload_y_state(build_y: float) -> Dictionary:
 	return SourceBuildPayloadState.y_state(build_y)
 
 func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_y_10([build_y])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_y_10", [build_y], null)
 	var canonical = source_build_payload_y_state(build_y)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7796,9 +6560,7 @@ func source_build_payload_size_state(build_block_size: float, source_tilesize: f
 	return SourceBuildPayloadState.size_state(build_block_size, source_tilesize)
 
 func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_size_11([build_block_size, source_tilesize])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_size_11", [build_block_size, source_tilesize], null)
 	var canonical = source_build_payload_size_state(build_block_size, source_tilesize)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7810,9 +6572,7 @@ func generated_build_payload_size_bridge_state(build_block_size: float, source_t
 	}
 
 func generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_size_11([build_block_size])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_size_11", [build_block_size], null)
 	var canonical = source_build_payload_size_state(build_block_size, SourceWorldDefaults.TILESIZE)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7829,9 +6589,7 @@ func source_build_payload_remove_state() -> Dictionary:
 	return SourceBuildPayloadLifecycleState.remove_state()
 
 func generated_build_payload_remove_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_remove_12([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_remove_12", [], null)
 	var canonical = source_build_payload_remove_state()
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7846,9 +6604,7 @@ func source_build_payload_write_state(payload_block: int, build_block_id: int, b
 	return SourceBuildPayloadState.write_state(payload_block, build_block_id, build_version)
 
 func generated_build_payload_write_bridge_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_write_13([payload_block, build_block_id, build_version])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_write_13", [payload_block, build_block_id, build_version], null)
 	var canonical = source_build_payload_write_state(payload_block, build_block_id, build_version)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7863,9 +6619,7 @@ func source_build_payload_set_state(x: float, y: float, rotation_value: float) -
 	return SourceBuildPayloadState.set_state(x, y, rotation_value)
 
 func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_set_14([x, y, rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_set_14", [x, y, rotation_value], null)
 	var canonical = source_build_payload_set_state(x, y, rotation_value)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7880,9 +6634,7 @@ func source_build_payload_draw_shadow_state(build_x: float, build_y: float, buil
 	return SourceBuildPayloadDrawState.draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
 
 func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_drawShadow_15", [build_x, build_y, build_block_size, source_tilesize, alpha], null)
 	var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7897,9 +6649,7 @@ func source_build_payload_draw_state(prev_z: float, layer_flying_unit_low: float
 	return SourceBuildPayloadDrawState.draw_state(prev_z, layer_flying_unit_low, transform_z)
 
 func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_draw_16", [prev_z, layer_flying_unit_low, transform_z], null)
 	var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7914,9 +6664,7 @@ func source_build_payload_icon_state(full_icon: Variant) -> Dictionary:
 	return SourceBuildPayloadDrawState.icon_state(full_icon)
 
 func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
-	var instance = script.new()
-	var result = instance.java_method_icon_17([full_icon])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd", "java_method_icon_17", [full_icon], null)
 	var canonical = source_build_payload_icon_state(full_icon)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7931,9 +6679,7 @@ func source_block_producer_icons_state(region: Variant, out_region: Variant, top
 	return SourceBlockProducerState.icons_state(region, out_region, top_region)
 
 func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_method_icons_0([region, out_region, top_region])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_icons_0", [region, out_region, top_region], null)
 	var canonical = source_block_producer_icons_state(region, out_region, top_region)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7948,9 +6694,7 @@ func source_block_producer_draw_plan_region_state(region: Variant, out_region: V
 	return SourceBlockProducerState.draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
 
 func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlanRegion_1([region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_drawPlanRegion_1", [region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation], null)
 	var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7965,9 +6709,7 @@ func source_block_producer_set_bars_state(recipe_null: bool, entity_progress: fl
 	return SourceBlockProducerState.set_bars_state(recipe_null, entity_progress, recipe_build_time)
 
 func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_method_setBars_2([recipe_null, entity_progress, recipe_build_time])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_method_setBars_2", [recipe_null, entity_progress, recipe_build_time], null)
 	var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7982,9 +6724,7 @@ func source_block_producer_build_accept_item_state(source_building: Variant, ite
 	return SourceBlockProducerState.build_accept_item_state(source_building, item, item_count, maximum_accepted)
 
 func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_acceptItem_1([source_building, item, item_count, maximum_accepted])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptItem_1", [source_building, item, item_count, maximum_accepted], null)
 	var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -7999,9 +6739,7 @@ func source_block_producer_build_get_maximum_accepted_state(item: Variant, recip
 	return SourceBlockProducerState.build_get_maximum_accepted_state(item, recipe_null, requirements)
 
 func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2([item, recipe_null, requirements])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2", [item, recipe_null, requirements], null)
 	var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8016,9 +6754,7 @@ func source_block_producer_build_accept_payload_state(source_building: Variant, 
 	return SourceBlockProducerState.build_accept_payload_state(source_building, payload)
 
 func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_acceptPayload_3([source_building, payload])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_acceptPayload_3", [source_building, payload], null)
 	var canonical = source_block_producer_build_accept_payload_state(source_building, payload)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8033,9 +6769,7 @@ func source_block_producer_build_should_consume_state(super_should_consume: bool
 	return SourceBlockProducerState.build_should_consume_state(super_should_consume, recipe_null)
 
 func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_shouldConsume_4([super_should_consume, recipe_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_shouldConsume_4", [super_should_consume, recipe_null], null)
 	var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8050,9 +6784,7 @@ func source_block_producer_build_update_tile_produce_gate_state(recipe_null: boo
 	return SourceBlockProducerBuildUpdateState.produce_gate_state(recipe_null, efficiency, payload_null)
 
 func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_5([recipe_null, efficiency, payload_null])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_5", [recipe_null, efficiency, payload_null], null)
 	var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8067,9 +6799,7 @@ func source_block_producer_build_update_tile_progress_accumulation_state(produce
 	return SourceBlockProducerBuildUpdateState.progress_accumulation_state(produce, progress_before, build_speed, edelta)
 
 func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5([produce, progress_before, build_speed, edelta])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5", [produce, progress_before, build_speed, edelta], null)
 	var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8084,9 +6814,7 @@ func source_block_producer_build_update_tile_completion_guard_state(progress: fl
 	return SourceBlockProducerBuildUpdateState.completion_guard_state(progress, recipe_build_time)
 
 func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5([progress, recipe_build_time])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5", [progress, recipe_build_time], null)
 	var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8101,9 +6829,7 @@ func source_block_producer_build_update_tile_payload_creation_state(completion_g
 	return SourceBlockProducerBuildUpdateState.payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
 
 func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5([completion_guard, recipe, team, x, y, payload_size, tilesize])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5", [completion_guard, recipe, team, x, y, payload_size, tilesize], null)
 	var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8118,9 +6844,7 @@ func source_block_producer_build_update_tile_pay_vector_progress_reset_state(com
 	return SourceBlockProducerBuildUpdateState.pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
 
 func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5([completion_guard, pay_vector_x, pay_vector_y, progress_before])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5", [completion_guard, pay_vector_x, pay_vector_y, progress_before], null)
 	var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8135,9 +6859,7 @@ func source_block_producer_build_update_tile_heat_time_state(produce: bool, heat
 	return SourceBlockProducerBuildUpdateState.heat_time_state(produce, heat_before, time_before, time_delta)
 
 func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5([produce, heat_before, time_before, time_delta])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5", [produce, heat_before, time_before, time_delta], null)
 	var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8152,9 +6874,7 @@ func source_block_producer_build_update_tile_move_out_payload_state(payload_pres
 	return SourceBlockProducerMoveOutPayloadState.move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
 
 func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5([payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd", "java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5", [payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result], null)
 	var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8175,10 +6895,7 @@ func source_block_init_consumer_apply_loop_state(consumers: Array) -> Dictionary
 	return SourceBlockInitConsumerState.apply_loop_state(consumers)
 
 func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
-	var instance = script.new()
-	instance.set_meta("mindustry_init_bridge_mode", "consumer_apply_loop")
-	var result = instance.java_method_init_123([consumers])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_init_123", [consumers], null, {"mindustry_init_bridge_mode": "consumer_apply_loop"})
 	var canonical = source_block_init_consumer_apply_loop_state(consumers)
 	var matches: bool = generated_state_matches_generated_subset(result, canonical)
 	return {
@@ -8223,9 +6940,7 @@ func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool
 	return SourceTurretInitState.turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
 
 func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8236,9 +6951,7 @@ func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infi
 	}
 
 func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8251,9 +6964,7 @@ func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, 
 	}
 
 func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, SourceBlockDefaults.SIZE_DEFAULT, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8267,9 +6978,7 @@ func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_
 	}
 
 func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8283,9 +6992,7 @@ func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: f
 	}
 
 func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, SourceTurretDefaults.RANGE_DEFAULT, 0.0)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8299,9 +7006,7 @@ func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is
 	}
 
 func generated_turret_init_tracking_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_init_3", [shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value], null)
 	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, SourceTurretDefaults.TRACKING_RANGE_DEFAULT)
 	return {
 		"source_owner": "PortGame.source_turret_init_state",
@@ -8318,9 +7023,7 @@ func source_base_turret_init_state(coolant_present: bool, found_consume_coolant:
 	return SourceTurretInitState.base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
 
 func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_0([coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_init_0", [coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius], null)
 	var canonical = source_base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
 	return {
 		"source_owner": "PortGame.source_base_turret_init_state",
@@ -8334,9 +7037,7 @@ func source_base_turret_reinitialize_consumers_state() -> Dictionary:
 	return SourceTurretInitState.base_turret_reinitialize_consumers_state()
 
 func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_reinitializeConsumers_1([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_reinitializeConsumers_1", [], null)
 	var canonical = source_base_turret_reinitialize_consumers_state()
 	return {
 		"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
@@ -8350,9 +7051,7 @@ func source_base_turret_check_init_coolant_state(coolant_present: bool, has_cons
 	return SourceTurretInitState.base_turret_check_init_coolant_state(coolant_present, has_consumer)
 
 func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_checkInitCoolant_2([coolant_present, has_consumer])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_checkInitCoolant_2", [coolant_present, has_consumer], null)
 	var canonical = source_base_turret_check_init_coolant_state(coolant_present, has_consumer)
 	return {
 		"source_owner": "PortGame.source_base_turret_check_init_coolant_state",
@@ -8366,9 +7065,7 @@ func source_base_turret_draw_place_state(tile_x: int, tile_y: int, rotation_valu
 	return SourceBaseTurretDrawState.draw_place_state(tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog)
 
 func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_drawPlace_3", [tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog], null)
 	var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog)
 	return {
 		"source_owner": "PortGame.source_base_turret_draw_place_state",
@@ -8379,9 +7076,7 @@ func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rot
 	}
 
 func generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_drawPlace_3", [tile_x, tile_y, rotation_value, valid], null)
 	var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, SourceWorldDefaults.TILESIZE, 0.0, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT, false)
 	return {
 		"source_owner": "PortGame.source_base_turret_draw_place_state",
@@ -8433,9 +7128,7 @@ func source_turret_draw_plan_region_state(plan: Variant, list: Variant) -> Dicti
 	return SourceTurretPresentationState.draw_plan_region_state(plan, list)
 
 func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_drawPlanRegion_5([plan, list])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_drawPlanRegion_5", [plan, list], null)
 	var canonical = source_turret_draw_plan_region_state(plan, list)
 	return {
 		"source_owner": "PortGame.source_turret_draw_plan_region_state",
@@ -8449,9 +7142,7 @@ func source_turret_icons_state() -> Dictionary:
 	return SourceTurretPresentationState.icons_state()
 
 func generated_turret_icons_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
-	var instance = script.new()
-	var result = instance.java_method_icons_6([])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_icons_6", [], null)
 	var canonical = source_turret_icons_state()
 	return {
 		"source_owner": "PortGame.source_turret_icons_state",
@@ -8465,9 +7156,7 @@ func source_tractor_beam_turret_icons_state(base_region: Variant, region: Varian
 	return SourceTractorBeamTurretLifecycleState.icons_state(base_region, region)
 
 func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_icons_0([base_region, region])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_icons_0", [base_region, region], null)
 	var canonical = source_tractor_beam_turret_icons_state(base_region, region)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_icons_state",
@@ -8489,9 +7178,7 @@ func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: 
 	return SourceTractorBeamTurretLifecycleState.init_state(range_value, source_tilesize)
 
 func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_2([range_value, source_tilesize])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_init_2", [range_value, source_tilesize], null)
 	var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_init_state",
@@ -8509,9 +7196,7 @@ func source_tractor_beam_turret_build_should_consume_state(super_should_consume:
 	return SourceTractorBeamTurretLifecycleState.build_should_consume_state(super_should_consume, target)
 
 func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_shouldConsume_1([super_should_consume, target])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target], null)
 	var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
@@ -8527,9 +7212,7 @@ func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage
 	return SourceTractorBeamTurretLifecycleState.build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
 
 func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE], null)
 	var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
@@ -8547,9 +7230,7 @@ func source_tractor_beam_turret_build_write_state(rotation_value: float) -> Dict
 	return SourceTractorBeamTurretLifecycleState.build_write_state(rotation_value)
 
 func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_write_4([rotation_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_write_4", [rotation_value], null)
 	var canonical = source_tractor_beam_turret_build_write_state(rotation_value)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_write_state",
@@ -8564,9 +7245,7 @@ func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_v
 	return SourceTractorBeamTurretLifecycleState.build_read_state(read_f_value, revision_value)
 
 func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_read_5([read_f_value, revision_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value], null)
 	var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)
 	return {
 		"source_owner": "PortGame.source_tractor_beam_turret_build_read_state",
@@ -8589,9 +7268,7 @@ func source_tractor_beam_turret_build_update_tile_eff_state(activation_returned_
 	return SourceTractorBeamTurretBuildUpdateTileFlowState.eff_state(activation_returned_early, efficiency, coolant_multiplier, delta_value)
 
 func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_updateTile_0", [activation_timer, time_delta, efficiency, coolant_multiplier, delta_value], null)
 	var eff_result := {
 		"returned_early": result.get("returned_early", false),
 		"eff_calculated": result.get("eff_calculated", false),
@@ -8847,33 +7524,13 @@ func source_item_turret_limit_range_default_state() -> Dictionary:
 	return SourceTurretRangeState.item_turret_limit_range_default_state()
 
 func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_limitRange_1([])
-	var canonical = source_item_turret_limit_range_default_state()
-	return {
-		"source_owner": "PortGame.source_item_turret_limit_range_default_state",
-		"generated_owner": "ItemTurret.java_method_limitRange_1",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("margin", null) == canonical.get("margin", null) and result.get("limit_range_called", null) == canonical.get("limit_range_called", null),
-	}
+	return SourceTurretRangeState.generated_item_turret_limit_range_default_bridge_state()
 
 func source_item_turret_limit_range_entries_state(margin: float, ammo_entries: Array) -> Dictionary:
 	return SourceTurretRangeState.item_turret_limit_range_entries_state(margin, ammo_entries)
 
 func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_limitRange_2([margin, ammo_entries])
-	var canonical = source_item_turret_limit_range_entries_state(margin, ammo_entries)
-	return {
-		"source_owner": "PortGame.source_item_turret_limit_range_entries_state",
-		"generated_owner": "ItemTurret.java_method_limitRange_2",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null) and result.get("limit_range_call_count", null) == canonical.get("limit_range_call_count", null) and result.get("margin", null) == canonical.get("margin", null),
-	}
+	return SourceTurretRangeState.generated_item_turret_limit_range_entries_bridge_state(margin, ammo_entries)
 
 func source_item_turret_set_stats_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
 	return SourceTurretStatsBarsState.item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)
@@ -8897,236 +7554,73 @@ func source_item_turret_init_ground_overlap_state(target_ground: bool, place_ove
 	return SourceItemTurretInitState.ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
 
 func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_5([target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries])
-	var canonical = source_item_turret_init_ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
-	return {
-		"source_owner": "PortGame.source_item_turret_init_ground_overlap_state",
-		"generated_owner": "ItemTurret.java_method_init_5",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("place_overlap_updates", null) == canonical.get("place_overlap_updates", null),
-	}
+	return SourceItemTurretInitState.generated_item_turret_init_ground_overlap_bridge_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
 
 func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_5([])
-	var canonical = source_item_turret_init_ground_overlap_state(SourceTurretDefaults.TARGET_GROUND_DEFAULT, 0.0, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, [])
-	return {
-		"source_owner": "PortGame.source_item_turret_init_ground_overlap_state",
-		"generated_owner": "ItemTurret.java_method_init_5",
-		"defaulted_args": ["target_ground", "range", "place_overlap_margin"],
-		"target_ground": result.get("target_ground", null),
-		"range_value": result.get("range_value", null),
-		"place_overlap_margin": result.get("place_overlap_margin", null),
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
-			and result.get("target_ground", null) == canonical.get("target_ground", null)
-			and result.get("range_value", null) == canonical.get("range_value", null)
-			and result.get("place_overlap_margin", null) == canonical.get("place_overlap_margin", null),
-	}
+	return SourceItemTurretInitState.generated_item_turret_init_ground_overlap_default_bridge_state()
 
 func source_item_turret_build_on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
 	return SourceItemTurretBuildState.on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)
 
 func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_onProximityAdded_0([has_ammo, cheating, ammo_types_size, first_ammo_item])
-	var canonical = source_item_turret_build_on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.onProximityAdded",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null) and result.get("should_handle_first_ammo", null) == canonical.get("should_handle_first_ammo", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_on_proximity_added_bridge_state(has_ammo, cheating, ammo_types_size, first_ammo_item)
 
 func source_item_turret_build_sense_object_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
 	return SourceItemTurretBuildState.sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)
 
 func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_senseObject_1([sensor, ammo_size, peek_item, super_sense_object_value])
-	var canonical = source_item_turret_build_sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_sense_object_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.senseObject",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_sense_object_bridge_state(sensor, ammo_size, peek_item, super_sense_object_value)
 
 func source_item_turret_build_get_ammo_content_state(ammo_size: int, peek_item: Variant) -> Dictionary:
 	return SourceItemTurretBuildState.get_ammo_content_state(ammo_size, peek_item)
 
 func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoContent_2([ammo_size, peek_item])
-	var canonical = source_item_turret_build_get_ammo_content_state(ammo_size, peek_item)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoContent",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_content_bridge_state(ammo_size, peek_item)
 
 func source_item_turret_build_get_ammo_fraction_state(total_ammo: float, max_ammo: float) -> Dictionary:
 	return SourceItemTurretBuildState.get_ammo_fraction_state(total_ammo, max_ammo)
 
 func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo, max_ammo])
-	var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, max_ammo)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo, max_ammo)
 
 func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo])
-	var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, SourceTurretDefaults.MAX_AMMO_DEFAULT)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction",
-		"result": result,
-		"canonical": canonical,
-		"defaulted_args": ["max_ammo"],
-		"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT,
-		"ammo_fraction": total_ammo / SourceTurretDefaults.MAX_AMMO_DEFAULT,
-		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo)
 
 func source_item_turret_build_accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
 	return SourceItemTurretBuildState.accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)
 
 func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null])
-	var canonical = source_item_turret_build_accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_accept_stack_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_accept_stack_bridge_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)
 
 func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount])
-	var canonical = source_item_turret_build_accept_stack_state(item, amount, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, 1.0, false)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_accept_stack_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack",
-		"result": result,
-		"canonical": canonical,
-		"defaulted_args": ["max_ammo", "total_ammo", "ammo_multiplier", "ammo_type_null"],
-		"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT,
-		"accept_stack": min(int(SourceTurretDefaults.MAX_AMMO_DEFAULT), amount),
-		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_accept_stack_default_bridge_state(item, amount)
 
 func source_item_turret_build_handle_stack_state(item: Variant, amount: int) -> Dictionary:
 	return SourceItemTurretBuildState.handle_stack_state(item, amount)
 
 func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_handleStack_5([item, amount])
-	var canonical = source_item_turret_build_handle_stack_state(item, amount)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_handle_stack_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.handleStack",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", []),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_handle_stack_bridge_state(item, amount)
 
 func source_item_turret_build_remove_stack_state(item: Variant, amount: int) -> Dictionary:
 	return SourceItemTurretBuildState.remove_stack_state(item, amount)
 
 func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_removeStack_6([item, amount])
-	var canonical = source_item_turret_build_remove_stack_state(item, amount)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_remove_stack_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.removeStack",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_remove_stack_bridge_state(item, amount)
 
 func source_item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
 	return SourceTurretAmmoState.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
 
 func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_handleItem_7([item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries])
-	var canonical = source_item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_handle_item_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.handleItem",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)
-			and result.get("ammo_entries_after", []) == canonical.get("ammo_entries_after", [])
-			and result.get("flame_ammo_event_fired", null) == canonical.get("flame_ammo_event_fired", null)
-			and result.get("resupply_turret_event_fired", null) == canonical.get("resupply_turret_event_fired", null)
-			and result.get("type_null_returned", null) == canonical.get("type_null_returned", null)
-			and result.get("entry_found", null) == canonical.get("entry_found", null)
-			and result.get("entry_added", null) == canonical.get("entry_added", null)
-			and result.get("swapped", null) == canonical.get("swapped", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_handle_item_bridge_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
 
 func source_item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
 	return SourceTurretAmmoState.item_turret_build_accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)
 
 func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null])
-	var canonical = source_item_turret_build_accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem",
-		"result": result,
-		"canonical": canonical,
-		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_accept_item_bridge_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)
 
 func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item])
-	var canonical = source_item_turret_build_accept_item_state(item, 0, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, false)
-	return {
-		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
-		"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem",
-		"result": result,
-		"canonical": canonical,
-		"defaulted_args": ["total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null"],
-		"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT,
-		"accept_item": result.get("accept_item", null),
-		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
-	}
+	return SourceItemTurretBuildState.generated_item_turret_build_accept_item_default_bridge_state(item)
 
 func source_item_turret_build_version_state() -> Dictionary:
 	return SourceItemTurretBuildState.version_state()
@@ -9198,9 +7692,7 @@ func source_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, p
 	return SourceLiquidTurretInitState.init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
 
 func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin], null)
 	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_init_state",
@@ -9214,9 +7706,7 @@ func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_groun
 	}
 
 func generated_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)
 	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_init_state",
@@ -9234,9 +7724,7 @@ func source_continuous_liquid_turret_init_state(ammo_entries: Array, target_grou
 	return SourceContinuousLiquidTurretInitState.init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
 
 func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier], null)
 	var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_init_state",
@@ -9250,9 +7738,7 @@ func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, t
 	}
 
 func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)
 	var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, 0.0, null, null)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_init_state",
@@ -9270,9 +7756,7 @@ func source_continuous_liquid_turret_build_should_active_sound_state(was_shootin
 	return SourceContinuousLiquidTurretBuildState.should_active_sound_state(was_shooting, enabled)
 
 func generated_continuous_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0([was_shooting, enabled])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0", [was_shooting, enabled], null)
 	var canonical = source_continuous_liquid_turret_build_should_active_sound_state(was_shooting, enabled)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
@@ -9288,9 +7772,7 @@ func source_continuous_liquid_turret_build_get_ammo_content_state(liquids_null: 
 	return SourceContinuousLiquidTurretBuildState.get_ammo_content_state(liquids_null, current_amount, current_liquid)
 
 func generated_continuous_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1([liquids_null, current_amount, current_liquid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1", [liquids_null, current_amount, current_liquid], null)
 	var canonical = source_continuous_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state",
@@ -9307,9 +7789,7 @@ func source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amoun
 	return SourceContinuousLiquidTurretBuildState.get_ammo_fraction_state(current_amount, liquid_capacity)
 
 func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2", [current_amount, liquid_capacity], null)
 	var canonical = source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
@@ -9325,9 +7805,7 @@ func source_continuous_liquid_turret_build_update_tile_state(current_amount: flo
 	return SourceContinuousLiquidTurretBuildState.update_tile_state(current_amount, liquid_consumed, activated_before)
 
 func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3([current_amount, liquid_consumed, activated_before])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3", [current_amount, liquid_consumed, activated_before], null)
 	var canonical = source_continuous_liquid_turret_build_update_tile_state(current_amount, liquid_consumed, activated_before)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
@@ -9345,9 +7823,7 @@ func source_continuous_liquid_turret_build_sense_object_state(sensor: String, cu
 	return SourceContinuousLiquidTurretBuildState.sense_object_state(sensor, current_liquid, super_sense_object_value)
 
 func generated_continuous_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4([sensor, current_liquid, super_sense_object_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4", [sensor, current_liquid, super_sense_object_value], null)
 	var canonical = source_continuous_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
@@ -9364,9 +7840,7 @@ func source_continuous_liquid_turret_build_can_consume_state(has_correct_ammo: b
 	return SourceContinuousLiquidTurretBuildState.can_consume_state(has_correct_ammo, super_can_consume)
 
 func generated_continuous_liquid_turret_build_can_consume_bridge_state(has_correct_ammo: bool, super_can_consume: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_5([has_correct_ammo, super_can_consume])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_5", [has_correct_ammo, super_can_consume], null)
 	var canonical = source_continuous_liquid_turret_build_can_consume_state(has_correct_ammo, super_can_consume)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state",
@@ -9382,9 +7856,7 @@ func source_continuous_liquid_turret_build_should_consume_state(super_should_con
 	return SourceContinuousLiquidTurretBuildState.should_consume_state(super_should_consume, activated)
 
 func generated_continuous_liquid_turret_build_should_consume_bridge_state(super_should_consume: bool, activated: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6([super_should_consume, activated])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6", [super_should_consume, activated], null)
 	var canonical = source_continuous_liquid_turret_build_should_consume_state(super_should_consume, activated)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
@@ -9400,9 +7872,7 @@ func source_continuous_liquid_turret_build_use_ammo_state(peek_ammo: Variant) ->
 	return SourceContinuousLiquidTurretBuildState.use_ammo_state(peek_ammo)
 
 func generated_continuous_liquid_turret_build_use_ammo_bridge_state(peek_ammo: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7([peek_ammo])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7", [peek_ammo], null)
 	var canonical = source_continuous_liquid_turret_build_use_ammo_state(peek_ammo)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state",
@@ -9417,9 +7887,7 @@ func source_continuous_liquid_turret_build_peek_ammo_state(current_liquid: Varia
 	return SourceContinuousLiquidTurretBuildState.peek_ammo_state(current_liquid, ammo_type)
 
 func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8([current_liquid, ammo_type])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8", [current_liquid, ammo_type], null)
 	var canonical = source_continuous_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
@@ -9434,9 +7902,7 @@ func source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo: bool
 	return SourceContinuousLiquidTurretBuildState.has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)
 
 func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9([has_correct_ammo, current_liquid, ammo_type, current_amount, activated])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9", [has_correct_ammo, current_liquid, ammo_type, current_amount, activated], null)
 	var canonical = source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state",
@@ -9453,9 +7919,7 @@ func source_continuous_liquid_turret_build_has_correct_ammo_state(bullets_any: b
 	return SourceContinuousLiquidTurretBuildState.has_correct_ammo_state(bullets_any, first_bullet_type, peek_ammo)
 
 func generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bullets_any: bool, first_bullet_type: Variant, peek_ammo: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_10([bullets_any, first_bullet_type, peek_ammo])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_10", [bullets_any, first_bullet_type, peek_ammo], null)
 	var canonical = source_continuous_liquid_turret_build_has_correct_ammo_state(bullets_any, first_bullet_type, peek_ammo)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
@@ -9472,9 +7936,7 @@ func source_continuous_liquid_turret_build_accept_item_state(source_building: Va
 	return SourceContinuousLiquidTurretBuildState.accept_item_state(source_building, item)
 
 func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11([source_building, item])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11", [source_building, item], null)
 	var canonical = source_continuous_liquid_turret_build_accept_item_state(source_building, item)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
@@ -9490,9 +7952,7 @@ func source_continuous_liquid_turret_build_accept_liquid_state(source_building: 
 	return SourceContinuousLiquidTurretBuildState.accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 
 func generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier], null)
 	var canonical = source_continuous_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 	return {
 		"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state",
@@ -9508,9 +7968,7 @@ func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, en
 	return SourceLiquidTurretBuildState.should_active_sound_state(was_shooting, enabled)
 
 func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0([was_shooting, enabled])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0", [was_shooting, enabled], null)
 	var canonical = source_liquid_turret_build_should_active_sound_state(was_shooting, enabled)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
@@ -9526,9 +7984,7 @@ func source_liquid_turret_build_get_ammo_content_state(liquids_null: bool, curre
 	return SourceLiquidTurretBuildState.get_ammo_content_state(liquids_null, current_amount, current_liquid)
 
 func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_getAmmoContent_1([liquids_null, current_amount, current_liquid])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoContent_1", [liquids_null, current_amount, current_liquid], null)
 	var canonical = source_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
@@ -9545,9 +8001,7 @@ func source_liquid_turret_build_get_ammo_fraction_state(current_amount: float, l
 	return SourceLiquidTurretBuildState.get_ammo_fraction_state(current_amount, liquid_capacity)
 
 func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2", [current_amount, liquid_capacity], null)
 	var canonical = source_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
@@ -9563,9 +8017,7 @@ func source_liquid_turret_build_sense_object_state(sensor: String, current_liqui
 	return SourceLiquidTurretBuildState.sense_object_state(sensor, current_liquid, super_sense_object_value)
 
 func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_senseObject_3([sensor, current_liquid, super_sense_object_value])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_senseObject_3", [sensor, current_liquid, super_sense_object_value], null)
 	var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_sense_object_state",
@@ -9582,9 +8034,7 @@ func source_liquid_turret_build_find_target_extinguish_state(extinguish: bool, c
 	return SourceLiquidTurretBuildState.find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)
 
 func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_findTarget_4([extinguish, current_liquid_can_extinguish, fire_result])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_findTarget_4", [extinguish, current_liquid_can_extinguish, fire_result], null)
 	var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
@@ -9601,9 +8051,7 @@ func source_liquid_turret_build_use_ammo_state(cheating: bool, current_liquid: V
 	return SourceLiquidTurretBuildState.use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)
 
 func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_useAmmo_5([cheating, current_liquid, ammo_type, ammo_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_useAmmo_5", [cheating, current_liquid, ammo_type, ammo_multiplier], null)
 	var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
@@ -9620,9 +8068,7 @@ func source_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_ty
 	return SourceLiquidTurretBuildState.peek_ammo_state(current_liquid, ammo_type)
 
 func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_peekAmmo_6([current_liquid, ammo_type])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_peekAmmo_6", [current_liquid, ammo_type], null)
 	var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
@@ -9636,9 +8082,7 @@ func source_liquid_turret_build_has_ammo_state(current_liquid: Variant, ammo_typ
 	return SourceLiquidTurretBuildState.has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
 
 func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_hasAmmo_7([current_liquid, ammo_type, current_amount, ammo_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_hasAmmo_7", [current_liquid, ammo_type, current_amount, ammo_multiplier], null)
 	var canonical = source_liquid_turret_build_has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
@@ -9654,9 +8098,7 @@ func source_liquid_turret_build_accept_item_state(source_building: Variant, item
 	return SourceLiquidTurretBuildState.accept_item_state(source_building, item)
 
 func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_acceptItem_8([source_building, item])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptItem_8", [source_building, item], null)
 	var canonical = source_liquid_turret_build_accept_item_state(source_building, item)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_accept_item_state",
@@ -9670,9 +8112,7 @@ func source_liquid_turret_build_accept_liquid_state(source_building: Variant, li
 	return SourceLiquidTurretBuildState.accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 
 func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
-	var instance = script.new()
-	var result = instance.java_inner_class_LiquidTurretBuild_method_acceptLiquid_9([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", [source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier], null)
 	var canonical = source_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
@@ -9688,157 +8128,49 @@ func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	return SourceTurretAmmoState.turret_item_turret_ammo_data(turret, item_id)
 
 func peek_turret_ammo(cell: Vector2i, turret) -> Dictionary:
-	if turret == null:
-		return {}
-	var key := cell_key(cell)
-	var stacks: Array = turret_ammo_stacks.get(key, [])
-	var peek_state := SourceTurretAmmoState.peek_turret_ammo_state_for_turret(turret, stacks)
-	var data = peek_state.get("ammo_data", {})
-	return data if data is Dictionary else {}
+	return SourceTurretAmmoState.peek_turret_ammo(self, cell, turret)
 
 func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:
-	var data := source_turret_ammo_data(turret, item_id)
-	if data.is_empty():
-		return false
-	var key := cell_key(cell)
-	var amount := int(source_bullet_ammo_multiplier(data))
-	var total := int(turret_total_ammo.get(key, 0))
-	var max_ammo := SourceTurretAmmoState.max_ammo(turret, 30)
-	var accept_state := source_item_turret_build_accept_item_state(item_id, total, max_ammo, amount, data.is_empty())
-	if not bool(accept_state.get("accept_item", false)):
-		return false
-	var stacks: Array = turret_ammo_stacks.get(key, [])
-	var handle_state := SourceTurretAmmoState.handle_turret_item_state_for_turret(turret, item_id, item_id == "pyratite", total, amount, data.is_empty(), stacks)
-	turret_ammo_stacks[key] = handle_state.get("ammo_entries_after", stacks)
-	turret_total_ammo[key] = int(handle_state.get("total_ammo_after", total))
-	return true
+	return SourceTurretAmmoState.handle_turret_item(self, cell, turret, item_id)
 
 func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:
-	if turret == null:
-		return {}
-	var key := cell_key(cell)
-	var stacks: Array = turret_ammo_stacks.get(key, [])
-	var total := int(turret_total_ammo.get(key, 0))
-	var use_state := SourceTurretAmmoState.use_turret_ammo_state_for_turret(turret, stacks, total)
-	if bool(use_state.get("persist_stacks", false)):
-		turret_ammo_stacks[key] = use_state.get("ammo_entries_after", stacks)
-		turret_total_ammo[key] = int(use_state.get("total_ammo_after", total))
-	var data = use_state.get("ammo_data", {})
-	return data if data is Dictionary else {}
+	return SourceTurretAmmoState.use_turret_ammo(self, cell, turret)
 
 func bootstrap_selected_turret_ammo() -> int:
-	if content_catalog == null:
-		return 0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0
-	var ammo_entries: Array = SourceTurretAmmoState.selected_turret_ammo_entries(duo)
-	if ammo_entries.is_empty():
-		return 0
-	var first_ammo: Dictionary = ammo_entries[0]
-	if source_bullet_ammo_multiplier(first_ammo) <= 0.0:
-		return 0
-	var item_id := str(first_ammo.get("item", ""))
-	if item_id.is_empty():
-		return 0
-	var loaded := 0
-	while handle_turret_item(duo_pos, duo, item_id):
-		loaded += 1
-	return loaded
+	return SourceTurretAmmoState.bootstrap_selected_turret_ammo(self)
 
 func load_selected_turret_ammo(item_id: String, amount: int) -> int:
-	if content_catalog == null:
-		return 0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0
-	var loaded := 0
-	for _i in amount:
-		if handle_turret_item(duo_pos, duo, item_id):
-			loaded += 1
-		else:
-			break
-	return loaded
+	return SourceTurretAmmoState.load_selected_turret_ammo(self, item_id, amount)
 
 func use_selected_turret_ammo_once() -> Dictionary:
-	if content_catalog == null:
-		return {}
-	var duo = selected_playable_turret()
-	if duo == null:
-		return {}
-	return use_turret_ammo(duo_pos, duo)
+	return SourceTurretAmmoState.use_selected_turret_ammo_once(self)
 
 func selected_turret_reload_seconds() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_reload_seconds(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_reload_seconds")
 
 func selected_turret_range() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_range(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_range")
 
 func selected_turret_shoot_y() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_shoot_y(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_shoot_y")
 
 func selected_turret_shoot_pattern() -> Dictionary:
-	if content_catalog == null:
-		return {}
-	var duo = selected_playable_turret()
-	if duo == null:
-		return {}
-	return source_turret_shoot_pattern(duo)
+	return SourceTurretRuntimeState.selected_turret_dict_stat(self, "source_turret_shoot_pattern")
 
 func selected_turret_inaccuracy() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_inaccuracy(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_inaccuracy")
 
 func selected_turret_rotate_speed() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_rotate_speed(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_rotate_speed")
 
 func selected_turret_shoot_cone() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_shoot_cone(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_shoot_cone")
 
 func selected_turret_recoil() -> float:
-	if content_catalog == null:
-		return 0.0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0.0
-	return source_turret_recoil(duo)
+	return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_recoil")
 
 func selected_turret_recoils() -> int:
-	if content_catalog == null:
-		return 0
-	var duo = selected_playable_turret()
-	if duo == null:
-		return 0
-	return source_turret_recoils(duo)
+	return SourceTurretRuntimeState.selected_turret_int_stat(self, "source_turret_recoils")
 
 func source_turret_reload_seconds(turret) -> float:
 	return SourceTurretRuntimeState.turret_reload_seconds(turret, SourceTurretPropertyState.SOURCE_TURRET_RELOAD_KEY, SourceTurretDefaults.RELOAD_DEFAULT, SourceTimeDefaults.TICK_RATE)
@@ -9874,40 +8206,16 @@ func source_turret_recoil_offset(turret, recoil_rotation_degrees: float, cur_rec
 	return SourceTurretCombatState.recoil_offset(recoil_rotation_degrees, cur_recoil, SourceTurretCombatState.SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT, source_turret_recoil(turret))
 
 func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:
-	var key := cell_key(cell)
-	var cur_recoil := float(turret_recoils.get(key, 0.0))
-	var recoil_state := SourceTurretCombatState.recoil_step_state(
-		cur_recoil,
-		delta,
-		SourceTimeDefaults.TICK_RATE,
-		source_turret_recoil_time(turret)
-	)
-	cur_recoil = float(recoil_state.get("cur_recoil_after", cur_recoil))
-	turret_recoils[key] = cur_recoil
-	last_turret_cur_recoil = cur_recoil
-	last_turret_recoil = source_turret_recoil(turret)
-	last_turret_recoils = source_turret_recoils(turret)
-	last_turret_recoil_offset = source_turret_recoil_offset(turret, recoil_rotation_degrees, cur_recoil)
-	apply_turret_recoil_offset(cell, turret, last_turret_recoil_offset)
+	SourceTurretCombatState.update_turret_recoil(self, cell, turret, delta, recoil_rotation_degrees)
 
 func apply_turret_recoil_offset(cell: Vector2i, turret, offset: Vector2) -> void:
-	var sprite = placed_block_origins.get(cell_key(cell))
-	if is_instance_valid(sprite):
-		sprite.position = source_block_sprite_base_position(turret, cell) + offset
+	SourceTurretCombatState.apply_turret_recoil_offset(self, cell, turret, offset)
 
 func source_turret_shoot_pattern(turret) -> Dictionary:
 	return SourceTurretRuntimeState.turret_shoot_pattern(turret, SourceTurretPropertyState.SOURCE_TURRET_SHOOT_PATTERN_KEY)
 
 func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:
-	var pattern := source_turret_shoot_pattern(turret)
-	var key := cell_key(cell)
-	var counter := int(turret_barrel_counters.get(key, 0))
-	var shoot_offset_state := SourceTurretCombatState.shoot_x_offset_state(pattern, counter)
-	if bool(shoot_offset_state.get("used", false)):
-		turret_barrel_counters[key] = counter + 1
-	else:
-		turret_barrel_counters[key] = counter
-	return float(shoot_offset_state.get("offset", 0.0))
+	return SourceTurretCombatState.use_turret_shoot_x_offset(self, cell, turret)
 
 func source_turret_bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:
 	return SourceTurretCombatState.turret_bullet_origin_state(
@@ -9928,10 +8236,10 @@ func source_angle_to_target(origin, target) -> float:
 	return SourceTurretCombatState.angle_to_target(origin, target, Callable(self, "source_arc_angles_angle"))
 
 func source_angle_distance(current_degrees: float, target_degrees: float) -> float:
-	return abs(wrapf(target_degrees - current_degrees, -180.0, 180.0))
+	return SourceMathState.source_angles_angle_dist(current_degrees, target_degrees)
 
 func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:
-	return source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)
+	return SourceMathState.source_angles_move_toward(current_degrees, target_degrees, max_delta)
 
 func source_bullet_range_change(data: Dictionary) -> float:
 	return SourceBulletRuntimeState.range_change(data)
@@ -9979,47 +8287,17 @@ func source_bullet_scale(data: Dictionary, texture_size: Vector2) -> Vector2:
 	return SourceBulletRuntimeState.scale(data, texture_size)
 
 func find_enemy_target(origin: Vector2, range_pixels: float):
-	var target_candidates: Array = []
-	for enemy in enemy_units:
-		var sprite = enemy.get("sprite")
-		if not is_instance_valid(sprite):
-			continue
-		target_candidates.append({"target": enemy, "position": sprite.position})
-	var target_state := SourceTurretCombatState.target_selection_state(origin, range_pixels, target_candidates)
+	var target_state := SourceTurretCombatState.enemy_target_state(origin, range_pixels, enemy_units)
 	return target_state.get("target", null)
 
 func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:
-	if data.is_empty():
-		return
-	var spawn_texture := source_bullet_texture(str(data.get("sprite", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))
-	var texture_size := spawn_texture.get_size() if spawn_texture else Vector2.ZERO
-	var spawn_state := SourceBulletRuntimeState.spawn_state(data, shoot_angle_degrees, texture_size)
-	last_turret_fired_ammo_item = str(spawn_state.get("ammo_item", ""))
-	last_turret_fired_damage = float(spawn_state.get("damage", 0.0))
-	last_turret_fired_reload_multiplier = float(spawn_state.get("reload_multiplier", 1.0))
-	turret_shot_count += 1
-	var velocity := spawn_state.get("velocity", Vector2.ZERO) as Vector2
-	var sprite := Sprite2D.new()
-	sprite.texture = source_bullet_texture(str(spawn_state.get("sprite_id", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))
-	sprite.position = origin
-	if sprite.texture:
-		var size := sprite.texture.get_size()
-		if size.x > 0 and size.y > 0:
-			sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2
-	get_node("World/BulletLayer").add_child(sprite)
-	bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": float(spawn_state.get("speed", 0.0)), "damage": float(spawn_state.get("damage", 0.0)), "hitSize": float(spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(spawn_state.get("lifetime_remaining", 0.0))})
+	SourceBulletRuntimeState.spawn_turret_bullet(self, origin, target, data, shoot_angle_degrees)
 
 func simulate_bullets(delta: float) -> void:
 	SourceBulletRuntimeState.simulate_bullets(self, delta)
 
 func update_camera(delta: float) -> void:
-	if camera == null:
-		return
-	var movement := input_runtime.movement_vector()
-	if movement != Vector2.ZERO:
-		var pan_delta := source_input_viewport_camera_pan_delta(movement, SourceInputDefaults.boost_pressed(), delta)
-		var clamp_state := source_input_viewport_clamped_camera_position_state(camera.position + pan_delta, get_viewport().get_visible_rect().size)
-		camera.position = Vector2(float(clamp_state.get("x", camera.position.x)), float(clamp_state.get("y", camera.position.y)))
+	SourceInputViewportRuntimeState.update_camera(self, delta)
 
 func source_input_runtime_summary_state() -> Dictionary:
 	return input_runtime.runtime_summary_with_source_owner("PortGame.source_input_runtime_summary_state")
@@ -10030,8 +8308,4 @@ func get_runtime_summary() -> Dictionary:
 func update_hud() -> void:
 	if hud_label == null:
 		return
-	var core_item_name := playable_core_item_name()
-	var selected = SourceSelectedBuildState.selected_build(build_palette, selected_build_index)
-	var selected_name: String = selected.display_name() if selected else "None"
-	var selected_cost := requirements_text(selected) if selected else "none"
-	hud_label.text = "Mindustry Godot slice\nLoaded content objects: %d items / %d liquids / %d blocks / %d units\nGenerated Java classes: %d\nAll generated script instances: %d / %d\nLoaded generated scripts: %d (%s)\nInstanced generated scripts: %d (%s)\nBuild: %s cost %s (1-6 select, left click place)\n%s in core: %d\nTotal produced: %d\nWave: %d enemies: %d bullets: %d core health: %d\nWASD move camera, mouse wheel zoom" % [content_counts.get("items", 0), content_counts.get("liquids", 0), content_counts.get("blocks", 0), content_counts.get("units", 0), generated_class_count, all_generated_instances.size(), generated_class_count, loaded_generated_class_names.size(), ", ".join(loaded_generated_class_names), loaded_generated_instance_names.size(), ", ".join(loaded_generated_instance_names), selected_name, selected_cost, core_item_name, core_inventory, produced_total, wave_index, enemy_units.size(), bullets.size(), int(core_health)]
+	hud_label.text = SourceHudRuntimeState.hud_text(self, Callable(self, "requirements_text"))

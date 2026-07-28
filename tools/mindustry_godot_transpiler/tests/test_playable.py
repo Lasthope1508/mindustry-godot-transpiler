@@ -45,6 +45,51 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
         self.assertIn(matches_expr, module_body)
 
+    def _assert_generated_bridge_uses_runtime(
+        self,
+        module_source: str,
+        module_body: str,
+        java_name: str,
+        generated_method: str,
+        generated_args: str,
+        metadata_arg: str = "",
+    ) -> None:
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+        metadata_suffix = f", {metadata_arg}" if metadata_arg else ""
+        self.assertIn(
+            f'var result = SourceGeneratedClassRuntime.call_java_method("{java_name}", "{generated_method}", [{generated_args}], null{metadata_suffix})',
+            module_body,
+        )
+        self.assertNotIn("ResourceLoader.load(", module_body)
+        self.assertNotIn("script.new()", module_body)
+
+    def _assert_runtime_bridge_moved_to_module(
+        self,
+        port_source: str,
+        module_source: str,
+        port_signature: str,
+        module_signature: str,
+        facade_call: str,
+        java_name: str,
+        generated_method: str,
+        generated_args: str,
+        canonical_call: str,
+        source_owner: str,
+        generated_owner: str,
+    ) -> None:
+        bridge_body = self._method_body(port_source, port_signature)
+        module_body = self._static_method_body(module_source, module_signature)
+        self.assertIn(port_signature, port_source)
+        self.assertIn(module_signature, module_source)
+        self.assertIn(facade_call, bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, java_name, generated_method, generated_args)
+        self.assertIn(canonical_call, module_body)
+        self.assertIn(f'"source_owner": "{source_owner}"', module_body)
+        self.assertIn(f'"generated_owner": "{generated_owner}"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
+
     def _assert_source_consts_in_helper_not_port(self, port_source: str, helper_source: str, const_lines: list[str]) -> None:
         for const_line in const_lines:
             self.assertIn(const_line, helper_source)
@@ -60,6 +105,10 @@ class PlayableManifestTests(unittest.TestCase):
         runtime_summary = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameRuntimeSummaryState.gd"
         return runtime_summary.read_text(encoding="utf-8")
 
+    def _ssot_accessor_source(self) -> str:
+        ssot_access = ROOT / "godot-mindustry" / "src" / "game" / "SourceSsotAccessorRuntimeState.gd"
+        return ssot_access.read_text(encoding="utf-8") if ssot_access.exists() else ""
+
     def _port_game_block_consume_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockConsumeState.gd"
@@ -74,6 +123,15 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockResearchRequirementsState.gd"
         return port_game.read_text(encoding="utf-8") + "\n" + module.read_text(encoding="utf-8")
+
+    def test_source_generated_class_runtime_supports_metadata(self):
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceGeneratedClassRuntime.gd"
+        source = module.read_text(encoding="utf-8")
+
+        self.assertIn('static func call_java_method(gdscript_path: String, generated_method: String, generated_args: Array, fallback: Variant = null, metadata: Dictionary = {}) -> Variant:', source)
+        self.assertIn('for meta_key in metadata.keys():', source)
+        self.assertIn('instance.set_meta(str(meta_key), metadata[meta_key])', source)
+        self.assertIn('return instance.call(generated_method, generated_args)', source)
 
     def _port_game_block_get_dependencies_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -590,13 +648,100 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_requires_playable_content_tile_size_from_ssot(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_config = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameConfigRuntimeState.gd"
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "GameConfigRuntimeModuleProof.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_config.read_text(encoding="utf-8") if runtime_config.exists() else ""
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
 
-        self.assertIn('if not config.has("tile_size"):', source)
-        self.assertIn('push_error("Missing playable content tile_size")', source)
-        self.assertIn('tile_size = int(config["tile_size"])', source)
+        self.assertTrue(runtime_config.exists(), "SourceGameConfigRuntimeState.gd must own playable_content config bootstrap wiring")
+        self.assertTrue(proof.exists(), "GameConfigRuntimeModuleProof.gd must prove playable_content config bootstrap wiring")
+        self.assertIn('const SourceGameConfigRuntimeState := preload("res://src/game/SourceGameConfigRuntimeState.gd")', source)
+        self.assertIn("SourceGameConfigRuntimeState.load_config(self)", source)
+        self.assertIn("class_name SourceGameConfigRuntimeState", runtime_source)
+        self.assertIn("static func load_config(game: Object) -> void:", runtime_source)
+        self.assertIn('var document := SourceSsotCatalog.load_document("playable_content")', runtime_source)
+        self.assertIn('if not bool(document.get("loaded", false)):', runtime_source)
+        self.assertIn('game.set("tile_size", int(config["tile_size"]))', runtime_source)
+        self.assertIn("GAME_CONFIG_RUNTIME_MODULE_PROOF", proof_source)
+        self.assertIn("SourceGameConfigRuntimeState.load_config(game)", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
+        self.assertNotIn('if not config.has("tile_size"):', source)
+        self.assertNotIn('push_error("Missing playable content tile_size")', source)
+        self.assertNotIn('tile_size = int(config["tile_size"])', source)
         self.assertNotIn('var tile_size := 32', source)
         self.assertNotIn('config.get("tile_size", 32)', source)
+
+    def test_port_game_bind_nodes_uses_canonical_runtime_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        node_binding = ROOT / "godot-mindustry" / "src" / "game" / "SourceNodeBindingRuntimeState.gd"
+        ui_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceUiDefaults.gd"
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "NodeBindingRuntimeModuleProof.gd"
+        source = port_game.read_text(encoding="utf-8")
+        binding_source = node_binding.read_text(encoding="utf-8") if node_binding.exists() else ""
+        ui_source = ui_defaults.read_text(encoding="utf-8")
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
+
+        self.assertTrue(node_binding.exists(), "SourceNodeBindingRuntimeState.gd must own scene node binding")
+        self.assertTrue(proof.exists(), "NodeBindingRuntimeModuleProof.gd must prove scene node binding")
+        self.assertIn('const SourceNodeBindingRuntimeState := preload("res://src/game/SourceNodeBindingRuntimeState.gd")', source)
+        self.assertIn("SourceNodeBindingRuntimeState.bind_nodes(self)", source)
+        self.assertIn("class_name SourceNodeBindingRuntimeState", binding_source)
+        self.assertIn("static func bind_nodes(game: Node) -> void:", binding_source)
+        self.assertIn("SourceUiDefaults.CAMERA_NODE_PATH", binding_source)
+        self.assertIn("SourceUiDefaults.HUD_NODE_PATH", binding_source)
+        self.assertIn("SourceUiDefaults.HUD_LABEL_POSITION", binding_source)
+        self.assertIn('const CAMERA_NODE_PATH := "Camera2D"', ui_source)
+        self.assertIn('const HUD_NODE_PATH := "UI/Hud"', ui_source)
+        self.assertIn("const HUD_LABEL_POSITION := Vector2(16, 16)", ui_source)
+        self.assertIn("NODE_BINDING_RUNTIME_MODULE_PROOF", proof_source)
+        self.assertIn("SourceNodeBindingRuntimeState.bind_nodes(game)", proof_source)
+        self.assertIn('"camera_bound"', proof_source)
+        self.assertIn('"hud_label_bound"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
+        self.assertNotIn('get_node_or_null("Camera2D")', source)
+        self.assertNotIn('get_node_or_null("UI/Hud")', source)
+        self.assertNotIn("Label.new()", source)
+        self.assertNotIn("Vector2(16, 16)", source)
+
+    def test_port_game_ssot_accessors_use_canonical_runtime_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        ssot_access = ROOT / "godot-mindustry" / "src" / "game" / "SourceSsotAccessorRuntimeState.gd"
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "SsotAccessorRuntimeModuleProof.gd"
+        source = port_game.read_text(encoding="utf-8")
+        access_source = ssot_access.read_text(encoding="utf-8") if ssot_access.exists() else ""
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
+
+        self.assertTrue(ssot_access.exists(), "SourceSsotAccessorRuntimeState.gd must own PortGame SSOT accessor wiring")
+        self.assertTrue(proof.exists(), "SsotAccessorRuntimeModuleProof.gd must prove PortGame SSOT accessor wiring")
+        self.assertIn('const SourceSsotAccessorRuntimeState := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")', source)
+        self.assertIn("class_name SourceSsotAccessorRuntimeState", access_source)
+        self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', access_source)
+        self.assertIn("return SourceSsotAccessorRuntimeState.source_symbol_registry_state(symbol)", source)
+        self.assertIn("return SourceSsotAccessorRuntimeState.asset_manifest_state()", source)
+        self.assertIn("return SourceSsotAccessorRuntimeState.content_registry_state()", source)
+        self.assertIn("return SourceSsotAccessorRuntimeState.port_report_state()", source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("registry", symbol)', access_source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")', access_source)
+        self.assertIn('return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])', access_source)
+        self.assertIn('return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])', access_source)
+        self.assertNotIn('SourceSsotAccessorRuntimeState.lookup_state("', source)
+        self.assertNotIn('SourceSsotAccessorRuntimeState.manifest_summary_state("', source)
+        self.assertNotIn('SourceSsotAccessorRuntimeState.collection_summary_state("', source)
+        self.assertNotIn('SourceSsotAccessorRuntimeState.array_summary_state("', source)
+        self.assertNotIn("SourceSsotCatalog.lookup_state(", source)
+        self.assertNotIn("SourceSsotCatalog.manifest_summary_state(", source)
+        self.assertNotIn("SourceSsotCatalog.collection_summary_state(", source)
+        self.assertNotIn("SourceSsotCatalog.array_summary_state(", source)
+        self.assertIn("SSOT_ACCESSOR_RUNTIME_MODULE_PROOF", proof_source)
+        self.assertIn("game.source_symbol_registry_state", proof_source)
+        self.assertIn("SourceSsotAccessorRuntimeState.source_symbol_registry_state", proof_source)
+        self.assertIn('"source_matches_module"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+        self.assertIn('"registry_valid"', proof_source)
 
     def test_port_game_base_turret_set_stats_uses_source_tick_rate_constant(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -619,28 +764,54 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_hud_reads_generated_class_registry(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
+        bootstrap = ROOT / "godot-mindustry" / "src" / "game" / "SourceContentRegistryRuntimeState.gd"
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "ContentRegistryRuntimeModuleProof.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        bootstrap_source = bootstrap.read_text(encoding="utf-8") if bootstrap.exists() else ""
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
 
-        self.assertIn('preload("res://src/generated/GeneratedClassRegistry.gd")', source)
-        self.assertIn("generated_class_count = GeneratedClassRegistry.count()", source)
-        self.assertIn("Generated Java classes: %d", source)
+        self.assertTrue(bootstrap.exists(), "SourceContentRegistryRuntimeState.gd must own content/generated bootstrap wiring")
+        self.assertTrue(proof.exists(), "ContentRegistryRuntimeModuleProof.gd must prove bootstrap wiring")
+        self.assertIn('const SourceContentRegistryRuntimeState := preload("res://src/game/SourceContentRegistryRuntimeState.gd")', source)
+        self.assertIn("CONTENT_REGISTRY_RUNTIME_MODULE_PROOF", proof_source)
+        self.assertIn('preload("res://src/generated/GeneratedClassRegistry.gd")', bootstrap_source)
+        self.assertIn("game.set(\"generated_class_count\", GeneratedClassRegistry.count())", bootstrap_source)
+        self.assertNotIn("generated_class_count = GeneratedClassRegistry.count()", source)
+        self.assertIn("Generated Java classes: %d", helper_source)
+        self.assertNotIn("Generated Java classes: %d", source)
 
     def test_port_game_loads_selected_generated_scripts_from_registry(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         scenario_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlayableScenarioDefaults.gd"
+        runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceGeneratedClassRuntime.gd"
+        bootstrap = ROOT / "godot-mindustry" / "src" / "game" / "SourceContentRegistryRuntimeState.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         scenario_source = scenario_defaults.read_text(encoding="utf-8")
+        runtime_source = runtime.read_text(encoding="utf-8") if runtime.exists() else ""
+        bootstrap_source = bootstrap.read_text(encoding="utf-8") if bootstrap.exists() else ""
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
 
         self.assertIn("static func selected_generated_class_names() -> Array[String]:", scenario_source)
         self.assertIn('"Items"', scenario_source)
         self.assertIn('"Blocks"', scenario_source)
         self.assertIn('"UnitTypes"', scenario_source)
         self.assertIn('"Damage"', scenario_source)
-        self.assertIn("for java_name in SourcePlayableScenarioDefaults.selected_generated_class_names():", source)
+        self.assertIn("SourceContentRegistryRuntimeState.load_selected_generated_scripts(self)", source)
+        self.assertNotIn("var selected_state := SourceGeneratedClassRuntime.load_selected_classes(SourcePlayableScenarioDefaults.selected_generated_class_names(), GeneratedClassRegistry.all_classes())", source)
+        self.assertIn("var selected_state := SourceGeneratedClassRuntime.load_selected_classes(SourcePlayableScenarioDefaults.selected_generated_class_names(), GeneratedClassRegistry.all_classes())", bootstrap_source)
         self.assertNotIn("const SELECTED_GENERATED_CLASS_NAMES", source)
-        self.assertIn("ResourceLoader.load(str(entry.get(\"gdscript_path\", \"\")))", source)
-        self.assertIn("loaded_generated_class_names.append(java_name)", source)
-        self.assertIn("Loaded generated scripts: %d (%s)", source)
+        self.assertNotIn("ResourceLoader.load(str(entry.get(\"gdscript_path\", \"\")))", source)
+        self.assertIn("static func load_selected_classes(selected_java_names: Array[String], entries: Array) -> Dictionary:", runtime_source)
+        self.assertIn("ResourceLoader.load(str(entry.get(\"gdscript_path\", \"\")))", runtime_source)
+        self.assertIn("var entry: Dictionary = registry_by_java_name.get(java_name, {})", runtime_source)
+        self.assertNotIn("var entry := registry_by_java_name.get(java_name, {})", runtime_source)
+        self.assertNotIn("loaded_generated_class_names.assign(selected_state.get(\"class_names\", []))", source)
+        self.assertIn("loaded_generated_class_names.assign(selected_state.get(\"class_names\", []))", bootstrap_source)
+        self.assertIn("Loaded generated scripts: %d (%s)", helper_source)
+        self.assertNotIn("Loaded generated scripts: %d (%s)", source)
 
     def test_port_game_exposes_runtime_summary_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -1021,7 +1192,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func power_graph_role_for_block(block) -> Dictionary:", source)
         self.assertIn("return SourceBuildingPowerState.block_power_role_state(block)", source)
         self.assertNotIn('var has_cons_power: bool = block.properties.has("powerUsage") or block.properties.has("consumePower") or block.properties.has("powerBuffered") or block.properties.has("consumePowerBuffered")', source)
+        placed_power_graph = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerGraphState.gd"
+        self.assertTrue(placed_power_graph.exists(), "SourcePlacedPowerGraphState.gd helper must own placed power graph aggregation")
+        placed_power_graph_source = placed_power_graph.read_text(encoding="utf-8")
         self.assertIn("func placed_power_graph_role_counts() -> Dictionary:", source)
+        self.assertIn("return SourcePlacedPowerGraphState.role_counts_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"))", source)
+        self.assertIn("func placed_power_needed_state() -> Dictionary:", source)
+        self.assertIn("return SourcePlacedPowerGraphState.needed_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"), SourceTimeDefaults.TICK_RATE)", source)
+        self.assertIn("func placed_power_produced_state() -> Dictionary:", source)
+        self.assertIn("return SourcePlacedPowerGraphState.produced_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"), SourceTimeDefaults.TICK_RATE)", source)
+        self.assertIn("func placed_power_battery_state() -> Dictionary:", source)
+        self.assertIn("return SourcePlacedPowerGraphState.battery_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"))", source)
+        self.assertIn("func placed_power_runtime_state() -> Dictionary:", source)
+        self.assertIn("return SourcePlacedPowerGraphState.runtime_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"), SourceTimeDefaults.TICK_RATE)", source)
+        self.assertNotIn('var counts := {"all": 0, "producers": 0, "consumers": 0, "batteries": 0}', source)
+        self.assertIn("static func role_counts_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable) -> Dictionary:", placed_power_graph_source)
+        self.assertIn("static func needed_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:", placed_power_graph_source)
+        self.assertIn("static func produced_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:", placed_power_graph_source)
+        self.assertIn("static func battery_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable) -> Dictionary:", placed_power_graph_source)
+        self.assertIn("static func runtime_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:", placed_power_graph_source)
+        manifest_source = (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8")
+        self.assertIn('"placed_power_graph": {', manifest_source)
+        self.assertIn('"path": "src/generated/source_modules/placed_power_graph.json"', manifest_source)
+        self.assertIn('"status": "active"', manifest_source)
         self.assertIn('"placed_power_graph_roles": game.call("placed_power_graph_role_counts")', self._runtime_summary_source())
 
     def test_port_game_exposes_source_power_graph_power_needed_state_for_mcp(self):
@@ -1056,14 +1249,12 @@ class PlayableManifestTests(unittest.TestCase):
         proof_body = source.split("func placed_power_runtime_state() -> Dictionary:", 1)[1].split("func place_selected_block_at_mouse() -> void:", 1)[0]
         runtime_summary_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceGameRuntimeSummaryState.gd").read_text(encoding="utf-8")
 
-        self.assertIn("var roles := placed_power_graph_role_counts()", proof_body)
-        self.assertIn("var needed := placed_power_needed_state()", proof_body)
-        self.assertIn("var produced := placed_power_produced_state()", proof_body)
-        self.assertIn("var battery := placed_power_battery_state()", proof_body)
-        self.assertIn('"producer_count": int(roles.get("producers", 0))', proof_body)
-        self.assertIn('"consumer_count": int(roles.get("consumers", 0))', proof_body)
-        self.assertIn('"power_needed": float(needed.get("power_needed", 0.0))', proof_body)
-        self.assertIn('"power_produced": float(produced.get("power_produced", 0.0))', proof_body)
+        self.assertIn('const SourcePlacedPowerGraphState := preload("res://src/game/SourcePlacedPowerGraphState.gd")', source)
+        self.assertIn("return SourcePlacedPowerGraphState.runtime_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"), SourceTimeDefaults.TICK_RATE)", proof_body)
+        self.assertNotIn("var roles := placed_power_graph_role_counts()", proof_body)
+        self.assertNotIn("var needed := placed_power_needed_state()", proof_body)
+        self.assertNotIn("var produced := placed_power_produced_state()", proof_body)
+        self.assertNotIn("var battery := placed_power_battery_state()", proof_body)
         self.assertIn('"placed_power_runtime": game.call("placed_power_runtime_state")', runtime_summary_source)
 
     def test_source_power_graph_default_requested_power_callback_has_runtime_proof(self):
@@ -3989,16 +4180,26 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_instantiates_selected_generated_scripts(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceGeneratedClassRuntime.gd"
+        bootstrap = ROOT / "godot-mindustry" / "src" / "game" / "SourceContentRegistryRuntimeState.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime.read_text(encoding="utf-8") if runtime.exists() else ""
+        bootstrap_source = bootstrap.read_text(encoding="utf-8") if bootstrap.exists() else ""
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         summary_source = self._runtime_summary_source()
 
         self.assertIn("var loaded_generated_instances: Dictionary = {}", source)
         self.assertIn("var loaded_generated_instance_names: Array[String] = []", source)
-        self.assertIn("var instance = script.new()", source)
-        self.assertIn("loaded_generated_instances[java_name] = instance", source)
-        self.assertIn("loaded_generated_instance_names.append(java_name)", source)
+        self.assertIn("var instance = script.new()", runtime_source)
+        self.assertNotIn("loaded_generated_instances = selected_state.get(\"instances\", {})", source)
+        self.assertNotIn("loaded_generated_instance_names.assign(selected_state.get(\"instance_names\", []))", source)
+        self.assertIn("game.set(\"loaded_generated_instances\", selected_state.get(\"instances\", {}))", bootstrap_source)
+        self.assertIn("loaded_generated_instance_names.assign(selected_state.get(\"instance_names\", []))", bootstrap_source)
+        self.assertNotIn("loaded_generated_instances[java_name] = instance", source)
         self.assertIn('"loaded_generated_instance_names": loaded_generated_instance_names.duplicate()', summary_source)
-        self.assertIn("Instanced generated scripts: %d (%s)", source)
+        self.assertIn("Instanced generated scripts: %d (%s)", helper_source)
+        self.assertNotIn("Instanced generated scripts: %d (%s)", source)
 
     def test_port_game_routes_mouse_event_position_to_placement(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4008,13 +4209,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var click_world_state := source_input_viewport_screen_to_world_state(event.position)", source)
         self.assertIn("place_selected_block_at_world(Vector2(float(click_world_state.get(\"x\", event.position.x)), float(click_world_state.get(\"y\", event.position.y))))", source)
         self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> bool:", source)
-        self.assertIn("var cell := world_to_grid(world_pos)", source)
+        self.assertIn("SourceBlockPlacement.place_selected_block_at_world(self, world_pos, SourcePlayableScenarioDefaults.WORLD_SIZE)", source)
+        placement_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8")
+        self.assertIn('var cell: Vector2i = game.call("world_to_grid", world_pos)', placement_source)
         self.assertIn('"placed_block_count": placed_block_origins.size()', summary_source)
         self.assertIn('"selected_build_index": selected_build_index', summary_source)
 
     def test_port_game_instantiates_all_generated_scripts_from_registry(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceGeneratedClassRuntime.gd"
+        bootstrap = ROOT / "godot-mindustry" / "src" / "game" / "SourceContentRegistryRuntimeState.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime.read_text(encoding="utf-8") if runtime.exists() else ""
+        bootstrap_source = bootstrap.read_text(encoding="utf-8") if bootstrap.exists() else ""
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         summary_source = self._runtime_summary_source()
 
         self.assertIn("var all_generated_scripts: Dictionary = {}", source)
@@ -4022,20 +4231,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var all_generated_load_failures: Array[String] = []", source)
         self.assertIn("var all_generated_instance_failures: Array[String] = []", source)
         self.assertIn("func load_all_generated_scripts() -> void:", source)
-        self.assertIn("for entry in GeneratedClassRegistry.all_classes():", source)
-        self.assertIn('var java_key := "%s.%s" % [str(entry.get("java_package", "")), str(entry.get("java_name", ""))]', source)
-        self.assertIn("all_generated_scripts[java_key] = script", source)
-        self.assertIn("all_generated_instances[java_key] = instance", source)
+        self.assertIn("SourceContentRegistryRuntimeState.load_all_generated_scripts(self)", source)
+        self.assertNotIn("var generated_state := SourceGeneratedClassRuntime.load_all_classes(GeneratedClassRegistry.all_classes())", source)
+        self.assertIn("var generated_state := SourceGeneratedClassRuntime.load_all_classes(GeneratedClassRegistry.all_classes())", bootstrap_source)
+        self.assertIn("static func load_all_classes(entries: Array) -> Dictionary:", runtime_source)
+        self.assertIn('static func java_key_for_entry(entry: Dictionary) -> String:', runtime_source)
+        self.assertNotIn("for entry in GeneratedClassRegistry.all_classes():", source)
+        self.assertNotIn("all_generated_scripts[java_key] = script", source)
+        self.assertNotIn("all_generated_instances[java_key] = instance", source)
         self.assertIn('"all_generated_script_count": all_generated_scripts.size()', summary_source)
         self.assertIn('"all_generated_instance_count": all_generated_instances.size()', summary_source)
-        self.assertIn("All generated script instances: %d / %d", source)
+        self.assertIn("All generated script instances: %d / %d", helper_source)
+        self.assertNotIn("All generated script instances: %d / %d", source)
 
     def test_port_game_build_palette_uses_all_textured_blocks(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         scenario_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlayableScenarioDefaults.gd"
+        selection_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildSelectionRuntimeState.gd"
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildSelectionModuleProof.gd"
         summary_source = self._runtime_summary_source()
         source = port_game.read_text(encoding="utf-8")
         scenario_source = scenario_defaults.read_text(encoding="utf-8")
+        selection_source = selection_runtime.read_text(encoding="utf-8") if selection_runtime.exists() else ""
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
 
         self.assertIn("static func pinned_build_block_ids() -> Array[String]:", scenario_source)
         self.assertIn("BLOCK_CONVEYOR", scenario_source)
@@ -4044,26 +4262,40 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("BLOCK_MECHANICAL_DRILL", scenario_source)
         self.assertIn("BLOCK_DUO", scenario_source)
         self.assertIn("BLOCK_COPPER_WALL", scenario_source)
-        self.assertIn("for block_id in SourcePlayableScenarioDefaults.pinned_build_block_ids():", source)
+        self.assertTrue(selection_runtime.exists(), "SourceBuildSelectionRuntimeState.gd must own runtime build palette orchestration")
+        self.assertTrue(proof.exists(), "BuildSelectionModuleProof.gd must prove build selection runtime helper")
+        self.assertIn('const SourceBuildSelectionRuntimeState := preload("res://src/game/SourceBuildSelectionRuntimeState.gd")', source)
+        self.assertIn("BUILD_SELECTION_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_build_block_by_id", proof_source)
+        self.assertIn("SourceBuildSelectionRuntimeState.build_block_palette(self)", source)
+        self.assertIn("for block_id in SourcePlayableScenarioDefaults.pinned_build_block_ids():", selection_source)
         self.assertNotIn("const PINNED_BUILD_BLOCK_IDS", source)
-        self.assertIn('for block in content_catalog.get_many("block"):', source)
-        self.assertIn("if block.has_texture() and not build_palette.has(block):", source)
+        self.assertNotIn('for block in content_catalog.get_many("block"):', source)
+        self.assertIn('for block in content_catalog.get_many("block"):', selection_source)
+        self.assertIn("if block.has_texture() and not build_palette.has(block):", selection_source)
         self.assertIn("func select_next_build_slot() -> void:", source)
         self.assertIn("func select_previous_build_slot() -> void:", source)
-        self.assertIn("selected_build_index = (selected_build_index + 1) % build_palette.size()", source)
-        self.assertIn("selected_build_index = (selected_build_index - 1 + build_palette.size()) % build_palette.size()", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_next_build_slot(self)", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_previous_build_slot(self)", source)
+        self.assertNotIn("selected_build_index = (selected_build_index + 1) % build_palette.size()", source)
+        self.assertIn('game.set("selected_build_index", (int(game.get("selected_build_index")) + 1) % build_palette.size())', selection_source)
+        self.assertIn('game.set("selected_build_index", (int(game.get("selected_build_index")) - 1 + build_palette.size()) % build_palette.size())', selection_source)
         self.assertIn('"selected_build_id": _selected_build_id(selected)', summary_source)
 
     def test_port_game_selects_build_block_by_id_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        selection_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildSelectionRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        selection_source = selection_runtime.read_text(encoding="utf-8") if selection_runtime.exists() else ""
 
         self.assertIn("func select_build_block_by_id(block_id: String) -> bool:", source)
-        self.assertIn("for index in build_palette.size():", source)
-        self.assertIn("if build_palette[index].id == block_id:", source)
-        self.assertIn("selected_build_index = index", source)
-        self.assertIn("return true", source)
-        self.assertIn("return false", source)
+        self.assertIn("return SourceBuildSelectionRuntimeState.select_build_block_by_id(self, block_id)", source)
+        self.assertNotIn("for index in build_palette.size():", source)
+        self.assertIn("for index in build_palette.size():", selection_source)
+        self.assertIn("if build_palette[index].id == block_id:", selection_source)
+        self.assertIn('game.set("selected_build_index", index)', selection_source)
+        self.assertIn("return true", selection_source)
+        self.assertIn("return false", selection_source)
 
     def test_port_game_uses_source_block_size_for_placement(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4090,7 +4322,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func configure_block_sprite(sprite: Sprite2D, block, cell: Vector2i) -> void:", source)
         self.assertIn("sprite.position = source_block_sprite_base_position(block, cell)", source)
         self.assertIn("sprite.scale = SourceBlockGeometry.block_sprite_scale(size, block_size(block), tile_size)", source)
-        self.assertIn("configure_block_sprite(sprite, block, cell)", source)
+        self.assertIn('game.call("configure_block_sprite", sprite, block, cell)', (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8"))
         self.assertIn('"last_placed_block_id": str(game.get("last_placed_block_id"))', summary_source)
         self.assertIn('"last_placed_block_size": int(game.get("last_placed_block_size"))', summary_source)
         self.assertIn('"last_placed_cell": _vector_dict(last_placed_cell)', summary_source)
@@ -4106,9 +4338,18 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_tracks_source_block_footprint_occupancy(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         placed_block_state = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedBlockState.gd"
+        block_placement_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd"
+        ssot_manifest = ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json"
+        block_placement_manifest = ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "block_placement.json"
+        placement_proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockPlacementModuleProof.gd"
+        placement_proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BlockPlacementModuleProof.tscn"
         runtime_summary = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameRuntimeSummaryState.gd"
         source = port_game.read_text(encoding="utf-8")
-        helper_source = placed_block_state.read_text(encoding="utf-8")
+        placed_block_source = placed_block_state.read_text(encoding="utf-8")
+        placement_source = block_placement_state.read_text(encoding="utf-8")
+        ssot_manifest_source = ssot_manifest.read_text(encoding="utf-8")
+        block_placement_manifest_source = block_placement_manifest.read_text(encoding="utf-8") if block_placement_manifest.exists() else ""
+        placement_proof_source = placement_proof.read_text(encoding="utf-8") if placement_proof.exists() else ""
         summary_source = runtime_summary.read_text(encoding="utf-8")
 
         self.assertIn("var placed_block_origins: Dictionary = {}", source)
@@ -4122,19 +4363,51 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func record_placed_block(sprite: Sprite2D, block, cell: Vector2i) -> void:", source)
         self.assertIn("var cell_keys: Array[String] = SourceBlockPlacement.record_cells(placed_block_origins, placed_blocks, cell, occupied_cells(cell, block), sprite)", source)
         self.assertIn("SourcePlacedBlockState.initialize_sprite(sprite, block, cell, cell_keys, SourceBlockMetadataState.SOURCE_BLOCK_HEALTH_DEFAULT, SourceBlockDefaults.TIME_SCALE_DEFAULT)", source)
-        self.assertIn("sprite.set_meta(\"occupied_cells\", occupied_cell_keys)", helper_source)
-        self.assertIn("sprite.set_meta(\"origin_cell\", cell)", helper_source)
+        self.assertIn("sprite.set_meta(\"occupied_cells\", occupied_cell_keys)", placed_block_source)
+        self.assertIn("sprite.set_meta(\"origin_cell\", cell)", placed_block_source)
+        self.assertIn("static func selected_block_placement_state(block, cell: Vector2i, placed_blocks: Dictionary, world_size: Vector2i, can_afford_result: bool) -> Dictionary:", placement_source)
+        self.assertIn("static func place_selected_block_at_world(game: Object, world_pos: Vector2, world_size: Vector2i) -> bool:", placement_source)
+        self.assertIn("SourceBlockPlacement.place_selected_block_at_world(self, world_pos, SourcePlayableScenarioDefaults.WORLD_SIZE)", source)
+        self.assertIn("var placement_state := selected_block_placement_state(block, cell, placed_blocks, world_size, can_afford_result)", placement_source)
         self.assertIn("func place_selected_block_at_world(world_pos: Vector2) -> bool:", source)
-        self.assertIn("if not can_place_block_at_cell(block, cell):", source)
-        self.assertIn("last_place_blocked = true", source)
-        self.assertIn("return false", source)
-        self.assertIn("last_place_blocked = false", source)
-        self.assertIn("last_placed_occupied_cell_count = SourceBlockFootprint.occupied_cell_count(block_size(block))", source)
-        self.assertIn("record_placed_block(sprite, block, cell)", source)
+        self.assertNotIn("if not can_place_block_at_cell(block, cell):", source)
+        self.assertNotIn("if not can_afford(block):", source)
+        self.assertIn("if not bool(placement_state.get(\"can_place\", false)):", placement_source)
+        self.assertIn("if not bool(placement_state.get(\"can_afford\", false)):", placement_source)
+        self.assertIn('var blocks: Node = game.get_node("World/BlockLayer")', placement_source)
+        self.assertIn('"block_placement": {', ssot_manifest_source)
+        self.assertIn('"path": "src/generated/source_modules/block_placement.json"', ssot_manifest_source)
+        self.assertIn('"status": "active"', block_placement_manifest_source)
+        self.assertIn('"rule": "Canonical registry shard for block placement state; runtime code must route selected-block placement state through SourceBlockPlacement instead of duplicating placement guards in PortGame."', block_placement_manifest_source)
+        self.assertTrue(placement_proof.exists(), "BlockPlacementModuleProof.gd must prove block placement state with the canonical headquarter registry")
+        self.assertTrue(placement_proof_scene.exists(), "BlockPlacementModuleProof.tscn must exist for runtime proof")
+        self.assertIn("SourceBlockPlacement.selected_block_placement_state", placement_proof_source)
+        self.assertIn("SourceBlockPlacement.place_selected_block_at_world", placement_proof_source)
+        self.assertIn("SourceBlockPlacement.add_source_block", placement_proof_source)
+        self.assertIn('SourceSsotCatalog.canonical_headquarter_lookup_state("block placement")', placement_proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", placement_proof_source)
+        self.assertIn('"placement_execution_matches"', placement_proof_source)
+        self.assertIn('"add_source_block_matches"', placement_proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', placement_proof_source)
+        self.assertIn('"registry_valid"', placement_proof_source)
+        self.assertIn('game.set("last_placed_occupied_cell_count", SourceBlockFootprint.occupied_cell_count(SourceBlockMetadataState.block_size(block)))', placement_source)
+        self.assertIn('game.call("record_placed_block", sprite, block, cell)', placement_source)
         self.assertIn('"placed_block_count": placed_block_origins.size()', summary_source)
         self.assertIn('"occupied_cell_count": placed_blocks.size()', summary_source)
         self.assertIn('"last_placed_occupied_cell_count": int(game.get("last_placed_occupied_cell_count"))', summary_source)
         self.assertIn('"last_place_blocked": bool(game.get("last_place_blocked"))', summary_source)
+
+    def test_source_block_placement_owns_place_selected_block_orchestration(self):
+        source = self._port_game_factory_runtime_source()
+        placement_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8")
+        placement_body = source.split("func place_selected_block_at_world(world_pos: Vector2) -> bool:", 1)[1].split("func add_source_block", 1)[0]
+
+        self.assertIn("static func place_selected_block_at_world(game: Object, world_pos: Vector2, world_size: Vector2i) -> bool:", placement_source)
+        self.assertIn("SourceBlockPlacement.place_selected_block_at_world(self, world_pos, SourcePlayableScenarioDefaults.WORLD_SIZE)", placement_body)
+        self.assertNotIn("var placement_state := SourceBlockPlacement.selected_block_placement_state(block, cell, placed_blocks, SourcePlayableScenarioDefaults.WORLD_SIZE, can_afford(block))", placement_body)
+        self.assertNotIn("spend_requirements(block)", placement_body)
+        self.assertNotIn("player_placed_block_count += 1", placement_body)
+        self.assertNotIn("last_placed_block_requirements = SourceBlockRequirementsState.block_requirements(block)", placement_body)
 
     def test_port_game_records_initial_source_world_occupancy(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4152,6 +4425,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('add_sprite(blocks, "core_shard", grid_to_world(core_pos))', port_source)
         self.assertIn("SourceWorldInitialBuildRuntimeState.build_world(self)", build_world_body)
         self.assertIn("static func build_world(game) -> void:", source)
+        self.assertIn('var terrain = game.get_node("World/TerrainLayer")', module_build_world_body)
+        self.assertIn('var blocks = game.get_node("World/BlockLayer")', module_build_world_body)
+        self.assertIn('var units = game.get_node("World/UnitLayer")', module_build_world_body)
         self.assertIn('var initial_build_state: Dictionary = game.call("source_world_initial_build_runtime_state")', module_build_world_body)
         self.assertIn("for block_placement in initial_build_state.get(\"block_placements\", []):", module_build_world_body)
         self.assertIn('game.call("add_source_block", blocks, str(block_placement.get("key", "")), Vector2i(int(block_placement.get("cell", {}).get("x", 0)), int(block_placement.get("cell", {}).get("y", 0))))', module_build_world_body)
@@ -4265,15 +4541,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("sprite.visible = bool(item_sprite_state.get(\"visible\", false))", module_build_world_body)
         self.assertNotIn("for i in 3:", build_world_body)
         self.assertNotIn('add_sprite(units, "item", path_points[0])', build_world_body)
-        self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
-        self.assertIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertNotIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertNotIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
         self.assertIn('"item_transport_runtime_state": Callable(game, item_transport_runtime_state_method)', factory_runtime_source)
         self.assertIn('var transport_progress_delta := float(conveyor_progress_delta_for_cell_fn.call(conveyor_cell.x, conveyor_cell.y, seconds))', source)
         self.assertIn("var transport_state: Dictionary = item_transport_runtime_state_fn.call(transport_progress_before, transport_progress_delta)", source)
-        self.assertIn('for item_sprite_state in apply_state.get("item_sprites", []):', simulate_factory_body)
-        self.assertIn("var item_index := int(item_sprite_state.get(\"index\", -1))", simulate_factory_body)
-        self.assertIn("item_sprites[item_index].position = Vector2(float(item_sprite_state.get(\"x\", item_sprites[item_index].position.x)), float(item_sprite_state.get(\"y\", item_sprites[item_index].position.y)))", simulate_factory_body)
-        self.assertIn("item_sprites[item_index].visible = bool(item_sprite_state.get(\"visible\", item_sprites[item_index].visible))", simulate_factory_body)
+        self.assertNotIn('for item_sprite_state in apply_state.get("item_sprites", []):', simulate_factory_body)
+        self.assertNotIn("var item_index := int(item_sprite_state.get(\"index\", -1))", simulate_factory_body)
+        self.assertNotIn("item_sprites[item_index].position = Vector2(float(item_sprite_state.get(\"x\", item_sprites[item_index].position.x)), float(item_sprite_state.get(\"y\", item_sprites[item_index].position.y)))", simulate_factory_body)
+        self.assertNotIn("item_sprites[item_index].visible = bool(item_sprite_state.get(\"visible\", item_sprites[item_index].visible))", simulate_factory_body)
         self.assertNotIn("var phase := fmod(transport_progress + float(i) / float(item_sprites.size()), 1.0)", simulate_factory_body)
         self.assertNotIn("path_points[idx].lerp(path_points[next_idx], local_t)", simulate_factory_body)
 
@@ -4369,12 +4647,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn('Callable(self, "source_drill_output_batch")', production_body)
         self.assertNotIn('Callable(self, "source_drill_progress_fraction")', production_body)
         self.assertIn('"production_state": Callable(game, production_state_method)', self._port_game_drill_runtime_source())
-        self.assertIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
-        self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertIn('var factory_state: Dictionary = game.call("source_factory_simulation_runtime_state", delta)', factory_runtime_source)
+        self.assertIn('var apply_state: Dictionary = game.call("source_factory_simulation_apply_state", factory_state)', factory_runtime_source)
         self.assertIn('"drill_runtime_state": Callable(game, drill_runtime_state_method)', factory_runtime_source)
-        self.assertIn('item_progress = float(apply_state.get("item_progress", item_progress))', simulate_factory_body)
-        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', simulate_factory_body)
-        self.assertIn('produced_total = int(apply_state.get("produced_total", produced_total))', simulate_factory_body)
+        self.assertIn('game.set("item_progress", float(apply_state.get("item_progress", game.get("item_progress"))))', factory_runtime_source)
+        self.assertIn('game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get("offload_amount", 0)))', factory_runtime_source)
+        self.assertIn('game.set("produced_total", int(apply_state.get("produced_total", game.get("produced_total"))))', factory_runtime_source)
+        self.assertNotIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
         self.assertNotIn("var production_state := source_drill_production_runtime_state", simulate_factory_body)
         self.assertNotIn("var raw_progress := item_progress * drill_delay", simulate_factory_body)
         self.assertNotIn("var output_batch := source_drill_output_batch", simulate_factory_body)
@@ -4427,15 +4708,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceDrillRuntimeState.runtime_state(SourceDrillRuntimeState.runtime_context(self, seconds, drill_pos, SourcePlayableScenarioDefaults.BLOCK_MECHANICAL_DRILL, drill_output_item_id, drill_ore_cell_count, SourceTimeDefaults.TICK_RATE), SourceDrillRuntimeState.runtime_callbacks(self))", drill_body)
         self.assertNotIn("var drill_context := {", drill_body)
         self.assertNotIn('"warmup_speed": Callable(self, "source_drill_warmup_speed")', drill_body)
-        self.assertIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
-        self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertIn('var factory_state: Dictionary = game.call("source_factory_simulation_runtime_state", delta)', factory_runtime_source)
+        self.assertIn('var apply_state: Dictionary = game.call("source_factory_simulation_apply_state", factory_state)', factory_runtime_source)
         self.assertIn('"drill_runtime_state": Callable(game, drill_runtime_state_method)', factory_runtime_source)
-        self.assertIn('set_drill_time_drilled_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_time_drilled", drill_time_drilled_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_last_speed", drill_last_speed_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_warmup", drill_warmup_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('item_progress = float(apply_state.get("item_progress", item_progress))', simulate_factory_body)
-        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', simulate_factory_body)
-        self.assertIn('produced_total = int(apply_state.get("produced_total", produced_total))', simulate_factory_body)
+        self.assertIn('game.call("set_drill_time_drilled_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_time_drilled", game.call("drill_time_drilled_at_cell", drill_cell.x, drill_cell.y))))', factory_runtime_source)
+        self.assertIn('game.call("set_drill_last_speed_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_last_speed", game.call("drill_last_speed_at_cell", drill_cell.x, drill_cell.y))))', factory_runtime_source)
+        self.assertIn('game.call("set_drill_warmup_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_warmup", game.call("drill_warmup_at_cell", drill_cell.x, drill_cell.y))))', factory_runtime_source)
+        self.assertIn('game.set("item_progress", float(apply_state.get("item_progress", game.get("item_progress"))))', factory_runtime_source)
+        self.assertIn('game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get("offload_amount", 0)))', factory_runtime_source)
+        self.assertIn('game.set("produced_total", int(apply_state.get("produced_total", game.get("produced_total"))))', factory_runtime_source)
+        self.assertNotIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
         self.assertNotIn("if drill_output_rate > 0.0:", simulate_factory_body)
         self.assertNotIn("else:\n\t\tset_drill_last_speed_at_cell", simulate_factory_body)
         self.assertNotIn("var production_state := source_drill_production_runtime_state", simulate_factory_body)
@@ -4465,6 +4749,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_uses_all_source_requirement_items(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = self._port_game_core_inventory_runtime_source()
+        factory_runtime_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceFactoryRuntimeState.gd").read_text(encoding="utf-8")
         summary_source = self._runtime_summary_source()
 
         self.assertIn("var core_items: Dictionary = {}", source)
@@ -4495,7 +4780,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("for requirement in block.properties.get(\"requirements\", []):", spend_body)
         self.assertIn('set_core_item_count(str(spend_call.get("item_id", "")), int(spend_call.get("next_amount", 0)))', spend_body)
         self.assertNotIn('requirement.get("item", "") == "copper"', source)
-        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', source)
+        self.assertIn('game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get("offload_amount", 0)))', factory_runtime_source)
         self.assertIn('"core_items": core_items.duplicate()', summary_source)
 
     def test_port_game_delegates_player_requirement_cost_to_requirements_module(self):
@@ -4553,13 +4838,34 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_uses_source_playable_core_item_name(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         hud_body = source.split("func update_hud() -> void:", 1)[1]
 
         self.assertIn("func playable_core_item_name() -> String:", source)
         self.assertIn("return core_item.display_name() if core_item else SourcePlayableScenarioDefaults.ITEM_COPPER.capitalize()", source)
-        self.assertIn("var core_item_name := playable_core_item_name()", hud_body)
+        self.assertIn('str(game.call("playable_core_item_name"))', helper_source)
+        self.assertNotIn("var core_item_name := playable_core_item_name()", hud_body)
         self.assertNotIn('"Copper"', source)
+
+    def test_port_game_delegates_hud_text_to_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceHudRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        hud_body = source.split("func update_hud() -> void:", 1)[1]
+
+        self.assertIn('const SourceHudRuntimeState := preload("res://src/game/SourceHudRuntimeState.gd")', source)
+        self.assertIn("class_name SourceHudRuntimeState", helper_source)
+        self.assertIn("static func hud_text_state(game: Object, requirements_text_fn: Callable) -> Dictionary:", helper_source)
+        self.assertIn("static func hud_text(game: Object, requirements_text_fn: Callable) -> String:", helper_source)
+        self.assertIn('const SourceSelectedBuildState := preload("res://src/game/SourceSelectedBuildState.gd")', helper_source)
+        self.assertIn('SourceSelectedBuildState.selected_build(_array_field(game, "build_palette"), int(game.get("selected_build_index")))', helper_source)
+        self.assertIn('const SOURCE_HUD_TITLE := "Mindustry Godot slice"', helper_source)
+        self.assertIn('const SOURCE_HUD_CONTROL_HINT := "WASD move camera, mouse wheel zoom"', helper_source)
+        self.assertIn('hud_label.text = SourceHudRuntimeState.hud_text(self, Callable(self, "requirements_text"))', hud_body)
+        self.assertNotIn('hud_label.text = "Mindustry Godot slice\\nLoaded content objects:', hud_body)
 
     def test_port_game_exposes_player_placement_cost_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -4570,9 +4876,13 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("var player_placed_block_count := 0", source)
         self.assertIn("var last_placed_block_requirements: Array = []", source)
-        self.assertIn("last_placed_block_requirements = SourceBlockRequirementsState.block_requirements(block)", placement_body)
-        self.assertIn("player_placed_block_count += 1", placement_body)
-        self.assertIn("spend_requirements(block)", placement_body)
+        placement_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8")
+        self.assertIn('game.set("last_placed_block_requirements", SourceBlockRequirementsState.block_requirements(block))', placement_source)
+        self.assertIn('game.set("player_placed_block_count", int(game.get("player_placed_block_count")) + 1)', placement_source)
+        self.assertIn('game.call("spend_requirements", block)', placement_source)
+        self.assertNotIn("last_placed_block_requirements = SourceBlockRequirementsState.block_requirements(block)", placement_body)
+        self.assertNotIn("player_placed_block_count += 1", placement_body)
+        self.assertNotIn("spend_requirements(block)", placement_body)
         self.assertIn('"player_placed_block_count": int(game.get("player_placed_block_count"))', summary_body)
         self.assertIn('"last_placed_block_requirements": last_placed_block_requirements.duplicate(true)', summary_body)
         self.assertNotIn('last_placed_block_requirements = [{"item": "copper"', source)
@@ -4758,9 +5068,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceFactoryRuntimeState.drill_step_state", proof_source)
         self.assertIn("SourceFactoryRuntimeState.drill_dump_preview_context", proof_source)
         self.assertIn("SourceFactoryRuntimeState.drill_dump_preview_state", proof_source)
+        self.assertIn("func factory_drill_dump_preview_state(seconds: float) -> Dictionary:", proof_source)
         self.assertIn("SourceFactorySimulationRuntimeState.simulation_state", proof_source)
         self.assertIn("SourceFactorySimulationApplyState.runtime_context", proof_source)
         self.assertIn("SourceFactorySimulationApplyState.apply_state", proof_source)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory", proof_source)
         self.assertIn("var drill_dump_timer := 0.0", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"summary_matches"', proof_source)
@@ -4780,6 +5092,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"drill_runtime_matches"', proof_source)
         self.assertIn('"simulation_matches"', proof_source)
         self.assertIn('"apply_matches"', proof_source)
+        self.assertIn('"simulate_factory_matches"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
         self.assertIn('"registry_valid"', proof_source)
 
@@ -4791,14 +5104,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("class_name SourceFactorySimulationRuntimeState", source)
         self.assertIn("func source_factory_simulation_runtime_state(seconds: float) -> Dictionary:", source)
         self.assertIn("return SourceFactorySimulationRuntimeState.simulation_state(factory_context, SourceFactoryRuntimeState.simulation_callbacks(self))", source)
-        self.assertIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
-        self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
-        self.assertIn('if bool(apply_state.get("should_dump", false)):', simulate_factory_body)
-        self.assertIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
+        self.assertIn("static func simulate_factory(game: Object, delta: float) -> void:", source)
+        self.assertIn("game.call(\"source_factory_simulation_runtime_state\", delta)", source)
+        self.assertIn("game.call(\"source_factory_simulation_apply_state\", factory_state)", source)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertNotIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertNotIn('if bool(apply_state.get("should_dump", false)):', simulate_factory_body)
+        self.assertNotIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
         self.assertNotIn("var drill_state := source_drill_runtime_state(delta)", simulate_factory_body)
         self.assertNotIn("simulate_drill_dump(delta)", simulate_factory_body)
         self.assertNotIn("var transport_delta := source_conveyor_path_progress_delta_for_cell", simulate_factory_body)
         self.assertNotIn("var transport_state := source_item_transport_runtime_state", simulate_factory_body)
+
+    def test_source_factory_runtime_state_owns_simulate_factory_orchestration(self):
+        source = self._port_game_factory_runtime_source()
+        simulate_factory_body = source.split("func simulate_factory(delta: float) -> void:", 1)[1].split("func simulate_drill_dump", 1)[0]
+        module_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceFactoryRuntimeState.gd").read_text(encoding="utf-8")
+
+        self.assertIn("static func simulate_factory(game: Object, delta: float) -> void:", module_source)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertNotIn("var factory_state := source_factory_simulation_runtime_state(delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertNotIn("set_drill_time_drilled_at_cell(", simulate_factory_body)
+        self.assertNotIn("source_offload_to_inventory(", simulate_factory_body)
+        self.assertNotIn("for item_sprite_state in apply_state.get(\"item_sprites\", []):", simulate_factory_body)
 
     def test_source_factory_simulation_runtime_state_keeps_orchestration_ssot(self):
         source = self._port_game_factory_runtime_source()
@@ -4827,17 +5157,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_factory_simulation_apply_state(factory_state: Dictionary) -> Dictionary:", source)
         self.assertIn("var apply_context := SourceFactorySimulationApplyState.runtime_context(self, drill_pos)", source)
         self.assertIn("return SourceFactorySimulationApplyState.apply_state(factory_state, apply_context)", source)
-        self.assertIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
-        self.assertIn('set_drill_time_drilled_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_time_drilled", drill_time_drilled_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_last_speed", drill_last_speed_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_warmup", drill_warmup_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
-        self.assertIn('item_progress = float(apply_state.get("item_progress", item_progress))', simulate_factory_body)
-        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', simulate_factory_body)
-        self.assertIn('produced_total = int(apply_state.get("produced_total", produced_total))', simulate_factory_body)
-        self.assertIn('drill_dump_timer = float(apply_state.get("drill_dump_timer", drill_dump_timer))', simulate_factory_body)
-        self.assertIn('if bool(apply_state.get("should_dump", false)):', simulate_factory_body)
-        self.assertIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
-        self.assertIn('for item_sprite_state in apply_state.get("item_sprites", []):', simulate_factory_body)
+        self.assertIn("SourceFactoryRuntimeState.simulate_factory(self, delta)", simulate_factory_body)
+        self.assertNotIn("var apply_state := source_factory_simulation_apply_state(factory_state)", simulate_factory_body)
+        self.assertNotIn('set_drill_time_drilled_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_time_drilled", drill_time_drilled_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
+        self.assertNotIn('set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_last_speed", drill_last_speed_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
+        self.assertNotIn('set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get("drill_warmup", drill_warmup_at_cell(drill_pos.x, drill_pos.y))))', simulate_factory_body)
+        self.assertNotIn('item_progress = float(apply_state.get("item_progress", item_progress))', simulate_factory_body)
+        self.assertNotIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', simulate_factory_body)
+        self.assertNotIn('produced_total = int(apply_state.get("produced_total", produced_total))', simulate_factory_body)
+        self.assertNotIn('drill_dump_timer = float(apply_state.get("drill_dump_timer", drill_dump_timer))', simulate_factory_body)
+        self.assertNotIn('if bool(apply_state.get("should_dump", false)):', simulate_factory_body)
+        self.assertNotIn('transport_progress = float(apply_state.get("transport_progress", transport_progress))', simulate_factory_body)
+        self.assertNotIn('for item_sprite_state in apply_state.get("item_sprites", []):', simulate_factory_body)
         self.assertNotIn('var drill_state: Dictionary = factory_state.get("drill_state", {})', simulate_factory_body)
         self.assertNotIn('var dump_state: Dictionary = factory_state.get("dump_state", {})', simulate_factory_body)
         self.assertNotIn('var transport_state: Dictionary = factory_state.get("transport_state", {})', simulate_factory_body)
@@ -5248,8 +5579,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_uses_source_block_defaults_for_power_graph_roles(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingPowerState.gd"
+        placed_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlacedPowerGraphState.gd"
         source = port_game.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8")
+        placed_helper_source = placed_helper.read_text(encoding="utf-8")
 
         self.assertIn("func power_graph_role_for_block(block) -> Dictionary:", source)
         self.assertIn("return SourceBuildingPowerState.block_power_role_state(block)", source)
@@ -5264,9 +5597,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('float(properties.get("powerUsage", SourceBlockDefaults.POWER_USAGE_DEFAULT))', helper_source)
         self.assertIn('float(properties.get("powerCapacity", SourceBlockDefaults.POWER_CAPACITY_DEFAULT))', helper_source)
         self.assertIn('float(properties.get("powerProduction", SourceBlockDefaults.POWER_PRODUCTION_DEFAULT))', helper_source)
-        self.assertIn("consumers.append(SourceBuildingPowerState.block_consumer_state(block, SourceTimeDefaults.TICK_RATE))", source)
-        self.assertIn("producers.append(SourceBuildingPowerState.block_producer_state(block, SourceTimeDefaults.TICK_RATE))", source)
-        self.assertIn("batteries.append(SourceBuildingPowerState.block_battery_state(block))", source)
+        self.assertIn("static func role_counts_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable) -> Dictionary:", placed_helper_source)
+        self.assertIn("static func needed_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:", placed_helper_source)
+        self.assertIn("static func produced_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable, source_delta: float) -> Dictionary:", placed_helper_source)
+        self.assertIn("static func battery_state(placed_block_origins: Dictionary, block_from_sprite_fn: Callable, power_graph_role_for_block_fn: Callable) -> Dictionary:", placed_helper_source)
+        self.assertIn("consumers.append(SourceBuildingPowerState.block_consumer_state(block, source_delta))", placed_helper_source)
+        self.assertIn("producers.append(SourceBuildingPowerState.block_producer_state(block, source_delta))", placed_helper_source)
+        self.assertIn("batteries.append(SourceBuildingPowerState.block_battery_state(block))", placed_helper_source)
+        self.assertIn("return SourcePlacedPowerGraphState.role_counts_state(placed_block_origins, Callable(self, \"block_from_sprite\"), Callable(self, \"power_graph_role_for_block\"))", source)
         self.assertNotIn('bool(block.properties.get("hasPower", SOURCE_BLOCK_HAS_POWER_DEFAULT))', source)
         self.assertNotIn('bool(block.properties.get("outputsPower", SOURCE_BLOCK_OUTPUTS_POWER_DEFAULT))', source)
         self.assertNotIn('bool(block.properties.get("consumesPower", SOURCE_BLOCK_CONSUMES_POWER_DEFAULT))', source)
@@ -5379,21 +5717,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_wave_spawn_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         summary_source = self._runtime_summary_source()
         source = port_game.read_text(encoding="utf-8")
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
         wave_body = source.split("func spawn_enemy_wave() -> void:", 1)[1].split("func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:", 1)[0]
         summary_body = summary_source
 
         self.assertIn("var last_spawned_wave_index := 0", source)
         self.assertIn("var last_spawned_wave_count := 0", source)
         self.assertIn("var last_spawned_wave_groups: Array = []", source)
-        self.assertIn("last_spawned_wave_index = wave_index", wave_body)
-        self.assertIn("var wave_state := SourceWaveSpawnRuntimeState.wave_spawn_state(ContentRegistry.WAVES.get(\"groups\", []), wave_index, fallback_unit_id)", wave_body)
-        self.assertIn("last_spawned_wave_groups = wave_state.get(\"groups\", [])", wave_body)
-        self.assertIn("for request in wave_state.get(\"spawn_requests\", []):", wave_body)
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_wave(self)", wave_body)
+        self.assertIn('game.set("last_spawned_wave_index", wave_index)', enemy_helper_source)
+        self.assertIn('var wave_state := spawn_wave_state(wave_index, fallback_unit_id)', enemy_helper_source)
+        self.assertIn('game.set("last_spawned_wave_groups", wave_state.get("groups", []))', enemy_helper_source)
+        self.assertIn('for request in wave_state.get("spawn_requests", []):', enemy_helper_source)
         self.assertNotIn("var group_proof :=", wave_body)
         self.assertNotIn("last_spawned_wave_groups.append(group_proof)", wave_body)
-        self.assertIn("last_spawned_wave_count = spawned", wave_body)
+        self.assertIn('game.set("last_spawned_wave_count", spawned)', enemy_helper_source)
         self.assertIn('"last_spawned_wave_index": int(game.get("last_spawned_wave_index"))', summary_body)
         self.assertIn('"last_spawned_wave_count": int(game.get("last_spawned_wave_count"))', summary_body)
         self.assertIn('"last_spawned_wave_groups": last_spawned_wave_groups.duplicate(true)', summary_body)
@@ -5419,10 +5760,12 @@ class PlayableManifestTests(unittest.TestCase):
         rules_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceRulesDefaults.gd"
         scenario_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlayableScenarioDefaults.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceWaveTimingRuntimeState.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         rules_source = rules_defaults.read_text(encoding="utf-8")
         scenario_source = scenario_defaults.read_text(encoding="utf-8")
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
         enemy_body = source.split("func simulate_enemy_units(delta: float) -> void:", 1)[1].split("func source_game_over_core_destroyed_state", 1)[0]
 
         self.assertIn("const TIME_TO_MINUTES := 60.0 * 60.0", rules_source)
@@ -5435,9 +5778,10 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('SOURCE_LOGIC_RUN_WAVE_GATE_EXPR := "if(!net.client() && state.wavetime <= 0 && state.rules.waves){"', helper_source)
         self.assertIn("static func wave_timer_state(current_wavetime: float, source_delta: float, wave_spacing_ticks: float, enemy_count: int) -> Dictionary:", helper_source)
         self.assertIn('"source_owner": "SourceWaveTimingRuntimeState.wave_timer_state"', helper_source)
-        self.assertIn("var wave_timing := source_wave_timing_runtime_state(delta)", enemy_body)
-        self.assertIn("wave_cooldown = float(wave_timing.get(\"wavetime\", wave_cooldown))", enemy_body)
-        self.assertIn("if bool(wave_timing.get(\"should_spawn\", false)):", enemy_body)
+        self.assertIn("SourceEnemyUnitRuntimeState.simulate_units(self, delta)", enemy_body)
+        self.assertIn('var wave_timing: Dictionary = game.call("source_wave_timing_runtime_state", delta)', enemy_helper_source)
+        self.assertIn('game.set("wave_cooldown", float(wave_timing.get("wavetime", game.get("wave_cooldown"))))', enemy_helper_source)
+        self.assertIn('if bool(wave_timing.get("should_spawn", false)):', enemy_helper_source)
         self.assertNotIn("wave_cooldown += delta", enemy_body)
         self.assertNotIn("wave_cooldown >= 3.0", enemy_body)
 
@@ -5461,19 +5805,79 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func enemy_step_state(position: Vector2, target: Vector2, seconds: float, world_speed: float, impact_radius: float, weapon_damage: float, core_health: float) -> Dictionary:", helper_source)
         self.assertIn("static func enemy_step_context(game, enemy: Dictionary, target: Vector2, seconds: float) -> Dictionary:", helper_source)
         self.assertIn("static func enemy_step_from_context(context: Dictionary) -> Dictionary:", helper_source)
+        self.assertIn("static func simulate_units(game, delta: float) -> void:", helper_source)
         self.assertIn('"source_owner": "SourceEnemyUnitRuntimeState.enemy_step_state"', helper_source)
-        self.assertIn("var enemy_context := SourceEnemyUnitRuntimeState.enemy_step_context(self, enemy, target, delta)", enemy_body)
-        self.assertIn("var enemy_step := SourceEnemyUnitRuntimeState.enemy_step_from_context(enemy_context)", enemy_body)
+        self.assertIn("SourceEnemyUnitRuntimeState.simulate_units(self, delta)", enemy_body)
+        self.assertIn("var enemy_context := enemy_step_context(game, enemy, target, delta)", helper_source)
+        self.assertIn("var enemy_step := enemy_step_from_context(enemy_context)", helper_source)
         self.assertNotIn("SourceEnemyUnitRuntimeState.core_impact_radius(float(tile_size), SourcePlayableScenarioDefaults.ENEMY_CORE_IMPACT_RADIUS_TILE_FRACTION)", enemy_body)
         self.assertNotIn("source_unit_world_speed(unit_type)", enemy_body)
         self.assertNotIn("source_unit_weapon_damage(unit_type)", enemy_body)
-        self.assertIn('if bool(enemy_step.get("hit_core", false)):', enemy_body)
-        self.assertIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', enemy_body)
-        self.assertIn('var next_position: Vector2 = enemy_step.get("next_position", sprite.position)', enemy_body)
-        self.assertIn("sprite.position = next_position", enemy_body)
+        self.assertIn('if bool(enemy_step.get("hit_core", false)):', helper_source)
+        self.assertIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', helper_source)
+        self.assertIn('var next_position: Vector2 = enemy_step.get("next_position", sprite.position)', helper_source)
+        self.assertIn("sprite.position = next_position", helper_source)
+        self.assertNotIn("for enemy in enemy_units:", enemy_body)
         self.assertNotIn("var direction: Vector2 = target - sprite.position", enemy_body)
         self.assertNotIn("direction.length() <= float(tile_size) * 0.35", enemy_body)
         self.assertNotIn("direction.normalized() * speed * delta", enemy_body)
+
+    def test_enemy_runtime_summary_state_moves_to_source_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        enemy_summary_body = source.split("func enemy_runtime_state() -> Dictionary:", 1)[1].split("func source_unit_weapon_damage(unit_type) -> float:", 1)[0]
+
+        self.assertIn("return SourceEnemyUnitRuntimeState.runtime_summary_state(self)", enemy_summary_body)
+        self.assertIn("static func runtime_summary_state(game: Object) -> Dictionary:", helper_source)
+        self.assertIn('"source_owner": "SourceEnemyUnitRuntimeState.runtime_summary_state"', helper_source)
+        self.assertIn('var unit_type = game.call("selected_enemy_unit")', helper_source)
+        self.assertIn("var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}", helper_source)
+        self.assertIn('"selected_enemy_weapon_damage": game.call("source_unit_weapon_damage", unit_type)', helper_source)
+        self.assertIn('"first_enemy_position": first_enemy_position', helper_source)
+        self.assertNotIn("var first_enemy_position :=", enemy_summary_body)
+        self.assertNotIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', enemy_summary_body)
+
+    def test_spawn_enemy_unit_state_moves_to_source_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        spawn_body = source.split("func spawn_enemy_unit(unit_type, index: int) -> void:", 1)[1].split("func simulate_enemy_units(delta: float) -> void:", 1)[0]
+
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_unit(self, unit_type, index)", spawn_body)
+        self.assertIn("static func spawn_unit_state(unit_id: String, spawn_position: Vector2, texture_size: Vector2, hit_size: float, health: float) -> Dictionary:", helper_source)
+        self.assertIn("static func spawn_unit(game: Object, unit_type, index: int) -> Dictionary:", helper_source)
+        self.assertIn('"source_owner": "SourceEnemyUnitRuntimeState.spawn_unit_state"', helper_source)
+        self.assertIn('var spawn_position: Vector2 = game.call("grid_to_world", SourcePlayableScenarioDefaults.enemy_spawn_cell(index))', helper_source)
+        self.assertIn('var units_layer: Node = game.get_node("World/UnitLayer")', helper_source)
+        self.assertIn('var sprite := Sprite2D.new()', helper_source)
+        self.assertIn('var hit_size := float(game.call("source_unit_hit_size", unit_type))', helper_source)
+        self.assertIn('var health := float(game.call("source_unit_health", unit_type))', helper_source)
+        self.assertIn('sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', helper_source)
+        self.assertIn('enemy_units.append({"sprite": sprite, "type": unit_type, "health": health})', helper_source)
+        self.assertNotIn('sprite.texture = textures.get("unit:" + unit_type.id)', spawn_body)
+        self.assertNotIn('enemy_units.append({"sprite": sprite, "type": unit_type, "health": source_unit_health(unit_type)})', spawn_body)
+
+    def test_enemy_wave_spawn_moves_to_source_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        wave_body = source.split("func spawn_enemy_wave() -> void:", 1)[1].split("func spawned_for_wave(group: Dictionary, wave_zero: int) -> int:", 1)[0]
+
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_wave(self)", wave_body)
+        self.assertIn("static func selected_enemy_unit(game: Object):", helper_source)
+        self.assertIn("static func spawn_wave_state(wave_index: int, fallback_unit_id: String) -> Dictionary:", helper_source)
+        self.assertIn("static func spawn_wave(game: Object) -> void:", helper_source)
+        self.assertIn('wave_state["source_owner"] = "SourceEnemyUnitRuntimeState.spawn_wave_state"', helper_source)
+        self.assertIn('var fallback_unit = selected_enemy_unit(game)', helper_source)
+        self.assertIn('var wave_state := spawn_wave_state(wave_index, fallback_unit_id)', helper_source)
+        self.assertIn('game.call("spawn_enemy_unit", unit_type, int(request.get("index", spawned)))', helper_source)
+        self.assertNotIn('var fallback_unit = selected_enemy_unit()', wave_body)
+        self.assertNotIn('var wave_state := SourceWaveSpawnRuntimeState.wave_spawn_state(ContentRegistry.WAVES.get("groups", []), wave_index, fallback_unit_id)', wave_body)
+        self.assertNotIn('spawn_enemy_unit(unit_type, int(request.get("index", spawned)))', wave_body)
 
     def test_port_game_decays_building_time_scale_like_source(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -6164,8 +6568,11 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_uses_source_unit_weapon_damage_against_core(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         metadata = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitMetadataState.gd"
+        enemy_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         metadata_source = metadata.read_text(encoding="utf-8") if metadata.exists() else ""
+        enemy_runtime_source = enemy_runtime.read_text(encoding="utf-8") if enemy_runtime.exists() else ""
+        enemy_body = source.split("func simulate_enemy_units(delta: float) -> void:", 1)[1].split("func source_wave_timing_runtime_state", 1)[0]
 
         self.assertIn("var core_damage_taken_total := 0.0", source)
         self.assertIn('const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")', source)
@@ -6184,11 +6591,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return properties.get("weapons", [])', metadata_source)
         self.assertIn('var bullet: Dictionary = weapon.get("bullet", {})', metadata_source)
         self.assertIn("return float(bullet_damage.call(bullet))", metadata_source)
-        self.assertIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', source)
-        self.assertIn('core_damage_taken_total += core_damage', source)
-        self.assertIn('core_health = max(0.0, core_health - core_damage)', source)
+        self.assertIn("SourceEnemyUnitRuntimeState.simulate_units(self, delta)", enemy_body)
+        self.assertIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', enemy_runtime_source)
+        self.assertIn('game.call("apply_core_damage", core_damage)', enemy_runtime_source)
+        self.assertNotIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', enemy_body)
+        self.assertIn("var damage_state := SourceCoreDamageRuntimeState.apply_state(amount, core_health, core_damage_taken_total, game_over, game_over_state, last_game_over_winner)", source)
+        self.assertIn('core_damage_taken_total = float(damage_state.get("core_damage_taken_total", core_damage_taken_total))', source)
+        self.assertIn('core_health = float(damage_state.get("core_health", core_health))', source)
         self.assertNotIn('core_health = max(0.0, core_health - 15.0)', source)
-        self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', source)
+        self.assertIn('"selected_enemy_weapon_damage": game.call("source_unit_weapon_damage", unit_type)', enemy_runtime_source)
         self.assertIn('"core_damage_taken_total": core_damage_taken_total', source)
 
     def test_source_unit_metadata_callback_module_has_runtime_proof(self):
@@ -6209,9 +6620,11 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_game_over_runtime_proof(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         module = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameOverCoreDestroyedState.gd"
+        core_damage_module = ROOT / "godot-mindustry" / "src" / "game" / "SourceCoreDamageRuntimeState.gd"
         summary_source = self._runtime_summary_source()
         source = port_game.read_text(encoding="utf-8")
         module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        core_damage_source = core_damage_module.read_text(encoding="utf-8") if core_damage_module.exists() else ""
 
         self.assertIn("var game_over := false", source)
         self.assertIn('var last_game_over_winner := ""', source)
@@ -6226,18 +6639,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"core_destroyed_expr": "state.teams.playerCores().size == 0"', module_source)
         self.assertIn('"game_over_expr": "state.gameOver = true;"', module_source)
         self.assertIn('"event_expr": "Events.fire(new GameOverEvent(state.rules.waveTeam));"', module_source)
+        self.assertIn('const SourceCoreDamageRuntimeState := preload("res://src/game/SourceCoreDamageRuntimeState.gd")', source)
+        self.assertIn("class_name SourceCoreDamageRuntimeState", core_damage_source)
+        self.assertIn("static func apply_state(amount: float, core_health: float, core_damage_taken_total: float, game_over: bool, game_over_state: Dictionary, last_game_over_winner: String) -> Dictionary:", core_damage_source)
+        self.assertIn('"source_owner": "PortGame.apply_core_damage"', core_damage_source)
         self.assertIn("func apply_core_damage(amount: float) -> Dictionary:", source)
         damage_body = source.split("func apply_core_damage(amount: float) -> Dictionary:", 1)[1].split("func game_over_runtime_state() -> Dictionary:", 1)[0]
         enemy_body = source.split("func simulate_enemy_units(delta: float) -> void:", 1)[1].split("func playthrough_runtime_state() -> Dictionary:", 1)[0]
         summary_body = summary_source
 
-        self.assertIn("var applied: float = min(core_health, max(0.0, amount))", damage_body)
-        self.assertIn("core_health = max(0.0, core_health - core_damage)", damage_body)
         self.assertIn("var game_over_state := source_game_over_core_destroyed_state(core_health, game_over)", damage_body)
-        self.assertIn("game_over = true", damage_body)
-        self.assertIn('last_game_over_winner = str(game_over_state.get("winner", ""))', damage_body)
-        self.assertIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', enemy_body)
-        self.assertIn("apply_core_damage(core_damage)", enemy_body)
+        self.assertIn("var damage_state := SourceCoreDamageRuntimeState.apply_state(amount, core_health, core_damage_taken_total, game_over, game_over_state, last_game_over_winner)", damage_body)
+        self.assertIn('core_health = float(damage_state.get("core_health", core_health))', damage_body)
+        self.assertIn('core_damage_taken_total = float(damage_state.get("core_damage_taken_total", core_damage_taken_total))', damage_body)
+        self.assertIn('game_over = bool(damage_state.get("game_over", game_over))', damage_body)
+        self.assertIn('last_game_over_winner = str(damage_state.get("winner", last_game_over_winner))', damage_body)
+        self.assertNotIn("var applied: float = min(core_health, max(0.0, amount))", damage_body)
+        self.assertNotIn("core_health = max(0.0, core_health - core_damage)", damage_body)
+        self.assertIn("SourceEnemyUnitRuntimeState.simulate_units(self, delta)", enemy_body)
+        self.assertNotIn('var core_damage: float = float(enemy_step.get("core_damage", 0.0))', enemy_body)
+        self.assertNotIn("apply_core_damage(core_damage)", enemy_body)
         self.assertIn("func game_over_runtime_state() -> Dictionary:", source)
         self.assertIn('"game_over_runtime": game.call("game_over_runtime_state")', summary_body)
 
@@ -6245,12 +6666,14 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         bullet_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletDefaults.gd"
         bullet_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntimeState.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "EnemyUnitRuntimeModuleProof.gd"
         proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "EnemyUnitRuntimeModuleProof.tscn"
         summary_source = self._runtime_summary_source()
         source = port_game.read_text(encoding="utf-8")
         bullet_source = bullet_defaults.read_text(encoding="utf-8") if bullet_defaults.exists() else ""
         bullet_runtime_source = bullet_runtime.read_text(encoding="utf-8") if bullet_runtime.exists() else ""
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
 
         self.assertIn("func enemy_runtime_state() -> Dictionary:", source)
         proof_body = source.split("func enemy_runtime_state() -> Dictionary:", 1)[1].split("func source_unit_weapon_damage", 1)[0]
@@ -6260,24 +6683,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const DAMAGE_DEFAULT := 1.0", bullet_source)
         self.assertIn("const SOURCE_BULLET_DAMAGE_DEFAULT := SourceBulletDefaults.DAMAGE_DEFAULT", bullet_runtime_source)
         self.assertNotIn("const SOURCE_BULLET_DAMAGE_DEFAULT :=", source)
-        self.assertIn("var unit_type = selected_enemy_unit()", proof_body)
-        self.assertIn("var first_enemy: Dictionary = enemy_units[0] if not enemy_units.is_empty() else {}", proof_body)
-        self.assertIn('"enemy_count": enemy_units.size()', proof_body)
-        self.assertIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', proof_body)
-        self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(unit_type)', proof_body)
-        self.assertIn('"selected_enemy_hit_size": source_unit_hit_size(unit_type)', proof_body)
-        self.assertIn('"selected_enemy_health": source_unit_health(unit_type)', proof_body)
-        self.assertIn('"first_enemy_health": float(first_enemy.get("health", 0.0))', proof_body)
-        self.assertIn('"core_health": core_health', proof_body)
-        self.assertIn('"core_damage_taken_total": core_damage_taken_total', proof_body)
+        self.assertIn("return SourceEnemyUnitRuntimeState.runtime_summary_state(self)", proof_body)
+        self.assertNotIn("var unit_type = selected_enemy_unit()", proof_body)
+        self.assertNotIn('"selected_enemy_weapon_damage": source_unit_weapon_damage(unit_type)', proof_body)
+        self.assertIn("static func runtime_summary_state(game: Object) -> Dictionary:", enemy_helper_source)
+        self.assertIn('"source_owner": "SourceEnemyUnitRuntimeState.runtime_summary_state"', enemy_helper_source)
+        self.assertIn('"enemy_count": enemy_units.size()', enemy_helper_source)
+        self.assertIn('"selected_enemy_weapon_damage": game.call("source_unit_weapon_damage", unit_type)', enemy_helper_source)
+        self.assertIn('"selected_enemy_world_speed": game.call("source_unit_world_speed", unit_type)', enemy_helper_source)
+        self.assertIn('"selected_enemy_hit_size": game.call("source_unit_hit_size", unit_type)', enemy_helper_source)
+        self.assertIn('"selected_enemy_health": game.call("source_unit_health", unit_type)', enemy_helper_source)
+        self.assertIn('"first_enemy_health": float(first_enemy.get("health", 0.0))', enemy_helper_source)
+        self.assertIn('"core_health": float(game.get("core_health"))', enemy_helper_source)
+        self.assertIn('"core_damage_taken_total": float(game.get("core_damage_taken_total"))', enemy_helper_source)
         self.assertIn('"enemy_runtime": game.call("enemy_runtime_state")', summary_body)
         self.assertTrue(proof_script.exists())
         self.assertTrue(proof_scene.exists())
         proof_source = proof_script.read_text(encoding="utf-8")
         self.assertIn("ENEMY_UNIT_RUNTIME_MODULE_PROOF", proof_source)
-        self.assertIn("SourceEnemyUnitRuntimeState.enemy_step_from_context(", proof_source)
+        self.assertIn("SourceEnemyUnitRuntimeState.simulate_units(self, 1.0)", proof_source)
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_unit(self, selected_enemy_unit(), 2)", proof_source)
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_wave_state(wave_index, \"dagger\")", proof_source)
+        self.assertIn("SourceEnemyUnitRuntimeState.spawn_wave(self)", proof_source)
+        self.assertIn("SourceEnemyUnitRuntimeState.runtime_summary_state(self)", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", proof_source)
-        self.assertIn('"step_context_matches"', proof_source)
+        self.assertIn('"enemy_count_after"', proof_source)
+        self.assertIn('"spawn_calls"', proof_source)
+        self.assertIn('"last_applied_damage"', proof_source)
+        self.assertIn('"spawn_source_owner"', proof_source)
+        self.assertIn('"wave_source_owner"', proof_source)
+        self.assertIn('"last_spawned_wave_count"', proof_source)
+        self.assertIn('"unit_layer_child_count"', proof_source)
+        self.assertIn('"summary_source_owner"', proof_source)
+        self.assertIn('"summary_selected_enemy_weapon_damage"', proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_uses_source_bullet_damage_for_unit_weapon_damage(self):
@@ -6356,10 +6794,12 @@ class PlayableManifestTests(unittest.TestCase):
         unit_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
         metadata = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitMetadataState.gd"
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         unit_source = unit_defaults.read_text(encoding="utf-8") if unit_defaults.exists() else ""
         metadata_source = metadata.read_text(encoding="utf-8") if metadata.exists() else ""
         helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
 
         self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', source)
         self.assertIn('const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")', source)
@@ -6377,15 +6817,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("source_unit_world_speed(unit_type)", source)
         self.assertIn("world_speed: float", helper_source)
         self.assertNotIn('max(20.0, float(unit_type.properties.get("speed", 0.5)) * float(tile_size) * 5.0)', source)
-        self.assertIn('"selected_enemy_world_speed": source_unit_world_speed(unit_type)', source)
+        self.assertIn('"selected_enemy_world_speed": game.call("source_unit_world_speed", unit_type)', enemy_helper_source)
 
     def test_port_game_uses_source_unit_hit_size_for_sprite_scale(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         unit_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
         metadata = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitMetadataState.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         unit_source = unit_defaults.read_text(encoding="utf-8") if unit_defaults.exists() else ""
         metadata_source = metadata.read_text(encoding="utf-8") if metadata.exists() else ""
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
 
         self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', source)
         self.assertIn('const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")', source)
@@ -6402,19 +6844,20 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var properties := unit_properties(unit_type)", metadata_source)
         self.assertIn('return float(properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))', metadata_source)
         self.assertNotIn('return float(unit_type.properties.get("hitSize", SOURCE_UNIT_HIT_SIZE_DEFAULT_VALUE))', source)
-        self.assertIn("var hit_size := source_unit_hit_size(unit_type)", source)
-        self.assertIn("sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)", source)
+        self.assertNotIn("sprite.scale = Vector2(hit_size / size.x, hit_size / size.y)", source)
         self.assertIn('const SourceWorldGrid := preload("res://src/game/SourceWorldGrid.gd")', source)
         self.assertIn("sprite.scale = SourceWorldGrid.sprite_tile_scale(size, tile_size)", source)
-        self.assertIn('"selected_enemy_hit_size": source_unit_hit_size(unit_type)', source)
+        self.assertIn("sprite.scale = spawn_state.get(\"sprite_scale\", Vector2.ONE) as Vector2", enemy_helper_source)
 
     def test_port_game_uses_source_unit_health_for_spawned_units(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         unit_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitDefaults.gd"
         metadata = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitMetadataState.gd"
+        enemy_helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         unit_source = unit_defaults.read_text(encoding="utf-8") if unit_defaults.exists() else ""
         metadata_source = metadata.read_text(encoding="utf-8") if metadata.exists() else ""
+        enemy_helper_source = enemy_helper.read_text(encoding="utf-8") if enemy_helper.exists() else ""
 
         self.assertIn('const SourceUnitMetadataState := preload("res://src/game/SourceUnitMetadataState.gd")', source)
         self.assertIn("func source_unit_health(unit_type) -> float:", source)
@@ -6429,9 +6872,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var properties := unit_properties(unit_type)", metadata_source)
         self.assertIn('return float(properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))', metadata_source)
         self.assertNotIn('return float(unit_type.properties.get("health", SOURCE_UNIT_HEALTH_DEFAULT_VALUE))', source)
-        self.assertIn('"health": source_unit_health(unit_type)', source)
         self.assertNotIn('"health": float(unit_type.properties.get("health", 100.0))', source)
-        self.assertIn('"selected_enemy_health": source_unit_health(unit_type)', source)
+        self.assertIn('var health := float(game.call("source_unit_health", unit_type))', enemy_helper_source)
+        self.assertIn('enemy_units.append({"sprite": sprite, "type": unit_type, "health": health})', enemy_helper_source)
 
     def test_port_game_uses_source_bullet_sprite_assets(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -6451,7 +6894,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_texture(sprite_id: String) -> Texture2D:", source)
         self.assertIn('var resolved_sprite := sprite_id if sprite_id != "" else SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT', source)
         self.assertIn('var path := "%s/%s.png" % [SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_ASSET_ROOT, resolved_sprite]', source)
-        self.assertIn('sprite.texture = source_bullet_texture(str(spawn_state.get("sprite_id", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))', source)
+        self.assertIn('sprite.texture = game.call("source_bullet_texture", str(bullet_spawn_state.get("sprite_id", SOURCE_BULLET_TEXTURE_DEFAULT)))', helper_source)
+        self.assertNotIn('sprite.texture = source_bullet_texture(str(spawn_state.get("sprite_id", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))', source)
         self.assertIn('"selected_turret_ammo_sprite": game.call("selected_turret_ammo_sprite")', summary_source)
         self.assertNotIn('sprite.texture = textures.get("item")', source)
 
@@ -6477,7 +6921,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_BULLET_LIFETIME_DEFAULT :=", source)
         self.assertIn("const SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND := SourceBulletDefaults.TICKS_PER_SECOND", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_LIFETIME_KEY, SourceBulletDefaults.LIFETIME_DEFAULT)) / SOURCE_BULLET_LIFETIME_TICKS_PER_SECOND", source)
-        self.assertIn('"lifetime_remaining": float(spawn_state.get("lifetime_remaining", 0.0))', source)
+        self.assertIn('"lifetime_remaining": float(bullet_spawn_state.get("lifetime_remaining", 0.0))', source)
         self.assertIn("SourceBulletRuntimeState.simulate_bullets(self, delta)", source)
         self.assertIn("var bullet_step_context := runtime_step_context(game, bullet, delta)", helper_source)
         self.assertIn("var bullet_step := runtime_step_from_context(bullet_step_context)", helper_source)
@@ -6589,7 +7033,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_TRNS := "vel.trns(angle, amount);"', source)
         self.assertIn('const SOURCE_BULLET_VELOCITY_COMP_ROTATION := "rotation = angle;"', source)
         self.assertIn("func source_bullet_velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:", source)
-        self.assertIn('"speed": float(spawn_state.get("speed", 0.0))', source)
+        self.assertIn('"speed": float(bullet_spawn_state.get("speed", 0.0))', source)
         self.assertIn("var velocity_state := SourceMathState.source_angles_trns_vec(shoot_angle_degrees, world_speed(data), 0.0)", source)
         velocity_body = source.split("static func velocity(data: Dictionary, shoot_angle_degrees: float) -> Vector2:", 1)[1].split("\nstatic func ", 1)[0]
         self.assertNotIn("Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees))", velocity_body)
@@ -6627,7 +7071,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_bullet_dimensions(data: Dictionary) -> Dictionary:", source)
         self.assertIn('return {"width": width, "height": height}', source)
         self.assertIn("return Vector2(width / texture_size.x, height / texture_size.y)", source)
-        self.assertIn('sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', source)
+        self.assertIn('sprite.scale = bullet_spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', source)
         self.assertNotIn("sprite.scale = Vector2(tile_size / size.x, tile_size / size.y) * 0.45", source)
         self.assertIn("func selected_turret_ammo_dimensions() -> Dictionary:", source)
         self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
@@ -6647,7 +7091,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("const SOURCE_BULLET_HIT_SIZE_DEFAULT :=", source)
         self.assertIn("func source_bullet_hit_size(data: Dictionary) -> float:", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, SourceBulletDefaults.HIT_SIZE_DEFAULT))", source)
-        self.assertIn('"hitSize": float(spawn_state.get("hit_size", 0.0))', source)
+        self.assertIn('"hitSize": float(bullet_spawn_state.get("hit_size", 0.0))', source)
         self.assertIn("var callbacks := SourceTurretRuntimeState.default_callbacks_state(self)", source)
         self.assertIn('callbacks.get("hit_size", Callable())', source)
         self.assertIn('"hit_size": bullet_hit_size', source)
@@ -6669,7 +7113,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOURCE_BULLET_DAMAGE_DEFAULT := SourceBulletDefaults.DAMAGE_DEFAULT", source)
         self.assertIn("func source_bullet_damage(data: Dictionary) -> float:", source)
         self.assertIn("return float(data.get(SOURCE_BULLET_DAMAGE_KEY, SOURCE_BULLET_DAMAGE_DEFAULT))", source)
-        self.assertIn('"damage": float(spawn_state.get("damage", 0.0))', source)
+        self.assertIn('"damage": float(bullet_spawn_state.get("damage", 0.0))', source)
         self.assertNotIn('"damage": float(data.get("damage", 1.0))', source)
         self.assertIn("func selected_turret_ammo_damage() -> float:", source)
         self.assertIn('"selected_turret_ammo_damage": game.call("selected_turret_ammo_damage")', summary_source)
@@ -6729,14 +7173,30 @@ class PlayableManifestTests(unittest.TestCase):
         spawn_body = self._method_body(source, "func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:")
 
         self.assertIn("static func spawn_state(data: Dictionary, shoot_angle_degrees: float, texture_size: Vector2) -> Dictionary:", helper_source)
-        self.assertIn("var spawn_state := SourceBulletRuntimeState.spawn_state(", spawn_body)
-        self.assertIn('last_turret_fired_ammo_item = str(spawn_state.get("ammo_item", ""))', spawn_body)
-        self.assertIn('last_turret_fired_damage = float(spawn_state.get("damage", 0.0))', spawn_body)
-        self.assertIn('last_turret_fired_reload_multiplier = float(spawn_state.get("reload_multiplier", 1.0))', spawn_body)
-        self.assertIn('var velocity := spawn_state.get("velocity", Vector2.ZERO) as Vector2', spawn_body)
-        self.assertIn('sprite.texture = source_bullet_texture(str(spawn_state.get("sprite_id", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))', spawn_body)
-        self.assertIn('sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', spawn_body)
-        self.assertIn('bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": float(spawn_state.get("speed", 0.0)), "damage": float(spawn_state.get("damage", 0.0)), "hitSize": float(spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(spawn_state.get("lifetime_remaining", 0.0))})', spawn_body)
+        self.assertIn("static func spawn_turret_bullet(game, origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:", helper_source)
+        helper_body = self._static_method_body(helper_source, "static func spawn_turret_bullet(game, origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:")
+        self.assertIn("SourceBulletRuntimeState.spawn_turret_bullet(self, origin, target, data, shoot_angle_degrees)", spawn_body)
+        self.assertIn("var bullet_spawn_state := spawn_state(", helper_body)
+        self.assertIn('var last_turret_fired_ammo_item := str(game.get("last_turret_fired_ammo_item"))', helper_body)
+        self.assertIn('var last_turret_fired_damage := float(game.get("last_turret_fired_damage"))', helper_body)
+        self.assertIn('last_turret_fired_ammo_item = str(bullet_spawn_state.get("ammo_item", ""))', helper_body)
+        self.assertIn('last_turret_fired_damage = float(bullet_spawn_state.get("damage", 0.0))', helper_body)
+        self.assertIn('game.set("last_turret_fired_reload_multiplier", float(bullet_spawn_state.get("reload_multiplier", 1.0)))', helper_body)
+        self.assertIn('var bullet_velocity := bullet_spawn_state.get("velocity", Vector2.ZERO) as Vector2', helper_body)
+        self.assertIn('sprite.texture = game.call("source_bullet_texture", str(bullet_spawn_state.get("sprite_id", SOURCE_BULLET_TEXTURE_DEFAULT)))', helper_body)
+        self.assertIn('sprite.scale = bullet_spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', helper_body)
+        self.assertIn('var bullets: Array = game.get("bullets")', helper_body)
+        self.assertIn('bullets.append({"sprite": sprite, "target": target, "velocity": bullet_velocity, "speed": float(bullet_spawn_state.get("speed", 0.0)), "damage": float(bullet_spawn_state.get("damage", 0.0)), "hitSize": float(bullet_spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(bullet_spawn_state.get("lifetime_remaining", 0.0))})', helper_body)
+        self.assertNotIn("var spawn_state := spawn_state(", helper_body)
+        self.assertNotIn('var velocity := bullet_spawn_state.get("velocity", Vector2.ZERO) as Vector2', helper_body)
+        self.assertNotIn("var spawn_state := SourceBulletRuntimeState.spawn_state(", spawn_body)
+        self.assertNotIn('last_turret_fired_ammo_item = str(spawn_state.get("ammo_item", ""))', spawn_body)
+        self.assertNotIn('last_turret_fired_damage = float(spawn_state.get("damage", 0.0))', spawn_body)
+        self.assertNotIn('last_turret_fired_reload_multiplier = float(spawn_state.get("reload_multiplier", 1.0))', spawn_body)
+        self.assertNotIn('var velocity := spawn_state.get("velocity", Vector2.ZERO) as Vector2', spawn_body)
+        self.assertNotIn('sprite.texture = source_bullet_texture(str(spawn_state.get("sprite_id", SourceBulletRuntimeState.SOURCE_BULLET_TEXTURE_DEFAULT)))', spawn_body)
+        self.assertNotIn('sprite.scale = spawn_state.get("sprite_scale", Vector2.ONE) as Vector2', spawn_body)
+        self.assertNotIn('bullets.append({"sprite": sprite, "target": target, "velocity": velocity, "speed": float(spawn_state.get("speed", 0.0)), "damage": float(spawn_state.get("damage", 0.0)), "hitSize": float(spawn_state.get("hit_size", 0.0)), "lifetime_remaining": float(spawn_state.get("lifetime_remaining", 0.0))})', spawn_body)
         self.assertNotIn('last_turret_fired_damage = source_bullet_damage(data)', spawn_body)
         self.assertNotIn('last_turret_fired_reload_multiplier = source_bullet_reload_multiplier(data)', spawn_body)
         self.assertNotIn('var velocity := source_bullet_velocity(data, shoot_angle_degrees)', spawn_body)
@@ -6822,7 +7282,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('cooldown = float(shot_application.get("cooldown_after_fire", cooldown))', simulation_source)
         self.assertIn("func selected_turret_cooldown_seconds() -> float:", source)
         self.assertIn("return SourceTurretRuntimeState.selected_cooldown_seconds(turret_cooldowns, cell_key(duo_pos))", source)
-        self.assertIn('last_turret_fired_reload_multiplier = float(spawn_state.get("reload_multiplier", 1.0))', source)
+        self.assertIn('game.set("last_turret_fired_reload_multiplier", float(bullet_spawn_state.get("reload_multiplier", 1.0)))', source)
+        self.assertNotIn('last_turret_fired_reload_multiplier = float(spawn_state.get("reload_multiplier", 1.0))', source)
         self.assertIn('"last_turret_fired_reload_multiplier": float(game.get("last_turret_fired_reload_multiplier"))', summary_source)
         self.assertIn('"selected_turret_ammo_reload_multiplier": game.call("selected_turret_ammo_reload_multiplier")', summary_source)
         self.assertIn('"selected_turret_cooldown_seconds": game.call("selected_turret_cooldown_seconds")', summary_source)
@@ -6865,6 +7326,7 @@ class PlayableManifestTests(unittest.TestCase):
         peek_body = self._method_body(source, "func peek_turret_ammo(cell: Vector2i, turret) -> Dictionary:")
         handle_body = self._method_body(source, "func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:")
         use_body = self._method_body(source, "func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:")
+        bootstrap_body = self._method_body(source, "func bootstrap_selected_turret_ammo() -> int:")
         source_handle_item_body = self._method_body(source, "func source_item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:")
         source_accept_item_body = self._method_body(source, "func source_item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:")
         summary_source = self._runtime_summary_source()
@@ -6890,6 +7352,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func max_ammo(turret, default_max_ammo: int) -> int:", ammo_state_source)
         self.assertIn("static func item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:", ammo_state_source)
         self.assertIn("static func item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo_value: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", ammo_state_source)
+        self.assertIn("static func peek_turret_ammo(game, cell: Vector2i, turret) -> Dictionary:", ammo_state_source)
+        self.assertIn("static func handle_turret_item(game, cell: Vector2i, turret, item_id: String) -> bool:", ammo_state_source)
+        self.assertIn("static func use_turret_ammo(game, cell: Vector2i, turret) -> Dictionary:", ammo_state_source)
+        self.assertIn("static func bootstrap_selected_turret_ammo(game) -> int:", ammo_state_source)
+        self.assertIn("static func load_selected_turret_ammo(game, item_id: String, amount: int) -> int:", ammo_state_source)
+        self.assertIn("static func use_selected_turret_ammo_once(game) -> Dictionary:", ammo_state_source)
         self._assert_source_consts_in_helper_not_port(source, ammo_state_source, [
             'const SOURCE_TURRET_AMMO_DATA_AMMO_TYPES_FIELD := "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();"',
             'const SOURCE_TURRET_AMMO_DATA_METHOD := "public void ammo(Object... objects){"',
@@ -6908,13 +7376,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("duo.properties.get(\"ammo\", [])", source)
         self.assertIn("func handle_turret_item(cell: Vector2i, turret, item_id: String) -> bool:", source)
         self.assertIn("func use_turret_ammo(cell: Vector2i, turret) -> Dictionary:", source)
-        self.assertIn("var peek_state := SourceTurretAmmoState.peek_turret_ammo_state_for_turret(", peek_body)
+        self.assertIn("return SourceTurretAmmoState.bootstrap_selected_turret_ammo(self)", bootstrap_body)
+        self.assertIn("return SourceTurretAmmoState.load_selected_turret_ammo(self, item_id, amount)", source)
+        self.assertIn("return SourceTurretAmmoState.use_selected_turret_ammo_once(self)", source)
+        self.assertIn("return SourceTurretAmmoState.peek_turret_ammo(self, cell, turret)", peek_body)
+        self.assertIn("return SourceTurretAmmoState.handle_turret_item(self, cell, turret, item_id)", handle_body)
+        self.assertIn("return SourceTurretAmmoState.use_turret_ammo(self, cell, turret)", use_body)
         self.assertNotIn("var peek_state := SourceTurretRuntimeState.peek_ammo_stack_state(", peek_body)
-        self.assertIn("var handle_state := SourceTurretAmmoState.handle_turret_item_state_for_turret(", handle_body)
-        self.assertIn("var accept_state := source_item_turret_build_accept_item_state(", handle_body)
-        self.assertIn("var use_state := SourceTurretAmmoState.use_turret_ammo_state_for_turret(", use_body)
+        self.assertNotIn("var peek_state := SourceTurretAmmoState.peek_turret_ammo_state_for_turret(", peek_body)
+        self.assertNotIn("var handle_state := SourceTurretAmmoState.handle_turret_item_state_for_turret(", handle_body)
+        self.assertNotIn("var accept_state := source_item_turret_build_accept_item_state(", handle_body)
         self.assertNotIn("var use_state := SourceTurretRuntimeState.use_ammo_stack_state(", use_body)
-        self.assertIn("var ammo_entries: Array = SourceTurretAmmoState.selected_turret_ammo_entries(duo)", source)
+        self.assertNotIn("var use_state := SourceTurretAmmoState.use_turret_ammo_state_for_turret(", use_body)
+        self.assertNotIn("while handle_turret_item(duo_pos, duo, item_id):", bootstrap_body)
+        self.assertIn("var ammo_entries: Array = selected_turret_ammo_entries(duo)", ammo_state_source)
+        self.assertIn("while handle_turret_item(game, game.get(\"duo_pos\"), duo, item_id):", ammo_state_source)
         self.assertNotIn('SourceTurretRuntimeState.read_turret_properties(duo).get("ammo", [])', source)
         self.assertIn("return SourceTurretAmmoState.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)", source_handle_item_body)
         self.assertNotIn("return SourceTurretRuntimeState.item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)", source_handle_item_body)
@@ -6949,6 +7425,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return SourceTurretRuntimeState.selected_ammo_world_speed(selected_playable_turret(), callbacks.get("world_speed", Callable()))', source)
         self.assertIn("func selected_turret_total_ammo() -> int:", source)
         self.assertIn("return SourceTurretRuntimeState.selected_total_ammo(turret_total_ammo, cell_key(duo_pos))", source)
+
+    def test_port_game_delegates_selected_turret_stat_facade_to_runtime_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRuntimeState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_state.read_text(encoding="utf-8")
+
+        self.assertIn("static func selected_turret_float_stat(game: Object, source_method: String) -> float:", runtime_source)
+        self.assertIn("static func selected_turret_dict_stat(game: Object, source_method: String) -> Dictionary:", runtime_source)
+        self.assertIn("static func selected_turret_int_stat(game: Object, source_method: String) -> int:", runtime_source)
+
+        expected_wrappers = {
+            "func selected_turret_reload_seconds() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_reload_seconds")',
+            "func selected_turret_range() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_range")',
+            "func selected_turret_shoot_y() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_shoot_y")',
+            "func selected_turret_shoot_pattern() -> Dictionary:": 'return SourceTurretRuntimeState.selected_turret_dict_stat(self, "source_turret_shoot_pattern")',
+            "func selected_turret_inaccuracy() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_inaccuracy")',
+            "func selected_turret_rotate_speed() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_rotate_speed")',
+            "func selected_turret_shoot_cone() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_shoot_cone")',
+            "func selected_turret_recoil() -> float:": 'return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_recoil")',
+            "func selected_turret_recoils() -> int:": 'return SourceTurretRuntimeState.selected_turret_int_stat(self, "source_turret_recoils")',
+        }
+        for signature, expected_return in expected_wrappers.items():
+            body = self._method_body(source, signature)
+            self.assertIn(expected_return, body)
+            self.assertNotIn("if content_catalog == null:", body)
+            self.assertNotIn("var duo = selected_playable_turret()", body)
 
     def test_source_turret_runtime_selected_ammo_callbacks_use_registry(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -7125,10 +7628,13 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_turret_fire_uses_source_loaded_ammo(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBulletRuntimeState.gd"
         turret_simulation = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretSimulationState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8") if helper.exists() else ""
         simulation_source = turret_simulation.read_text(encoding="utf-8") if turret_simulation.exists() else ""
         summary_source = self._runtime_summary_source()
+        spawn_body = self._method_body(source, "func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:")
 
         self.assertIn('var data: Dictionary = fire_context.get("data", {})', simulation_source)
         self.assertIn('game.call("peek_turret_ammo", cell, turret)', simulation_source)
@@ -7136,13 +7642,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if not data.is_empty():", simulation_source)
         self.assertIn('game.call("spawn_turret_bullet", bullet_origin, target, data, shoot_angle_degrees)', simulation_source)
         self.assertIn("func spawn_turret_bullet(origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:", source)
+        self.assertIn("static func spawn_turret_bullet(game, origin: Vector2, target, data: Dictionary, shoot_angle_degrees := 0.0) -> void:", helper_source)
         self.assertNotIn("spawn_turret_bullet(grid_to_world(cell), target, duo)", source)
         self.assertIn("var turret_shot_count := 0", source)
         self.assertIn("var last_turret_fired_ammo_item := \"\"", source)
         self.assertIn("var last_turret_fired_damage := 0.0", source)
-        self.assertIn('last_turret_fired_ammo_item = str(spawn_state.get("ammo_item", ""))', source)
-        self.assertIn('last_turret_fired_damage = float(spawn_state.get("damage", 0.0))', source)
-        self.assertIn("turret_shot_count += 1", source)
+        self.assertIn('last_turret_fired_ammo_item = str(bullet_spawn_state.get("ammo_item", ""))', helper_source)
+        self.assertIn('last_turret_fired_damage = float(bullet_spawn_state.get("damage", 0.0))', helper_source)
+        self.assertIn("turret_shot_count += 1", helper_source)
+        self.assertNotIn('last_turret_fired_ammo_item = str(spawn_state.get("ammo_item", ""))', spawn_body)
+        self.assertNotIn('last_turret_fired_damage = float(spawn_state.get("damage", 0.0))', spawn_body)
+        self.assertNotIn("turret_shot_count += 1", spawn_body)
         self.assertIn('"turret_shot_count": int(game.get("turret_shot_count"))', summary_source)
         self.assertIn('"last_turret_fired_ammo_item": str(game.get("last_turret_fired_ammo_item"))', summary_source)
         self.assertIn('"last_turret_fired_damage": float(game.get("last_turret_fired_damage"))', summary_source)
@@ -7150,13 +7660,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_bootstraps_playable_turret_from_source_first_ammo(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         item_turret_build = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
+        turret_ammo_state = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretAmmoState.gd"
         initial_build_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceWorldInitialBuildRuntimeState.gd"
         runtime_summary = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameRuntimeSummaryState.gd"
         source = port_game.read_text(encoding="utf-8")
         item_turret_build_source = item_turret_build.read_text(encoding="utf-8") if item_turret_build.exists() else ""
+        ammo_state_source = turret_ammo_state.read_text(encoding="utf-8") if turret_ammo_state.exists() else ""
         initial_build_source = initial_build_runtime.read_text(encoding="utf-8") if initial_build_runtime.exists() else ""
         summary_source = runtime_summary.read_text(encoding="utf-8")
         build_world_body = source.split("func build_world() -> void:", 1)[1].split("func _unhandled_input", 1)[0]
+        bootstrap_body = source.split("func bootstrap_selected_turret_ammo() -> int:", 1)[1].split("\nfunc ", 1)[0]
         module_build_world_body = initial_build_source.split("static func build_world(game) -> void:", 1)[1].split("\nstatic func", 1)[0] if "static func build_world(game) -> void:" in initial_build_source else ""
 
         self.assertIn("SourceWorldInitialBuildRuntimeState.build_world(self)", build_world_body)
@@ -7170,11 +7683,15 @@ class PlayableManifestTests(unittest.TestCase):
         self._assert_source_consts_in_helper_not_port(source, item_turret_build_source, [
             'const SOURCE_ITEM_TURRET_BOOTSTRAP_FIRST_AMMO := "handleItem(this, ammoTypes.keys().next());"',
         ])
-        self.assertIn("var ammo_entries: Array = SourceTurretAmmoState.selected_turret_ammo_entries(duo)", source)
-        self.assertIn("var first_ammo: Dictionary = ammo_entries[0]", source)
-        self.assertIn('var item_id := str(first_ammo.get("item", ""))', source)
-        self.assertIn("while handle_turret_item(duo_pos, duo, item_id):", source)
-        self.assertIn("loaded += 1", source)
+        self.assertIn("return SourceTurretAmmoState.bootstrap_selected_turret_ammo(self)", bootstrap_body)
+        self.assertIn("static func bootstrap_selected_turret_ammo(game) -> int:", ammo_state_source)
+        self.assertIn("var ammo_entries: Array = selected_turret_ammo_entries(duo)", ammo_state_source)
+        self.assertIn("var first_ammo: Dictionary = ammo_entries[0]", ammo_state_source)
+        self.assertIn('var item_id := str(first_ammo.get("item", ""))', ammo_state_source)
+        self.assertIn("while handle_turret_item(game, game.get(\"duo_pos\"), duo, item_id):", ammo_state_source)
+        self.assertIn("loaded += 1", ammo_state_source)
+        self.assertNotIn("var ammo_entries: Array = SourceTurretAmmoState.selected_turret_ammo_entries(duo)", source)
+        self.assertNotIn("while handle_turret_item(duo_pos, duo, item_id):", source)
         self.assertIn('"bootstrapped_selected_turret_ammo_load_count": int(game.get("bootstrapped_selected_turret_ammo_load_count"))', summary_source)
         self.assertNotIn('load_selected_turret_ammo("copper"', source)
 
@@ -7222,7 +7739,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('cooldown = float(shot_application.get("cooldown_after_fire", cooldown))', simulation_source)
         self.assertNotIn('max(0.1, float(duo.properties.get("reload", 60.0)) / 60.0)', source)
         self.assertIn("func selected_turret_reload_seconds() -> float:", source)
-        self.assertIn('return source_turret_reload_seconds(duo)', source)
+        self.assertIn('return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_reload_seconds")', source)
         self.assertIn('"selected_turret_reload_seconds": game.call("selected_turret_reload_seconds")', runtime_summary_source)
 
     def test_port_game_uses_source_turret_range(self):
@@ -7276,7 +7793,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('game.set("last_turret_fired_range", float(shot_application.get("range_pixels", 0.0)))', simulation_source)
         self.assertNotIn('var range_pixels = float(duo.properties.get("range", 0.0))', source)
         self.assertIn("func selected_turret_range() -> float:", source)
-        self.assertIn('return source_turret_range(duo)', source)
+        self.assertIn('return SourceTurretRuntimeState.selected_turret_float_stat(self, "source_turret_range")', source)
         self.assertIn('"last_turret_fired_range": float(game.get("last_turret_fired_range"))', runtime_summary_source)
         self.assertIn('"selected_turret_ammo_range_change": game.call("selected_turret_ammo_range_change")', runtime_summary_source)
         self.assertIn('"selected_turret_range": game.call("selected_turret_range")', runtime_summary_source)
@@ -7297,10 +7814,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_TURRET_FIND_TARGET_RANGE_EXPR := "float trackRange = trackingRange(), range = range();"', runtime_source)
         self.assertIn('const SOURCE_TURRET_FIND_TARGET_ASSIGN_EXPR := "target = findEnemy(range);"', runtime_source)
         self.assertIn('const SOURCE_UNITS_BEST_ENEMY_RANGE_GUARD := "if(e.dead() || !predicate.get(e) || e.team == Team.derelict || !e.within(x, y, range + e.hitSize/2f) || !e.targetable(team) || e.inFogTo(team)) return;"', runtime_source)
-        self.assertIn('var target_candidates: Array = []', target_body)
-        self.assertIn('target_candidates.append({"target": enemy, "position": sprite.position})', target_body)
-        self.assertIn('var target_state := SourceTurretCombatState.target_selection_state(origin, range_pixels, target_candidates)', target_body)
+        self.assertIn("static func target_candidates_from_enemy_units(enemy_units: Array) -> Array:", combat_source)
+        self.assertIn("static func enemy_target_state(origin: Vector2, range_pixels: float, enemy_units: Array) -> Dictionary:", combat_source)
+        self.assertIn('var target_candidates := target_candidates_from_enemy_units(enemy_units)', combat_source)
+        self.assertIn('target_candidates.append({"target": enemy, "position": sprite.position})', combat_source)
+        self.assertIn('var target_state := SourceTurretCombatState.enemy_target_state(origin, range_pixels, enemy_units)', target_body)
         self.assertIn('return target_state.get("target", null)', target_body)
+        self.assertNotIn('var target_candidates: Array = []', target_body)
+        self.assertNotIn('target_candidates.append({"target": enemy, "position": sprite.position})', target_body)
+        self.assertNotIn('SourceTurretCombatState.target_selection_state(origin, range_pixels, target_candidates)', target_body)
         self.assertNotIn("var best_distance := range_pixels", target_body)
         self.assertNotIn("if distance <= best_distance:", target_body)
 
@@ -7320,6 +7842,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceTurretCombatState.turret_bullet_origin_state", proof_source)
         self.assertIn("SourceTurretCombatState.total_inaccuracy", proof_source)
         self.assertIn("SourceTurretCombatState.target_selection_state", proof_source)
+        self.assertIn("SourceTurretCombatState.target_candidates_from_enemy_units", proof_source)
+        self.assertIn("SourceTurretCombatState.enemy_target_state", proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
@@ -7448,9 +7972,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func use_turret_shoot_x_offset(cell: Vector2i, turret) -> float:", source)
         self.assertIn("static func shoot_x_offset_state(pattern: Dictionary, counter: int) -> Dictionary:", runtime_source)
         self.assertIn("static func shoot_x_offset_state(pattern: Dictionary, counter: int) -> Dictionary:", combat_source)
-        self.assertIn("var shoot_offset_state := SourceTurretCombatState.shoot_x_offset_state(pattern, counter)", shoot_offset_body)
+        self.assertIn("static func use_turret_shoot_x_offset(game, cell: Vector2i, turret) -> float:", combat_source)
+        self.assertIn("return SourceTurretCombatState.use_turret_shoot_x_offset(self, cell, turret)", shoot_offset_body)
+        self.assertIn("var shoot_offset_state := shoot_x_offset_state(pattern, counter)", combat_source)
         self.assertNotIn("var offset := (float(index) - 0.5) * spread", shoot_offset_body)
-        self.assertIn("turret_barrel_counters[key] = counter + 1", source)
+        self.assertNotIn("var shoot_offset_state := SourceTurretCombatState.shoot_x_offset_state(pattern, counter)", shoot_offset_body)
+        self.assertNotIn("turret_barrel_counters[key] = counter + 1", shoot_offset_body)
+        self.assertIn("turret_barrel_counters[key] = counter + 1", combat_source)
         self.assertIn("var shot_application := turret_shot_application_state(shot_context, turret_step_state, current_rotation, cooldown)", simulation_source)
         self.assertIn('game.set("last_turret_fired_shoot_x_offset", float(shot_application.get("shoot_x_offset", 0.0)))', simulation_source)
         self.assertIn("turret_shot_context(", simulation_source)
@@ -7512,8 +8040,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('game.set("last_turret_fired_inaccuracy_offset", float(shot_application.get("inaccuracy_offset", 0.0)))', simulation_source)
         self.assertIn('var shoot_angle_degrees := float(shot_application.get("shoot_angle_degrees", current_rotation))', simulation_source)
         self.assertIn('game.call("spawn_turret_bullet", bullet_origin, target, data, shoot_angle_degrees)', simulation_source)
-        self.assertIn('var velocity := spawn_state.get("velocity", Vector2.ZERO) as Vector2', source)
-        self.assertIn('"velocity": velocity', source)
+        self.assertIn('var bullet_velocity := bullet_spawn_state.get("velocity", Vector2.ZERO) as Vector2', source)
+        self.assertIn('"velocity": bullet_velocity', source)
         summary_source = self._runtime_summary_source()
         self.assertIn('"last_turret_fired_inaccuracy_range": float(game.get("last_turret_fired_inaccuracy_range"))', summary_source)
         self.assertIn('"last_turret_fired_inaccuracy_offset": float(game.get("last_turret_fired_inaccuracy_offset"))', summary_source)
@@ -7579,7 +8107,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_move_angle_toward(current_degrees: float, target_degrees: float, max_delta: float) -> float:", source)
         self.assertNotIn("const SOURCE_MOVE_ANGLE_TOWARD_CANONICAL_WRAPPER", source)
         self.assertIn('const SOURCE_MOVE_ANGLE_TOWARD_CANONICAL_WRAPPER := "source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)"', combat_source)
-        self.assertIn("return source_arc_angles_move_toward(current_degrees, target_degrees, max_delta)", source)
+        self.assertIn("return SourceMathState.source_angles_angle_dist(current_degrees, target_degrees)", source)
+        self.assertIn("return SourceMathState.source_angles_move_toward(current_degrees, target_degrees, max_delta)", source)
         self.assertIn("func turret_simulation_callbacks() -> Dictionary:", source)
         callbacks_body = self._method_body(source, "func turret_simulation_callbacks() -> Dictionary:")
         self.assertIn("return SourceTurretSimulationState.simulation_callbacks(self)", callbacks_body)
@@ -7756,12 +8285,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceTurretCombatState.recoil_offset(recoil_rotation_degrees, cur_recoil, SourceTurretCombatState.SOURCE_TURRET_RECOIL_OFFSET_RECOIL_POW_DEFAULT, source_turret_recoil(turret))", recoil_offset_body)
         self.assertNotIn("Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil", recoil_offset_body)
         self.assertIn("func update_turret_recoil(cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:", source)
+        self.assertIn("static func update_turret_recoil(game, cell: Vector2i, turret, delta: float, recoil_rotation_degrees: float) -> void:", combat_source)
+        self.assertIn("static func apply_turret_recoil_offset(game, cell: Vector2i, turret, offset: Vector2) -> void:", combat_source)
         self.assertIn("static func recoil_step_state(cur_recoil: float, seconds: float, tick_rate: float, recoil_time: float) -> Dictionary:", runtime_source)
-        self.assertIn("var recoil_state := SourceTurretCombatState.recoil_step_state(", update_recoil_body)
+        self.assertIn("SourceTurretCombatState.update_turret_recoil(self, cell, turret, delta, recoil_rotation_degrees)", update_recoil_body)
+        self.assertNotIn("var recoil_state := SourceTurretCombatState.recoil_step_state(", update_recoil_body)
         self.assertNotIn("cur_recoil = max(0.0, cur_recoil - delta * SOURCE_TICK_RATE / source_turret_recoil_time(turret))", update_recoil_body)
-        self.assertIn("turret_recoils[key] = cur_recoil", source)
-        self.assertIn("last_turret_recoil_offset = source_turret_recoil_offset(turret, recoil_rotation_degrees, cur_recoil)", source)
-        self.assertIn("apply_turret_recoil_offset(cell, turret, last_turret_recoil_offset)", source)
+        self.assertIn("var recoil_state := recoil_step_state(", combat_source)
+        self.assertIn("turret_recoils[key] = cur_recoil", combat_source)
+        self.assertIn('game.set("last_turret_cur_recoil", cur_recoil)', combat_source)
+        self.assertIn('game.set("last_turret_recoil_offset", computed_recoil_offset)', combat_source)
+        self.assertIn("apply_turret_recoil_offset(game, cell, turret, computed_recoil_offset)", combat_source)
+        self.assertIn("var computed_recoil_offset: Vector2 =", combat_source)
+        self.assertNotIn("var recoil_offset: Vector2 =", combat_source)
+        self.assertNotIn("turret_recoils[key] = cur_recoil", update_recoil_body)
+        self.assertNotIn("last_turret_recoil_offset = source_turret_recoil_offset(turret, recoil_rotation_degrees, cur_recoil)", update_recoil_body)
+        self.assertNotIn("apply_turret_recoil_offset(cell, turret, last_turret_recoil_offset)", update_recoil_body)
         self.assertIn('game.call("update_turret_recoil", cell, duo, delta, float(turret_rotations.get(key, 0.0)))', simulation_source)
         self.assertIn('turret_recoils[key] = cur_recoil', simulation_source)
         self.assertIn('game.set("last_turret_cur_recoil", cur_recoil)', simulation_source)
@@ -7828,7 +8367,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"output_delta_for_cell": Callable(game, output_delta_for_cell_method)', drill_runtime_source)
         self.assertIn("output_delta = float(output_delta_for_cell_fn.call(cell_x, cell_y, dominant_items, seconds, drill_warmup, speed))", drill_runtime_source)
         self.assertNotIn("item_progress += delta * 0.45", source)
-        self.assertIn('source_offload_to_inventory(drill_output_item_id, int(apply_state.get("offload_amount", 0)))', source)
+        self.assertIn('game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get("offload_amount", 0)))', self._port_game_factory_runtime_source())
         self.assertNotIn('add_core_item("copper", 1)', source)
         self.assertIn("func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:", source)
         ore_count_body = self._method_body(source, "func source_drill_ore_count(block_id: String, cell: Vector2i, item_id: String) -> int:")
@@ -8036,7 +8575,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return float(approach_delta_fn.call(current_warmup, 0.0, warmup_speed, source_delta))", source)
         self.assertIn('"inactive_warmup_state": Callable(game, inactive_warmup_state_method)', source)
         self.assertIn("var inactive_warmup := float(inactive_warmup_state_fn.call(current_warmup, warmup_speed, source_delta))", self._port_game_drill_runtime_source())
-        self.assertIn("set_drill_warmup_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get(\"drill_warmup\", drill_warmup_at_cell(drill_pos.x, drill_pos.y))))", source)
+        self.assertIn('game.call("set_drill_warmup_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_warmup", game.call("drill_warmup_at_cell", drill_cell.x, drill_cell.y))))', self._port_game_factory_runtime_source())
 
     def test_port_game_tracks_source_drill_time_drilled(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -8065,7 +8604,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func step_drill_time_drilled_cell(x: int, y: int, seconds: float, warmup: float) -> float:", source)
         self.assertIn('"time_drilled_delta": Callable(game, time_drilled_delta_method)', source)
         self.assertIn("time_drilled_delta = float(time_drilled_delta_fn.call(current_warmup, seconds, time_scale))", self._port_game_drill_runtime_source())
-        self.assertIn("set_drill_time_drilled_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get(\"drill_time_drilled\", drill_time_drilled_at_cell(drill_pos.x, drill_pos.y))))", source)
+        self.assertIn('game.call("set_drill_time_drilled_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_time_drilled", game.call("drill_time_drilled_at_cell", drill_cell.x, drill_cell.y))))', self._port_game_factory_runtime_source())
         self.assertIn('"drill_time_drilled": drill_time_drilled_value', self._port_game_factory_runtime_source())
 
     def test_port_game_tracks_source_drill_last_speed(self):
@@ -8102,7 +8641,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func set_drill_last_speed_at_cell(x: int, y: int, value: float) -> void:", source)
         self.assertIn('"last_speed_for_cell": Callable(game, last_speed_for_cell_method)', source)
         self.assertIn("drill_last_speed = float(last_speed_for_cell_fn.call(cell_x, cell_y, item_id, dominant_items, current_warmup, speed))", self._port_game_drill_runtime_source())
-        self.assertIn("set_drill_last_speed_at_cell(drill_pos.x, drill_pos.y, float(apply_state.get(\"drill_last_speed\", drill_last_speed_at_cell(drill_pos.x, drill_pos.y))))", source)
+        self.assertIn('game.call("set_drill_last_speed_at_cell", drill_cell.x, drill_cell.y, float(apply_state.get("drill_last_speed", game.call("drill_last_speed_at_cell", drill_cell.x, drill_cell.y))))', self._port_game_factory_runtime_source())
         self.assertIn('"drill_last_speed": drill_last_speed_value', self._port_game_factory_runtime_source())
 
     def test_port_game_batches_source_drill_output(self):
@@ -8125,8 +8664,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return {\"amount\": amount, \"progress\": fmod(progress, delay)}", drill_production_source)
         self.assertIn('"production_state": Callable(game, production_state_method)', drill_runtime_source)
         self.assertIn("production_state = production_state_fn.call(current_progress_fraction, drill_delay, output_delta, dominant_items, items_total, item_capacity)", drill_runtime_source)
-        self.assertIn("item_progress = float(apply_state.get(\"item_progress\", item_progress))", source)
-        self.assertIn("source_offload_to_inventory(drill_output_item_id, int(apply_state.get(\"offload_amount\", 0)))", source)
+        self.assertIn('game.set("item_progress", float(apply_state.get("item_progress", game.get("item_progress"))))', self._port_game_factory_runtime_source())
+        self.assertIn('game.call("source_offload_to_inventory", drill_output_item_id, int(apply_state.get("offload_amount", 0)))', self._port_game_factory_runtime_source())
         self.assertIn('"offload_amount": offload_amount', drill_production_source)
 
     def test_port_game_tracks_source_drill_internal_inventory(self):
@@ -9473,7 +10012,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_status_bridge_state(enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_status_bridge_state(enable_draw_status: bool, consumers_length: int, block_size_value: int, source_x: float, source_y: float, source_tilesize: float) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawStatus_123([enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawStatus_123", [enable_draw_status, consumers_length, block_size_value, source_x, source_y, source_tilesize], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_status_state"', helper_source)
 
     def test_generated_building_comp_bridges_draw_cracks_to_source_state(self):
@@ -9504,7 +10043,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_cracks_bridge_state(draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_cracks_bridge_state(draw_cracks: bool, damaged_state: bool, block_size_value: int, max_crack_size: int, health_fraction: float, crack_regions: int, position_id: int) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawCracks_124([draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawCracks_124", [draw_cracks, damaged_state, block_size_value, max_crack_size, health_fraction, crack_regions, position_id], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_cracks_state"', helper_source)
 
     def test_generated_building_comp_bridges_draw_select_to_source_state(self):
@@ -9537,7 +10076,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_select_bridge_state(block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_select_bridge_state(block_status: String, source_x: float, source_y: float, source_rotation: float, tile_x: int, tile_y: int, unit_activation_delay: float, state_tick: float) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawSelect_125([block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawSelect_125", [block_status, source_x, source_y, source_rotation, tile_x, tile_y, unit_activation_delay, state_tick], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_select_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawSelect_125"', helper_source)
 
@@ -9578,7 +10117,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_item_selection_bridge_state(has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_item_selection_bridge_state(has_selection: bool, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, icon_small: float, selection_icon_ratio: float) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawItemSelection_126([has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawItemSelection_126", [has_selection, source_x, source_y, block_size_value, source_tilesize, icon_small, selection_icon_ratio], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_item_selection_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawItemSelection_126"', helper_source)
 
@@ -9611,7 +10150,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_disabled_bridge_state(source_x, source_y)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_disabled_bridge_state(source_x: float, source_y: float) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawDisabled_127([source_x, source_y])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawDisabled_127", [source_x, source_y], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_disabled_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawDisabled_127"', helper_source)
 
@@ -9649,7 +10188,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_bridge_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_draw_128([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_draw_128", [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_draw_128"', helper_source)
 
@@ -9670,7 +10209,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_cached_bridge_state(variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_cached_bridge_state(variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", helper_source)
-        self.assertIn('var result = instance.java_method_drawCached_129([variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])', helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawCached_129", [variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_cached_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawCached_129"', helper_source)
 
@@ -9699,7 +10238,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_recache_bridge_state(headless, building_cache_layer, tile_state)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_recache_bridge_state(headless: bool, building_cache_layer: Variant, tile_state: Variant) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_recache_130([headless, building_cache_layer, tile_state])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_recache_130", [headless, building_cache_layer, tile_state], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_recache_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_recache_130"', helper_source)
 
@@ -9734,7 +10273,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_payload_draw_bridge_state(draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_payload_draw_bridge_state(draw_cached: bool, draw_dynamic: bool, current_z: float, building_cache_layer_z: float, variants: int, has_variant_regions: bool, variant_region_count: int, tile_pos: int, source_x: float, source_y: float, block_rotate: bool, block_rotate_draw: bool, rotation_quadrants: int) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_payloadDraw_131([draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_payloadDraw_131", [draw_cached, draw_dynamic, current_z, building_cache_layer_z, variants, has_variant_regions, variant_region_count, tile_pos, source_x, source_y, block_rotate, block_rotate_draw, rotation_quadrants], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_payload_draw_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_payloadDraw_131"', helper_source)
 
@@ -9763,7 +10302,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_team_top_bridge_state(team_region_found, team_region_matches_team, team_color, source_x, source_y)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_team_top_bridge_state(team_region_found: bool, team_region_matches_team: bool, team_color: String, source_x: float, source_y: float) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_drawTeamTop_132([team_region_found, team_region_matches_team, team_color, source_x, source_y])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawTeamTop_132", [team_region_found, team_region_matches_team, team_color, source_x, source_y], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_team_top_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawTeamTop_132"', helper_source)
 
@@ -9803,7 +10342,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_light_bridge_state(has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_drawLight_133([has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawLight_133", [has_liquids, draw_liquid_light, light_liquid_is_null, current_liquid_color, current_liquid_alpha, light_liquid_color, light_liquid_alpha, selected_liquid_amount, visual_liquid, source_delta, source_x, source_y, block_size_value], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_light_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawLight_133"', helper_source)
 
@@ -9839,7 +10378,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_liquid_light_bridge_state(source_x, source_y, block_size_value, light_color, light_alpha, amount)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_liquid_light_bridge_state(source_x: float, source_y: float, block_size_value: int, light_color: String, light_alpha: float, amount: float) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_drawLiquidLight_134([source_x, source_y, block_size_value, light_color, light_alpha, amount])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawLiquidLight_134", [source_x, source_y, block_size_value, light_color, light_alpha, amount], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_liquid_light_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawLiquidLight_134"', helper_source)
 
@@ -9873,7 +10412,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingDrawState.generated_draw_team_bridge_state(team_color, source_x, source_y, block_size_value, source_tilesize)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_draw_team_bridge_state(team_color: String, source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_drawTeam_135([team_color, source_x, source_y, block_size_value, source_tilesize])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawTeam_135", [team_color, source_x, source_y, block_size_value, source_tilesize], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_draw_team_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_drawTeam_135"', helper_source)
 
@@ -10234,7 +10773,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingConfigureState.generated_configured_type_bridge_state(value_state)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_configured_type_bridge_state(value_state: Dictionary) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_configured_148([{}, value_state])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_configured_148", [{}, value_state], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_configured_type_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_configured_148"', helper_source)
 
@@ -10266,7 +10805,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceBuildingConfigureState.generated_update_last_access_bridge_state(builder_state, current_last_accessed)", bridge_body)
         self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', bridge_body)
         self.assertIn("static func generated_update_last_access_bridge_state(builder_state: Dictionary, current_last_accessed: String) -> Dictionary:", helper_source)
-        self.assertIn("var result = instance.java_method_updateLastAccess_149([builder_state, current_last_accessed])", helper_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateLastAccess_149", [builder_state, current_last_accessed], null)', helper_source)
         self.assertIn('"source_owner": "PortGame.source_building_configured_last_access_state"', helper_source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateLastAccess_149"', helper_source)
 
@@ -10921,14 +11460,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_get_cursor_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingMetaState.gd"
         source = self._port_game_building_display_configure_source()
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_get_cursor_bridge_state(block_configurable: bool, interactable_player_team: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_get_cursor_bridge_state(block_configurable: bool, interactable_player_team: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_getCursor_165([block_configurable, interactable_player_team])", source)
-        self.assertIn("var canonical = source_building_cursor_state(block_configurable, interactable_player_team)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_cursor_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_getCursor_165"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingMetaState.generated_cursor_bridge_state(block_configurable, interactable_player_team)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_getCursor_165", "block_configurable, interactable_player_team")
+        self.assertIn("var canonical = cursor_state(block_configurable, interactable_player_team)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_cursor_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_getCursor_165"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_on_configure_tapped_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -10946,14 +11490,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_on_configure_tapped_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingConfigureState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_on_configure_tapped_bridge_state(x: float, y: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_on_configure_tapped_bridge_state(x: float, y: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_onConfigureTapped_167([x, y])", source)
-        self.assertIn("var canonical = source_building_on_configure_tapped_state(x, y)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_on_configure_tapped_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureTapped_167"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingConfigureState.generated_on_configure_tapped_bridge_state(x, y)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onConfigureTapped_167", "x, y")
+        self.assertIn("var canonical = on_configure_tapped_state(x, y)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_tapped_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureTapped_167"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_on_configure_closed_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -10966,14 +11515,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_on_configure_closed_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingConfigureState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_on_configure_closed_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_building_comp_on_configure_closed_bridge_state() -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_onConfigureClosed_168([])", source)
-        self.assertIn("var canonical = source_building_on_configure_closed_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_building_on_configure_closed_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureClosed_168"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingConfigureState.generated_on_configure_closed_bridge_state()", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onConfigureClosed_168", "")
+        self.assertIn("var canonical = on_configure_closed_state()", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_on_configure_closed_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onConfigureClosed_168"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_should_show_configure_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -10990,14 +11544,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_should_show_configure_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingConfigureState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_should_show_configure_bridge_state(player: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_should_show_configure_bridge_state(player: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_shouldShowConfigure_169([player])", source)
-        self.assertIn("var canonical = source_building_should_show_configure_state(player)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_should_show_configure_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_shouldShowConfigure_169"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingConfigureState.generated_should_show_configure_bridge_state(player)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_shouldShowConfigure_169", "player")
+        self.assertIn("var canonical = should_show_configure_state(player)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_should_show_configure_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_shouldShowConfigure_169"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_should_hide_configure_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11014,14 +11573,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_should_hide_configure_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingConfigureState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_should_hide_configure_bridge_state(player: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_should_hide_configure_bridge_state(player: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_shouldHideConfigure_170([player])", source)
-        self.assertIn("var canonical = source_building_should_hide_configure_state(player)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_should_hide_configure_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_shouldHideConfigure_170"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingConfigureState.generated_should_hide_configure_bridge_state(player)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_shouldHideConfigure_170", "player")
+        self.assertIn("var canonical = should_hide_configure_state(player)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_should_hide_configure_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_shouldHideConfigure_170"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_draw_configure_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11049,28 +11613,36 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_draw_configure_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         generated_source = generated.read_text(encoding="utf-8")
         method_body = generated_source.split("func java_method_drawConfigure_171(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
+        bridge_body = self._method_body(source, "func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:")
         default_bridge = source.split("func generated_building_comp_draw_configure_source_tilesize_default_bridge_state", 1)[1].split("func generated_building_comp_check_solid_bridge_state", 1)[0]
 
         self.assertIn("func generated_building_comp_draw_configure_bridge_state(source_x: float, source_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value, source_tilesize])", source)
-        self.assertIn("var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_drawConfigure_171"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingDrawState.generated_draw_configure_bridge_state(source_x, source_y, block_size_value, source_tilesize)", bridge_body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", bridge_body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawConfigure_171", "source_x, source_y, block_size_value, source_tilesize")
+        self.assertIn("var canonical = draw_configure_state(source_x, source_y, block_size_value, source_tilesize)", module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_draw_configure_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_drawConfigure_171"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
         self.assertIn("var source_tilesize := float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", method_body)
         self.assertNotIn("var source_tilesize := float(_args[3] if _args.size() > 3 else 0.0)", method_body)
         self.assertIn("func generated_building_comp_draw_configure_source_tilesize_default_bridge_state(source_x: float, source_y: float, block_size_value: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_drawConfigure_171([source_x, source_y, block_size_value])", default_bridge)
-        self.assertIn("var canonical = source_building_draw_configure_state(source_x, source_y, block_size_value, SourceWorldDefaults.TILESIZE)", default_bridge)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", default_bridge)
-        self.assertIn('"defaulted_arg": "source_tilesize"', default_bridge)
-        self.assertIn('"source_tilesize": result.get("source_tilesize", null)', default_bridge)
-        self.assertIn('"matches": matches', default_bridge)
-        self.assertNotIn('"matches": result == canonical', default_bridge)
+        self.assertIn("return SourceBuildingDrawState.generated_draw_configure_source_tilesize_default_bridge_state(source_x, source_y, block_size_value)", default_bridge)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", default_bridge)
+        self.assertIn("static func generated_draw_configure_source_tilesize_default_bridge_state(source_x: float, source_y: float, block_size_value: int) -> Dictionary:", module_source)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_drawConfigure_171", "source_x, source_y, block_size_value")
+        self.assertIn("var canonical = draw_configure_state(source_x, source_y, block_size_value, SourceWorldDefaults.TILESIZE)", module_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", module_source)
+        self.assertIn('"defaulted_arg": "source_tilesize"', module_source)
+        self.assertIn('"source_tilesize": result.get("source_tilesize", null)', module_source)
+        self.assertIn('"matches": matches', module_source)
+        self.assertNotIn('"matches": result == canonical', module_source)
 
     def test_generated_building_comp_bridges_check_solid_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11083,14 +11655,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_check_solid_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingCoreState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_check_solid_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_building_comp_check_solid_bridge_state() -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_checkSolid_172([])", source)
-        self.assertIn('"checkSolid": source_building_check_solid_state()', source)
-        self.assertIn('"source_owner": "PortGame.source_building_check_solid_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_checkSolid_172"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingCoreState.generated_check_solid_bridge_state()", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkSolid_172", "")
+        self.assertIn('"checkSolid": check_solid_state()', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_solid_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_checkSolid_172"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_handle_damage_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11105,14 +11682,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_handle_damage_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_handle_damage_bridge_state(amount: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_handle_damage_bridge_state(amount: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_handleDamage_173([amount])", source)
-        self.assertIn('"handled_damage": source_building_handle_damage_state(amount)', source)
-        self.assertIn('"source_owner": "PortGame.source_building_handle_damage_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_handleDamage_173"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingDamageState.generated_handle_damage_bridge_state(amount)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_handleDamage_173", "amount")
+        self.assertIn('"handled_damage": handle_damage_state(amount)', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_handle_damage_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_handleDamage_173"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_absorb_lasers_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11127,16 +11709,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_absorb_lasers_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingCoreState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_absorb_lasers_bridge_state(block_absorb_lasers: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_absorbLasers_174([block_absorb_lasers])", source)
-        self.assertIn('"blockAbsorbLasers": block_absorb_lasers', source)
-        self.assertIn('"defaultAbsorbLasers": false', source)
-        self.assertIn('"absorbLasers": source_building_absorb_lasers_state(block_absorb_lasers)', source)
-        self.assertIn('"source_owner": "PortGame.source_building_absorb_lasers_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_absorbLasers_174"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingCoreState.generated_absorb_lasers_bridge_state(block_absorb_lasers)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_absorbLasers_174", "block_absorb_lasers")
+        self.assertIn('"blockAbsorbLasers": block_absorb_lasers', module_source)
+        self.assertIn('"defaultAbsorbLasers": false', module_source)
+        self.assertIn('"absorbLasers": absorb_lasers_state(block_absorb_lasers)', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_absorb_lasers_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_absorbLasers_174"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_is_insulated_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11151,16 +11738,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_is_insulated_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingCoreState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_is_insulated_bridge_state(block_insulated: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_is_insulated_bridge_state(block_insulated: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_isInsulated_175([block_insulated])", source)
-        self.assertIn('"method": "public boolean isInsulated(){"', source)
-        self.assertIn('"block_insulated": block_insulated', source)
-        self.assertIn('"insulated": source_building_is_insulated_state(block_insulated)', source)
-        self.assertIn('"source_owner": "PortGame.source_building_is_insulated_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_isInsulated_175"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingCoreState.generated_is_insulated_bridge_state(block_insulated)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_isInsulated_175", "block_insulated")
+        self.assertIn('"method": "public boolean isInsulated(){"', module_source)
+        self.assertIn('"block_insulated": block_insulated', module_source)
+        self.assertIn('"insulated": is_insulated_state(block_insulated)', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_is_insulated_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_isInsulated_175"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_collide_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11175,16 +11767,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_collide_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingCoreState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_collide_bridge_state(other: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_collide_bridge_state(other: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_collide_176([other])", source)
-        self.assertIn('"method": "public boolean collide(Bullet other){"', source)
-        self.assertIn('"other": other', source)
-        self.assertIn('"collide": source_building_collide_state(other)', source)
-        self.assertIn('"source_owner": "PortGame.source_building_collide_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_collide_176"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingCoreState.generated_collide_bridge_state(other)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_collide_176", "other")
+        self.assertIn('"method": "public boolean collide(Bullet other){"', module_source)
+        self.assertIn('"other": other', module_source)
+        self.assertIn('"collide": collide_state(other)', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_collide_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_collide_176"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_collision_to_source_damage_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11204,15 +11801,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_collision_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_collision_bridge_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_collision_bridge_state(current_health: float, bullet_building_damage: float, block_armor: float, bullet_pierce_armor: bool, bullet_armor_multiplier: float, bullet_block_armor_multiplier: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_collision_177([current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier])", source)
-        self.assertIn("var canonical = source_building_collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)", source)
-        self.assertIn('canonical["method"] = "public boolean collision(Bullet other){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_collision_damage_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_collision_177"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingDamageState.generated_collision_bridge_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_collision_177", "current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier")
+        self.assertIn("var canonical = collision_damage_state(current_health, bullet_building_damage, block_armor, bullet_pierce_armor, bullet_armor_multiplier, bullet_block_armor_multiplier)", module_source)
+        self.assertIn('canonical["method"] = "public boolean collision(Bullet other){"', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_collision_damage_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_collision_177"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_damage_delegate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11230,16 +11832,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_delegate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, damage_amount: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_damage_delegate_bridge_state(source_team: Variant, damage_amount: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_178([source_team, damage_amount])", source)
-        self.assertIn("var canonical = source_building_damage_delegate_state(source_team, damage_amount)", source)
-        self.assertIn('canonical["comment"] = "/** Used to handle damage from splash damage for certain types of blocks. */"', source)
-        self.assertIn('canonical["method"] = "public void damage(@Nullable Team source, float damage){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_delegate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_178"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingDamageState.generated_damage_delegate_bridge_state(source_team, damage_amount)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_damage_178", "source_team, damage_amount")
+        self.assertIn("var canonical = damage_delegate_state(source_team, damage_amount)", module_source)
+        self.assertIn('canonical["comment"] = "/** Used to handle damage from splash damage for certain types of blocks. */"', module_source)
+        self.assertIn('canonical["method"] = "public void damage(@Nullable Team source, float damage){"', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_delegate_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_178"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_bullet_damage_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11260,16 +11867,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_bullet_damage_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_bullet_damage_bridge_state(bullet: Variant, source_team: Variant, damage_amount: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_179([bullet, source_team, damage_amount])", source)
-        self.assertIn("var canonical = source_building_bullet_damage_state(bullet, source_team, damage_amount)", source)
-        self.assertIn('canonical["comment"] = "/** Handles splash damage with a bullet source. */"', source)
-        self.assertIn('canonical["method"] = "public void damage(Bullet bullet, Team source, float damage){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_bullet_damage_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_179"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingDamageState.generated_bullet_damage_bridge_state(bullet, source_team, damage_amount)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_source, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_damage_179", "bullet, source_team, damage_amount")
+        self.assertIn("var canonical = bullet_damage_state(bullet, source_team, damage_amount)", module_source)
+        self.assertIn('canonical["comment"] = "/** Handles splash damage with a bullet source. */"', module_source)
+        self.assertIn('canonical["method"] = "public void damage(Bullet bullet, Team source, float damage){"', module_source)
+        self.assertIn('"source_owner": "PortGame.source_building_bullet_damage_state"', module_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_179"', module_source)
+        self.assertIn('"canonical": canonical', module_source)
 
     def test_generated_building_comp_bridges_change_team_delegate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11286,16 +11898,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_change_team_delegate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_changeTeam_180([next_team])", source)
-        self.assertIn("var canonical = source_building_change_team_delegate_state(next_team)", source)
-        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', source)
-        self.assertIn('canonical["method"] = "public void changeTeam(Team next){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_change_team_delegate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_180"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("static func generated_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:", module_source)
+        module_body = self._method_body(module_source, "static func generated_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:")
+        self.assertIn("return SourceBuildingLifecycleState.generated_change_team_delegate_bridge_state(next_team)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_180", "next_team")
+        self.assertIn("var canonical = change_team_delegate_state(next_team)", module_body)
+        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', module_body)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next){"', module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_delegate_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_180"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_change_team_initial_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11315,16 +11934,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_change_team_initial_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid])", source)
-        self.assertIn("var canonical = source_building_change_team_initial_state(current_team, next_team, force_team, was_valid)", source)
-        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', source)
-        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_change_team_initial_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("static func generated_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:", module_source)
+        module_body = self._method_body(module_source, "static func generated_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:")
+        self.assertIn("return SourceBuildingLifecycleState.generated_change_team_initial_bridge_state(current_team, next_team, force_team, was_valid)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", "current_team, next_team, force_team, was_valid")
+        self.assertIn("var canonical = change_team_initial_state(current_team, next_team, force_team, was_valid)", module_body)
+        self.assertIn('canonical["comment"] = "/** Changes this building\'s team in a safe manner. */"', module_body)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_initial_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_change_team_power_proximity_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11343,16 +11969,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_change_team_power_proximity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph])", source)
-        self.assertIn("var canonical = source_building_change_team_power_proximity_state(power_present, update_power, old_graph, next_team)", source)
-        self.assertIn('canonical["gate"] = "if(power != null && updatePower){"', source)
-        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_proximity_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("static func generated_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:", module_source)
+        module_body = self._method_body(module_source, "static func generated_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:")
+        self.assertIn("return SourceBuildingLifecycleState.generated_change_team_power_proximity_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", "current_team, next_team, force_team, was_valid, power_present, update_power, old_graph")
+        self.assertIn("var canonical = change_team_power_proximity_state(power_present, update_power, old_graph, next_team)", module_body)
+        self.assertIn('canonical["gate"] = "if(power != null && updatePower){"', module_body)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_proximity_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_change_team_power_links_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11372,16 +12005,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_change_team_power_links_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count])", source)
-        self.assertIn("var canonical = source_building_change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)", source)
-        self.assertIn('canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"', source)
-        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_links_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("static func generated_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:", module_source)
+        module_body = self._method_body(module_source, "static func generated_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:")
+        self.assertIn("return SourceBuildingLifecycleState.generated_change_team_power_links_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", "current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count")
+        self.assertIn("var canonical = change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)", module_body)
+        self.assertIn('canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"', module_body)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_power_links_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_change_team_final_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11398,17 +12038,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_change_team_final_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+        body = self._method_body(source, "func generated_building_comp_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_changeTeam_181([current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count])", source)
-        self.assertIn("var team_after_force = force_team if force_team != null else current_team", source)
-        self.assertIn("var last_team = team_after_force", source)
-        self.assertIn("var canonical = source_building_change_team_final_state(was_valid, last_team)", source)
-        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', source)
-        self.assertIn('"source_owner": "PortGame.source_building_change_team_final_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("static func generated_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:", module_source)
+        module_body = self._method_body(module_source, "static func generated_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:")
+        self.assertIn("return SourceBuildingLifecycleState.generated_change_team_final_bridge_state(current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", "current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count")
+        self.assertIn("var team_after_force = force_team if force_team != null else current_team", module_body)
+        self.assertIn("var last_team = team_after_force", module_body)
+        self.assertIn("var canonical = change_team_final_state(was_valid, last_team)", module_body)
+        self.assertIn('canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"', module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_change_team_final_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_changeTeam_181"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_can_pickup_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11423,14 +12070,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_can_pickup_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_canPickup_182([block_can_pickup])", source)
-        self.assertIn("var canonical = source_building_can_pickup_state(block_can_pickup)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_can_pickup_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_canPickup_182"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_can_pickup_bridge_state(block_can_pickup)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canPickup_182", "block_can_pickup")
+        self.assertIn("var canonical = can_pickup_state(block_can_pickup)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_can_pickup_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_canPickup_182"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_picked_up_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11446,14 +12099,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_picked_up_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_picked_up_bridge_state(previous_state: Variant) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_picked_up_bridge_state(previous_state: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_picked_up_bridge_state(previous_state: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_pickedUp_183([previous_state])", source)
-        self.assertIn("var canonical = source_building_picked_up_state(previous_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_picked_up_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_pickedUp_183"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_picked_up_bridge_state(previous_state)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_pickedUp_183", "previous_state")
+        self.assertIn("var canonical = picked_up_state(previous_state)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_picked_up_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_pickedUp_183"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_after_picked_up_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11473,14 +12132,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_after_picked_up_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_afterPickedUp_184([power_present, has_cons_power, cons_power_buffered, current_status])", source)
-        self.assertIn("var canonical = source_building_after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_after_picked_up_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_afterPickedUp_184"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_after_picked_up_bridge_state(power_present, has_cons_power, cons_power_buffered, current_status)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_afterPickedUp_184", "power_present, has_cons_power, cons_power_buffered, current_status")
+        self.assertIn("var canonical = after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_after_picked_up_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_afterPickedUp_184"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_remove_from_proximity_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11501,14 +12166,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_remove_from_proximity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_removeFromProximity_185([nearby_count, removable_count])", source)
-        self.assertIn("var canonical = source_building_remove_from_proximity_state(nearby_count, removable_count)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_remove_from_proximity_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_removeFromProximity_185"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_remove_from_proximity_bridge_state(nearby_count, removable_count)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_removeFromProximity_185", "nearby_count, removable_count")
+        self.assertIn("var canonical = remove_from_proximity_state(nearby_count, removable_count)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_remove_from_proximity_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_removeFromProximity_185"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_update_proximity_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11533,14 +12204,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_update_proximity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateProximity_186([nearby_count, same_team_count, headless, draw_cached])", source)
-        self.assertIn("var canonical = source_building_update_proximity_state(nearby_count, same_team_count, headless, draw_cached)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_proximity_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateProximity_186"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_update_proximity_bridge_state(nearby_count, same_team_count, headless, draw_cached)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateProximity_186", "nearby_count, same_team_count, headless, draw_cached")
+        self.assertIn("var canonical = update_proximity_state(nearby_count, same_team_count, headless, draw_cached)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_update_proximity_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateProximity_186"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_on_nearby_build_added_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11555,14 +12232,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_on_nearby_build_added_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_onNearbyBuildAdded_187([other_state])", source)
-        self.assertIn("var canonical = source_building_on_nearby_build_added_state(other_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_on_nearby_build_added_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_on_nearby_build_added_bridge_state(other_state)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self._assert_generated_bridge_uses_runtime(module_source, module_body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onNearbyBuildAdded_187", "other_state")
+        self.assertIn("var canonical = on_nearby_build_added_state(other_state)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_on_nearby_build_added_state"', module_body)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187"', module_body)
+        self.assertIn('"canonical": canonical', module_body)
 
     def test_generated_building_comp_bridges_consume_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11579,14 +12262,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_consume_188([consumers, self_state])", source)
-        self.assertIn("var canonical = source_building_consume_state(consumers, self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_consume_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_consume_188"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:",
+            "static func generated_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_consume_bridge_state(consumers, self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_consume_188",
+            "consumers, self_state",
+            "var canonical = consume_state(consumers, self_state)",
+            "PortGame.source_building_consume_state",
+            "BuildingComp.java_method_consume_188",
+        )
 
     def test_generated_building_comp_bridges_can_consume_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11602,14 +12294,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_can_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_canConsume_189([potential_efficiency])", source)
-        self.assertIn("var canonical = source_building_can_consume_state(potential_efficiency)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_can_consume_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_canConsume_189"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:",
+            "static func generated_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_can_consume_bridge_state(potential_efficiency)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_canConsume_189",
+            "potential_efficiency",
+            "var canonical = can_consume_state(potential_efficiency)",
+            "PortGame.source_building_can_consume_state",
+            "BuildingComp.java_method_canConsume_189",
+        )
 
     def test_generated_building_comp_bridges_delta_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11628,14 +12329,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_delta_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_delta_190([source_delta, time_scale])", source)
-        self.assertIn("var canonical = source_building_delta(source_delta, time_scale)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_delta"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_delta_190"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:",
+            "static func generated_delta_bridge_state(source_delta: float, time_scale: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_delta_bridge_state(source_delta, time_scale)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_delta_190",
+            "source_delta, time_scale",
+            "var canonical = delta(source_delta, time_scale)",
+            "PortGame.source_building_delta",
+            "BuildingComp.java_method_delta_190",
+        )
 
     def test_generated_building_comp_bridges_edelta_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11658,14 +12368,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_edelta_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingTimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_edelta_191([source_delta, time_scale, efficiency])", source)
-        self.assertIn("var canonical = source_building_edelta(source_delta, time_scale, efficiency)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_edelta"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_edelta_191"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:",
+            "static func generated_edelta_bridge_state(source_delta: float, time_scale: float, efficiency: float) -> Dictionary:",
+            "return SourceBuildingTimeState.generated_edelta_bridge_state(source_delta, time_scale, efficiency)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_edelta_191",
+            "source_delta, time_scale, efficiency",
+            "var canonical = edelta(source_delta, time_scale, efficiency)",
+            "PortGame.source_building_edelta",
+            "BuildingComp.java_method_edelta_191",
+        )
 
     def test_generated_building_comp_bridges_update_efficiency_multiplier_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11688,14 +12407,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_update_efficiency_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateEfficiencyMultiplier_192([efficiency, optional_efficiency, efficiency_scale])", source)
-        self.assertIn("var canonical = source_building_update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_efficiency_multiplier_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateEfficiencyMultiplier_192"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:",
+            "static func generated_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_efficiency_multiplier_bridge_state(efficiency, optional_efficiency, efficiency_scale)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateEfficiencyMultiplier_192",
+            "efficiency, optional_efficiency, efficiency_scale",
+            "var canonical = update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)",
+            "PortGame.source_building_update_efficiency_multiplier_state",
+            "BuildingComp.java_method_updateEfficiencyMultiplier_192",
+        )
 
     def test_generated_building_comp_bridges_efficiency_scale_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11709,14 +12437,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_efficiency_scale_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_efficiency_scale_bridge_state() -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_efficiencyScale_193([])", source)
-        self.assertIn("var canonical = source_building_efficiency_scale_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_building_efficiency_scale_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_efficiencyScale_193"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_efficiency_scale_bridge_state() -> Dictionary:",
+            "static func generated_efficiency_scale_bridge_state() -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_efficiency_scale_bridge_state()",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_efficiencyScale_193",
+            "",
+            "var canonical = efficiency_scale_state()",
+            "PortGame.source_building_efficiency_scale_state",
+            "BuildingComp.java_method_efficiencyScale_193",
+        )
 
     def test_generated_building_comp_bridges_update_consumption_initial_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11875,80 +12612,143 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_update_consumption_initial_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateConsumption_194([has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale])", source)
-        self.assertIn("var canonical = source_building_update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_initial_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:",
+            "static func generated_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_initial_bridge_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            "has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale",
+            "var canonical = update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)",
+            "PortGame.source_building_update_consumption_initial_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_disabled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, enabled_state, true, true, 1.0])", source)
-        self.assertIn("var canonical = source_building_update_consumption_disabled_state(enabled_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_disabled_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:",
+            "static func generated_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_disabled_bridge_state(enabled_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            "true, false, enabled_state, true, true, 1.0",
+            "var canonical = update_consumption_disabled_state(enabled_state)",
+            "PortGame.source_building_update_consumption_disabled_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_setup_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, true, production_valid, should_consume_state, 1.0])", source)
-        self.assertIn("var canonical = source_building_update_consumption_setup_state(should_consume_state, production_valid)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_setup_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:",
+            "static func generated_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_setup_bridge_state(should_consume_state, production_valid)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            "true, false, true, production_valid, should_consume_state, 1.0",
+            "var canonical = update_consumption_setup_state(should_consume_state, production_valid)",
+            "PortGame.source_building_update_consumption_setup_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_non_optional_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, non_optional_consumer_results])", source)
-        self.assertIn("var canonical = source_building_update_consumption_non_optional_pass_state(non_optional_consumer_results)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_non_optional_pass_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:",
+            "static func generated_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_non_optional_bridge_state(non_optional_consumer_results)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            "true, false, true, true, true, 1.0, non_optional_consumer_results",
+            "var canonical = update_consumption_non_optional_pass_state(non_optional_consumer_results)",
+            "PortGame.source_building_update_consumption_non_optional_pass_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_optional_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateConsumption_194([true, false, true, true, true, 1.0, [], optional_consumer_results])", source)
-        self.assertIn("var canonical = source_building_update_consumption_optional_pass_state(optional_consumer_results)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_optional_pass_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:",
+            "static func generated_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_optional_bridge_state(optional_consumer_results)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            "true, false, true, true, true, 1.0, [], optional_consumer_results",
+            "var canonical = update_consumption_optional_pass_state(optional_consumer_results)",
+            "PortGame.source_building_update_consumption_optional_pass_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_efficiency_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:", source)
-        self.assertIn('var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true])', source)
-        self.assertIn("var canonical = source_building_update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_efficiency_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:",
+            "static func generated_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_efficiency_bridge_state(min_efficiency, optional_efficiency, update)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            'true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true',
+            "var canonical = update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)",
+            "PortGame.source_building_update_consumption_efficiency_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_port_game_exposes_generated_building_comp_update_consumption_second_pass_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:", source)
-        self.assertIn('var result = instance.java_method_updateConsumption_194([true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state])', source)
-        self.assertIn("var canonical = source_building_update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_second_pass_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_updateConsumption_194"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:",
+            "static func generated_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_second_pass_bridge_state(update, efficiency, update_consumers, self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_updateConsumption_194",
+            'true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state',
+            "var canonical = update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)",
+            "PortGame.source_building_update_consumption_second_pass_state",
+            "BuildingComp.java_method_updateConsumption_194",
+        )
 
     def test_generated_building_comp_bridges_ambient_volume_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11963,14 +12763,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_ambient_volume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_ambient_volume_bridge_state(efficiency: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_ambientVolume_197([efficiency])", source)
-        self.assertIn("var canonical = source_building_ambient_volume(efficiency)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_ambient_volume"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_ambientVolume_197"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_ambient_volume_bridge_state(efficiency: float) -> Dictionary:",
+            "static func generated_ambient_volume_bridge_state(efficiency: float) -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_ambient_volume_bridge_state(efficiency)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_ambientVolume_197",
+            "efficiency",
+            "var canonical = ambient_volume(efficiency)",
+            "PortGame.source_building_ambient_volume",
+            "BuildingComp.java_method_ambientVolume_197",
+        )
 
     def test_generated_building_comp_bridges_config_default_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -11985,14 +12794,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_config_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_config_default_bridge_state() -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_config_198()", source)
-        self.assertIn("var canonical = source_building_config_default()", source)
-        self.assertIn('"source_owner": "PortGame.source_building_config_default"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_config_198"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_config_default_bridge_state() -> Dictionary:",
+            "static func generated_config_default_bridge_state() -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_config_default_bridge_state()",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_config_198",
+            "",
+            "var canonical = config_default()",
+            "PortGame.source_building_config_default",
+            "BuildingComp.java_method_config_198",
+        )
 
     def test_generated_building_comp_bridges_is_valid_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12012,14 +12830,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_is_valid_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_isValid_199([tile_build_matches_self, dead_state])", source)
-        self.assertIn("var canonical = source_building_is_valid(tile_build_matches_self, dead_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_is_valid"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_isValid_199"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:",
+            "static func generated_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_is_valid_bridge_state(tile_build_matches_self, dead_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_isValid_199",
+            "tile_build_matches_self, dead_state",
+            "var canonical = is_valid(tile_build_matches_self, dead_state)",
+            "PortGame.source_building_is_valid",
+            "BuildingComp.java_method_isValid_199",
+        )
 
     def test_generated_building_comp_bridges_heal_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12040,18 +12867,34 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_heal_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:")
+        module_body = self._static_method_body(module_source, "static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_heal_bridge_state(amount: Variant = null) -> Dictionary:", source)
-        self.assertIn("var result_no_arg = instance.java_method_heal_200()", source)
-        self.assertIn("var result_amount = instance.java_method_heal_201([amount])", source)
-        self.assertIn("var canonical_no_arg = source_building_heal_state()", source)
-        self.assertIn("var canonical_amount = source_building_heal_state(amount)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_heal_state"', source)
-        self.assertIn('"generated_owner_no_arg": "BuildingComp.java_method_heal_200"', source)
-        self.assertIn('"generated_owner_amount": "BuildingComp.java_method_heal_201"', source)
-        self.assertIn('"canonical_no_arg": canonical_no_arg', source)
-        self.assertIn('"canonical_amount": canonical_amount', source)
+        self.assertIn("static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:", module_source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_heal_bridge_state(amount)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertNotIn("ResourceLoader.load(", body)
+        self.assertNotIn("script.new()", body)
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
+        self.assertIn('var result_no_arg = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_200", [], null)', module_body)
+        self.assertIn('var result_amount = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_201", [amount], null)', module_body)
+        self.assertNotIn("ResourceLoader.load(", module_body)
+        self.assertNotIn("script.new()", module_body)
+        self.assertIn("var canonical_no_arg = heal_state()", module_body)
+        self.assertIn("var canonical_amount = heal_state(amount)", module_body)
+        self.assertIn('"source_owner": "PortGame.source_building_heal_state"', module_body)
+        self.assertIn('"generated_owner_no_arg": "BuildingComp.java_method_heal_200"', module_body)
+        self.assertIn('"generated_owner_amount": "BuildingComp.java_method_heal_201"', module_body)
+        self.assertIn('"canonical_no_arg": canonical_no_arg', module_body)
+        self.assertIn('"canonical_amount": canonical_amount', module_body)
+        self.assertNotIn("ResourceLoader.load(", body)
+        self.assertNotIn("script.new()", body)
+        self.assertNotIn("java_method_heal_200", body)
+        self.assertNotIn("java_method_heal_201", body)
 
     def test_generated_building_comp_bridges_health_changed_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12075,14 +12918,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_health_changed_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingMetaState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_healthChanged_205([net_server, self_state])", source)
-        self.assertIn("var canonical = source_building_health_changed_state(net_server, self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_health_changed_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_healthChanged_205"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:",
+            "static func generated_health_changed_bridge_state(net_server: bool, self_state := {}) -> Dictionary:",
+            "return SourceBuildingMetaState.generated_health_changed_bridge_state(net_server, self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_healthChanged_205",
+            "net_server, self_state",
+            "var canonical = health_changed_state(net_server, self_state)",
+            "PortGame.source_building_health_changed_state",
+            "BuildingComp.java_method_healthChanged_205",
+        )
 
     def test_generated_building_comp_bridges_sense_position_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12112,14 +12964,20 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_position_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize])", source)
-        self.assertIn("var canonical = source_building_sense_position_state(world_x, world_y, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_position_bridge_state(world_x, world_y, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize")
+        self.assertIn("var canonical = sense_position_state(world_x, world_y, source_tilesize)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_health_process_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12144,15 +13002,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_health_process_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value])", source)
-        self.assertIn("var canonical = source_building_sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_health_process_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_health_process_bridge_state(world_x, world_y, health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_health_process_bridge_state(world_x: float, world_y: float, health: float, max_health: float, efficiency: float, time_scale: float, ranged_range: float, source_tilesize: float, has_range: bool, rotation_value: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, health, max_health, efficiency, time_scale, ranged_range, has_range, rotation_value")
+        self.assertIn("var canonical = sense_health_process_state(health, max_health, efficiency, time_scale, ranged_range, source_tilesize, has_range, rotation_value)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_health_process_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_totals_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12171,15 +13035,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_totals_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power])", source)
-        self.assertIn("var canonical = source_building_sense_totals_state(total_items, total_liquids, total_power)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_totals_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_totals_bridge_state(world_x, world_y, total_items, total_liquids, total_power, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power")
+        self.assertIn("var canonical = sense_totals_state(total_items, total_liquids, total_power)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_totals_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_capacity_power_net_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12208,15 +13078,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_capacity_power_net_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, SourceTimeDefaults.TICK_RATE])", source)
-        self.assertIn("var canonical = source_building_sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_capacity_power_net_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_capacity_power_net_bridge_state(world_x, world_y, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: float, world_y: float, block_has_items: bool, block_item_capacity: float, block_has_liquids: bool, block_liquid_capacity: float, has_cons_power: bool, cons_power_capacity: float, has_power_module: bool, last_scaled_power_in: float, last_scaled_power_out: float, last_power_stored: float, last_power_capacity: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, false, false, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, SourceTimeDefaults.TICK_RATE")
+        self.assertIn("var canonical = sense_capacity_power_net_state(block_has_items, block_item_capacity, block_has_liquids, block_liquid_capacity, has_cons_power, cons_power_capacity, has_power_module, last_scaled_power_in, last_scaled_power_out, last_power_stored, last_power_capacity, SourceTimeDefaults.TICK_RATE)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_capacity_power_net_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_enabled_controlled_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12234,15 +13110,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_enabled_controlled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value])", source)
-        self.assertIn("var canonical = source_building_sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_enabled_controlled_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_enabled_controlled_bridge_state(world_x, world_y, enabled_state, is_control_block, is_controlled, ctrl_player_value, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value")
+        self.assertIn("var canonical = sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_enabled_controlled_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_payload_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12262,15 +13144,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_payload_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value])", source)
-        self.assertIn("var canonical = source_building_sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_payload_size_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_payload_size_bridge_state(world_x, world_y, has_payload_seq, payload_seq_total, has_single_payload, block_size_value, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_payload_size_bridge_state(world_x: float, world_y: float, has_payload_seq: bool, payload_seq_total: float, has_single_payload: bool, block_size_value: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, has_payload_seq, payload_seq_total, has_single_payload, block_size_value")
+        self.assertIn("var canonical = sense_payload_size_state(has_payload_seq, payload_seq_total, has_single_payload, block_size_value)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_payload_size_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_camera_default_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12292,15 +13180,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_camera_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height])", source)
-        self.assertIn("var canonical = source_building_sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_camera_default_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_camera_default_bridge_state(world_x, world_y, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height, source_tilesize)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_206", "world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height")
+        self.assertIn("var canonical = sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_camera_default_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_object_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12328,15 +13222,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_senseObject_207([sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content])", source)
-        self.assertIn("var canonical = source_building_sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_object_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_senseObject_207"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_object_bridge_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_object_bridge_state(sensor: String, block_value: Variant, has_items_module: bool, first_item_value: Variant, config_senseable: bool, config_value: Variant, single_payload_kind: String, single_payload_content: Variant) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_senseObject_207", "sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content")
+        self.assertIn("var canonical = sense_object_state(sensor, block_value, has_items_module, first_item_value, config_senseable, config_value, single_payload_kind, single_payload_content)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_object_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_senseObject_207"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_sense_content_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12364,15 +13264,21 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_sense_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSenseState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_sense_208([content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount])", source)
-        self.assertIn("var canonical = source_building_sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_sense_content_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_208"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingSenseState.generated_building_comp_sense_content_bridge_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_sense_208", "content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount")
+        self.assertIn("var canonical = sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_content_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_208"', helper_source)
+        self.assertIn('"result": result', helper_source)
+        self.assertIn('"canonical": canonical', helper_source)
 
     def test_generated_building_comp_bridges_control_enabled_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -12398,9 +13304,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_control_enabled_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_control_enabled_bridge_state(current_enabled: bool, control_type: String, p1: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_control_209([current_enabled, control_type, p1])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_209", "current_enabled, control_type, p1")
         self.assertIn("var canonical = source_building_control_enabled_state(current_enabled, control_type, p1)", source)
         self.assertIn('"source_owner": "PortGame.source_building_control_enabled_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_control_209"', source)
@@ -12435,9 +13342,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_control_config_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_control_210([control_type, block_logic_configurable, p1_is_logic_build, p1_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_control_210", "control_type, block_logic_configurable, p1_is_logic_build, p1_value")
         self.assertIn("var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_control_config_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_control_210"', source)
@@ -12479,9 +13387,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_health_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_211([prop, current_health, max_health_value, value, dead_state, self_state])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_health, max_health_value, value, dead_state, self_state")
         self.assertIn("var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_health_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
@@ -12518,9 +13427,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_team_double_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_211([prop, current_team_id, value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_team_id, value")
         self.assertIn("var canonical = source_building_set_prop_team_double_state(prop, current_team_id, value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_team_double_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
@@ -12560,9 +13470,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_total_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_211([prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value")
         self.assertIn("var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_total_power_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
@@ -12602,9 +13513,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_team_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_212([prop, current_team_value, value_is_team, team_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_212", "prop, current_team_value, value_is_team, team_value")
         self.assertIn("var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_team_object_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_212"', source)
@@ -12642,9 +13554,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_item_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_213([content_type, has_items_module, item_value, current_amount, value, accepted_stack])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", "content_type, has_items_module, item_value, current_amount, value, accepted_stack")
         self.assertIn("var canonical = source_building_set_prop_item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_item_content_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
@@ -12677,9 +13590,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_set_prop_liquid_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_setProp_213([content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", "content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid")
         self.assertIn("var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)", source)
         self.assertIn('"source_owner": "PortGame.source_building_set_prop_liquid_content_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
@@ -12704,9 +13618,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_in_fog_initial_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_inFogTo_214([same_team, rules_fog])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "same_team, rules_fog")
         self.assertIn("var canonical = source_building_in_fog_initial_gate_state(same_team, rules_fog)", source)
         self.assertIn('"source_owner": "PortGame.source_building_in_fog_initial_gate_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
@@ -12733,9 +13648,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_in_fog_discovery_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered")
         self.assertIn("var canonical = source_building_in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)", source)
         self.assertIn('"source_owner": "PortGame.source_building_in_fog_discovery_gate_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
@@ -12763,9 +13679,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_in_fog_visibility_loop_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_inFogTo_214([false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", "false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles")
         self.assertIn("var canonical = source_building_in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)", source)
         self.assertIn('"source_owner": "PortGame.source_building_in_fog_visibility_loop_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_inFogTo_214"', source)
@@ -12790,9 +13707,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_killed_initial_side_effects_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_killed_215([tile_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", "tile_value")
         self.assertIn("var canonical = source_building_killed_initial_side_effects_state(tile_value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_killed_initial_side_effects_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_killed_215"', source)
@@ -12802,9 +13720,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_killed_removal_side_effects_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_killed_215([tile_value, tile_not_empty_tile])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", "tile_value, tile_not_empty_tile")
         self.assertIn("var canonical = source_building_killed_removal_side_effects_state(tile_not_empty_tile)", source)
         self.assertIn('"source_owner": "PortGame.source_building_killed_removal_side_effects_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_killed_215"', source)
@@ -12828,9 +13747,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_check_allow_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_checkAllowUpdate_216([current_enabled, allow_update_result])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", "current_enabled, allow_update_result")
         self.assertIn("var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)", source)
         self.assertIn('"source_owner": "PortGame.source_building_check_allow_update_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216"', source)
@@ -12864,9 +13784,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_timescale_decay_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_timescale_decay_bridge_state(current_time_scale: float, current_time_scale_duration: float, time_delta: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_217([current_time_scale, current_time_scale_duration, time_delta])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "current_time_scale, current_time_scale_duration, time_delta")
         self.assertIn("var canonical = source_building_update_timescale_decay_state(current_time_scale, current_time_scale_duration, time_delta)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_timescale_decay_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
@@ -12901,7 +13822,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var write_timescale := current_time_scale != default_time_scale", helper_source)
         self.assertIn('"gate": "if(timeScale != 1f){"', helper_source)
         self.assertIn("func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_writeBase_5([current_time_scale, current_time_scale_duration])", source)
+        body = self._method_body(source, "func generated_building_comp_write_base_timescale_bridge_state(current_time_scale: float, current_time_scale_duration: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_writeBase_5", "current_time_scale, current_time_scale_duration")
         self.assertIn("var canonical = source_building_write_base_timescale_state(current_time_scale, current_time_scale_duration)", source)
         self.assertIn('"source_owner": "PortGame.source_building_write_base_timescale_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_writeBase_5"', source)
@@ -12937,7 +13859,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var time_scale_changed := current_time_scale != default_time_scale", helper_source)
         self.assertIn("var module_bits := (1 if has_items_module else 0) | (1 << 1 if has_power_module else 0) | (1 << 2 if has_liquids_module else 0) | (1 << 3) | (1 << 4 if time_scale_changed else 0) | (1 << 5 if has_valid_last_disabler else 0)", helper_source)
         self.assertIn("func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_moduleBitmask_7([has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler])", source)
+        body = self._method_body(source, "func generated_building_comp_module_bitmask_bridge_state(has_items_module: bool, has_power_module: bool, has_liquids_module: bool, current_time_scale: float, has_valid_last_disabler: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_moduleBitmask_7", "has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler")
         self.assertIn("var canonical = source_building_module_bitmask_state(has_items_module, has_power_module, has_liquids_module, current_time_scale, has_valid_last_disabler)", source)
         self.assertIn('"source_owner": "PortGame.source_building_module_bitmask_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_moduleBitmask_7"', source)
@@ -12973,7 +13896,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return {"time_scale": default_time_scale, "time_scale_duration": 0.0, "read_called": false}', helper_source)
         self.assertIn('return {"time_scale": read_time_scale, "time_scale_duration": read_time_scale_duration, "read_called": true}', helper_source)
         self.assertIn("func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_readBase_6([current_module_bits, read_time_scale, read_time_scale_duration])", source)
+        body = self._method_body(source, "func generated_building_comp_read_base_timescale_bridge_state(current_module_bits: int, read_time_scale: float, read_time_scale_duration: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_readBase_6", "current_module_bits, read_time_scale, read_time_scale_duration")
         self.assertIn("var canonical = source_building_read_base_timescale_state(current_module_bits, read_time_scale, read_time_scale_duration)", source)
         self.assertIn('"source_owner": "PortGame.source_building_read_base_timescale_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_readBase_6"', source)
@@ -13001,9 +13925,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_ambient_sound_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_ambient_sound_gate_bridge_state(headless_mode: bool, ambient_sound_value: Variant, sounds_none_value: Variant, should_ambient_sound_result: bool, block_ambient_sound_volume: float, ambient_volume_value: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value")
         self.assertIn("var canonical = source_building_update_ambient_sound_gate_state(headless_mode, ambient_sound_value, sounds_none_value, should_ambient_sound_result, block_ambient_sound_volume, ambient_volume_value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_ambient_sound_gate_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
@@ -13022,9 +13947,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_consumption_call_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0")
         self.assertIn("var canonical = source_building_update_consumption_call_state()", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_consumption_call_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
@@ -13052,9 +13978,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_tile_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_217([SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled")
         self.assertIn("var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_tile_gate_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
@@ -13083,9 +14010,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_update_fog_visibility_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_updateFogVisibility_218([was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", "was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state")
         self.assertIn("var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)", source)
         self.assertIn('"source_owner": "PortGame.source_building_update_fog_visibility_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_updateFogVisibility_218"', source)
@@ -13115,9 +14043,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_hitbox_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_hitbox_bridge_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_hitbox_219([world_x, world_y, block_size_value, source_tilesize])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_hitbox_219", "world_x, world_y, block_size_value, source_tilesize")
         self.assertIn("var canonical = source_building_hitbox_state(world_x, world_y, block_size_value, source_tilesize)", source)
         self.assertIn('"source_owner": "PortGame.source_building_hitbox_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_hitbox_219"', source)
@@ -13144,9 +14073,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_comp_to_string_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_toString_220([id_value, tile_x_value, tile_y_value, block_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_toString_220", "id_value, tile_x_value, tile_y_value, block_value")
         self.assertIn("var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)", source)
         self.assertIn('"source_owner": "PortGame.source_building_to_string_state"', source)
         self.assertIn('"generated_owner": "BuildingComp.java_method_toString_220"', source)
@@ -13196,9 +14126,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_building_tether_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:")
 
         self.assertIn("func generated_building_tether_comp_update_bridge_state(building_exists: bool, building_is_valid: bool, building_team_value: Variant, team_value: Variant, unit_id: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_0([building_exists, building_is_valid, building_team_value, team_value, unit_id])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingTetherComp.gd", "java_method_update_0", "building_exists, building_is_valid, building_team_value, team_value, unit_id")
         self.assertIn("var canonical = source_building_tether_update_state(building_exists, building_is_valid, building_team_value, team_value, unit_id)", source)
         self.assertIn('"source_owner": "PortGame.source_building_tether_update_state"', source)
         self.assertIn('"generated_owner": "BuildingTetherComp.java_method_update_0"', source)
@@ -13256,7 +14187,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_afterRead_0([spawner_unit_id, groups_unit_get_by_id_result])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
+            "java_method_afterRead_0",
+            "spawner_unit_id, groups_unit_get_by_id_result",
+        )
         self.assertIn("var canonical = source_unit_tether_after_read_state(spawner_unit_id, groups_unit_get_by_id_result)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_tether_after_read_state"', source)
         self.assertIn('"generated_owner": "UnitTetherComp.java_method_afterRead_0"', source)
@@ -13314,7 +14251,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_afterSync_1([spawner_unit_id, groups_unit_get_by_id_result])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
+            "java_method_afterSync_1",
+            "spawner_unit_id, groups_unit_get_by_id_result",
+        )
         self.assertIn("var canonical = source_unit_tether_after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_tether_after_sync_state"', source)
         self.assertIn('"generated_owner": "UnitTetherComp.java_method_afterSync_1"', source)
@@ -13375,7 +14318,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_2([spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd",
+            "java_method_update_2",
+            "spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id",
+        )
         self.assertIn("var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_tether_update_state"', source)
         self.assertIn('"generated_owner": "UnitTetherComp.java_method_update_2"', source)
@@ -13404,14 +14353,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_hit_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockGeometry.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_hitSize_202([block_size_value, source_tilesize])", source)
-        self.assertIn("var canonical = source_building_hit_size(block_size_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_hit_size"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_hitSize_202"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:",
+            "static func generated_building_hit_size_bridge_state(block_size_value: int, source_tilesize: float) -> Dictionary:",
+            "return SourceBlockGeometry.generated_building_hit_size_bridge_state(block_size_value, source_tilesize)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_hitSize_202",
+            "block_size_value, source_tilesize",
+            "var canonical = building_hit_size(block_size_value, source_tilesize)",
+            "PortGame.source_building_hit_size",
+            "BuildingComp.java_method_hitSize_202",
+        )
 
     def test_generated_building_comp_bridges_kill_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13428,14 +14386,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_kill_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_kill_bridge_state(self_state := {}) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_kill_203([self_state])", source)
-        self.assertIn("var canonical = source_building_kill_state(self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_kill_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_kill_203"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_kill_bridge_state(self_state := {}) -> Dictionary:",
+            "static func generated_kill_bridge_state(self_state := {}) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_kill_bridge_state(self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_kill_203",
+            "self_state",
+            "var canonical = kill_state(self_state)",
+            "PortGame.source_building_kill_state",
+            "BuildingComp.java_method_kill_203",
+        )
 
     def test_generated_building_comp_bridges_damage_dead_guard_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13456,14 +14423,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_dead_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_204([damage_amount, dead_state])", source)
-        self.assertIn("var canonical = source_building_damage_dead_guard_state(dead_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_dead_guard_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:",
+            "static func generated_damage_dead_guard_bridge_state(damage_amount: float, dead_state: bool) -> Dictionary:",
+            "return SourceBuildingDamageState.generated_damage_dead_guard_bridge_state(damage_amount, dead_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_damage_204",
+            "damage_amount, dead_state",
+            "var canonical = dead_guard_state(dead_state)",
+            "PortGame.source_building_damage_dead_guard_state",
+            "BuildingComp.java_method_damage_204",
+        )
 
     def test_generated_building_comp_bridges_damage_block_health_scale_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13489,14 +14465,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_block_health_scale_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time])", source)
-        self.assertIn("var canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_block_health_scale_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:",
+            "static func generated_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:",
+            "return SourceBuildingDamageState.generated_damage_block_health_scale_bridge_state(damage_amount, health, block_health_multiplier, source_time)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_damage_204",
+            "damage_amount, false, health, block_health_multiplier, source_time",
+            "var canonical = block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)",
+            "PortGame.source_building_damage_block_health_scale_state",
+            "BuildingComp.java_method_damage_204",
+        )
 
     def test_generated_building_comp_bridges_damage_handle_damage_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13519,15 +14504,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_handle_damage_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage])", source)
-        self.assertIn('var block_health_canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)', source)
-        self.assertIn('var canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)', source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_handle_damage_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:",
+            "static func generated_damage_handle_damage_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:",
+            "return SourceBuildingDamageState.generated_damage_handle_damage_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_damage_204",
+            "damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage",
+            'var canonical = handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)',
+            "PortGame.source_building_damage_handle_damage_gate_state",
+            "BuildingComp.java_method_damage_204",
+        )
+        self.assertIn('var block_health_canonical = block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)', module_source)
 
     def test_generated_building_comp_bridges_damage_health_changed_call_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13542,14 +14536,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_health_changed_call_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_damage_health_changed_call_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage])", source)
-        self.assertIn("var canonical = source_building_damage_health_changed_call_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_health_changed_call_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_damage_health_changed_call_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:",
+            "static func generated_damage_health_changed_call_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float) -> Dictionary:",
+            "return SourceBuildingDamageState.generated_damage_health_changed_call_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_damage_204",
+            "damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage",
+            "var canonical = health_changed_call_state()",
+            "PortGame.source_building_damage_health_changed_call_state",
+            "BuildingComp.java_method_damage_204",
+        )
 
     def test_generated_building_comp_bridges_damage_destroy_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13564,15 +14567,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_damage_destroy_gate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDamageState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage, self_state])", source)
-        self.assertIn("var handle_gate_canonical = source_building_damage_handle_damage_gate_state(net_client, health, float(block_health_canonical[\"damage\"]), handled_damage)", source)
-        self.assertIn("var canonical = source_building_damage_destroy_gate_state(float(handle_gate_canonical[\"health\"]), self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_damage_destroy_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:",
+            "static func generated_damage_destroy_gate_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float, net_client: bool, handled_damage: float, self_state := {}) -> Dictionary:",
+            "return SourceBuildingDamageState.generated_damage_destroy_gate_bridge_state(damage_amount, health, block_health_multiplier, source_time, net_client, handled_damage, self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_damage_204",
+            "damage_amount, false, health, block_health_multiplier, source_time, net_client, handled_damage, self_state",
+            'var canonical = destroy_gate_state(float(handle_gate_canonical["health"]), self_state)',
+            "PortGame.source_building_damage_destroy_gate_state",
+            "BuildingComp.java_method_damage_204",
+        )
+        self.assertIn('var block_health_canonical = block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)', module_source)
+        self.assertIn('var handle_gate_canonical = handle_damage_gate_state(net_client, health, float(block_health_canonical["damage"]), handled_damage)', module_source)
 
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13603,18 +14616,24 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_display_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDisplayState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_display_160([block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed])", source)
-        self.assertIn("var icon_canonical = source_building_display_icon_state(block_ui_icon)", source)
-        self.assertIn("var name_canonical = source_building_display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)", source)
-        self.assertIn("var gates_canonical = source_building_display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_display_ui_gates_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_display_160"', source)
-        self.assertIn('"icon_canonical": icon_canonical', source)
-        self.assertIn('"name_canonical": name_canonical', source)
-        self.assertIn('"gates_canonical": gates_canonical', source)
+        self.assertIn("return SourceBuildingDisplayState.generated_building_comp_display_bridge_state(block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+        self.assertIn("static func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:", helper_source)
+        self._assert_generated_bridge_uses_runtime(helper_source, self._static_method_body(helper_source, "static func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:"), "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_display_160", "block_ui_icon, localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label, block_category, block_display_flow, net_active, has_last_accessed")
+        self.assertIn("var icon_canonical = display_icon_state(block_ui_icon)", helper_source)
+        self.assertIn("var name_canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)", helper_source)
+        self.assertIn("var gates_canonical = display_ui_gates_state(team_is_player, block_category, block_display_flow, net_active, has_last_accessed)", helper_source)
+        self.assertIn('"source_owner": "PortGame.source_building_display_ui_gates_state"', helper_source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_display_160"', helper_source)
+        self.assertIn('"icon_canonical": icon_canonical', helper_source)
+        self.assertIn('"name_canonical": name_canonical', helper_source)
+        self.assertIn('"gates_canonical": gates_canonical', helper_source)
 
     def test_port_game_exposes_source_building_draw_status_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -13864,9 +14883,11 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = self._port_game_building_draw_source()
+        lerp_body = self._method_body(source, "func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:")
 
         self.assertIn("func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", source)
-        self.assertIn("return lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))", source)
+        self.assertIn("return SourceMathState.source_arc_lerp_delta(from_value, to_value, progress, source_delta)", source)
+        self.assertNotIn("lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))", lerp_body)
         self.assertIn("func source_building_draw_light_state(has_liquids: bool, draw_liquid_light: bool, light_liquid_is_null: bool, current_liquid_color: String, current_liquid_alpha: float, light_liquid_color: String, light_liquid_alpha: float, selected_liquid_amount: float, visual_liquid: float, source_delta: float, source_x: float, source_y: float, block_size_value: int) -> Dictionary:", source)
         self.assertIn("var selected_color := current_liquid_color if light_liquid_is_null else light_liquid_color", source)
         self.assertIn("var selected_alpha := current_liquid_alpha if light_liquid_is_null else light_liquid_alpha", source)
@@ -13978,11 +14999,13 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_source_building_check_suppression_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = self._port_game_building_lifecycle_source()
+        chance_body = self._method_body(source, "func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:")
 
         self.assertIn("func source_building_is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:", source)
         self.assertIn("return block_suppressable and source_time <= heal_suppression_time", source)
         self.assertIn("func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:", source)
-        self.assertIn("return chance * source_delta", source)
+        self.assertIn("return SourceMathState.source_arc_chance_delta_threshold(chance, source_delta)", source)
+        self.assertNotIn("chance * source_delta", chance_body)
         self.assertIn("func source_building_check_suppression_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:", source)
         self.assertIn("var suppressed := is_heal_suppressed_state(block_suppressable, source_time, heal_suppression_time)", source)
         self.assertIn("if not suppressed:", source)
@@ -14300,6 +15323,7 @@ class PlayableManifestTests(unittest.TestCase):
         port_source = (ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd").read_text(encoding="utf-8")
         helper_source = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingDestructionState.gd").read_text(encoding="utf-8")
 
+        self.assertIn('const SourceBuildingDestructionState := preload("res://src/game/SourceBuildingDestructionState.gd")', build_source)
         self.assertIn("func java_method_beginBreak_0(_args: Array = []) -> Variant:", build_source)
         begin_break_body = build_source.split("func java_method_beginBreak_0(_args: Array = []) -> Variant:", 1)[1].split("\nfunc ", 1)[0]
         self.assertNotIn("return null", begin_break_body)
@@ -14311,10 +15335,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"valid_break_guard_expr": "if(!validBreak(team, x, y)){"', helper_source)
         self.assertIn('"set_block_expr": "tile.setBlock(sub, team, rotation);"', helper_source)
         self.assertIn('"event_expr": "Events.fire(new BlockBuildBeginEvent(tile, team, unit, true));"', helper_source)
-        self.assertIn("func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:", port_source)
-        self.assertIn("var canonical = SourceBuildingDestructionState.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)", port_source)
-        self.assertIn('"generated_owner": "Build.java_method_beginBreak_0"', port_source)
-        self.assertIn('"source_owner": "PortGame.build_begin_break_state"', port_source)
+        self.assertIn("func build_begin_break_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:", port_source)
+        self.assertIn("return SourceBuildingDestructionState.begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)", port_source)
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            helper_source,
+            "func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:",
+            "func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:",
+            "SourceBuildingDestructionState.generated_build_begin_break_bridge_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)",
+            "res://src/generated/classes/mindustry/world/Build.gd",
+            "java_method_beginBreak_0",
+            "valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name",
+            "var canonical = begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)",
+            "PortGame.build_begin_break_state",
+            "Build.java_method_beginBreak_0",
+        )
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_source.split("func generated_build_begin_break_bridge_state", 1)[1].split("\nfunc ", 1)[0])
 
     def test_generated_construct_block_deconstruct_finish_bridge_state_matches_building_destruction_helper(self):
         generated_source = (ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "ConstructBlock.gd").read_text(encoding="utf-8")
@@ -14331,10 +15367,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"break_sound_expr": "if(shouldPlay()) block.breakSound.at(tile, block.breakPitchChange ? calcPitch(false) : 1f);"', helper_source)
         self.assertIn('"event_expr": "Events.fire(new BlockBuildEndEvent(tile, builder, team, true, null));"', helper_source)
         self.assertIn('"remove_expr": "tile.remove();"', helper_source)
-        self.assertIn("func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:", port_source)
-        self.assertIn("var canonical = SourceBuildingDestructionState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)", port_source)
-        self.assertIn('"generated_owner": "ConstructBlock.java_method_deconstructFinish_1"', port_source)
-        self.assertIn('"source_owner": "PortGame.construct_block_deconstruct_finish_state"', port_source)
+        self.assertIn("func construct_block_deconstruct_finish_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:", port_source)
+        self.assertIn("return SourceBuildingDestructionState.construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)", port_source)
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            helper_source,
+            "func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:",
+            "func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:",
+            "SourceBuildingDestructionState.generated_construct_block_deconstruct_finish_bridge_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)",
+            "res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd",
+            "java_method_deconstructFinish_1",
+            "tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color",
+            "var canonical = construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)",
+            "PortGame.construct_block_deconstruct_finish_state",
+            "ConstructBlock.java_method_deconstructFinish_1",
+        )
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_source.split("func generated_construct_block_deconstruct_finish_bridge_state", 1)[1].split("\nfunc ", 1)[0])
 
     def test_generated_construct_block_construct_finish_bridge_state_matches_building_destruction_helper(self):
         generated_source = (ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "ConstructBlock.gd").read_text(encoding="utf-8")
@@ -14366,10 +15414,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"place_sound_expr": "if(shouldPlay()) block.placeSound.at(tile, block.placePitchChange ? calcPitch(true) : 1f);"', helper_source)
         self.assertIn('"place_ended_expr": "block.placeEnded(tile, builder, rotation, config);"', helper_source)
         self.assertIn('"event_expr": "Events.fire(new BlockBuildEndEvent(tile, builder, team, false, config));"', helper_source)
-        self.assertIn("func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:", port_source)
-        self.assertIn("var canonical = SourceBuildingDestructionState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)", port_source)
-        self.assertIn('"generated_owner": "ConstructBlock.java_method_constructFinish_2"', port_source)
-        self.assertIn('"source_owner": "PortGame.construct_block_construct_finish_state"', port_source)
+        self.assertIn("func construct_block_construct_finish_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:", port_source)
+        self.assertIn("return SourceBuildingDestructionState.construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)", port_source)
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            helper_source,
+            "func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:",
+            "func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:",
+            "SourceBuildingDestructionState.generated_construct_block_construct_finish_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)",
+            "res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd",
+            "java_method_constructFinish_2",
+            "tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state",
+            "var canonical = construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)",
+            "PortGame.construct_block_construct_finish_state",
+            "ConstructBlock.java_method_constructFinish_2",
+        )
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_source.split("func generated_construct_block_construct_finish_bridge_state", 1)[1].split("\nfunc ", 1)[0])
 
     def test_generated_construct_block_constructed_bridge_state_matches_building_destruction_helper(self):
         generated_source = (ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "ConstructBlock.gd").read_text(encoding="utf-8")
@@ -14385,10 +15445,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"placed_guard_expr": "if(tile.build != null){"', helper_source)
         self.assertIn('"placed_expr": "tile.build.placed();"', helper_source)
         self.assertIn("var construct_finish_state := construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)", helper_source)
-        self.assertIn("func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:", port_source)
-        self.assertIn("var canonical = SourceBuildingDestructionState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)", port_source)
-        self.assertIn('"generated_owner": "ConstructBlock.java_method_constructed_6"', port_source)
-        self.assertIn('"source_owner": "PortGame.construct_block_constructed_state"', port_source)
+        self.assertIn("func construct_block_constructed_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:", port_source)
+        self.assertIn("return SourceBuildingDestructionState.construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)", port_source)
+        self._assert_runtime_bridge_moved_to_module(
+            port_source,
+            helper_source,
+            "func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:",
+            "func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:",
+            "SourceBuildingDestructionState.generated_construct_block_constructed_bridge_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)",
+            "res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd",
+            "java_method_constructed_6",
+            "tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish",
+            "var canonical = construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)",
+            "PortGame.construct_block_constructed_state",
+            "ConstructBlock.java_method_constructed_6",
+        )
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", port_source.split("func generated_construct_block_constructed_bridge_state", 1)[1].split("\nfunc ", 1)[0])
 
     def test_generated_construct_block_static_helpers_bridge_state_matches_construct_block_helper_module(self):
         generated_source = (ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "ConstructBlock.gd").read_text(encoding="utf-8")
@@ -14440,13 +15512,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_expr": "return true;"', helper_source)
         self.assertIn("const SourceConstructBlockState := preload(\"res://src/game/SourceConstructBlockState.gd\")", port_source)
         self.assertIn("func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:", port_source)
-        self.assertIn("var get_result = instance.java_method_get_0([size, max_block_size])", port_source)
-        self.assertIn("var should_play_result = instance.java_method_shouldPlay_3([time_since_last_played_ms, current_millis])", port_source)
-        self.assertIn("var calc_pitch_result = instance.java_method_calcPitch_4([up, time_since_last_time_ms, current_millis, pitch_seq_before, random_pitch])", port_source)
-        self.assertIn("var repair_sound_result = instance.java_method_playRepairSound_5([headless, should_play_result.get(\"should_play\", false), visible_tile, calc_pitch_result.get(\"pitch\", 1.0)])", port_source)
-        self.assertIn("var hidden_result = instance.java_method_isHidden_7([])", port_source)
-        self.assertIn('"generated_owner": "ConstructBlock.static_helpers"', port_source)
-        self.assertIn('"source_owner": "PortGame.construct_block_static_helpers_state"', port_source)
+        self.assertIn("return SourceConstructBlockState.generated_construct_block_static_helpers_bridge_state(size, max_block_size, time_since_last_played_ms, current_millis, up, time_since_last_time_ms, pitch_seq_before, random_pitch, headless, visible_tile)", port_source)
+        self.assertIn("func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:", helper_source)
+        static_bridge_body = helper_source.split("func generated_construct_block_static_helpers_bridge_state(size: int, max_block_size: int, time_since_last_played_ms: int, current_millis: int, up: bool, time_since_last_time_ms: int, pitch_seq_before: int, random_pitch: float, headless: bool, visible_tile: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0]
+        self.assertIn('var get_result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_get_0", [size, max_block_size], null)', static_bridge_body)
+        self.assertIn('var should_play_result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_shouldPlay_3", [time_since_last_played_ms, current_millis], null)', static_bridge_body)
+        self.assertIn('var calc_pitch_result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_calcPitch_4", [up, time_since_last_time_ms, current_millis, pitch_seq_before, random_pitch], null)', static_bridge_body)
+        self.assertIn('var repair_sound_result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_playRepairSound_5", [headless, should_play_result.get("should_play", false), visible_tile, calc_pitch_result.get("pitch", 1.0)], null)', static_bridge_body)
+        self.assertIn('var hidden_result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_isHidden_7", [], null)', static_bridge_body)
+        self.assertNotIn("ResourceLoader.load(", static_bridge_body)
+        self.assertNotIn("script.new()", static_bridge_body)
+        self.assertIn('"generated_owner": "ConstructBlock.static_helpers"', helper_source)
+        self.assertIn('"source_owner": "PortGame.construct_block_static_helpers_state"', helper_source)
 
     def test_port_game_exposes_construct_build_inner_runtime_state_module(self):
         port_source = (ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd").read_text(encoding="utf-8")
@@ -15005,10 +16082,6 @@ class PlayableManifestTests(unittest.TestCase):
         port_source = port_game.read_text(encoding="utf-8")
 
         self.assertIn('const SourceBuildingDestructionState := preload("res://src/game/SourceBuildingDestructionState.gd")', port_source)
-        self.assertIn('const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")', helper_source)
-        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', helper_source)
-        self.assertIn('var script := SourceGeneratedClassRuntime.script_for_java_name("BuildingComp", GeneratedClassRegistry)', helper_source)
-        self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', helper_source)
         for method_name in (
             "generated_after_destroyed_bridge_state",
             "generated_explosion_item_cap_bridge_state",
@@ -15172,33 +16245,31 @@ class PlayableManifestTests(unittest.TestCase):
         port_source = port_game.read_text(encoding="utf-8")
         module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
-
         cases = {
             "generated_building_comp_get_display_name_bridge_state(localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String)": (
                 "localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label",
-                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_getDisplayName_157\", [localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label], GeneratedClassRegistry)",
+                "var result = instance.java_method_getDisplayName_157([localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label])",
                 "var canonical = display_name_state(localized_name, team_is_derelict, team_is_player, team_emoji, derelict_label)",
                 "PortGame.source_building_display_name_state",
                 "BuildingComp.java_method_getDisplayName_157",
             ),
             "generated_building_comp_flow_items_bridge_state(items_module: Variant)": (
                 "items_module",
-                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_flowItems_159\", [items_module], GeneratedClassRegistry)",
+                "var result = instance.java_method_flowItems_159([items_module])",
                 "var canonical = flow_items_state(items_module)",
                 "PortGame.source_building_flow_items_state",
                 "BuildingComp.java_method_flowItems_159",
             ),
             "generated_building_comp_display_consumption_bridge_state(consumers: Array, self_state: Variant)": (
                 "consumers, self_state",
-                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_displayConsumption_161\", [consumers, self_state], GeneratedClassRegistry)",
+                "var result = instance.java_method_displayConsumption_161([consumers, self_state])",
                 "var canonical = display_consumption_state(consumers, self_state)",
                 "PortGame.source_building_display_consumption_state",
                 "BuildingComp.java_method_displayConsumption_161",
             ),
             "generated_building_comp_display_bars_bridge_state(bar_results: Array)": (
                 "bar_results",
-                "var result = SourceGeneratedClassRuntime.call_java_method(\"BuildingComp\", \"java_method_displayBars_162\", [bar_results], GeneratedClassRegistry)",
+                "var result = instance.java_method_displayBars_162([bar_results])",
                 "var canonical = display_bars_state(bar_results)",
                 "PortGame.source_building_display_bars_state",
                 "BuildingComp.java_method_displayBars_162",
@@ -15215,8 +16286,7 @@ class PlayableManifestTests(unittest.TestCase):
                 self.assertIn(f"\treturn SourceBuildingDisplayState.{func_name}({args})", port_body)
                 self.assertNotIn("ResourceLoader.load(", port_body)
                 self.assertNotIn("java_method_", port_body)
-                self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', module_body)
-                self.assertNotIn("script.new()", module_body)
+                self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")', module_body)
                 self.assertIn(generated_call, module_body)
                 self.assertIn(canonical_call, module_body)
                 self.assertIn(f'"source_owner": "{source_owner}"', module_body)
@@ -16852,10 +17922,19 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_source_unit_move_at_state(self):
         source = self._port_game_unit_update_source()
+        math_state = (ROOT / "godot-mindustry" / "src" / "game" / "SourceMathState.gd").read_text(encoding="utf-8")
+        vec2_angle_body = self._method_body(source, "func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:")
+        vec2_body = self._method_body(source, "func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:")
 
+        self.assertIn("func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:", source)
+        self.assertIn("return SourceMathState.source_vec2_angle(vec_x, vec_y)", source)
+        self.assertNotIn("rad_to_deg(atan2(vec_y, vec_x))", vec2_angle_body)
+        self.assertIn("static func source_vec2_angle(vec_x: float, vec_y: float) -> float:", math_state)
+        self.assertIn("if angle < 0.0:", math_state)
         self.assertIn("func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:", source)
-        self.assertIn("var limit2 := limit * limit", source)
-        self.assertIn("return vec * sqrt(limit2 / len2)", source)
+        self.assertIn("return SourceMathState.source_arc_vec2_limit(vec, limit)", source)
+        self.assertNotIn("var limit2 := limit * limit", vec2_body)
+        self.assertNotIn("return vec * sqrt(limit2 / len2)", vec2_body)
         self.assertIn("func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:", source)
         self.assertIn("var callbacks := SourceUnitUpdateState.default_callbacks_state(self)", source)
         self.assertIn('return SourceUnitUpdateState.move_at_state(vel_x, vel_y, vector_x, vector_y, acceleration, source_delta, callbacks.get("vec2_limit", Callable()))', source)
@@ -16942,7 +18021,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("if abs(source_angles_angle_dist(angle, to)) < speed:", math_state)
         self.assertIn("if (angle > to) == (source_angles_backward_distance(angle, to) > source_angles_forward_distance(angle, to)):", math_state)
         self.assertIn("func source_unit_vec2_angle(vec_x: float, vec_y: float) -> float:", source)
-        self.assertIn("var angle := rad_to_deg(atan2(vec_y, vec_x))", source)
+        self.assertIn("return SourceMathState.source_vec2_angle(vec_x, vec_y)", source)
+        self.assertNotIn("rad_to_deg(atan2(vec_y, vec_x))", source)
         self.assertIn("func source_unit_move_at_state(vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:", source)
         self.assertIn("return SourceUnitUpdateState.move_at_state(vel_x, vel_y, vector_x, vector_y, acceleration, source_delta, callbacks.get(\"vec2_limit\", Callable()))", source)
         self.assertIn("func source_unit_rotate_move_rotation_state(current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:", source)
@@ -18359,6 +19439,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_FORMULA := "float range = type.hitSize /4f;"', helper_source)
         self.assertIn('const SOURCE_UNIT_DESTROY_WRECK_DECAL_RANDOM_CALL := "Tmp.v1.rnd(range);"', helper_source)
         self.assertIn('const SOURCE_UNIT_DESTROY_WRECK_DECAL_DECAL_CALL := "Effect.decal(type.wreckRegions[i], x + Tmp.v1.x, y + Tmp.v1.y, rotation - 90);"', helper_source)
+        self.assertIn("var offset_x: float = offset.x if offset is Vector2 else float(offset.get(\"x\", 0.0))", helper_source)
+        self.assertIn("var offset_y: float = offset.y if offset is Vector2 else float(offset.get(\"y\", 0.0))", helper_source)
         self.assertIn("var should_create_decals := not headless_value and type_create_scorch", helper_source)
         self.assertIn("var range_value := type_hit_size / SOURCE_UNIT_DESTROY_WRECK_DECAL_RANGE_DIVISOR", helper_source)
         self.assertIn("var decal_rotation := source_rotation_degrees - SOURCE_UNIT_DESTROY_WRECK_DECAL_ROTATION_OFFSET", helper_source)
@@ -19321,6 +20403,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_mathf_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", source)
         self.assertIn("return SourceMathState.source_lerp_delta(from_value, to_value, progress, source_delta)", source)
 
+    def test_port_game_delegates_arc_math_block_to_source_math_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceMathState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
+
+        self.assertIn("static func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:", helper_source)
+        self.assertIn("static func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:", helper_source)
+        self.assertIn("static func source_arc_vec2_limit(vector: Vector2, limit: float) -> Vector2:", helper_source)
+        self.assertIn("return SourceMathState.source_arc_lerp_delta(from_value, to_value, progress, source_delta)", source)
+        self.assertIn("return SourceMathState.source_arc_chance_delta_threshold(chance, source_delta)", source)
+        self.assertIn("return SourceMathState.source_arc_vec2_limit(vec, limit)", source)
+        lerp_body = self._method_body(source, "func source_arc_lerp_delta(from_value: float, to_value: float, progress: float, source_delta: float) -> float:")
+        chance_body = self._method_body(source, "func source_arc_chance_delta_threshold(chance: float, source_delta: float) -> float:")
+        vec2_body = self._method_body(source, "func source_arc_vec2_limit(vec: Vector2, limit: float) -> Vector2:")
+        self.assertNotIn("lerp(from_value, to_value, clamp(progress * source_delta, 0.0, 1.0))", lerp_body)
+        self.assertNotIn("chance * source_delta", chance_body)
+        self.assertNotIn("var limit2 := limit * limit", vec2_body)
+        self.assertNotIn("vec.length_squared()", vec2_body)
+
     def test_port_game_exposes_source_weapon_update_passive_timers_state(self):
         weapon_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceWeaponDefaults.gd"
         source = self._port_game_weapons_source()
@@ -20146,8 +21248,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
-        self.assertIn("var result = instance.java_method_shoot_1([shots, first_shot_delay, shot_delay])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
+            "java_method_shoot_1",
+            "shots, first_shot_delay, shot_delay",
+        )
         self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', source)
@@ -20159,8 +21266,13 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:", source)
         method_body = source.split("func generated_shoot_pattern_default_events_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', method_body)
-        self.assertIn("var result = instance.java_method_shoot_1([])", method_body)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            method_body,
+            "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
+            "java_method_shoot_1",
+            "",
+        )
         self.assertIn("var canonical = source_shoot_pattern_default_events({})", method_body)
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', method_body)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_1"', method_body)
@@ -20172,8 +21284,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
-        self.assertIn("var result = instance.java_method_shoot_0([total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
+            "java_method_shoot_0",
+            "total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present",
+        )
         self.assertIn("var canonical = source_shoot_pattern_default_events({", source)
         self.assertIn('"source_owner": "PortGame.source_shoot_pattern_default_events"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_shoot_0"', source)
@@ -20184,8 +21301,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_flip_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
-        self.assertIn("var result = instance.java_method_flip_2([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_shoot_pattern_flip_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
+            "java_method_flip_2",
+            "",
+        )
         self.assertIn('"source_owner": "ShootPattern.flip"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_flip_2"', source)
         self.assertIn('"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == []', source)
@@ -20195,8 +21317,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd")', source)
-        self.assertIn("var result = instance.java_method_copy_3([shots, first_shot_delay, shot_delay])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd",
+            "java_method_copy_3",
+            "shots, first_shot_delay, shot_delay",
+        )
         self.assertIn('"source_owner": "ShootPattern.copy"', source)
         self.assertIn('"generated_owner": "ShootPattern.java_method_copy_3"', source)
         self.assertIn('"matches": result.get("copy", {}) == expected_copy and bool(result.get("same_reference", true)) == false', source)
@@ -21928,89 +23055,99 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"registry": {', catalog_source)
         self.assertIn('"path": "res://src/generated/source_symbol_registry.json"', catalog_source)
         self.assertIn('static func lookup_state(module_name: String, key_value: String = "") -> Dictionary:', catalog_source)
-        self.assertIn('const SourceSsotCatalog := preload("res://src/generated/SourceSsotCatalog.gd")', source)
+        self.assertIn('const SourceSsotAccessorRuntimeState := preload("res://src/game/SourceSsotAccessorRuntimeState.gd")', source)
         self.assertIn('func source_symbol_registry_state(symbol: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("registry", symbol)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_symbol_registry_state(symbol)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("registry", symbol)', self._ssot_accessor_source())
         self.assertNotIn("SOURCE_SYMBOL_REGISTRY_PATH", source)
 
     def test_port_game_exposes_source_symbol_registry_symbols_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_symbol_registry_symbols.json").exists())
-        self.assertIn('"source_symbol_registry_symbols": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_symbol_registry_symbols.json").exists())
+        self.assertNotIn('"source_symbol_registry_symbols": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_symbol_registry_symbol_state(symbol: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_symbol_registry_symbol_state(symbol)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_symbol_registry_symbols", symbol)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_api_contracts_contracts_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_api_contracts_contracts.json").exists())
-        self.assertIn('"source_api_contracts_contracts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_api_contracts_contracts.json").exists())
+        self.assertNotIn('"source_api_contracts_contracts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_api_contract_state(contract_owner)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_api_contracts_contracts", contract_owner)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_state_schema_schemas_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_state_schema_schemas.json").exists())
-        self.assertIn('"source_state_schema_schemas": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_state_schema_schemas.json").exists())
+        self.assertNotIn('"source_state_schema_schemas": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_state_schema_state(schema_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_state_schema_state(schema_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_state_schema_schemas", schema_name)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_slice_ledger_slices_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_slice_ledger_slices.json").exists())
-        self.assertIn('"source_slice_ledger_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_slice_ledger_slices.json").exists())
+        self.assertNotIn('"source_slice_ledger_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_slice_ledger_state(slice_id: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_slice_ledger_state(slice_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_slice_ledger_slices", slice_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_audit_registered_owners_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_registered_owners.json").exists())
-        self.assertIn('"source_audit_registered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_registered_owners.json").exists())
+        self.assertNotIn('"source_audit_registered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_registered_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_audit_registered_owner_state(owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_registered_owners", owner_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_audit_functions_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_functions.json").exists())
-        self.assertIn('"source_audit_functions": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_functions.json").exists())
+        self.assertNotIn('"source_audit_functions": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_function_state(function_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_audit_function_state(function_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_functions", function_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_audit_exempt_owners_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_exempt_owners.json").exists())
-        self.assertIn('"source_audit_exempt_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_exempt_owners.json").exists())
+        self.assertNotIn('"source_audit_exempt_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_exempt_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_audit_exempt_owner_state(owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_exempt_owners", owner_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_audit_legacy_unregistered_owners_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_legacy_unregistered_owners.json").exists())
-        self.assertIn('"source_audit_legacy_unregistered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_audit_legacy_unregistered_owners.json").exists())
+        self.assertNotIn('"source_audit_legacy_unregistered_owners": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_audit_legacy_unregistered_owner_state(owner_index: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_audit_legacy_unregistered_owner_state(owner_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_audit_legacy_unregistered_owners", owner_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_symbol_audit_lookup(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func source_symbol_audit_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.audit_summary_state()', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.audit_summary_state()', source)
+        self.assertIn('return SourceSsotCatalog.audit_summary_state()', self._ssot_accessor_source())
         self.assertNotIn("SOURCE_SYMBOL_AUDIT_REPORT_PATH", source)
 
     def test_port_game_exposes_source_framework_lookups(self):
@@ -22025,9 +23162,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('func source_slice_ledger_state(slice_id: String = "") -> Dictionary:', source)
         self.assertIn('func source_api_contract_state(contract_owner: String = "") -> Dictionary:', source)
         self.assertIn('func source_state_schema_state(schema_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("state_schema", schema_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_slice_ledger_state(slice_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_api_contract_state(contract_owner)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_state_schema_state(schema_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("slice_ledger", slice_id)', self._ssot_accessor_source())
+        self.assertIn('return SourceSsotCatalog.lookup_state("api_contracts", contract_owner)', self._ssot_accessor_source())
+        self.assertIn('return SourceSsotCatalog.lookup_state("state_schema", schema_name)', self._ssot_accessor_source())
         self.assertNotIn("SOURCE_SLICE_LEDGER_PATH", source)
         self.assertNotIn("SOURCE_API_CONTRACTS_PATH", source)
         self.assertNotIn("SOURCE_STATE_SCHEMA_PATH", source)
@@ -22054,13 +23194,17 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('return "%s.%s" % [domain, canonical_module]', catalog_source)
         self.assertIn('"consumer_slices": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn('func ssot_modules_state(module_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.ssot_modules_state(module_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_modules_state(module_name)', source)
+        self.assertIn('return SourceSsotCatalog.ssot_modules_state(module_name)', self._ssot_accessor_source())
         self.assertIn('func ssot_headquarter_registry_state(module_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.canonical_headquarter_registry_state(module_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.canonical_headquarter_registry_state(module_name)', source)
+        self.assertIn('return SourceSsotCatalog.canonical_headquarter_registry_state(module_name)', self._ssot_accessor_source())
         self.assertIn('func ssot_headquarter_lookup_state(alias_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.canonical_headquarter_lookup_state(alias_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.canonical_headquarter_lookup_state(alias_name)', source)
+        self.assertIn('return SourceSsotCatalog.canonical_headquarter_lookup_state(alias_name)', self._ssot_accessor_source())
         self.assertIn('func helper_state_schema_state(schema_name: String = "") -> Dictionary:', source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.helper_state_schema_state(schema_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("helper_state_schema", schema_name)', self._ssot_accessor_source())
 
     def test_source_ssot_catalog_runtime_hq_state_exposes_policy_self_check(self):
         catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
@@ -22081,6 +23225,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"duplicate_features": duplicate_features.duplicate(true)', catalog_source)
         self.assertIn('"duplicate_aliases": duplicate_aliases.duplicate(true)', catalog_source)
         self.assertIn('var aliases_for_key: Array = [canonical_key, canonical_feature]', catalog_source)
+        self.assertIn('var canonical_headquarters: Dictionary = canonical_headquarters_value if policy.has("canonicalHeadquarters") and typeof(canonical_headquarters_value) == TYPE_DICTIONARY else headquarters', catalog_source)
         self.assertIn('"one_headquarter_per_ssot": seen_headquarters.size() == headquarters.size() and errors.is_empty()', catalog_source)
         self.assertIn('"managed_ssot_count": registry.size()', catalog_source)
         self.assertIn('static func _canonical_headquarter_lookup_candidates(alias_name: String) -> Array:', catalog_source)
@@ -22135,23 +23280,29 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json").exists())
-        self.assertIn('"source_ssot_module_entries": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_ssot_module_entries.json").exists())
+        self.assertNotIn('"source_ssot_module_entries": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func ssot_module_entry_state(module_name: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ssot_module_entry_state(module_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_ssot_module_entries", module_name)', self._ssot_accessor_source())
 
     def test_port_game_loads_playable_content_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        runtime_config = ROOT / "godot-mindustry" / "src" / "game" / "SourceGameConfigRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        runtime_source = runtime_config.read_text(encoding="utf-8")
         catalog = ROOT / "godot-mindustry" / "src" / "generated" / "SourceSsotCatalog.gd"
         catalog_source = catalog.read_text(encoding="utf-8")
 
         self.assertIn('"playable_content": {', catalog_source)
         self.assertIn('"path": "res://src/generated/playable_content.json"', catalog_source)
-        self.assertIn('var document := SourceSsotCatalog.load_document("playable_content")', source)
-        self.assertIn('config = document.get("data", {})', source)
-        self.assertNotIn("const CONFIG_PATH", source)
-        self.assertNotIn("FileAccess.open(CONFIG_PATH", source)
+        self.assertIn("SourceGameConfigRuntimeState.load_config(self)", source)
+        self.assertIn('var document := SourceSsotCatalog.load_document("playable_content")', runtime_source)
+        self.assertIn('game.set("config", config)', runtime_source)
+        self.assertNotIn('var document := SourceSsotCatalog.load_document("playable_content")', source)
+        self.assertNotIn('game.set("config", config)', source)
+        self.assertNotIn("const CONFIG_PATH", source + "\n" + runtime_source)
+        self.assertNotIn("FileAccess.open(CONFIG_PATH", source + "\n" + runtime_source)
 
     def test_port_game_exposes_asset_manifest_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22162,7 +23313,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"asset_manifest": {', catalog_source)
         self.assertIn('"path": "res://src/generated/asset_manifest.json"', catalog_source)
         self.assertIn("func asset_manifest_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.asset_manifest_state()', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("asset_manifest", ["asset_count", "total_bytes"], [], "assets", "first_asset")', self._ssot_accessor_source())
         self.assertIn('static func manifest_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_key: String, first_key: String) -> Dictionary:', catalog_source)
         self.assertIn('result[str(field)] = int(parsed.get(str(field), 0))', catalog_source)
         self.assertIn('result[first_key] = first_entry', catalog_source)
@@ -22172,10 +23324,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "asset_manifest_assets.json").exists())
-        self.assertIn('"asset_manifest_assets": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "asset_manifest_assets.json").exists())
+        self.assertNotIn('"asset_manifest_assets": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func asset_manifest_asset_state(target_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.asset_manifest_asset_state(target_path)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("asset_manifest_assets", target_path)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_manifest_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22186,7 +23339,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_manifest": {', catalog_source)
         self.assertIn('"path": "res://src/generated/source_manifest.json"', catalog_source)
         self.assertIn("func source_manifest_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_manifest_state()', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("source_manifest", ["java_file_count"], ["source_root"], "files", "first_file")', self._ssot_accessor_source())
         self.assertIn('static func manifest_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_key: String, first_key: String) -> Dictionary:', catalog_source)
         self.assertIn('result[str(field)] = int(parsed.get(str(field), 0))', catalog_source)
         self.assertIn('result[str(field)] = str(parsed.get(str(field), ""))', catalog_source)
@@ -22197,10 +23351,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_manifest_files.json").exists())
-        self.assertIn('"source_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "source_manifest_files.json").exists())
+        self.assertNotIn('"source_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func source_manifest_file_state(file_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.source_manifest_file_state(file_path)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("source_manifest_files", file_path)', self._ssot_accessor_source())
 
     def test_port_game_exposes_ast_manifest_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22211,7 +23366,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"ast_manifest": {', catalog_source)
         self.assertIn('"path": "res://src/generated/ast_manifest.json"', catalog_source)
         self.assertIn("func ast_manifest_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ast_manifest_state()', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("ast_manifest", ["parsed_file_count", "failed_file_count"], ["source_root"], "files", "first_file")', self._ssot_accessor_source())
         self.assertNotIn("AST_MANIFEST_PATH", source)
 
     def test_port_game_exposes_ast_manifest_files_extension_shard(self):
@@ -22221,7 +23377,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "ast_manifest_files.json").exists())
         self.assertIn('"ast_manifest_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func ast_manifest_file_state(file_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("ast_manifest_files", file_path)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ast_manifest_file_state(file_path)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("ast_manifest_files", file_path)', self._ssot_accessor_source())
 
     def test_port_game_exposes_ast_manifest_failures_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22230,7 +23387,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "ast_manifest_failures.json").exists())
         self.assertIn('"ast_manifest_failures": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func ast_manifest_failure_state(file_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("ast_manifest_failures", file_path)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.ast_manifest_failure_state(file_path)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("ast_manifest_failures", file_path)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22241,7 +23399,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"content_registry": {', catalog_source)
         self.assertIn('"path": "res://src/generated/content_registry.json"', catalog_source)
         self.assertIn("func content_registry_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_state()', source)
+        self.assertIn('return SourceSsotCatalog.collection_summary_state("content_registry", ["upstream_commit"], "counts", ["items", "liquids", "blocks", "units"])', self._ssot_accessor_source())
         self.assertIn('static func collection_summary_state(module_name: String, string_fields: Array, counts_key: String, collection_names: Array) -> Dictionary:', catalog_source)
         self.assertIn('result["first_" + collection_name.substr(0, collection_name.length() - 1)] = first_entry', catalog_source)
         self.assertNotIn("CONTENT_REGISTRY_PATH", source)
@@ -22253,7 +23412,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_items.json").exists())
         self.assertIn('"content_registry_items": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_item_state(item_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_items", item_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_item_state(item_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_items", item_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_playable_content_blocks_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22262,7 +23422,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "playable_content_blocks.json").exists())
         self.assertIn('"playable_content_blocks": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func playable_content_block_state(block_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.playable_content_block_state(block_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_blocks", block_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_playable_content_items_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22271,7 +23432,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "playable_content_items.json").exists())
         self.assertIn('"playable_content_items": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func playable_content_item_state(item_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_items", item_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.playable_content_item_state(item_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_items", item_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_playable_content_skin_overrides_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22280,7 +23442,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "playable_content_skin_overrides.json").exists())
         self.assertIn('"playable_content_skin_overrides": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func playable_content_skin_override_state(skin_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.playable_content_skin_override_state(skin_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("playable_content_skin_overrides", skin_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_liquids_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22289,7 +23452,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_liquids.json").exists())
         self.assertIn('"content_registry_liquids": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_liquid_state(liquid_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_liquids", liquid_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_liquid_state(liquid_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_liquids", liquid_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_units_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22298,7 +23462,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_units.json").exists())
         self.assertIn('"content_registry_units": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_unit_state(unit_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_units", unit_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_unit_state(unit_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_units", unit_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_blocks_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22307,7 +23472,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_blocks.json").exists())
         self.assertIn('"content_registry_blocks": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_block_state(block_id: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_blocks", block_id)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_block_state(block_id)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_blocks", block_id)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_counts_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22316,7 +23482,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_counts.json").exists())
         self.assertIn('"content_registry_counts": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_count_state(count_name: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_counts", count_name)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_count_state(count_name)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_counts", count_name)', self._ssot_accessor_source())
 
     def test_port_game_exposes_content_registry_wave_groups_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22325,7 +23492,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "content_registry_wave_groups.json").exists())
         self.assertIn('"content_registry_wave_groups": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func content_registry_wave_group_state(group_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_wave_groups", group_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.content_registry_wave_group_state(group_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("content_registry_wave_groups", group_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_emitted_classes_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22337,7 +23505,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"emitted_classes": {', catalog_source)
         self.assertIn('"path": "res://src/generated/emitted_classes.json"', catalog_source)
         self.assertIn("func emitted_classes_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.emitted_classes_state()', source)
+        self.assertIn('return SourceSsotCatalog.manifest_summary_state("emitted_classes", ["emitted_file_count", "skipped_failure_count"], ["source_root", "output_root", "registry"], "files", "first_file")', self._ssot_accessor_source())
         self.assertIn("var first_entry: Variant = {}", manifest_helper_source)
         self.assertNotIn("typeof(entries[0]) == TYPE_DICTIONARY", manifest_helper_source)
         self.assertNotIn("EMITTED_CLASSES_PATH", source)
@@ -22349,16 +23518,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_files.json").exists())
         self.assertIn('"emitted_class_files": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func emitted_class_file_state(file_path: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.emitted_class_file_state(file_path)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_files", file_path)', self._ssot_accessor_source())
 
     def test_port_game_exposes_emitted_class_failures_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_failures.json").exists())
-        self.assertIn('"emitted_class_failures": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "emitted_class_failures.json").exists())
+        self.assertNotIn('"emitted_class_failures": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func emitted_class_failure_state(failure_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.emitted_class_failure_state(failure_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("emitted_class_failures", failure_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_port_report_through_ssot_catalog(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22369,7 +23540,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"port_report": {', catalog_source)
         self.assertIn('"path": "res://src/generated/port_report.json"', catalog_source)
         self.assertIn("func port_report_state() -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.port_report_state()', source)
+        self.assertIn('return SourceSsotCatalog.array_summary_state("port_report", ["asset_count", "asset_total_bytes", "failed_file_count", "java_file_count", "parsed_file_count"], [], ["unsupported", "unsupported_features"], ["first_unsupported", "first_unsupported_feature"])', self._ssot_accessor_source())
         self.assertIn("static func array_summary_state(module_name: String, int_fields: Array, string_fields: Array, array_keys: Array, first_keys: Array) -> Dictionary:", catalog_source)
         self.assertIn('result["counts"][array_key] = entries.size()', catalog_source)
         self.assertIn("result[first_key] = first_entry", catalog_source)
@@ -22379,19 +23551,21 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported_features.json").exists())
-        self.assertIn('"port_report_unsupported_features": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported_features.json").exists())
+        self.assertNotIn('"port_report_unsupported_features": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func port_report_unsupported_feature_state(feature_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.port_report_unsupported_feature_state(feature_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported_features", feature_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_port_report_unsupported_extension_shard(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
 
-        self.assertTrue((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json").exists())
-        self.assertIn('"port_report_unsupported": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
+        self.assertFalse((ROOT / "godot-mindustry" / "src" / "generated" / "source_modules" / "port_report_unsupported.json").exists())
+        self.assertNotIn('"port_report_unsupported": {', (ROOT / "godot-mindustry" / "src" / "generated" / "source_ssot_modules.json").read_text(encoding="utf-8"))
         self.assertIn("func port_report_unsupported_state(unsupported_index: String = \"\") -> Dictionary:", source)
-        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)', source)
+        self.assertIn('return SourceSsotAccessorRuntimeState.port_report_unsupported_state(unsupported_index)', source)
+        self.assertIn('return SourceSsotCatalog.lookup_state("port_report_unsupported", unsupported_index)', self._ssot_accessor_source())
 
     def test_port_game_exposes_source_bullet_type_draw_light_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -22538,24 +23712,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOURCE_RENDERER_SCALE_CAMERA_DIVISOR := 4.0", input_source)
         self.assertIn("static func ensure_input_map() -> void:", input_source)
         self.assertIn("static func movement_vector() -> Vector2:", input_source)
+        self.assertNotIn("Input.get_action_strength(MOVE_X_ACTION)", input_source)
+        self.assertNotIn("Input.get_action_strength(MOVE_Y_ACTION)", input_source)
+        self.assertIn("if Input.is_key_pressed(MOVE_X_NEGATIVE_KEY):", input_source)
+        self.assertIn("if Input.is_key_pressed(MOVE_X_POSITIVE_KEY):", input_source)
+        self.assertIn("if Input.is_key_pressed(MOVE_Y_NEGATIVE_KEY):", input_source)
+        self.assertIn("if Input.is_key_pressed(MOVE_Y_POSITIVE_KEY):", input_source)
         self.assertIn("static func zoom_factor_from_event(event: InputEvent) -> float:", input_source)
         self.assertIn("static func block_select_index_from_keycode(keycode: Key) -> int:", input_source)
         self.assertIn("static func block_select_step_from_keycode(keycode: Key) -> int:", input_source)
         self.assertIn("static func boost_pressed() -> bool:", input_source)
         self.assertIn("static func camera_pan_speed_per_second(boosted: bool, source_tick_rate: float) -> float:", input_source)
         self.assertIn("return (source_zoom_axis / SOURCE_RENDERER_SCALE_CAMERA_DIVISOR) + 1.0", input_source)
+        self.assertNotIn("ResourceLoader.load(path)", source)
+        self.assertNotIn("Image.load(path)", source)
         self.assertIn('const SourceInputDefaults := preload("res://src/game/SourceInputDefaults.gd")', source)
         self.assertIn('const SourceInputRuntime := preload("res://src/game/SourceInputRuntime.gd")', source)
         self.assertIn("SourceInputDefaults.ensure_input_map()", source)
         self.assertIn("var input_runtime := SourceInputRuntime.new()", source)
-        self.assertIn("var movement := input_runtime.movement_vector()", source)
-        self.assertIn("var pan_delta := source_input_viewport_camera_pan_delta(movement, SourceInputDefaults.boost_pressed(), delta)", source)
-        self.assertIn("var clamp_state := source_input_viewport_clamped_camera_position_state(camera.position + pan_delta, get_viewport().get_visible_rect().size)", source)
-        self.assertIn("camera.position = Vector2(float(clamp_state.get(\"x\", camera.position.x)), float(clamp_state.get(\"y\", camera.position.y)))", source)
+        self.assertIn("SourceInputViewportRuntimeState.update_camera(self, delta)", source)
+        self.assertNotIn("var movement := input_runtime.movement_vector()", source)
+        self.assertNotIn("var pan_delta := source_input_viewport_camera_pan_delta(movement, SourceInputDefaults.boost_pressed(), delta)", source)
+        self.assertNotIn("var clamp_state := source_input_viewport_clamped_camera_position_state(camera.position + pan_delta, get_viewport().get_visible_rect().size)", source)
+        self.assertNotIn("camera.position = Vector2(float(clamp_state.get(\"x\", camera.position.x)), float(clamp_state.get(\"y\", camera.position.y)))", source)
         self.assertIn("var zoom_factor := SourceInputDefaults.zoom_factor_from_event(event)", source)
         self.assertIn("var zoom_state := source_input_viewport_camera_zoom_state(camera.zoom, zoom_factor)", source)
-        self.assertIn("var step := SourceInputDefaults.block_select_step_from_keycode(keycode)", source)
-        self.assertIn("var index := SourceInputDefaults.block_select_index_from_keycode(keycode)", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_build_slot(self, keycode)", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_next_build_slot(self)", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_previous_build_slot(self)", source)
+        self.assertIn("SourceBuildSelectionRuntimeState.select_build_block_by_id(self, block_id)", source)
+        self.assertNotIn("var step := SourceInputDefaults.block_select_step_from_keycode(keycode)", source)
+        self.assertNotIn("var index := SourceInputDefaults.block_select_index_from_keycode(keycode)", source)
         self.assertNotIn("if keycode == KEY_TAB:", source)
         self.assertNotIn("if Input.is_key_pressed(KEY_SHIFT):", source)
         camera_source = source.split("func update_camera(delta: float) -> void:", 1)[1].split("func get_runtime_summary", 1)[0]
@@ -22602,9 +23789,11 @@ class PlayableManifestTests(unittest.TestCase):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         input_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourceInputDefaults.gd"
         input_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceInputRuntime.gd"
+        input_viewport_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceInputViewportRuntimeState.gd"
         source = port_game.read_text(encoding="utf-8")
         input_source = input_defaults.read_text(encoding="utf-8")
         runtime_source = input_runtime.read_text(encoding="utf-8")
+        viewport_source = input_viewport_runtime.read_text(encoding="utf-8")
 
         self.assertIn("const TOUCH_MOVE_PIXELS_PER_AXIS := 72.0", input_source)
         self.assertIn("const VIRTUAL_AXIS_DEADZONE := 0.1", input_source)
@@ -22625,7 +23814,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("roblox_move_axis = SourceInputDefaults.normalize_virtual_axis(axis)", runtime_source)
         self.assertIn("set_touch_move_axis(SourceInputDefaults.touch_axis_from_drag(event.relative))", source)
         self.assertIn("set_touch_move_axis(Vector2.ZERO)", source)
-        self.assertIn("var movement := input_runtime.movement_vector()", source)
+        self.assertIn("var movement: Vector2 = input_runtime.movement_vector()", viewport_source)
+        self.assertNotIn("var movement := input_runtime.movement_vector()", source)
         self.assertIn('"touch_axis": {"x": touch_move_axis.x, "y": touch_move_axis.y}', runtime_source)
         self.assertIn('"roblox_axis": {"x": roblox_move_axis.x, "y": roblox_move_axis.y}', runtime_source)
         self.assertIn('"resolved_movement": {"x": resolved_movement.x, "y": resolved_movement.y}', runtime_source)
@@ -22640,6 +23830,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func set_virtual_input_axes(", source)
         self.assertIn("func runtime_summary_state() -> Dictionary:", source)
 
+    def test_port_game_uses_dedicated_texture_runtime_module(self):
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceTextureRuntimeState.gd"
+        source = helper.read_text(encoding="utf-8")
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        port_source = port_game.read_text(encoding="utf-8")
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "TextureRuntimeModuleProof.gd"
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
+
+        self.assertIn("class_name SourceTextureRuntimeState", source)
+        self.assertTrue(proof.exists(), "TextureRuntimeModuleProof.gd must prove texture runtime helper")
+        self.assertIn("TEXTURE_RUNTIME_MODULE_PROOF", proof_source)
+        self.assertIn("static func load_png_texture(path: String) -> Texture2D:", source)
+        self.assertIn("var file := FileAccess.open(path, FileAccess.READ)", source)
+        self.assertIn("var image := Image.new()", source)
+        self.assertIn("var error := image.load_png_from_buffer(bytes)", source)
+        self.assertIn("static func load_textures(game: Object) -> void:", source)
+        self.assertIn("textures[\"item\"] = load_png_texture(config[\"item\"][\"texture\"])", source)
+        self.assertIn("for key in config[\"blocks\"].keys():", source)
+        self.assertIn('textures["unit:" + unit.id] = load_png_texture(unit.texture_path)', source)
+        self.assertIn('const SourceTextureRuntimeState := preload("res://src/game/SourceTextureRuntimeState.gd")', port_source)
+        self.assertIn("return SourceTextureRuntimeState.load_png_texture(path)", port_source)
+        self.assertIn("SourceTextureRuntimeState.load_textures(self)", port_source)
+        self.assertNotIn('textures["item"] = load_png_texture(config["item"]["texture"])', port_source)
+        self.assertNotIn("Image.load(path)", port_source)
+        self.assertNotIn("ResourceLoader.load(path)", port_source)
+
     def test_port_game_delegates_input_viewport_runtime_state_to_module(self):
         source = self._port_game_input_viewport_runtime_source()
 
@@ -22650,6 +23866,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func viewport_fit_camera_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2) -> Dictionary:", source)
         self.assertIn("static func screen_to_world_state(screen_position: Vector2, camera_position: Vector2, camera_zoom: Vector2, viewport_size: Vector2) -> Dictionary:", source)
         self.assertIn("static func clamped_camera_position_state(proposed_position: Vector2, world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:", source)
+        self.assertIn("static func update_camera(game: Object, delta: float) -> void:", source)
         self.assertIn("func source_input_viewport_camera_pan_delta(movement: Vector2, boosted: bool, delta: float) -> Vector2:", source)
         self.assertIn("return SourceInputViewportRuntimeState.camera_pan_delta(movement, boosted, delta, SourceTimeDefaults.TICK_RATE)", source)
         self.assertIn("func source_input_viewport_camera_zoom_state(current_zoom: Vector2, zoom_factor: float) -> Dictionary:", source)
@@ -22660,8 +23877,9 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("return SourceInputViewportRuntimeState.screen_to_world_state(screen_position, camera.position, camera.zoom, get_viewport().get_visible_rect().size)", source)
         self.assertIn("func source_input_viewport_clamped_camera_position_state(proposed_position: Vector2, viewport_size: Vector2) -> Dictionary:", source)
         self.assertIn("return SourceInputViewportRuntimeState.clamped_camera_position_state(proposed_position, SourcePlayableScenarioDefaults.WORLD_SIZE, tile_size, viewport_size, camera.zoom)", source)
-        self.assertIn("var pan_delta := source_input_viewport_camera_pan_delta(movement, SourceInputDefaults.boost_pressed(), delta)", source)
-        self.assertIn("var clamp_state := source_input_viewport_clamped_camera_position_state(camera.position + pan_delta, get_viewport().get_visible_rect().size)", source)
+        self.assertIn("var movement: Vector2 = input_runtime.movement_vector()", source)
+        self.assertIn("var pan_delta := camera_pan_delta(movement, SourceInputDefaults.boost_pressed(), delta, SourceTimeDefaults.TICK_RATE)", source)
+        self.assertIn("var clamp_state := clamped_camera_position_state(camera.position + pan_delta, SourcePlayableScenarioDefaults.WORLD_SIZE, int(game.get(\"tile_size\")), viewport_size, camera.zoom)", source)
         self.assertIn("camera.position = Vector2(float(clamp_state.get(\"x\", camera.position.x)), float(clamp_state.get(\"y\", camera.position.y)))", source)
         self.assertIn("var zoom_state := source_input_viewport_camera_zoom_state(camera.zoom, zoom_factor)", source)
         self.assertIn("camera.zoom = Vector2(float(zoom_state.get(\"x\", camera.zoom.x)), float(zoom_state.get(\"y\", camera.zoom.y)))", source)
@@ -22787,7 +24005,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func occupied_cell_count(block_size: int) -> int:", source)
         self.assertIn('const SourceBlockFootprint := preload("res://src/game/SourceBlockFootprint.gd")', port_source)
         self.assertIn("return SourceBlockFootprint.occupied_cells(cell, block_size(block))", port_source)
-        self.assertIn("last_placed_occupied_cell_count = SourceBlockFootprint.occupied_cell_count(block_size(block))", port_source)
+        self.assertIn('game.set("last_placed_occupied_cell_count", SourceBlockFootprint.occupied_cell_count(SourceBlockMetadataState.block_size(block)))', (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8"))
 
     def test_port_game_uses_block_placement_helper_module(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd"
@@ -22806,7 +24024,12 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"blocked_cell": occupied_cell', source)
         self.assertIn("static func can_place(occupied_cells: Array[Vector2i], placed_blocks: Dictionary, world_size: Vector2i) -> bool:", source)
         self.assertIn("static func record_cells(placed_block_origins: Dictionary, placed_blocks: Dictionary, origin_cell: Vector2i, occupied_cells: Array[Vector2i], sprite: Sprite2D) -> Array[String]:", source)
+        self.assertIn("static func add_source_block(game: Object, parent: Node, block_id: String, cell: Vector2i) -> void:", source)
         self.assertIn('const SourceBlockPlacement := preload("res://src/game/SourceBlockPlacement.gd")', port_source)
+        self.assertIn("SourceBlockPlacement.add_source_block(self, parent, block_id, cell)", port_source)
+        add_source_block_body = port_source.split("func add_source_block(parent: Node, block_id: String, cell: Vector2i) -> void:", 1)[1].split("func occupied_cells", 1)[0]
+        self.assertNotIn("var block = content_catalog.get_by_id(block_id)", add_source_block_body)
+        self.assertNotIn("var sprite := Sprite2D.new()", add_source_block_body)
         self.assertIn("var state := SourceBlockPlacement.can_place_state(occupied_cells(cell, block), placed_blocks, SourcePlayableScenarioDefaults.WORLD_SIZE)", port_source)
         self.assertIn('return bool(state.get("can_place", false))', port_source)
         self.assertIn("var cell_keys: Array[String] = SourceBlockPlacement.record_cells(placed_block_origins, placed_blocks, cell, occupied_cells(cell, block), sprite)", port_source)
@@ -22818,11 +24041,11 @@ class PlayableManifestTests(unittest.TestCase):
         footprint = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockFootprint.gd").read_text(encoding="utf-8")
         placement = (ROOT / "godot-mindustry" / "src" / "game" / "SourceBlockPlacement.gd").read_text(encoding="utf-8")
 
-        self.assertIn('"source_symbol_registry_symbols"', manifest)
-        self.assertIn('"source_api_contracts_contracts"', manifest)
-        self.assertIn('"source_state_schema_schemas"', manifest)
-        self.assertIn('"source_slice_ledger_slices"', manifest)
-        self.assertIn('"source_audit_registered_owners"', manifest)
+        self.assertNotIn('"source_symbol_registry_symbols"', manifest)
+        self.assertNotIn('"source_api_contracts_contracts"', manifest)
+        self.assertNotIn('"source_state_schema_schemas"', manifest)
+        self.assertNotIn('"source_slice_ledger_slices"', manifest)
+        self.assertNotIn('"source_audit_registered_owners"', manifest)
         self.assertIn('"legacyUnregisteredOwnerCount": 0', audit)
         self.assertNotIn('"godot_owner": "SourceBlockFootprint.', registry)
         self.assertNotIn('"godot_owner": "SourceBlockPlacement.', registry)
@@ -23026,6 +24249,7 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_playable_scenario_defaults_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         scenario_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlayableScenarioDefaults.gd"
+        enemy_runtime = ROOT / "godot-mindustry" / "src" / "game" / "SourceEnemyUnitRuntimeState.gd"
         layout_defaults = ROOT / "godot-mindustry" / "src" / "game" / "SourcePlayableWorldLayoutDefaults.gd"
         source = self._port_game_factory_runtime_source()
         build_world_body = source.split("func build_world() -> void:", 1)[1].split("func _unhandled_input", 1)[0]
@@ -23081,7 +24305,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceWorldInitialBuildRuntimeState.build_world(self)", build_world_body)
         self.assertIn("static func build_world(game) -> void:", source)
         self.assertIn("path_points.clear()", module_build_world_body)
-        self.assertIn("SourcePlayableScenarioDefaults.enemy_spawn_cell(index)", source)
+        enemy_runtime_source = enemy_runtime.read_text(encoding="utf-8") if enemy_runtime.exists() else ""
+        self.assertIn("SourcePlayableScenarioDefaults.enemy_spawn_cell(index)", enemy_runtime_source)
         self.assertIn("SourcePlayableScenarioDefaults.WORLD_SIZE", source)
         self.assertNotIn("const WORLD_W := 24", source)
         self.assertNotIn("const WORLD_H := 16", source)
@@ -23503,7 +24728,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('callbacks.get("progress_fraction", Callable())', production_body)
         self.assertNotIn('Callable(self, "source_drill_output_batch")', production_body)
         self.assertNotIn('Callable(self, "source_drill_progress_fraction")', production_body)
-        self.assertIn("item_progress = float(apply_state.get(\"item_progress\", item_progress))", source)
+        self.assertIn('game.set("item_progress", float(apply_state.get("item_progress", game.get("item_progress"))))', self._port_game_factory_runtime_source())
         self.assertIn("item_progress = float(production_state.get(\"item_progress\", current_progress_fraction))", self._port_game_drill_runtime_source())
 
     def test_port_game_uses_source_conveyor_speed_for_item_motion(self):
@@ -23654,9 +24879,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_child_comp_add_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:")
 
         self.assertIn("func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_add_0([child_state])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", "child_state")
         self.assertIn("var canonical = source_child_add_state(child_state)", source)
         self.assertIn('"source_owner": "PortGame.source_child_add_state"', source)
         self.assertIn('"generated_owner": "ChildComp.java_method_add_0"', source)
@@ -23715,9 +24941,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_child_comp_update_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:")
 
         self.assertIn("func generated_child_comp_update_bridge_state(child_state: Dictionary) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_update_1([child_state])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", "child_state")
         self.assertIn("var canonical = source_child_update_state(child_state)", source)
         self.assertIn('"source_owner": "PortGame.source_child_update_state"', source)
         self.assertIn('"generated_owner": "ChildComp.java_method_update_1"', source)
@@ -23773,10 +25000,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_pos_comp_set_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:")
 
         self.assertIn("func generated_pos_comp_set_bridge_state(x_value: float, y_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/PosComp.gd")', source)
-        self.assertIn("var result = instance.java_method_set_0([x_value, y_value])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/PosComp.gd", "java_method_set_0", "x_value, y_value")
         self.assertIn("var canonical = source_pos_set_state(x_value, y_value)", source)
         self.assertIn('"source_owner": "PortGame.source_pos_set_state"', source)
         self.assertIn('"generated_owner": "PosComp.java_method_set_0"', source)
@@ -23809,10 +25036,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_shielder_comp_absorb_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_shielder_comp_absorb_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_shielder_comp_absorb_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_absorb_0([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/ShielderComp.gd", "java_method_absorb_0", "")
         self.assertIn("var canonical = source_shielder_absorb_state()", source)
         self.assertIn('"source_owner": "PortGame.source_shielder_absorb_state"', source)
         self.assertIn('"generated_owner": "ShielderComp.java_method_absorb_0"', source)
@@ -24239,10 +25466,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_snap_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_snapSync_0([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapSync_0", "")
         self.assertIn("var canonical = source_sync_snap_sync_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_snap_sync_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_snapSync_0"', source)
@@ -24251,10 +25478,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_snap_interpolation_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_snapInterpolation_1([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_snapInterpolation_1", "")
         self.assertIn("var canonical = source_sync_snap_interpolation_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_snap_interpolation_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_snapInterpolation_1"', source)
@@ -24263,10 +25490,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_read_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_read_sync_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_read_sync_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_readSync_2([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSync_2", "")
         self.assertIn("var canonical = source_sync_read_sync_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_read_sync_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_readSync_2"', source)
@@ -24275,10 +25502,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_write_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_write_sync_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_write_sync_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_writeSync_3([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSync_3", "")
         self.assertIn("var canonical = source_sync_write_sync_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_write_sync_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_writeSync_3"', source)
@@ -24287,10 +25514,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_read_sync_manual_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_readSyncManual_4([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_readSyncManual_4", "")
         self.assertIn("var canonical = source_sync_read_sync_manual_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_read_sync_manual_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_readSyncManual_4"', source)
@@ -24299,10 +25526,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_write_sync_manual_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_write_sync_manual_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_writeSyncManual_5([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_writeSyncManual_5", "")
         self.assertIn("var canonical = source_sync_write_sync_manual_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_write_sync_manual_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_writeSyncManual_5"', source)
@@ -24311,10 +25538,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_after_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_after_sync_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_after_sync_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_afterSync_6([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_afterSync_6", "")
         self.assertIn("var canonical = source_sync_after_sync_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_after_sync_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_afterSync_6"', source)
@@ -24323,10 +25550,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_interpolate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_interpolate_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_interpolate_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_interpolate_7([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_interpolate_7", "")
         self.assertIn("var canonical = source_sync_interpolate_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_interpolate_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_interpolate_7"', source)
@@ -24335,10 +25562,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_is_sync_hidden_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_is_sync_hidden_bridge_state(player: Variant = null) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_isSyncHidden_8([player])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_isSyncHidden_8", "player")
         self.assertIn("var canonical = source_sync_is_sync_hidden_state(player)", source)
         self.assertIn('"source_owner": "PortGame.source_sync_is_sync_hidden_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_isSyncHidden_8"', source)
@@ -24347,10 +25574,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_handle_sync_hidden_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_handleSyncHidden_9([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_handleSyncHidden_9", "")
         self.assertIn("var canonical = source_sync_handle_sync_hidden_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_handle_sync_hidden_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_handleSyncHidden_9"', source)
@@ -24359,10 +25586,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_update_interpolate_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_update_interpolate_bridge_state(net_client: bool, is_local: bool, is_remote: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_update_10([net_client, is_local, is_remote])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_update_10", "net_client, is_local, is_remote")
         self.assertIn("var canonical = source_sync_update_interpolate_state(net_client, is_local, is_remote)", source)
         self.assertIn('"source_owner": "PortGame.source_sync_update_interpolate_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_update_10"', source)
@@ -24371,10 +25598,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_sync_comp_remove_client_removed_entity_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:")
 
         self.assertIn("func generated_sync_comp_remove_client_removed_entity_bridge_state(net_client: bool, entity_id: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
-        self.assertIn("var result = instance.java_method_remove_11([net_client, entity_id])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/SyncComp.gd", "java_method_remove_11", "net_client, entity_id")
         self.assertIn("var canonical = source_sync_remove_client_removed_entity_state(net_client, entity_id)", source)
         self.assertIn('"source_owner": "PortGame.source_sync_remove_client_removed_entity_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_remove_11"', source)
@@ -24398,10 +25625,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_ammof_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_ammof_bridge_state(ammo: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_ammof_4([ammo])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_ammof_4", "ammo")
         self.assertIn("var canonical = source_block_unit_ammof_state(ammo)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_ammof_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_ammof_4"', source)
@@ -24425,10 +25652,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_icon_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_icon_3([tile_block_ui_icon])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_icon_3", "tile_block_ui_icon")
         self.assertIn("var canonical = source_block_unit_icon_state(tile_block_ui_icon)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_icon_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_icon_3"', source)
@@ -24456,10 +25683,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_killed_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_killed_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_killed_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_killed_5([])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_killed_5", "")
         self.assertIn("var canonical = source_block_unit_killed_state()", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_killed_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_killed_5"', source)
@@ -24488,10 +25715,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_damage_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_damage_6([v, b])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_damage_6", "v, b")
         self.assertIn("var canonical = source_block_unit_damage_state(v, b)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_damage_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_damage_6"', source)
@@ -24519,10 +25746,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_dead_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_dead_bridge_state(tile_null: bool, tile_dead: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_dead_7([tile_null, tile_dead])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_dead_7", "tile_null, tile_dead")
         self.assertIn("var canonical = source_block_unit_dead_state(tile_null, tile_dead)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_dead_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_dead_7"', source)
@@ -24550,10 +25777,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_is_valid_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_isValid_8([tile_exists, tile_is_valid])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isValid_8", "tile_exists, tile_is_valid")
         self.assertIn("var canonical = source_block_unit_is_valid_state(tile_exists, tile_is_valid)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_is_valid_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_isValid_8"', source)
@@ -24581,10 +25808,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_is_added_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_is_added_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_isAdded_9([tile_exists, tile_is_valid])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_isAdded_9", "tile_exists, tile_is_valid")
         self.assertIn("var canonical = source_block_unit_is_added_state(tile_exists, tile_is_valid)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_is_added_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_isAdded_9"', source)
@@ -24620,10 +25847,10 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_unit_comp_team_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        body = self._method_body(source, "func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:")
 
         self.assertIn("func generated_block_unit_comp_team_bridge_state(tile_exists: bool, this_team: Variant, team: Variant, tile_team: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_team_10([tile_exists, this_team, team, tile_team])", source)
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd", "java_method_team_10", "tile_exists, this_team, team, tile_team")
         self.assertIn("var canonical = source_block_unit_team_state(tile_exists, this_team, team, tile_team)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_team_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_team_10"', source)
@@ -24669,14 +25896,25 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size, tilesize])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd",
+            "java_method_tile_0",
+            "tile, tile_block_health, tile_health, tile_block_size, tilesize",
+        )
         self.assertIn("var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_tile_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_tile_0"', source)
         self.assertIn('"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null)', source)
         self.assertIn("func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_block_unit_comp_tile_source_tilesize_default_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd",
+            "java_method_tile_0",
+            "tile, tile_block_health, tile_health, tile_block_size",
+        )
         self.assertIn("var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, SourceWorldDefaults.TILESIZE)", source)
         self.assertIn('"defaulted_arg": "tilesize"', source)
 
@@ -24707,8 +25945,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_update_2([tile_exists, team, tile_team])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_block_unit_comp_update_bridge_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd",
+            "java_method_update_2",
+            "tile_exists, team, tile_team",
+        )
         self.assertIn("var canonical = source_block_unit_update_state(tile_exists, team, tile_team)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_update_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_update_2"', source)
@@ -24739,8 +25982,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
-        self.assertIn("var result = instance.java_method_add_1([tile_null])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd",
+            "java_method_add_1",
+            "tile_null",
+        )
         self.assertIn("var canonical = source_block_unit_add_state(tile_null)", source)
         self.assertIn('"source_owner": "PortGame.source_block_unit_add_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_add_1"', source)
@@ -24762,8 +26010,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_canBuild_0([type_build_speed, build_speed_multiplier])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_can_build_bridge_state(type_build_speed: float, build_speed_multiplier: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_canBuild_0",
+            "type_build_speed, build_speed_multiplier",
+        )
         self.assertIn("var canonical = source_builder_can_build_state(type_build_speed, build_speed_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_can_build_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_canBuild_0"', source)
@@ -24785,8 +26038,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_update_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_update_1([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_update_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_update_1",
+            "",
+        )
         self.assertIn("var canonical = source_builder_update_state()", source)
         self.assertIn('"source_owner": "PortGame.source_builder_update_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_update_1"', source)
@@ -24808,8 +26066,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_isBuilding_9([plans_size])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_isBuilding_9",
+            "plans_size",
+        )
         self.assertIn("var canonical = source_builder_is_building_state(plans_size)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_is_building_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_isBuilding_9"', source)
@@ -24831,8 +26094,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_clear_building_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_clearBuilding_10([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_clear_building_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_clearBuilding_10",
+            "",
+        )
         self.assertIn("var canonical = source_builder_clear_building_state()", source)
         self.assertIn('"source_owner": "PortGame.source_builder_clear_building_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_clearBuilding_10"', source)
@@ -24854,8 +26122,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_addBuild_11([place])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_addBuild_11",
+            "place",
+        )
         self.assertIn("var canonical = source_builder_add_build_tail_state(place)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_add_build_tail_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_11"', source)
@@ -24878,8 +26151,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_addBuild_12([plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_addBuild_12",
+            "plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress",
+        )
         self.assertIn("var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_add_build_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_12"', source)
@@ -24901,8 +26179,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_buildPlan_14([plans_size, plans_first])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_buildPlan_14",
+            "plans_size, plans_first",
+        )
         self.assertIn("var canonical = source_builder_build_plan_state(plans_size, plans_first)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_build_plan_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_buildPlan_14"', source)
@@ -24924,8 +26207,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_afterRead_2([plans_null])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_after_read_bridge_state(plans_null: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_afterRead_2",
+            "plans_null",
+        )
         self.assertIn("var canonical = source_builder_after_read_state(plans_null)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_after_read_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_afterRead_2"', source)
@@ -24947,8 +26235,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_activelyBuilding_13([plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_actively_building_bridge_state(plans_size: int, plans_first: Variant, state_is_editor: bool, state_rules_infinite_resources: bool, type_build_range: float, within_plan: bool, update_building: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_activelyBuilding_13",
+            "plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building",
+        )
         self.assertIn("var canonical = source_builder_actively_building_state(plans_size, plans_first, state_is_editor, state_rules_infinite_resources, type_build_range, within_plan, update_building)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_actively_building_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_activelyBuilding_13"', source)
@@ -24970,8 +26263,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_removeBuild_8([plans, x, y, breaking])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_remove_build_bridge_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_removeBuild_8",
+            "plans, x, y, breaking",
+        )
         self.assertIn("var canonical = source_builder_remove_build_state(plans, x, y, breaking)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_remove_build_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_removeBuild_8"', source)
@@ -24993,8 +26291,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_shouldSkip_7([state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_shouldSkip_7",
+            "state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement",
+        )
         self.assertIn("var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_should_skip_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_shouldSkip_7"', source)
@@ -25025,6 +26328,13 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func source_builder_build_step_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", port_source)
         self.assertIn("func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", port_source)
+        self._assert_generated_bridge_uses_runtime(
+            port_source,
+            port_source.split("func generated_builder_comp_update_build_logic_bridge_state(entity_build_cost: float, type_build_speed: float, build_speed_multiplier: float, team_build_speed: float, current_breaking: bool, allow_build_current: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_updateBuildLogic_4",
+            "entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current",
+        )
         self.assertIn("var canonical = source_builder_build_step_state(entity_build_cost, type_build_speed, build_speed_multiplier, team_build_speed, current_breaking, allow_build_current)", port_source)
         self.assertIn('"source_owner": "PortGame.source_builder_build_step_state"', port_source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_updateBuildLogic_4"', port_source)
@@ -25078,8 +26388,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_drawPlanTop_6([plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_draw_plan_top_bridge_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_drawPlanTop_6",
+            "plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28",
+        )
         self.assertIn("var canonical = source_builder_draw_plan_top_state(plan, plans, plan_breaking, alpha, mathf_absin_time_global_6_0_28)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_top_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlanTop_6"', source)
@@ -25115,8 +26430,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_drawPlan_5([plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_drawPlan_5",
+            "plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches",
+        )
         self.assertIn("var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlan_5"', source)
@@ -25153,8 +26473,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_drawBuilding_15([active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_drawBuilding_15",
+            "active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len",
+        )
         self.assertIn("var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_draw_building_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuilding_15"', source)
@@ -25190,14 +26515,25 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
-        self.assertIn("var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_drawBuildingBeam_16",
+            "px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value",
+        )
         self.assertIn("var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)", source)
         self.assertIn('"source_owner": "PortGame.source_builder_draw_building_beam_state"', source)
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16"', source)
         self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null)', source)
         self.assertIn("func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_builder_comp_draw_building_beam_source_tilesize_default_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool) -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd",
+            "java_method_drawBuildingBeam_16",
+            "px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build",
+        )
         self.assertIn("var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, SourceWorldDefaults.TILESIZE, 0.0, 0.0)", source)
         self.assertIn('"defaulted_arg": "source_tilesize"', source)
 
@@ -25233,8 +26569,13 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_turret_outputs_items_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
-        self.assertIn("var result = instance.java_method_outputsItems_0([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_turret_outputs_items_bridge_state() -> Dictionary:", 1)[1].split("\nfunc ", 1)[0],
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_outputsItems_0",
+            "",
+        )
         self.assertIn("var canonical = source_turret_outputs_items_state()", source)
         self.assertIn('"source_owner": "PortGame.source_turret_outputs_items_state"', source)
         self.assertIn('"generated_owner": "Turret.java_method_outputsItems_0"', source)
@@ -25287,6 +26628,12 @@ class PlayableManifestTests(unittest.TestCase):
         generated_turret = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
         source = port_game.read_text(encoding="utf-8")
         generated_source = generated_turret.read_text(encoding="utf-8")
+        init_body = self._method_body(source, "func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:")
+        source_tilesize_default_body = self._method_body(source, "func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float) -> Dictionary:")
+        size_default_body = self._method_body(source, "func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool) -> Dictionary:")
+        disable_overlap_check_default_body = self._method_body(source, "func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool) -> Dictionary:")
+        range_default_body = self._method_body(source, "func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool) -> Dictionary:")
+        tracking_range_default_body = self._method_body(source, "func generated_turret_init_tracking_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float) -> Dictionary:")
 
         self.assertIn("func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:", source)
         self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', generated_source)
@@ -25330,34 +26677,69 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("const SOURCE_TURRET_TRACKING_RANGE_DEFAULT := SourceTurretDefaults.TRACKING_RANGE_DEFAULT", generated_source)
         self.assertIn("var tracking_range: float = float(_args[13] if _args.size() > 13 else SOURCE_TURRET_TRACKING_RANGE_DEFAULT)", generated_source)
         self.assertNotIn("var tracking_range: float = float(_args[13] if _args.size() > 13 else 0.0)", generated_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            init_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)", source)
         self.assertIn('"source_owner": "PortGame.source_turret_init_state"', source)
         self.assertIn('"generated_owner": "Turret.java_method_init_3"', source)
         self.assertIn('"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("elevation_after", null) == canonical.get("elevation_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null)', source)
         self.assertIn("func generated_turret_init_source_tilesize_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source_tilesize_default_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity, size",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)", source)
         self.assertIn('"defaulted_arg": "source_tilesize"', source)
         self.assertIn('"source_tilesize": result.get("source_tilesize", null)', source)
         self.assertIn("func generated_turret_init_size_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            size_default_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, SourceBlockDefaults.SIZE_DEFAULT, SourceWorldDefaults.TILESIZE, SourceTurretDefaults.ELEVATION_DEFAULT, SourceTurretDefaults.RECOIL_TIME_DEFAULT, SourceTurretDefaults.RELOAD_DEFAULT, SourceTurretDefaults.COOLDOWN_TIME_DEFAULT, SourceTurretDefaults.NEW_TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_INTERVAL_DEFAULT, SourceTurretDefaults.TARGET_GROUND_DEFAULT, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)", source)
         self.assertIn('"defaulted_arg": "size"', source)
         self.assertIn('"size": result.get("size", null)', source)
         self.assertIn("func generated_turret_init_disable_overlap_check_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            disable_overlap_check_default_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, SourceTurretDefaults.DISABLE_OVERLAP_CHECK_DEFAULT, 0.0, 0.0)", source)
         self.assertIn('"defaulted_arg": "disable_overlap_check"', source)
         self.assertIn('"disable_overlap_check": result.get("disable_overlap_check", null)', source)
         self.assertIn("func generated_turret_init_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            range_default_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, SourceTurretDefaults.RANGE_DEFAULT, 0.0)", source)
         self.assertIn('"defaulted_arg": "range"', source)
         self.assertIn('"range": result.get("range", null)', source)
         self.assertIn("func generated_turret_init_tracking_range_default_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            tracking_range_default_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_init_3",
+            "shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value",
+        )
         self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, SourceTurretDefaults.TRACKING_RANGE_DEFAULT)", source)
         self.assertIn('"defaulted_arg": "tracking_range"', source)
         self.assertIn('"tracking_range": result.get("tracking_range", null)', source)
@@ -25383,10 +26765,16 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:")
 
         self.assertIn("func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_0([coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_init_0",
+            "coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius",
+        )
         self.assertIn("var canonical = source_base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)", source)
         self.assertIn('"source_owner": "PortGame.source_base_turret_init_state"', source)
         self.assertIn('"generated_owner": "BaseTurret.java_method_init_0"', source)
@@ -25424,10 +26812,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_reinitializeConsumers_1([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_reinitializeConsumers_1",
+            "",
+        )
         self.assertIn("var canonical = source_base_turret_reinitialize_consumers_state()", source)
         self.assertIn('"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state"', source)
         self.assertIn('"generated_owner": "BaseTurret.java_method_reinitializeConsumers_1"', source)
@@ -25450,10 +26844,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_base_turret_check_init_coolant_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:")
 
         self.assertIn("func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_checkInitCoolant_2([coolant_present, has_consumer])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_checkInitCoolant_2",
+            "coolant_present, has_consumer",
+        )
         self.assertIn("var canonical = source_base_turret_check_init_coolant_state(coolant_present, has_consumer)", source)
         self.assertIn('"source_owner": "PortGame.source_base_turret_check_init_coolant_state"', source)
         self.assertIn('"generated_owner": "BaseTurret.java_method_checkInitCoolant_2"', source)
@@ -25506,10 +26906,17 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:")
+        default_bridge_body = self._method_body(source, "func generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool) -> Dictionary:")
 
         self.assertIn("func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_drawPlace_3",
+            "tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog",
+        )
         self.assertIn("var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog)", source)
         self.assertIn('"source_owner": "PortGame.source_base_turret_draw_place_state"', source)
         self.assertIn('"generated_owner": "BaseTurret.java_method_drawPlace_3"', source)
@@ -25521,7 +26928,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else SOURCE_TURRET_FOG_RADIUS_MULTIPLIER_DEFAULT)", generated_source)
         self.assertNotIn("var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)", generated_source)
         self.assertIn("func generated_base_turret_draw_place_source_tilesize_default_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            default_bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd",
+            "java_method_drawPlace_3",
+            "tile_x, tile_y, rotation_value, valid",
+        )
         self.assertIn("var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, SourceWorldDefaults.TILESIZE, 0.0, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.FOG_RADIUS_MULTIPLIER_DEFAULT, false)", source)
         self.assertIn('"defaulted_arg": "source_tilesize"', source)
         self.assertIn('"source_tilesize": result.get("source_tilesize", null)', source)
@@ -25695,10 +27108,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_turret_draw_plan_region_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:")
 
         self.assertIn("func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
-        self.assertIn("var result = instance.java_method_drawPlanRegion_5([plan, list])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_drawPlanRegion_5",
+            "plan, list",
+        )
         self.assertIn("var canonical = source_turret_draw_plan_region_state(plan, list)", source)
         self.assertIn('"source_owner": "PortGame.source_turret_draw_plan_region_state"', source)
         self.assertIn('"generated_owner": "Turret.java_method_drawPlanRegion_5"', source)
@@ -25716,10 +27135,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_turret_icons_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_turret_icons_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_turret_icons_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
-        self.assertIn("var result = instance.java_method_icons_6([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_body,
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd",
+            "java_method_icons_6",
+            "",
+        )
         self.assertIn("var canonical = source_turret_icons_state()", source)
         self.assertIn('"source_owner": "PortGame.source_turret_icons_state"', source)
         self.assertIn('"generated_owner": "Turret.java_method_icons_6"', source)
@@ -25775,14 +27200,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_icons_0([base_region, region])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_icons_state(base_region, region)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_icons_0"', source)
-        self.assertIn('"matches": result.get("icons", null) == canonical.get("icons", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_icons_0", [base_region, region], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_icons_state(base_region, region)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_icons_0"', bridge_body)
+        self.assertIn('"matches": result.get("icons", null) == canonical.get("icons", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -25861,14 +27288,16 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
         generated_source = generated.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_2([range_value, source_tilesize])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_init_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_init_2"', source)
-        self.assertIn('"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_init_2", [range_value, source_tilesize], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_init_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_init_2"', bridge_body)
+        self.assertIn('"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)', bridge_body)
         self.assertIn('const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_TILESIZE := SourceWorldDefaults.TILESIZE", generated_source)
         self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", generated_source)
@@ -25896,14 +27325,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_shouldConsume_1([super_should_consume, target])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume"', source)
-        self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_shouldConsume_1", [super_should_consume, target], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume"', bridge_body)
+        self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -25930,14 +27361,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps"', source)
-        self.assertIn('"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_estimateDps_2", [any_state, damage, efficiency, coolant_multiplier, SourceTimeDefaults.TICK_RATE], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps"', bridge_body)
+        self.assertIn('"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_write_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -25960,14 +27393,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_write_4([rotation_value])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_write_state(rotation_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.write"', source)
-        self.assertIn('"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_write_4", [rotation_value], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_write_state(rotation_value)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.write"', bridge_body)
+        self.assertIn('"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_read_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -25992,14 +27427,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_body = self._method_body(source, "func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:")
 
         self.assertIn("func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_read_5([read_f_value, revision_value])", source)
-        self.assertIn("var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_read_state"', source)
-        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', source)
-        self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_read_5", [read_f_value, revision_value], null)', bridge_body)
+        self.assertNotIn("ResourceLoader.load(", bridge_body)
+        self.assertNotIn("script.new()", bridge_body)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)", bridge_body)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_read_state"', bridge_body)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', bridge_body)
+        self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', bridge_body)
 
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -26068,8 +27505,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value])", source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_inner_class_TractorBeamBuild_method_updateTile_0", [activation_timer, time_delta, efficiency, coolant_multiplier, delta_value], null)', source)
+        self.assertNotIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
         self.assertIn("var eff_result := {", source)
         self.assertIn('"result": eff_result,', source)
         self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_eff_state(result.get(\"returned_early\", false), efficiency, coolant_multiplier, delta_value)", source)
@@ -27187,6 +28624,14 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('game.source_power_turret_limit_range_state({"id": "lancer"}, 8.0)', proof_source)
         self.assertIn("game.source_item_turret_limit_range_default_state()", proof_source)
         self.assertIn('game.source_item_turret_limit_range_entries_state(7.0, [{"value": {"id": "copper"}}])', proof_source)
+        self.assertIn("game.generated_item_turret_limit_range_default_bridge_state()", proof_source)
+        self.assertIn('game.generated_item_turret_limit_range_entries_bridge_state(7.0, [{"value": {"id": "copper"}}])', proof_source)
+        self.assertIn('game.generated_item_turret_init_ground_overlap_bridge_state(true, 0.0, 70.0, 3.0, [{"value": {"id": "graphite", "rangeChange": 8.0}}])', proof_source)
+        self.assertIn("game.generated_item_turret_init_ground_overlap_default_bridge_state()", proof_source)
+        self.assertIn('"item_default_bridge_matches"', proof_source)
+        self.assertIn('"item_entries_bridge_matches"', proof_source)
+        self.assertIn('"item_init_bridge_matches"', proof_source)
+        self.assertIn('"item_init_default_bridge_matches"', proof_source)
 
     def test_port_game_exposes_generated_turret_limit_range_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -27898,15 +29343,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRangeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_limitRange_1([])", source)
-        self.assertIn("var canonical = source_item_turret_limit_range_default_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_limit_range_default_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_1"', source)
-        self.assertIn('"matches": result.get("margin", null) == canonical.get("margin", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:",
+            "func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:",
+            "return SourceTurretRangeState.generated_item_turret_limit_range_default_bridge_state()",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_limitRange_1",
+            "",
+            "var canonical = item_turret_limit_range_default_state()",
+            "PortGame.source_item_turret_limit_range_default_state",
+            "ItemTurret.java_method_limitRange_1",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:")
+        self.assertIn('"matches": result.get("margin", null) == canonical.get("margin", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_limit_range_entries_state(self):
         source = self._port_game_turret_range_source()
@@ -27923,15 +29378,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceTurretRangeState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_limitRange_2([margin, ammo_entries])", source)
-        self.assertIn("var canonical = source_item_turret_limit_range_entries_state(margin, ammo_entries)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_limit_range_entries_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_2"', source)
-        self.assertIn('"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:",
+            "func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:",
+            "return SourceTurretRangeState.generated_item_turret_limit_range_entries_bridge_state(margin, ammo_entries)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_limitRange_2",
+            "margin, ammo_entries",
+            "var canonical = item_turret_limit_range_entries_state(margin, ammo_entries)",
+            "PortGame.source_item_turret_limit_range_entries_state",
+            "ItemTurret.java_method_limitRange_2",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:")
+        self.assertIn('"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28104,13 +29569,24 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretInitState.gd"
         source = port_game.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_5([target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries])", source)
-        self.assertIn("var canonical = source_item_turret_init_ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)", source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:",
+            "func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:",
+            "return SourceItemTurretInitState.generated_item_turret_init_ground_overlap_bridge_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_init_5",
+            "target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries",
+            "var canonical = ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)",
+            "PortGame.source_item_turret_init_ground_overlap_state",
+            "ItemTurret.java_method_init_5",
+        )
         self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", generated_source)
         self.assertIn("const SOURCE_TURRET_RANGE_DEFAULT := SourceTurretDefaults.RANGE_DEFAULT", generated_source)
@@ -28121,23 +29597,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertNotIn("var target_ground: bool = bool(_args[0] if _args.size() > 0 else false)", generated_source)
         self.assertNotIn("var range_value: float = float(_args[2] if _args.size() > 2 else 0.0)", generated_source)
         self.assertNotIn("var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)", generated_source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_init_ground_overlap_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.java_method_init_5"', source)
-        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
+        module_body = self._static_method_body(module_source, "func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:")
+        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', module_body)
 
     def test_port_game_exposes_generated_item_turret_init_ground_overlap_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretInitState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:", source)
-        method_body = source.split("func generated_item_turret_init_ground_overlap_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_method_init_5([])", method_body)
-        self.assertIn("var canonical = source_item_turret_init_ground_overlap_state(SourceTurretDefaults.TARGET_GROUND_DEFAULT, 0.0, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, [])", method_body)
-        self.assertIn('"defaulted_args": ["target_ground", "range", "place_overlap_margin"]', method_body)
-        self.assertIn('"target_ground": result.get("target_ground", null)', method_body)
-        self.assertIn('"range_value": result.get("range_value", null)', method_body)
-        self.assertIn('"place_overlap_margin": result.get("place_overlap_margin", null)', method_body)
-        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', method_body)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:",
+            "func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:",
+            "return SourceItemTurretInitState.generated_item_turret_init_ground_overlap_default_bridge_state()",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_method_init_5",
+            "",
+            "var canonical = ground_overlap_state(SourceTurretDefaults.TARGET_GROUND_DEFAULT, 0.0, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, [])",
+            "PortGame.source_item_turret_init_ground_overlap_state",
+            "ItemTurret.java_method_init_5",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_init_ground_overlap_default_bridge_state() -> Dictionary:")
+        self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', module_source)
+        self.assertIn('"defaulted_args": ["target_ground", "range", "place_overlap_margin"]', module_body)
+        self.assertIn('"target_ground": result.get("target_ground", null)', module_body)
+        self.assertIn('"range_value": result.get("range_value", null)', module_body)
+        self.assertIn('"place_overlap_margin": result.get("place_overlap_margin", null)', module_body)
+        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_build_on_proximity_added_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28155,15 +29643,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_onProximityAdded_0([has_ammo, cheating, ammo_types_size, first_ammo_item])", source)
-        self.assertIn("var canonical = source_item_turret_build_on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.onProximityAdded"', source)
-        self.assertIn('"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:",
+            "static func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_on_proximity_added_bridge_state(has_ammo, cheating, ammo_types_size, first_ammo_item)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_onProximityAdded_0",
+            "has_ammo, cheating, ammo_types_size, first_ammo_item",
+            "var canonical = on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)",
+            "PortGame.source_item_turret_build_on_proximity_added_state",
+            "ItemTurret.ItemTurretBuild.onProximityAdded",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:")
+        self.assertIn('"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_build_sense_object_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28181,15 +29679,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_senseObject_1([sensor, ammo_size, peek_item, super_sense_object_value])", source)
-        self.assertIn("var canonical = source_item_turret_build_sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_sense_object_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.senseObject"', source)
-        self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:",
+            "static func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_sense_object_bridge_state(sensor, ammo_size, peek_item, super_sense_object_value)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_senseObject_1",
+            "sensor, ammo_size, peek_item, super_sense_object_value",
+            "var canonical = sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)",
+            "PortGame.source_item_turret_build_sense_object_state",
+            "ItemTurret.ItemTurretBuild.senseObject",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:")
+        self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_build_get_ammo_content_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28204,15 +29712,25 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
 
-        self.assertIn("func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoContent_2([ammo_size, peek_item])", source)
-        self.assertIn("var canonical = source_item_turret_build_get_ammo_content_state(ammo_size, peek_item)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoContent"', source)
-        self.assertIn('"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:",
+            "static func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_content_bridge_state(ammo_size, peek_item)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_getAmmoContent_2",
+            "ammo_size, peek_item",
+            "var canonical = get_ammo_content_state(ammo_size, peek_item)",
+            "PortGame.source_item_turret_build_get_ammo_content_state",
+            "ItemTurret.ItemTurretBuild.getAmmoContent",
+        )
+        module_body = self._static_method_body(module_source, "func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:")
+        self.assertIn('"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)', module_body)
 
     def test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28227,33 +29745,53 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
         generated_get_ammo_fraction_body = generated_source.split("func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(", 1)[1].split("\nfunc ", 1)[0]
 
-        self.assertIn("func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo, max_ammo])", source)
-        self.assertIn("var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, max_ammo)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction"', source)
-        self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:",
+            "static func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo, max_ammo)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_getAmmoFraction_3",
+            "total_ammo, max_ammo",
+            "var canonical = get_ammo_fraction_state(total_ammo, max_ammo)",
+            "PortGame.source_item_turret_build_get_ammo_fraction_state",
+            "ItemTurret.ItemTurretBuild.getAmmoFraction",
+        )
         self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", generated_source)
         self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", generated_get_ammo_fraction_body)
         self.assertNotIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", generated_get_ammo_fraction_body)
 
     def test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:", source)
-        method_body = source.split("func generated_item_turret_build_get_ammo_fraction_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo])", method_body)
-        self.assertIn("var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, SourceTurretDefaults.MAX_AMMO_DEFAULT)", method_body)
-        self.assertIn('"defaulted_args": ["max_ammo"]', method_body)
-        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', method_body)
-        self.assertIn('"ammo_fraction": total_ammo / SourceTurretDefaults.MAX_AMMO_DEFAULT', method_body)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:",
+            "static func generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo: float) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_get_ammo_fraction_default_bridge_state(total_ammo)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_getAmmoFraction_3",
+            "total_ammo",
+            "var canonical = get_ammo_fraction_state(total_ammo, SourceTurretDefaults.MAX_AMMO_DEFAULT)",
+            "PortGame.source_item_turret_build_get_ammo_fraction_state",
+            "ItemTurret.ItemTurretBuild.getAmmoFraction",
+        )
+        self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', module_source)
+        self.assertIn('"defaulted_args": ["max_ammo"]', module_source)
+        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', module_source)
+        self.assertIn('"ammo_fraction": total_ammo / SourceTurretDefaults.MAX_AMMO_DEFAULT', module_source)
 
     def test_port_game_exposes_source_item_turret_build_accept_stack_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28270,33 +29808,56 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
         generated_accept_stack_body = generated_source.split("func java_inner_class_ItemTurretBuild_method_acceptStack_4(", 1)[1].split("\nfunc ", 1)[0]
 
-        self.assertIn("func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null])", source)
-        self.assertIn("var canonical = source_item_turret_build_accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_accept_stack_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack"', source)
-        self.assertIn('"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:",
+            "static func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_accept_stack_bridge_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_acceptStack_4",
+            "item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null",
+            "var canonical = accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)",
+            "PortGame.source_item_turret_build_accept_stack_state",
+            "ItemTurret.ItemTurretBuild.acceptStack",
+        )
+        self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', module_source)
+        self.assertIn('"defaulted_args": ["max_ammo", "total_ammo", "ammo_multiplier", "ammo_type_null"]', module_source)
+        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', module_source)
+        self.assertIn('"accept_stack": min(int(SourceTurretDefaults.MAX_AMMO_DEFAULT), amount)', module_source)
         self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", generated_source)
         self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", generated_accept_stack_body)
         self.assertNotIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", generated_accept_stack_body)
 
     def test_port_game_exposes_generated_item_turret_build_accept_stack_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
-        method_body = source.split("func generated_item_turret_build_accept_stack_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount])", method_body)
-        self.assertIn("var canonical = source_item_turret_build_accept_stack_state(item, amount, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, 1.0, false)", method_body)
-        self.assertIn('"defaulted_args": ["max_ammo", "total_ammo", "ammo_multiplier", "ammo_type_null"]', method_body)
-        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', method_body)
-        self.assertIn('"accept_stack": min(int(SourceTurretDefaults.MAX_AMMO_DEFAULT), amount)', method_body)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "static func generated_item_turret_build_accept_stack_default_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_accept_stack_default_bridge_state(item, amount)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_acceptStack_4",
+            "item, amount",
+            "var canonical = accept_stack_state(item, amount, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, 1.0, false)",
+            "PortGame.source_item_turret_build_accept_stack_state",
+            "ItemTurret.ItemTurretBuild.acceptStack",
+        )
+        self.assertIn('"defaulted_args": ["max_ammo", "total_ammo", "ammo_multiplier", "ammo_type_null"]', module_source)
+        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', module_source)
+        self.assertIn('"accept_stack": min(int(SourceTurretDefaults.MAX_AMMO_DEFAULT), amount)', module_source)
 
     def test_port_game_exposes_source_item_turret_build_handle_stack_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28312,15 +29873,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_handleStack_5([item, amount])", source)
-        self.assertIn("var canonical = source_item_turret_build_handle_stack_state(item, amount)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_handle_stack_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleStack"', source)
-        self.assertIn('"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", [])', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "static func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_handle_stack_bridge_state(item, amount)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_handleStack_5",
+            "item, amount",
+            "var canonical = handle_stack_state(item, amount)",
+            "PortGame.source_item_turret_build_handle_stack_state",
+            "ItemTurret.ItemTurretBuild.handleStack",
+        )
 
     def test_port_game_exposes_source_item_turret_build_remove_stack_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28336,15 +29905,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_removeStack_6([item, amount])", source)
-        self.assertIn("var canonical = source_item_turret_build_remove_stack_state(item, amount)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_remove_stack_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.removeStack"', source)
-        self.assertIn('"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "static func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_remove_stack_bridge_state(item, amount)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_removeStack_6",
+            "item, amount",
+            "var canonical = remove_stack_state(item, amount)",
+            "PortGame.source_item_turret_build_remove_stack_state",
+            "ItemTurret.ItemTurretBuild.removeStack",
+        )
 
     def test_port_game_exposes_source_item_turret_build_handle_item_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28367,15 +29944,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_handleItem_7([item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries])", source)
-        self.assertIn("var canonical = source_item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_handle_item_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleItem"', source)
-        self.assertIn('"matches": result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:",
+            "static func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_handle_item_bridge_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_handleItem_7",
+            "item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries",
+            "var canonical = handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)",
+            "PortGame.source_item_turret_build_handle_item_state",
+            "ItemTurret.ItemTurretBuild.handleItem",
+        )
 
     def test_port_game_exposes_source_item_turret_build_accept_item_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -28392,33 +29977,53 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
-        source = port_game.read_text(encoding="utf-8")
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
         generated_source = generated.read_text(encoding="utf-8")
         generated_accept_item_body = generated_source.split("func java_inner_class_ItemTurretBuild_method_acceptItem_8(", 1)[1].split("\nfunc ", 1)[0]
 
-        self.assertIn("func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null])", source)
-        self.assertIn("var canonical = source_item_turret_build_accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)", source)
-        self.assertIn('"source_owner": "PortGame.source_item_turret_build_accept_item_state"', source)
-        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem"', source)
-        self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:",
+            "static func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_accept_item_bridge_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_acceptItem_8",
+            "item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null",
+            "var canonical = accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)",
+            "PortGame.source_item_turret_build_accept_item_state",
+            "ItemTurret.ItemTurretBuild.acceptItem",
+        )
+        self.assertIn('const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")', module_source)
         self.assertIn("const SOURCE_TURRET_MAX_AMMO_DEFAULT := SourceTurretDefaults.MAX_AMMO_DEFAULT", generated_source)
         self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else SOURCE_TURRET_MAX_AMMO_DEFAULT)", generated_accept_item_body)
         self.assertNotIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", generated_accept_item_body)
 
     def test_port_game_exposes_generated_item_turret_build_accept_item_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceItemTurretBuildState.gd"
         source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:", source)
-        method_body = source.split("func generated_item_turret_build_accept_item_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item])", method_body)
-        self.assertIn("var canonical = source_item_turret_build_accept_item_state(item, 0, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, false)", method_body)
-        self.assertIn('"defaulted_args": ["total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null"]', method_body)
-        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', method_body)
-        self.assertIn('"accept_item": result.get("accept_item", null)', method_body)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:",
+            "static func generated_item_turret_build_accept_item_default_bridge_state(item: Variant) -> Dictionary:",
+            "return SourceItemTurretBuildState.generated_item_turret_build_accept_item_default_bridge_state(item)",
+            "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd",
+            "java_inner_class_ItemTurretBuild_method_acceptItem_8",
+            "item",
+            "var canonical = accept_item_state(item, 0, SourceTurretDefaults.MAX_AMMO_DEFAULT, 0.0, false)",
+            "PortGame.source_item_turret_build_accept_item_state",
+            "ItemTurret.ItemTurretBuild.acceptItem",
+        )
+        self.assertIn('"defaulted_args": ["total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null"]', module_source)
+        self.assertIn('"max_ammo": SourceTurretDefaults.MAX_AMMO_DEFAULT', module_source)
+        self.assertIn('"accept_item": result.get("accept_item", null)', module_source)
 
     def test_port_game_exposes_source_item_turret_build_version_state(self):
         source = self._port_game_item_turret_build_source()
@@ -28438,8 +30043,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_item_turret_build_version_bridge_state() -> Dictionary:", source)
         self.assertIn("return SourceItemTurretBuildState.generated_version_bridge_state()", source)
         self.assertIn("static func generated_version_bridge_state() -> Dictionary:", module_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', module_source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_version_9([])", module_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_version_9", [], null)', module_source)
         self.assertIn("var canonical = version_state()", module_source)
         self.assertIn('"source_owner": "PortGame.source_item_turret_build_version_state"', module_source)
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.version"', module_source)
@@ -28467,8 +30071,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dictionary:", source)
         self.assertIn("return SourceItemTurretBuildState.generated_write_bridge_state(ammo_entries)", source)
         self.assertIn("static func generated_write_bridge_state(ammo_entries: Array) -> Dictionary:", module_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', module_source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_write_10([ammo_entries])", module_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_write_10", [ammo_entries], null)', module_source)
         self.assertIn("var canonical = write_state(ammo_entries)", module_source)
         self.assertIn('"source_owner": "PortGame.source_item_turret_build_write_state"', module_source)
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.write"', module_source)
@@ -28509,13 +30112,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("static func accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", module_source)
         self.assertIn("static func handle_stack_state(item: Variant, amount: int) -> Dictionary:", module_source)
         self.assertIn("static func remove_stack_state(item: Variant, amount: int) -> Dictionary:", module_source)
+        self.assertIn("static func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:", module_source)
+        self.assertIn("static func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", module_source)
+        self.assertIn("static func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:", module_source)
+        self.assertIn("static func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", module_source)
         self.assertIn("static func version_state() -> Dictionary:", module_source)
         self.assertIn("static func write_state(ammo_entries: Array) -> Dictionary:", module_source)
         self.assertIn("static func read_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", module_source)
+        self.assertIn('const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")', module_source)
         self.assertIn("POWER_TURRET_BUILD_MODULE_PROOF", (ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "PowerTurretBuildModuleProof.gd").read_text(encoding="utf-8"))
         self.assertIn("ITEM_TURRET_BUILD_MODULE_PROOF", proof_source)
         self.assertIn('game.source_item_turret_build_on_proximity_added_state(false, true, 1, "copper")', proof_source)
         self.assertIn('game.source_item_turret_build_sense_object_state("currentAmmoType", 1, "copper", null)', proof_source)
+        self.assertIn('game.generated_item_turret_build_on_proximity_added_bridge_state(false, true, 1, "copper")', proof_source)
+        self.assertIn('game.generated_item_turret_build_sense_object_bridge_state("currentAmmoType", 1, "copper", null)', proof_source)
+        self.assertIn('game.generated_item_turret_build_get_ammo_content_bridge_state(1, "copper")', proof_source)
+        self.assertIn('game.generated_item_turret_build_get_ammo_fraction_bridge_state(15.0, 30.0)', proof_source)
+        self.assertIn('game.generated_item_turret_build_accept_stack_bridge_state("copper", 5, 30.0, 10.0, 1.0, false)', proof_source)
+        self.assertIn('game.generated_item_turret_build_handle_item_bridge_state("copper", false, 0, 2.0, false, [])', proof_source)
+        self.assertIn('game.generated_item_turret_build_accept_item_bridge_state("copper", 10, 30.0, 1.0, false)', proof_source)
+        self.assertIn('"on_proximity_bridge_matches"', proof_source)
+        self.assertIn('"sense_bridge_matches"', proof_source)
+        self.assertIn('"ammo_content_bridge_matches"', proof_source)
+        self.assertIn('"ammo_fraction_bridge_matches"', proof_source)
+        self.assertIn('"accept_stack_bridge_matches"', proof_source)
+        self.assertIn('"handle_item_bridge_matches"', proof_source)
+        self.assertIn('"accept_item_bridge_matches"', proof_source)
         self.assertIn('game.source_item_turret_build_read_state(2, 40, [{"item": "copper", "amount": 6, "ammo_type_valid": true}])', proof_source)
 
     def test_port_game_exposes_generated_item_turret_build_read_bridge_state(self):
@@ -28527,8 +30149,7 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", source)
         self.assertIn("return SourceItemTurretBuildState.generated_read_bridge_state(revision, max_ammo, read_entries)", source)
         self.assertIn("static func generated_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", module_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', module_source)
-        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_read_11([revision, max_ammo, read_entries])", module_source)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_inner_class_ItemTurretBuild_method_read_11", [revision, max_ammo, read_entries], null)', module_source)
         self.assertIn("var canonical = read_state(revision, max_ammo, read_entries)", module_source)
         self.assertIn('"source_owner": "PortGame.source_item_turret_build_read_state"', module_source)
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.read"', module_source)
@@ -28895,8 +30516,10 @@ class PlayableManifestTests(unittest.TestCase):
         generated_source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin])", source)
+        method_body = self._method_body(source, "func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:")
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin], null)', method_body)
+        self.assertNotIn("ResourceLoader.load(", method_body)
+        self.assertNotIn("script.new()", method_body)
         self.assertIn("var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)", source)
         self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", generated_source)
         self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", generated_source)
@@ -28917,7 +30540,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:", source)
         method_body = source.split("func generated_liquid_turret_init_range_margin_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])", method_body)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)', method_body)
+        self.assertNotIn("ResourceLoader.load(", method_body)
+        self.assertNotIn("script.new()", method_body)
         self.assertIn("var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT)", method_body)
         self.assertIn('"defaulted_args": ["range", "place_overlap_margin"]', method_body)
         self.assertIn('"range_value": SourceTurretDefaults.RANGE_DEFAULT', method_body)
@@ -28953,8 +30578,10 @@ class PlayableManifestTests(unittest.TestCase):
         generated_source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier])", source)
+        method_body = self._method_body(source, "func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:")
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier], null)', method_body)
+        self.assertNotIn("ResourceLoader.load(", method_body)
+        self.assertNotIn("script.new()", method_body)
         self.assertIn("var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)", source)
         self.assertIn("const SOURCE_TURRET_TARGET_GROUND_DEFAULT := SourceTurretDefaults.TARGET_GROUND_DEFAULT", generated_source)
         self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else SOURCE_TURRET_TARGET_GROUND_DEFAULT)", generated_source)
@@ -28975,7 +30602,9 @@ class PlayableManifestTests(unittest.TestCase):
 
         self.assertIn("func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float) -> Dictionary:", source)
         method_body = source.split("func generated_continuous_liquid_turret_init_range_margin_default_bridge_state(", 1)[1].split("\nfunc ", 1)[0]
-        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range])", method_body)
+        self.assertIn('var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_init_2", [ammo_entries, target_ground, place_overlap_range], null)', method_body)
+        self.assertNotIn("ResourceLoader.load(", method_body)
+        self.assertNotIn("script.new()", method_body)
         self.assertIn("var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, SourceTurretDefaults.RANGE_DEFAULT, SourceTurretDefaults.PLACE_OVERLAP_MARGIN_DEFAULT, 0.0, null, null)", method_body)
         self.assertIn('"defaulted_args": ["range", "place_overlap_margin"]', method_body)
         self.assertIn('"range_value": SourceTurretDefaults.RANGE_DEFAULT', method_body)
@@ -28998,8 +30627,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0([was_shooting, enabled])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0", "was_shooting, enabled")
         self.assertIn("var canonical = source_liquid_turret_build_should_active_sound_state(was_shooting, enabled)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.shouldActiveSound"', source)
@@ -29021,8 +30650,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0([was_shooting, enabled])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0", "was_shooting, enabled")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_should_active_sound_state(was_shooting, enabled)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.shouldActiveSound"', source)
@@ -29045,8 +30674,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1([liquids_null, current_amount, current_liquid])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1", "liquids_null, current_amount, current_liquid")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoContent"', source)
@@ -29068,8 +30697,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2", "current_amount, liquid_capacity")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoFraction"', source)
@@ -29091,8 +30720,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3([current_amount, liquid_consumed, activated_before])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3", "current_amount, liquid_consumed, activated_before")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_update_tile_state(current_amount, liquid_consumed, activated_before)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.updateTile"', source)
@@ -29118,8 +30747,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4([sensor, current_liquid, super_sense_object_value])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4", "sensor, current_liquid, super_sense_object_value")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.senseObject"', source)
@@ -29142,8 +30771,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_can_consume_bridge_state(has_correct_ammo: bool, super_can_consume: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_5([has_correct_ammo, super_can_consume])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_can_consume_bridge_state(has_correct_ammo: bool, super_can_consume: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_5", "has_correct_ammo, super_can_consume")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_can_consume_state(has_correct_ammo, super_can_consume)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.canConsume"', source)
@@ -29166,8 +30795,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_should_consume_bridge_state(super_should_consume: bool, activated: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6([super_should_consume, activated])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_should_consume_bridge_state(super_should_consume: bool, activated: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6", "super_should_consume, activated")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_should_consume_state(super_should_consume, activated)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.shouldConsume"', source)
@@ -29190,8 +30819,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_use_ammo_bridge_state(peek_ammo: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7([peek_ammo])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_use_ammo_bridge_state(peek_ammo: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7", "peek_ammo")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_use_ammo_state(peek_ammo)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.useAmmo"', source)
@@ -29213,8 +30842,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8([current_liquid, ammo_type])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8", "current_liquid, ammo_type")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.peekAmmo"', source)
@@ -29237,8 +30866,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9([has_correct_ammo, current_liquid, ammo_type, current_amount, activated])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9", "has_correct_ammo, current_liquid, ammo_type, current_amount, activated")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.hasAmmo"', source)
@@ -29262,8 +30891,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bullets_any: bool, first_bullet_type: Variant, peek_ammo: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_10([bullets_any, first_bullet_type, peek_ammo])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bullets_any: bool, first_bullet_type: Variant, peek_ammo: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_10", "bullets_any, first_bullet_type, peek_ammo")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_has_correct_ammo_state(bullets_any, first_bullet_type, peek_ammo)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.hasCorrectAmmo"', source)
@@ -29288,8 +30917,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11([source_building, item])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11", "source_building, item")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_accept_item_state(source_building, item)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptItem"', source)
@@ -29323,8 +30952,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])", source)
+        body = self._method_body(source, "func generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12", "source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier")
         self.assertIn("var canonical = source_continuous_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state"', source)
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptLiquid"', source)
@@ -29394,8 +31023,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_getAmmoContent_1([liquids_null, current_amount, current_liquid])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoContent_1", "liquids_null, current_amount, current_liquid")
         self.assertIn("var canonical = source_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoContent"', source)
@@ -29417,8 +31046,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2", "current_amount, liquid_capacity")
         self.assertIn("var canonical = source_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoFraction"', source)
@@ -29443,8 +31072,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_senseObject_3([sensor, current_liquid, super_sense_object_value])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_senseObject_3", "sensor, current_liquid, super_sense_object_value")
         self.assertIn("var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_sense_object_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject"', source)
@@ -29468,8 +31097,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_findTarget_4([extinguish, current_liquid_can_extinguish, fire_result])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_findTarget_4", "extinguish, current_liquid_can_extinguish, fire_result")
         self.assertIn("var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget"', source)
@@ -29493,8 +31122,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_useAmmo_5([cheating, current_liquid, ammo_type, ammo_multiplier])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_useAmmo_5", "cheating, current_liquid, ammo_type, ammo_multiplier")
         self.assertIn("var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo"', source)
@@ -29515,8 +31144,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_peekAmmo_6([current_liquid, ammo_type])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_peekAmmo_6", "current_liquid, ammo_type")
         self.assertIn("var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.peekAmmo"', source)
@@ -29539,8 +31168,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_hasAmmo_7([current_liquid, ammo_type, current_amount, ammo_multiplier])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_hasAmmo_7", "current_liquid, ammo_type, current_amount, ammo_multiplier")
         self.assertIn("var canonical = source_liquid_turret_build_has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.hasAmmo"', source)
@@ -29563,8 +31192,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_acceptItem_8([source_building, item])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptItem_8", "source_building, item")
         self.assertIn("var canonical = source_liquid_turret_build_accept_item_state(source_building, item)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_item_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptItem"', source)
@@ -29596,8 +31225,8 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
 
         self.assertIn("func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
-        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_acceptLiquid_9([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])", source)
+        body = self._method_body(source, "func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:")
+        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_inner_class_LiquidTurretBuild_method_acceptLiquid_9", "source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier")
         self.assertIn("var canonical = source_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state"', source)
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptLiquid"', source)
@@ -30999,8 +32628,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_get_content_type_bridge_state", 1)[1].split("func source_block_logic_visible_state", 1)[0]
 
         self.assertIn("func generated_block_get_content_type_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn("var result = instance.java_method_getContentType_120([])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_getContentType_120",
+            "",
+        )
         self.assertIn("var canonical = source_block_get_content_type_state()", source)
         self.assertIn('"source_owner": "PortGame.source_block_get_content_type_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_getContentType_120"', source)
@@ -31025,8 +32659,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_logic_visible_bridge_state", 1)[1].split("func source_block_post_init_database_tag_state", 1)[0]
 
         self.assertIn("func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn("var result = instance.java_method_logicVisible_121([build_visibility_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_logicVisible_121",
+            "build_visibility_value",
+        )
         self.assertIn("var canonical = source_block_logic_visible_state(build_visibility_value)", source)
         self.assertIn('"source_owner": "PortGame.source_block_logic_visible_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_logicVisible_121"', source)
@@ -31085,8 +32724,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_post_init_database_tag_bridge_state", 1)[1].split("func source_block_post_init_shown_planets_state", 1)[0]
 
         self.assertIn("func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn("var result = instance.java_method_postInit_122([database_tag_before, category_name])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_postInit_122",
+            "database_tag_before, category_name",
+        )
         self.assertIn("var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)", source)
         self.assertIn('"source_owner": "PortGame.source_block_post_init_database_tag_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
@@ -31116,8 +32760,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_post_init_shown_planets_bridge_state", 1)[1].split("func source_block_init_destroy_sound_state", 1)[0]
 
         self.assertIn("func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn("var result = instance.java_method_postInit_122([requirements, shown_planets_before, content_planets])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_postInit_122",
+            "requirements, shown_planets_before, content_planets",
+        )
         self.assertIn("var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)", source)
         self.assertIn('"source_owner": "PortGame.source_block_post_init_shown_planets_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
@@ -31180,8 +32829,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_destroy_sound_bridge_state", 1)[1].split("func source_block_init_place_sound_state", 1)[0]
 
         self.assertIn("func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn("var result = instance.java_method_init_123([destroy_sound_before, size_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "destroy_sound_before, size_value",
+        )
         self.assertIn("var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_destroy_sound_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31211,9 +32865,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_place_sound_bridge_state", 1)[1].split("func source_block_init_break_sound_state", 1)[0]
 
         self.assertIn("func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "place_sound")', source)
-        self.assertIn("var result = instance.java_method_init_123([place_sound_before, size_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "place_sound_before, size_value",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "place_sound"}', bridge_source)
         self.assertIn("var canonical = source_block_init_place_sound_state(place_sound_before, size_value)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_place_sound_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31243,9 +32903,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_break_sound_bridge_state", 1)[1].split("func source_block_init_custom_shadow_state", 1)[0]
 
         self.assertIn("func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, size_value: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "break_sound")', source)
-        self.assertIn("var result = instance.java_method_init_123([break_sound_before, size_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "break_sound_before, size_value",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "break_sound"}', bridge_source)
         self.assertIn("var canonical = source_block_init_break_sound_state(break_sound_before, size_value)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_break_sound_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31311,9 +32977,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_custom_shadow_bridge_state", 1)[1].split("func source_block_init_under_bullets_state", 1)[0]
 
         self.assertIn("func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "custom_shadow")', source)
-        self.assertIn("var result = instance.java_method_init_123([custom_shadow, has_shadow_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "custom_shadow, has_shadow_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "custom_shadow"}', bridge_source)
         self.assertIn("var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_custom_shadow_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31343,9 +33015,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_under_bullets_bridge_state", 1)[1].split("func source_block_init_fog_radius_flag_state", 1)[0]
 
         self.assertIn("func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "under_bullets")', source)
-        self.assertIn("var result = instance.java_method_init_123([under_bullets, priority_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "under_bullets, priority_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "under_bullets"}', bridge_source)
         self.assertIn("var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_under_bullets_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31375,9 +33053,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_fog_radius_flag_bridge_state", 1)[1].split("func source_block_init_sync_flag_state", 1)[0]
 
         self.assertIn("func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "fog_radius_flag")', source)
-        self.assertIn("var result = instance.java_method_init_123([fog_radius, flags_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "fog_radius, flags_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "fog_radius_flag"}', bridge_source)
         self.assertIn("var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_fog_radius_flag_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31407,9 +33091,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_sync_flag_bridge_state", 1)[1].split("func source_block_init_health_scaled_state", 1)[0]
 
         self.assertIn("func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "sync_flag")', source)
-        self.assertIn("var result = instance.java_method_init_123([sync_value, flags_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "sync_value, flags_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "sync_flag"}', bridge_source)
         self.assertIn("var canonical = source_block_init_sync_flag_state(sync_value, flags_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_sync_flag_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31474,9 +33164,15 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_init_health_scaled_bridge_state", 1)[1].split("func source_block_init_health_requirements_scaling_state", 1)[0]
 
         self.assertIn("func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "health_scaled")', source)
-        self.assertIn("var result = instance.java_method_init_123([health_before, size_value, scaled_health])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "health_before, size_value, scaled_health",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "health_scaled"}', bridge_source)
         self.assertIn("var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_health_scaled_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
@@ -31509,15 +33205,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_health_requirements_scaling_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "health_requirements_scaling")', source)
-        self.assertIn("var result = instance.java_method_init_123([health_before, size_value, scaled_health_before, requirement_health_scalings])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "health_before, size_value, scaled_health_before, requirement_health_scalings",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "health_requirements_scaling"}', bridge_source)
         self.assertIn("var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_health_requirements_scaling_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_health_requirements_scaling_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31591,15 +33293,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_clip_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "clip_size")', source)
-        self.assertIn("var result = instance.java_method_init_123([clip_size_before, size_value, source_tilesize])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "clip_size_before, size_value, source_tilesize",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "clip_size"}', bridge_source)
         self.assertIn("var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_clip_size_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31617,15 +33325,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_light_clip_size_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_light_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "light_clip_size")', source)
-        self.assertIn("var result = instance.java_method_init_123([light_clip_size_before, clip_size])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "light_clip_size_before, clip_size",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "light_clip_size"}', bridge_source)
         self.assertIn("var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_light_clip_size_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_light_clip_size_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31645,15 +33359,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_liquid_light_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_liquid_light_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "liquid_light")', source)
-        self.assertIn("var result = instance.java_method_init_123([has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "liquid_light"}', bridge_source)
         self.assertIn("var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_liquid_light_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_liquid_light_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31674,15 +33394,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_liquid_capacity_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "liquid_capacity_default")', source)
-        self.assertIn("var result = instance.java_method_init_123([liquid_capacity_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "liquid_capacity_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "liquid_capacity_default"}', bridge_source)
         self.assertIn("var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_liquid_capacity_default_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_liquid_capacity_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31700,15 +33426,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_emit_light_radius_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "emit_light_radius")', source)
-        self.assertIn("var result = instance.java_method_init_123([emit_light, light_clip_size_before, light_radius])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "emit_light, light_clip_size_before, light_radius",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "emit_light_radius"}', bridge_source)
         self.assertIn("var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_emit_light_radius_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_emit_light_radius_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31756,15 +33488,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_accepts_items_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_accepts_items_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "accepts_items")', source)
-        self.assertIn("var result = instance.java_method_init_123([block_group, category_value, accepts_items_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "block_group, category_value, accepts_items_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "accepts_items"}', bridge_source)
         self.assertIn("var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_accepts_items_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_accepts_items_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31796,15 +33534,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_offset_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_offset_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "offset")', source)
-        self.assertIn("var result = instance.java_method_init_123([size_value, source_tilesize])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "size_value, source_tilesize",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "offset"}', bridge_source)
         self.assertIn("var canonical = source_block_init_offset_state(size_value, source_tilesize)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_offset_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_offset_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31857,15 +33601,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_build_time_requirements_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "build_time_requirements")', source)
-        self.assertIn("var result = instance.java_method_init_123([build_time_before, requirement_stacks])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "build_time_before, requirement_stacks",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_requirements"}', bridge_source)
         self.assertIn("var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_build_time_requirements_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_build_time_requirements_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31882,15 +33632,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_build_time_default_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_build_time_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "build_time_default")', source)
-        self.assertIn("var result = instance.java_method_init_123([build_time_before])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "build_time_before",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_default"}', bridge_source)
         self.assertIn("var canonical = source_block_init_build_time_default_state(build_time_before)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_build_time_default_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_build_time_default_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31907,15 +33663,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_build_time_multiplier_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "build_time_multiplier")', source)
-        self.assertIn("var result = instance.java_method_init_123([build_time_before, build_cost_multiplier])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "build_time_before, build_cost_multiplier",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "build_time_multiplier"}', bridge_source)
         self.assertIn("var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_build_time_multiplier_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_build_time_multiplier_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -31969,15 +33731,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_consumer_arrays_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "consumer_arrays")', source)
-        self.assertIn("var result = instance.java_method_init_123([consume_builder])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "consume_builder",
+            "metadata",
+        )
+        self.assertIn('var metadata := {"mindustry_init_bridge_mode": "consumer_arrays"}', bridge_source)
         self.assertIn("var canonical = source_block_init_consumer_arrays_state(consume_builder)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_consumer_arrays_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_consumer_arrays_bridge_state", 1)[1].split("\nfunc ", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
@@ -32347,8 +34115,8 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var rotation_even: bool = rotation_before % 2 == 0", module_source)
         self.assertIn("var flip_guard: bool = (x_value == rotation_even) != invert_flip", module_source)
         self.assertIn("var mod_value: int = int(mod_fn.call(float(rotation_before + 2), 4.0))", module_source)
-        self.assertIn("var plan_rotation_state: Dictionary = plan_rotation_fn.call(rotate_value, lock_rotation, mod_value)", module_source)
-        self.assertIn("var rotation_after: int = int(plan_rotation_state[\"plan_rotation\"]) if flip_guard else rotation_before", module_source)
+        self.assertIn("var rotation_plan_state: Dictionary = plan_rotation_fn.call(rotate_value, lock_rotation, mod_value)", module_source)
+        self.assertIn("var rotation_after: int = int(rotation_plan_state[\"plan_rotation\"]) if flip_guard else rotation_before", module_source)
         self.assertIn('"source_owner": "PortGame.source_block_flip_rotation_state"', module_source)
         self.assertIn('"method": "public void flipRotation(BuildPlan req, boolean x){"', module_source)
         self.assertIn('"guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){"', module_source)
@@ -33160,15 +34928,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_constructor_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_constructor_bridge_state", 1)[1].split("\nfunc ", 1)[0]
 
         self.assertIn("func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_constructor_UnitPayload_0([unit])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_constructor_UnitPayload_0",
+            "unit",
+        )
         self.assertIn("var canonical = source_unit_payload_constructor_state(unit)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_constructor_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_constructor_UnitPayload_0"', source)
-        self.assertIn('"matches": matches', source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state(self):
         source = self._port_game_unit_payload_basic_source()
@@ -33192,8 +34966,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_show_overlay_texture_region_bridge_state", 1)[1].split("func source_unit_payload_show_overlay_drawable_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_showOverlay_0([icon])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_showOverlay_0",
+            "icon",
+        )
         self.assertIn("var canonical = source_unit_payload_show_overlay_texture_region_state(icon)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_0"', source)
@@ -33228,8 +35007,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_show_overlay_drawable_bridge_state", 1)[1].split("func source_unit_payload_content_equals_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_showOverlay_1([icon_null, headless, region])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_showOverlay_1",
+            "icon_null, headless, region",
+        )
         self.assertIn("var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_1"', source)
@@ -33361,8 +35145,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_content_equals_bridge_state", 1)[1].split("func source_unit_payload_update_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_contentEquals_2([other_is_unit_payload, other_unit_type, unit_type])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_contentEquals_2",
+            "other_is_unit_payload, other_unit_type, unit_type",
+        )
         self.assertIn("var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_content_equals_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_contentEquals_2"', source)
@@ -33392,8 +35181,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_update_bridge_state", 1)[1].split("func source_unit_payload_content_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_update_3([unit_type, unit, unit_holder, building_holder])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_update_3",
+            "unit_type, unit, unit_holder, building_holder",
+        )
         self.assertIn("var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_update_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_update_3"', source)
@@ -33422,8 +35216,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_content_bridge_state", 1)[1].split("func source_unit_payload_requirements_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_content_4([unit_type])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_content_4",
+            "unit_type",
+        )
         self.assertIn("var canonical = source_unit_payload_content_state(unit_type)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_content_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_content_4"', source)
@@ -33548,8 +35347,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_requirements_bridge_state", 1)[1].split("func source_unit_payload_build_time_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_requirements_5([unit_type, total_requirements])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_requirements_5",
+            "unit_type, total_requirements",
+        )
         self.assertIn("var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_requirements_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_requirements_5"', source)
@@ -33580,8 +35384,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_build_time_bridge_state", 1)[1].split("func source_unit_payload_write_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_time: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_buildTime_6([unit_type, build_time])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_buildTime_6",
+            "unit_type, build_time",
+        )
         self.assertIn("var canonical = source_unit_payload_build_time_state(unit_type, build_time)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_build_time_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_buildTime_6"', source)
@@ -33771,8 +35580,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_write_bridge_state", 1)[1].split("func source_unit_payload_set_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_write_7([payload_unit, unit_class_id])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_write_7",
+            "payload_unit, unit_class_id",
+        )
         self.assertIn("var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_write_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_write_7"', source)
@@ -33805,8 +35619,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_set_bridge_state", 1)[1].split("func source_unit_payload_x_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_set_8([x, y, rotation_value])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_set_8",
+            "x, y, rotation_value",
+        )
         self.assertIn("var canonical = source_unit_payload_set_state(x, y, rotation_value)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_set_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_set_8"', source)
@@ -33835,8 +35654,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_x_bridge_state", 1)[1].split("func source_unit_payload_y_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_x_bridge_state(unit_x: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_x_9([unit_x])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_x_9",
+            "unit_x",
+        )
         self.assertIn("var canonical = source_unit_payload_x_state(unit_x)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_x_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_x_9"', source)
@@ -33865,8 +35689,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_y_bridge_state", 1)[1].split("func source_unit_payload_rotation_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_y_10([unit_y])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_y_10",
+            "unit_y",
+        )
         self.assertIn("var canonical = source_unit_payload_y_state(unit_y)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_y_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_y_10"', source)
@@ -33895,8 +35724,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_rotation_bridge_state", 1)[1].split("func source_unit_payload_size_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_rotation_11([unit_rotation])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_rotation_11",
+            "unit_rotation",
+        )
         self.assertIn("var canonical = source_unit_payload_rotation_state(unit_rotation)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_rotation_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_rotation_11"', source)
@@ -33925,8 +35759,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_size_bridge_state", 1)[1].split("func source_unit_payload_dump_type_null_guard_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_size_12([unit_hit_size])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_size_12",
+            "unit_hit_size",
+        )
         self.assertIn("var canonical = source_unit_payload_size_state(unit_hit_size)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_size_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_size_12"', source)
@@ -33967,8 +35806,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_dump_type_null_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_can_create_guard_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null",
+        )
         self.assertIn("var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
@@ -34020,8 +35864,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_unit_payload_dump_can_create_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_solidity_guard_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null, units_can_create",
+        )
         self.assertIn("var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
@@ -34433,8 +36282,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}', generated_source)
         self.assertNotIn("var source_tilesize: float = 8.0", generated_source)
         self.assertNotIn('var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}', generated_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_unit_payload_dump_solidity_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_overlap_guard_state", 1)[0],
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid",
+        )
         self.assertIn("var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)", source)
         self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source)
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
@@ -34498,8 +36352,10 @@ class PlayableManifestTests(unittest.TestCase):
             'const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]',
         ])
         self.assertIn("func generated_state_matches_generated_subset(result: Variant, canonical: Dictionary, ignored_keys: Array = []) -> bool:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count])", bridge_source)
+        self.assertIn(
+            'var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)',
+            bridge_source,
+        )
         self.assertIn("var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical, SourceUnitPayloadDumpState.SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)", bridge_source)
         self.assertNotIn("for key in canonical.keys():", bridge_source)
@@ -34534,17 +36390,22 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_dump_no_client_guard_bridge_state", 1)[1].split("func source_unit_payload_dump_spawn_side_effects_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client",
+        )
         self.assertIn("var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)", source)
-        self.assertIn("var matches: bool = true", source)
-        self.assertIn("for key in canonical.keys():", source)
-        self.assertIn('if key == "source_owner":', source)
-        self.assertIn("matches = false", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
-        self.assertIn('"matches": matches', source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertNotIn("for key in canonical.keys():", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -34604,7 +36465,13 @@ class PlayableManifestTests(unittest.TestCase):
         dump_source = generated_source.split("func java_method_dump_13", 1)[1].split("func java_method_drawShadow_14", 1)[0]
 
         self.assertIn("func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            source.split("func generated_unit_payload_dump_spawn_side_effects_bridge_state", 1)[1].split("func source_unit_payload_draw_shadow_type_null_state", 1)[0],
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_dump_13",
+            "unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id",
+        )
         self.assertIn("var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)", source)
         self._assert_source_consts_in_helper_not_port(source, helper_source, [
             'const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump"]',
@@ -34804,15 +36671,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_draw_shadow_type_null_bridge_state", 1)[1].split("func source_unit_payload_draw_type_null_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_drawShadow_14([unit_type_null, alpha, unit_id])", source)
-        self.assertIn("var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_drawShadow_14"', source)
-        self.assertIn('"matches": matches', source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_drawShadow_14",
+            "unit_type_null, alpha, unit_id",
+        )
+        self.assertIn("var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)", bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_drawShadow_14"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_draw_type_null_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -34835,15 +36708,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_draw_type_null_bridge_state", 1)[1].split("func source_unit_payload_draw_elevation_setup_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_draw_15([unit_type_null])", source)
-        self.assertIn("var canonical = source_unit_payload_draw_type_null_state(unit_type_null)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
-        self.assertIn('"matches": matches', source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_draw_15",
+            "unit_type_null",
+        )
+        self.assertIn("var canonical = source_unit_payload_draw_type_null_state(unit_type_null)", bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_draw_elevation_setup_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -34873,15 +36752,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_draw_elevation_setup_bridge_state", 1)[1].split("func source_unit_payload_draw_overlay_warning_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id])", source)
-        self.assertIn("var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
-        self.assertIn('"matches": matches', source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_draw_15",
+            "unit_type_null, unit_elevation, unit_id",
+        )
+        self.assertIn("var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)", bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_draw_overlay_warning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -34933,6 +36818,7 @@ class PlayableManifestTests(unittest.TestCase):
         source = port_game.read_text(encoding="utf-8")
         generated_payload = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
         generated_source = generated_payload.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_draw_overlay_warning_bridge_state", 1)[1].split("func source_unit_payload_icon_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:", source)
         self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', generated_source)
@@ -34942,13 +36828,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION", generated_source)
         self.assertIn("var draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0", generated_source)
         self.assertIn("var warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE", generated_source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])", source)
-        self.assertIn("var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
-        self.assertIn('"matches": matches', source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_draw_15",
+            "unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time",
+        )
+        self.assertIn("var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)", bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_unit_payload_icon_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -34968,15 +36859,21 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_unit_payload_icon_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_unit_payload_icon_bridge_state", 1)[1].split("func source_build_payload_place_default_state", 1)[0]
 
         self.assertIn("func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
-        self.assertIn("var result = instance.java_method_icon_16([unit_type_full_icon])", source)
-        self.assertIn("var canonical = source_unit_payload_icon_state(unit_type_full_icon)", source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_icon_state"', source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_icon_16"', source)
-        self.assertIn('"matches": matches', source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
+            "java_method_icon_16",
+            "unit_type_full_icon",
+        )
+        self.assertIn("var canonical = source_unit_payload_icon_state(unit_type_full_icon)", bridge_source)
+        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_icon_state"', bridge_source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_icon_16"', bridge_source)
+        self.assertIn('"matches": matches', bridge_source)
 
     def test_port_game_exposes_source_build_payload_content_state(self):
         source = self._port_game_build_payload_source()
@@ -35005,8 +36902,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_content_bridge_state", 1)[1].split("func source_build_payload_build_time_state", 1)[0]
 
         self.assertIn("func generated_build_payload_content_bridge_state(build_block: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_content_4([build_block])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_content_4",
+            "build_block",
+        )
         self.assertIn("var canonical = source_build_payload_content_state(build_block)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_content_state"', bridge_source)
@@ -35039,8 +36941,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_build_time_bridge_state", 1)[1].split("func source_build_payload_requirements_state", 1)[0]
 
         self.assertIn("func generated_build_payload_build_time_bridge_state(build_time: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_buildTime_8([build_time])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_buildTime_8",
+            "build_time",
+        )
         self.assertIn("var canonical = source_build_payload_build_time_state(build_time)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_build_time_state"', bridge_source)
@@ -35073,8 +36980,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_requirements_bridge_state", 1)[1].split("func source_build_payload_x_state", 1)[0]
 
         self.assertIn("func generated_build_payload_requirements_bridge_state(requirements: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_requirements_7([requirements])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_requirements_7",
+            "requirements",
+        )
         self.assertIn("var canonical = source_build_payload_requirements_state(requirements)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_requirements_state"', bridge_source)
@@ -35107,8 +37019,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_x_bridge_state", 1)[1].split("func source_build_payload_y_state", 1)[0]
 
         self.assertIn("func generated_build_payload_x_bridge_state(build_x: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_x_9([build_x])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_x_9",
+            "build_x",
+        )
         self.assertIn("var canonical = source_build_payload_x_state(build_x)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_x_state"', bridge_source)
@@ -35142,8 +37059,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_y_bridge_state", 1)[1].split("func source_build_payload_size_state", 1)[0]
 
         self.assertIn("func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_y_10([build_y])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_y_10",
+            "build_y",
+        )
         self.assertIn("var canonical = source_build_payload_y_state(build_y)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_y_state"', bridge_source)
@@ -35184,8 +37106,13 @@ class PlayableManifestTests(unittest.TestCase):
         default_bridge = source.split("func generated_build_payload_size_source_tilesize_default_bridge_state", 1)[1].split("func source_build_payload_remove_state", 1)[0]
 
         self.assertIn("func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_size_11([build_block_size, source_tilesize])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_size_11",
+            "build_block_size, source_tilesize",
+        )
         self.assertIn("var canonical = source_build_payload_size_state(build_block_size, source_tilesize)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_size_state"', bridge_source)
@@ -35195,7 +37122,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else SOURCE_TILESIZE)", generated_source)
         self.assertNotIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)", generated_source)
         self.assertIn("func generated_build_payload_size_source_tilesize_default_bridge_state(build_block_size: float) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_size_11([build_block_size])", default_bridge)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            default_bridge,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_size_11",
+            "build_block_size",
+        )
         self.assertIn("var canonical = source_build_payload_size_state(build_block_size, SourceWorldDefaults.TILESIZE)", default_bridge)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", default_bridge)
         self.assertIn('"defaulted_arg": "source_tilesize"', default_bridge)
@@ -35229,8 +37162,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_remove_bridge_state", 1)[1].split("func source_build_payload_write_state", 1)[0]
 
         self.assertIn("func generated_build_payload_remove_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_remove_12([])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_remove_12",
+            "",
+        )
         self.assertIn("var canonical = source_build_payload_remove_state()", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_remove_state"', bridge_source)
@@ -35273,8 +37211,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_write_bridge_state", 1)[1].split("func source_build_payload_set_state", 1)[0]
 
         self.assertIn("func generated_build_payload_write_bridge_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_write_13([payload_block, build_block_id, build_version])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_write_13",
+            "payload_block, build_block_id, build_version",
+        )
         self.assertIn("var canonical = source_build_payload_write_state(payload_block, build_block_id, build_version)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_write_state"', bridge_source)
@@ -35312,8 +37255,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_set_bridge_state", 1)[1].split("func source_build_payload_draw_shadow_state", 1)[0]
 
         self.assertIn("func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_set_14([x, y, rotation_value])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_set_14",
+            "x, y, rotation_value",
+        )
         self.assertIn("var canonical = source_build_payload_set_state(x, y, rotation_value)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_set_state"', bridge_source)
@@ -35361,8 +37309,13 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else SOURCE_TILESIZE)", generated_source)
         self.assertNotIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)", generated_source)
         self.assertIn("func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_drawShadow_15",
+            "build_x, build_y, build_block_size, source_tilesize, alpha",
+        )
         self.assertIn("var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_draw_shadow_state"', bridge_source)
@@ -35415,8 +37368,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_draw_bridge_state", 1)[1].split("func source_build_payload_icon_state", 1)[0]
 
         self.assertIn("func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_draw_16",
+            "prev_z, layer_flying_unit_low, transform_z",
+        )
         self.assertIn("var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_draw_state"', bridge_source)
@@ -35451,8 +37409,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_icon_bridge_state", 1)[1].split("func source_block_producer_icons_state", 1)[0]
 
         self.assertIn("func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_icon_17([full_icon])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_icon_17",
+            "full_icon",
+        )
         self.assertIn("var canonical = source_build_payload_icon_state(full_icon)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_icon_state"', bridge_source)
@@ -35635,8 +37598,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_icons_bridge_state", 1)[1].split("func source_block_producer_draw_plan_region_state", 1)[0]
 
         self.assertIn("func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_icons_0([region, out_region, top_region])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_method_icons_0",
+            "region, out_region, top_region",
+        )
         self.assertIn("var canonical = source_block_producer_icons_state(region, out_region, top_region)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_icons_state"', bridge_source)
@@ -35671,8 +37639,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_draw_plan_region_bridge_state", 1)[1].split("func source_block_producer_set_bars_state", 1)[0]
 
         self.assertIn("func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_drawPlanRegion_1([region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_method_drawPlanRegion_1",
+            "region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation",
+        )
         self.assertIn("var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_draw_plan_region_state"', bridge_source)
@@ -35712,8 +37685,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_set_bars_bridge_state", 1)[1].split("func source_block_producer_build_accept_item_state", 1)[0]
 
         self.assertIn("func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_setBars_2([recipe_null, entity_progress, recipe_build_time])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_method_setBars_2",
+            "recipe_null, entity_progress, recipe_build_time",
+        )
         self.assertIn("var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_set_bars_state"', bridge_source)
@@ -35751,8 +37729,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_accept_item_bridge_state", 1)[1].split("func source_block_producer_build_get_maximum_accepted_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_acceptItem_1([source_building, item, item_count, maximum_accepted])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_acceptItem_1",
+            "source_building, item, item_count, maximum_accepted",
+        )
         self.assertIn("var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_item_state"', bridge_source)
@@ -35799,8 +37782,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_get_maximum_accepted_bridge_state", 1)[1].split("func source_block_producer_build_accept_payload_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2([item, recipe_null, requirements])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2",
+            "item, recipe_null, requirements",
+        )
         self.assertIn("var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"', bridge_source)
@@ -35837,8 +37825,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_accept_payload_bridge_state", 1)[1].split("func source_block_producer_build_should_consume_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_acceptPayload_3([source_building, payload])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_acceptPayload_3",
+            "source_building, payload",
+        )
         self.assertIn("var canonical = source_block_producer_build_accept_payload_state(source_building, payload)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_payload_state"', bridge_source)
@@ -35875,8 +37868,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_should_consume_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_produce_gate_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_shouldConsume_4([super_should_consume, recipe_null])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_shouldConsume_4",
+            "super_should_consume, recipe_null",
+        )
         self.assertIn("var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_should_consume_state"', bridge_source)
@@ -35923,8 +37921,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_produce_gate_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_progress_accumulation_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_5([recipe_null, efficiency, payload_null])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_5",
+            "recipe_null, efficiency, payload_null",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state"', bridge_source)
@@ -35967,8 +37970,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_progress_accumulation_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_completion_guard_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5([produce, progress_before, build_speed, edelta])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5",
+            "produce, progress_before, build_speed, edelta",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"', bridge_source)
@@ -36009,8 +38017,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_completion_guard_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_payload_creation_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5([progress, recipe_build_time])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5",
+            "progress, recipe_build_time",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state"', bridge_source)
@@ -36053,8 +38066,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_payload_creation_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_pay_vector_progress_reset_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5([completion_guard, recipe, team, x, y, payload_size, tilesize])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5",
+            "completion_guard, recipe, team, x, y, payload_size, tilesize",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"', bridge_source)
@@ -36106,8 +38124,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state", 1)[1].split("func source_block_producer_build_update_tile_heat_time_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5([completion_guard, pay_vector_x, pay_vector_y, progress_before])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5",
+            "completion_guard, pay_vector_x, pay_vector_y, progress_before",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state"', bridge_source)
@@ -36171,8 +38194,13 @@ class PlayableManifestTests(unittest.TestCase):
         generated_source = generated.read_text(encoding="utf-8")
 
         self.assertIn("func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5([produce, heat_before, time_before, time_delta])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5",
+            "produce, heat_before, time_before, time_delta",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', bridge_source)
@@ -36297,8 +38325,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_block_producer_build_update_tile_move_out_payload_bridge_state", 1)[1].split("func source_block_init_item_liquid_filters_state", 1)[0]
 
         self.assertIn("func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', bridge_source)
-        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5([payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd",
+            "java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5",
+            "payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result",
+        )
         self.assertIn("var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', bridge_source)
@@ -36344,15 +38377,26 @@ class PlayableManifestTests(unittest.TestCase):
         place_bridge = source.split("func generated_build_payload_place_bridge_state", 1)[1].split("func source_build_payload_update_state", 1)[0]
 
         self.assertIn("func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', default_bridge)
-        self.assertIn("var result = instance.java_method_place_1([tile, build_block, build_team])", default_bridge)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            default_bridge,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_place_1",
+            "tile, build_block, build_team",
+        )
         self.assertIn("var canonical = source_build_payload_place_default_state(tile, build_block, build_team)", default_bridge)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", default_bridge)
         self.assertIn('"source_owner": "PortGame.source_build_payload_place_default_state"', default_bridge)
         self.assertIn('"generated_owner": "BuildPayload.java_method_place_1"', default_bridge)
         self.assertIn('"matches": matches', default_bridge)
         self.assertIn("func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:", source)
-        self.assertIn("var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])", place_bridge)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            place_bridge,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_place_2",
+            "tile, build_block, build_team, rotation_value",
+        )
         self.assertIn("var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)", place_bridge)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", place_bridge)
         self.assertIn('"source_owner": "PortGame.source_build_payload_place_state"', place_bridge)
@@ -36392,8 +38436,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_update_bridge_state", 1)[1].split("func source_build_payload_destroyed_state", 1)[0]
 
         self.assertIn("func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_update_5",
+            "unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder",
+        )
         self.assertIn("var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_update_state"', bridge_source)
@@ -36429,8 +38478,13 @@ class PlayableManifestTests(unittest.TestCase):
         bridge_source = source.split("func generated_build_payload_destroyed_bridge_state", 1)[1].split("func source_build_payload_content_equals_state", 1)[0]
 
         self.assertIn("func generated_build_payload_destroyed_bridge_state() -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_destroyed_6([])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_destroyed_6",
+            "",
+        )
         self.assertIn("var canonical = source_build_payload_destroyed_state()", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_destroyed_state"', bridge_source)
@@ -36461,11 +38515,16 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_build_payload_content_equals_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_build_payload_content_equals_bridge_state", 1)[1].split("func source_block_init_item_liquid_filters_state", 1)[0]
+        bridge_source = source.split("func generated_build_payload_content_equals_bridge_state", 1)[1].split("func source_build_payload_content_state", 1)[0]
 
         self.assertIn("func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', bridge_source)
-        self.assertIn("var result = instance.java_method_contentEquals_3([other_is_build_payload, other_block, build_block])", bridge_source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd",
+            "java_method_contentEquals_3",
+            "other_is_build_payload, other_block, build_block",
+        )
         self.assertIn("var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)", bridge_source)
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertIn('"source_owner": "PortGame.source_build_payload_content_equals_state"', bridge_source)
@@ -36580,15 +38639,20 @@ class PlayableManifestTests(unittest.TestCase):
     def test_port_game_exposes_generated_block_init_consumer_apply_loop_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
+        bridge_source = source.split("func generated_block_init_consumer_apply_loop_bridge_state", 1)[1].split("func source_block_init_set_bars_call_state", 1)[0]
 
         self.assertIn("func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:", source)
-        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
-        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "consumer_apply_loop")', source)
-        self.assertIn("var result = instance.java_method_init_123([consumers])", source)
+        self._assert_generated_bridge_uses_runtime(
+            source,
+            bridge_source,
+            "res://src/generated/classes/mindustry/world/Block.gd",
+            "java_method_init_123",
+            "consumers",
+            '{"mindustry_init_bridge_mode": "consumer_apply_loop"}',
+        )
         self.assertIn("var canonical = source_block_init_consumer_apply_loop_state(consumers)", source)
         self.assertIn('"source_owner": "PortGame.source_block_init_consumer_apply_loop_state"', source)
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
-        bridge_source = source.split("func generated_block_init_consumer_apply_loop_bridge_state", 1)[1].split("func source_block_init_set_bars_call_state", 1)[0]
         self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
         self.assertNotIn('"matches": result == canonical', bridge_source)
 
