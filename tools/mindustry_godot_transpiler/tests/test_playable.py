@@ -14043,12 +14043,8 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0")
-        self.assertIn("var canonical = source_building_update_consumption_call_state()", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_consumption_call_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingEfficiencyState.generated_update_consumption_call_bridge_state()", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
 
     def test_generated_building_comp_bridges_update_tile_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -14074,12 +14070,60 @@ class PlayableManifestTests(unittest.TestCase):
         body = self._method_body(source, "func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:")
 
         self.assertIn("func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled")
-        self.assertIn("var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_update_tile_gate_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_update_217"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self.assertIn("return SourceBuildingLifecycleState.generated_update_tile_gate_bridge_state(enabled_state, block_no_update_disabled)", body)
+        self.assertNotIn("SourceGeneratedClassRuntime.call_java_method", body)
+
+    def test_port_game_exposes_generated_building_efficiency_bridge_from_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingEfficiencyState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:",
+            "static func generated_update_consumption_call_bridge_state() -> Dictionary:",
+            "return SourceBuildingEfficiencyState.generated_update_consumption_call_bridge_state()",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_update_217",
+            "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0",
+            "var canonical = update_consumption_call_state()",
+            "PortGame.source_building_update_consumption_call_state",
+            "BuildingComp.java_method_update_217",
+        )
+
+    def test_source_building_efficiency_state_module_has_runtime_proof(self):
+        proof = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingEfficiencyStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingEfficiencyStateModuleProof.tscn"
+        proof_source = proof.read_text(encoding="utf-8") if proof.exists() else ""
+
+        self.assertTrue(proof.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_EFFICIENCY_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingEfficiencyState.generated_update_consumption_call_bridge_state", proof_source)
+        self.assertIn('"update_consumption_call_bridge_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
+
+    def test_port_game_exposes_generated_building_lifecycle_update_tile_bridge_from_module(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingLifecycleState.gd"
+        source = port_game.read_text(encoding="utf-8")
+        module_source = module.read_text(encoding="utf-8") if module.exists() else ""
+
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:",
+            "static func generated_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:",
+            "return SourceBuildingLifecycleState.generated_update_tile_gate_bridge_state(enabled_state, block_no_update_disabled)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_update_217",
+            "SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled",
+            "var canonical = update_tile_gate_state(enabled_state, block_no_update_disabled)",
+            "PortGame.source_building_update_tile_gate_state",
+            "BuildingComp.java_method_update_217",
+        )
 
     def test_generated_building_comp_bridges_update_fog_visibility_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -15198,9 +15242,11 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("SourceBuildingLifecycleState.generated_killed_initial_side_effects_bridge_state", proof_source)
         self.assertIn("SourceBuildingLifecycleState.generated_killed_removal_side_effects_bridge_state", proof_source)
         self.assertIn("SourceBuildingLifecycleState.generated_check_allow_update_bridge_state", proof_source)
+        self.assertIn("SourceBuildingLifecycleState.generated_update_tile_gate_bridge_state", proof_source)
         self.assertIn('"killed_initial_bridge_matches"', proof_source)
         self.assertIn('"killed_removal_bridge_matches"', proof_source)
         self.assertIn('"check_allow_update_bridge_matches"', proof_source)
+        self.assertIn('"update_tile_gate_bridge_matches"', proof_source)
         self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state", proof_source)
         self.assertIn('"one_headquarter_per_ssot"', proof_source)
         self.assertIn('"registry_valid"', proof_source)

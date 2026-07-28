@@ -2,6 +2,7 @@ extends RefCounted
 class_name SourceBuildingLifecycleState
 
 const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
 const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"
@@ -240,6 +241,16 @@ static func generated_check_allow_update_bridge_state(current_enabled: bool, all
 static func update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
 	var update_tile_called: bool = enabled_state or not block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
+
+static func generated_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
+	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
+	var canonical = update_tile_gate_state(enabled_state, block_no_update_disabled)
+	return {
+		"source_owner": "PortGame.source_building_update_tile_gate_state",
+		"generated_owner": "BuildingComp.java_method_update_217",
+		"result": result,
+		"canonical": canonical,
+	}
 
 static func is_heal_suppressed_state(block_suppressable: bool, source_time: float, heal_suppression_time: float) -> bool:
 	return block_suppressable and source_time <= heal_suppression_time

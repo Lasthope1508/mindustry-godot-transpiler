@@ -3071,27 +3071,13 @@ func source_building_update_consumption_call_state() -> Dictionary:
 	return SourceBuildingEfficiencyState.update_consumption_call_state()
 
 func generated_building_comp_update_consumption_call_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0], null)
-	var canonical = source_building_update_consumption_call_state()
-	return {
-		"source_owner": "PortGame.source_building_update_consumption_call_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingEfficiencyState.generated_update_consumption_call_bridge_state()
 
 func source_building_update_tile_gate_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
 	return SourceBuildingLifecycleState.update_tile_gate_state(enabled_state, block_no_update_disabled)
 
 func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
-	var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)
-	return {
-		"source_owner": "PortGame.source_building_update_tile_gate_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingLifecycleState.generated_update_tile_gate_bridge_state(enabled_state, block_no_update_disabled)
 
 func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state := {}, tile_state := {}) -> Dictionary:
 	return SourceBuildingVisibilityState.update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
