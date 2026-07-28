@@ -13400,16 +13400,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_health_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_health, max_health_value, value, dead_state, self_state")
-        self.assertIn("var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_health_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:",
+            "static func generated_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_health_bridge_state(prop, current_health, max_health_value, value, dead_state, self_state)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_211",
+            "prop, current_health, max_health_value, value, dead_state, self_state",
+            "var canonical = health_state(prop, current_health, max_health_value, value, dead_state, self_state)",
+            "PortGame.source_building_set_prop_health_state",
+            "BuildingComp.java_method_setProp_211",
+        )
 
     def test_generated_building_comp_bridges_set_prop_team_double_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13440,16 +13447,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_team_double_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_team_id, value")
-        self.assertIn("var canonical = source_building_set_prop_team_double_state(prop, current_team_id, value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_team_double_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:",
+            "static func generated_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_team_double_bridge_state(prop, current_team_id, value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_211",
+            "prop, current_team_id, value",
+            "var canonical = team_double_state(prop, current_team_id, value)",
+            "PortGame.source_building_set_prop_team_double_state",
+            "BuildingComp.java_method_setProp_211",
+        )
 
     def test_generated_building_comp_bridges_set_prop_total_power_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13483,16 +13497,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_total_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", "prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value")
-        self.assertIn("var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_total_power_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:",
+            "static func generated_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_total_power_bridge_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_211",
+            "prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value",
+            "var canonical = total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)",
+            "PortGame.source_building_set_prop_total_power_state",
+            "BuildingComp.java_method_setProp_211",
+        )
 
     def test_generated_building_comp_bridges_set_prop_team_object_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13526,16 +13547,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_team_object_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_212", "prop, current_team_value, value_is_team, team_value")
-        self.assertIn("var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_team_object_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_212"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:",
+            "static func generated_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_team_object_bridge_state(prop, current_team_value, value_is_team, team_value)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_212",
+            "prop, current_team_value, value_is_team, team_value",
+            "var canonical = team_object_state(prop, current_team_value, value_is_team, team_value)",
+            "PortGame.source_building_set_prop_team_object_state",
+            "BuildingComp.java_method_setProp_212",
+        )
 
     def test_generated_building_comp_bridges_set_prop_item_content_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13567,16 +13595,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_item_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", "content_type, has_items_module, item_value, current_amount, value, accepted_stack")
-        self.assertIn("var canonical = source_building_set_prop_item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_item_content_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:",
+            "static func generated_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_item_content_bridge_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_213",
+            "content_type, has_items_module, item_value, current_amount, value, accepted_stack",
+            "var canonical = item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)",
+            "PortGame.source_building_set_prop_item_content_state",
+            "BuildingComp.java_method_setProp_213",
+        )
 
     def test_generated_building_comp_bridges_set_prop_liquid_content_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -13603,16 +13638,23 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_building_comp_set_prop_liquid_content_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        module = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingSetPropState.gd"
         source = port_game.read_text(encoding="utf-8")
-        body = self._method_body(source, "func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:")
+        module_source = module.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(source, body, "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", "content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid")
-        self.assertIn("var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)", source)
-        self.assertIn('"source_owner": "PortGame.source_building_set_prop_liquid_content_state"', source)
-        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
-        self.assertIn('"result": result', source)
-        self.assertIn('"canonical": canonical', source)
+        self._assert_runtime_bridge_moved_to_module(
+            source,
+            module_source,
+            "func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:",
+            "static func generated_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:",
+            "return SourceBuildingSetPropState.generated_liquid_content_bridge_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)",
+            "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd",
+            "java_method_setProp_213",
+            "content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid",
+            "var canonical = liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)",
+            "PortGame.source_building_set_prop_liquid_content_state",
+            "BuildingComp.java_method_setProp_213",
+        )
 
     def test_generated_building_comp_bridges_in_fog_initial_gate_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
@@ -17556,6 +17598,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("can_set = accept_liquid_result and (current_liquid_matches or current_liquid_amount <= 0.1 or block_consumes_liquid)", helper_source)
         self.assertIn('"action": "set_liquid"', helper_source)
         self.assertIn("set_result.merge(source_exprs)", helper_source)
+
+    def test_source_building_set_prop_state_module_has_runtime_proof(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSetPropStateModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "BuildingSetPropStateModuleProof.tscn"
+        proof_source = proof_script.read_text(encoding="utf-8") if proof_script.exists() else ""
+
+        self.assertTrue(proof_script.exists())
+        self.assertTrue(proof_scene.exists())
+        self.assertIn("BUILDING_SET_PROP_STATE_MODULE_PROOF", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_health_bridge_state", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_team_double_bridge_state", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_total_power_bridge_state", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_team_object_bridge_state", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_item_content_bridge_state", proof_source)
+        self.assertIn("SourceBuildingSetPropState.generated_liquid_content_bridge_state", proof_source)
+        self.assertIn('"health_bridge_matches"', proof_source)
+        self.assertIn('"team_double_bridge_matches"', proof_source)
+        self.assertIn('"total_power_bridge_matches"', proof_source)
+        self.assertIn('"team_object_bridge_matches"', proof_source)
+        self.assertIn('"item_content_bridge_matches"', proof_source)
+        self.assertIn('"liquid_content_bridge_matches"', proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_building_in_fog_initial_gate_state(self):
         helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceBuildingVisibilityState.gd"

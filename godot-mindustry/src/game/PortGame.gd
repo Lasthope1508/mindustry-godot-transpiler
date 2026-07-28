@@ -2969,73 +2969,31 @@ func source_building_set_prop_health_state(prop: String, current_health: float, 
 	return SourceBuildingSetPropState.health_state(prop, current_health, max_health_value, value, dead_state, self_state)
 
 func generated_building_comp_set_prop_health_bridge_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_health, max_health_value, value, dead_state, self_state], null)
-	var canonical = source_building_set_prop_health_state(prop, current_health, max_health_value, value, dead_state, self_state)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_health_state",
-		"generated_owner": "BuildingComp.java_method_setProp_211",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_health_bridge_state(prop, current_health, max_health_value, value, dead_state, self_state)
 
 func source_building_set_prop_team_double_state(prop: String, current_team_id: int, value: float) -> Dictionary:
 	return SourceBuildingSetPropState.team_double_state(prop, current_team_id, value)
 
 func generated_building_comp_set_prop_team_double_bridge_state(prop: String, current_team_id: int, value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_team_id, value], null)
-	var canonical = source_building_set_prop_team_double_state(prop, current_team_id, value)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_team_double_state",
-		"generated_owner": "BuildingComp.java_method_setProp_211",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_team_double_bridge_state(prop, current_team_id, value)
 
 func source_building_set_prop_total_power_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
 	return SourceBuildingSetPropState.total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
 
 func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_211", [prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value], null)
-	var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_total_power_state",
-		"generated_owner": "BuildingComp.java_method_setProp_211",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_total_power_bridge_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
 
 func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
 	return SourceBuildingSetPropState.team_object_state(prop, current_team_value, value_is_team, team_value)
 
 func generated_building_comp_set_prop_team_object_bridge_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_212", [prop, current_team_value, value_is_team, team_value], null)
-	var canonical = source_building_set_prop_team_object_state(prop, current_team_value, value_is_team, team_value)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_team_object_state",
-		"generated_owner": "BuildingComp.java_method_setProp_212",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_team_object_bridge_state(prop, current_team_value, value_is_team, team_value)
 
 func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", [content_type, has_items_module, item_value, current_amount, value, accepted_stack], null)
-	var canonical = source_building_set_prop_item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_item_content_state",
-		"generated_owner": "BuildingComp.java_method_setProp_213",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_item_content_bridge_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)
 
 func generated_building_comp_set_prop_liquid_content_bridge_state(content_type: String, has_liquids_module: bool, liquid_value: Variant, current_amount: float, value: float, block_liquid_capacity: float, accept_liquid_result: bool, current_liquid_matches: bool, current_liquid_amount: float, block_consumes_liquid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_setProp_213", [content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid], null)
-	var canonical = source_building_set_prop_liquid_content_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
-	return {
-		"source_owner": "PortGame.source_building_set_prop_liquid_content_state",
-		"generated_owner": "BuildingComp.java_method_setProp_213",
-		"result": result,
-		"canonical": canonical,
-	}
+	return SourceBuildingSetPropState.generated_liquid_content_bridge_state(content_type, has_liquids_module, liquid_value, current_amount, value, block_liquid_capacity, accept_liquid_result, current_liquid_matches, current_liquid_amount, block_consumes_liquid)
 
 func source_building_set_prop_item_content_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:
 	return SourceBuildingSetPropState.item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)
