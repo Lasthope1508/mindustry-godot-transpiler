@@ -37510,22 +37510,26 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_draw_shadow_type_null_bridge_state", 1)[1].split("func source_unit_payload_draw_type_null_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:",
+            "static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:",
+            "\treturn SourceUnitPayloadDrawState.generated_shadow_type_null_bridge_state(unit_type_null, alpha, unit_id)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_drawShadow_14",
             "unit_type_null, alpha, unit_id",
+            "var canonical = draw_shadow_type_null_state(unit_type_null, alpha, unit_id)",
+            "PortGame.source_unit_payload_draw_shadow_type_null_state",
+            "UnitPayload.java_method_drawShadow_14",
         )
-        self.assertIn("var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_drawShadow_14"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        helper_body = self._static_method_body(helper_source, "static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:")
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_draw_type_null_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -37547,22 +37551,26 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_draw_type_null_bridge_state", 1)[1].split("func source_unit_payload_draw_elevation_setup_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:",
+            "static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary:",
+            "\treturn SourceUnitPayloadDrawState.generated_type_null_bridge_state(unit_type_null)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_draw_15",
             "unit_type_null",
+            "var canonical = draw_type_null_state(unit_type_null)",
+            "PortGame.source_unit_payload_draw_type_null_state",
+            "UnitPayload.java_method_draw_15",
         )
-        self.assertIn("var canonical = source_unit_payload_draw_type_null_state(unit_type_null)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        helper_body = self._static_method_body(helper_source, "static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary:")
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_draw_elevation_setup_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -37591,22 +37599,26 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_draw_elevation_setup_bridge_state", 1)[1].split("func source_unit_payload_draw_overlay_warning_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:",
+            "static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:",
+            "\treturn SourceUnitPayloadDrawState.generated_elevation_setup_bridge_state(unit_type_null, unit_elevation, unit_id)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_draw_15",
             "unit_type_null, unit_elevation, unit_id",
+            "var canonical = draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)",
+            "PortGame.source_unit_payload_draw_elevation_setup_state",
+            "UnitPayload.java_method_draw_15",
         )
-        self.assertIn("var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        helper_body = self._static_method_body(helper_source, "static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:")
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_draw_overlay_warning_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -37655,12 +37667,12 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
+        helper_source = helper.read_text(encoding="utf-8")
         generated_payload = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
         generated_source = generated_payload.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_draw_overlay_warning_bridge_state", 1)[1].split("func source_unit_payload_icon_state", 1)[0]
 
-        self.assertIn("func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:", source)
         self.assertIn('const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")', generated_source)
         self.assertIn("const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION", generated_source)
         self.assertIn("const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA", generated_source)
@@ -37668,18 +37680,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var overlay_duration: float = SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION", generated_source)
         self.assertIn("var draw_alpha_value: float = SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA * interp_exp5_out_overlay_time if overlay_guard else 0.0", generated_source)
         self.assertIn("var warning_size: float = SOURCE_UNIT_PAYLOAD_WARNING_SIZE", generated_source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:",
+            "static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:",
+            "\treturn SourceUnitPayloadDrawState.generated_overlay_warning_bridge_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_draw_15",
             "unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time",
+            "var canonical = draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)",
+            "PortGame.source_unit_payload_draw_overlay_warning_state",
+            "UnitPayload.java_method_draw_15",
         )
-        self.assertIn("var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        helper_body = self._static_method_body(helper_source, "static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:")
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
 
     def test_port_game_exposes_source_unit_payload_icon_state(self):
         source = self._port_game_unit_payload_draw_source()
@@ -37698,22 +37714,39 @@ class PlayableManifestTests(unittest.TestCase):
 
     def test_port_game_exposes_generated_unit_payload_icon_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        helper = ROOT / "godot-mindustry" / "src" / "game" / "SourceUnitPayloadDrawState.gd"
         source = port_game.read_text(encoding="utf-8")
-        bridge_source = source.split("func generated_unit_payload_icon_bridge_state", 1)[1].split("func source_build_payload_place_default_state", 1)[0]
+        helper_source = helper.read_text(encoding="utf-8")
 
-        self.assertIn("func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:", source)
-        self._assert_generated_bridge_uses_runtime(
+        self._assert_runtime_bridge_moved_to_module(
             source,
-            bridge_source,
+            helper_source,
+            "func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:",
+            "static func generated_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:",
+            "\treturn SourceUnitPayloadDrawState.generated_icon_bridge_state(unit_type_full_icon)",
             "res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd",
             "java_method_icon_16",
             "unit_type_full_icon",
+            "var canonical = icon_state(unit_type_full_icon)",
+            "PortGame.source_unit_payload_icon_state",
+            "UnitPayload.java_method_icon_16",
         )
-        self.assertIn("var canonical = source_unit_payload_icon_state(unit_type_full_icon)", bridge_source)
-        self.assertIn("var matches: bool = generated_state_matches_generated_subset(result, canonical)", bridge_source)
-        self.assertIn('"source_owner": "PortGame.source_unit_payload_icon_state"', bridge_source)
-        self.assertIn('"generated_owner": "UnitPayload.java_method_icon_16"', bridge_source)
-        self.assertIn('"matches": matches', bridge_source)
+        helper_body = self._static_method_body(helper_source, "static func generated_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:")
+        self.assertIn("var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)", helper_body)
+        self.assertIn('"matches": matches', helper_body)
+
+    def test_unit_payload_draw_module_proof_scene_exists(self):
+        proof_script = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadDrawModuleProof.gd"
+        proof_scene = ROOT / "godot-mindustry" / "tools" / "runtime_proofs" / "UnitPayloadDrawModuleProof.tscn"
+
+        self.assertTrue(proof_script.exists(), "UnitPayload draw module runtime proof script must exist")
+        self.assertTrue(proof_scene.exists(), "UnitPayload draw module runtime proof scene must exist")
+        scene_source = proof_scene.read_text(encoding="utf-8")
+        proof_source = proof_script.read_text(encoding="utf-8")
+        self.assertIn('path="res://tools/runtime_proofs/UnitPayloadDrawModuleProof.gd"', scene_source)
+        self.assertIn("UNIT_PAYLOAD_DRAW_MODULE_PROOF", proof_source)
+        self.assertIn("SourceSsotCatalog.canonical_headquarter_registry_state()", proof_source)
+        self.assertIn('"one_headquarter_per_ssot"', proof_source)
 
     def test_port_game_exposes_source_build_payload_content_state(self):
         source = self._port_game_build_payload_source()

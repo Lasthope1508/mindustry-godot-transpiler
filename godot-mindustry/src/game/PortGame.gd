@@ -5294,76 +5294,31 @@ func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha
 	return SourceUnitPayloadDrawState.draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
 
 func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_drawShadow_14", [unit_type_null, alpha, unit_id], null)
-	var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
-		"generated_owner": "UnitPayload.java_method_drawShadow_14",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDrawState.generated_shadow_type_null_bridge_state(unit_type_null, alpha, unit_id)
 
 func source_unit_payload_draw_type_null_state(unit_type_null: bool) -> Dictionary:
 	return SourceUnitPayloadDrawState.draw_type_null_state(unit_type_null)
 
 func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null], null)
-	var canonical = source_unit_payload_draw_type_null_state(unit_type_null)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDrawState.generated_type_null_bridge_state(unit_type_null)
 
 func source_unit_payload_draw_elevation_setup_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
 	return SourceUnitPayloadDrawState.draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
 
 func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id], null)
-	var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDrawState.generated_elevation_setup_bridge_state(unit_type_null, unit_elevation, unit_id)
 
 func source_unit_payload_draw_overlay_warning_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
 	return SourceUnitPayloadDrawState.draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 
 func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time], null)
-	var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDrawState.generated_overlay_warning_bridge_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
 
 func source_unit_payload_icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	return SourceUnitPayloadDrawState.icon_state(unit_type_full_icon)
 
 func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_icon_16", [unit_type_full_icon], null)
-	var canonical = source_unit_payload_icon_state(unit_type_full_icon)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
-	return {
-		"source_owner": "PortGame.source_unit_payload_icon_state",
-		"generated_owner": "UnitPayload.java_method_icon_16",
-		"result": result,
-		"canonical": canonical,
-		"matches": matches,
-	}
+	return SourceUnitPayloadDrawState.generated_icon_bridge_state(unit_type_full_icon)
 
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	return SourceBuildPayloadLifecycleState.place_default_state(tile, build_block, build_team)
