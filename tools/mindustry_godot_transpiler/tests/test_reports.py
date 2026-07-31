@@ -105,6 +105,8 @@ class ReportTests(unittest.TestCase):
             port_game.write_text(
                 "\n".join([
                     "extends Node2D",
+                    'const source_alpha_state_module := preload("res://src/game/SourceAlphaStateModule.gd")',
+                    'const source_beta_runtime_state := preload("res://src/game/SourceBetaRuntimeState.gd")',
                     "",
                     "func source_alpha_state() -> Dictionary:",
                     "\treturn source_alpha_state_module.alpha_state()",
@@ -118,6 +120,14 @@ class ReportTests(unittest.TestCase):
                 ]),
                 encoding="utf-8",
             )
+            (godot_root / "src" / "game" / "SourceAlphaStateModule.gd").write_text(
+                "extends RefCounted\nclass_name SourceAlphaStateModule\n",
+                encoding="utf-8",
+            )
+            (godot_root / "src" / "game" / "SourceBetaRuntimeState.gd").write_text(
+                "extends RefCounted\nclass_name SourceBetaRuntimeState\n",
+                encoding="utf-8",
+            )
 
             surface = scan_port_game_bridge_surface(godot_root)
 
@@ -129,6 +139,10 @@ class ReportTests(unittest.TestCase):
         self.assertEqual(surface["delegate_module_count"], 2)
         self.assertEqual(surface["top_delegate_modules"][0]["module"], "source_alpha_state_module")
         self.assertEqual(surface["top_delegate_modules"][0]["function_count"], 2)
+        self.assertEqual(surface["top_delegate_modules"][0]["module_path"], "res://src/game/SourceAlphaStateModule.gd")
+        self.assertEqual(surface["top_delegate_modules"][0]["class_name"], "SourceAlphaStateModule")
+        self.assertEqual(surface["top_delegate_modules"][0]["canonical_owner_target"], "SourceAlphaStateModule")
+        self.assertEqual(surface["top_delegate_modules"][0]["compatibility_surface"], "PortGame")
         self.assertEqual(surface["top_delegate_modules"][1]["module"], "source_beta_runtime_state")
         self.assertEqual(surface["top_delegate_modules"][1]["function_count"], 1)
         self.assertEqual(surface["largest_delegate_module"]["module"], "source_alpha_state_module")

@@ -83,7 +83,14 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
             "top_delegate_modules": [],
             "largest_delegate_module": {},
         }
+    godot_root = Path(godot_root)
     lines = port_game.read_text(encoding="utf-8").splitlines()
+    preload_paths: dict[str, str] = {}
+    preload_pattern = re.compile(r"^const\s+([A-Za-z_][A-Za-z0-9_]*)\s*:=\s*preload\(\"([^\"]+)\"\)")
+    for line in lines:
+        match = preload_pattern.match(line.strip())
+        if match:
+            preload_paths[match.group(1)] = match.group(2)
     function_starts = [
         (index, line.strip())
         for index, line in enumerate(lines, start=1)
@@ -129,17 +136,22 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
             "module": module_name,
             "function_count": int(module_entry["function_count"]),
         }
-    top_delegate_modules = [
-        {
+    top_delegate_modules = []
+    for module_name, module_entry in sorted(
+        delegate_modules.items(),
+        key=lambda item: (-int(item[1]["function_count"]), item[0]),
+    )[:20]:
+        module_path = preload_paths.get(module_name, "")
+        class_name = _gdscript_class_name(godot_root, module_path)
+        top_delegate_modules.append({
             "module": module_name,
+            "module_path": module_path,
+            "class_name": class_name,
+            "canonical_owner_target": class_name if class_name else module_name,
+            "compatibility_surface": "PortGame",
             "function_count": int(module_entry["function_count"]),
             "sample_functions": module_entry["sample_functions"],
-        }
-        for module_name, module_entry in sorted(
-            delegate_modules.items(),
-            key=lambda item: (-int(item[1]["function_count"]), item[0]),
-        )[:20]
-    ]
+        })
     return {
         "path": "src/game/PortGame.gd",
         "exists": True,
@@ -150,6 +162,18 @@ def scan_port_game_bridge_surface(godot_root: Path) -> dict:
         "top_delegate_modules": top_delegate_modules,
         "largest_delegate_module": largest_delegate_module,
     }
+
+def _gdscript_class_name(godot_root: Path, resource_path: str) -> str:
+    if not resource_path.startswith("res://"):
+        return ""
+    script_path = Path(godot_root) / resource_path.replace("res://", "")
+    if not script_path.exists():
+        return ""
+    for line in script_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("class_name "):
+            return stripped.split(" ", 1)[1].strip()
+    return ""
 
 def write_report(generated_dir: Path, source_manifest: dict | None = None, asset_manifest: dict | None = None, source_root: Path | None = None, godot_root: Path | None = None) -> dict:
     generated_dir = Path(generated_dir)
