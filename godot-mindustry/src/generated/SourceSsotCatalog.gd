@@ -402,6 +402,311 @@ static func audit_summary_state() -> Dictionary:
 		"policy": parsed.get("policy", {}),
 	}
 
+static func canonical_headquarter_registry_state(module_name: String = "") -> Dictionary:
+	var manifest := load_extension_manifest()
+	var modules := extension_modules()
+	var policy_value = manifest.get("policy", {})
+	var policy: Dictionary = policy_value if typeof(policy_value) == TYPE_DICTIONARY else {}
+	var registry: Dictionary = {}
+	var headquarters: Dictionary = {}
+	var seen_headquarters: Dictionary = {}
+	var features: Dictionary = {}
+	var alias_registry: Dictionary = {}
+	var module_registry: Dictionary = {}
+	var duplicate_headquarters: Array = []
+	var duplicate_features: Array = []
+	var duplicate_aliases: Array = []
+	var complete_mirrors_by_key: Dictionary = {}
+	var errors: Array = []
+	for current_module_name in modules.keys():
+		var entry: Dictionary = modules.get(current_module_name, {})
+		var managed_module_name := str(current_module_name)
+		var managed_key := _canonical_managed_module_key(current_module_name, entry)
+		var headquarter := _canonical_headquarter_module_name(current_module_name, entry)
+		var canonical_feature := _canonical_feature_key(current_module_name, entry, managed_key)
+		var canonical_key := managed_key
+		if not registry.has(managed_key):
+			registry[managed_key] = []
+		registry[managed_key].append(current_module_name)
+		if not complete_mirrors_by_key.has(managed_key):
+			complete_mirrors_by_key[managed_key] = []
+		complete_mirrors_by_key[managed_key].append(current_module_name)
+		if features.has(canonical_feature):
+			duplicate_features.append({"canonical_feature": canonical_feature, "first": features[canonical_feature], "duplicate": current_module_name})
+		features[canonical_feature] = managed_key
+		if headquarters.has(managed_key) and str(headquarters.get(managed_key, "")) != headquarter:
+			errors.append("module_manifest: canonical HQ %s points to %s, found %s" % [managed_key, headquarters.get(managed_key, ""), headquarter])
+		headquarters[managed_key] = headquarter
+		if headquarter == "":
+			errors.append("module_manifest: canonical HQ %s missing runtime headquarter" % managed_key)
+		elif seen_headquarters.has(headquarter) and str(seen_headquarters.get(headquarter, "")) != managed_key:
+			duplicate_headquarters.append({"headquarter": headquarter, "first": seen_headquarters[headquarter], "duplicate": managed_key})
+			errors.append("module_manifest: canonical HQ runtime headquarter %s duplicates %s at %s" % [headquarter, seen_headquarters[headquarter], managed_key])
+		else:
+			seen_headquarters[headquarter] = managed_key
+		var feature_entry := {
+			"canonical_key": managed_key,
+			"canonical_feature": canonical_feature,
+			"headquarter": headquarter,
+			"managed_module": managed_module_name,
+			"entry": entry.duplicate(true),
+		}
+		module_registry[managed_module_name] = {
+			"canonical_key": managed_key,
+			"canonical_feature": canonical_feature,
+			"canonical_aliases": _canonical_policy_aliases(canonical_key, feature_entry, alias_registry, policy),
+			"headquarter": headquarter,
+			"module": managed_module_name,
+		}
+		var aliases_for_key: Array = _canonical_policy_aliases(managed_key, feature_entry, alias_registry, policy)
+		for alias_value in aliases_for_key:
+			var alias_key := _normalized_policy_alias(str(alias_value))
+			if alias_key == "":
+				errors.append("module_manifest: canonical alias registry %s contains an empty alias" % managed_key)
+				continue
+			if alias_registry.has(alias_key) and str(alias_registry.get(alias_key, {}).get("canonical_key", "")) != managed_key:
+				duplicate_aliases.append({"alias": alias_key, "first": alias_registry[alias_key], "duplicate": feature_entry})
+				errors.append("module_manifest: canonical feature runtime alias %s duplicates %s at %s" % [alias_key, alias_registry[alias_key].get("canonical_key", ""), managed_key])
+				continue
+			alias_registry[alias_key] = feature_entry
+	var canonical_headquarters := _canonical_headquarters_policy(headquarters, policy)
+	for canonical_key in headquarters.keys():
+		var modules_for_key: Array = registry.get(canonical_key, [])
+		if modules_for_key.size() != 1:
+			errors.append("module_manifest: canonical managed module %s must have exactly one module, found %s" % [canonical_key, modules_for_key.size()])
+		var complete_mirrors: Array = complete_mirrors_by_key.get(canonical_key, [])
+		if complete_mirrors.size() != 1:
+			errors.append("module_manifest: canonical HQ %s must have exactly one complete mirror, found %s" % [canonical_key, complete_mirrors.size()])
+		if not canonical_headquarters.has(canonical_key):
+			errors.append("module_manifest: canonical feature registry %s has no canonicalHeadquarters entry" % canonical_key)
+	var canonical_feature_registry_value = policy.get("canonicalFeatureRegistry", {})
+	if policy.has("canonicalFeatureRegistry") and typeof(canonical_feature_registry_value) != TYPE_DICTIONARY:
+		errors.append("module_manifest: canonical feature registry missing %s" % module_name)
+	var canonical_aliases_value = policy.get("canonicalAliases", {})
+	if policy.has("canonicalAliases") and typeof(canonical_aliases_value) != TYPE_DICTIONARY:
+		errors.append("module_manifest: canonical alias registry missing %s" % module_name)
+	var canonical_aliases: Dictionary = canonical_aliases_value if typeof(canonical_aliases_value) == TYPE_DICTIONARY else {}
+	for alias_key in canonical_aliases.keys():
+		if not canonical_headquarters.has(alias_key):
+			errors.append("module_manifest: canonical alias registry %s has no canonicalHeadquarters entry" % alias_key)
+		var aliases_value = canonical_aliases.get(alias_key, [])
+		if typeof(aliases_value) != TYPE_ARRAY:
+			errors.append("module_manifest: canonical alias registry %s must be a list" % alias_key)
+			continue
+		var aliases: Array = aliases_value
+		if aliases.is_empty():
+			errors.append("module_manifest: canonical alias registry %s must be non-empty" % alias_key)
+		for alias_value in aliases:
+			if str(alias_value) == "":
+				errors.append("module_manifest: canonical alias registry %s contains an empty alias" % alias_key)
+	var selected_entry: Dictionary = {}
+	if module_name != "":
+		var lookup := canonical_headquarter_lookup_state(module_name)
+		selected_entry = lookup.get("entry", {})
+	return {
+		"loaded": int(manifest.get("version", 0)) > 0,
+		"version": int(manifest.get("version", 0)),
+		"module": module_name,
+		"valid": errors.is_empty(),
+		"errors": errors.duplicate(),
+		"managed_ssot_count": registry.size(),
+		"canonical_key_count": headquarters.size(),
+		"headquarter_count": seen_headquarters.size(),
+		"headquarter_count_matches_canonical_keys": seen_headquarters.size() == headquarters.size(),
+		"canonical_feature_count": features.size(),
+		"alias_count": alias_registry.size(),
+		"module_registry_count": module_registry.size(),
+		"module_registry": module_registry,
+		"registry": registry,
+		"headquarters": headquarters,
+		"features": features,
+		"aliases": alias_registry,
+		"duplicate_headquarters": duplicate_headquarters.duplicate(true),
+		"duplicate_features": duplicate_features.duplicate(true),
+		"duplicate_aliases": duplicate_aliases.duplicate(true),
+		"one_headquarter_per_ssot": seen_headquarters.size() == headquarters.size() and errors.is_empty(),
+		"entry": selected_entry,
+		"policy": policy,
+	}
+
+static func canonical_headquarter_lookup_state(alias_name: String = "") -> Dictionary:
+	var registry_state := canonical_headquarter_registry_state("")
+	var alias_registry: Dictionary = registry_state.get("aliases", {})
+	var entry: Dictionary = {}
+	var canonical_key := ""
+	for candidate_key in [alias_name, _normalized_policy_alias(alias_name)]:
+		var normalized_candidate := _normalized_policy_alias(str(candidate_key))
+		if normalized_candidate == "":
+			continue
+		if alias_registry.has(normalized_candidate):
+			entry = alias_registry.get(normalized_candidate, {})
+			canonical_key = str(entry.get("canonical_key", ""))
+			break
+	if entry.is_empty():
+		for candidate_key in _canonical_headquarter_lookup_candidates(alias_name):
+			var normalized_candidate := _normalized_policy_alias(str(candidate_key))
+			if alias_registry.has(normalized_candidate):
+				entry = alias_registry.get(normalized_candidate, {})
+				canonical_key = str(entry.get("canonical_key", ""))
+				break
+	if entry.is_empty() and _is_source_symbol_registry_headquarter_alias(alias_name):
+		var policy_entry := _policy_headquarter_entry(alias_name, registry_state.get("policy", {}))
+		entry = policy_entry
+		canonical_key = str(entry.get("canonical_key", ""))
+	return {
+		"loaded": bool(registry_state.get("loaded", false)),
+		"valid": bool(registry_state.get("valid", false)),
+		"alias": alias_name,
+		"canonical_key": canonical_key,
+		"headquarter": str(entry.get("headquarter", "")),
+		"entry": entry,
+		"errors": registry_state.get("errors", []),
+	}
+
+static func _is_source_symbol_registry_headquarter_alias(alias_name: String) -> bool:
+	return not _policy_headquarter_entry(alias_name, load_extension_manifest().get("policy", {})).is_empty()
+
+static func _policy_headquarter_entry(alias_name: String, policy: Dictionary) -> Dictionary:
+	var canonical_aliases := _canonical_alias_policy(policy)
+	var canonical_headquarters_value = policy.get("canonicalHeadquarters", {})
+	var canonical_headquarters: Dictionary = canonical_headquarters_value if typeof(canonical_headquarters_value) == TYPE_DICTIONARY else {}
+	var normalized_alias := _normalized_policy_alias(alias_name)
+	for canonical_key_value in canonical_aliases.keys():
+		var canonical_key := str(canonical_key_value)
+		for alias_value in _policy_aliases_for_key(canonical_key, policy):
+			if _normalized_policy_alias(str(alias_value)) != normalized_alias:
+				continue
+			var metadata := module_metadata(canonical_key)
+			return {
+				"canonical_key": canonical_key,
+				"canonical_feature": canonical_key,
+				"canonical_aliases": _policy_aliases_for_key(canonical_key, policy),
+				"headquarter": str(canonical_headquarters.get(canonical_key, canonical_key)),
+				"managed_module": canonical_key,
+				"module": canonical_key,
+				"entry": metadata.duplicate(true),
+			}
+	return {}
+
+static func _canonical_managed_module_key(current_module_name: String, entry: Dictionary) -> String:
+	var canonical_module := str(entry.get("canonical_module", ""))
+	var collection_key := str(entry.get("canonical_collection_key", ""))
+	if canonical_module == "":
+		return _canonical_root_module_key(current_module_name, entry)
+	if collection_key != "":
+		return "%s.%s" % [canonical_module, collection_key]
+	var domain := _canonical_module_domain(current_module_name)
+	if domain != "":
+		return "%s.%s" % [domain, canonical_module]
+	return canonical_module
+
+static func _canonical_root_module_key(current_module_name: String, entry: Dictionary) -> String:
+	var root_key := str(entry.get("root_key", ""))
+	if current_module_name == "source_symbol_registry_symbols":
+		return "registry"
+	if current_module_name == "source_api_contracts_contracts":
+		return "api_contracts"
+	if current_module_name == "source_state_schema_schemas":
+		return "state_schema"
+	if current_module_name == "source_slice_ledger_slices":
+		return "slice_ledger"
+	if current_module_name.begins_with("source_audit_"):
+		return "audit_report.%s" % root_key
+	return current_module_name
+
+static func _canonical_headquarter_module_name(current_module_name: String, entry: Dictionary) -> String:
+	return current_module_name if str(entry.get("status", "")) == "active" else ""
+
+static func _canonical_feature_key(current_module_name: String, entry: Dictionary, canonical_key: String) -> String:
+	var _current_module_name := current_module_name
+	var collection_key := str(entry.get("canonical_collection_key", ""))
+	if collection_key != "":
+		return "%s.%s" % [canonical_key, collection_key]
+	return canonical_key
+
+static func _canonical_module_domain(current_module_name: String) -> String:
+	var suffixes := ["_slices", "_api_contracts", "_state_schema", "_symbols"]
+	for suffix in suffixes:
+		if current_module_name.ends_with(suffix):
+			return current_module_name.substr(0, current_module_name.length() - suffix.length())
+	return ""
+
+static func _canonical_headquarter_lookup_candidates(alias_name: String) -> Array:
+	var normalized := _normalized_policy_alias(alias_name)
+	var candidates: Array = [alias_name, normalized]
+	if normalized.find(".") >= 0:
+		candidates.append(normalized.replace(".", "_"))
+		candidates.append(normalized.replace(".", " "))
+	if normalized.find("_") >= 0:
+		candidates.append(normalized.replace("_", "."))
+		candidates.append(normalized.replace("_", " "))
+	return _unique_strings(candidates)
+
+static func _canonical_policy_aliases(canonical_key: String, feature_entry: Dictionary, alias_registry: Dictionary, policy: Dictionary) -> Array:
+	var _alias_registry := alias_registry
+	var aliases: Array = [canonical_key]
+	var canonical_feature := str(feature_entry.get("canonical_feature", ""))
+	var managed_module_name := str(feature_entry.get("managed_module", ""))
+	var headquarter := str(feature_entry.get("headquarter", ""))
+	aliases.append(canonical_feature)
+	aliases.append(managed_module_name)
+	aliases.append(headquarter)
+	for source_value in [canonical_key, canonical_feature, managed_module_name, headquarter]:
+		var normalized := _normalized_policy_alias(str(source_value))
+		if normalized == "":
+			continue
+		aliases.append(normalized)
+		aliases.append(normalized.replace(".", " "))
+		aliases.append(normalized.replace(".", "_"))
+	aliases.append_array(_policy_aliases_for_key(canonical_key, policy))
+	return _unique_strings(aliases)
+
+static func _canonical_alias_policy(policy: Dictionary) -> Dictionary:
+	var canonical_aliases_value = policy.get("canonicalAliases", {})
+	return canonical_aliases_value if typeof(canonical_aliases_value) == TYPE_DICTIONARY else {}
+
+static func _canonical_headquarters_policy(headquarters: Dictionary, policy: Dictionary) -> Dictionary:
+	var result := headquarters.duplicate()
+	var canonical_headquarters_value = policy.get("canonicalHeadquarters", {})
+	var canonical_headquarters: Dictionary = canonical_headquarters_value if typeof(canonical_headquarters_value) == TYPE_DICTIONARY else {}
+	for canonical_key in canonical_headquarters.keys():
+		result[str(canonical_key)] = str(canonical_headquarters.get(canonical_key, ""))
+	return result
+
+static func _policy_aliases_for_key(canonical_key: String, policy: Dictionary) -> Array:
+	var canonical_aliases := _canonical_alias_policy(policy)
+	var aliases_value = canonical_aliases.get(canonical_key, [])
+	return aliases_value if typeof(aliases_value) == TYPE_ARRAY else []
+
+static func _normalized_policy_alias(alias_name: String) -> String:
+	var lowered := alias_name.strip_edges().to_lower()
+	var parts: Array = []
+	var token := ""
+	for index in range(lowered.length()):
+		var codepoint := lowered.unicode_at(index)
+		if _is_ascii_policy_alias_character(codepoint):
+			token += lowered.substr(index, 1)
+		elif token != "":
+			parts.append(token)
+			token = ""
+	if token != "":
+		parts.append(token)
+	return ".".join(parts)
+
+static func _is_ascii_policy_alias_character(codepoint: int) -> bool:
+	return (codepoint >= 48 and codepoint <= 57) or (codepoint >= 97 and codepoint <= 122)
+
+static func _unique_strings(values: Array) -> Array:
+	var seen: Dictionary = {}
+	var result: Array = []
+	for value in values:
+		var text := str(value)
+		if text == "" or seen.has(text):
+			continue
+		seen[text] = true
+		result.append(text)
+	return result
+
 static func ssot_modules_state(module_name: String = "") -> Dictionary:
 	var manifest := load_extension_manifest()
 	var modules := extension_modules()

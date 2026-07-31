@@ -1,6 +1,8 @@
 extends RefCounted
 class_name SourceTimeDefaults
 
+const TICK_RATE := 60.0
+
 var catalog: Variant
 var profile: Dictionary = {}
 
@@ -14,7 +16,7 @@ func load_time_profile() -> void:
 		profile = {"time": {}, "source": {}}
 
 func tick_rate() -> float:
-	return float(profile.get("tick_rate", 0.0))
+	return float(profile.get("tick_rate", TICK_RATE))
 
 func runtime_summary() -> Dictionary:
 	return {

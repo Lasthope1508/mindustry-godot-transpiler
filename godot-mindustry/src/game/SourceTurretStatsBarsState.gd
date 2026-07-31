@@ -1,8 +1,10 @@
 extends RefCounted
 class_name SourceTurretStatsBarsState
 
-const SourceTimeDefaults := preload("res://src/game/SourceTimeDefaults.gd")
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
 const SOURCE_TURRET_SET_STATS_METHOD := "public void setStats(){"
 const SOURCE_TURRET_SET_STATS_SUPER_EXPR := "super.setStats();"
@@ -54,7 +56,7 @@ static func base_turret_set_stats_state(range_value: float, source_tilesize: flo
 		"unit": "StatUnit.seconds",
 	}
 	return {
-		"source_owner": "PortGame.source_base_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BASE_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -73,14 +75,14 @@ static func base_turret_set_stats_state(range_value: float, source_tilesize: flo
 
 
 static func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float, tick_rate: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_setStats_4", [range_value, source_tilesize, activation_time, tick_rate], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_setStats_4", [range_value, source_tilesize, activation_time, tick_rate], null)
 	var canonical = base_turret_set_stats_state(range_value, source_tilesize, activation_time, tick_rate)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.base_turret_set_stats_state",
-		"generated_owner": "BaseTurret.java_method_setStats_4",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_BASE_TURRET_SET_STATS_STATE,
+		"generated_owner": "base_turret.java_method_setStats_4",
 		"result": result,
 		"canonical": canonical,
-		"matches": SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical),
+		"matches": source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical),
 	}
 
 
@@ -91,7 +93,7 @@ static func base_turret_set_bars_state(activation_time: float, entity_activation
 		"progress": 1.0 - entity_activation_timer / activation_time if activation_time > 0.0 else 1.0,
 	}
 	return {
-		"source_owner": "PortGame.source_base_turret_set_bars_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BASE_TURRET_SET_BARS_STATE,
 		"method": SOURCE_TURRET_SET_BARS_METHOD,
 		"super_set_bars_expr": SOURCE_TURRET_SET_BARS_SUPER_EXPR,
 		"super_set_bars_called": true,
@@ -107,11 +109,11 @@ static func base_turret_set_bars_state(activation_time: float, entity_activation
 
 
 static func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float, tick_rate: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_setBars_5", [activation_time, entity_activation_timer, tick_rate], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd", "java_method_setBars_5", [activation_time, entity_activation_timer, tick_rate], null)
 	var canonical = base_turret_set_bars_state(activation_time, entity_activation_timer, tick_rate)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.base_turret_set_bars_state",
-		"generated_owner": "BaseTurret.java_method_setBars_5",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_BASE_TURRET_SET_BARS_STATE,
+		"generated_owner": "base_turret.java_method_setBars_5",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("activation_bar_call", null) == canonical.get("activation_bar_call", null) and result.get("activation_bar_added", null) == canonical.get("activation_bar_added", null) and result.get("super_set_bars_called", null) == canonical.get("super_set_bars_called", null),
@@ -136,9 +138,9 @@ static func set_stats_state(inaccuracy_value: float, reload_value: float, reload
 	var max_efficiency_stat_called: bool = heat_requirement > 0.0 and max_heat_efficiency > 0.0
 	var max_efficiency_stat_call: Dictionary = {}
 	if max_efficiency_stat_called:
-		max_efficiency_stat_call = {"call": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);", "stat": "Stat.maxEfficiency", "value": int(max_heat_efficiency * 100.0), "unit": "StatUnit.percent"}
+		max_efficiency_stat_call = {"call": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);", "stat": "Stat.maxEfficiency", "value": int(max_heat_efficiency * source_turret_defaults.TURRET_PERCENT_SCALE), "unit": "StatUnit.percent"}
 	return {
-		"source_owner": "PortGame.source_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_SET_STATS_STATE,
 		"method": "public void setStats(){",
 		"override_expr": "@Override",
 		"super_set_stats_expr": "super.setStats();",
@@ -179,11 +181,11 @@ static func set_stats_state(inaccuracy_value: float, reload_value: float, reload
 
 
 static func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_setStats_1", [inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency], null)
-	var canonical = set_stats_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency, SourceTimeDefaults.TICK_RATE)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_setStats_1", [inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency], null)
+	var canonical = set_stats_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency, source_time_defaults.TICK_RATE)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.set_stats_state",
-		"generated_owner": "Turret.java_method_setStats_1",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_SET_STATS_STATE,
+		"generated_owner": "turret.java_method_setStats_1",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("ammo_use_stat_call", null) == canonical.get("ammo_use_stat_call", null) and result.get("max_efficiency_stat_call", null) == canonical.get("max_efficiency_stat_call", null),
@@ -198,13 +200,13 @@ static func set_bars_state(heat_requirement: float, entity_heat_req: float, max_
 	var heat_bar_color: String = ""
 	var heat_bar_call: Dictionary = {}
 	if heat_bar_added:
-		heat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * 100.0)
+		heat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * source_turret_defaults.TURRET_PERCENT_SCALE)
 		heat_bar_fraction = entity_heat_req / heat_requirement
 		heat_bar_text_call = {"call": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))", "key": "bar.heatpercent", "heat_req": int(entity_heat_req), "percent": heat_bar_percent}
 		heat_bar_color = "Pal.lightOrange"
 		heat_bar_call = {"call": "addBar(\"heat\", (TurretBuild entity) -> new Bar(...));", "name": "heat", "text_call": heat_bar_text_call, "color": heat_bar_color, "fraction": heat_bar_fraction}
 	return {
-		"source_owner": "PortGame.source_turret_set_bars_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_SET_BARS_STATE,
 		"method": "public void setBars(){",
 		"override_expr": "@Override",
 		"super_set_bars_expr": "super.setBars();",
@@ -228,11 +230,11 @@ static func set_bars_state(heat_requirement: float, entity_heat_req: float, max_
 
 
 static func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_setBars_2", [heat_requirement, entity_heat_req, max_heat_efficiency], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_setBars_2", [heat_requirement, entity_heat_req, max_heat_efficiency], null)
 	var canonical = set_bars_state(heat_requirement, entity_heat_req, max_heat_efficiency)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.set_bars_state",
-		"generated_owner": "Turret.java_method_setBars_2",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_SET_BARS_STATE,
+		"generated_owner": "turret.java_method_setBars_2",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("heat_bar_call", null) == canonical.get("heat_bar_call", null) and result.get("heat_bar_added", null) == canonical.get("heat_bar_added", null),
@@ -248,7 +250,7 @@ static func tractor_beam_turret_set_stats_state(target_air: bool, target_ground:
 		"added": damage_stat_added,
 	}
 	return {
-		"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TRACTOR_BEAM_TURRET_SET_STATS_STATE,
 		"method": "public void setStats(){",
 		"super_set_stats_expr": "super.setStats();",
 		"targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);",
@@ -262,11 +264,11 @@ static func tractor_beam_turret_set_stats_state(target_air: bool, target_ground:
 
 
 static func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float, tick_rate: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_setStats_1", [target_air, target_ground, damage, tick_rate], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd", "java_method_setStats_1", [target_air, target_ground, damage, tick_rate], null)
 	var canonical = tractor_beam_turret_set_stats_state(target_air, target_ground, damage, tick_rate)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.tractor_beam_turret_set_stats_state",
-		"generated_owner": "TractorBeamTurret.java_method_setStats_1",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_TRACTOR_BEAM_TURRET_SET_STATS_STATE,
+		"generated_owner": "tractor_beam_turret.java_method_setStats_1",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("targets_air_stat_call", null) == canonical.get("targets_air_stat_call", null) and result.get("targets_ground_stat_call", null) == canonical.get("targets_ground_stat_call", null) and result.get("damage_stat_added", null) == canonical.get("damage_stat_added", null) and result.get("damage_stat_call", null) == canonical.get("damage_stat_call", null),
@@ -279,7 +281,7 @@ static func reload_turret_set_stats_state(coolant_present: bool, reload_value: f
 	if booster_replace_called:
 		booster_replace_call = {"call": SOURCE_RELOAD_TURRET_SET_STATS_BOOSTER_EXPR, "stat": "Stat.booster", "reload": reload_value, "coolant_amount": coolant_amount, "coolant_multiplier": coolant_multiplier, "base": true, "consumes": "coolant::consumes"}
 	return {
-		"source_owner": "PortGame.source_reload_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_RELOAD_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -296,11 +298,11 @@ static func reload_turret_set_stats_state(coolant_present: bool, reload_value: f
 
 
 static func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd", "java_method_setStats_0", [coolant_present, reload_value, coolant_amount, coolant_multiplier], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd", "java_method_setStats_0", [coolant_present, reload_value, coolant_amount, coolant_multiplier], null)
 	var canonical = reload_turret_set_stats_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.reload_turret_set_stats_state",
-		"generated_owner": "ReloadTurret.java_method_setStats_0",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_RELOAD_TURRET_SET_STATS_STATE,
+		"generated_owner": "reload_turret.java_method_setStats_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("booster_replace_called", null) == canonical.get("booster_replace_called", null) and result.get("booster_replace_call", null) == canonical.get("booster_replace_call", null),
@@ -312,7 +314,7 @@ static func point_defense_set_stats_state(bullet_damage: float, reload_value: fl
 	var reload_stat_call: Dictionary = {"call": "stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);", "stat": "Stat.reload", "value": reload_stat_rate, "unit": "StatUnit.perSecond"}
 	var damage_stat_call: Dictionary = {"call": "stats.add(Stat.damage, bulletDamage, StatUnit.none);", "stat": "Stat.damage", "value": bullet_damage, "unit": "StatUnit.none"}
 	return {
-		"source_owner": "PortGame.source_point_defense_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POINT_DEFENSE_TURRET_SET_STATS_STATE,
 		"method": "public void setStats(){",
 		"override_expr": "@Override",
 		"super_set_stats_expr": "super.setStats();",
@@ -328,11 +330,11 @@ static func point_defense_set_stats_state(bullet_damage: float, reload_value: fl
 
 
 static func generated_point_defense_turret_set_stats_default_bridge_state(bullet_damage: float, reload_value: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd", "java_method_setStats_1", [], null)
-	var canonical = point_defense_set_stats_state(bullet_damage, reload_value, SourceTimeDefaults.TICK_RATE)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PointDefenseTurret.gd", "java_method_setStats_1", [], null)
+	var canonical = point_defense_set_stats_state(bullet_damage, reload_value, source_time_defaults.TICK_RATE)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.point_defense_set_stats_state",
-		"generated_owner": "PointDefenseTurret.java_method_setStats_1",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_POINT_DEFENSE_SET_STATS_STATE,
+		"generated_owner": "point_defense_turret.java_method_setStats_1",
 		"defaulted_args": ["bullet_damage", "reload"],
 		"bullet_damage": bullet_damage,
 		"reload": reload_value,
@@ -347,7 +349,7 @@ static func power_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
 	var ammo_values_call: Dictionary = {"call": SOURCE_POWER_TURRET_SET_STATS_VALUES_EXPR, "object_map_call": object_map_call}
 	var stats_add_call: Dictionary = {"call": SOURCE_POWER_TURRET_SET_STATS_ADD_EXPR, "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
 	return {
-		"source_owner": "PortGame.source_power_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -362,11 +364,11 @@ static func power_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
 
 
 static func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_method_setStats_0", [shoot_type], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd", "java_method_setStats_0", [shoot_type], null)
 	var canonical = power_turret_set_stats_state(shoot_type)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.power_turret_set_stats_state",
-		"generated_owner": "PowerTurret.java_method_setStats_0",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_POWER_TURRET_SET_STATS_STATE,
+		"generated_owner": "power_turret.java_method_setStats_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null),
@@ -378,7 +380,7 @@ static func continuous_turret_set_stats_state(shoot_type: Variant) -> Dictionary
 	var ammo_values_call: Dictionary = {"call": SOURCE_POWER_TURRET_SET_STATS_VALUES_EXPR, "object_map_call": object_map_call}
 	var stats_add_call: Dictionary = {"call": SOURCE_POWER_TURRET_SET_STATS_ADD_EXPR, "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
 	return {
-		"source_owner": "PortGame.source_continuous_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -397,11 +399,11 @@ static func continuous_turret_set_stats_state(shoot_type: Variant) -> Dictionary
 
 
 static func generated_continuous_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd", "java_method_setStats_0", [shoot_type], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd", "java_method_setStats_0", [shoot_type], null)
 	var canonical = continuous_turret_set_stats_state(shoot_type)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.continuous_turret_set_stats_state",
-		"generated_owner": "ContinuousTurret.java_method_setStats_0",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_CONTINUOUS_TURRET_SET_STATS_STATE,
+		"generated_owner": "continuous_turret.java_method_setStats_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("remove_reload_called", null) == canonical.get("remove_reload_called", null),
@@ -416,7 +418,7 @@ static func item_turret_set_stats_state(ammo_types: Variant, name_value: String,
 	var stats_ammo_add_call: Dictionary = {"call": SOURCE_NAMED_AMMO_TYPES_STATS_ADD_EXPR, "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
 	var stats_ammo_capacity_add_call: Dictionary = {"call": SOURCE_ITEM_TURRET_SET_STATS_AMMO_CAPACITY_ADD_EXPR, "stat": "Stat.ammoCapacity", "value": ammo_capacity, "unit": "StatUnit.shots"}
 	return {
-		"source_owner": "PortGame.source_item_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -441,11 +443,11 @@ static func item_turret_set_stats_state(ammo_types: Variant, name_value: String,
 
 
 static func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setStats_3", [ammo_types, name_value, max_ammo, ammo_per_shot], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setStats_3", [ammo_types, name_value, max_ammo, ammo_per_shot], null)
 	var canonical = item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.item_turret_set_stats_state",
-		"generated_owner": "ItemTurret.java_method_setStats_3",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_ITEM_TURRET_SET_STATS_STATE,
+		"generated_owner": "item_turret.java_method_setStats_3",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null) and result.get("stats_ammo_add_call", null) == canonical.get("stats_ammo_add_call", null) and result.get("stats_item_capacity_remove_call", null) == canonical.get("stats_item_capacity_remove_call", null),
@@ -453,11 +455,11 @@ static func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, na
 
 
 static func generated_item_turret_set_stats_default_bridge_state(max_ammo: float, ammo_per_shot: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setStats_3", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setStats_3", [], null)
 	var canonical = item_turret_set_stats_state(null, "", max_ammo, ammo_per_shot)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.item_turret_set_stats_state",
-		"generated_owner": "ItemTurret.java_method_setStats_3",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_ITEM_TURRET_SET_STATS_STATE,
+		"generated_owner": "item_turret.java_method_setStats_3",
 		"result": result,
 		"canonical": canonical,
 		"defaulted_args": ["max_ammo", "ammo_per_shot"],
@@ -472,7 +474,7 @@ static func item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Di
 	var ammo_bar_fraction: float = total_ammo / max_ammo
 	var bar_call: Dictionary = {"call": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(...));", "name": "ammo", "bar_text": "stat.ammo", "color": "Pal.ammo", "fraction": ammo_bar_fraction}
 	return {
-		"source_owner": "PortGame.source_item_turret_set_bars_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_SET_BARS_STATE,
 		"method": SOURCE_TURRET_SET_BARS_METHOD,
 		"override_expr": "@Override",
 		"super_set_bars_expr": SOURCE_TURRET_SET_BARS_SUPER_EXPR,
@@ -488,11 +490,11 @@ static func item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Di
 
 
 static func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setBars_4", [total_ammo, max_ammo], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setBars_4", [total_ammo, max_ammo], null)
 	var canonical = item_turret_set_bars_state(total_ammo, max_ammo)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.item_turret_set_bars_state",
-		"generated_owner": "ItemTurret.java_method_setBars_4",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_ITEM_TURRET_SET_BARS_STATE,
+		"generated_owner": "item_turret.java_method_setBars_4",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null),
@@ -500,11 +502,11 @@ static func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_a
 
 
 static func generated_item_turret_set_bars_default_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setBars_4", [total_ammo], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd", "java_method_setBars_4", [total_ammo], null)
 	var canonical = item_turret_set_bars_state(total_ammo, max_ammo)
 	return {
-		"source_owner": "SourceTurretStatsBarsState.item_turret_set_bars_state",
-		"generated_owner": "ItemTurret.java_method_setBars_4",
+		"source_owner": source_runtime_owner_registry.SOURCE_TURRET_STATS_BARS_STATE_ITEM_TURRET_SET_BARS_STATE,
+		"generated_owner": "item_turret.java_method_setBars_4",
 		"result": result,
 		"canonical": canonical,
 		"defaulted_args": ["max_ammo"],
@@ -522,7 +524,7 @@ static func continuous_liquid_turret_set_stats_state(ammo_types: Array, liquid_c
 	var ammo_values_call: Dictionary = {"call": SOURCE_CONTINUOUS_LIQUID_TURRET_SET_STATS_AMMO_VALUES_EXPR, "ammo_types": ammo_types}
 	var stats_replace_call: Dictionary = {"call": SOURCE_CONTINUOUS_LIQUID_TURRET_SET_STATS_REPLACE_EXPR, "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
 	return {
-		"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -540,11 +542,11 @@ static func continuous_liquid_turret_set_stats_state(ammo_types: Array, liquid_c
 
 
 static func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_setStats_1", [ammo_types, liquid_consumed], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd", "java_method_setStats_1", [ammo_types, liquid_consumed], null)
 	var canonical = continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)
 	return {
-		"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
-		"generated_owner": "ContinuousLiquidTurret.setStats",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CONTINUOUS_LIQUID_TURRET_SET_STATS_STATE,
+		"generated_owner": "continuous_liquid_turret.setStats",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("stat_liquid_consumed_updates", []) == canonical.get("stat_liquid_consumed_updates", []) and result.get("stats_replace_call", {}) == canonical.get("stats_replace_call", {}),
@@ -555,7 +557,7 @@ static func liquid_turret_set_stats_state(ammo_types: Variant, name_value: Strin
 	var ammo_values_call: Dictionary = {"call": SOURCE_NAMED_AMMO_TYPES_VALUES_EXPR, "ammo_types": ammo_types, "name": name_value}
 	var stats_add_call: Dictionary = {"call": SOURCE_NAMED_AMMO_TYPES_STATS_ADD_EXPR, "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
 	return {
-		"source_owner": "PortGame.source_liquid_turret_set_stats_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_SET_STATS_STATE,
 		"method": SOURCE_TURRET_SET_STATS_METHOD,
 		"override_expr": "@Override",
 		"super_set_stats_expr": SOURCE_TURRET_SET_STATS_SUPER_EXPR,
@@ -570,11 +572,11 @@ static func liquid_turret_set_stats_state(ammo_types: Variant, name_value: Strin
 
 
 static func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_setStats_1", [ammo_types, name_value], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd", "java_method_setStats_1", [ammo_types, name_value], null)
 	var canonical = liquid_turret_set_stats_state(ammo_types, name_value)
 	return {
-		"source_owner": "PortGame.source_liquid_turret_set_stats_state",
-		"generated_owner": "LiquidTurret.setStats",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_LIQUID_TURRET_SET_STATS_STATE,
+		"generated_owner": "liquid_turret.setStats",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {}),

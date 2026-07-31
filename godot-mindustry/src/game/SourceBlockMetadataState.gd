@@ -1,22 +1,23 @@
 extends RefCounted
 class_name SourceBlockMetadataState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
-const SourceFactoryDefaults := preload("res://src/game/SourceFactoryDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_factory_defaults := preload("res://src/game/SourceFactoryDefaults.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
-const SOURCE_BLOCK_HEALTH_DEFAULT := SourceBlockDefaults.HEALTH_DEFAULT
-const SOURCE_BLOCK_SCALED_HEALTH_DEFAULT := SourceBlockDefaults.SCALED_HEALTH_DEFAULT
-const SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT := SourceBlockDefaults.ITEM_CAPACITY_DEFAULT
-const SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT := SourceBlockDefaults.CAN_OVERDRIVE_DEFAULT
-const SOURCE_BLOCK_DUMP_TIME := SourceFactoryDefaults.BLOCK_DUMP_TIME
-const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := SourceFactoryDefaults.DRILL_DELAY_DRILL_TIME_DEFAULT
-const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := SourceFactoryDefaults.DRILL_DELAY_ITEM_HARDNESS_DEFAULT
+const SOURCE_BLOCK_HEALTH_DEFAULT := source_block_defaults.HEALTH_DEFAULT
+const SOURCE_BLOCK_SCALED_HEALTH_DEFAULT := source_block_defaults.SCALED_HEALTH_DEFAULT
+const SOURCE_BLOCK_ITEM_CAPACITY_DEFAULT := source_block_defaults.ITEM_CAPACITY_DEFAULT
+const SOURCE_BLOCK_CAN_OVERDRIVE_DEFAULT := source_block_defaults.CAN_OVERDRIVE_DEFAULT
+const SOURCE_BLOCK_DUMP_TIME := source_factory_defaults.BLOCK_DUMP_TIME
+const SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT := source_factory_defaults.DRILL_DELAY_DRILL_TIME_DEFAULT
+const SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT := source_factory_defaults.DRILL_DELAY_ITEM_HARDNESS_DEFAULT
 const SOURCE_DRILL_WARMUP_SPEED_COMMENT := "Speed at which the drill speeds up."
 const SOURCE_DRILL_WARMUP_SPEED_FIELD := "public float warmupSpeed = 0.015f;"
 const SOURCE_DRILL_WARMUP_SPEED_KEY := "warmupSpeed"
-const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := SourceFactoryDefaults.DRILL_WARMUP_SPEED
-const SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT := SourceFactoryDefaults.CONVEYOR_WORLD_SPEED_DEFAULT
+const SOURCE_DRILL_WARMUP_SPEED_DEFAULT := source_factory_defaults.DRILL_WARMUP_SPEED
+const SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT := source_factory_defaults.CONVEYOR_WORLD_SPEED_DEFAULT
 
 static func block_properties(block) -> Dictionary:
 	if block == null:
@@ -43,7 +44,7 @@ static func block_health(block_id: String, content_catalog) -> float:
 
 static func block_size(block) -> int:
 	var properties := block_properties(block)
-	return max(SourceBlockDefaults.SIZE_DEFAULT, int(properties.get("size", SourceBlockDefaults.SIZE_DEFAULT)))
+	return max(source_block_defaults.SIZE_DEFAULT, int(properties.get("size", source_block_defaults.SIZE_DEFAULT)))
 
 static func block_item_capacity(block_id: String, content_catalog) -> int:
 	var block = _catalog_entry(content_catalog, block_id)
@@ -65,7 +66,7 @@ static func block_warmup_speed(block_id: String, content_catalog) -> float:
 static func block_conveyor_world_speed(block_id: String, tile_size: float, content_catalog) -> float:
 	var block = _catalog_entry(content_catalog, block_id)
 	var properties := block_properties(block)
-	return float(properties.get("speed", SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT)) * float(tile_size) * SourceFactoryDefaults.CONVEYOR_TILE_SPEED_SCALE
+	return float(properties.get("speed", SOURCE_CONVEYOR_WORLD_SPEED_DEFAULT)) * float(tile_size) * source_factory_defaults.CONVEYOR_TILE_SPEED_SCALE
 
 static func block_drill_delay_state(block_id: String, item_id: String, content_catalog) -> Dictionary:
 	var block = _catalog_entry(content_catalog, block_id)
@@ -86,20 +87,20 @@ static func block_booster_item(block) -> String:
 	var properties := block_properties(block)
 	return str(properties.get("boosterItem", ""))
 
-static func block_can_overdrive(block, default_can_overdrive := SourceBlockDefaults.CAN_OVERDRIVE_DEFAULT) -> bool:
+static func block_can_overdrive(block, default_can_overdrive := source_block_defaults.CAN_OVERDRIVE_DEFAULT) -> bool:
 	var properties := block_properties(block)
 	return bool(properties.get("canOverdrive", default_can_overdrive))
 
 static func content_type_state() -> Dictionary:
-	return {"source_owner": "PortGame.source_block_get_content_type_state", "source": "core/src/mindustry/world/Block.java", "method": "public ContentType getContentType(){", "content_type_return_expr": "return ContentType.block;", "content_type": "ContentType.block"}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_CONTENT_TYPE_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public ContentType getContentType(){", "content_type_return_expr": "return ContentType.block;", "content_type": "ContentType.block"}
 
 static func generated_content_type_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getContentType_120", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_getContentType_120", [], null)
 	var canonical = content_type_state()
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_block_get_content_type_state",
-		"generated_owner": "Block.java_method_getContentType_120",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_GET_CONTENT_TYPE_STATE,
+		"generated_owner": "block.java_method_getContentType_120",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
@@ -107,15 +108,15 @@ static func generated_content_type_bridge_state() -> Dictionary:
 
 static func logic_visible_state(build_visibility_value: String) -> Dictionary:
 	var logic_visible: bool = build_visibility_value != "hidden"
-	return {"source_owner": "PortGame.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOGIC_VISIBLE_STATE, "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}
 
 static func generated_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_logicVisible_121", [build_visibility_value], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Block.gd", "java_method_logicVisible_121", [build_visibility_value], null)
 	var canonical = logic_visible_state(build_visibility_value)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_block_logic_visible_state",
-		"generated_owner": "Block.java_method_logicVisible_121",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BLOCK_LOGIC_VISIBLE_STATE,
+		"generated_owner": "block.java_method_logicVisible_121",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,

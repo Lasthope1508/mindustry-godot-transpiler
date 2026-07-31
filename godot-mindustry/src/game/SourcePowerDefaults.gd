@@ -1,0 +1,6 @@
+extends RefCounted
+class_name SourcePowerDefaults
+
+const CONSUME_GENERATOR_ITEM_DURATION_DEFAULT := 120.0
+const POWER_NODE_MAX_NODES_DEFAULT := 3
+const POWER_NODE_LASER_RANGE_DEFAULT := 6.0

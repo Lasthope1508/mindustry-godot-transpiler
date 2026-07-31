@@ -1,58 +1,113 @@
 extends RefCounted
 class_name SourceBulletTypeUpdateState
 
-const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
+const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
+const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
 
-const SOURCE_BULLET_TRAIL_PARAM_DEFAULT := SourceBulletDefaults.TRAIL_PARAM_DEFAULT
+const SOURCE_BULLET_TRAIL_PARAM_DEFAULT := source_bullet_defaults.TRAIL_PARAM_DEFAULT
 const SOURCE_BULLET_ROTATION_COMMENT := "/** @return the bullet's rotation. */"
 const SOURCE_BULLET_ROTATION_METHOD := "public float rotation(){"
 const SOURCE_BULLET_ROTATION_RETURN := "return vel.isZero(0.001f) ? rotation : vel.angle();"
-const SOURCE_BULLET_ROTATION_ZERO_MARGIN := SourceBulletDefaults.ROTATION_ZERO_MARGIN
-const SOURCE_BULLET_INTERVAL_DELAY_DEFAULT := SourceBulletDefaults.INTERVAL_DELAY_DEFAULT
-const SOURCE_BULLET_INTERVAL_BULLETS_DEFAULT := SourceBulletDefaults.INTERVAL_BULLETS_DEFAULT
-const SOURCE_BULLET_INTERVAL_SPREAD_DEFAULT := SourceBulletDefaults.INTERVAL_SPREAD_DEFAULT
-const SOURCE_BULLET_INTERVAL_ANGLE_DEFAULT := SourceBulletDefaults.INTERVAL_ANGLE_DEFAULT
-const SOURCE_BULLET_INTERVAL_DEFAULT := SourceBulletDefaults.BULLET_INTERVAL_DEFAULT
-const SOURCE_BULLET_TRAIL_SIN_MAG_DEFAULT := SourceBulletDefaults.TRAIL_SIN_MAG_DEFAULT
-const SOURCE_BULLET_HOMING_POWER_DEFAULT := SourceBulletDefaults.HOMING_POWER_DEFAULT
-const SOURCE_BULLET_HOMING_POWER_EPSILON := SourceBulletDefaults.HOMING_POWER_EPSILON
-const SOURCE_BULLET_HOMING_DELAY_DEFAULT := SourceBulletDefaults.HOMING_DELAY_DEFAULT
-const SOURCE_BULLET_AIM_UNSET_DEFAULT := SourceBulletDefaults.AIM_UNSET_DEFAULT
-const SOURCE_BULLET_HOMING_RANGE_DEFAULT := SourceBulletDefaults.HOMING_RANGE_DEFAULT
-const SOURCE_BULLET_FOLLOW_AIM_SPEED_DEFAULT := SourceBulletDefaults.FOLLOW_AIM_SPEED_DEFAULT
-const SOURCE_BULLET_WEAVE_MAG_DEFAULT := SourceBulletDefaults.WEAVE_MAG_DEFAULT
-const SOURCE_BULLET_WEAVE_SCALE_DEFAULT := SourceBulletDefaults.WEAVE_SCALE_DEFAULT
-const SOURCE_BULLET_WEAVE_RANDOM_DEFAULT := SourceBulletDefaults.WEAVE_RANDOM_DEFAULT
-const SOURCE_BULLET_ROTATE_SPEED_DEFAULT := SourceBulletDefaults.ROTATE_SPEED_DEFAULT
-const SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_DEFAULT := SourceBulletDefaults.CIRCLE_SHOOTER_RADIUS_DEFAULT
-const SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_SMOOTH_DEFAULT := SourceBulletDefaults.CIRCLE_SHOOTER_RADIUS_SMOOTH_DEFAULT
-const SOURCE_BULLET_CIRCLE_SHOOTER_ROTATE_SPEED_DEFAULT := SourceBulletDefaults.CIRCLE_SHOOTER_ROTATE_SPEED_DEFAULT
-const SOURCE_BULLET_TRAIL_MIN_VELOCITY_DEFAULT := SourceBulletDefaults.TRAIL_MIN_VELOCITY_DEFAULT
-const SOURCE_BULLET_TRAIL_CHANCE_DEFAULT := SourceBulletDefaults.TRAIL_CHANCE_DEFAULT
-const SOURCE_BULLET_TRAIL_SPREAD_DEFAULT := SourceBulletDefaults.TRAIL_SPREAD_DEFAULT
-const SOURCE_BULLET_TRAIL_INTERVAL_DEFAULT := SourceBulletDefaults.TRAIL_INTERVAL_DEFAULT
-const SOURCE_BULLET_TRAIL_COLOR_DEFAULT := SourceBulletDefaults.TRAIL_COLOR_DEFAULT
-const SOURCE_BULLET_TRAIL_EFFECT_DEFAULT := SourceBulletDefaults.TRAIL_EFFECT_DEFAULT
+const SOURCE_BULLET_INTERVAL_DELAY_DEFAULT := source_bullet_defaults.INTERVAL_DELAY_DEFAULT
+const SOURCE_BULLET_INTERVAL_BULLETS_DEFAULT := source_bullet_defaults.INTERVAL_BULLETS_DEFAULT
+const SOURCE_BULLET_INTERVAL_SPREAD_DEFAULT := source_bullet_defaults.INTERVAL_SPREAD_DEFAULT
+const SOURCE_BULLET_INTERVAL_ANGLE_DEFAULT := source_bullet_defaults.INTERVAL_ANGLE_DEFAULT
+const SOURCE_BULLET_INTERVAL_DEFAULT := source_bullet_defaults.BULLET_INTERVAL_DEFAULT
+const SOURCE_BULLET_TRAIL_SIN_MAG_DEFAULT := source_bullet_defaults.TRAIL_SIN_MAG_DEFAULT
+const SOURCE_BULLET_HOMING_POWER_DEFAULT := source_bullet_defaults.HOMING_POWER_DEFAULT
+const SOURCE_BULLET_HOMING_POWER_EPSILON := source_bullet_defaults.HOMING_POWER_EPSILON
+const SOURCE_BULLET_HOMING_DELAY_DEFAULT := source_bullet_defaults.HOMING_DELAY_DEFAULT
+const SOURCE_BULLET_AIM_UNSET_DEFAULT := source_bullet_defaults.AIM_UNSET_DEFAULT
+const SOURCE_BULLET_HOMING_RANGE_DEFAULT := source_bullet_defaults.HOMING_RANGE_DEFAULT
+const SOURCE_BULLET_FOLLOW_AIM_SPEED_DEFAULT := source_bullet_defaults.FOLLOW_AIM_SPEED_DEFAULT
+const SOURCE_BULLET_WEAVE_MAG_DEFAULT := source_bullet_defaults.WEAVE_MAG_DEFAULT
+const SOURCE_BULLET_WEAVE_SCALE_DEFAULT := source_bullet_defaults.WEAVE_SCALE_DEFAULT
+const SOURCE_BULLET_WEAVE_RANDOM_DEFAULT := source_bullet_defaults.WEAVE_RANDOM_DEFAULT
+const SOURCE_BULLET_ROTATE_SPEED_DEFAULT := source_bullet_defaults.ROTATE_SPEED_DEFAULT
+const SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_DEFAULT := source_bullet_defaults.CIRCLE_SHOOTER_RADIUS_DEFAULT
+const SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_SMOOTH_DEFAULT := source_bullet_defaults.CIRCLE_SHOOTER_RADIUS_SMOOTH_DEFAULT
+const SOURCE_BULLET_CIRCLE_SHOOTER_ROTATE_SPEED_DEFAULT := source_bullet_defaults.CIRCLE_SHOOTER_ROTATE_SPEED_DEFAULT
+const SOURCE_BULLET_CIRCLE_SHOOTER_ROTATION_OFFSET_DEGREES := source_math_defaults.QUARTER_CIRCLE_DEGREES
+const SOURCE_BULLET_TRAIL_MIN_VELOCITY_DEFAULT := source_bullet_defaults.TRAIL_MIN_VELOCITY_DEFAULT
+const SOURCE_BULLET_TRAIL_CHANCE_DEFAULT := source_bullet_defaults.TRAIL_CHANCE_DEFAULT
+const SOURCE_BULLET_TRAIL_SPREAD_DEFAULT := source_bullet_defaults.TRAIL_SPREAD_DEFAULT
+const SOURCE_BULLET_TRAIL_INTERVAL_DEFAULT := source_bullet_defaults.TRAIL_INTERVAL_DEFAULT
+const SOURCE_BULLET_TRAIL_COLOR_DEFAULT := source_bullet_defaults.TRAIL_COLOR_DEFAULT
+const SOURCE_BULLET_TRAIL_EFFECT_DEFAULT := source_bullet_defaults.TRAIL_EFFECT_DEFAULT
+const SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY := "angles_angle"
+const SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_FALLBACK := "source_arc_angles_angle"
+const SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY := "move_toward_angle"
+const SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_FALLBACK := "source_arc_angles_move_toward"
+const SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY := "trns_vec"
+const SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_FALLBACK := "source_arc_angles_trns_vec"
+const SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_KEY := "vec2_limit"
+const SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_FALLBACK := "source_vec2_limit"
+const SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY := "bullet_rotation_degrees"
+const SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_FALLBACK := "source_bullet_rotation_degrees"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_bullet_type_update_method_names"):
+		var names = game.call("_bullet_type_update_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"angles_angle": Callable(game, "source_arc_angles_angle"),
-		"move_toward_angle": Callable(game, "source_arc_angles_move_toward"),
-		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
-		"vec2_limit": Callable(game, "source_vec2_limit"),
-		"bullet_rotation_degrees": Callable(game, "source_bullet_rotation_degrees"),
+		SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_FALLBACK)),
+		SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY, SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_FALLBACK)),
+		SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY, SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_FALLBACK)),
+		SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_KEY, SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_FALLBACK)),
+		SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY, SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_FALLBACK)),
 	}
 
+static func game_update_homing_target_velocity_state(game: Object, homing_initial_state: Dictionary, target_state: Variant, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_homing_target_velocity_state(homing_initial_state, target_state, source_delta, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()), callbacks.get(SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY, Callable()), callbacks.get(SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY, Callable()))
+
+static func game_update_homing_follow_aim_state(game: Object, homing_target_velocity_state: Dictionary, bullet_type_state: Dictionary, shooter_state: Variant, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_homing_follow_aim_state(homing_target_velocity_state, bullet_type_state, shooter_state, source_delta, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()), callbacks.get(SOURCE_BULLET_TYPE_UPDATE_MOVE_TOWARD_ANGLE_KEY, Callable()), callbacks.get(SOURCE_BULLET_TYPE_UPDATE_TRNS_VEC_KEY, Callable()))
+
+static func game_update_weaving_state(game: Object, bullet_state: Dictionary, bullet_type_state: Dictionary, random_seed_result: int, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_weaving_state(bullet_state, bullet_type_state, random_seed_result, source_delta, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
+
+static func game_update_weaving_rotate_speed_state(game: Object, weaving_state: Dictionary, bullet_type_state: Dictionary, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_weaving_rotate_speed_state(weaving_state, bullet_type_state, source_delta, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
+
+static func game_update_weaving_circle_shooter_state(game: Object, rotate_speed_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_weaving_circle_shooter_state(rotate_speed_state, bullet_type_state, owner_health_state, source_delta, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_VEC2_LIMIT_KEY, Callable()), callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
+
+static func game_bullet_rotation_degrees(game: Object, bullet_state: Dictionary) -> float:
+	var callbacks := default_callbacks_state(game)
+	return bullet_rotation_degrees(bullet_state, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_ANGLES_ANGLE_KEY, Callable()))
+
+static func game_update_trail_effects_chance_state(game: Object, bullet_state: Dictionary, bullet_type_state: Dictionary, chance_delta_result: bool, random_offset_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_trail_effects_chance_state(bullet_state, bullet_type_state, chance_delta_result, random_offset_state, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY, Callable()))
+
+static func game_update_trail_effects_interval_state(game: Object, chance_state: Dictionary, bullet_type_state: Dictionary, timer_get_result: bool, random_offset_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_trail_effects_interval_state(chance_state, bullet_type_state, timer_get_result, random_offset_state, callbacks.get(SOURCE_BULLET_TYPE_UPDATE_BULLET_ROTATION_DEGREES_KEY, Callable()))
+
 static func source_vec2_rotate_radians(x_value: float, y_value: float, radians: float) -> Dictionary:
-	return SourceMathState.source_vec2_rotate_radians(x_value, y_value, radians)
+	return source_math_state.source_vec2_rotate_radians(x_value, y_value, radians)
 
 static func bullet_rotation_degrees(bullet_state: Dictionary, angle_callable: Callable) -> float:
 	var velocity_state: Dictionary = bullet_state.get("velocity", {})
 	var velocity_x := float(velocity_state.get("x", 0.0))
 	var velocity_y := float(velocity_state.get("y", 0.0))
 	var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y
-	if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:
+	if velocity_len2 < source_bullet_defaults.ROTATION_ZERO_MARGIN:
 		return float(bullet_state.get("rotation", 0.0))
 	return float(angle_callable.call(0.0, 0.0, velocity_x, velocity_y))
 
@@ -111,7 +166,7 @@ static func update_bullet_interval_state(bullet_state: Dictionary, bullet_type_s
 
 static func update_trail_state(bullet_state: Dictionary, bullet_type_state: Dictionary, headless_value: bool, trail_interp_value: float, absin_value: float, source_delta: float) -> Dictionary:
 	var update_bullet_state := bullet_state.duplicate(true)
-	var trail_length := int(bullet_type_state.get("trailLength", SourceBulletDefaults.TRAIL_LENGTH_DEFAULT))
+	var trail_length := int(bullet_type_state.get("trailLength", source_bullet_defaults.TRAIL_LENGTH_DEFAULT))
 	var gate_passed := not headless_value and trail_length > 0
 	if not gate_passed:
 		return {
@@ -345,8 +400,8 @@ static func update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, 
 	var circle_radius := float(bullet_type_state.get("circleShooterRadius", SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_DEFAULT))
 	var circle_radius_smooth := float(bullet_type_state.get("circleShooterRadiusSmooth", SOURCE_BULLET_CIRCLE_SHOOTER_RADIUS_SMOOTH_DEFAULT))
 	var circle_rotate_speed := float(bullet_type_state.get("circleShooterRotateSpeed", SOURCE_BULLET_CIRCLE_SHOOTER_ROTATE_SPEED_DEFAULT))
-	var speed := float(bullet_type_state.get("speed", SourceBulletDefaults.WORLD_SPEED_DEFAULT))
-	var circle_rotation_degrees: float = 90.0 * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))
+	var speed := float(bullet_type_state.get("speed", source_bullet_defaults.WORLD_SPEED_DEFAULT))
+	var circle_rotation_degrees: float = SOURCE_BULLET_CIRCLE_SHOOTER_ROTATION_OFFSET_DEGREES * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))
 	var rotation_radians := circle_rotation_degrees * deg_to_rad(1.0)
 	var tmp_rotated := source_vec2_rotate_radians(tmp_x, tmp_y, rotation_radians)
 	var tmp_limit := speed * circle_rotate_speed * source_delta

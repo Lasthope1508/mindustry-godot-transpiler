@@ -1,13 +1,14 @@
 extends RefCounted
 class_name SourceUnitPayloadDrawState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceUnitPayloadBasicState := preload("res://src/game/SourceUnitPayloadBasicState.gd")
-const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
+const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
-const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := SourceUnitDefaults.PAYLOAD_OVERLAY_DURATION
-const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := SourceUnitDefaults.PAYLOAD_OVERLAY_ALPHA
-const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := SourceUnitDefaults.PAYLOAD_WARNING_SIZE
+const SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION := source_unit_defaults.PAYLOAD_OVERLAY_DURATION
+const SOURCE_UNIT_PAYLOAD_OVERLAY_ALPHA := source_unit_defaults.PAYLOAD_OVERLAY_ALPHA
+const SOURCE_UNIT_PAYLOAD_WARNING_SIZE := source_unit_defaults.PAYLOAD_WARNING_SIZE
 const SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD := "public void drawShadow(float alpha){"
 const SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR := "unit.type.drawSoftShadow(unit, alpha);"
 const SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR := "float e = unit.elevation;"
@@ -37,14 +38,14 @@ static func draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit
 	if draw_soft_shadow_called:
 		draw_soft_shadow_call = {"call": SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR, "unit": unit_id, "alpha": alpha}
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_TYPE_NULL_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
-		"type_null_guard_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
 		"draw_soft_shadow_expr": SOURCE_UNIT_PAYLOAD_DRAW_SOFT_SHADOW_EXPR,
 		"unit_type_null": unit_type_null,
 		"alpha": alpha,
@@ -58,14 +59,14 @@ static func draw_type_null_state(unit_type_null: bool) -> Dictionary:
 	var returned_early: bool = unit_type_null
 	var deferred_remaining_draw: bool = not returned_early
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
-		"method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
-		"type_null_guard_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_TYPE_NULL_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
 		"next_expr": SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR,
 		"unit_type_null": unit_type_null,
 		"returned_early": returned_early,
@@ -83,14 +84,14 @@ static func draw_elevation_setup_state(unit_type_null: bool, unit_elevation: flo
 	var elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation
 	var deferred_remaining_draw: bool = not returned_early
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
-		"method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
-		"type_null_guard_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SETUP_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"type_null_guard_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TYPE_NULL_GUARD_EXPR,
 		"elevation_snapshot_expr": SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SNAPSHOT_EXPR,
 		"elevation_zero_expr": SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_ZERO_EXPR,
 		"draw_scl_expr": SOURCE_UNIT_PAYLOAD_DRAW_SCL_EXPR,
@@ -129,13 +130,13 @@ static func draw_overlay_warning_state(unit_type_null: bool, unit_elevation: flo
 	var draw_z_restore_call: Dictionary = {"z": draw_z_before} if overlay_guard else {}
 	var overlay_time_after: float = max(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"overlay_duration_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR,
-		"overlay_time_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
-		"overlay_region_field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
-		"method": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_WARNING_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"overlay_duration_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_DURATION_FIELD_EXPR,
+		"overlay_time_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"overlay_region_field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"method": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_DRAW_METHOD,
 		"draw_warning_comment_expr": SOURCE_UNIT_PAYLOAD_DRAW_WARNING_COMMENT_EXPR,
 		"overlay_guard_expr": SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_GUARD_EXPR,
 		"draw_z_snapshot_expr": SOURCE_UNIT_PAYLOAD_DRAW_Z_SNAPSHOT_EXPR,
@@ -177,11 +178,11 @@ static func draw_overlay_warning_state(unit_type_null: bool, unit_elevation: flo
 
 static func icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	return {
-		"source_owner": "PortGame.source_unit_payload_icon_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_ICON_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_ICON_METHOD,
 		"return_expr": SOURCE_UNIT_PAYLOAD_ICON_RETURN_EXPR,
 		"unit_type_full_icon": unit_type_full_icon,
@@ -189,60 +190,60 @@ static func icon_state(unit_type_full_icon: Variant) -> Dictionary:
 	}
 
 static func generated_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_drawShadow_14", [unit_type_null, alpha, unit_id], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_drawShadow_14", [unit_type_null, alpha, unit_id], null)
 	var canonical = draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
-		"generated_owner": "UnitPayload.java_method_drawShadow_14",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_SHADOW_TYPE_NULL_STATE,
+		"generated_owner": "unit_payload.java_method_drawShadow_14",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null], null)
 	var canonical = draw_type_null_state(unit_type_null)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_TYPE_NULL_STATE,
+		"generated_owner": "unit_payload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id], null)
 	var canonical = draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_ELEVATION_SETUP_STATE,
+		"generated_owner": "unit_payload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_draw_15", [unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time], null)
 	var canonical = draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
-		"generated_owner": "UnitPayload.java_method_draw_15",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DRAW_OVERLAY_WARNING_STATE,
+		"generated_owner": "unit_payload.java_method_draw_15",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_icon_16", [unit_type_full_icon], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_icon_16", [unit_type_full_icon], null)
 	var canonical = icon_state(unit_type_full_icon)
-	var matches: bool = SourceGeneratedClassRuntime.generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_unit_payload_icon_state",
-		"generated_owner": "UnitPayload.java_method_icon_16",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_ICON_STATE,
+		"generated_owner": "unit_payload.java_method_icon_16",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,

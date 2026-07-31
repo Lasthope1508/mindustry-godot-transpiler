@@ -7,7 +7,7 @@ static func grid_to_world(cell: Vector2i, tile_size: int) -> Vector2:
 
 
 static func world_to_grid(pos: Vector2, tile_size: int) -> Vector2i:
-	var safe_tile_size := max(1, tile_size)
+	var safe_tile_size: int = max(1, tile_size)
 	return Vector2i(floori(pos.x / float(safe_tile_size)), floori(pos.y / float(safe_tile_size)))
 
 

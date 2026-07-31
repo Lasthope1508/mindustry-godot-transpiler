@@ -1,7 +1,8 @@
 extends RefCounted
 class_name SourceBulletRuntime
 
-const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
+const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
+const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
 
 const SOURCE_BULLET_RANGE_CHANGE_COMMENT := "/** When used in a turret with multiple ammo types, this can be set to a non-zero value to influence range. */"
 const SOURCE_BULLET_RANGE_CHANGE_FIELD := "public float rangeChange = 0f;"
@@ -27,7 +28,8 @@ const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD := "public Vec2 trns(float 
 const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"
 const SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE := "existing Vec2 velocity"
 const SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE := "vel.trns(angle, amount)"
-const SOURCE_BULLET_ROTATION_ZERO_MARGIN := 0.001
+const SOURCE_BULLET_HALF_CIRCLE_DEGREES := source_math_defaults.HALF_CIRCLE_DEGREES
+const SOURCE_BULLET_CIRCLE_SHOOTER_ROTATION_OFFSET_DEGREES := source_math_defaults.QUARTER_CIRCLE_DEGREES
 const SOURCE_BULLET_HIT_SIZE_FIELD := "public float hitSize = 4;"
 const SOURCE_BULLET_HIT_SIZE_KEY := "hitSize"
 const SOURCE_BULLET_DAMAGE_FIELD := "public float damage = 1f;"
@@ -42,21 +44,21 @@ const SOURCE_BULLET_SCALE_FIELD := "public float width = 5f, height = 7f;"
 const SOURCE_BULLET_SCALE_WIDTH_KEY := "width"
 const SOURCE_BULLET_SCALE_HEIGHT_KEY := "height"
 
-static func range_change(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func range_change(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_RANGE_CHANGE_KEY, defaults.range_change_default()))
 
-static func inaccuracy(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func inaccuracy(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_INACCURACY_KEY, defaults.inaccuracy_default()))
 
-static func lifetime_seconds(data: Dictionary, defaults: SourceBulletDefaults, tick_rate: float) -> float:
+static func lifetime_seconds(data: Dictionary, defaults: source_bullet_defaults, tick_rate: float) -> float:
 	if tick_rate == 0.0:
 		return 0.0
 	return float(data.get(SOURCE_BULLET_LIFETIME_KEY, defaults.lifetime_default())) / tick_rate
 
-static func world_speed(data: Dictionary, defaults: SourceBulletDefaults, tick_rate: float) -> float:
+static func world_speed(data: Dictionary, defaults: source_bullet_defaults, tick_rate: float) -> float:
 	return float(data.get(SOURCE_BULLET_WORLD_SPEED_KEY, defaults.speed_default())) * tick_rate
 
-static func velocity(data: Dictionary, defaults: SourceBulletDefaults, tick_rate: float, shoot_angle_degrees: float) -> Vector2:
+static func velocity(data: Dictionary, defaults: source_bullet_defaults, tick_rate: float, shoot_angle_degrees: float) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(shoot_angle_degrees)) * world_speed(data, defaults, tick_rate)
 
 static func velocity_vector_state(velocity_state: Dictionary) -> Dictionary:
@@ -77,7 +79,7 @@ static func velocity_vector_state(velocity_state: Dictionary) -> Dictionary:
 		"source": SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE,
 	}
 
-static func create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary, defaults: SourceBulletDefaults) -> Dictionary:
+static func create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary, defaults: source_bullet_defaults) -> Dictionary:
 	var raw_bullet_state = trail_add_state.get("bullet", {})
 	var bullet_state: Dictionary = raw_bullet_state if raw_bullet_state is Dictionary else {}
 	if not bool(trail_add_state.get("bulletTrailAddApplied", false)) or bullet_state.is_empty():
@@ -153,7 +155,7 @@ static func create_keep_velocity_state(trail_add_state: Dictionary, bullet_type_
 		"returnSource": "return bullet",
 	}
 
-static func init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, defaults: SourceBulletDefaults) -> Dictionary:
+static func init_initial_state(bullet_state: Dictionary, bullet_type_state: Dictionary, owner_health_state: Dictionary, defaults: source_bullet_defaults) -> Dictionary:
 	var init_bullet_state := bullet_state.duplicate(true)
 	var init_owner_state := owner_health_state.duplicate(true)
 	var kill_shooter := bool(bullet_type_state.get("killShooter", defaults.kill_shooter_default()))
@@ -312,23 +314,23 @@ static func arc_angles_forward_distance(angle1: float, angle2: float) -> float:
 	return abs(angle1 - angle2)
 
 static func arc_angles_backward_distance(angle1: float, angle2: float) -> float:
-	return 360.0 - abs(angle1 - angle2)
+	return source_math_defaults.FULL_CIRCLE_DEGREES - abs(angle1 - angle2)
 
 static func arc_mathf_mod_float(value: float, mod: float) -> float:
 	return fmod(fmod(value, mod) + mod, mod)
 
 static func arc_angles_angle_dist(angle_a: float, angle_b: float) -> float:
-	angle_a = arc_mathf_mod_float(angle_a, 360.0)
-	angle_b = arc_mathf_mod_float(angle_b, 360.0)
-	var forward := angle_a - angle_b + 360.0 if (angle_a - angle_b) < 0.0 else angle_a - angle_b
-	var backward := angle_b - angle_a + 360.0 if (angle_b - angle_a) < 0.0 else angle_b - angle_a
+	angle_a = arc_mathf_mod_float(angle_a, source_math_defaults.FULL_CIRCLE_DEGREES)
+	angle_b = arc_mathf_mod_float(angle_b, source_math_defaults.FULL_CIRCLE_DEGREES)
+	var forward := angle_a - angle_b + source_math_defaults.FULL_CIRCLE_DEGREES if (angle_a - angle_b) < 0.0 else angle_a - angle_b
+	var backward := angle_b - angle_a + source_math_defaults.FULL_CIRCLE_DEGREES if (angle_b - angle_a) < 0.0 else angle_b - angle_a
 	return min(forward, backward)
 
 static func arc_angles_move_toward(angle: float, to: float, speed: float) -> float:
 	if abs(arc_angles_angle_dist(angle, to)) < speed:
 		return to
-	angle = arc_mathf_mod_float(angle, 360.0)
-	to = arc_mathf_mod_float(to, 360.0)
+	angle = arc_mathf_mod_float(angle, source_math_defaults.FULL_CIRCLE_DEGREES)
+	to = arc_mathf_mod_float(to, source_math_defaults.FULL_CIRCLE_DEGREES)
 	if (angle > to) == (arc_angles_backward_distance(angle, to) > arc_angles_forward_distance(angle, to)):
 		angle -= speed
 	else:
@@ -548,7 +550,7 @@ static func update_weaving_circle_shooter_state(rotate_speed_state: Dictionary, 
 	var circle_radius_smooth := float(bullet_type_state.get("circleShooterRadiusSmooth", 10.0))
 	var circle_rotate_speed := float(bullet_type_state.get("circleShooterRotateSpeed", 0.3))
 	var speed := float(bullet_type_state.get("speed", 1.0))
-	var circle_rotation_degrees: float = 90.0 * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))
+	var circle_rotation_degrees: float = SOURCE_BULLET_CIRCLE_SHOOTER_ROTATION_OFFSET_DEGREES * (0.0 + (1.0 - 0.0) * (1.0 - clamp((tmp_len - circle_radius) / circle_radius_smooth, 0.0, 1.0)))
 	var rotation_radians := circle_rotation_degrees * deg_to_rad(1.0)
 	var tmp_rotated := {"x": tmp_x * cos(rotation_radians) - tmp_y * sin(rotation_radians), "y": tmp_x * sin(rotation_radians) + tmp_y * cos(rotation_radians)}
 	var tmp_limit := speed * circle_rotate_speed * source_delta
@@ -576,7 +578,7 @@ static func rotation_degrees(bullet_state: Dictionary) -> float:
 	var velocity_x := float(velocity_state.get("x", 0.0))
 	var velocity_y := float(velocity_state.get("y", 0.0))
 	var velocity_len2 := velocity_x * velocity_x + velocity_y * velocity_y
-	if velocity_len2 < SOURCE_BULLET_ROTATION_ZERO_MARGIN:
+	if velocity_len2 < source_bullet_defaults.ROTATION_ZERO_MARGIN:
 		return float(bullet_state.get("rotation", 0.0))
 	return arc_angles_angle(0.0, 0.0, velocity_x, velocity_y)
 
@@ -980,7 +982,7 @@ static func hit_tile_heal_state(bullet_type_state: Dictionary, bullet_state: Dic
 	var build_max_health := float(update_build_state.get("maxHealth", 0.0))
 	var heal_percent := float(update_type_state.get("healPercent", 0.0))
 	var heal_amount := float(update_type_state.get("healAmount", 0.0))
-	var heal_applied_amount := heal_percent / 100.0 * build_max_health + heal_amount
+	var heal_applied_amount := heal_percent / source_bullet_defaults.HEAL_PERCENT_DIVISOR * build_max_health + heal_amount
 	var heal_color := str(update_type_state.get("healColor", "Pal.heal"))
 	var heal_sound_volume := float(update_type_state.get("healSoundVolume", 1.0))
 	var build_x := float(update_build_state.get("x", 0.0))
@@ -1364,7 +1366,7 @@ static func hit_entity_unit_effects_state(bullet_type_state: Dictionary, bullet_
 			impulse_vector = base_vector.normalized() * (knockback * 80.0)
 	if unit_gate_passed and impact:
 		var impulse_length := impulse_vector.length()
-		var impact_angle := bullet_rotation + (180.0 if knockback < 0.0 else 0.0)
+		var impact_angle := bullet_rotation + (SOURCE_BULLET_HALF_CIRCLE_DEGREES if knockback < 0.0 else 0.0)
 		impulse_vector = Vector2.RIGHT.rotated(deg_to_rad(impact_angle)) * impulse_length
 	var impulse_call: Variant = null
 	var status_apply_call: Variant = null
@@ -1901,7 +1903,7 @@ static func create_splash_damage_heal_dispatch_state(bullet_type_state: Dictiona
 			var other_y := float(other.get("y", 0.0))
 			var other_block: Variant = other.get("block", null)
 			var other_max_health := float(other.get("maxHealth", 0.0))
-			var heal_applied_amount := heal_percent / 100.0 * other_max_health + heal_amount
+			var heal_applied_amount := heal_percent / source_bullet_defaults.HEAL_PERCENT_DIVISOR * other_max_health + heal_amount
 			heal_applications.append({
 				"other": other,
 				"healAppliedAmount": heal_applied_amount,
@@ -2051,7 +2053,7 @@ static func create_frags_random_geometry_state(bullet_type_state: Dictionary, bu
 	var frag_bullets := int(update_type_state.get("fragBullets", update_initial_state.get("fragBullets", 9)))
 	var frag_offset_min := float(update_type_state.get("fragOffsetMin", 1.0))
 	var frag_offset_max := float(update_type_state.get("fragOffsetMax", 7.0))
-	var frag_random_spread := float(update_type_state.get("fragRandomSpread", 360.0))
+	var frag_random_spread := float(update_type_state.get("fragRandomSpread", source_math_defaults.FULL_CIRCLE_DEGREES))
 	var frag_angle := float(update_type_state.get("fragAngle", 0.0))
 	var frag_spread := float(update_type_state.get("fragSpread", 0.0))
 	var rotation_value := float(update_bullet_state.get("rotation", 0.0))
@@ -2384,7 +2386,7 @@ static func create_units_rotation_state(bullet_type_state: Dictionary, bullet_st
 		if tmp_v1_x != null and tmp_v1_y != null:
 			tmp_v1_angle = rad_to_deg(atan2(float(tmp_v1_y), float(tmp_v1_x)))
 			if tmp_v1_angle < 0.0:
-				tmp_v1_angle = float(tmp_v1_angle) + 360.0
+				tmp_v1_angle = float(tmp_v1_angle) + source_math_defaults.FULL_CIRCLE_DEGREES
 		var unit_rotation: Variant = tmp_v1_angle if face_outwards else bullet_rotation
 		rotation_assignments.append({
 			"index": int(spawn_call.get("index", rotation_assignments.size())),
@@ -2711,19 +2713,19 @@ static func removed_frag_dispatch_state(bullet_type_state: Dictionary, bullet_st
 		"buildingDamageBoundarySource": "public float buildingDamage(Bullet b){",
 	}
 
-static func hit_size(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func hit_size(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_HIT_SIZE_KEY, defaults.hit_size_default()))
 
-static func damage(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func damage(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_DAMAGE_KEY, defaults.damage_default()))
 
-static func ammo_multiplier(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func ammo_multiplier(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_AMMO_MULTIPLIER_KEY, defaults.ammo_multiplier_default()))
 
-static func reload_multiplier(data: Dictionary, defaults: SourceBulletDefaults) -> float:
+static func reload_multiplier(data: Dictionary, defaults: source_bullet_defaults) -> float:
 	return float(data.get(SOURCE_BULLET_RELOAD_MULTIPLIER_KEY, defaults.reload_multiplier_default()))
 
-static func scale(data: Dictionary, defaults: SourceBulletDefaults, texture_size: Vector2) -> Vector2:
+static func scale(data: Dictionary, defaults: source_bullet_defaults, texture_size: Vector2) -> Vector2:
 	var width := float(data.get(SOURCE_BULLET_SCALE_WIDTH_KEY, defaults.width_default()))
 	var height := float(data.get(SOURCE_BULLET_SCALE_HEIGHT_KEY, defaults.height_default()))
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:

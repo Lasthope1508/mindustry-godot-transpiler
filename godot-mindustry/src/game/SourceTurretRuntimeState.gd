@@ -1,13 +1,14 @@
 extends RefCounted
 class_name SourceTurretRuntimeState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
-const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
-const SourceTurretPropertyState := preload("res://src/game/SourceTurretPropertyState.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_turret_property_state := preload("res://src/game/SourceTurretPropertyState.gd")
 
-const SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT := SourceTurretDefaults.LIMIT_RANGE_MARGIN_DEFAULT
-const SOURCE_TURRET_CONSUME_AMMO_ONCE_DEFAULT := SourceTurretDefaults.CONSUME_AMMO_ONCE_DEFAULT
+const SOURCE_TURRET_LIMIT_RANGE_MARGIN_DEFAULT := source_turret_defaults.LIMIT_RANGE_MARGIN_DEFAULT
+const SOURCE_TURRET_CONSUME_AMMO_ONCE_DEFAULT := source_turret_defaults.CONSUME_AMMO_ONCE_DEFAULT
 const SOURCE_TURRET_UPDATE_TILE_METHOD := "public void updateTile(){"
 const SOURCE_TURRET_UPDATE_RELOAD_EXPR := "reloadCounter += delta() * ammoReloadMultiplier() * baseReloadSpeed();"
 const SOURCE_TURRET_RELOAD_SECONDS_FOR_AMMO_METHOD := "protected float ammoReloadMultiplier(){"
@@ -46,7 +47,7 @@ const SOURCE_TURRET_BULLET_ORIGIN_SHOOT_Y_DEFAULT := "if(shootY == Float.NEGATIV
 const SOURCE_TURRET_BULLET_ORIGIN_X_SPREAD := "xSpread = Mathf.range(xRand)"
 const SOURCE_TURRET_BULLET_ORIGIN_BULLET_X := "bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
 const SOURCE_TURRET_BULLET_ORIGIN_BULLET_Y := "bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset)"
-const SOURCE_TURRET_BULLET_ORIGIN_ROTATION_OFFSET_DEGREES := SourceTurretDefaults.BULLET_ORIGIN_ROTATION_OFFSET_DEGREES
+const SOURCE_TURRET_BULLET_ORIGIN_ROTATION_OFFSET_DEGREES := source_turret_defaults.BULLET_ORIGIN_ROTATION_OFFSET_DEGREES
 const SOURCE_TURRET_RANGE_FOR_AMMO_METHOD := "public float range(){\n            if(peekAmmo() != null){\n                return range + peekAmmo().rangeChange;\n            }\n            return range;\n        }"
 const SOURCE_TURRET_RANGE_FOR_AMMO_GATE := "if(peekAmmo() != null){"
 const SOURCE_TURRET_RANGE_FOR_AMMO_AMMO_RESULT := "return range + peekAmmo().rangeChange;"
@@ -55,17 +56,58 @@ const SOURCE_TURRET_FIND_TARGET_METHOD := "protected void findTarget(){"
 const SOURCE_TURRET_FIND_TARGET_RANGE_EXPR := "float trackRange = trackingRange(), range = range();"
 const SOURCE_TURRET_FIND_TARGET_ASSIGN_EXPR := "target = findEnemy(range);"
 const SOURCE_UNITS_BEST_ENEMY_RANGE_GUARD := "if(e.dead() || !predicate.get(e) || e.team == Team.derelict || !e.within(x, y, range + e.hitSize/2f) || !e.targetable(team) || e.inFogTo(team)) return;"
+const SOURCE_TURRET_SELECTED_RELOAD_SECONDS_METHOD := "source_turret_reload_seconds"
+const SOURCE_TURRET_SELECTED_RANGE_METHOD := "source_turret_range"
+const SOURCE_TURRET_SELECTED_SHOOT_Y_METHOD := "source_turret_shoot_y"
+const SOURCE_TURRET_SELECTED_SHOOT_PATTERN_METHOD := "source_turret_shoot_pattern"
+const SOURCE_TURRET_SELECTED_INACCURACY_METHOD := "source_turret_inaccuracy"
+const SOURCE_TURRET_SELECTED_ROTATE_SPEED_METHOD := "source_turret_rotate_speed"
+const SOURCE_TURRET_SELECTED_SHOOT_CONE_METHOD := "source_turret_shoot_cone"
+const SOURCE_TURRET_SELECTED_RECOIL_METHOD := "source_turret_recoil"
+const SOURCE_TURRET_SELECTED_RECOILS_METHOD := "source_turret_recoils"
+const SOURCE_TURRET_SELECTED_DUO_POS_KEY := "duo_pos"
+const SOURCE_TURRET_SELECTED_TOTAL_AMMO_KEY := "turret_total_ammo"
+const SOURCE_TURRET_SELECTED_COOLDOWNS_KEY := "turret_cooldowns"
+const SOURCE_TURRET_SELECTED_AMMO_STACKS_KEY := "turret_ammo_stacks"
+const SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_KEY := "lifetime_seconds"
+const SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_FALLBACK := "source_bullet_lifetime_seconds"
+const SOURCE_TURRET_RUNTIME_WORLD_SPEED_KEY := "world_speed"
+const SOURCE_TURRET_RUNTIME_WORLD_SPEED_FALLBACK := "source_bullet_world_speed"
+const SOURCE_TURRET_RUNTIME_DIMENSIONS_KEY := "dimensions"
+const SOURCE_TURRET_RUNTIME_DIMENSIONS_FALLBACK := "source_bullet_dimensions"
+const SOURCE_TURRET_RUNTIME_HIT_SIZE_KEY := "hit_size"
+const SOURCE_TURRET_RUNTIME_HIT_SIZE_FALLBACK := "source_bullet_hit_size"
+const SOURCE_TURRET_RUNTIME_DAMAGE_KEY := "damage"
+const SOURCE_TURRET_RUNTIME_DAMAGE_FALLBACK := "source_bullet_damage"
+const SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_KEY := "ammo_multiplier"
+const SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_FALLBACK := "source_bullet_ammo_multiplier"
+const SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_KEY := "reload_multiplier"
+const SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_FALLBACK := "source_bullet_reload_multiplier"
+const SOURCE_TURRET_RUNTIME_RANGE_CHANGE_KEY := "range_change"
+const SOURCE_TURRET_RUNTIME_RANGE_CHANGE_FALLBACK := "source_bullet_range_change"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_turret_runtime_method_names"):
+		var names = game.call("_turret_runtime_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"lifetime_seconds": Callable(game, "source_bullet_lifetime_seconds"),
-		"world_speed": Callable(game, "source_bullet_world_speed"),
-		"dimensions": Callable(game, "source_bullet_dimensions"),
-		"hit_size": Callable(game, "source_bullet_hit_size"),
-		"damage": Callable(game, "source_bullet_damage"),
-		"ammo_multiplier": Callable(game, "source_bullet_ammo_multiplier"),
-		"reload_multiplier": Callable(game, "source_bullet_reload_multiplier"),
-		"range_change": Callable(game, "source_bullet_range_change"),
+		SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_KEY, SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_WORLD_SPEED_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_WORLD_SPEED_KEY, SOURCE_TURRET_RUNTIME_WORLD_SPEED_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_DIMENSIONS_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_DIMENSIONS_KEY, SOURCE_TURRET_RUNTIME_DIMENSIONS_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_HIT_SIZE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_HIT_SIZE_KEY, SOURCE_TURRET_RUNTIME_HIT_SIZE_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_DAMAGE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_DAMAGE_KEY, SOURCE_TURRET_RUNTIME_DAMAGE_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_KEY, SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_KEY, SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_FALLBACK)),
+		SOURCE_TURRET_RUNTIME_RANGE_CHANGE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_TURRET_RUNTIME_RANGE_CHANGE_KEY, SOURCE_TURRET_RUNTIME_RANGE_CHANGE_FALLBACK)),
 	}
 
 static func read_turret_properties(turret) -> Dictionary:
@@ -76,7 +118,7 @@ static func read_turret_properties(turret) -> Dictionary:
 
 static func outputs_items_state() -> Dictionary:
 	return {
-		"source_owner": "PortGame.source_turret_outputs_items_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_OUTPUTS_ITEMS_STATE,
 		"method": SOURCE_TURRET_OUTPUTS_ITEMS_METHOD,
 		"override_expr": SOURCE_TURRET_OUTPUTS_ITEMS_OVERRIDE,
 		"return_expr": SOURCE_TURRET_OUTPUTS_ITEMS_RETURN,
@@ -84,11 +126,11 @@ static func outputs_items_state() -> Dictionary:
 	}
 
 static func generated_outputs_items_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_outputsItems_0", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd", "java_method_outputsItems_0", [], null)
 	var canonical = outputs_items_state()
 	return {
-		"source_owner": "PortGame.source_turret_outputs_items_state",
-		"generated_owner": "Turret.java_method_outputsItems_0",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_OUTPUTS_ITEMS_STATE,
+		"generated_owner": "turret.java_method_outputsItems_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null),
@@ -98,7 +140,7 @@ static func turret_reload_seconds(turret, reload_key: String, reload_default: fl
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var reload_state := SourceTurretPropertyState.reload_seconds_state(turret_property_map, reload_key, reload_default, tick_rate)
+	var reload_state := source_turret_property_state.reload_seconds_state(turret_property_map, reload_key, reload_default, tick_rate)
 	return float(reload_state.get("reload_seconds", 0.0))
 
 static func turret_reload_seconds_for_ammo(base_reload_seconds: float, data: Dictionary, reload_multiplier: float) -> float:
@@ -110,7 +152,7 @@ static func turret_range(turret, range_key: String, range_default: float) -> flo
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var range_state := SourceTurretPropertyState.range_state(turret_property_map, range_key, range_default)
+	var range_state := source_turret_property_state.range_state(turret_property_map, range_key, range_default)
 	return float(range_state.get("range", 0.0))
 
 static func turret_range_for_ammo(base_range: float, data: Dictionary, range_change: float) -> float:
@@ -122,42 +164,42 @@ static func turret_shoot_y(turret, shoot_y_key: String, shoot_y_default: float) 
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var shoot_y_state := SourceTurretPropertyState.shoot_y_state(turret_property_map, shoot_y_key, shoot_y_default)
+	var shoot_y_state := source_turret_property_state.shoot_y_state(turret_property_map, shoot_y_key, shoot_y_default)
 	return float(shoot_y_state.get("shoot_y", 0.0))
 
 static func turret_inaccuracy(turret, inaccuracy_key: String, inaccuracy_default: float) -> float:
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var inaccuracy_state := SourceTurretPropertyState.inaccuracy_state(turret_property_map, inaccuracy_key, inaccuracy_default)
+	var inaccuracy_state := source_turret_property_state.inaccuracy_state(turret_property_map, inaccuracy_key, inaccuracy_default)
 	return float(inaccuracy_state.get("inaccuracy", 0.0))
 
 static func turret_rotate_speed(turret, rotate_speed_key: String, rotate_speed_default: float) -> float:
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var rotate_speed_state := SourceTurretPropertyState.rotate_speed_state(turret_property_map, rotate_speed_key, rotate_speed_default)
+	var rotate_speed_state := source_turret_property_state.rotate_speed_state(turret_property_map, rotate_speed_key, rotate_speed_default)
 	return float(rotate_speed_state.get("rotate_speed", 0.0))
 
 static func turret_shoot_cone(turret, shoot_cone_key: String, shoot_cone_default: float) -> float:
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var shoot_cone_state := SourceTurretPropertyState.shoot_cone_state(turret_property_map, shoot_cone_key, shoot_cone_default)
+	var shoot_cone_state := source_turret_property_state.shoot_cone_state(turret_property_map, shoot_cone_key, shoot_cone_default)
 	return float(shoot_cone_state.get("shoot_cone", 0.0))
 
 static func turret_recoil(turret, recoil_key: String, recoil_default: float) -> float:
 	if turret == null:
 		return 0.0
 	var turret_property_map := read_turret_properties(turret)
-	var recoil_state := SourceTurretPropertyState.recoil_state(turret_property_map, recoil_key, recoil_default)
+	var recoil_state := source_turret_property_state.recoil_state(turret_property_map, recoil_key, recoil_default)
 	return float(recoil_state.get("recoil", 0.0))
 
 static func turret_recoils(turret, recoils_key: String, recoils_default: int) -> int:
 	if turret == null:
 		return 0
 	var turret_property_map := read_turret_properties(turret)
-	var recoils_state := SourceTurretPropertyState.recoils_state(turret_property_map, recoils_key, recoils_default)
+	var recoils_state := source_turret_property_state.recoils_state(turret_property_map, recoils_key, recoils_default)
 	return int(recoils_state.get("recoils", 0))
 
 static func turret_recoil_time(turret, recoil_time_key: String, recoil_time_default: float, reload_key: String, reload_default: float, tick_rate: float) -> float:
@@ -165,14 +207,14 @@ static func turret_recoil_time(turret, recoil_time_key: String, recoil_time_defa
 		return 1.0
 	var turret_property_map := read_turret_properties(turret)
 	var reload_seconds := turret_reload_seconds(turret, reload_key, reload_default, tick_rate)
-	var recoil_time_state := SourceTurretPropertyState.recoil_time_state(turret_property_map, recoil_time_key, recoil_time_default, reload_seconds, tick_rate)
+	var recoil_time_state := source_turret_property_state.recoil_time_state(turret_property_map, recoil_time_key, recoil_time_default, reload_seconds, tick_rate)
 	return float(recoil_time_state.get("recoil_time", 1.0))
 
 static func turret_shoot_pattern(turret, shoot_pattern_key: String) -> Dictionary:
 	if turret == null:
 		return {}
 	var turret_property_map := read_turret_properties(turret)
-	var shoot_pattern_state := SourceTurretPropertyState.shoot_pattern_state(turret_property_map, shoot_pattern_key)
+	var shoot_pattern_state := source_turret_property_state.shoot_pattern_state(turret_property_map, shoot_pattern_key)
 	return shoot_pattern_state.get("shoot_pattern", {})
 
 static func selected_ammo_payload(turret) -> Dictionary:
@@ -241,6 +283,38 @@ static func selected_ammo_range_change(turret, range_change_fn: Callable) -> flo
 	var data := selected_ammo_payload(turret)
 	return float(range_change_fn.call(data)) if not data.is_empty() and range_change_fn.is_valid() else 0.0
 
+static func selected_ammo_lifetime_seconds_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_lifetime_seconds(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_LIFETIME_SECONDS_KEY, Callable()))
+
+static func selected_ammo_world_speed_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_world_speed(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_WORLD_SPEED_KEY, Callable()))
+
+static func selected_ammo_dimensions_for_game(game: Object) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_dimensions(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_DIMENSIONS_KEY, Callable()))
+
+static func selected_ammo_hit_size_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_hit_size(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_HIT_SIZE_KEY, Callable()))
+
+static func selected_ammo_damage_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_damage(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_DAMAGE_KEY, Callable()))
+
+static func selected_ammo_multiplier_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_multiplier(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_AMMO_MULTIPLIER_KEY, Callable()))
+
+static func selected_ammo_reload_multiplier_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_reload_multiplier(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_RELOAD_MULTIPLIER_KEY, Callable()))
+
+static func selected_ammo_range_change_for_game(game: Object) -> float:
+	var callbacks := default_callbacks_state(game)
+	return selected_ammo_range_change(game.call("selected_playable_turret"), callbacks.get(SOURCE_TURRET_RUNTIME_RANGE_CHANGE_KEY, Callable()))
+
 static func selected_limit_range_margin(turret, default_limit_range_margin: float) -> float:
 	if turret == null:
 		return 0.0
@@ -280,6 +354,26 @@ static func selected_loaded_ammo_item(stacks_by_key: Dictionary, key: String) ->
 		return ""
 	var stack = stacks[stacks.size() - 1]
 	return str(stack.get("item", "")) if typeof(stack) == TYPE_DICTIONARY else ""
+
+static func selected_turret_cell_key(game: Object) -> String:
+	return str(game.call("cell_key", game.get(SOURCE_TURRET_SELECTED_DUO_POS_KEY)))
+
+static func selected_total_ammo_for_game(game: Object) -> int:
+	return selected_total_ammo(game.get(SOURCE_TURRET_SELECTED_TOTAL_AMMO_KEY), selected_turret_cell_key(game))
+
+static func selected_cooldown_seconds_for_game(game: Object) -> float:
+	return selected_cooldown_seconds(game.get(SOURCE_TURRET_SELECTED_COOLDOWNS_KEY), selected_turret_cell_key(game))
+
+static func selected_ammo_stack_count_for_game(game: Object) -> int:
+	return selected_ammo_stack_count(game.get(SOURCE_TURRET_SELECTED_AMMO_STACKS_KEY), selected_turret_cell_key(game))
+
+static func selected_loaded_ammo_item_for_game(game: Object) -> String:
+	return selected_loaded_ammo_item(game.get(SOURCE_TURRET_SELECTED_AMMO_STACKS_KEY), selected_turret_cell_key(game))
+
+static func selected_playable_turret(content_catalog: Variant, block_id: String) -> Variant:
+	if content_catalog == null:
+		return null
+	return content_catalog.get_by_id(block_id)
 
 static func ammo_data(turret_property_map: Dictionary, item_id: String) -> Dictionary:
 	for data in turret_property_map.get("ammo", []):
@@ -411,7 +505,7 @@ static func item_turret_build_handle_item_state(item: Variant, item_is_pyratite:
 			ammo_entries_after.append({"item": item, "amount": int(ammo_multiplier)})
 			entry_added = true
 	return {
-		"source_owner": "PortGame.source_item_turret_build_handle_item_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_HANDLE_ITEM_STATE,
 		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
 		"method": "public void handleItem(Building source, Item item){",
 		"override_expr": "@Override",
@@ -447,7 +541,7 @@ static func item_turret_build_handle_item_state(item: Variant, item_is_pyratite:
 static func item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo_value: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
 	var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo_value
 	return {
-		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_ITEM_TURRET_BUILD_ACCEPT_ITEM_STATE,
 		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
 		"method": "public boolean acceptItem(Building source, Item item){",
 		"override_expr": "@Override",
@@ -511,7 +605,7 @@ static func total_inaccuracy(base_turret_inaccuracy: float, bullet_inaccuracy: f
 	return base_turret_inaccuracy + bullet_inaccuracy
 
 static func recoil_offset(recoil_rotation_degrees: float, cur_recoil: float, recoil_pow: float, recoil: float) -> Vector2:
-	var offset_state := SourceMathState.source_angles_trns_vec(recoil_rotation_degrees, -pow(cur_recoil, recoil_pow) * recoil, 0.0)
+	var offset_state := source_math_state.source_angles_trns_vec(recoil_rotation_degrees, -pow(cur_recoil, recoil_pow) * recoil, 0.0)
 	return Vector2(float(offset_state.get("x", 0.0)), float(offset_state.get("y", 0.0)))
 
 static func recoil_step_state(cur_recoil: float, seconds: float, tick_rate: float, recoil_time: float) -> Dictionary:
@@ -519,7 +613,7 @@ static func recoil_step_state(cur_recoil: float, seconds: float, tick_rate: floa
 	if recoil_time > 0.0:
 		cur_recoil_after = max(0.0, cur_recoil - seconds * tick_rate / recoil_time)
 	return {
-		"source_owner": "PortGame.update_turret_recoil",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_UPDATE_TURRET_RECOIL,
 		"recoil_time_init_fallback": SOURCE_TURRET_RECOIL_TIME_INIT_FALLBACK,
 		"recoil_time_decay_use": SOURCE_TURRET_RECOIL_TIME_DECAY_USE,
 		"cur_recoil_before": cur_recoil,
@@ -598,7 +692,7 @@ static func target_selection_state(origin: Vector2, range_pixels: float, candida
 			selected_index = index
 			selected_distance = distance
 	return {
-		"source_owner": "SourceTurretRuntimeState.target_selection_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_TURRET_TARGET_SELECTION_STATE,
 		"find_target_method": SOURCE_TURRET_FIND_TARGET_METHOD,
 		"find_target_range_expr": SOURCE_TURRET_FIND_TARGET_RANGE_EXPR,
 		"find_target_assign_expr": SOURCE_TURRET_FIND_TARGET_ASSIGN_EXPR,

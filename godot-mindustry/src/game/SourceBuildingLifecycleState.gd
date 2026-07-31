@@ -1,19 +1,34 @@
 extends RefCounted
 class_name SourceBuildingLifecycleState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const SOURCE_BUILDING_COMP_GENERATED_CLASS := "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_METHOD := "public void update(){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_GUARD := "if(enabled || !block.noUpdateDisabled){"
 const SOURCE_BUILDING_UPDATE_TILE_GATE_CALL := "updateTile();"
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY := "chance_delta_threshold"
+const SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK := "source_arc_chance_delta_threshold"
 
-static func _building_comp_instance():
-	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
-	return script.new()
+static func _building_comp_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BUILDING_COMP_GENERATED_CLASS, generated_method, generated_args, null)
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_building_lifecycle_method_names"):
+		var names = game.call("_building_lifecycle_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"chance_delta_threshold": Callable(game, "source_arc_chance_delta_threshold"),
+		SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY, SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_FALLBACK)),
 	}
 
 static func config_default() -> Variant:
@@ -38,34 +53,34 @@ static func kill_state(self_state := {}) -> Dictionary:
 	}
 
 static func generated_config_default_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_config_198", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_config_198", [], null)
 	var canonical = config_default()
 	return {
-		"source_owner": "PortGame.source_building_config_default",
-		"generated_owner": "BuildingComp.java_method_config_198",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CONFIG_DEFAULT,
+		"generated_owner": "building_comp.java_method_config_198",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_is_valid_bridge_state(tile_build_matches_self: bool, dead_state: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_isValid_199", [tile_build_matches_self, dead_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_isValid_199", [tile_build_matches_self, dead_state], null)
 	var canonical = is_valid(tile_build_matches_self, dead_state)
 	return {
-		"source_owner": "PortGame.source_building_is_valid",
-		"generated_owner": "BuildingComp.java_method_isValid_199",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IS_VALID,
+		"generated_owner": "building_comp.java_method_isValid_199",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:
-	var result_no_arg = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_200", [], null)
-	var result_amount = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_201", [amount], null)
+	var result_no_arg = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_200", [], null)
+	var result_amount = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_heal_201", [amount], null)
 	var canonical_no_arg = heal_state()
 	var canonical_amount = heal_state(amount)
 	return {
-		"source_owner": "PortGame.source_building_heal_state",
-		"generated_owner_no_arg": "BuildingComp.java_method_heal_200",
-		"generated_owner_amount": "BuildingComp.java_method_heal_201",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_HEAL_STATE,
+		"generated_owner_no_arg": "building_comp.java_method_heal_200",
+		"generated_owner_amount": "building_comp.java_method_heal_201",
 		"result_no_arg": result_no_arg,
 		"result_amount": result_amount,
 		"canonical_no_arg": canonical_no_arg,
@@ -73,11 +88,11 @@ static func generated_heal_bridge_state(amount: Variant = null) -> Dictionary:
 	}
 
 static func generated_kill_bridge_state(self_state := {}) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_kill_203", [self_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_kill_203", [self_state], null)
 	var canonical = kill_state(self_state)
 	return {
-		"source_owner": "PortGame.source_building_kill_state",
-		"generated_owner": "BuildingComp.java_method_kill_203",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILL_STATE,
+		"generated_owner": "building_comp.java_method_kill_203",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -93,11 +108,11 @@ static func killed_initial_side_effects_state(tile_value: Variant) -> Dictionary
 	}
 
 static func generated_killed_initial_side_effects_bridge_state(tile_value: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value], null)
 	var canonical = killed_initial_side_effects_state(tile_value)
 	return {
-		"source_owner": "PortGame.source_building_killed_initial_side_effects_state",
-		"generated_owner": "BuildingComp.java_method_killed_215",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILLED_INITIAL_SIDE_EFFECTS_STATE,
+		"generated_owner": "building_comp.java_method_killed_215",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -113,11 +128,11 @@ static func killed_removal_side_effects_state(tile_not_empty_tile: bool) -> Dict
 	}
 
 static func generated_killed_removal_side_effects_bridge_state(tile_value: Variant, tile_not_empty_tile: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value, tile_not_empty_tile], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_killed_215", [tile_value, tile_not_empty_tile], null)
 	var canonical = killed_removal_side_effects_state(tile_not_empty_tile)
 	return {
-		"source_owner": "PortGame.source_building_killed_removal_side_effects_state",
-		"generated_owner": "BuildingComp.java_method_killed_215",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_KILLED_REMOVAL_SIDE_EFFECTS_STATE,
+		"generated_owner": "building_comp.java_method_killed_215",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -229,11 +244,11 @@ static func check_allow_update_state(current_enabled: bool, allow_update_result:
 	return {"enabled": current_enabled, "changed": false}
 
 static func generated_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", [current_enabled, allow_update_result], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_checkAllowUpdate_216", [current_enabled, allow_update_result], null)
 	var canonical = check_allow_update_state(current_enabled, allow_update_result)
 	return {
-		"source_owner": "PortGame.source_building_check_allow_update_state",
-		"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHECK_ALLOW_UPDATE_STATE,
+		"generated_owner": "building_comp.java_method_checkAllowUpdate_216",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -243,11 +258,11 @@ static func update_tile_gate_state(enabled_state: bool, block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
 
 static func generated_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [source_block_defaults.TIME_SCALE_DEFAULT, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled], null)
 	var canonical = update_tile_gate_state(enabled_state, block_no_update_disabled)
 	return {
-		"source_owner": "PortGame.source_building_update_tile_gate_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_TILE_GATE_STATE,
+		"generated_owner": "building_comp.java_method_update_217",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -263,12 +278,15 @@ static func check_suppression_state(block_suppressable: bool, source_time: float
 	var chance_threshold := float(chance_delta_threshold.call(0.03, source_delta))
 	return {"suppressed": true, "particle_visible": "chanceDelta", "chance_threshold": chance_threshold, "effect": "regenSuppressParticle", "color": suppress_color, "particle_range": particle_range, "x_min": source_x - particle_range, "x_max": source_x + particle_range, "y_min": source_y - particle_range, "y_max": source_y + particle_range}
 
+static func game_check_suppression_state(game: Object, block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return check_suppression_state(block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color, callbacks.get(SOURCE_BUILDING_LIFECYCLE_CHANCE_DELTA_THRESHOLD_KEY, Callable()))
+
 static func generated_check_suppression_bridge_state(block_suppressable: bool, source_time: float, heal_suppression_time: float, source_delta: float, source_x: float, source_y: float, block_size_value: int, source_tilesize: float, suppress_color: String) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_checkSuppression_136([block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color])
+	var result = _building_comp_call("java_method_checkSuppression_136", [block_suppressable, source_time, heal_suppression_time, source_delta, source_x, source_y, block_size_value, source_tilesize, suppress_color])
 	return {
-		"source_owner": "PortGame.source_building_check_suppression_state",
-		"generated_owner": "BuildingComp.java_method_checkSuppression_136",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHECK_SUPPRESSION_STATE,
+		"generated_owner": "building_comp.java_method_checkSuppression_136",
 		"result": result,
 	}
 
@@ -282,11 +300,10 @@ static func player_placed_state(config_state: Variant) -> Dictionary:
 	}
 
 static func generated_player_placed_bridge_state(config_state: Variant) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_playerPlaced_137([config_state])
+	var result = _building_comp_call("java_method_playerPlaced_137", [config_state])
 	return {
-		"source_owner": "PortGame.source_building_player_placed_state",
-		"generated_owner": "BuildingComp.java_method_playerPlaced_137",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PLAYER_PLACED_STATE,
+		"generated_owner": "building_comp.java_method_playerPlaced_137",
 		"result": result,
 	}
 
@@ -300,11 +317,10 @@ static func placed_state(net_client: bool, consumes_power: bool, outputs_power: 
 	return {"method": "public void placed(){", "comment": "Called after the block is placed by anyone.", "call_super": "@CallSuper", "client_guard": "if(net.client()) return;" if net_client else "", "power_gate": "if((block.consumesPower || block.outputsPower) && block.hasPower && block.connectedPower){" if should_link_power else "", "power_node_scan": "PowerNode.getNodeLinks(tile, block, team, other -> {" if should_link_power else "", "link_guard": "if(!other.power.links.contains(pos())){" if should_link_power else "", "configure_call": "other.configureAny(pos());" if configure else "", "returned": false, "power_link_scan": true, "configure": configure, "configure_pos": source_pos if configure else -1}
 
 static func generated_placed_bridge_state(net_client: bool, consumes_power: bool, outputs_power: bool, has_power: bool, connected_power: bool, linked_to_self: bool, source_pos: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_placed_138([net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos])
+	var result = _building_comp_call("java_method_placed_138", [net_client, consumes_power, outputs_power, has_power, connected_power, linked_to_self, source_pos])
 	return {
-		"source_owner": "PortGame.source_building_placed_state",
-		"generated_owner": "BuildingComp.java_method_placed_138",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PLACED_STATE,
+		"generated_owner": "building_comp.java_method_placed_138",
 		"result": result,
 	}
 
@@ -321,131 +337,130 @@ static func on_repaired_state(has_fog_radius: bool) -> Dictionary:
 	}
 
 static func generated_on_repaired_bridge_state(has_fog_radius: bool) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onRepaired_139([has_fog_radius])
+	var result = _building_comp_call("java_method_onRepaired_139", [has_fog_radius])
 	return {
-		"source_owner": "PortGame.source_building_on_repaired_state",
-		"generated_owner": "BuildingComp.java_method_onRepaired_139",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_REPAIRED_STATE,
+		"generated_owner": "building_comp.java_method_onRepaired_139",
 		"result": result,
 	}
 
 static func generated_change_team_delegate_bridge_state(next_team: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_180", [next_team], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_180", [next_team], null)
 	var canonical = change_team_delegate_state(next_team)
 	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
 	canonical["method"] = "public void changeTeam(Team next){"
 	return {
-		"source_owner": "PortGame.source_building_change_team_delegate_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_180",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_DELEGATE_STATE,
+		"generated_owner": "building_comp.java_method_changeTeam_180",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_change_team_initial_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid], null)
 	var canonical = change_team_initial_state(current_team, next_team, force_team, was_valid)
 	canonical["comment"] = "/** Changes this building's team in a safe manner. */"
 	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	return {
-		"source_owner": "PortGame.source_building_change_team_initial_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_INITIAL_STATE,
+		"generated_owner": "building_comp.java_method_changeTeam_181",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_change_team_power_proximity_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph], null)
 	var canonical = change_team_power_proximity_state(power_present, update_power, old_graph, next_team)
 	canonical["gate"] = "if(power != null && updatePower){"
 	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	return {
-		"source_owner": "PortGame.source_building_change_team_power_proximity_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_POWER_PROXIMITY_STATE,
+		"generated_owner": "building_comp.java_method_changeTeam_181",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_change_team_power_links_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
 	var canonical = change_team_power_links_state(link_count if power_present and update_power else 0, next_team, old_graph)
 	canonical["loop"] = "for(int i = 0; i < power.links.size; i++){"
 	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	return {
-		"source_owner": "PortGame.source_building_change_team_power_links_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_POWER_LINKS_STATE,
+		"generated_owner": "building_comp.java_method_changeTeam_181",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_change_team_final_bridge_state(current_team: Variant, next_team: Variant, force_team: Variant, was_valid: bool, power_present: bool, update_power: bool, old_graph: Variant, link_count: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_changeTeam_181", [current_team, next_team, force_team, was_valid, power_present, update_power, old_graph, link_count], null)
 	var team_after_force = force_team if force_team != null else current_team
 	var last_team = team_after_force
 	var canonical = change_team_final_state(was_valid, last_team)
 	canonical["method"] = "public void changeTeam(Team next, boolean updatePower){"
 	return {
-		"source_owner": "PortGame.source_building_change_team_final_state",
-		"generated_owner": "BuildingComp.java_method_changeTeam_181",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CHANGE_TEAM_FINAL_STATE,
+		"generated_owner": "building_comp.java_method_changeTeam_181",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_can_pickup_bridge_state(block_can_pickup: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canPickup_182", [block_can_pickup], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canPickup_182", [block_can_pickup], null)
 	var canonical = can_pickup_state(block_can_pickup)
 	return {
-		"source_owner": "PortGame.source_building_can_pickup_state",
-		"generated_owner": "BuildingComp.java_method_canPickup_182",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CAN_PICKUP_STATE,
+		"generated_owner": "building_comp.java_method_canPickup_182",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_picked_up_bridge_state(previous_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_pickedUp_183", [previous_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_pickedUp_183", [previous_state], null)
 	var canonical = picked_up_state(previous_state)
 	return {
-		"source_owner": "PortGame.source_building_picked_up_state",
-		"generated_owner": "BuildingComp.java_method_pickedUp_183",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_PICKED_UP_STATE,
+		"generated_owner": "building_comp.java_method_pickedUp_183",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_after_picked_up_bridge_state(power_present: bool, has_cons_power: bool, cons_power_buffered: bool, current_status: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_afterPickedUp_184", [power_present, has_cons_power, cons_power_buffered, current_status], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_afterPickedUp_184", [power_present, has_cons_power, cons_power_buffered, current_status], null)
 	var canonical = after_picked_up_state(power_present, has_cons_power, cons_power_buffered, current_status)
 	return {
-		"source_owner": "PortGame.source_building_after_picked_up_state",
-		"generated_owner": "BuildingComp.java_method_afterPickedUp_184",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_AFTER_PICKED_UP_STATE,
+		"generated_owner": "building_comp.java_method_afterPickedUp_184",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_remove_from_proximity_bridge_state(nearby_count: int, removable_count: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_removeFromProximity_185", [nearby_count, removable_count], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_removeFromProximity_185", [nearby_count, removable_count], null)
 	var canonical = remove_from_proximity_state(nearby_count, removable_count)
 	return {
-		"source_owner": "PortGame.source_building_remove_from_proximity_state",
-		"generated_owner": "BuildingComp.java_method_removeFromProximity_185",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_FROM_PROXIMITY_STATE,
+		"generated_owner": "building_comp.java_method_removeFromProximity_185",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_proximity_bridge_state(nearby_count: int, same_team_count: int, headless: bool, draw_cached: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateProximity_186", [nearby_count, same_team_count, headless, draw_cached], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateProximity_186", [nearby_count, same_team_count, headless, draw_cached], null)
 	var canonical = update_proximity_state(nearby_count, same_team_count, headless, draw_cached)
 	return {
-		"source_owner": "PortGame.source_building_update_proximity_state",
-		"generated_owner": "BuildingComp.java_method_updateProximity_186",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_PROXIMITY_STATE,
+		"generated_owner": "building_comp.java_method_updateProximity_186",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_on_nearby_build_added_bridge_state(other_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onNearbyBuildAdded_187", [other_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_onNearbyBuildAdded_187", [other_state], null)
 	var canonical = on_nearby_build_added_state(other_state)
 	return {
-		"source_owner": "PortGame.source_building_on_nearby_build_added_state",
-		"generated_owner": "BuildingComp.java_method_onNearbyBuildAdded_187",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_NEARBY_BUILD_ADDED_STATE,
+		"generated_owner": "building_comp.java_method_onNearbyBuildAdded_187",
 		"result": result,
 		"canonical": canonical,
 	}

@@ -1,7 +1,7 @@
 extends RefCounted
 class_name SourceTurretRuntime
 
-const SourceTurretDefaults := preload("res://src/game/SourceTurretDefaults.gd")
+const source_turret_defaults := preload("res://src/game/SourceTurretDefaults.gd")
 
 const SOURCE_TURRET_RELOAD_FIELD := "public float reload = 10f;"
 const SOURCE_TURRET_RELOAD_KEY := "reload"
@@ -88,12 +88,12 @@ static func _trns_vec(angle_degrees: float, x_value: float, y_value: float) -> D
 		"y": x_value * sin_value + y_value * cos_value,
 	}
 
-static func reload_seconds(turret, defaults: SourceTurretDefaults, tick_rate: float) -> float:
+static func reload_seconds(turret, defaults: source_turret_defaults, tick_rate: float) -> float:
 	if turret == null or tick_rate == 0.0:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_RELOAD_KEY, defaults.reload_default())) / tick_rate
 
-static func reload_seconds_for_ammo(turret, data: Dictionary, defaults: SourceTurretDefaults, tick_rate: float, bullet_reload_multiplier: float) -> float:
+static func reload_seconds_for_ammo(turret, data: Dictionary, defaults: source_turret_defaults, tick_rate: float, bullet_reload_multiplier: float) -> float:
 	var seconds := reload_seconds(turret, defaults, tick_rate)
 	if data.is_empty():
 		return seconds
@@ -101,52 +101,52 @@ static func reload_seconds_for_ammo(turret, data: Dictionary, defaults: SourceTu
 		return seconds
 	return seconds / bullet_reload_multiplier
 
-static func range_value(turret, defaults: SourceTurretDefaults) -> float:
+static func range_value(turret, defaults: source_turret_defaults) -> float:
 	if turret == null:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_RANGE_KEY, defaults.range_default()))
 
-static func range_for_ammo(turret, data: Dictionary, defaults: SourceTurretDefaults, bullet_range_change: float) -> float:
+static func range_for_ammo(turret, data: Dictionary, defaults: source_turret_defaults, bullet_range_change: float) -> float:
 	if data.is_empty():
 		return range_value(turret, defaults)
 	return range_value(turret, defaults) + bullet_range_change
 
-static func shoot_y(turret, defaults: SourceTurretDefaults, source_tilesize: float) -> float:
+static func shoot_y(turret, defaults: source_turret_defaults, source_tilesize: float) -> float:
 	if turret == null:
 		return 0.0
 	var properties := _properties(turret)
 	var source_default := defaults.shoot_y_default(float(properties.get("size", 0.0)), source_tilesize)
 	return float(properties.get(SOURCE_TURRET_SHOOT_Y_KEY, source_default))
 
-static func inaccuracy(turret, defaults: SourceTurretDefaults) -> float:
+static func inaccuracy(turret, defaults: source_turret_defaults) -> float:
 	if turret == null:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_INACCURACY_KEY, defaults.inaccuracy_default()))
 
-static func total_inaccuracy(turret, defaults: SourceTurretDefaults, bullet_inaccuracy: float) -> float:
+static func total_inaccuracy(turret, defaults: source_turret_defaults, bullet_inaccuracy: float) -> float:
 	return inaccuracy(turret, defaults) + bullet_inaccuracy
 
-static func rotate_speed(turret, defaults: SourceTurretDefaults) -> float:
+static func rotate_speed(turret, defaults: source_turret_defaults) -> float:
 	if turret == null:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_ROTATE_SPEED_KEY, defaults.rotate_speed_default()))
 
-static func shoot_cone(turret, defaults: SourceTurretDefaults) -> float:
+static func shoot_cone(turret, defaults: source_turret_defaults) -> float:
 	if turret == null:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_SHOOT_CONE_KEY, defaults.shoot_cone_default()))
 
-static func recoil(turret, defaults: SourceTurretDefaults) -> float:
+static func recoil(turret, defaults: source_turret_defaults) -> float:
 	if turret == null:
 		return 0.0
 	return float(_properties(turret).get(SOURCE_TURRET_RECOIL_KEY, defaults.recoil_default()))
 
-static func recoils(turret, defaults: SourceTurretDefaults) -> int:
+static func recoils(turret, defaults: source_turret_defaults) -> int:
 	if turret == null:
 		return 0
 	return int(_properties(turret).get(SOURCE_TURRET_RECOILS_KEY, defaults.recoils_default()))
 
-static func recoil_time(turret, defaults: SourceTurretDefaults, reload_seconds_value: float, tick_rate: float) -> float:
+static func recoil_time(turret, defaults: source_turret_defaults, reload_seconds_value: float, tick_rate: float) -> float:
 	if turret == null:
 		return 1.0
 	var recoil_time_value := float(_properties(turret).get(SOURCE_TURRET_RECOIL_TIME_KEY, defaults.recoil_time_default()))
@@ -154,14 +154,14 @@ static func recoil_time(turret, defaults: SourceTurretDefaults, reload_seconds_v
 		return reload_seconds_value * tick_rate
 	return recoil_time_value
 
-static func recoil_offset(turret, defaults: SourceTurretDefaults, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
+static func recoil_offset(turret, defaults: source_turret_defaults, recoil_rotation_degrees: float, cur_recoil: float) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(recoil_rotation_degrees)) * (-pow(cur_recoil, defaults.recoil_pow()) * recoil(turret, defaults))
 
-static func bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, defaults: SourceTurretDefaults, source_tilesize: float, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:
+static func bullet_origin(origin_x: float, origin_y: float, turret_rotation_degrees: float, turret, defaults: source_turret_defaults, source_tilesize: float, shoot_x_offset := 0.0, y_offset := 0.0, x_spread := 0.0) -> Dictionary:
 	var properties := _properties(turret)
 	var shoot_x := float(properties.get("shootX", 0.0))
 	var shoot_y_value := shoot_y(turret, defaults, source_tilesize)
-	var rotation_minus_90 := turret_rotation_degrees - 90.0
+	var rotation_minus_90 := turret_rotation_degrees - source_turret_defaults.BULLET_ORIGIN_ROTATION_OFFSET_DEGREES
 	var trns := _trns_vec(rotation_minus_90, shoot_x + shoot_x_offset + x_spread, shoot_y_value + y_offset)
 	return {
 		"originX": origin_x,

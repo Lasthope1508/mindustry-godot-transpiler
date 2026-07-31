@@ -1,12 +1,44 @@
 extends RefCounted
 class_name SourceBuildingLiquidState
 
-const SourceLiquidReactionState := preload("res://src/game/SourceLiquidReactionState.gd")
+const source_liquid_reaction_state := preload("res://src/game/SourceLiquidReactionState.gd")
+
+const SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_KEY := "increment_dump_cursor"
+const SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK := "source_increment_dump_cursor"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game == null:
+		return {}
+	if game.has_method("_building_liquid_state_method_names"):
+		var names = game.call("_building_liquid_state_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	return str(method_names.get(key, fallback_name))
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
+	var increment_dump_cursor_method := runtime_method_name(method_names, SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_KEY, SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK)
 	return {
-		"increment_dump_cursor": Callable(game, "source_increment_dump_cursor"),
+		SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_KEY: Callable(game, increment_dump_cursor_method),
 	}
+
+static func game_dump_liquid_routing_gate_state(game: Object, liquid: Variant, proximity_size: int, dump_cursor: int, output_dir: int, rotation_value: int, relative_to_by_index: Array, destination_present_by_index: Array, other_has_liquids_by_index: Array, can_dump_liquid_by_index: Array, other_liquids_present_by_index: Array) -> Dictionary:
+	return dump_liquid_routing_gate_state(
+		liquid,
+		proximity_size,
+		dump_cursor,
+		output_dir,
+		rotation_value,
+		relative_to_by_index,
+		destination_present_by_index,
+		other_has_liquids_by_index,
+		can_dump_liquid_by_index,
+		other_liquids_present_by_index,
+		default_callbacks_state(game).get(SOURCE_BUILDING_LIQUID_INCREMENT_DUMP_CURSOR_METHOD_KEY, Callable())
+	)
 
 static func handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
@@ -321,10 +353,10 @@ static func move_liquid_reaction_setup_state(main_guard_passed: bool, transfer_g
 	}
 
 static func move_liquid_fire_reaction_state(block_reactive_guard_passed: bool, other_flammability: float, liquid_temperature: float, liquid_flammability: float, other_temperature: float, fire_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
-	return SourceLiquidReactionState.fire_reaction_state(block_reactive_guard_passed, other_flammability, liquid_temperature, liquid_flammability, other_temperature, fire_chance_delta_passed, fx, fy)
+	return source_liquid_reaction_state.fire_reaction_state(block_reactive_guard_passed, other_flammability, liquid_temperature, liquid_flammability, other_temperature, fire_chance_delta_passed, fx, fy)
 
 static func move_liquid_steam_reaction_state(block_reactive_guard_passed: bool, fire_reaction_guard_passed: bool, liquid_temperature: float, other_temperature: float, current_liquid_amount: float, source_delta: float, steam_chance_delta_passed: bool, fx: float, fy: float) -> Dictionary:
-	return SourceLiquidReactionState.steam_reaction_state(block_reactive_guard_passed, fire_reaction_guard_passed, liquid_temperature, other_temperature, current_liquid_amount, source_delta, steam_chance_delta_passed, fx, fy)
+	return source_liquid_reaction_state.steam_reaction_state(block_reactive_guard_passed, fire_reaction_guard_passed, liquid_temperature, other_temperature, current_liquid_amount, source_delta, steam_chance_delta_passed, fx, fy)
 
 static func move_liquid_return_zero_state(next_present: bool, transfer_guard_passed: bool) -> Dictionary:
 	var fallthrough_return_reached := next_present and not transfer_guard_passed

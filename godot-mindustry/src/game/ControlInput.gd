@@ -2,12 +2,23 @@ extends RefCounted
 class_name ControlInput
 
 const MODULE_NAME := "control_profile"
+const CAMERA_PAN_LEFT_ACTION := "camera.pan.left"
+const CAMERA_PAN_RIGHT_ACTION := "camera.pan.right"
+const CAMERA_PAN_UP_ACTION := "camera.pan.up"
+const CAMERA_PAN_DOWN_ACTION := "camera.pan.down"
+const CAMERA_PAN_BOOST_ACTION := "camera.pan.boost"
+const CAMERA_ZOOM_IN_ACTION := "camera.zoom.in"
+const CAMERA_ZOOM_OUT_ACTION := "camera.zoom.out"
+const BUILD_SLOT_PREFIX := "build.slot."
+const BUILD_SLOT_NEXT_ACTION := "build.slot.next"
+const BUILD_SLOT_PREVIOUS_ACTION := "build.slot.previous"
 
 var catalog: Variant
 var profile: Dictionary = {}
 var actions: Dictionary = {}
 var platforms: Dictionary = {}
 var camera_settings: Dictionary = {}
+var virtual_axis_settings: Dictionary = {}
 var key_action_map: Dictionary = {}
 
 func _init(source_catalog: Variant) -> void:
@@ -21,6 +32,7 @@ func load_profile() -> void:
 	actions = profile.get("actions", {})
 	platforms = profile.get("platforms", {})
 	camera_settings = profile.get("camera", {})
+	virtual_axis_settings = profile.get("virtual_axis", {})
 	rebuild_key_action_map()
 
 func install_input_map() -> void:
@@ -41,6 +53,15 @@ func install_input_map() -> void:
 			event.physical_keycode = keycode
 			event.shift_pressed = bool(binding.get("shift", false))
 			InputMap.action_add_event(godot_action, event)
+		for mouse_button in mouse_button_bindings(action_data):
+			var button_index := mouse_button_for_label(mouse_button)
+			if button_index == 0:
+				continue
+			if input_action_has_mouse_button(godot_action, button_index):
+				continue
+			var mouse_event := InputEventMouseButton.new()
+			mouse_event.button_index = button_index as MouseButton
+			InputMap.action_add_event(godot_action, mouse_event)
 
 func rebuild_key_action_map() -> void:
 	key_action_map.clear()
@@ -76,6 +97,19 @@ func normalize_key_binding(key_binding: Variant) -> Dictionary:
 func binding_key_label(binding: Dictionary) -> String:
 	return str(binding.get("key", ""))
 
+func mouse_button_bindings(action_data: Dictionary) -> Array:
+	var result: Array = []
+	for platform_name in action_data.keys():
+		var platform_bindings: Variant = action_data.get(platform_name, {})
+		if typeof(platform_bindings) != TYPE_DICTIONARY:
+			continue
+		var buttons: Array = platform_bindings.get("mouse_buttons", [])
+		for button_label in buttons:
+			var canonical_label := canonical_mouse_button_label(str(button_label))
+			if canonical_label != "" and not result.has(canonical_label):
+				result.append(canonical_label)
+	return result
+
 func key_signature(key_label: String, shift_pressed: bool) -> String:
 	return "%s:%s" % [canonical_key_label(key_label), "shift" if shift_pressed else "plain"]
 
@@ -106,6 +140,24 @@ func keycode_for_label(key_label: String) -> Key:
 		_:
 			return OS.find_keycode_from_string(key_label)
 
+func canonical_mouse_button_label(button_label: String) -> String:
+	return button_label.strip_edges().to_lower()
+
+func mouse_button_for_label(button_label: String) -> int:
+	match canonical_mouse_button_label(button_label):
+		"left":
+			return MOUSE_BUTTON_LEFT
+		"right":
+			return MOUSE_BUTTON_RIGHT
+		"middle":
+			return MOUSE_BUTTON_MIDDLE
+		"wheel_up":
+			return MOUSE_BUTTON_WHEEL_UP
+		"wheel_down":
+			return MOUSE_BUTTON_WHEEL_DOWN
+		_:
+			return 0
+
 func action_name(canonical_action: String) -> String:
 	var action_data: Dictionary = actions.get(canonical_action, {})
 	return str(action_data.get("godot_action", canonical_action))
@@ -118,29 +170,41 @@ func input_action_has_key(godot_action: String, keycode: Key, shift_pressed: boo
 				return true
 	return false
 
+func input_action_has_mouse_button(godot_action: String, button_index: int) -> bool:
+	for existing_event in InputMap.action_get_events(godot_action):
+		if existing_event is InputEventMouseButton and existing_event.button_index == button_index:
+			return true
+	return false
+
 func is_action_pressed(canonical_action: String) -> bool:
-	return Input.is_action_pressed(action_name(canonical_action))
+	var godot_action := action_name(canonical_action)
+	if not InputMap.has_action(godot_action):
+		return false
+	return Input.is_action_pressed(godot_action)
 
 func camera_vector() -> Vector2:
 	var movement := Vector2.ZERO
-	if is_action_pressed("camera.pan.left"):
+	if is_action_pressed(CAMERA_PAN_LEFT_ACTION):
 		movement.x -= 1.0
-	if is_action_pressed("camera.pan.right"):
+	if is_action_pressed(CAMERA_PAN_RIGHT_ACTION):
 		movement.x += 1.0
-	if is_action_pressed("camera.pan.up"):
+	if is_action_pressed(CAMERA_PAN_UP_ACTION):
 		movement.y -= 1.0
-	if is_action_pressed("camera.pan.down"):
+	if is_action_pressed(CAMERA_PAN_DOWN_ACTION):
 		movement.y += 1.0
 	return movement
 
 func is_zoom_in_pressed() -> bool:
-	return is_action_pressed("camera.zoom.in")
+	return is_action_pressed(CAMERA_ZOOM_IN_ACTION)
 
 func is_zoom_out_pressed() -> bool:
-	return is_action_pressed("camera.zoom.out")
+	return is_action_pressed(CAMERA_ZOOM_OUT_ACTION)
 
 func camera_pan_speed() -> float:
 	return float(camera_settings.get("pan_speed_pixels_per_second", 0.0))
+
+func camera_pan_boost_speed() -> float:
+	return float(camera_settings.get("pan_boost_speed_pixels_per_second", 900.0))
 
 func keyboard_zoom_in_factor(delta: float) -> float:
 	return 1.0 + (delta * float(camera_settings.get("keyboard_zoom_in_rate_per_second", 0.0)))
@@ -149,6 +213,15 @@ func keyboard_zoom_out_factor(delta: float) -> float:
 	var rate := float(camera_settings.get("keyboard_zoom_out_rate_per_second", 0.0))
 	var max_delta := float(camera_settings.get("keyboard_zoom_out_max_delta", 0.0))
 	return 1.0 - min(delta * rate, max_delta)
+
+func mouse_wheel_zoom_step() -> float:
+	return float(camera_settings.get("mouse_wheel_zoom_step", 0.25))
+
+func touch_move_pixels_per_axis() -> float:
+	return float(virtual_axis_settings.get("touch_pixels_per_axis", 72.0))
+
+func virtual_axis_deadzone() -> float:
+	return float(virtual_axis_settings.get("deadzone", 0.1))
 
 func action_for_key_event(event: InputEventKey) -> String:
 	var key_labels := [
@@ -161,20 +234,30 @@ func action_for_key_event(event: InputEventKey) -> String:
 			return str(key_action_map.get(signature, ""))
 	return ""
 
+func action_for_mouse_button(button_index: int) -> String:
+	var button_label := mouse_button_label(button_index)
+	for canonical_action in actions.keys():
+		var action_data: Dictionary = actions.get(canonical_action, {})
+		if mouse_button_bindings(action_data).has(button_label):
+			return str(canonical_action)
+	return ""
+
 func build_slot_for_action(canonical_action: String) -> int:
-	var prefix := "build.slot."
-	if not canonical_action.begins_with(prefix):
+	if not canonical_action.begins_with(BUILD_SLOT_PREFIX):
 		return -1
-	var slot_text := canonical_action.substr(prefix.length())
+	var slot_text := canonical_action.substr(BUILD_SLOT_PREFIX.length())
 	if not slot_text.is_valid_int():
 		return -1
 	return int(slot_text) - 1
 
 func is_next_slot_action(canonical_action: String) -> bool:
-	return canonical_action == "build.slot.next"
+	return canonical_action == BUILD_SLOT_NEXT_ACTION
 
 func is_previous_slot_action(canonical_action: String) -> bool:
-	return canonical_action == "build.slot.previous"
+	return canonical_action == BUILD_SLOT_PREVIOUS_ACTION
+
+func is_boost_pressed() -> bool:
+	return is_action_pressed(CAMERA_PAN_BOOST_ACTION)
 
 func is_primary_place_event(event: InputEvent) -> bool:
 	if event is InputEventMouseButton:
@@ -208,6 +291,10 @@ func mouse_button_label(button_index: int) -> String:
 			return "right"
 		MOUSE_BUTTON_MIDDLE:
 			return "middle"
+		MOUSE_BUTTON_WHEEL_UP:
+			return "wheel_up"
+		MOUSE_BUTTON_WHEEL_DOWN:
+			return "wheel_down"
 		_:
 			return str(button_index)
 

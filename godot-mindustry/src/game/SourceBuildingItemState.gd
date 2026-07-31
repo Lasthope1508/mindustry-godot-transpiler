@@ -1,0 +1,40 @@
+extends RefCounted
+class_name SourceBuildingItemState
+
+const SOURCE_MOVE_FORWARD_ACCEPT_METHOD := "public boolean moveForward(Item item){"
+const SOURCE_MOVE_FORWARD_ACCEPT_FRONT := "Building other = front();"
+const SOURCE_MOVE_FORWARD_ACCEPT_GATE := "if(other != null && other.team == team && other.acceptItem(self(), item)){"
+const SOURCE_MOVE_FORWARD_ACCEPT_HANDLE_DEFERRED := "other.handleItem(self(), item);"
+const SOURCE_MOVE_FORWARD_ACCEPT_RETURN_TRUE := "return true;"
+const SOURCE_MOVE_FORWARD_ACCEPT_RETURN_FALSE := "return false;"
+const SOURCE_MOVE_FORWARD_TO_CORE_ACCEPT_BRIDGE := "source_core_accept_item(item_id)"
+const SOURCE_MOVE_FORWARD_TO_CORE_HANDLE_BRIDGE := "source_core_handle_item(item_id)"
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+
+static func move_forward_accept_state(has_front: bool, same_team: bool, front_accepts: bool) -> bool:
+	return has_front and same_team and front_accepts
+
+static func move_forward_to_core_runtime_state(game: Object, item_id: String, has_front: bool, same_team: bool) -> bool:
+	if not move_forward_accept_state(has_front, same_team, game.source_core_accept_item(item_id)):
+		return false
+	return game.source_core_handle_item(item_id)
+
+static func maximum_accepted(block_item_capacity: int) -> int:
+	return block_item_capacity
+
+static func handle_stack_count(current_count: int, amount: int) -> int:
+	return current_count + amount
+
+static func accept_item_state(consumes_item: bool, item_count: int, maximum_accepted_value: int) -> bool:
+	return consumes_item and item_count < maximum_accepted_value
+
+static func accept_stack_state(accepts_item: bool, has_items: bool, same_team_or_null_source: bool, maximum_accepted_value: int, item_count: int, amount: int) -> int:
+	if accepts_item and has_items and same_team_or_null_source:
+		return mini(maximum_accepted_value - item_count, amount)
+	return 0
+
+static func remove_stack_state(has_items_module: bool, item_count: int, amount: int) -> Dictionary:
+	if not has_items_module:
+		return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_STACK_STATE, "method": "public int removeStack(Item item, int amount){", "null_guard": "if(items == null) return 0;", "has_items_module": has_items_module, "item_count": item_count, "amount": amount, "removed": 0, "remaining": item_count, "return_value": 0}
+	var removed := mini(amount, item_count)
+	return {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_REMOVE_STACK_STATE, "method": "public int removeStack(Item item, int amount){", "null_guard": "if(items == null) return 0;", "min_assign": "amount = Math.min(amount, items.get(item));", "no_sleep_call": "noSleep();", "items_remove_call": "items.remove(item, amount);", "return_amount": "return amount;", "has_items_module": has_items_module, "item_count": item_count, "amount": amount, "removed": removed, "remaining": item_count - removed, "return_value": removed}

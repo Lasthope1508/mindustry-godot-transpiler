@@ -1,7 +1,8 @@
 extends RefCounted
 class_name SourceBuildingVisibilityState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_COMMENT := "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */"
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_METHOD := "public void updateFogVisibility(){"
@@ -17,11 +18,11 @@ static func in_fog_initial_gate_state(same_team: bool, rules_fog: bool) -> Dicti
 	return {"returned": false, "value": null}
 
 static func generated_in_fog_initial_gate_bridge_state(same_team: bool, rules_fog: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [same_team, rules_fog], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [same_team, rules_fog], null)
 	var canonical = in_fog_initial_gate_state(same_team, rules_fog)
 	return {
-		"source_owner": "PortGame.source_building_in_fog_initial_gate_state",
-		"generated_owner": "BuildingComp.java_method_inFogTo_214",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IN_FOG_INITIAL_GATE_STATE,
+		"generated_owner": "building_comp.java_method_inFogTo_214",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -38,11 +39,11 @@ static func in_fog_discovery_gate_state(block_size_value: int, block_size_offset
 	return {"returned": false, "value": null, "grid": grid}
 
 static func generated_in_fog_discovery_gate_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, is_discovered: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, is_discovered], null)
 	var canonical = in_fog_discovery_gate_state(block_size_value, block_size_offset, tile_x, tile_y, is_discovered)
 	return {
-		"source_owner": "PortGame.source_building_in_fog_discovery_gate_state",
-		"generated_owner": "BuildingComp.java_method_inFogTo_214",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IN_FOG_DISCOVERY_GATE_STATE,
+		"generated_owner": "building_comp.java_method_inFogTo_214",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -60,11 +61,11 @@ static func in_fog_visibility_loop_state(block_size_value: int, block_size_offse
 	return {"in_fog": true, "checked_tiles": checked_tiles, "visible_tile": null}
 
 static func generated_in_fog_visibility_loop_bridge_state(block_size_value: int, block_size_offset: int, tile_x: int, tile_y: int, visible_tiles: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_inFogTo_214", [false, true, block_size_value, block_size_offset, tile_x, tile_y, true, visible_tiles], null)
 	var canonical = in_fog_visibility_loop_state(block_size_value, block_size_offset, tile_x, tile_y, visible_tiles)
 	return {
-		"source_owner": "PortGame.source_building_in_fog_visibility_loop_state",
-		"generated_owner": "BuildingComp.java_method_inFogTo_214",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_IN_FOG_VISIBILITY_LOOP_STATE,
+		"generated_owner": "building_comp.java_method_inFogTo_214",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -97,11 +98,11 @@ static func update_fog_visibility_state(was_visible: bool, in_fog_to_player_team
 	}
 
 static func generated_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", [was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateFogVisibility_218", [was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state], null)
 	var canonical = update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
 	return {
-		"source_owner": "PortGame.source_building_update_fog_visibility_state",
-		"generated_owner": "BuildingComp.java_method_updateFogVisibility_218",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_STATE,
+		"generated_owner": "building_comp.java_method_updateFogVisibility_218",
 		"result": result,
 		"canonical": canonical,
 	}

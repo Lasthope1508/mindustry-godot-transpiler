@@ -1,8 +1,10 @@
 extends RefCounted
 class_name SourcePowerGraphState
 
-const SourceMathDefaultsScript = preload("res://src/game/SourceMathDefaults.gd")
-const SOURCE_FLOAT_ROUNDING_ERROR := SourceMathDefaultsScript.FLOAT_ROUNDING_ERROR
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_math_defaults_script := preload("res://src/game/SourceMathDefaults.gd")
+const source_consume_power_state := preload("res://src/game/SourceConsumePowerState.gd")
+const SOURCE_FLOAT_ROUNDING_ERROR := source_math_defaults_script.FLOAT_ROUNDING_ERROR
 
 static func check_add_state(entity_present: bool) -> Dictionary:
 	return {
@@ -429,7 +431,7 @@ static func remove_empty_entity_state(tile: Dictionary, entity_present: bool, ro
 		"entity_removed": entity_present,
 	}
 
-static func power_needed_state(consumers: Array, requested_power_state: Callable = Callable(SourceConsumePowerState, "requested_power_state")) -> Dictionary:
+static func power_needed_state(consumers: Array, requested_power_state: Callable = Callable(source_consume_power_state, "requested_power_state")) -> Dictionary:
 	var power_needed := 0.0
 	var counted_consumers := 0
 	var active_consumers := 0
@@ -716,7 +718,7 @@ static func update_cheat_state(consumers: Array) -> Dictionary:
 		"last_power_produced": last_power_produced,
 	}
 
-static func update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = [], requested_power_state: Callable = Callable(SourceConsumePowerState, "requested_power_state")) -> Dictionary:
+static func update_balance_state(consumers: Array, producers: Array, batteries: Array, energy_delta: float, source_delta: float, power_balance_samples: Array = [], requested_power_state: Callable = Callable(source_consume_power_state, "requested_power_state")) -> Dictionary:
 	var source_power_needed_state: Dictionary = {}
 	if requested_power_state.is_valid():
 		source_power_needed_state = power_needed_state(consumers, requested_power_state)
@@ -841,8 +843,8 @@ static func generated_get_id_bridge_state(graph_id: int) -> Dictionary:
 	var result = instance.java_method_getId_27([graph_id])
 	var canonical = get_id_state(graph_id)
 	return {
-		"source_owner": "SourcePowerGraphState.get_id_state",
-		"generated_owner": "PowerGraph.getId",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_POWER_GRAPH_GET_ID_STATE,
+		"generated_owner": "power_graph.getId",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("graph_id", null) == canonical.get("graph_id", null) and result.get("return_graph_id", null) == canonical.get("return_graph_id", null),

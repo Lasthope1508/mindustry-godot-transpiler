@@ -1,18 +1,40 @@
 extends RefCounted
 class_name SourceBulletTypeCreateState
 
-const SourceBulletDefaults := preload("res://src/game/SourceBulletDefaults.gd")
+const source_bullet_defaults := preload("res://src/game/SourceBulletDefaults.gd")
 const SOURCE_BULLET_VELOCITY_VECTOR_FIELD := "Vec2 vel = new Vec2();"
 const SOURCE_BULLET_VELOCITY_VECTOR_INIT_TRNS := "vel.trns(angle, amount);"
 const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_METHOD := "public Vec2 trns(float angle, float amount){"
 const SOURCE_BULLET_VELOCITY_VECTOR_VEC2_TRNS_RETURN := "return set(amount, 0).rotate(angle);"
 const SOURCE_BULLET_VELOCITY_VECTOR_EXISTING_SOURCE := "existing Vec2 velocity"
 const SOURCE_BULLET_VELOCITY_VECTOR_TRNS_SOURCE := "vel.trns(angle, amount)"
+const SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY := "trns_vec"
+const SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_FALLBACK := "source_arc_angles_trns_vec"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_bullet_type_create_method_names"):
+		var names = game.call("_bullet_type_create_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
+		SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY, SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_FALLBACK)),
 	}
+
+static func game_velocity_vector_state(game: Object, velocity_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return velocity_vector_state(velocity_state, callbacks.get(SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY, Callable()))
+
+static func game_keep_velocity_state(game: Object, trail_add_payload_state: Dictionary, bullet_type_state: Dictionary, owner_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return keep_velocity_state(trail_add_payload_state, bullet_type_state, owner_state, callbacks.get(SOURCE_BULLET_TYPE_CREATE_TRNS_VEC_KEY, Callable()))
 
 static func initial_gate_state(create_call_state: Dictionary, bullet_type_state: Dictionary, random_angle_offset: float, create_chance_roll: float) -> Dictionary:
 	var bullet_create_call: Dictionary = create_call_state.get("bulletCreateCall", {})
@@ -329,7 +351,7 @@ static func lifetime_payload_damage_state(velocity_position: Dictionary, create_
 	var type_damage := float(bullet_type_state.get("damage", 1.0))
 	var base_damage := type_damage if create_damage < 0.0 else create_damage
 	var hit_size := float(bullet_type_state.get("hitSize", 4.0))
-	var building_damage_multiplier := float(bullet_type_state.get("buildingDamageMultiplier", SourceBulletDefaults.BUILDING_DAMAGE_MULTIPLIER_DEFAULT))
+	var building_damage_multiplier := float(bullet_type_state.get("buildingDamageMultiplier", source_bullet_defaults.BUILDING_DAMAGE_MULTIPLIER_DEFAULT))
 	bullet_state = bullet_state.duplicate()
 	bullet_state["lifetime"] = lifetime_amount
 	bullet_state["data"] = bullet_create_call.get("data", null)

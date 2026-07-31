@@ -11,11 +11,47 @@ const SOURCE_DUMP_ACCUMULATE_ATTEMPT_ADD_DELTA := "dumpAccum += delta();"
 const SOURCE_DUMP_ACCUMULATE_ATTEMPT_WHILE_GATE := "while(dumpAccum >= 1f){"
 const SOURCE_DUMP_ACCUMULATE_ATTEMPT_DUMP_CALL := "res |= dump(item);"
 const SOURCE_DUMP_ACCUMULATE_ATTEMPT_SUBTRACT_ONE := "dumpAccum -=1f;"
+const SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_KEY := "increment_dump_cursor"
+const SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK := "source_increment_dump_cursor"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game == null:
+		return {}
+	if game.has_method("_building_item_dump_state_method_names"):
+		var names = game.call("_building_item_dump_state_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	return str(method_names.get(key, fallback_name))
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
+	var increment_dump_cursor_method := runtime_method_name(method_names, SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_KEY, SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK)
 	return {
-		"increment_dump_cursor": Callable(game, "source_increment_dump_cursor"),
+		SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_KEY: Callable(game, increment_dump_cursor_method),
 	}
+
+static func increment_dump_cursor_state(current_dump: int, proximity_size: int) -> int:
+	if proximity_size != 0:
+		return (current_dump + 1) % proximity_size
+	return current_dump
+
+static func increment_dump_cursor_runtime_state(game: Object, proximity_size: int) -> int:
+	var next_dump := increment_dump_cursor_state(game.drill_dump_cursor, proximity_size)
+	game.drill_dump_cursor = next_dump
+	return next_dump
+
+static func game_put_item_state(game: Object, item: Variant, proximity_size: int, dump_cursor: int, accepts_item_by_index: Array, can_dump_by_index: Array) -> Dictionary:
+	return put_item_state(
+		item,
+		proximity_size,
+		dump_cursor,
+		accepts_item_by_index,
+		can_dump_by_index,
+		default_callbacks_state(game).get(SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_KEY, Callable())
+	)
 
 static func can_dump_item_default_state(to_state: Variant, item: Variant) -> Dictionary:
 	return {
@@ -106,6 +142,11 @@ static func dump_accumulate_state(current_accum: float, source_delta: float) -> 
 		next_accum -= 1.0
 	return {"dump_attempts": dump_attempts, "dump_accum": next_accum}
 
+static func dump_accumulate_runtime_state(game: Object, source_delta: float) -> Dictionary:
+	var state := dump_accumulate_state(game.building_dump_accum, source_delta)
+	game.building_dump_accum = float(state["dump_accum"])
+	return state
+
 static func dump_default_state() -> Dictionary:
 	return {
 		"comment": "/** Try dumping any item near the building. */",
@@ -157,6 +198,13 @@ static func dump_null_proximity_scan_state(proximity_size: int, dump_cursor: int
 		"checked_indices": checked_indices,
 		"cdump": next_dump,
 	}
+
+static func game_dump_null_proximity_scan_state(game: Object, proximity_size: int, dump_cursor: int) -> Dictionary:
+	return dump_null_proximity_scan_state(
+		proximity_size,
+		dump_cursor,
+		default_callbacks_state(game).get(SOURCE_BUILDING_ITEM_DUMP_INCREMENT_DUMP_CURSOR_METHOD_KEY, Callable())
+	)
 
 static func dump_null_remove_item_state(item: Variant, item_amount_before: int) -> Dictionary:
 	return {

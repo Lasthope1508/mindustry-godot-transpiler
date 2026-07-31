@@ -1,8 +1,9 @@
 extends RefCounted
 class_name SourceBuildingEfficiencyState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_COMMENT := "/** Called after efficiency is updated but before consumers are updated. Use to apply your own multiplier. */"
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_METHOD := "public void updateEfficiencyMultiplier(){"
 const SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_SCALE := "float scale = efficiencyScale();"
@@ -115,7 +116,7 @@ static func update_consumption_second_pass_state(update: bool, efficiency: float
 		for consumer in update_consumers:
 			updated_consumers.append({"consumer": consumer, "self": self_state})
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_second_pass_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_PASS_STATE,
 		"method": SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_METHOD,
 		"multiplier_call": SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_MULTIPLIER,
 		"comment": SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_COMMENT,
@@ -129,112 +130,112 @@ static func update_consumption_second_pass_state(update: bool, efficiency: float
 	}
 
 static func generated_consume_bridge_state(consumers: Array, self_state: Variant) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_consume_188", [consumers, self_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_consume_188", [consumers, self_state], null)
 	var canonical = consume_state(consumers, self_state)
 	return {
-		"source_owner": "PortGame.source_building_consume_state",
-		"generated_owner": "BuildingComp.java_method_consume_188",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CONSUME_STATE,
+		"generated_owner": "building_comp.java_method_consume_188",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_can_consume_bridge_state(potential_efficiency: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canConsume_189", [potential_efficiency], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_canConsume_189", [potential_efficiency], null)
 	var canonical = can_consume_state(potential_efficiency)
 	return {
-		"source_owner": "PortGame.source_building_can_consume_state",
-		"generated_owner": "BuildingComp.java_method_canConsume_189",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_CAN_CONSUME_STATE,
+		"generated_owner": "building_comp.java_method_canConsume_189",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_efficiency_multiplier_bridge_state(efficiency: float, optional_efficiency: float, efficiency_scale := 1.0) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateEfficiencyMultiplier_192", [efficiency, optional_efficiency, efficiency_scale], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateEfficiencyMultiplier_192", [efficiency, optional_efficiency, efficiency_scale], null)
 	var canonical = update_efficiency_multiplier_state(efficiency, optional_efficiency, efficiency_scale)
 	return {
-		"source_owner": "PortGame.source_building_update_efficiency_multiplier_state",
-		"generated_owner": "BuildingComp.java_method_updateEfficiencyMultiplier_192",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_EFFICIENCY_MULTIPLIER_STATE,
+		"generated_owner": "building_comp.java_method_updateEfficiencyMultiplier_192",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_efficiency_scale_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_efficiencyScale_193", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_efficiencyScale_193", [], null)
 	var canonical = efficiency_scale_state()
 	return {
-		"source_owner": "PortGame.source_building_efficiency_scale_state",
-		"generated_owner": "BuildingComp.java_method_efficiencyScale_193",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_EFFICIENCY_SCALE_STATE,
+		"generated_owner": "building_comp.java_method_efficiencyScale_193",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_initial_bridge_state(has_consumers: bool, cheating: bool, enabled_state: bool, production_valid: bool, should_consume_state: bool, efficiency_scale := 1.0) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale], null)
 	var canonical = update_consumption_initial_state(has_consumers, cheating, enabled_state, production_valid, should_consume_state, efficiency_scale)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_initial_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_INITIAL_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_disabled_bridge_state(enabled_state: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, enabled_state, true, true, 1.0], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, enabled_state, true, true, 1.0], null)
 	var canonical = update_consumption_disabled_state(enabled_state)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_disabled_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_DISABLED_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_setup_bridge_state(should_consume_state: bool, production_valid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, production_valid, should_consume_state, 1.0], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, production_valid, should_consume_state, 1.0], null)
 	var canonical = update_consumption_setup_state(should_consume_state, production_valid)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_setup_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_SETUP_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_non_optional_bridge_state(non_optional_consumer_results: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, true, 1.0, non_optional_consumer_results], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, true, 1.0, non_optional_consumer_results], null)
 	var canonical = update_consumption_non_optional_pass_state(non_optional_consumer_results)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_NON_OPTIONAL_PASS_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_optional_bridge_state(optional_consumer_results: Array) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, true, 1.0, [], optional_consumer_results], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, true, 1.0, [], optional_consumer_results], null)
 	var canonical = update_consumption_optional_pass_state(optional_consumer_results)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_optional_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_OPTIONAL_PASS_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_efficiency_bridge_state(min_efficiency: float, optional_efficiency: float, update: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": min_efficiency, "is_power": true}], [optional_efficiency], true], null)
 	var canonical = update_consumption_efficiency_state(min_efficiency, optional_efficiency, update)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_efficiency_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_EFFICIENCY_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_update_consumption_second_pass_bridge_state(update: bool, efficiency: float, update_consumers: Array, self_state := {}) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_updateConsumption_194", [true, false, true, true, update, 1.0, [{"result": efficiency, "is_power": true}], [efficiency], true, update_consumers, self_state], null)
 	var result_efficiency := float(result.get("efficiency", efficiency))
 	var canonical = update_consumption_second_pass_state(update, result_efficiency, update_consumers, self_state)
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_second_pass_state",
-		"generated_owner": "BuildingComp.java_method_updateConsumption_194",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_SECOND_PASS_STATE,
+		"generated_owner": "building_comp.java_method_updateConsumption_194",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -243,11 +244,11 @@ static func ambient_volume(efficiency: float) -> float:
 	return efficiency
 
 static func generated_ambient_volume_bridge_state(efficiency: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_ambientVolume_197", [efficiency], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_ambientVolume_197", [efficiency], null)
 	var canonical = ambient_volume(efficiency)
 	return {
-		"source_owner": "PortGame.source_building_ambient_volume",
-		"generated_owner": "BuildingComp.java_method_ambientVolume_197",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_AMBIENT_VOLUME,
+		"generated_owner": "building_comp.java_method_ambientVolume_197",
 		"result": result,
 		"canonical": canonical,
 	}
@@ -256,11 +257,11 @@ static func update_consumption_call_state() -> Dictionary:
 	return {"update_consumption_called": true}
 
 static func generated_update_consumption_call_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [SourceBlockDefaults.TIME_SCALE_DEFAULT, 0.0, 0.0], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd", "java_method_update_217", [source_block_defaults.TIME_SCALE_DEFAULT, 0.0, 0.0], null)
 	var canonical = update_consumption_call_state()
 	return {
-		"source_owner": "PortGame.source_building_update_consumption_call_state",
-		"generated_owner": "BuildingComp.java_method_update_217",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_UPDATE_CONSUMPTION_CALL_STATE,
+		"generated_owner": "building_comp.java_method_update_217",
 		"result": result,
 		"canonical": canonical,
 	}

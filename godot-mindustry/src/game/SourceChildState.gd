@@ -1,12 +1,27 @@
 extends RefCounted
 class_name SourceChildState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const SOURCE_CHILD_TRNS_VEC_KEY := "trns_vec"
+const SOURCE_CHILD_TRNS_VEC_FALLBACK := "source_arc_angles_trns_vec"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_child_method_names"):
+		var names = game.call("_child_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
+		SOURCE_CHILD_TRNS_VEC_KEY: Callable(game, runtime_method_name(method_names, SOURCE_CHILD_TRNS_VEC_KEY, SOURCE_CHILD_TRNS_VEC_FALLBACK)),
 	}
 
 static func add_state(child_state: Dictionary) -> Dictionary:
@@ -108,25 +123,40 @@ static func update_state(child_state: Dictionary, trns_vec: Callable) -> Diction
 		"rotation": next_rotation,
 	}
 
+static func game_update_state(game: Object, child_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_state(child_state, callbacks.get(SOURCE_CHILD_TRNS_VEC_KEY, Callable()))
+
 static func generated_child_add_bridge_state(child_state: Dictionary) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", [child_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_add_0", [child_state], null)
 	var canonical = add_state(child_state)
 	return {
-		"source_owner": "PortGame.source_child_add_state",
-		"generated_owner": "ChildComp.java_method_add_0",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CHILD_ADD_STATE,
+		"generated_owner": "child_comp.java_method_add_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("offsetX", null) == canonical.get("offsetX", null) and result.get("offsetY", null) == canonical.get("offsetY", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and result.get("offsetPos", null) == canonical.get("offsetPos", null) and result.get("offsetRot", null) == canonical.get("offsetRot", null),
 	}
 
 static func generated_child_update_bridge_state(child_state: Dictionary) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
 	var trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
-		return SourceMathState.source_angles_trns_vec(angle_degrees, x_value, y_value)
+		return source_math_state.source_angles_trns_vec(angle_degrees, x_value, y_value)
 	var canonical = update_state(child_state, trns_vec)
 	return {
-		"source_owner": "PortGame.source_child_update_state",
-		"generated_owner": "ChildComp.java_method_update_1",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CHILD_UPDATE_STATE,
+		"generated_owner": "child_comp.java_method_update_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),
+	}
+
+static func game_generated_child_update_bridge_state(game: Object, child_state: Dictionary) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/comp/ChildComp.gd", "java_method_update_1", [child_state], null)
+	var canonical = game_update_state(game, child_state)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_CHILD_UPDATE_STATE,
+		"generated_owner": "child_comp.java_method_update_1",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("parentGuard", null) == canonical.get("parentGuard", null) and result.get("rotWithParentGuard", null) == canonical.get("rotWithParentGuard", null) and result.get("parentRotcGuard", null) == canonical.get("parentRotcGuard", null) and result.get("parentRotBlockGuard", null) == canonical.get("parentRotBlockGuard", null) and is_equal_approx(float(result.get("x", 0.0)), float(canonical.get("x", 0.0))) and is_equal_approx(float(result.get("y", 0.0)), float(canonical.get("y", 0.0))) and is_equal_approx(float(result.get("rotation", 0.0)), float(canonical.get("rotation", 0.0))),

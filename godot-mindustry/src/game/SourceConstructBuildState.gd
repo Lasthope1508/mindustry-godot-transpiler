@@ -1,13 +1,33 @@
 extends RefCounted
 class_name SourceConstructBuildState
 
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+
 const CONSTRUCT_BUILD_COLOR_LERP_PROGRESS := 0.2
 const CONSTRUCT_BUILD_CLASS_EXPR := "public class ConstructBuild extends Building{"
+const SOURCE_CONSTRUCT_BUILD_LERP_DELTA_KEY := "lerp_delta"
+const SOURCE_CONSTRUCT_BUILD_LERP_DELTA_FALLBACK := "source_mathf_lerp_delta"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_construct_build_method_names"):
+		var names = game.call("_construct_build_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"lerp_delta": Callable(game, "source_mathf_lerp_delta"),
+		SOURCE_CONSTRUCT_BUILD_LERP_DELTA_KEY: Callable(game, runtime_method_name(method_names, SOURCE_CONSTRUCT_BUILD_LERP_DELTA_KEY, SOURCE_CONSTRUCT_BUILD_LERP_DELTA_FALLBACK)),
 	}
+
+static func game_inner_runtime_state(game: Object, current_solid: bool, previous_solid: bool, interactable_with_player_team: bool, current_is_placeable: bool, player_is_builder: bool, build_was_auto_paused: bool, input_is_building: bool, tile_x: int, tile_y: int, rotation: int, current_block: Variant, last_config: Variant, sensor: String, progress: float, active_deconstruct: bool, super_sense_value: float, super_sense_object_value: Variant, floor_solid: bool, floor_has_surface: bool, source_x: float, source_y: float, block_size: int, current_is_air: bool, construct_color_before: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return inner_runtime_state(current_solid, previous_solid, interactable_with_player_team, current_is_placeable, player_is_builder, build_was_auto_paused, input_is_building, tile_x, tile_y, rotation, current_block, last_config, sensor, progress, active_deconstruct, super_sense_value, super_sense_object_value, floor_solid, floor_has_surface, source_x, source_y, block_size, current_is_air, construct_color_before, source_delta, callbacks.get(SOURCE_CONSTRUCT_BUILD_LERP_DELTA_KEY, Callable()))
 
 static func set_construct_state(previous_block: Variant, block: Variant, build_cost_multiplier: float) -> Dictionary:
 	var block_is_null: bool = block == null
@@ -27,7 +47,7 @@ static func set_construct_state(previous_block: Variant, block: Variant, build_c
 		accumulator.append(0.0)
 		total_accumulator.append(0.0)
 	return {
-		"source_owner": "PortGame.construct_build_set_construct_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_SET_CONSTRUCT_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"set_construct_method": "public void setConstruct(Block previous, Block block){",
@@ -72,7 +92,7 @@ static func set_deconstruct_state(previous_block: Variant, build_cost_multiplier
 		accumulator.append(0.0)
 		total_accumulator.append(0.0)
 	return {
-		"source_owner": "PortGame.construct_build_set_deconstruct_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_SET_DECONSTRUCT_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"set_deconstruct_method": "public void setDeconstruct(Block previous){",
@@ -154,7 +174,7 @@ static func check_required_state(requirements: Array, inventory: Dictionary, acc
 			"removed_from_inventory": removed_from_inventory,
 		})
 	return {
-		"source_owner": "PortGame.construct_build_check_required_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_CHECK_REQUIRED_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"check_required_method": "private float checkRequired(ItemModule inventory, float amount, boolean remove){",
@@ -197,7 +217,7 @@ static func construct_state(previous_block: Variant, current_block: Variant, bui
 	var requirements: Array = current_block.get("requirements", []) if current_block is Dictionary else []
 	if accumulator == null or total_accumulator == null:
 		return {
-			"source_owner": "PortGame.construct_build_construct_state",
+			"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_CONSTRUCT_STATE,
 			"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 			"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 			"construct_method": "public void construct(Unit builder, @Nullable Building core, float amount, Object config){",
@@ -282,7 +302,7 @@ static func construct_state(previous_block: Variant, current_block: Variant, bui
 	if constructed_called:
 		constructed_call = {"call": "constructed(tile, current, lastBuilder, (byte)rotation, builder.team, config);", "rotation": rotation_value, "config": config}
 	return {
-		"source_owner": "PortGame.construct_build_construct_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_CONSTRUCT_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"construct_method": "public void construct(Unit builder, @Nullable Building core, float amount, Object config){",
@@ -352,7 +372,7 @@ static func deconstruct_state(current_block: Variant, builder_state: Variant, co
 	var requirements: Array = current_block.get("requirements", []) if current_block is Dictionary else []
 	if accumulator == null or total_accumulator == null:
 		return {
-			"source_owner": "PortGame.construct_build_deconstruct_state",
+			"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_DECONSTRUCT_STATE,
 			"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 			"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 			"deconstruct_method": "public void deconstruct(Unit builder, @Nullable CoreBuild core, float amount){",
@@ -456,7 +476,7 @@ static func deconstruct_state(current_block: Variant, builder_state: Variant, co
 	if deconstruct_finish_called:
 		deconstruct_finish_call = {"call": "Call.deconstructFinish(tile, this.current, lastBuilder);", "current": current_block}
 	return {
-		"source_owner": "PortGame.construct_build_deconstruct_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_DECONSTRUCT_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"deconstruct_method": "public void deconstruct(Unit builder, @Nullable CoreBuild core, float amount){",
@@ -529,7 +549,7 @@ static func deconstruct_state(current_block: Variant, builder_state: Variant, co
 
 static func progress_state(progress_value: float) -> Dictionary:
 	return {
-		"source_owner": "PortGame.construct_build_progress_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_PROGRESS_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"progress_method": "public float progress(){",
@@ -539,7 +559,7 @@ static func progress_state(progress_value: float) -> Dictionary:
 
 static func version_state() -> Dictionary:
 	return {
-		"source_owner": "PortGame.construct_build_version_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_VERSION_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"version_method": "public byte version(){",
@@ -575,7 +595,7 @@ static func write_state(progress_value: float, previous_block_id: int, current_b
 				"items_left": items_left_value,
 			})
 	return {
-		"source_owner": "PortGame.construct_build_write_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_WRITE_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"write_method": "public void write(Writes write){",
@@ -639,7 +659,7 @@ static func read_state(progress_value: float, previous_block_id: int, current_bl
 		current_after = air_block
 	var current_build_time: float = float(current_after.get("buildTime", 0.0)) if current_after is Dictionary else 0.0
 	return {
-		"source_owner": "PortGame.construct_build_read_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_READ_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"read_method": "public void read(Reads read, byte revision){",
@@ -734,7 +754,7 @@ static func draw_state(current_block: Variant, previous_block: Variant, air_bloc
 				"flush_call": {"call": "Draw.flush();"},
 			})
 	return {
-		"source_owner": "PortGame.construct_build_draw_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_DRAW_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"draw_method": "public void draw(){",
@@ -802,7 +822,7 @@ static func inner_runtime_state(current_solid: bool, previous_solid: bool, inter
 	var construct_color_after: float = float(lerp_delta.call(construct_color_before, construct_color_target, CONSTRUCT_BUILD_COLOR_LERP_PROGRESS, source_delta))
 	var update_tile_reset_called: bool = true
 	return {
-		"source_owner": "PortGame.construct_build_inner_runtime_state",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BUILD_INNER_RUNTIME_STATE,
 		"source": "core/src/mindustry/world/blocks/ConstructBlock.java",
 		"class_expr": CONSTRUCT_BUILD_CLASS_EXPR,
 		"display_name_method": "public String getDisplayName(){",

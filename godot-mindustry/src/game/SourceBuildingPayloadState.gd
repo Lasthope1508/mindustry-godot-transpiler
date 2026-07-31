@@ -19,11 +19,35 @@ const SOURCE_DUMP_PAYLOAD_STATE_EMPTY_PROXIMITY_GUARD := "if(proximity.size == 0
 const SOURCE_DUMP_PAYLOAD_STATE_ACCEPT_PAYLOAD := "if(other.acceptPayload(self(), todump)){"
 const SOURCE_DUMP_PAYLOAD_STATE_HANDLE_PAYLOAD := "other.handlePayload(self(), todump);"
 const SOURCE_DUMP_PAYLOAD_STATE_INCREMENT_DUMP := "incrementDump(proximity.size);"
+const SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_KEY := "increment_dump_cursor"
+const SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK := "source_increment_dump_cursor"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game == null:
+		return {}
+	if game.has_method("_building_payload_state_method_names"):
+		var names = game.call("_building_payload_state_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	return str(method_names.get(key, fallback_name))
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
+	var increment_dump_cursor_method := runtime_method_name(method_names, SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_KEY, SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_FALLBACK)
 	return {
-		"increment_dump_cursor": Callable(game, "source_increment_dump_cursor"),
+		SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_KEY: Callable(game, increment_dump_cursor_method),
 	}
+
+static func game_dump_payload_state(game: Object, proximity_size: int, dump_cursor: int, accepts_payload_by_index: Array) -> Dictionary:
+	return dump_payload_state(
+		proximity_size,
+		dump_cursor,
+		accepts_payload_by_index,
+		default_callbacks_state(game).get(SOURCE_BUILDING_PAYLOAD_INCREMENT_DUMP_CURSOR_METHOD_KEY, Callable())
+	)
 
 static func accept_payload_state() -> bool:
 	return false

@@ -56,6 +56,8 @@ func load() -> bool:
 	camera_min_zoom = float(camera_profile.get("min_zoom", 0.0))
 	camera_max_zoom = float(camera_profile.get("max_zoom", 0.0))
 	camera_runtime_zoom = Vector2(camera_initial_zoom, camera_initial_zoom)
+	background_min_cell = Vector2i.ZERO
+	background_max_cell = Vector2i(world_width_tiles, world_height_tiles)
 	return true
 
 func sync_runtime_viewport_size(viewport_size: Vector2i) -> void:
@@ -170,3 +172,13 @@ func clamp_camera_position(position: Vector2, zoom: Vector2) -> Vector2:
 		clampf(position.x, float(bounds.get("min_x", position.x)), float(bounds.get("max_x", position.x))),
 		clampf(position.y, float(bounds.get("min_y", position.y)), float(bounds.get("max_y", position.y)))
 	)
+
+func background_cells() -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for y in range(background_min_cell.y, background_max_cell.y):
+		for x in range(background_min_cell.x, background_max_cell.x):
+			cells.append(Vector2i(x, y))
+	return cells
+
+func background_size() -> Vector2i:
+	return Vector2i(background_max_cell.x - background_min_cell.x, background_max_cell.y - background_min_cell.y)

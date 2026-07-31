@@ -1,30 +1,124 @@
 extends RefCounted
 class_name SourceWeaponsState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceWeaponDefaults := preload("res://src/game/SourceWeaponDefaults.gd")
-const SourceShootPatternDefaults := preload("res://src/game/SourceShootPatternDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_weapon_defaults := preload("res://src/game/SourceWeaponDefaults.gd")
+const source_shoot_pattern_defaults := preload("res://src/game/SourceShootPatternDefaults.gd")
+
+const SOURCE_WEAPONS_APPROACH_DELTA_KEY := "approach_delta"
+const SOURCE_WEAPONS_APPROACH_DELTA_FALLBACK := "source_mathf_approach_delta"
+const SOURCE_WEAPONS_LERP_DELTA_KEY := "lerp_delta"
+const SOURCE_WEAPONS_LERP_DELTA_FALLBACK := "source_mathf_lerp_delta"
+const SOURCE_WEAPONS_TRNS_VEC_KEY := "trns_vec"
+const SOURCE_WEAPONS_TRNS_VEC_FALLBACK := "source_arc_angles_trns_vec"
+const SOURCE_WEAPONS_ANGLES_ANGLE_KEY := "angles_angle"
+const SOURCE_WEAPONS_ANGLES_ANGLE_FALLBACK := "source_arc_angles_angle"
+const SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_KEY := "move_toward_angle"
+const SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_FALLBACK := "source_arc_angles_move_toward"
+const SOURCE_WEAPONS_ANGLE_DIST_KEY := "angle_dist"
+const SOURCE_WEAPONS_ANGLE_DIST_FALLBACK := "source_arc_angles_angle_dist"
+const SOURCE_WEAPONS_MATHF_DST_KEY := "mathf_dst"
+const SOURCE_WEAPONS_MATHF_DST_FALLBACK := "source_mathf_dst"
+const SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY := "status_apply_result"
+const SOURCE_WEAPONS_STATUS_APPLY_RESULT_FALLBACK := "source_status_apply_result"
+const SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY := "bullet_origin_state"
+const SOURCE_WEAPONS_BULLET_ORIGIN_STATE_FALLBACK := "source_weapon_update_bullet_origin_state"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game == null:
+		return {}
+	if game.has_method("_weapons_state_method_names"):
+		var names = game.call("_weapons_state_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	return str(method_names.get(key, fallback_name))
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"approach_delta": Callable(game, "source_mathf_approach_delta"),
-		"lerp_delta": Callable(game, "source_mathf_lerp_delta"),
-		"trns_vec": Callable(game, "source_arc_angles_trns_vec"),
-		"angles_angle": Callable(game, "source_arc_angles_angle"),
-		"move_toward_angle": Callable(game, "source_arc_angles_move_toward"),
-		"angle_dist": Callable(game, "source_arc_angles_angle_dist"),
-		"mathf_dst": Callable(game, "source_mathf_dst"),
-		"status_apply_result": Callable(game, "source_status_apply_result"),
-		"bullet_origin_state": Callable(game, "source_weapon_update_bullet_origin_state"),
+		SOURCE_WEAPONS_APPROACH_DELTA_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_APPROACH_DELTA_KEY, SOURCE_WEAPONS_APPROACH_DELTA_FALLBACK)),
+		SOURCE_WEAPONS_LERP_DELTA_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_LERP_DELTA_KEY, SOURCE_WEAPONS_LERP_DELTA_FALLBACK)),
+		SOURCE_WEAPONS_TRNS_VEC_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_TRNS_VEC_KEY, SOURCE_WEAPONS_TRNS_VEC_FALLBACK)),
+		SOURCE_WEAPONS_ANGLES_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_ANGLES_ANGLE_KEY, SOURCE_WEAPONS_ANGLES_ANGLE_FALLBACK)),
+		SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_KEY, SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_FALLBACK)),
+		SOURCE_WEAPONS_ANGLE_DIST_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_ANGLE_DIST_KEY, SOURCE_WEAPONS_ANGLE_DIST_FALLBACK)),
+		SOURCE_WEAPONS_MATHF_DST_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_MATHF_DST_KEY, SOURCE_WEAPONS_MATHF_DST_FALLBACK)),
+		SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY, SOURCE_WEAPONS_STATUS_APPLY_RESULT_FALLBACK)),
+		SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY, SOURCE_WEAPONS_BULLET_ORIGIN_STATE_FALLBACK)),
 	}
 
-const SOURCE_WEAPON_RELOAD_DEFAULT := SourceWeaponDefaults.RELOAD_DEFAULT
-const SOURCE_WEAPON_RECOIL_TIME_DEFAULT := SourceWeaponDefaults.RECOIL_TIME_DEFAULT
-const SOURCE_WEAPON_RECOILS_DEFAULT := SourceWeaponDefaults.RECOILS_DEFAULT
-const SOURCE_WEAPON_SMOOTH_RELOAD_SPEED_DEFAULT := SourceWeaponDefaults.SMOOTH_RELOAD_SPEED_DEFAULT
-const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := SourceShootPatternDefaults.SHOTS_DEFAULT
-const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.FIRST_SHOT_DELAY_DEFAULT
-const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := SourceShootPatternDefaults.SHOT_DELAY_DEFAULT
+static func game_update_passive_timers_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_passive_timers_state(mount_state, weapon_state, unit_state, source_delta, callbacks.get(SOURCE_WEAPONS_APPROACH_DELTA_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_LERP_DELTA_KEY, Callable()))
+
+static func game_update_mount_origin_state(game: Object, unit_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_mount_origin_state(unit_state, weapon_state, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+static func game_update_rotate_toward_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, can_shoot: bool, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_rotate_toward_state(mount_state, weapon_state, unit_state, can_shoot, source_delta, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_ANGLES_ANGLE_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_MOVE_TOWARD_ANGLE_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_ANGLE_DIST_KEY, Callable()))
+
+static func game_update_bullet_origin_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, mount_x: float, mount_y: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_bullet_origin_state(mount_state, weapon_state, unit_state, mount_x, mount_y, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_ANGLES_ANGLE_KEY, Callable()))
+
+static func game_update_continuous_live_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, weapon_rotation: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_continuous_live_state(mount_state, weapon_state, unit_state, bullet_state, source_delta, bullet_x, bullet_y, weapon_rotation, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+static func game_update_continuous_laser_aim_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, source_delta: float, bullet_x: float, bullet_y: float, shoot_angle: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_continuous_laser_aim_state(mount_state, weapon_state, bullet_state, source_delta, bullet_x, bullet_y, shoot_angle, callbacks.get(SOURCE_WEAPONS_MATHF_DST_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_APPROACH_DELTA_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+static func game_update_always_continuous_keepalive_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_always_continuous_keepalive_state(mount_state, weapon_state, bullet_state, unit_state, callbacks.get(SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY, Callable()))
+
+static func game_update_cone_gate_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return update_cone_gate_state(mount_state, weapon_state, unit_state, callbacks.get(SOURCE_WEAPONS_ANGLE_DIST_KEY, Callable()))
+
+static func game_shoot_charge_start_state(game: Object, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, unit_state: Dictionary, shoot_x: float, shoot_y: float, charge_rotation: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return shoot_charge_start_state(mount_state, weapon_state, bullet_state, unit_state, shoot_x, shoot_y, charge_rotation, callbacks.get(SOURCE_WEAPONS_STATUS_APPLY_RESULT_KEY, Callable()))
+
+static func game_bullet_geometry_state(game: Object, unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return bullet_geometry_state(unit_state, mount_state, weapon_state, x_offset, y_offset, x_spread, y_spread, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+static func game_bullet_angle_life_state(game: Object, unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return bullet_angle_life_state(unit_state, mount_state, weapon_state, bullet_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_MATHF_DST_KEY, Callable()))
+
+static func game_bullet_create_call_state(game: Object, unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary, controller_state: Dictionary, x_offset: float, y_offset: float, x_spread: float, y_spread: float, angle_offset: float, angle_spread: float, velocity_random: float, mover: Variant) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return bullet_create_call_state(unit_state, mount_state, weapon_state, bullet_state, controller_state, x_offset, y_offset, x_spread, y_spread, angle_offset, angle_spread, velocity_random, mover, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_MATHF_DST_KEY, Callable()))
+
+static func game_handle_bullet_continuous_geometry_state(game: Object, unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return handle_bullet_continuous_geometry_state(unit_state, mount_state, weapon_state, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+static func game_handle_bullet_aim_update_state(game: Object, unit_state: Dictionary, mount_state: Dictionary, weapon_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return handle_bullet_aim_update_state(unit_state, mount_state, weapon_state, bullet_state, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()), callbacks.get(SOURCE_WEAPONS_BULLET_ORIGIN_STATE_KEY, Callable()))
+
+static func game_bullet_recoil_velocity_state(game: Object, create_call_state: Dictionary, unit_state: Dictionary, bullet_state: Dictionary) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return bullet_recoil_velocity_state(create_call_state, unit_state, bullet_state, callbacks.get(SOURCE_WEAPONS_TRNS_VEC_KEY, Callable()))
+
+const SOURCE_WEAPON_RELOAD_DEFAULT := source_weapon_defaults.RELOAD_DEFAULT
+const SOURCE_WEAPON_RECOIL_TIME_DEFAULT := source_weapon_defaults.RECOIL_TIME_DEFAULT
+const SOURCE_WEAPON_RECOILS_DEFAULT := source_weapon_defaults.RECOILS_DEFAULT
+const SOURCE_WEAPON_SMOOTH_RELOAD_SPEED_DEFAULT := source_weapon_defaults.SMOOTH_RELOAD_SPEED_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOTS_DEFAULT := source_shoot_pattern_defaults.SHOTS_DEFAULT
+const SOURCE_SHOOT_PATTERN_FIRST_SHOT_DELAY_DEFAULT := source_shoot_pattern_defaults.FIRST_SHOT_DELAY_DEFAULT
+const SOURCE_SHOOT_PATTERN_SHOT_DELAY_DEFAULT := source_shoot_pattern_defaults.SHOT_DELAY_DEFAULT
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOTS_FIELD := "public int shots = 1;"
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_FIRST_SHOT_DELAY_FIELD := "public float firstShotDelay = 0;"
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_SHOT_DELAY_FIELD := "public float shotDelay = 0;"
@@ -32,43 +126,45 @@ const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_METHOD := "public void shoot(int total
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_LOOP := "for(int i = 0; i < shots; i++){"
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_HANDLER_CALL := "handler.shoot(0, 0, 0, firstShotDelay + shotDelay * i);"
 const SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS_MOVER_NULL := "shoot(x, y, rotation, delay, null);"
-const SOURCE_WEAPON_CONTINUOUS_DEFAULT := SourceWeaponDefaults.CONTINUOUS_DEFAULT
-const SOURCE_WEAPON_SHOOT_WARMUP_SPEED_DEFAULT := SourceWeaponDefaults.SHOOT_WARMUP_SPEED_DEFAULT
-const SOURCE_WEAPON_LINEAR_WARMUP_DEFAULT := SourceWeaponDefaults.LINEAR_WARMUP_DEFAULT
-const SOURCE_WEAPON_X_DEFAULT := SourceWeaponDefaults.X_DEFAULT
-const SOURCE_WEAPON_Y_DEFAULT := SourceWeaponDefaults.Y_DEFAULT
-const SOURCE_WEAPON_CONTROLLABLE_DEFAULT := SourceWeaponDefaults.CONTROLLABLE_DEFAULT
-const SOURCE_WEAPON_ROTATION_OFFSET_DEGREES := SourceWeaponDefaults.ROTATION_OFFSET_DEGREES
-const SOURCE_WEAPON_AUTO_TARGET_DEFAULT := SourceWeaponDefaults.AUTO_TARGET_DEFAULT
-const SOURCE_WEAPON_TARGET_INTERVAL_DEFAULT := SourceWeaponDefaults.TARGET_INTERVAL_DEFAULT
-const SOURCE_WEAPON_TARGET_SWITCH_INTERVAL_DEFAULT := SourceWeaponDefaults.TARGET_SWITCH_INTERVAL_DEFAULT
-const SOURCE_WEAPON_SHOOT_Y_DEFAULT := SourceWeaponDefaults.SHOOT_Y_DEFAULT
-const SOURCE_WEAPON_PREDICT_TARGET_DEFAULT := SourceWeaponDefaults.PREDICT_TARGET_DEFAULT
-const SOURCE_WEAPON_ROTATE_DEFAULT := SourceWeaponDefaults.ROTATE_DEFAULT
-const SOURCE_WEAPON_ROTATE_SPEED_DEFAULT := SourceWeaponDefaults.ROTATE_SPEED_DEFAULT
-const SOURCE_WEAPON_ROTATION_LIMIT_DEFAULT := SourceWeaponDefaults.ROTATION_LIMIT_DEFAULT
-const SOURCE_WEAPON_BASE_ROTATION_DEFAULT := SourceWeaponDefaults.BASE_ROTATION_DEFAULT
-const SOURCE_WEAPON_SHOOT_CONE_DEFAULT := SourceWeaponDefaults.SHOOT_CONE_DEFAULT
-const SOURCE_WEAPON_SHOOT_X_DEFAULT := SourceWeaponDefaults.SHOOT_X_DEFAULT
-const SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT := SourceWeaponDefaults.ALWAYS_SHOOTING_DEFAULT
-const SOURCE_WEAPON_AIM_CHANGE_SPEED_DEFAULT := SourceWeaponDefaults.AIM_CHANGE_SPEED_DEFAULT
-const SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT := SourceWeaponDefaults.ALWAYS_CONTINUOUS_DEFAULT
-const SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT := SourceWeaponDefaults.SHOOT_STATUS_DURATION_DEFAULT
-const SOURCE_WEAPON_COOLDOWN_TIME_DEFAULT := SourceWeaponDefaults.COOLDOWN_TIME_DEFAULT
-const SOURCE_WEAPON_MIN_WARMUP_DEFAULT := SourceWeaponDefaults.MIN_WARMUP_DEFAULT
-const SOURCE_WEAPON_FLIP_SPRITE_DEFAULT := SourceWeaponDefaults.FLIP_SPRITE_DEFAULT
-const SOURCE_WEAPON_ALTERNATE_DEFAULT := SourceWeaponDefaults.ALTERNATE_DEFAULT
-const SOURCE_WEAPON_OTHER_SIDE_DEFAULT := SourceWeaponDefaults.OTHER_SIDE_DEFAULT
-const SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT := SourceWeaponDefaults.MIN_SHOOT_VELOCITY_DEFAULT
-const SOURCE_WEAPON_ACTIVE_SOUND_VOLUME_DEFAULT := SourceWeaponDefaults.ACTIVE_SOUND_VOLUME_DEFAULT
-const SOURCE_WEAPON_SHOOT_SOUND_VOLUME_DEFAULT := SourceWeaponDefaults.SHOOT_SOUND_VOLUME_DEFAULT
-const SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MIN_DEFAULT
-const SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT := SourceWeaponDefaults.SOUND_PITCH_MAX_DEFAULT
-const SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT := SourceWeaponDefaults.PARENTIZE_EFFECTS_DEFAULT
-const SOURCE_WEAPON_INACCURACY_DEFAULT := SourceWeaponDefaults.INACCURACY_DEFAULT
-const SOURCE_WEAPON_SHAKE_DEFAULT := SourceWeaponDefaults.SHAKE_DEFAULT
-const SOURCE_WEAPON_VELOCITY_RND_DEFAULT := SourceWeaponDefaults.VELOCITY_RND_DEFAULT
-const SOURCE_WEAPON_EXTRA_VELOCITY_DEFAULT := SourceWeaponDefaults.EXTRA_VELOCITY_DEFAULT
+const SOURCE_WEAPON_CONTINUOUS_DEFAULT := source_weapon_defaults.CONTINUOUS_DEFAULT
+const SOURCE_WEAPON_SHOOT_WARMUP_SPEED_DEFAULT := source_weapon_defaults.SHOOT_WARMUP_SPEED_DEFAULT
+const SOURCE_WEAPON_LINEAR_WARMUP_DEFAULT := source_weapon_defaults.LINEAR_WARMUP_DEFAULT
+const SOURCE_WEAPON_X_DEFAULT := source_weapon_defaults.X_DEFAULT
+const SOURCE_WEAPON_Y_DEFAULT := source_weapon_defaults.Y_DEFAULT
+const SOURCE_WEAPON_CONTROLLABLE_DEFAULT := source_weapon_defaults.CONTROLLABLE_DEFAULT
+const SOURCE_WEAPON_ROTATION_OFFSET_DEGREES := source_weapon_defaults.ROTATION_OFFSET_DEGREES
+const SOURCE_WEAPON_FULL_CIRCLE_DEGREES := source_math_defaults.FULL_CIRCLE_DEGREES
+const SOURCE_WEAPON_HALF_CIRCLE_DEGREES := source_math_defaults.HALF_CIRCLE_DEGREES
+const SOURCE_WEAPON_AUTO_TARGET_DEFAULT := source_weapon_defaults.AUTO_TARGET_DEFAULT
+const SOURCE_WEAPON_TARGET_INTERVAL_DEFAULT := source_weapon_defaults.TARGET_INTERVAL_DEFAULT
+const SOURCE_WEAPON_TARGET_SWITCH_INTERVAL_DEFAULT := source_weapon_defaults.TARGET_SWITCH_INTERVAL_DEFAULT
+const SOURCE_WEAPON_SHOOT_Y_DEFAULT := source_weapon_defaults.SHOOT_Y_DEFAULT
+const SOURCE_WEAPON_PREDICT_TARGET_DEFAULT := source_weapon_defaults.PREDICT_TARGET_DEFAULT
+const SOURCE_WEAPON_ROTATE_DEFAULT := source_weapon_defaults.ROTATE_DEFAULT
+const SOURCE_WEAPON_ROTATE_SPEED_DEFAULT := source_weapon_defaults.ROTATE_SPEED_DEFAULT
+const SOURCE_WEAPON_ROTATION_LIMIT_DEFAULT := source_weapon_defaults.ROTATION_LIMIT_DEFAULT
+const SOURCE_WEAPON_BASE_ROTATION_DEFAULT := source_weapon_defaults.BASE_ROTATION_DEFAULT
+const SOURCE_WEAPON_SHOOT_CONE_DEFAULT := source_weapon_defaults.SHOOT_CONE_DEFAULT
+const SOURCE_WEAPON_SHOOT_X_DEFAULT := source_weapon_defaults.SHOOT_X_DEFAULT
+const SOURCE_WEAPON_ALWAYS_SHOOTING_DEFAULT := source_weapon_defaults.ALWAYS_SHOOTING_DEFAULT
+const SOURCE_WEAPON_AIM_CHANGE_SPEED_DEFAULT := source_weapon_defaults.AIM_CHANGE_SPEED_DEFAULT
+const SOURCE_WEAPON_ALWAYS_CONTINUOUS_DEFAULT := source_weapon_defaults.ALWAYS_CONTINUOUS_DEFAULT
+const SOURCE_WEAPON_SHOOT_STATUS_DURATION_DEFAULT := source_weapon_defaults.SHOOT_STATUS_DURATION_DEFAULT
+const SOURCE_WEAPON_COOLDOWN_TIME_DEFAULT := source_weapon_defaults.COOLDOWN_TIME_DEFAULT
+const SOURCE_WEAPON_MIN_WARMUP_DEFAULT := source_weapon_defaults.MIN_WARMUP_DEFAULT
+const SOURCE_WEAPON_FLIP_SPRITE_DEFAULT := source_weapon_defaults.FLIP_SPRITE_DEFAULT
+const SOURCE_WEAPON_ALTERNATE_DEFAULT := source_weapon_defaults.ALTERNATE_DEFAULT
+const SOURCE_WEAPON_OTHER_SIDE_DEFAULT := source_weapon_defaults.OTHER_SIDE_DEFAULT
+const SOURCE_WEAPON_MIN_SHOOT_VELOCITY_DEFAULT := source_weapon_defaults.MIN_SHOOT_VELOCITY_DEFAULT
+const SOURCE_WEAPON_ACTIVE_SOUND_VOLUME_DEFAULT := source_weapon_defaults.ACTIVE_SOUND_VOLUME_DEFAULT
+const SOURCE_WEAPON_SHOOT_SOUND_VOLUME_DEFAULT := source_weapon_defaults.SHOOT_SOUND_VOLUME_DEFAULT
+const SOURCE_WEAPON_SOUND_PITCH_MIN_DEFAULT := source_weapon_defaults.SOUND_PITCH_MIN_DEFAULT
+const SOURCE_WEAPON_SOUND_PITCH_MAX_DEFAULT := source_weapon_defaults.SOUND_PITCH_MAX_DEFAULT
+const SOURCE_WEAPON_PARENTIZE_EFFECTS_DEFAULT := source_weapon_defaults.PARENTIZE_EFFECTS_DEFAULT
+const SOURCE_WEAPON_INACCURACY_DEFAULT := source_weapon_defaults.INACCURACY_DEFAULT
+const SOURCE_WEAPON_SHAKE_DEFAULT := source_weapon_defaults.SHAKE_DEFAULT
+const SOURCE_WEAPON_VELOCITY_RND_DEFAULT := source_weapon_defaults.VELOCITY_RND_DEFAULT
+const SOURCE_WEAPON_EXTRA_VELOCITY_DEFAULT := source_weapon_defaults.EXTRA_VELOCITY_DEFAULT
 
 static func setup_mounts_state(weapon_states: Array) -> Dictionary:
 	var mounts: Array = []
@@ -495,7 +591,7 @@ static func update_rotate_toward_state(mount_state: Dictionary, weapon_state: Di
 	if gate:
 		target_rotation = angles_angle.call(axis_x, axis_y, aim_x, aim_y) - unit_rotation
 		next_rotation = move_toward_angle.call(current_rotation, target_rotation, rotate_speed * source_delta)
-	if gate and rotation_limit < 360.0:
+	if gate and rotation_limit < SOURCE_WEAPON_FULL_CIRCLE_DEGREES:
 		limit_dst = angle_dist.call(next_rotation, base_rotation)
 		if limit_dst > rotation_limit / 2.0:
 			next_rotation = move_toward_angle.call(next_rotation, base_rotation, limit_dst - rotation_limit / 2.0)
@@ -512,7 +608,7 @@ static func update_rotate_toward_state(mount_state: Dictionary, weapon_state: Di
 		"rotationLimit": rotation_limit,
 		"baseRotation": base_rotation,
 		"limitDistance": limit_dst,
-		"rotationLimitApplied": gate and rotation_limit < 360.0 and limit_dst > rotation_limit / 2.0,
+		"rotationLimitApplied": gate and rotation_limit < SOURCE_WEAPON_FULL_CIRCLE_DEGREES and limit_dst > rotation_limit / 2.0,
 		"nonRotateApplied": non_rotate_branch,
 		"canShoot": can_shoot,
 		"mountRotate": mount_rotate,
@@ -633,12 +729,12 @@ static func update_continuous_live_state(mount_state: Dictionary, weapon_state: 
 	var bullet_recoil := float(bullet_state.get("recoil", 0.0))
 	var next_reload := float(mount_state.get("reload", 0.0))
 	var next_recoil := float(mount_state.get("recoil", 0.0))
-	var next_bullet_rotation := weapon_rotation + 90.0
+	var next_bullet_rotation := weapon_rotation + SOURCE_WEAPON_ROTATION_OFFSET_DEGREES
 	var next_bullet_x := float(bullet_state.get("x", bullet_x))
 	var next_bullet_y := float(bullet_state.get("y", bullet_y))
 	var next_vel_x := float(unit_state.get("velX", 0.0))
 	var next_vel_y := float(unit_state.get("velY", 0.0))
-	var recoil_vec: Dictionary = trns_vec.call(next_bullet_rotation + 180.0, bullet_recoil * source_delta, 0.0)
+	var recoil_vec: Dictionary = trns_vec.call(next_bullet_rotation + SOURCE_WEAPON_HALF_CIRCLE_DEGREES, bullet_recoil * source_delta, 0.0)
 	if live:
 		next_bullet_x = bullet_x
 		next_bullet_y = bullet_y
@@ -1098,26 +1194,26 @@ static func shoot_pattern_default_events(shoot_state: Dictionary) -> Array:
 	return events
 
 static func generated_shoot_pattern_default_events_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [shots, first_shot_delay, shot_delay], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [shots, first_shot_delay, shot_delay], null)
 	var canonical = shoot_pattern_default_events({
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,
 		"shotDelay": shot_delay,
 	})
 	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_1",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS,
+		"generated_owner": "shoot_pattern.java_method_shoot_1",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("events", []) == canonical,
 	}
 
 static func generated_shoot_pattern_default_events_default_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_1", [], null)
 	var canonical = shoot_pattern_default_events({})
 	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_1",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS,
+		"generated_owner": "shoot_pattern.java_method_shoot_1",
 		"result": result,
 		"canonical": canonical,
 		"defaulted_args": ["shots", "firstShotDelay", "shotDelay"],
@@ -1125,38 +1221,38 @@ static func generated_shoot_pattern_default_events_default_bridge_state() -> Dic
 	}
 
 static func generated_shoot_pattern_compat_dispatch_bridge_state(total_shots: int, shots: int, first_shot_delay: float, shot_delay: float, barrel_incrementer_present: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_0", [total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_shoot_0", [total_shots, shots, first_shot_delay, shot_delay, barrel_incrementer_present], null)
 	var canonical = shoot_pattern_default_events({
 		"shots": shots,
 		"firstShotDelay": first_shot_delay,
 		"shotDelay": shot_delay,
 	})
 	return {
-		"source_owner": "PortGame.source_shoot_pattern_default_events",
-		"generated_owner": "ShootPattern.java_method_shoot_0",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_SHOOT_PATTERN_DEFAULT_EVENTS,
+		"generated_owner": "shoot_pattern.java_method_shoot_0",
 		"result": result,
 		"canonical": canonical,
 		"matches": result.get("events", []) == canonical and int(result.get("barrelIncrementerCalls", -1)) == 0,
 	}
 
 static func generated_shoot_pattern_flip_bridge_state() -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_flip_2", [], null)
-	var canonical = {"source_owner": "ShootPattern.flip", "generated_owner": "ShootPattern.java_method_flip_2", "source": "core/src/mindustry/entities/pattern/ShootPattern.java", "method": "public void flip(){", "comment": "/** Subclasses should override this to flip its sides. */", "no_op": true, "mutated_fields": []}
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_flip_2", [], null)
+	var canonical = {"source_owner": source_runtime_owner_registry.SOURCE_SHOOT_PATTERN_FLIP, "generated_owner": "shoot_pattern.java_method_flip_2", "source": "core/src/mindustry/entities/pattern/ShootPattern.java", "method": "public void flip(){", "comment": "/** Subclasses should override this to flip its sides. */", "no_op": true, "mutated_fields": []}
 	return {
-		"source_owner": "ShootPattern.flip",
-		"generated_owner": "ShootPattern.java_method_flip_2",
+		"source_owner": source_runtime_owner_registry.SOURCE_SHOOT_PATTERN_FLIP,
+		"generated_owner": "shoot_pattern.java_method_flip_2",
 		"result": result,
 		"canonical": canonical,
 		"matches": bool(result.get("no_op", false)) and result.get("mutated_fields", []) == [],
 	}
 
 static func generated_shoot_pattern_copy_bridge_state(shots: int, first_shot_delay: float, shot_delay: float) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_copy_3", [shots, first_shot_delay, shot_delay], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/entities/pattern/ShootPattern.gd", "java_method_copy_3", [shots, first_shot_delay, shot_delay], null)
 	var expected_copy := {"shots": shots, "firstShotDelay": first_shot_delay, "shotDelay": shot_delay}
 	var canonical := expected_copy
 	return {
-		"source_owner": "ShootPattern.copy",
-		"generated_owner": "ShootPattern.java_method_copy_3",
+		"source_owner": source_runtime_owner_registry.SOURCE_SHOOT_PATTERN_COPY,
+		"generated_owner": "shoot_pattern.java_method_copy_3",
 		"result": result,
 		"expected_copy": expected_copy,
 		"canonical": canonical,
@@ -1645,7 +1741,7 @@ static func bullet_recoil_velocity_state(create_call_state: Dictionary, unit_sta
 	var angle_life_state: Dictionary = create_call_state.get("angleLifeState", {})
 	var shoot_angle := float(angle_life_state.get("shootAngle", 0.0))
 	var bullet_recoil := float(bullet_state.get("recoil", 0.0))
-	var recoil_vec: Dictionary = trns_vec.call(shoot_angle + 180.0, bullet_recoil, 0.0)
+	var recoil_vec: Dictionary = trns_vec.call(shoot_angle + SOURCE_WEAPON_HALF_CIRCLE_DEGREES, bullet_recoil, 0.0)
 	var unit_vel_after := {
 		"x": float(unit_vel_before["x"]) + float(recoil_vec.get("x", 0.0)),
 		"y": float(unit_vel_before["y"]) + float(recoil_vec.get("y", 0.0)),

@@ -1,23 +1,55 @@
 extends RefCounted
 class_name SourcePlacedPowerDistributionRuntimeState
 
-const SourcePlacedBlockState := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_placed_block_state := preload("res://src/game/SourcePlacedBlockState.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_texture_runtime_state := preload("res://src/game/SourceTextureRuntimeState.gd")
+
+const SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY := "block_from_sprite"
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY := "role_for_block"
+const SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK := "power_graph_role_for_block"
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY := "requested_power"
+const SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK := "source_consume_power_requested_power_state"
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY := "balance"
+const SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK := "source_power_graph_update_balance_state"
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY := "distribute"
+const SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK := "source_power_graph_update_battery_distribute_state"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_placed_power_distribution_method_names"):
+		var names = game.call("_placed_power_distribution_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"block_from_sprite": Callable(game, "block_from_sprite"),
-		"role_for_block": Callable(game, "power_graph_role_for_block"),
-		"requested_power": Callable(game, "source_consume_power_requested_power_state"),
-		"balance": Callable(game, "source_power_graph_update_balance_state"),
-		"distribute": Callable(game, "source_power_graph_update_battery_distribute_state"),
+		SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY: source_texture_runtime_state.block_from_sprite_callback(game),
+		SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY, SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_FALLBACK)),
+		SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY, SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_FALLBACK)),
+		SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY, SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_FALLBACK)),
+		SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY, SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_FALLBACK)),
 	}
 
+static func game_summary_state(game: Object, tick_rate: float) -> Dictionary:
+	return summary_state(game.get("placed_block_origins"), default_callbacks_state(game), {
+		"power_buffered": source_block_defaults.SOURCE_BLOCK_POWER_BUFFERED_DEFAULT,
+		"power_usage": source_block_defaults.SOURCE_BLOCK_POWER_USAGE_DEFAULT,
+		"power_capacity": source_block_defaults.SOURCE_BLOCK_POWER_CAPACITY_DEFAULT,
+		"power_production": source_block_defaults.SOURCE_BLOCK_POWER_PRODUCTION_DEFAULT,
+	}, tick_rate)
+
 static func summary_state(placed_block_origins: Dictionary, callbacks: Dictionary, defaults: Dictionary, tick_rate: float) -> Dictionary:
-	var block_from_sprite_fn: Callable = callbacks.get("block_from_sprite", Callable())
-	var role_fn: Callable = callbacks.get("role_for_block", Callable())
-	var requested_power_fn: Callable = callbacks.get("requested_power", Callable())
-	var balance_fn: Callable = callbacks.get("balance", Callable())
-	var distribute_fn: Callable = callbacks.get("distribute", Callable())
+	var block_from_sprite_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_BLOCK_FROM_SPRITE_KEY, Callable())
+	var role_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_ROLE_FOR_BLOCK_KEY, Callable())
+	var requested_power_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_REQUESTED_POWER_KEY, Callable())
+	var balance_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_BALANCE_KEY, Callable())
+	var distribute_fn: Callable = callbacks.get(SOURCE_PLACED_POWER_DISTRIBUTION_DISTRIBUTE_KEY, Callable())
 	var consumers: Array = []
 	var producers: Array = []
 	var batteries: Array = []
@@ -25,7 +57,7 @@ static func summary_state(placed_block_origins: Dictionary, callbacks: Dictionar
 		var block = block_from_sprite_fn.call(placed_block_origins.get(key))
 		if block == null:
 			continue
-		var properties := SourcePlacedBlockState.properties(block)
+		var properties := source_placed_block_state.properties(block)
 		var role_state: Dictionary = role_fn.call(block)
 		if bool(role_state.get("add_consumer", false)):
 			var consumer_state := {

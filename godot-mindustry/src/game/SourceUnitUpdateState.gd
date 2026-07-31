@@ -1,49 +1,101 @@
 extends RefCounted
 class_name SourceUnitUpdateState
 
-const SourceUnitDefaults := preload("res://src/game/SourceUnitDefaults.gd")
-const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
+const source_unit_defaults := preload("res://src/game/SourceUnitDefaults.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+
+const SOURCE_UNIT_UPDATE_SIN_SCALED_KEY := "sin_scaled"
+const SOURCE_UNIT_UPDATE_SIN_SCALED_FALLBACK := "source_arc_mathf_sin_scaled"
+const SOURCE_UNIT_UPDATE_COS_SCALED_KEY := "cos_scaled"
+const SOURCE_UNIT_UPDATE_COS_SCALED_FALLBACK := "source_arc_mathf_cos_scaled"
+const SOURCE_UNIT_UPDATE_VEC2_LIMIT_KEY := "vec2_limit"
+const SOURCE_UNIT_UPDATE_VEC2_LIMIT_FALLBACK := "source_arc_vec2_limit"
+const SOURCE_UNIT_UPDATE_VEC2_ANGLE_KEY := "vec2_angle"
+const SOURCE_UNIT_UPDATE_VEC2_ANGLE_FALLBACK := "source_unit_vec2_angle"
+const SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY := "angles_move_toward"
+const SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_FALLBACK := "source_arc_angles_move_toward"
+const SOURCE_UNIT_UPDATE_ANGLES_ANGLE_KEY := "angles_angle"
+const SOURCE_UNIT_UPDATE_ANGLES_ANGLE_FALLBACK := "source_arc_angles_angle"
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_unit_update_method_names"):
+		var names = game.call("_unit_update_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"sin_scaled": Callable(game, "source_arc_mathf_sin_scaled"),
-		"cos_scaled": Callable(game, "source_arc_mathf_cos_scaled"),
-		"vec2_limit": Callable(game, "source_arc_vec2_limit"),
-		"vec2_angle": Callable(game, "source_unit_vec2_angle"),
-		"angles_move_toward": Callable(game, "source_arc_angles_move_toward"),
-		"angles_angle": Callable(game, "source_arc_angles_angle"),
+		SOURCE_UNIT_UPDATE_SIN_SCALED_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_SIN_SCALED_KEY, SOURCE_UNIT_UPDATE_SIN_SCALED_FALLBACK)),
+		SOURCE_UNIT_UPDATE_COS_SCALED_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_COS_SCALED_KEY, SOURCE_UNIT_UPDATE_COS_SCALED_FALLBACK)),
+		SOURCE_UNIT_UPDATE_VEC2_LIMIT_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_VEC2_LIMIT_KEY, SOURCE_UNIT_UPDATE_VEC2_LIMIT_FALLBACK)),
+		SOURCE_UNIT_UPDATE_VEC2_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_VEC2_ANGLE_KEY, SOURCE_UNIT_UPDATE_VEC2_ANGLE_FALLBACK)),
+		SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY, SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_FALLBACK)),
+		SOURCE_UNIT_UPDATE_ANGLES_ANGLE_KEY: Callable(game, runtime_method_name(method_names, SOURCE_UNIT_UPDATE_ANGLES_ANGLE_KEY, SOURCE_UNIT_UPDATE_ANGLES_ANGLE_FALLBACK)),
 	}
 
-const SOURCE_UNIT_GROUNDED_EPSILON := SourceUnitDefaults.GROUNDED_EPSILON
-const SOURCE_UNIT_WOBBLE_SIN_SCL := SourceUnitDefaults.WOBBLE_SIN_SCL
-const SOURCE_UNIT_WOBBLE_MAG := SourceUnitDefaults.WOBBLE_MAG
-const SOURCE_UNIT_DROWN_HIT_SIZE_DIVISOR := SourceUnitDefaults.DROWN_HIT_SIZE_DIVISOR
-const SOURCE_UNIT_DROWN_UPDATE_EFFECT_CHANCE := SourceUnitDefaults.DROWN_UPDATE_EFFECT_CHANCE
-const SOURCE_UNIT_DROWN_KILL_THRESHOLD := SourceUnitDefaults.DROWN_KILL_THRESHOLD
-const SOURCE_UNIT_DROWN_DRY_DECAY_DIVISOR := SourceUnitDefaults.DROWN_DRY_DECAY_DIVISOR
-const SOURCE_UNIT_HEAL_AMOUNT_POSITIVE_THRESHOLD := SourceUnitDefaults.HEAL_AMOUNT_POSITIVE_THRESHOLD
-const SOURCE_UNIT_HEAL_TIME_RESET_THRESHOLD := SourceUnitDefaults.HEAL_TIME_RESET_THRESHOLD
-const SOURCE_UNIT_HEAL_TIME_RESET_VALUE := SourceUnitDefaults.HEAL_TIME_RESET_VALUE
-const SOURCE_UNIT_HEAL_TIME_DECAY_DIVISOR := SourceUnitDefaults.HEAL_TIME_DECAY_DIVISOR
-const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_BASE := SourceUnitDefaults.WALK_EFFECT_THRESHOLD_BASE
-const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR := SourceUnitDefaults.WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR
-const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION := SourceUnitDefaults.FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION
-const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION := SourceUnitDefaults.FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION
-const SOURCE_UNIT_FALL_ENGINE_OFFSET_DIVISOR := SourceUnitDefaults.FALL_ENGINE_OFFSET_DIVISOR
-const SOURCE_UNIT_FALL_ENGINE_ROTATION_OFFSET := SourceUnitDefaults.FALL_ENGINE_ROTATION_OFFSET
-const SOURCE_UNIT_FALL_ENGINE_TRAIL_CHANCE := SourceUnitDefaults.FALL_ENGINE_TRAIL_CHANCE
-const SOURCE_UNIT_TRAIL_SCALE_DEFAULT := SourceUnitDefaults.TRAIL_SCALE_DEFAULT
-const SOURCE_UNIT_DRAG_FLOOR_FACTOR_DEFAULT := SourceUnitDefaults.DRAG_FLOOR_FACTOR_DEFAULT
-const SOURCE_UNIT_FALLING_DRAG_MIN := SourceUnitDefaults.FALLING_DRAG_MIN
-const SOURCE_UNIT_FALL_SMOKE_CHANCE := SourceUnitDefaults.FALL_SMOKE_CHANCE
-const SOURCE_UNIT_SPAWN_KNOCKBACK_RELATIVE_SIZE_OFFSET := SourceUnitDefaults.SPAWN_KNOCKBACK_RELATIVE_SIZE_OFFSET
-const SOURCE_UNIT_SPAWN_KNOCKBACK_STRENGTH_OFFSET := SourceUnitDefaults.SPAWN_KNOCKBACK_STRENGTH_OFFSET
-const SOURCE_UNIT_SPAWN_KNOCKBACK_SCALE := SourceUnitDefaults.SPAWN_KNOCKBACK_SCALE
-const SOURCE_UNIT_SPAWN_KNOCKBACK_HIT_SIZE_DIVISOR := SourceUnitDefaults.SPAWN_KNOCKBACK_HIT_SIZE_DIVISOR
-const SOURCE_UNIT_SOLID_TILE_BOOST_ELEVATION := SourceUnitDefaults.SOLID_TILE_BOOST_ELEVATION
-const SOURCE_UNIT_WARP_DST := SourceWorldDefaults.UNIT_WARP_DST
-const SOURCE_FINAL_WORLD_BOUNDS := SourceWorldDefaults.FINAL_WORLD_BOUNDS
+static func game_wobble_state(game: Object, current_x: float, current_y: float, source_time: float, source_delta: float, elevation_value: float, unit_id: int) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return wobble_state(current_x, current_y, source_time, source_delta, elevation_value, unit_id, callbacks.get(SOURCE_UNIT_UPDATE_SIN_SCALED_KEY, Callable()), callbacks.get(SOURCE_UNIT_UPDATE_COS_SCALED_KEY, Callable()))
+
+static func game_move_at_state(game: Object, vel_x: float, vel_y: float, vector_x: float, vector_y: float, acceleration: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return move_at_state(vel_x, vel_y, vector_x, vector_y, acceleration, source_delta, callbacks.get(SOURCE_UNIT_UPDATE_VEC2_LIMIT_KEY, Callable()))
+
+static func game_rotate_move_motion_state(_game: Object, unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:
+	return rotate_move_motion_state(unit_rotation_degrees, vec_x, vec_y)
+
+static func game_rotate_move_rotation_state(game: Object, current_rotation: float, vec_x: float, vec_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return rotate_move_rotation_state(current_rotation, vec_x, vec_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get(SOURCE_UNIT_UPDATE_VEC2_ANGLE_KEY, Callable()), callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY, Callable()))
+
+static func game_look_at_angle_state(game: Object, current_rotation: float, target_angle: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return look_at_angle_state(current_rotation, target_angle, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY, Callable()))
+
+static func game_look_at_position_state(game: Object, current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return look_at_position_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_ANGLE_KEY, Callable()), callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY, Callable()))
+
+static func game_look_at_xy_state(game: Object, current_rotation: float, unit_x: float, unit_y: float, target_x: float, target_y: float, type_rotate_speed: float, speed_multiplier_value: float, source_delta: float) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return look_at_xy_state(current_rotation, unit_x, unit_y, target_x, target_y, type_rotate_speed, speed_multiplier_value, source_delta, callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_ANGLE_KEY, Callable()), callbacks.get(SOURCE_UNIT_UPDATE_ANGLES_MOVE_TOWARD_KEY, Callable()))
+
+const SOURCE_UNIT_GROUNDED_EPSILON := source_unit_defaults.GROUNDED_EPSILON
+const SOURCE_UNIT_WOBBLE_SIN_SCL := source_unit_defaults.WOBBLE_SIN_SCL
+const SOURCE_UNIT_WOBBLE_MAG := source_unit_defaults.WOBBLE_MAG
+const SOURCE_UNIT_DROWN_HIT_SIZE_DIVISOR := source_unit_defaults.DROWN_HIT_SIZE_DIVISOR
+const SOURCE_UNIT_DROWN_UPDATE_EFFECT_CHANCE := source_unit_defaults.DROWN_UPDATE_EFFECT_CHANCE
+const SOURCE_UNIT_DROWN_KILL_THRESHOLD := source_unit_defaults.DROWN_KILL_THRESHOLD
+const SOURCE_UNIT_DROWN_DRY_DECAY_DIVISOR := source_unit_defaults.DROWN_DRY_DECAY_DIVISOR
+const SOURCE_UNIT_HEAL_AMOUNT_POSITIVE_THRESHOLD := source_unit_defaults.HEAL_AMOUNT_POSITIVE_THRESHOLD
+const SOURCE_UNIT_HEAL_TIME_RESET_THRESHOLD := source_unit_defaults.HEAL_TIME_RESET_THRESHOLD
+const SOURCE_UNIT_HEAL_TIME_RESET_VALUE := source_unit_defaults.HEAL_TIME_RESET_VALUE
+const SOURCE_UNIT_HEAL_TIME_DECAY_DIVISOR := source_unit_defaults.HEAL_TIME_DECAY_DIVISOR
+const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_BASE := source_unit_defaults.WALK_EFFECT_THRESHOLD_BASE
+const SOURCE_UNIT_WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR := source_unit_defaults.WALK_EFFECT_THRESHOLD_HIT_SIZE_DIVISOR
+const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION := source_unit_defaults.FLYING_TRANSITION_LAND_EFFECT_LIQUID_ROTATION
+const SOURCE_UNIT_FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION := source_unit_defaults.FLYING_TRANSITION_LAND_EFFECT_SOLID_ROTATION
+const SOURCE_UNIT_FALL_ENGINE_OFFSET_DIVISOR := source_unit_defaults.FALL_ENGINE_OFFSET_DIVISOR
+const SOURCE_UNIT_FALL_ENGINE_ROTATION_OFFSET := source_unit_defaults.FALL_ENGINE_ROTATION_OFFSET
+const SOURCE_UNIT_FALL_ENGINE_TRAIL_CHANCE := source_unit_defaults.FALL_ENGINE_TRAIL_CHANCE
+const SOURCE_UNIT_TRAIL_SCALE_DEFAULT := source_unit_defaults.TRAIL_SCALE_DEFAULT
+const SOURCE_UNIT_DRAG_FLOOR_FACTOR_DEFAULT := source_unit_defaults.DRAG_FLOOR_FACTOR_DEFAULT
+const SOURCE_UNIT_FALLING_DRAG_MIN := source_unit_defaults.FALLING_DRAG_MIN
+const SOURCE_UNIT_FALL_SMOKE_CHANCE := source_unit_defaults.FALL_SMOKE_CHANCE
+const SOURCE_UNIT_SPAWN_KNOCKBACK_RELATIVE_SIZE_OFFSET := source_unit_defaults.SPAWN_KNOCKBACK_RELATIVE_SIZE_OFFSET
+const SOURCE_UNIT_SPAWN_KNOCKBACK_STRENGTH_OFFSET := source_unit_defaults.SPAWN_KNOCKBACK_STRENGTH_OFFSET
+const SOURCE_UNIT_SPAWN_KNOCKBACK_SCALE := source_unit_defaults.SPAWN_KNOCKBACK_SCALE
+const SOURCE_UNIT_SPAWN_KNOCKBACK_HIT_SIZE_DIVISOR := source_unit_defaults.SPAWN_KNOCKBACK_HIT_SIZE_DIVISOR
+const SOURCE_UNIT_SOLID_TILE_BOOST_ELEVATION := source_unit_defaults.SOLID_TILE_BOOST_ELEVATION
+const SOURCE_UNIT_WARP_DST := source_world_defaults.UNIT_WARP_DST
+const SOURCE_FINAL_WORLD_BOUNDS := source_world_defaults.FINAL_WORLD_BOUNDS
 const SOURCE_UNIT_UPDATE_ABILITIES_FIELD := "Ability[] abilities = {};"
 const SOURCE_UNIT_UPDATE_ABILITIES_LOOP := "for(Ability a : abilities){"
 const SOURCE_UNIT_UPDATE_ABILITIES_CALL := "a.update(self());"
@@ -71,13 +123,13 @@ const SOURCE_ARC_MATHF_APPROACH_METHOD := "public static float approach(float fr
 const SOURCE_ARC_MATHF_APPROACH_RETURN := "return from + Mathf.clamp(to - from, -speed, speed);"
 const SOURCE_ARC_MATHF_CLAMP_FLOAT_METHOD := "public static float clamp(float value, float min, float max){"
 const SOURCE_ARC_MATHF_CLAMP_FLOAT_RETURN := "return Math.max(Math.min(value, max), min);"
-const SOURCE_UNIT_BOOSTING_TARGET_ELEVATION := SourceUnitDefaults.BOOSTING_TARGET_ELEVATION
-const SOURCE_UNIT_BOOSTING_BASE_ELEVATION := SourceUnitDefaults.BOOSTING_BASE_ELEVATION
+const SOURCE_UNIT_BOOSTING_TARGET_ELEVATION := source_unit_defaults.BOOSTING_TARGET_ELEVATION
+const SOURCE_UNIT_BOOSTING_BASE_ELEVATION := source_unit_defaults.BOOSTING_BASE_ELEVATION
 const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_GATE := "if(event){"
 const SOURCE_UNIT_UPDATE_BOOSTING_EVENT_FIRE_TRIGGER := "Events.fire(Trigger.unitCommandBoost);"
 const SOURCE_EVENT_TYPE_TRIGGER_ENUM := "public enum Trigger{"
 const SOURCE_EVENT_TYPE_UNIT_COMMAND_BOOST := "unitCommandBoost,"
-const SOURCE_UNIT_FLYING_ELEVATION_MIN := SourceUnitDefaults.FLYING_ELEVATION_MIN
+const SOURCE_UNIT_FLYING_ELEVATION_MIN := source_unit_defaults.FLYING_ELEVATION_MIN
 const SOURCE_UNIT_IS_GROUNDED_METHOD := "public boolean isGrounded(){"
 const SOURCE_UNIT_IS_GROUNDED_RETURN := "return elevation < 0.001f;"
 const SOURCE_UNIT_IS_FLYING_METHOD := "public boolean isFlying(){"
@@ -255,7 +307,7 @@ const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_METHOD := "public static void unitCapDeath(
 const SOURCE_UNIT_ADD_UNIT_CAP_DEATH_DEAD := "unit.dead = true;"
 const SOURCE_UNIT_ADD_USE_UNIT_CAP_DEFAULT := "useUnitCap = true,"
 const SOURCE_UNIT_ADD_RULES_EDITOR_DEFAULT := "public boolean editor = false;"
-const SOURCE_UNIT_LANDED_SHAKE_THRESHOLD := SourceUnitDefaults.LANDED_SHAKE_THRESHOLD
+const SOURCE_UNIT_LANDED_SHAKE_THRESHOLD := source_unit_defaults.LANDED_SHAKE_THRESHOLD
 const SOURCE_UNIT_LANDED_METHOD := "@Override\n    public void landed(){"
 const SOURCE_UNIT_LANDED_SHAKE_GUARD := "if(type.mechLandShake > 0f){"
 const SOURCE_UNIT_LANDED_SHAKE_CALL := "Effect.shake(type.mechLandShake, type.mechLandShake, this);"
@@ -442,7 +494,7 @@ static func approach_state(vel_x: float, vel_y: float, vector_x: float, vector_y
 
 static func rotate_move_motion_state(unit_rotation_degrees: float, vec_x: float, vec_y: float) -> Dictionary:
 	var amount := Vector2(vec_x, vec_y).length()
-	var movement_state := SourceMathState.source_angles_trns_vec(unit_rotation_degrees, amount, 0.0)
+	var movement_state := source_math_state.source_angles_trns_vec(unit_rotation_degrees, amount, 0.0)
 	var movement := Vector2(float(movement_state.get("x", 0.0)), float(movement_state.get("y", 0.0)))
 	return {
 		"method": SOURCE_UNIT_ROTATE_MOVE_METHOD,
@@ -783,7 +835,7 @@ static func trail_position_state(trail_exists: bool, type_trail_length: int, typ
 	var trail_scale := elevation_value if type_use_engine_elevation else SOURCE_UNIT_TRAIL_SCALE_DEFAULT
 	var offset := type_engine_offset / SOURCE_UNIT_FALL_ENGINE_OFFSET_DIVISOR + type_engine_offset / SOURCE_UNIT_FALL_ENGINE_OFFSET_DIVISOR * trail_scale
 	var angle := source_rotation_degrees + SOURCE_UNIT_FALL_ENGINE_ROTATION_OFFSET
-	var position_state := SourceMathState.source_angles_trns_vec(angle, offset, 0.0)
+	var position_state := source_math_state.source_angles_trns_vec(angle, offset, 0.0)
 	var cx := x_value + float(position_state.get("x", 0.0))
 	var cy := y_value + float(position_state.get("y", 0.0))
 	if not trail_exists:
@@ -853,7 +905,7 @@ static func falling_engine_trail_state(dead_value: bool, health_value: float, ch
 	var angle := source_rotation_degrees + SOURCE_UNIT_FALL_ENGINE_ROTATION_OFFSET
 	var effect_call: Variant = null
 	if falling_guard and chance_delta_result:
-		var position_state := SourceMathState.source_angles_trns_vec(angle, offset, 0.0)
+		var position_state := source_math_state.source_angles_trns_vec(angle, offset, 0.0)
 		effect_call = {
 			"call": "type.fallEngineEffect.at(x + Angles.trnsx(rotation + 180, offset) + Mathf.range(range), y + Angles.trnsy(rotation + 180, offset) + Mathf.range(range), Mathf.random())",
 			"x": unit_x + float(position_state.get("x", 0.0)) + x_range_value,
@@ -1062,13 +1114,13 @@ static func boosting_elevation_state(current_elevation: float, type_can_boost: b
 	if not type_can_boost:
 		target_elevation = SOURCE_UNIT_BOOSTING_BASE_ELEVATION
 	var speed: float = type_rise_speed if should_boost else type_descent_speed
-	var next_elevation: float = SourceMathState.source_approach_delta(current_elevation, target_elevation, speed, source_delta)
+	var next_elevation: float = source_math_state.source_approach_delta(current_elevation, target_elevation, speed, source_delta)
 	return {
 		"elevationAssignment": SOURCE_UNIT_UPDATE_BOOSTING_ELEVATION_ASSIGNMENT,
 		"target_elevation": target_elevation,
 		"speed": speed,
 		"elevation": next_elevation,
-		"mathfNumMethod": SourceMathState.SOURCE_ARC_MATHF_NUM_METHOD,
+		"mathfNumMethod": source_math_state.SOURCE_ARC_MATHF_NUM_METHOD,
 		"mathfNumReturn": SOURCE_ARC_MATHF_NUM_RETURN,
 		"mathfApproachDeltaMethod": SOURCE_ARC_MATHF_APPROACH_DELTA_METHOD,
 		"mathfApproachDeltaReturn": SOURCE_ARC_MATHF_APPROACH_DELTA_RETURN,
@@ -1140,27 +1192,27 @@ static func bounds_state(type_bounded: bool, world_unit_height: float, world_uni
 			"kill": false,
 		}
 	if use_limited_area:
-		bot = float(rules_limit_y) * SourceWorldDefaults.TILESIZE
-		left = float(rules_limit_x) * SourceWorldDefaults.TILESIZE
-		top = float(rules_limit_height) * SourceWorldDefaults.TILESIZE + bot
-		right = float(rules_limit_width) * SourceWorldDefaults.TILESIZE + left
+		bot = float(rules_limit_y) * source_world_defaults.TILESIZE
+		left = float(rules_limit_x) * source_world_defaults.TILESIZE
+		top = float(rules_limit_height) * source_world_defaults.TILESIZE + bot
+		right = float(rules_limit_width) * source_world_defaults.TILESIZE + left
 	if (not net_client) or is_local:
 		can_apply_net_local = true
 		if next_x < left:
 			dx += (-(next_x - left) / SOURCE_UNIT_WARP_DST)
 		if next_y < bot:
 			dy += (-(next_y - bot) / SOURCE_UNIT_WARP_DST)
-		if next_x > right - SourceWorldDefaults.TILESIZE:
-			dx -= (next_x - (right - SourceWorldDefaults.TILESIZE)) / SOURCE_UNIT_WARP_DST
-		if next_y > top - SourceWorldDefaults.TILESIZE:
-			dy -= (next_y - (top - SourceWorldDefaults.TILESIZE)) / SOURCE_UNIT_WARP_DST
+		if next_x > right - source_world_defaults.TILESIZE:
+			dx -= (next_x - (right - source_world_defaults.TILESIZE)) / SOURCE_UNIT_WARP_DST
+		if next_y > top - source_world_defaults.TILESIZE:
+			dy -= (next_y - (top - source_world_defaults.TILESIZE)) / SOURCE_UNIT_WARP_DST
 		vel_add_net = {"x": dx * source_delta, "y": dy * source_delta}
-		var margin := SourceWorldDefaults.TILESIZE * 1.0
-		next_x = clampf(next_x, left - margin, right - SourceWorldDefaults.TILESIZE + margin)
-		next_y = clampf(next_y, bot - margin, top - SourceWorldDefaults.TILESIZE + margin)
+		var margin := source_world_defaults.TILESIZE * 1.0
+		next_x = clampf(next_x, left - margin, right - source_world_defaults.TILESIZE + margin)
+		next_y = clampf(next_y, bot - margin, top - source_world_defaults.TILESIZE + margin)
 	if grounded:
-		next_x = clampf(next_x, left, right - SourceWorldDefaults.TILESIZE)
-		next_y = clampf(next_y, bot, top - SourceWorldDefaults.TILESIZE)
+		next_x = clampf(next_x, left, right - source_world_defaults.TILESIZE)
+		next_y = clampf(next_y, bot, top - source_world_defaults.TILESIZE)
 	var kill_unit := next_x < -SOURCE_FINAL_WORLD_BOUNDS + left or next_y < -SOURCE_FINAL_WORLD_BOUNDS + bot or next_x >= right + SOURCE_FINAL_WORLD_BOUNDS or next_y >= top + SOURCE_FINAL_WORLD_BOUNDS
 	return {
 		"bounded": true,

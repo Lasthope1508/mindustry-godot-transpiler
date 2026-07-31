@@ -1,38 +1,39 @@
 extends RefCounted
 class_name SourceBuildingDestructionState
 
-const SourceBlockDefaults := preload("res://src/game/SourceBlockDefaults.gd")
-const GeneratedClassRegistry := preload("res://src/generated/GeneratedClassRegistry.gd")
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
-const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_block_defaults := preload("res://src/game/SourceBlockDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
-static func _building_comp_instance() -> Object:
-	var script := SourceGeneratedClassRuntime.script_for_java_name("BuildingComp", GeneratedClassRegistry)
-	if script == null:
-		return null
-	return script.new()
+const SOURCE_BUILDING_COMP_GENERATED_CLASS := "res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd"
+const SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_KEY := "random_seed_float_max"
+const SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_FALLBACK := "source_arc_random_seed_float_max"
+
+static func _building_comp_call(generated_method: String, generated_args: Array) -> Variant:
+	return source_generated_class_runtime.call_java_method(SOURCE_BUILDING_COMP_GENERATED_CLASS, generated_method, generated_args, null)
+
+static func runtime_method_names(game: Object) -> Dictionary:
+	if game.has_method("_building_destruction_method_names"):
+		var names = game.call("_building_destruction_method_names")
+		if names is Dictionary:
+			return names
+	return {}
+
+static func runtime_method_name(method_names: Dictionary, key: String, fallback_name: String) -> String:
+	var method_name = method_names.get(key, fallback_name)
+	return str(method_name) if method_name != null and str(method_name) != "" else fallback_name
 
 static func default_callbacks_state(game: Object) -> Dictionary:
+	var method_names := runtime_method_names(game)
 	return {
-		"random_seed_float_max": Callable(game, "source_arc_random_seed_float_max"),
+		SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_KEY: Callable(game, runtime_method_name(method_names, SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_KEY, SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_FALLBACK)),
 	}
 
 static func _random_seed_float_max(source_seed: int, max_value: float) -> float:
-	return SourceMathState.random_seed_float_max(source_seed, max_value)
-
-static func _generated_state_matches_generated_subset(result: Variant, canonical: Dictionary, ignored_keys: Array = []) -> bool:
-	if typeof(result) != TYPE_DICTIONARY:
-		return false
-	var generated: Dictionary = result
-	for key in canonical.keys():
-		if ignored_keys.has(key):
-			continue
-		if not generated.has(key):
-			return false
-		if generated.get(key) != canonical.get(key):
-			return false
-	return true
+	return source_math_state.random_seed_float_max(source_seed, max_value)
 
 static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> Dictionary:
 	var result := source_exprs.duplicate()
@@ -40,7 +41,7 @@ static func _with_source_owner(source_exprs: Dictionary, state: Dictionary) -> D
 	return result
 
 static func begin_break_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.build_begin_break_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_BUILD_BEGIN_BREAK_STATE}
 	var prev_percent := prev_healthf if tile_has_building else 1.0
 	var instant_deconstruct_call: Variant = null
 	if previous_instant_deconstruct and valid_break:
@@ -91,8 +92,19 @@ static func begin_break_state(valid_break: bool, tile_has_building: bool, prev_h
 		"returned_early": not valid_break or previous_instant_deconstruct,
 	})
 
+static func generated_build_begin_break_bridge_state(valid_break: bool, tile_has_building: bool, prev_healthf: float, previous_rotation: int, previous_instant_deconstruct: bool, previous_size: int, unit_has_controller_name: bool, controller_name: String) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/Build.gd", "java_method_beginBreak_0", [valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name], null)
+	var canonical = begin_break_state(valid_break, tile_has_building, prev_healthf, previous_rotation, previous_instant_deconstruct, previous_size, unit_has_controller_name, controller_name)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_BUILD_BEGIN_BREAK_STATE,
+		"generated_owner": "build.java_method_beginBreak_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("construct_block_started", null) == canonical.get("construct_block_started", null) and result.get("instant_deconstruct_call", null) == canonical.get("instant_deconstruct_call", null) and result.get("event_fired", null) == canonical.get("event_fired", null),
+	}
+
 static func construct_block_deconstruct_finish_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, block_size: int, block_map_color: Variant) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.construct_block_deconstruct_finish_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_DECONSTRUCT_FINISH_STATE}
 	var visible_effect_gate: bool = tile_present and not headless and visible_tile
 	var break_effect_call: Variant = null
 	var break_sound_call: Variant = null
@@ -128,8 +140,19 @@ static func construct_block_deconstruct_finish_state(tile_present: bool, headles
 		"returned_early": not tile_present,
 	})
 
+static func generated_construct_block_deconstruct_finish_bridge_state(tile_present: bool, headless: bool, visible_tile: bool, should_play: bool, break_pitch_change: bool, calc_pitch_down: float, construct_block_size: int, block_map_color: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_deconstructFinish_1", [tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color], null)
+	var canonical = construct_block_deconstruct_finish_state(tile_present, headless, visible_tile, should_play, break_pitch_change, calc_pitch_down, construct_block_size, block_map_color)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_DECONSTRUCT_FINISH_STATE,
+		"generated_owner": "construct_block.java_method_deconstructFinish_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("break_effect_called", null) == canonical.get("break_effect_called", null) and result.get("break_sound_called", null) == canonical.get("break_sound_called", null) and result.get("event_fired", null) == canonical.get("event_fired", null) and result.get("tile_removed", null) == canonical.get("tile_removed", null),
+	}
+
 static func construct_block_construct_finish_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, block_size: int, block_health: float, rotation: int, config_state: Variant) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.construct_block_construct_finish_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_CONSTRUCT_FINISH_STATE}
 	var set_overlay_called := false
 	var set_floor_called := false
 	var clear_overlay_called := false
@@ -219,8 +242,19 @@ static func construct_block_construct_finish_state(tile_present: bool, block_kin
 		"returned_early": not tile_present,
 	})
 
+static func generated_construct_block_construct_finish_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_constructFinish_2", [tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state], null)
+	var canonical = construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_CONSTRUCT_FINISH_STATE,
+		"generated_owner": "construct_block.java_method_constructFinish_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("set_overlay_called", null) == canonical.get("set_overlay_called", null) and result.get("set_floor_called", null) == canonical.get("set_floor_called", null) and result.get("clear_overlay_called", null) == canonical.get("clear_overlay_called", null) and result.get("set_block_called", null) == canonical.get("set_block_called", null) and result.get("configured_called", null) == canonical.get("configured_called", null) and result.get("overwrote_called", null) == canonical.get("overwrote_called", null) and result.get("last_accessed_set", null) == canonical.get("last_accessed_set", null) and result.get("place_sound_called", null) == canonical.get("place_sound_called", null) and result.get("event_fired", null) == canonical.get("event_fired", null),
+	}
+
 static func construct_block_constructed_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, block_size: int, block_health: float, rotation: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.construct_block_constructed_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_CONSTRUCTED_STATE}
 	var construct_finish_state := construct_block_construct_finish_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, block_size, block_health, rotation, config_state)
 	var placed_called := tile_present and tile_has_building_after_construct_finish
 	return _with_source_owner(source_exprs, {
@@ -237,8 +271,19 @@ static func construct_block_constructed_state(tile_present: bool, block_kind: St
 		"returned_early": not tile_present,
 	})
 
+static func generated_construct_block_constructed_bridge_state(tile_present: bool, block_kind: String, tile_has_building: bool, tile_build_matches_block: bool, healthf: float, prev_build_count: int, floor_supports_overlay: bool, current_overlay_is_overlay_floor: bool, config_present: bool, builder_has_controller_name: bool, controller_name: String, headless: bool, builder_is_player_unit: bool, visible_tile: bool, should_play: bool, place_pitch_change: bool, calc_pitch_up: float, construct_block_size: int, block_health: float, rotation_value: int, config_state: Variant, tile_has_building_after_construct_finish: bool) -> Dictionary:
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/ConstructBlock.gd", "java_method_constructed_6", [tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish], null)
+	var canonical = construct_block_constructed_state(tile_present, block_kind, tile_has_building, tile_build_matches_block, healthf, prev_build_count, floor_supports_overlay, current_overlay_is_overlay_floor, config_present, builder_has_controller_name, controller_name, headless, builder_is_player_unit, visible_tile, should_play, place_pitch_change, calc_pitch_up, construct_block_size, block_health, rotation_value, config_state, tile_has_building_after_construct_finish)
+	return {
+		"source_owner": source_runtime_owner_registry.PORT_GAME_CONSTRUCT_BLOCK_CONSTRUCTED_STATE,
+		"generated_owner": "construct_block.java_method_constructed_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("construct_finish_called", null) == canonical.get("construct_finish_called", null) and result.get("placed_called", null) == canonical.get("placed_called", null) and result.get("returned_early", null) == canonical.get("returned_early", null) and result.get("construct_finish_state", {}).get("event_fired", null) == canonical.get("construct_finish_state", {}).get("event_fired", null),
+	}
+
 static func after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int, random_seed_float_max: Callable) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_after_destroyed_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_AFTER_DESTROYED_STATE}
 	if not has_destroy_bullet:
 		return _with_source_owner(source_exprs, {"create_bullet": false})
 	return _with_source_owner(source_exprs, {
@@ -246,14 +291,18 @@ static func after_destroyed_state(has_destroy_bullet: bool, destroy_bullet_same_
 		"team": team_id if destroy_bullet_same_team else "derelict",
 		"x": source_x,
 		"y": source_y,
-		"rotation": float(random_seed_float_max.call(building_id, 360.0)),
+		"rotation": float(random_seed_float_max.call(building_id, source_math_defaults.FULL_CIRCLE_DEGREES)),
 	})
+
+static func game_after_destroyed_state(game: Object, has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
+	var callbacks := default_callbacks_state(game)
+	return after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, callbacks.get(SOURCE_BUILDING_DESTRUCTION_RANDOM_SEED_FLOAT_MAX_KEY, Callable()))
 
 static func explosion_item_cap_state(item_capacity: int) -> int:
 	return item_capacity
 
 static func splash_liquid_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_splash_liquid_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SPLASH_LIQUID_STATE}
 	var splash := clampf(amount / 4.0, 0.0, 10.0)
 	var deposit_count := int(ceil(clampf(amount / 5.0, 0.0, 30.0)))
 	var delays: Array[float] = []
@@ -279,7 +328,7 @@ static func splash_liquid_state(liquid: Variant, amount: float, source_block_siz
 	})
 
 static func on_deconstructed_liquid_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_deconstructed_liquid_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DECONSTRUCTED_LIQUID_STATE}
 	var can_drop_liquid := not current_incinerable or deconstruct_drop_all_liquid
 	var base := {
 		"method": "public void onDeconstructed(@Nullable Unit builder){",
@@ -301,7 +350,7 @@ static func on_deconstructed_liquid_state(has_liquids_module: bool, current_amou
 	return _with_source_owner(source_exprs, base)
 
 static func on_destroyed_item_explosion_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_ITEM_EXPLOSION_STATE}
 	var explosiveness := base_explosiveness
 	var flammability := 0.0
 	var power := 0.0
@@ -322,7 +371,7 @@ static func on_destroyed_item_explosion_state(base_explosiveness: float, has_ite
 	})
 
 static func on_destroyed_liquid_explosion_state(current_explosiveness: float, current_flammability: float, has_liquids: bool, liquid_states: Array) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_LIQUID_EXPLOSION_STATE}
 	var explosiveness := current_explosiveness
 	var flammability := current_flammability
 	if has_liquids:
@@ -339,7 +388,7 @@ static func on_destroyed_liquid_explosion_state(current_explosiveness: float, cu
 	})
 
 static func on_destroyed_buffered_power_state(current_power: float, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_buffered_power_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_BUFFERED_POWER_STATE}
 	var apply_buffered_power := has_cons_power and cons_power_buffered
 	var buffered_power_contribution := power_status * cons_power_capacity if apply_buffered_power else 0.0
 	return _with_source_owner(source_exprs, {
@@ -355,7 +404,7 @@ static func on_destroyed_buffered_power_state(current_power: float, has_cons_pow
 	})
 
 static func on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosions: bool, liquid_states: Array) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_SPLASH_LIQUID_STATE}
 	var should_splash := has_liquids and damage_explosions
 	return _with_source_owner(source_exprs, {
 		"method": "public void onDestroyed(){",
@@ -368,7 +417,7 @@ static func on_destroyed_splash_liquid_state(has_liquids: bool, damage_explosion
 	})
 
 static func on_destroyed_dynamic_explosion_call_state(source_x: float, source_y: float, flammability: float, explosiveness: float, power: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, damage_explosions: bool, destroy_effect: String, base_shake: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_DYNAMIC_EXPLOSION_CALL_STATE}
 	return _with_source_owner(source_exprs, {
 		"method": "public void onDestroyed(){",
 		"comment": "//cap explosiveness so fluid tanks/vaults don't instakill units",
@@ -385,7 +434,7 @@ static func on_destroyed_dynamic_explosion_call_state(source_x: float, source_y:
 	})
 
 static func on_destroyed_rubble_state(source_x: float, source_y: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, source_block_size: int) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_rubble_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_RUBBLE_STATE}
 	var should_create_rubble := create_rubble and not floor_solid and not floor_is_liquid
 	return _with_source_owner(source_exprs, {
 		"method": "public void onDestroyed(){",
@@ -402,7 +451,7 @@ static func on_destroyed_rubble_state(source_x: float, source_y: float, create_r
 	})
 
 static func on_destroyed_base_sound_state(headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_base_sound_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_BASE_SOUND_STATE}
 	var should_play_sound := not headless
 	return _with_source_owner(source_exprs, {
 		"method": "public void onDestroyed(){",
@@ -419,7 +468,7 @@ static func on_destroyed_base_sound_state(headless: bool, destroy_sound: String,
 	})
 
 static func on_destroyed_reactive_sound_state(headless: bool, explosiveness: float, flammability: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_reactive_sound_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_REACTIVE_SOUND_STATE}
 	var should_play_reactive_sound := not headless
 	var silent_state := {
 		"method": "public void onDestroyed(){",
@@ -470,7 +519,7 @@ static func on_destroyed_reactive_sound_state(headless: bool, explosiveness: flo
 	return _with_source_owner(source_exprs, silent_state)
 
 static func on_destroyed_power_sound_state(headless: bool, power: float, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var source_exprs := {"source_owner": "PortGame.source_building_on_destroyed_power_sound_state"}
+	var source_exprs := {"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_POWER_SOUND_STATE}
 	var should_play_power_sound := not headless
 	var silent_state := {
 		"method": "public void onDestroyed(){",
@@ -512,132 +561,122 @@ static func on_destroyed_power_sound_state(headless: bool, power: float, destroy
 	return _with_source_owner(source_exprs, silent_state)
 
 static func generated_after_destroyed_bridge_state(has_destroy_bullet: bool, destroy_bullet_same_team: bool, team_id: String, source_x: float, source_y: float, building_id: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_afterDestroyed_151([has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id])
+	var result = _building_comp_call("java_method_afterDestroyed_151", [has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id])
 	var canonical = after_destroyed_state(has_destroy_bullet, destroy_bullet_same_team, team_id, source_x, source_y, building_id, Callable(SourceBuildingDestructionState, "_random_seed_float_max"))
 	return {
-		"source_owner": "PortGame.source_building_after_destroyed_state",
-		"generated_owner": "BuildingComp.java_method_afterDestroyed_151",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_AFTER_DESTROYED_STATE,
+		"generated_owner": "building_comp.java_method_afterDestroyed_151",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_explosion_item_cap_bridge_state(item_capacity: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_explosionItemCap_152([item_capacity])
+	var result = _building_comp_call("java_method_explosionItemCap_152", [item_capacity])
 	var canonical = explosion_item_cap_state(item_capacity)
 	return {
-		"source_owner": "PortGame.source_building_explosion_item_cap_state",
-		"generated_owner": "BuildingComp.java_method_explosionItemCap_152",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_EXPLOSION_ITEM_CAP_STATE,
+		"generated_owner": "building_comp.java_method_explosionItemCap_152",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_splash_liquid_bridge_state(liquid: Variant, amount: float, source_block_size: int, source_tilesize: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_splashLiquid_153([liquid, amount, source_block_size, source_tilesize])
+	var result = _building_comp_call("java_method_splashLiquid_153", [liquid, amount, source_block_size, source_tilesize])
 	var canonical = splash_liquid_state(liquid, amount, source_block_size, source_tilesize)
 	return {
-		"source_owner": "PortGame.source_building_splash_liquid_state",
-		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SPLASH_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_splashLiquid_153",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_splash_liquid_source_tilesize_default_bridge_state(liquid: Variant, amount: float, source_block_size: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_splashLiquid_153([liquid, amount, source_block_size])
-	var canonical = splash_liquid_state(liquid, amount, source_block_size, SourceWorldDefaults.TILESIZE)
-	var matches := _generated_state_matches_generated_subset(result, canonical)
+	var result = _building_comp_call("java_method_splashLiquid_153", [liquid, amount, source_block_size])
+	var canonical = splash_liquid_state(liquid, amount, source_block_size, source_world_defaults.TILESIZE)
+	var matches := source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_building_splash_liquid_state",
-		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SPLASH_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_splashLiquid_153",
 		"defaulted_arg": "source_tilesize",
-		"source_tilesize": SourceWorldDefaults.TILESIZE,
+		"source_tilesize": source_world_defaults.TILESIZE,
 		"matches": matches,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_splash_liquid_source_block_size_default_bridge_state(liquid: Variant, amount: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_splashLiquid_153([liquid, amount])
-	var canonical = splash_liquid_state(liquid, amount, SourceBlockDefaults.SIZE_DEFAULT, SourceWorldDefaults.TILESIZE)
-	var matches := _generated_state_matches_generated_subset(result, canonical)
+	var result = _building_comp_call("java_method_splashLiquid_153", [liquid, amount])
+	var canonical = splash_liquid_state(liquid, amount, source_block_defaults.SIZE_DEFAULT, source_world_defaults.TILESIZE)
+	var matches := source_generated_class_runtime.generated_state_matches_generated_subset(result, canonical)
 	return {
-		"source_owner": "PortGame.source_building_splash_liquid_state",
-		"generated_owner": "BuildingComp.java_method_splashLiquid_153",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_SPLASH_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_splashLiquid_153",
 		"defaulted_arg": "source_block_size",
-		"source_block_size": SourceBlockDefaults.SIZE_DEFAULT,
-		"source_tilesize": SourceWorldDefaults.TILESIZE,
+		"source_block_size": source_block_defaults.SIZE_DEFAULT,
+		"source_tilesize": source_world_defaults.TILESIZE,
 		"matches": matches,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_on_deconstructed_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool, source_block_size: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDeconstructed_154([has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size])
+	var result = _building_comp_call("java_method_onDeconstructed_154", [has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size])
 	var canonical = on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_size)
 	return {
-		"source_owner": "PortGame.source_building_on_deconstructed_liquid_state",
-		"generated_owner": "BuildingComp.java_method_onDeconstructed_154",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DECONSTRUCTED_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_onDeconstructed_154",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_on_deconstructed_source_block_size_default_bridge_state(has_liquids_module: bool, current_amount: float, current_incinerable: bool, deconstruct_drop_all_liquid: bool) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDeconstructed_154([has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid])
-	var canonical = on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, SourceBlockDefaults.SIZE_DEFAULT)
+	var result = _building_comp_call("java_method_onDeconstructed_154", [has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid])
+	var canonical = on_deconstructed_liquid_state(has_liquids_module, current_amount, current_incinerable, deconstruct_drop_all_liquid, source_block_defaults.SIZE_DEFAULT)
 	var on_deconstructed_matches = result.get("source_block_size", null) == canonical.get("source_block_size", null) \
 		and result.get("can_drop_liquid", null) == canonical.get("can_drop_liquid", null) \
 		and result.get("deposit_linked_tiles", null) == canonical.get("deposit_linked_tiles", null) \
 		and result.get("per_cell", null) == canonical.get("per_cell", null) \
 		and result.get("deposit_call", null) == canonical.get("deposit_call", null)
 	return {
-		"source_owner": "PortGame.source_building_on_deconstructed_liquid_state",
-		"generated_owner": "BuildingComp.java_method_onDeconstructed_154",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DECONSTRUCTED_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_onDeconstructed_154",
 		"defaulted_arg": "source_block_size",
-		"source_block_size": SourceBlockDefaults.SIZE_DEFAULT,
+		"source_block_size": source_block_defaults.SIZE_DEFAULT,
 		"matches": on_deconstructed_matches,
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_on_destroyed_item_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap])
 	var canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_item_explosion_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_ITEM_EXPLOSION_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"canonical": canonical,
 	}
 
 static func generated_on_destroyed_liquid_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_liquid_explosion_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_LIQUID_EXPLOSION_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"canonical": canonical,
 	}
 
 static func generated_on_destroyed_buffered_power_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_buffered_power_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_BUFFERED_POWER_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -645,15 +684,14 @@ static func generated_on_destroyed_buffered_power_bridge_state(base_explosivenes
 	}
 
 static func generated_on_destroyed_splash_liquid_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
 	var canonical = on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_splash_liquid_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_SPLASH_LIQUID_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -662,16 +700,15 @@ static func generated_on_destroyed_splash_liquid_bridge_state(base_explosiveness
 	}
 
 static func generated_on_destroyed_dynamic_explosion_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
 	var splash_canonical = on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
 	var canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, source_block_size, damage_explosions, destroy_effect, base_shake)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_DYNAMIC_EXPLOSION_CALL_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -681,13 +718,12 @@ static func generated_on_destroyed_dynamic_explosion_bridge_state(base_explosive
 	}
 
 static func generated_on_destroyed_dynamic_explosion_source_tilesize_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
 	var splash_canonical = on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
-	var canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, SourceWorldDefaults.TILESIZE, SourceBlockDefaults.SIZE_DEFAULT, damage_explosions, "", 0.0)
+	var canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_world_defaults.TILESIZE, source_block_defaults.SIZE_DEFAULT, damage_explosions, "", 0.0)
 	var dynamic_explosion_matches = result.get("dynamic_explosion_x", null) == canonical.get("x", null) \
 		and result.get("dynamic_explosion_y", null) == canonical.get("y", null) \
 		and result.get("dynamic_explosion_flammability", null) == canonical.get("flammability", null) \
@@ -698,11 +734,11 @@ static func generated_on_destroyed_dynamic_explosion_source_tilesize_default_bri
 		and result.get("dynamic_explosion_effect", null) == canonical.get("effect", null) \
 		and result.get("dynamic_explosion_shake", null) == canonical.get("shake", null)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_DYNAMIC_EXPLOSION_CALL_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"defaulted_arg": "source_tilesize",
-		"source_tilesize": SourceWorldDefaults.TILESIZE,
-		"source_block_size": SourceBlockDefaults.SIZE_DEFAULT,
+		"source_tilesize": source_world_defaults.TILESIZE,
+		"source_block_size": source_block_defaults.SIZE_DEFAULT,
 		"matches": dynamic_explosion_matches,
 		"result": result,
 		"item_canonical": item_canonical,
@@ -713,20 +749,19 @@ static func generated_on_destroyed_dynamic_explosion_source_tilesize_default_bri
 	}
 
 static func generated_on_destroyed_source_block_size_default_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
 	var splash_canonical = on_destroyed_splash_liquid_state(has_liquids, damage_explosions, liquid_states)
-	var dynamic_explosion_canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, SourceBlockDefaults.SIZE_DEFAULT, damage_explosions, "", 0.0)
+	var dynamic_explosion_canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, source_block_defaults.SIZE_DEFAULT, damage_explosions, "", 0.0)
 	var on_destroyed_matches = result.get("dynamic_explosion_radius", null) == dynamic_explosion_canonical.get("radius", null)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_dynamic_explosion_call_state",
-		"rubble_source_owner": "PortGame.source_building_on_destroyed_rubble_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_DYNAMIC_EXPLOSION_CALL_STATE,
+		"rubble_source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_RUBBLE_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"defaulted_arg": "source_block_size",
-		"source_block_size": SourceBlockDefaults.SIZE_DEFAULT,
+		"source_block_size": source_block_defaults.SIZE_DEFAULT,
 		"matches": on_destroyed_matches,
 		"result": result,
 		"item_canonical": item_canonical,
@@ -737,8 +772,7 @@ static func generated_on_destroyed_source_block_size_default_bridge_state(base_e
 	}
 
 static func generated_on_destroyed_rubble_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
@@ -746,8 +780,8 @@ static func generated_on_destroyed_rubble_bridge_state(base_explosiveness: float
 	var dynamic_explosion_canonical = on_destroyed_dynamic_explosion_call_state(source_x, source_y, float(liquid_canonical["flammability"]), float(liquid_canonical["explosiveness"]), float(buffered_power_canonical["power"]), flammability_scale, explosiveness_scale, source_tilesize, source_block_size, damage_explosions, destroy_effect, base_shake)
 	var canonical = on_destroyed_rubble_state(source_x, source_y, create_rubble, floor_solid, floor_is_liquid, source_block_size)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_rubble_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_RUBBLE_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -758,8 +792,7 @@ static func generated_on_destroyed_rubble_bridge_state(base_explosiveness: float
 	}
 
 static func generated_on_destroyed_base_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
@@ -768,8 +801,8 @@ static func generated_on_destroyed_base_sound_bridge_state(base_explosiveness: f
 	var rubble_canonical = on_destroyed_rubble_state(source_x, source_y, create_rubble, floor_solid, floor_is_liquid, source_block_size)
 	var canonical = on_destroyed_base_sound_state(headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_base_sound_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_BASE_SOUND_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -781,8 +814,7 @@ static func generated_on_destroyed_base_sound_bridge_state(base_explosiveness: f
 	}
 
 static func generated_on_destroyed_reactive_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
@@ -792,8 +824,8 @@ static func generated_on_destroyed_reactive_sound_bridge_state(base_explosivenes
 	var base_sound_canonical = on_destroyed_base_sound_state(headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	var canonical = on_destroyed_reactive_sound_state(headless, float(liquid_canonical["explosiveness"]), float(liquid_canonical["flammability"]), destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_reactive_sound_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_REACTIVE_SOUND_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -806,8 +838,7 @@ static func generated_on_destroyed_reactive_sound_bridge_state(base_explosivenes
 	}
 
 static func generated_on_destroyed_power_sound_bridge_state(base_explosiveness: float, has_items: bool, item_states: Array, item_cap: int, has_liquids: bool, liquid_states: Array, has_cons_power: bool, cons_power_buffered: bool, power_status: float, cons_power_capacity: float, damage_explosions: bool, source_x: float, source_y: float, flammability_scale: float, explosiveness_scale: float, source_tilesize: float, source_block_size: int, destroy_effect: String, base_shake: float, create_rubble: bool, floor_solid: bool, floor_is_liquid: bool, headless: bool, destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_onDestroyed_155([base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var result = _building_comp_call("java_method_onDestroyed_155", [base_explosiveness, has_items, item_states, item_cap, has_liquids, liquid_states, has_cons_power, cons_power_buffered, power_status, cons_power_capacity, damage_explosions, source_x, source_y, flammability_scale, explosiveness_scale, source_tilesize, source_block_size, destroy_effect, base_shake, create_rubble, floor_solid, floor_is_liquid, headless, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
 	var item_canonical = on_destroyed_item_explosion_state(base_explosiveness, has_items, item_states, item_cap)
 	var liquid_canonical = on_destroyed_liquid_explosion_state(float(item_canonical["explosiveness"]), float(item_canonical["flammability"]), has_liquids, liquid_states)
 	var buffered_power_canonical = on_destroyed_buffered_power_state(float(item_canonical["power"]), has_cons_power, cons_power_buffered, power_status, cons_power_capacity)
@@ -818,8 +849,8 @@ static func generated_on_destroyed_power_sound_bridge_state(base_explosiveness: 
 	var reactive_sound_canonical = on_destroyed_reactive_sound_state(headless, float(liquid_canonical["explosiveness"]), float(liquid_canonical["flammability"]), destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	var canonical = on_destroyed_power_sound_state(headless, float(buffered_power_canonical["power"]), destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_power_sound_state",
-		"generated_owner": "BuildingComp.java_method_onDestroyed_155",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_POWER_SOUND_STATE,
+		"generated_owner": "building_comp.java_method_onDestroyed_155",
 		"result": result,
 		"item_canonical": item_canonical,
 		"liquid_canonical": liquid_canonical,
@@ -833,12 +864,11 @@ static func generated_on_destroyed_power_sound_bridge_state(base_explosiveness: 
 	}
 
 static func generated_play_destroy_sound_bridge_state(destroy_sound: String, destroy_pitch_min: float, destroy_pitch_max: float, destroy_sound_volume: float) -> Dictionary:
-	var instance = _building_comp_instance()
-	var result = instance.java_method_playDestroySound_156([destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
+	var result = _building_comp_call("java_method_playDestroySound_156", [destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume])
 	var canonical = on_destroyed_base_sound_state(false, destroy_sound, destroy_pitch_min, destroy_pitch_max, destroy_sound_volume)
 	return {
-		"source_owner": "PortGame.source_building_on_destroyed_base_sound_state",
-		"generated_owner": "BuildingComp.java_method_playDestroySound_156",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_BUILDING_ON_DESTROYED_BASE_SOUND_STATE,
+		"generated_owner": "building_comp.java_method_playDestroySound_156",
 		"result": result,
 		"canonical": canonical,
 	}

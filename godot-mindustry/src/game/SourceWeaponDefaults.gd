@@ -1,0 +1,49 @@
+extends RefCounted
+class_name SourceWeaponDefaults
+
+const source_math_defaults := preload("res://src/game/SourceMathDefaults.gd")
+const source_time_defaults := preload("res://src/game/SourceTimeDefaults.gd")
+
+const RELOAD_DEFAULT := 1.0
+const RECOIL_TIME_DEFAULT := -1.0
+const RECOILS_DEFAULT := -1
+const SMOOTH_RELOAD_SPEED_DEFAULT := 0.15
+const CONTINUOUS_DEFAULT := false
+const SHOOT_WARMUP_SPEED_DEFAULT := 0.1
+const LINEAR_WARMUP_DEFAULT := false
+const X_DEFAULT := 5.0
+const Y_DEFAULT := 0.0
+const CONTROLLABLE_DEFAULT := true
+const ROTATION_OFFSET_DEGREES := source_math_defaults.QUARTER_CIRCLE_DEGREES
+const AUTO_TARGET_DEFAULT := false
+const TARGET_INTERVAL_DEFAULT := 40.0
+const TARGET_SWITCH_INTERVAL_DEFAULT := 70.0
+const SHOOT_Y_DEFAULT := 3.0
+const PREDICT_TARGET_DEFAULT := true
+const ROTATE_DEFAULT := false
+const ROTATE_SPEED_DEFAULT := 20.0
+const ROTATION_LIMIT_DEFAULT := 361.0
+const BASE_ROTATION_DEFAULT := 0.0
+const SHOOT_CONE_DEFAULT := 5.0
+const SHOOT_X_DEFAULT := 0.0
+const ALWAYS_SHOOTING_DEFAULT := false
+const AIM_CHANGE_SPEED_DEFAULT := INF
+const ALWAYS_CONTINUOUS_DEFAULT := false
+const SHOOT_STATUS_DURATION_TICK_MULTIPLIER := 5.0
+const SHOOT_STATUS_DURATION_DEFAULT := source_time_defaults.TICK_RATE * SHOOT_STATUS_DURATION_TICK_MULTIPLIER
+const COOLDOWN_TIME_DEFAULT := 20.0
+const MIN_WARMUP_DEFAULT := 0.0
+const FLIP_SPRITE_DEFAULT := false
+const ALTERNATE_DEFAULT := true
+const OTHER_SIDE_DEFAULT := -1
+const MIN_SHOOT_VELOCITY_DEFAULT := -1.0
+const ACTIVE_SOUND_VOLUME_DEFAULT := 1.0
+const SHOOT_SOUND_VOLUME_DEFAULT := 1.0
+const SOUND_PITCH_MIN_DEFAULT := 0.8
+const SOUND_PITCH_MAX_DEFAULT := 1.0
+const PARENTIZE_EFFECTS_DEFAULT := false
+const INACCURACY_DEFAULT := 0.0
+const SHAKE_DEFAULT := 0.0
+const VELOCITY_RND_DEFAULT := 0.0
+const EXTRA_VELOCITY_DEFAULT := 0.0
+const SHOOT_ON_DEATH_DEFAULT := false

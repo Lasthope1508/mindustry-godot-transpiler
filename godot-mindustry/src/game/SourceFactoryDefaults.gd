@@ -1,6 +1,15 @@
 extends RefCounted
 class_name SourceFactoryDefaults
 
+const DRILL_HARDNESS_MULTIPLIER := 50.0
+const DRILL_DELAY_DRILL_TIME_DEFAULT := 300.0
+const DRILL_DELAY_ITEM_HARDNESS_DEFAULT := 0
+const DRILL_WARMUP_SPEED := 0.015
+const BLOCK_DUMP_TIME := 5.0
+const CONVEYOR_WORLD_SPEED_DEFAULT := 0.0
+const CONVEYOR_TILE_SPEED_SCALE := 55.0
+const HEAT_LERP_PROGRESS := 0.15
+
 var catalog: Variant
 var profile: Dictionary = {}
 

@@ -1,14 +1,15 @@
 extends RefCounted
 class_name SourceUnitPayloadDumpState
 
-const SourceGeneratedClassRuntime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
-const SourceMathState := preload("res://src/game/SourceMathState.gd")
-const SourceUnitPayloadBasicState := preload("res://src/game/SourceUnitPayloadBasicState.gd")
-const SourceWorldDefaults := preload("res://src/game/SourceWorldDefaults.gd")
+const source_generated_class_runtime := preload("res://src/game/SourceGeneratedClassRuntime.gd")
+const source_math_state := preload("res://src/game/SourceMathState.gd")
+const source_unit_payload_basic_state := preload("res://src/game/SourceUnitPayloadBasicState.gd")
+const source_runtime_owner_registry := preload("res://src/game/SourceRuntimeOwnerRegistry.gd")
+const source_world_defaults := preload("res://src/game/SourceWorldDefaults.gd")
 
-const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := SourceWorldDefaults.UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
-const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := SourceWorldDefaults.UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER
-const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := SourceWorldDefaults.UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE
+const SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD := source_world_defaults.UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
+const SOURCE_UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER := source_world_defaults.UNIT_PAYLOAD_OVERLAP_RADIUS_MULTIPLIER
+const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE := source_world_defaults.UNIT_PAYLOAD_DUMP_SPAWN_VELOCITY_RANGE
 const SOURCE_UNIT_PAYLOAD_DUMP_METHOD := "public boolean dump(){"
 const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR := "if(unit.type == null) return true;"
 const SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR := "return true"
@@ -62,21 +63,12 @@ const SOURCE_UNIT_PAYLOAD_DUMP_UNIT_UNLOAD_EVENT_CONSTRUCTOR := "public UnitUnlo
 const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_EXPR := "Units.notifyUnitSpawn(unit);"
 const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_METHOD := "public static void notifyUnitSpawn(Unit unit){"
 const SOURCE_UNIT_PAYLOAD_DUMP_NOTIFY_UNIT_SPAWN_GUARD := "if(net.server()){"
-const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS := ["guard_expr", "return_expr"]
+const SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "guard_expr", "return_expr"]
+const SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner"]
 const SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]
 const SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]
 const SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]
 const SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS := ["source_owner", "returned", "dump", "deferred_remaining_dump", "trns_vec"]
-
-static func generated_state_matches_generated_subset(result: Variant, canonical: Dictionary, ignored_keys: Array = []) -> bool:
-	if not result is Dictionary:
-		return false
-	for key in canonical.keys():
-		if key == "source_owner" or ignored_keys.has(key):
-			continue
-		if not result.has(key) or result.get(key) != canonical.get(key):
-			return false
-	return true
 
 static func type_null_guard_state(unit_type_null: bool) -> Dictionary:
 	var returned: bool = unit_type_null
@@ -85,13 +77,13 @@ static func type_null_guard_state(unit_type_null: bool) -> Dictionary:
 		dump_result = true
 	var deferred_remaining_dump: bool = not returned
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
 		"guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
 		"return_expr": SOURCE_UNIT_PAYLOAD_DUMP_RETURN_TRUE_EXPR,
 		"unit_type_null": unit_type_null,
@@ -113,15 +105,15 @@ static func can_create_guard_state(unit_type_null: bool, units_can_create: bool)
 	var overlayRegion_after: Variant = null
 	var deferred_remaining_dump: bool = not returned
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"field_overlay_time_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
-		"field_overlay_region_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
 		"type_null_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
 		"can_create_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
 		"overlay_time_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
@@ -139,7 +131,7 @@ static func can_create_guard_state(unit_type_null: bool, units_can_create: bool)
 	}
 
 static func trns_vec_state(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
-	var result := SourceMathState.source_angles_trns_vec(angle_degrees, x_value, y_value)
+	var result := source_math_state.source_angles_trns_vec(angle_degrees, x_value, y_value)
 	result["source"] = SOURCE_UNIT_PAYLOAD_DUMP_VEC2_TRNS_AMOUNT_RETURN_EXPR
 	result["vec2RotateSource"] = SOURCE_UNIT_PAYLOAD_DUMP_VEC2_ROTATE_RAD_EXPR
 	return result
@@ -152,8 +144,8 @@ static func solidity_guard_state(unit_type_null: bool, units_can_create: bool, s
 	var solid_present_guard: bool = solid_evaluated and solid_present
 	var solid_lookahead: float = SOURCE_UNIT_PAYLOAD_DUMP_SOLID_LOOKAHEAD
 	var trns_vec: Dictionary = trns_vec_state(unit_rotation, solid_lookahead, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
-	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / SourceWorldDefaults.TILESIZE)) if solid_present_guard else 0
-	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / SourceWorldDefaults.TILESIZE)) if solid_present_guard else 0
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_world_defaults.TILESIZE)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_world_defaults.TILESIZE)) if solid_present_guard else 0
 	var solid_solid_evaluated: bool = solid_present_guard
 	var solid_guard: bool = solid_solid_evaluated and solid_solid
 	var returned: bool = before_solid_returned or solid_guard
@@ -171,18 +163,18 @@ static func solidity_guard_state(unit_type_null: bool, units_can_create: bool, s
 		solid_call = {"call": SOURCE_UNIT_PAYLOAD_DUMP_SOLID_SOLID_CALL_EXPR, "tx": tx, "ty": ty, "result": solid_solid}
 	var deferred_remaining_dump: bool = not returned
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
 		"arc_vec2_source": SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE,
 		"world_source": SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE,
 		"vars_source": SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"field_overlay_time_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
-		"field_overlay_region_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
 		"type_null_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
 		"can_create_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
 		"overlay_time_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
@@ -228,18 +220,18 @@ static func solidity_guard_state(unit_type_null: bool, units_can_create: bool, s
 static func overlap_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
 	var result := solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
 	var canonical_overlap_fields := {
-		"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
 		"arc_vec2_source": SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE,
 		"world_source": SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE,
 		"vars_source": SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"field_overlay_time_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
-		"field_overlay_region_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
 		"type_null_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
 		"can_create_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
 		"overlay_time_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
@@ -305,18 +297,18 @@ static func overlap_guard_state(unit_type_null: bool, units_can_create: bool, so
 static func no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
 	var result := overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
 	var canonical_no_client_fields := {
-		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
-		"source": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_SOURCE,
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_STATE,
+		"source": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_SOURCE,
 		"arc_vec2_source": SOURCE_UNIT_PAYLOAD_DUMP_ARC_VEC2_SOURCE,
 		"world_source": SOURCE_UNIT_PAYLOAD_DUMP_WORLD_SOURCE,
 		"vars_source": SOURCE_UNIT_PAYLOAD_DUMP_VARS_SOURCE,
-		"class_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
-		"field_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
-		"field_overlay_time_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
-		"field_overlay_region_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
-		"override_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
+		"class_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_CLASS_EXPR,
+		"field_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_UNIT_FIELD_EXPR,
+		"field_overlay_time_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_TIME_FIELD_EXPR,
+		"field_overlay_region_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERLAY_REGION_FIELD_EXPR,
+		"override_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_OVERRIDE_EXPR,
 		"method": SOURCE_UNIT_PAYLOAD_DUMP_METHOD,
-		"todo_comment_expr": SourceUnitPayloadBasicState.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
+		"todo_comment_expr": source_unit_payload_basic_state.SOURCE_UNIT_PAYLOAD_TODO_COMMENT_EXPR,
 		"type_null_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_EXPR,
 		"can_create_guard_expr": SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_EXPR,
 		"overlay_time_assign_expr": SOURCE_UNIT_PAYLOAD_DUMP_OVERLAY_TIME_ASSIGN_EXPR,
@@ -377,7 +369,7 @@ static func no_client_guard_state(unit_type_null: bool, units_can_create: bool, 
 
 static func spawn_side_effects_state(state: Dictionary, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
 	var result := state.duplicate(true)
-	result["source_owner"] = "PortGame.source_unit_payload_dump_spawn_side_effects_state"
+	result["source_owner"] = source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_STATE
 	result["arc_mathf_source"] = SOURCE_UNIT_PAYLOAD_DUMP_ARC_MATHF_SOURCE
 	result["units_source"] = SOURCE_UNIT_PAYLOAD_DUMP_UNITS_SOURCE
 	result["event_type_source"] = SOURCE_UNIT_PAYLOAD_DUMP_EVENT_TYPE_SOURCE
@@ -419,61 +411,65 @@ static func spawn_side_effects_state(state: Dictionary, range_x: float, range_y:
 	result["deferred_remaining_dump"] = false
 	return result
 
+static func spawn_side_effects_runtime_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
+	var state := no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
+	return spawn_side_effects_state(state, range_x, range_y, unit_id)
+
 static func generated_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null], null)
 	var canonical = type_null_guard_state(unit_type_null)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_TYPE_NULL_GUARD_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create], null)
 	var canonical = can_create_guard_state(unit_type_null, units_can_create)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_CAN_CREATE_GUARD_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid], null)
 	var canonical = solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SOLIDITY_GUARD_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count], null)
 	var canonical = overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_OVERLAP_GUARD_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
 	}
 
 static func generated_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client], null)
 	var canonical = no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_BRIDGE_IGNORED_KEYS)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_NO_CLIENT_GUARD_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,
@@ -481,12 +477,12 @@ static func generated_no_client_guard_bridge_state(unit_type_null: bool, units_c
 
 static func generated_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
 	var state := no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
-	var result = SourceGeneratedClassRuntime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id], null)
+	var result = source_generated_class_runtime.call_java_method("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd", "java_method_dump_13", [unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id], null)
 	var canonical = spawn_side_effects_state(state, range_x, range_y, unit_id)
-	var matches: bool = generated_state_matches_generated_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)
+	var matches: bool = source_generated_class_runtime.generated_state_matches_canonical_subset(result, canonical, SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_BRIDGE_IGNORED_KEYS)
 	return {
-		"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
-		"generated_owner": "UnitPayload.java_method_dump_13",
+		"source_owner": source_runtime_owner_registry.PORT_GAME_SOURCE_UNIT_PAYLOAD_DUMP_SPAWN_SIDE_EFFECTS_STATE,
+		"generated_owner": "unit_payload.java_method_dump_13",
 		"result": result,
 		"canonical": canonical,
 		"matches": matches,

@@ -1,0 +1,28 @@
+extends Node
+
+const PortGameScript := preload("res://src/game/PortGame.gd")
+const source_block_init_buffered_power_state := preload("res://src/game/SourceBlockInitBufferedPowerState.gd")
+const source_ssot_catalog := preload("res://src/generated/SourceSsotCatalog.gd")
+
+func _ready() -> void:
+	var game := PortGameScript.new()
+	var buffered_power_bridge := game.generated_block_init_buffered_power_bridge_state(false, true, true)
+	var registry_state := source_ssot_catalog.canonical_headquarter_registry_state()
+	var proof := {
+		"module": "BLOCK_INIT_BUFFERED_POWER_MODULE_PROOF",
+		"buffered_power_bridge": buffered_power_bridge,
+		"buffered_power_bridge_matches": buffered_power_bridge == source_block_init_buffered_power_state.generated_block_init_buffered_power_bridge_state(false, true, true),
+		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
+		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
+	}
+	proof["matches"] = bool(buffered_power_bridge.get("matches", false)) and proof["buffered_power_bridge_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	var proof_json := JSON.stringify(proof)
+	print("BLOCK_INIT_BUFFERED_POWER_MODULE_PROOF " + proof_json)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/BlockInitBufferedPowerModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
+	if proof_file != null:
+		proof_file.store_string(proof_json)
+		proof_file.flush()
+	game.free()
+	await get_tree().create_timer(60.0).timeout
+	get_tree().quit(0)
