@@ -55,8 +55,17 @@ func _ready() -> void:
 		"one_headquarter_per_ssot": bool(registry_state.get("one_headquarter_per_ssot", false)),
 		"registry_valid": bool(registry_state.get("errors", []).is_empty()),
 	}
-	print("INPUT_VIEWPORT_RUNTIME_MODULE_PROOF " + JSON.stringify(proof))
-	wrapper_game.free()
-	module_game.free()
+	proof["matches"] = proof["fit_matches"] and proof["screen_matches"] and proof["clamp_matches"] and proof["runtime_matches"] and proof["one_headquarter_per_ssot"] and proof["registry_valid"]
+	var proof_json := JSON.stringify(proof)
+	print("INPUT_VIEWPORT_RUNTIME_MODULE_PROOF " + proof_json)
+	var proof_path := ProjectSettings.globalize_path("res://tools/runtime_proofs/InputViewportRuntimeModuleProof.json")
+	var proof_file := FileAccess.open(proof_path, FileAccess.WRITE)
+	if proof_file != null:
+		proof_file.store_string(proof_json)
+		proof_file.flush()
+	wrapper_game.queue_free()
+	module_game.queue_free()
+	null_wrapper_game.free()
+	null_module_game.free()
 	await get_tree().create_timer(60.0).timeout
 	get_tree().quit(0)

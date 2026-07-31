@@ -182,3 +182,6 @@ func background_cells() -> Array[Vector2i]:
 
 func background_size() -> Vector2i:
 	return Vector2i(background_max_cell.x - background_min_cell.x, background_max_cell.y - background_min_cell.y)
+
+func world_size_cells() -> Vector2i:
+	return Vector2i(world_width_tiles, world_height_tiles)

@@ -8,6 +8,7 @@ const source_playable_content_defaults := preload("res://src/game/SourcePlayable
 const source_world_grid := preload("res://src/game/SourceWorldGrid.gd")
 
 const WORLD_SIZE := source_playable_world_layout_defaults.WORLD_SIZE
+const WORLD_BACKGROUND_MIN_CELLS := source_playable_world_layout_defaults.WORLD_BACKGROUND_MIN_CELLS
 const ORE_COPPER_MIN := source_playable_world_layout_defaults.ORE_COPPER_MIN
 const ORE_COPPER_MAX := source_playable_world_layout_defaults.ORE_COPPER_MAX
 const DRILL_POS := source_playable_world_layout_defaults.DRILL_POS
@@ -47,6 +48,10 @@ static func world_cells() -> Array[Vector2i]:
 
 static func background_size() -> Vector2i:
 	return display_profile_runtime_for_viewport(Vector2i.ZERO).background_size()
+
+static func display_world_size_for_viewport(viewport_size: Vector2i) -> Vector2i:
+	var display_world_size: Vector2i = display_profile_runtime_for_viewport(viewport_size).world_size_cells()
+	return Vector2i(maxi(display_world_size.x, WORLD_BACKGROUND_MIN_CELLS.x), maxi(display_world_size.y, WORLD_BACKGROUND_MIN_CELLS.y))
 
 
 static func background_cells() -> Array[Vector2i]:
