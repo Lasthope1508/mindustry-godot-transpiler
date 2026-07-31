@@ -9,6 +9,8 @@ PortGame lines: 5927
 PortGame functions: 1870
 PortGame preloads: 206
 PortGame generated bridge functions: 591
+PortGame delegating functions: 1646
+PortGame largest delegate module: source_unit_update_state
 
 ## Unsupported Features
 - Generated gameplay classes not implemented yet

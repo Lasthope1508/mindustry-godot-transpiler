@@ -4,6 +4,240 @@
   "failed_file_count": 12,
   "java_file_count": 801,
   "parsed_file_count": 8,
+  "port_game_bridge_surface": {
+    "delegate_module_count": 175,
+    "delegating_function_count": 1646,
+    "exists": true,
+    "generated_bridge_delegating_function_count": 490,
+    "largest_delegate_module": {
+      "function_count": 66,
+      "module": "source_unit_update_state"
+    },
+    "path": "src/game/PortGame.gd",
+    "source_delegating_function_count": 925,
+    "top_delegate_modules": [
+      {
+        "function_count": 66,
+        "module": "source_unit_update_state",
+        "sample_functions": [
+          "source_unit_is_grounded",
+          "source_unit_is_flying",
+          "source_unit_check_target_state",
+          "source_unit_can_drown_state",
+          "source_unit_drown_floor_state"
+        ]
+      },
+      {
+        "function_count": 54,
+        "module": "source_weapons_state",
+        "sample_functions": [
+          "source_weapons_setup_mounts_state",
+          "source_weapons_set_rotation_state",
+          "source_weapons_control_state",
+          "source_weapons_control_rotate_shoot_state",
+          "source_weapons_aim_state"
+        ]
+      },
+      {
+        "function_count": 47,
+        "module": "source_building_lifecycle_state",
+        "sample_functions": [
+          "generated_building_comp_check_suppression_bridge_state",
+          "generated_building_comp_player_placed_bridge_state",
+          "generated_building_comp_placed_bridge_state",
+          "generated_building_comp_on_repaired_bridge_state",
+          "generated_building_comp_change_team_delegate_bridge_state"
+        ]
+      },
+      {
+        "function_count": 42,
+        "module": "source_turret_runtime_state",
+        "sample_functions": [
+          "selected_playable_turret",
+          "selected_turret_ammo_sprite",
+          "selected_turret_ammo_lifetime_seconds",
+          "selected_turret_limit_range_margin",
+          "selected_turret_ammo_world_speed"
+        ]
+      },
+      {
+        "function_count": 41,
+        "module": "source_ssot_accessor_runtime_state",
+        "sample_functions": [
+          "playable_content_block_state",
+          "playable_content_item_state",
+          "playable_content_skin_override_state",
+          "source_symbol_registry_state",
+          "ssot_symbol_registry_symbol_state"
+        ]
+      },
+      {
+        "function_count": 40,
+        "module": "source_building_destruction_state",
+        "sample_functions": [
+          "generated_building_comp_after_destroyed_bridge_state",
+          "generated_building_comp_explosion_item_cap_bridge_state",
+          "generated_building_comp_splash_liquid_bridge_state",
+          "generated_building_comp_splash_liquid_source_tilesize_default_bridge_state",
+          "generated_building_comp_splash_liquid_source_block_size_default_bridge_state"
+        ]
+      },
+      {
+        "function_count": 34,
+        "module": "source_build_selection_runtime_state",
+        "sample_functions": [
+          "build_block_palette",
+          "select_build_slot_action",
+          "select_next_build_slot",
+          "select_previous_build_slot",
+          "select_build_block_by_id"
+        ]
+      },
+      {
+        "function_count": 31,
+        "module": "source_building_draw_state_script",
+        "sample_functions": [
+          "generated_building_comp_draw_status_bridge_state",
+          "generated_building_comp_draw_cracks_bridge_state",
+          "generated_building_comp_draw_select_bridge_state",
+          "generated_building_comp_draw_item_selection_bridge_state",
+          "generated_building_comp_draw_disabled_bridge_state"
+        ]
+      },
+      {
+        "function_count": 29,
+        "module": "source_math_state",
+        "sample_functions": [
+          "source_absin",
+          "source_approach",
+          "source_approach_delta",
+          "source_lerp_delta",
+          "source_arc_is_power_of_two"
+        ]
+      },
+      {
+        "function_count": 28,
+        "module": "source_turret_stats_bars_state",
+        "sample_functions": [
+          "source_base_turret_set_stats_state",
+          "generated_base_turret_set_stats_bridge_state",
+          "source_base_turret_set_bars_state",
+          "generated_base_turret_set_bars_bridge_state",
+          "source_turret_set_stats_state"
+        ]
+      },
+      {
+        "function_count": 26,
+        "module": "source_block_consume_state",
+        "sample_functions": [
+          "source_block_consume_liquid_state",
+          "generated_block_consume_liquid_bridge_state",
+          "source_block_consume_liquids_state",
+          "generated_block_consume_liquids_bridge_state",
+          "source_block_consume_power_state"
+        ]
+      },
+      {
+        "function_count": 26,
+        "module": "source_building_efficiency_state",
+        "sample_functions": [
+          "generated_building_comp_consume_bridge_state",
+          "generated_building_comp_can_consume_bridge_state",
+          "generated_building_comp_update_efficiency_multiplier_bridge_state",
+          "generated_building_comp_efficiency_scale_bridge_state",
+          "generated_building_comp_update_consumption_initial_bridge_state"
+        ]
+      },
+      {
+        "function_count": 26,
+        "module": "source_continuous_liquid_turret_build_state",
+        "sample_functions": [
+          "source_continuous_liquid_turret_build_should_active_sound_state",
+          "generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+          "source_continuous_liquid_turret_build_get_ammo_content_state",
+          "generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+          "source_continuous_liquid_turret_build_get_ammo_fraction_state"
+        ]
+      },
+      {
+        "function_count": 25,
+        "module": "source_build_payload_state",
+        "sample_functions": [
+          "source_build_payload_block_state",
+          "generated_build_payload_block_bridge_state",
+          "source_build_payload_constructor_block_team_state",
+          "generated_build_payload_constructor_block_team_bridge_state",
+          "source_build_payload_constructor_build_state"
+        ]
+      },
+      {
+        "function_count": 25,
+        "module": "source_item_turret_build_state",
+        "sample_functions": [
+          "source_item_turret_build_on_proximity_added_state",
+          "generated_item_turret_build_on_proximity_added_bridge_state",
+          "source_item_turret_build_sense_object_state",
+          "generated_item_turret_build_sense_object_bridge_state",
+          "source_item_turret_build_get_ammo_content_state"
+        ]
+      },
+      {
+        "function_count": 24,
+        "module": "source_ability_state",
+        "sample_functions": [
+          "source_ability_update_state",
+          "generated_ability_update_bridge_state",
+          "source_ability_draw_state",
+          "generated_ability_draw_bridge_state",
+          "source_ability_death_state"
+        ]
+      },
+      {
+        "function_count": 24,
+        "module": "source_builder_runtime_state",
+        "sample_functions": [
+          "source_builder_can_build_state",
+          "generated_builder_comp_can_build_bridge_state",
+          "source_builder_update_state",
+          "generated_builder_comp_update_bridge_state",
+          "source_builder_after_read_state"
+        ]
+      },
+      {
+        "function_count": 24,
+        "module": "source_sync_state",
+        "sample_functions": [
+          "source_sync_snap_sync_state",
+          "generated_sync_comp_snap_sync_bridge_state",
+          "source_sync_snap_interpolation_state",
+          "generated_sync_comp_snap_interpolation_bridge_state",
+          "source_sync_read_sync_state"
+        ]
+      },
+      {
+        "function_count": 23,
+        "module": "source_block_unit_state",
+        "sample_functions": [
+          "source_block_unit_ammof_state",
+          "generated_block_unit_comp_ammof_bridge_state",
+          "source_block_unit_icon_state",
+          "generated_block_unit_comp_icon_bridge_state",
+          "source_block_unit_tile_state"
+        ]
+      },
+      {
+        "function_count": 23,
+        "module": "source_overdrive_projector_state",
+        "sample_functions": [
+          "source_overdrive_projector_range",
+          "source_overdrive_projector_select_state",
+          "source_overdrive_projector_place_state",
+          "source_overdrive_projector_target_filter_state",
+          "source_overdrive_projector_light_state"
+        ]
+      }
+    ]
+  },
   "port_game_footprint": {
     "byte_count": 509106,
     "exists": true,

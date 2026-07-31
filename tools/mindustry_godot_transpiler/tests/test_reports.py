@@ -7,7 +7,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools" / "mindustry_godot_transpiler"))
 
-from mindustry_port.reports import scan_port_game_footprint, scan_unsupported_features, write_report
+from mindustry_port.reports import scan_port_game_bridge_surface, scan_port_game_footprint, scan_unsupported_features, write_report
 
 
 class ReportTests(unittest.TestCase):
@@ -96,6 +96,59 @@ class ReportTests(unittest.TestCase):
             self.assertEqual(report["port_game_footprint"]["line_count"], 3)
             self.assertEqual(report["port_game_footprint"]["function_count"], 1)
             self.assertIn("PortGame lines: 3", (generated / "port_report.md").read_text(encoding="utf-8"))
+
+    def test_scan_port_game_bridge_surface_groups_delegates_by_module(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            godot_root = Path(tmp) / "godot"
+            port_game = godot_root / "src" / "game" / "PortGame.gd"
+            port_game.parent.mkdir(parents=True)
+            port_game.write_text(
+                "\n".join([
+                    "extends Node2D",
+                    "",
+                    "func source_alpha_state() -> Dictionary:",
+                    "\treturn source_alpha_state_module.alpha_state()",
+                    "",
+                    "func generated_alpha_bridge_state() -> Dictionary:",
+                    "\treturn source_alpha_state_module.generated_alpha_bridge_state()",
+                    "",
+                    "func update_beta() -> void:",
+                    "\tsource_beta_runtime_state.update_beta(self)",
+                    "",
+                ]),
+                encoding="utf-8",
+            )
+
+            surface = scan_port_game_bridge_surface(godot_root)
+
+        self.assertEqual(surface["path"], "src/game/PortGame.gd")
+        self.assertTrue(surface["exists"])
+        self.assertEqual(surface["delegating_function_count"], 3)
+        self.assertEqual(surface["source_delegating_function_count"], 1)
+        self.assertEqual(surface["generated_bridge_delegating_function_count"], 1)
+        self.assertEqual(surface["delegate_module_count"], 2)
+        self.assertEqual(surface["top_delegate_modules"][0]["module"], "source_alpha_state_module")
+        self.assertEqual(surface["top_delegate_modules"][0]["function_count"], 2)
+        self.assertEqual(surface["top_delegate_modules"][1]["module"], "source_beta_runtime_state")
+        self.assertEqual(surface["top_delegate_modules"][1]["function_count"], 1)
+        self.assertEqual(surface["largest_delegate_module"]["module"], "source_alpha_state_module")
+
+    def test_write_report_persists_port_game_bridge_surface(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            godot_root = root / "godot"
+            port_game = godot_root / "src" / "game" / "PortGame.gd"
+            port_game.parent.mkdir(parents=True)
+            port_game.write_text(
+                "extends Node2D\nfunc generated_alpha_bridge_state() -> Dictionary:\n\treturn source_alpha_state_module.generated_alpha_bridge_state()\n",
+                encoding="utf-8",
+            )
+            generated = godot_root / "src" / "generated"
+
+            report = write_report(generated, godot_root=godot_root)
+
+            self.assertEqual(report["port_game_bridge_surface"]["delegating_function_count"], 1)
+            self.assertIn("PortGame delegating functions: 1", (generated / "port_report.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
