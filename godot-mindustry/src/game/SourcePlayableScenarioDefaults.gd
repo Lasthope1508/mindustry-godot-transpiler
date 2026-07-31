@@ -54,6 +54,10 @@ static func display_world_size_for_viewport(viewport_size: Vector2i) -> Vector2i
 	return Vector2i(maxi(display_world_size.x, WORLD_BACKGROUND_MIN_CELLS.x), maxi(display_world_size.y, WORLD_BACKGROUND_MIN_CELLS.y))
 
 
+static func display_camera_zoom_for_viewport(viewport_size: Vector2i) -> Vector2:
+	var runtime := display_profile_runtime_for_viewport(viewport_size)
+	return Vector2(runtime.camera_initial_zoom, runtime.camera_initial_zoom)
+
 static func background_cells() -> Array[Vector2i]:
 	return display_profile_runtime_for_viewport(Vector2i.ZERO).background_cells()
 

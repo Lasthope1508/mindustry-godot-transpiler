@@ -505,7 +505,7 @@ func source_input_viewport_camera_zoom_state(current_zoom: Vector2, zoom_factor:
 	return source_input_viewport_runtime_state.camera_zoom_state(current_zoom, zoom_factor)
 
 func source_input_viewport_fit_camera_state(viewport_size: Vector2) -> Dictionary:
-	return source_input_viewport_runtime_state.viewport_fit_camera_state(source_playable_scenario_defaults.display_world_size_for_viewport(Vector2i(int(viewport_size.x), int(viewport_size.y))), tile_size, viewport_size)
+	return source_input_viewport_runtime_state.viewport_fit_camera_state_with_zoom(source_playable_scenario_defaults.WORLD_SIZE, tile_size, viewport_size, source_playable_scenario_defaults.display_camera_zoom_for_viewport(Vector2i(int(viewport_size.x), int(viewport_size.y))))
 
 func source_input_viewport_screen_to_world_state(screen_position: Vector2) -> Dictionary:
 	return source_input_viewport_runtime_state.screen_to_world_runtime_state(self, screen_position)

@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 *.uid
 godot-mindustry/tools/runtime_proofs/*.json
+godot-mindustry/tools/runtime_proofs/*.png

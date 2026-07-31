@@ -30,15 +30,10 @@ static func cover_zoom(viewport_size: Vector2, world_cells: Vector2i, tile_size:
 static func camera_bounds_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
 	var world_pixels := world_pixel_size(world_cells, tile_size)
 	var visible_size := visible_world_size(viewport_size, camera_zoom)
-	var min_position := visible_size * 0.5
-	var max_position := world_pixels - (visible_size * 0.5)
+	var slack := visible_size * 0.25
+	var min_position := -slack
+	var max_position := world_pixels + slack
 	var center := world_center(world_cells, tile_size)
-	if min_position.x > max_position.x:
-		min_position.x = center.x
-		max_position.x = center.x
-	if min_position.y > max_position.y:
-		min_position.y = center.y
-		max_position.y = center.y
 	return {
 		"min": {"x": min_position.x, "y": min_position.y},
 		"max": {"x": max_position.x, "y": max_position.y},
@@ -48,17 +43,12 @@ static func camera_bounds_state(world_cells: Vector2i, tile_size: int, viewport_
 
 
 static func clamped_camera_position_state(proposed_position: Vector2, world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
-	var world_pixels := world_pixel_size(world_cells, tile_size)
+	var bounds := camera_bounds_state(world_cells, tile_size, viewport_size, camera_zoom)
+	var min_state: Dictionary = bounds.get("min", {})
+	var max_state: Dictionary = bounds.get("max", {})
 	var visible_size := visible_world_size(viewport_size, camera_zoom)
-	var min_position := visible_size * 0.5
-	var max_position := world_pixels - (visible_size * 0.5)
-	var center := world_center(world_cells, tile_size)
-	if min_position.x > max_position.x:
-		min_position.x = center.x
-		max_position.x = center.x
-	if min_position.y > max_position.y:
-		min_position.y = center.y
-		max_position.y = center.y
+	var min_position := Vector2(float(min_state.get("x", proposed_position.x)), float(min_state.get("y", proposed_position.y)))
+	var max_position := Vector2(float(max_state.get("x", proposed_position.x)), float(max_state.get("y", proposed_position.y)))
 	var clamped_position := Vector2(
 		clampf(proposed_position.x, min_position.x, max_position.x),
 		clampf(proposed_position.y, min_position.y, max_position.y)
@@ -73,9 +63,12 @@ static func clamped_camera_position_state(proposed_position: Vector2, world_cell
 
 static func fit_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2) -> Dictionary:
 	var zoom := cover_zoom(viewport_size, world_cells, tile_size)
+	return fit_state_with_zoom(world_cells, tile_size, viewport_size, zoom)
+
+static func fit_state_with_zoom(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
 	var center := world_center(world_cells, tile_size)
 	return {
 		"camera_position": {"x": center.x, "y": center.y},
-		"camera_zoom": {"x": zoom.x, "y": zoom.y},
-		"camera_bounds": camera_bounds_state(world_cells, tile_size, viewport_size, zoom),
+		"camera_zoom": {"x": camera_zoom.x, "y": camera_zoom.y},
+		"camera_bounds": camera_bounds_state(world_cells, tile_size, viewport_size, camera_zoom),
 	}

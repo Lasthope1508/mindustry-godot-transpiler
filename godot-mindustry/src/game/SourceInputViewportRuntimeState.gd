@@ -19,6 +19,9 @@ static func camera_zoom_state(current_zoom: Vector2, zoom_factor: float) -> Dict
 static func viewport_fit_camera_state(world_cells: Vector2i, tile_size: int, viewport_size: Vector2) -> Dictionary:
 	return source_world_viewport.fit_state(world_cells, tile_size, viewport_size)
 
+static func viewport_fit_camera_state_with_zoom(world_cells: Vector2i, tile_size: int, viewport_size: Vector2, camera_zoom: Vector2) -> Dictionary:
+	return source_world_viewport.fit_state_with_zoom(world_cells, tile_size, viewport_size, camera_zoom)
+
 
 static func screen_to_world_state(screen_position: Vector2, camera_position: Vector2, camera_zoom: Vector2, viewport_size: Vector2) -> Dictionary:
 	var safe_zoom := source_world_viewport.safe_camera_zoom(camera_zoom)
@@ -44,7 +47,7 @@ static func clamped_camera_position_runtime_state(game: Object, proposed_positio
 	var camera = game.get("camera")
 	if camera == null:
 		return {"x": proposed_position.x, "y": proposed_position.y, "clamped": false}
-	return clamped_camera_position_state(proposed_position, source_playable_scenario_defaults.display_world_size_for_viewport(Vector2i(int(viewport_size.x), int(viewport_size.y))), int(game.get("tile_size")), viewport_size, camera.zoom)
+	return clamped_camera_position_state(proposed_position, source_playable_scenario_defaults.WORLD_SIZE, int(game.get("tile_size")), viewport_size, camera.zoom)
 
 static func apply_world_viewport_fit(game: Object) -> void:
 	if game.camera == null:
@@ -76,5 +79,5 @@ static func update_camera(game: Object, delta: float) -> void:
 	var viewport = game.call("get_viewport")
 	var viewport_size: Vector2 = viewport.get_visible_rect().size if viewport else Vector2.ZERO
 	var pan_delta := camera_pan_delta(movement, source_input_defaults.boost_pressed(), delta, source_time_defaults.TICK_RATE)
-	var clamp_state := clamped_camera_position_state(camera.position + pan_delta, source_playable_scenario_defaults.display_world_size_for_viewport(Vector2i(int(viewport_size.x), int(viewport_size.y))), int(game.get("tile_size")), viewport_size, camera.zoom)
+	var clamp_state := clamped_camera_position_state(camera.position + pan_delta, source_playable_scenario_defaults.WORLD_SIZE, int(game.get("tile_size")), viewport_size, camera.zoom)
 	camera.position = Vector2(float(clamp_state.get("x", camera.position.x)), float(clamp_state.get("y", camera.position.y)))
