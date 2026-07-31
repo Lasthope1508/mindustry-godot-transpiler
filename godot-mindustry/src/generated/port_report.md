@@ -5,6 +5,10 @@ Assets copied: 2970
 Asset bytes copied: 63299978
 Java files parsed: 8
 Java parse failures: 12
+PortGame lines: 5927
+PortGame functions: 1870
+PortGame preloads: 206
+PortGame generated bridge functions: 591
 
 ## Unsupported Features
 - Generated gameplay classes not implemented yet

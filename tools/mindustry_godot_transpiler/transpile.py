@@ -68,7 +68,7 @@ def run_emit(upstream: Path, godot: Path, limit: int | None = None) -> dict:
 
 
 def run_report(upstream: Path, godot: Path, source_manifest: dict | None = None, asset_manifest: dict | None = None) -> dict:
-    return write_report(generated_dir(godot), source_manifest, asset_manifest, upstream / "core" / "src")
+    return write_report(generated_dir(godot), source_manifest, asset_manifest, upstream / "core" / "src", godot)
 
 
 def run_playable(godot: Path) -> dict:
