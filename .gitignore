@@ -1,4 +1,7 @@
 ﻿mindustry-upstream/
 godot-mindustry/.godot/
 __pycache__/
+.pytest_cache/
 *.pyc
+*.uid
+godot-mindustry/tools/runtime_proofs/*.json
